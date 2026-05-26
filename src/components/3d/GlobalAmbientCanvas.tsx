@@ -32,7 +32,8 @@ import * as THREE            from "three"
 
 /* ── Drifting dust particles ─────────────────────────────────────── */
 function AmbientDust() {
-  const COUNT = 120
+  /* Fewer particles on low-end / mobile GPUs — still visually identical */
+  const COUNT = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches ? 60 : 120
 
   /* Static seed positions — deterministic, no hydration issues */
   const geo = useMemo(() => {
@@ -158,7 +159,9 @@ export function GlobalAmbientCanvas() {
         gl={{
           antialias:       false,
           alpha:           true,
-          powerPreference: "default",
+          powerPreference: typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
+            ? "low-power"
+            : "default",
         }}
         dpr={[1, 1]}
         style={{ pointerEvents: "none" }}

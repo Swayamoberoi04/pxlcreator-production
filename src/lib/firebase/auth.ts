@@ -2,6 +2,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   signOut          as firebaseSignOut,
   sendPasswordResetEmail,
@@ -36,8 +38,33 @@ export async function signInWithEmail(
   return signInWithEmailAndPassword(auth, email, password)
 }
 
-export async function signInWithGoogle(): Promise<UserCredential> {
-  return signInWithPopup(auth, googleProvider)
+export async function signInWithGoogle(): Promise<UserCredential | null> {
+  try {
+    return await signInWithPopup(auth, googleProvider)
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code ?? ""
+    /*
+     * auth/popup-blocked  — browser blocked the popup (common on mobile)
+     * auth/popup-closed-by-user — user closed it before completing sign-in
+     *
+     * For popup-blocked we transparently fall back to redirect flow.
+     * The browser will leave the page; onAuthStateChanged handles the
+     * returning user automatically on next load.
+     */
+    if (code === "auth/popup-blocked") {
+      await signInWithRedirect(auth, googleProvider)
+      return null // resolves after page reloads post-redirect
+    }
+    throw err
+  }
+}
+
+/**
+ * Call once on app mount to surface any errors from a redirect sign-in.
+ * onAuthStateChanged handles the user automatically; this only surfaces errors.
+ */
+export async function checkRedirectResult(): Promise<UserCredential | null> {
+  return getRedirectResult(auth)
 }
 
 export async function signOut(): Promise<void> {

@@ -104,6 +104,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency:  "yearly",
       priority:         0.3,
     },
+    {
+      url:              `${BASE}/cookies`,
+      lastModified:     now,
+      changeFrequency:  "yearly",
+      priority:         0.2,
+    },
   ]
 
   /* ── Preset detail pages ────────────────────────────────── */

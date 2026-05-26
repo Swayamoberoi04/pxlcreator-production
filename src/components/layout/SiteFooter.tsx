@@ -12,9 +12,9 @@ import { GrainOverlay } from "@/components/ui/GrainOverlay"
 const SHOP_LINKS = [
   { label: "Preset Store",    href: "/store"    },
   { label: "All Presets",     href: "/presets"  },
+  { label: "Bundles",         href: "/bundles"  },
   { label: "Premium Plans",   href: "/premium"  },
   { label: "Courses",         href: "/courses"  },
-  { label: "Giveaway",        href: "/giveaway" },
 ] as const
 
 const COMPANY_LINKS = [
@@ -28,6 +28,7 @@ const LEGAL_LINKS = [
   { label: "Privacy Policy",  href: "/privacy"  },
   { label: "Terms of Service",href: "/terms"    },
   { label: "Refund Policy",   href: "/refunds"  },
+  { label: "Cookie Policy",   href: "/cookies"  },
 ] as const
 
 export function SiteFooter() {
