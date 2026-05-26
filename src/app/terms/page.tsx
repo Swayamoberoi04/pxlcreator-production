@@ -164,7 +164,7 @@ export default function TermsPage() {
               <p>
                 You are responsible for maintaining the confidentiality of your account credentials
                 and for all activity that occurs under your account. Notify us immediately at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a> if you suspect
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a> if you suspect
                 unauthorised access to your account. We reserve the right to suspend or terminate
                 accounts that violate these Terms.
               </p>
@@ -214,7 +214,7 @@ export default function TermsPage() {
             <Section title="15. Contact">
               <p>
                 Questions about these Terms? Email us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>. We aim to respond
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>. We aim to respond
                 within 2 business days.
               </p>
             </Section>

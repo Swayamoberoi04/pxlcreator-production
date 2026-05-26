@@ -125,7 +125,7 @@ export default function RefundsPage() {
             <Section title="How to Request a Refund">
               <p>
                 Email us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a> with the subject line
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a> with the subject line
                 <em> &ldquo;Refund Request — [Order Number]&rdquo;</em> and include:
               </p>
               <ul>

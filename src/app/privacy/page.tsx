@@ -148,7 +148,7 @@ export default function PrivacyPage() {
               </ul>
               <p>
                 To exercise any of these rights, contact us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>. We will respond
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>. We will respond
                 within 30 days.
               </p>
             </Section>
@@ -185,7 +185,7 @@ export default function PrivacyPage() {
                 Our services are not directed to individuals under the age of 13. We do not
                 knowingly collect personal information from children. If you believe a child
                 has provided us with personal data, please contact us immediately at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a> so we can
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a> so we can
                 investigate and remove the data promptly.
               </p>
             </Section>
@@ -212,7 +212,7 @@ export default function PrivacyPage() {
             <Section title="12. Contact">
               <p>
                 Questions or concerns about this policy? Email us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>. We aim to respond
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>. We aim to respond
                 within 2 business days.
               </p>
             </Section>
