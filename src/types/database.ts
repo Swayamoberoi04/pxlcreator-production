@@ -704,6 +704,39 @@ export interface Database {
         }
         Relationships: []
       }
+
+      /* ── feedback_messages ──────────────────────────── */
+      feedback_messages: {
+        Row: {
+          id:           string
+          firebase_uid: string | null
+          name:         string
+          email:        string
+          subject:      string
+          message:      string
+          ip_hash:      string | null
+          is_read:      boolean
+          is_archived:  boolean
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          firebase_uid?: string | null
+          name:         string
+          email:        string
+          subject:      string
+          message:      string
+          ip_hash?:     string | null
+          is_read?:     boolean
+          is_archived?: boolean
+          created_at?:  string
+        }
+        Update: {
+          is_read?:     boolean
+          is_archived?: boolean
+        }
+        Relationships: []
+      }
     }
     Views:          Record<string, never>
     Functions: {
@@ -744,8 +777,9 @@ export type SubscriptionRow        = Database["public"]["Tables"]["subscriptions
 export type UserProfileRow         = Database["public"]["Tables"]["user_profiles"]["Row"]
 
 /* ── Reviews & Storage row types ────────────────────────── */
-export type PresetReviewRow  = Database["public"]["Tables"]["preset_reviews"]["Row"]
-export type StorageAssetRow  = Database["public"]["Tables"]["storage_assets"]["Row"]
+export type PresetReviewRow    = Database["public"]["Tables"]["preset_reviews"]["Row"]
+export type StorageAssetRow    = Database["public"]["Tables"]["storage_assets"]["Row"]
+export type FeedbackMessageRow = Database["public"]["Tables"]["feedback_messages"]["Row"]
 
 /* ── Bundle row types ───────────────────────────────────── */
 export type BundleRow              = Database["public"]["Tables"]["bundles"]["Row"]
