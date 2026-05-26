@@ -1,0 +1,785 @@
+/**
+ * src/data/presets.ts
+ *
+ * PXL Creator — Complete Preset Catalogue (static fallback / SSG data)
+ *
+ * Pricing architecture:
+ *   Free     →  $0   (12 lead-magnet packs — genuine quality, ecosystem entry)
+ *   Entry    →  $5   (₹420  — low-friction first purchase, 6–8 presets)
+ *   Mid      → $12   (₹1,008 — core category packs, 10–12 presets)
+ *   Premium  → $15–24 (₹1,260–2,016 — hero packs, 12–15 presets)
+ *   Pro      → $29–34 (₹2,436–2,856 — large 25–30 preset suites)
+ *
+ * Subscription value framing:
+ *   Creator plan = $19/mo → all presets. Mid/premium individual buys naturally
+ *   surface the subscription as better long-term value.
+ *
+ * Free-preset strategy:
+ *   Each free pack is a genuine sampler of a paid category — enough to impress,
+ *   not enough to replace. Tagged so StoreShell can display a dedicated section.
+ */
+
+import type { Preset } from "@/types/product"
+
+export const ALL_PRESETS: Preset[] = [
+
+  /* ═══════════════════════════════════════════════════════════
+     PRO TIER  ($29–34) — large multi-style suites
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "1",
+    slug:          "desert-gold-pack",
+    name:          "Desert Gold Pack",
+    tagline:       "Warm tones, rich shadows, golden hour magic",
+    description:
+      "The Desert Gold Pack was built for photographers who shoot in harsh sunlight and golden hour. Each preset is calibrated to handle blown highlights, recover shadow detail, and push warm amber tones without destroying skin. Tested across RAW files from Sony, Canon, Nikon, and Fuji. This is PXL's most-loved cinematic pack — the one creators come back to repeatedly for its reliability across shooting conditions.",
+    price:          24,
+    originalPrice:  34,
+    category:       "Cinematic",
+    rating:         4.9,
+    reviewCount:    312,
+    badge:          "Best Seller",
+    conversionTag:  "PRO EDITOR PICK",
+    priceTier:      "premium",
+    isFeatured:     true,
+    isFree:         false,
+    includeCount:   15,
+    thumbnailUrl:   "/presets/cg.webp",
+    images:         ["/presets/cg1.webp", "/presets/cg2.webp", "/presets/cg3.webp"],
+    beforeUrl:      "/presets/fr_before.webp",
+    afterUrl:       "/presets/fr_after.webp",
+    downloadFileName: "PXL_Desert_Gold_Pack_v1.zip",
+    features: [
+      "15 hand-tuned Lightroom presets",
+      "Warm amber & gold color grading",
+      "Optimised for harsh sunlight & golden hour",
+      "Works across Sony, Canon, Nikon, Fuji RAW files",
+      "Detailed usage guide included",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["warm", "golden", "amber", "sunset", "sun", "cinematic", "rich", "shadows", "desert", "saturated", "orange", "tones"],
+  },
+
+  {
+    id:            "2",
+    slug:          "urban-noir-pack",
+    name:          "Urban Noir Pack",
+    tagline:       "High-contrast moody street & architecture",
+    description:
+      "Built for street photographers and architectural shooters who want drama. Urban Noir crushes blacks, boosts mid-tone contrast, and introduces a cool blue shadow cast that makes city scenes feel cinematic. Works equally well on cloudy days and harsh artificial light. The definitive dark-aesthetic preset pack for creators building a strong editorial identity.",
+    price:         18,
+    category:      "Street",
+    rating:        4.8,
+    reviewCount:   187,
+    badge:         "New",
+    conversionTag: "TRENDING",
+    priceTier:     "premium",
+    isFeatured:    true,
+    isFree:        false,
+    includeCount:  12,
+    thumbnailUrl:  "/presets/dramatic_city.webp",
+    images:        ["/presets/garage1.webp", "/presets/garage2.webp", "/presets/garage3.webp"],
+    beforeUrl:     "/presets/garage_before.webp",
+    afterUrl:      "/presets/garage_after.webp",
+    downloadFileName: "PXL_Urban_Noir_Pack_v1.zip",
+    features: [
+      "12 high-contrast street presets",
+      "Deep black crush with detail retention",
+      "Cool blue shadow tone system",
+      "Tuned for artificial & overcast light",
+      "One-click apply — no manual tweaking needed",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["noir", "dark", "contrast", "urban", "street", "moody", "cool", "blue", "shadows", "dramatic", "black", "gritty", "cinematic"],
+  },
+
+  {
+    id:            "3",
+    slug:          "film-emulation-bundle",
+    name:          "Film Emulation Bundle",
+    tagline:       "Authentic grain, faded highlights, timeless film look",
+    description:
+      "Five decades of film photography condensed into one pack. The Film Emulation Bundle recreates the look of Kodak Portra, Fuji Velvia, Ilford HP5, and more — complete with authentic grain structures, halation effects, and the characteristic color casts of each film stock. The most complete film pack we've made. If you've ever looked at a film photo and wondered how to replicate that character digitally, this is the answer.",
+    price:          34,
+    originalPrice:  54,
+    category:       "Film Emulation",
+    rating:         4.9,
+    reviewCount:    544,
+    badge:          "Sale",
+    conversionTag:  "CREATOR FAVORITE",
+    priceTier:      "pro",
+    isFeatured:     true,
+    isFree:         false,
+    includeCount:   30,
+    thumbnailUrl:   "/presets/documentary1.webp",
+    images:         ["/presets/documentary2.webp", "/presets/documentary3.webp", "/presets/fr1.webp"],
+    beforeUrl:      "/presets/documentary_before.webp",
+    afterUrl:       "/presets/documentary_after.webp",
+    downloadFileName: "PXL_Film_Emulation_Bundle_v1.zip",
+    features: [
+      "30 film emulation presets across 6 stocks",
+      "Authentic grain — not digital noise",
+      "Halation & bloom effects on highlights",
+      "Includes Kodak, Fuji, Ilford-inspired profiles",
+      "Full bundle — best value film pack we offer",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["film", "grain", "vintage", "faded", "analogue", "kodak", "fuji", "halation", "fade", "retro", "muted", "nostalgic", "washed"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     FREE TIER  ($0) — lead magnets, trust-builders
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "4",
+    slug:          "arctic-blue-pack",
+    name:          "Arctic Blue Pack",
+    tagline:       "Cool, clean, minimal — editorial ready",
+    description:
+      "The Arctic Blue Pack is for landscape and travel photographers who want a minimal, editorial feel. Clean highlights, airy shadows, and a subtle cool-blue shift that looks stunning on water, snow, forests, and overcast skies. No heavy-handed colour grading — just refined, intentional tones. Free to download — our gift to the community.",
+    price:         0,
+    category:      "Landscape",
+    rating:        4.7,
+    reviewCount:   98,
+    badge:         "Free",
+    conversionTag: "FREE STARTER",
+    priceTier:     "free",
+    isFeatured:    true,
+    isFree:        true,
+    includeCount:  12,
+    thumbnailUrl:  "/presets/dark_blue.webp",
+    images:        ["/presets/hdrbw1.webp", "/presets/hdrbw2.webp", "/presets/hdrbw3.webp"],
+    beforeUrl:     "/presets/hdrbw_before.webp",
+    afterUrl:      "/presets/hdrbw_after.webp",
+    downloadFileName: "PXL_Arctic_Blue_Pack_FREE_v1.zip",
+    features: [
+      "12 editorial landscape presets",
+      "Cool blue tone shift — sky & water optimised",
+      "Airy highlights with clean shadows",
+      "Perfect for travel, nature & aerial photography",
+      "Compatible with drone-shot RAW files",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["cool", "blue", "teal", "minimal", "clean", "editorial", "landscape", "airy", "winter", "crisp", "cold", "bright"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     MID TIER  ($12) — core category packs
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "5",
+    slug:          "sunset-portrait-pack",
+    name:          "Sunset Portrait Pack",
+    tagline:       "Skin tones that glow, soft diffused light",
+    description:
+      "Portrait presets are the hardest to get right — skin tones break easily. The Sunset Portrait Pack was built and refined across 50+ real portrait sessions. It lifts shadows softly, warms skin without making it orange, and introduces a gentle diffusion effect that mimics beautiful golden-hour light. Works on every skin tone, every camera, every light condition.",
+    price:         12,
+    category:      "Portrait",
+    rating:        4.8,
+    reviewCount:   231,
+    conversionTag: "CREATOR FAVORITE",
+    priceTier:     "mid",
+    isFeatured:    true,
+    isFree:        false,
+    includeCount:  10,
+    thumbnailUrl:  "/presets/magical_sunset.webp",
+    images:        ["/presets/ic1.webp", "/presets/ic2.webp", "/presets/ic3.webp"],
+    beforeUrl:     "/presets/tropical_before.webp",
+    afterUrl:      "/presets/tropical_after.webp",
+    downloadFileName: "PXL_Sunset_Portrait_Pack_v1.zip",
+    features: [
+      "10 portrait-specific presets",
+      "Skin-safe tone mapping — no orange cast",
+      "Soft shadow lift for flattering light",
+      "Golden diffusion effect on highlights",
+      "Works on every skin tone",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["portrait", "warm", "skin", "sunset", "soft", "golden", "diffuse", "glow", "lifestyle", "light", "faces", "flattering"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     PRO TIER — large cinematic starter suite
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "6",
+    slug:          "cinematic-starter-bundle",
+    name:          "Cinematic Starter Bundle",
+    tagline:       "Everything you need to start editing like a pro",
+    description:
+      "New to presets? The Cinematic Starter Bundle is the best place to begin. It includes our most versatile cinematic looks — balanced enough to work across portrait, landscape, and street photography without heavy adjustments. With 25 presets and video LUT exports, this is the most complete beginner-to-intermediate toolkit in our catalogue. If you only buy one pack, make it this one.",
+    price:          29,
+    originalPrice:  49,
+    category:       "Cinematic",
+    rating:         5.0,
+    reviewCount:    421,
+    badge:          "Sale",
+    conversionTag:  "MOST POPULAR",
+    priceTier:      "pro",
+    isFeatured:     true,
+    isFree:         false,
+    includeCount:   25,
+    thumbnailUrl:   "/presets/cinematic.webp",
+    images:         ["/presets/cinematic1.webp", "/presets/cinematic2.webp", "/presets/cinematic3.webp"],
+    beforeUrl:      "/presets/fr_before.webp",
+    afterUrl:       "/presets/fr_after.webp",
+    downloadFileName: "PXL_Cinematic_Starter_Bundle_v1.zip",
+    features: [
+      "25 versatile cinematic presets",
+      "Covers portrait, landscape & street",
+      "Balanced for beginners — easy to fine-tune",
+      "Includes video LUT exports (.cube format)",
+      "Lifetime updates — free forever",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw", "DaVinci Resolve (LUT)"],
+    aiTags: ["cinematic", "versatile", "balanced", "warm", "neutral", "modern", "clean", "contrast", "natural", "rich", "professional"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     MID TIER ($12) — landscape & portrait packs
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "7",
+    slug:          "moody-forest-pack",
+    name:          "Moody Forest Pack",
+    tagline:       "Deep greens, misty shadows, atmospheric depth",
+    description:
+      "Made specifically for forest, woodland, and nature photographers. The Moody Forest Pack emphasises deep, desaturated greens, adds a low-contrast mist to shadows, and preserves the natural texture of foliage and bark. Perfect for moody editorial and fine-art nature work. This is the pack for creators who want their landscape work to feel like a film still.",
+    price:         12,
+    category:      "Landscape",
+    rating:        4.7,
+    reviewCount:   76,
+    priceTier:     "mid",
+    isFeatured:    false,
+    isFree:        false,
+    includeCount:  12,
+    thumbnailUrl:  "/presets/timber.webp",
+    images:        ["/presets/timber1.webp", "/presets/timber2.webp", "/presets/timber3.webp"],
+    beforeUrl:     "/presets/documentary_before.webp",
+    afterUrl:      "/presets/documentary_after.webp",
+    downloadFileName: "PXL_Moody_Forest_Pack_v1.zip",
+    features: [
+      "12 forest & nature presets",
+      "Deep, desaturated green tones",
+      "Atmospheric mist in shadow areas",
+      "Fine-art editorial style",
+      "Tested on Canon R5 & Sony A7IV RAW files",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["moody", "forest", "green", "dark", "mist", "atmospheric", "nature", "desaturated", "earthy", "shadows", "foliage", "mysterious"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     PREMIUM TIER ($24) — film & cinematic hero packs
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "8",
+    slug:          "kodak-chrome-pack",
+    name:          "Kodak Chrome Pack",
+    tagline:       "Punchy reds, vivid blues, classic slide film character",
+    description:
+      "Inspired by Kodachrome slide film — the most beloved film stock in photography history. The Kodak Chrome Pack recreates the iconic punchy reds, saturated blues, and warm mid-tones of Kodachrome with a modern digital twist. Great for travel, street, and lifestyle photography. If you want your photos to pop with the confident boldness of classic film, this is your pack.",
+    price:          24,
+    originalPrice:  34,
+    category:       "Film Emulation",
+    rating:         4.9,
+    reviewCount:    203,
+    badge:          "New",
+    priceTier:      "premium",
+    isFeatured:     false,
+    isFree:         false,
+    includeCount:   15,
+    thumbnailUrl:   "/presets/tropical1.webp",
+    images:         ["/presets/tropical2.webp", "/presets/tropical3.webp", "/presets/fr2.webp"],
+    beforeUrl:      "/presets/tropical_before.webp",
+    afterUrl:       "/presets/tropical_after.webp",
+    downloadFileName: "PXL_Kodak_Chrome_Pack_v1.zip",
+    features: [
+      "15 Kodachrome-inspired presets",
+      "Punchy reds & vivid blues",
+      "Warm mid-tone colour cast",
+      "Authentic slide film grain structure",
+      "Works beautifully on travel & street photos",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["vibrant", "punchy", "red", "blue", "saturated", "slide", "kodachrome", "travel", "vivid", "warm", "retro", "bold"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     MID TIER ($12) — portrait pack
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "9",
+    slug:          "golden-hour-portrait",
+    name:          "Golden Hour Portrait",
+    tagline:       "Warm magentas, lifted shadows, luminous skin",
+    description:
+      "Designed around the magic window between 5pm and sunset. Golden Hour Portrait captures the warmth, haze, and luminosity of that light — even if your shoot happened at noon. The magentas glow, the shadows lift, and every skin tone becomes radiant. Ideal for lifestyle content, couples sessions, and influencer shoots.",
+    price:         12,
+    category:      "Portrait",
+    rating:        4.8,
+    reviewCount:   145,
+    priceTier:     "mid",
+    isFeatured:    false,
+    isFree:        false,
+    includeCount:  10,
+    thumbnailUrl:  "/presets/campfire.webp",
+    images:        ["/presets/ic.webp", "/presets/ic4.webp", "/presets/cg1.webp"],
+    beforeUrl:     "/presets/fr_before.webp",
+    afterUrl:      "/presets/fr_after.webp",
+    downloadFileName: "PXL_Golden_Hour_Portrait_v1.zip",
+    features: [
+      "10 golden hour portrait presets",
+      "Warm magenta & amber tones",
+      "Shadow lift for luminous, open light",
+      "Works on all skin tones",
+      "Great for lifestyle & couple sessions",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["golden", "warm", "magenta", "portrait", "haze", "luminous", "skin", "amber", "glow", "soft", "sunset", "hour"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     FREE PRESETS — 11 lead-magnet packs (IDs 10–20)
+     Strategy: genuine quality samplers of each paid category.
+     Each free pack has 5–8 presets (vs 10–30 in paid packs).
+     Goal: impress → build trust → drive account creation → upsell.
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "10",
+    slug:          "warm-starter-pack",
+    name:          "Warm Starter Pack",
+    tagline:       "Clean warm tones for every day of shooting",
+    description:
+      "Your first step into PXL's colour world. The Warm Starter Pack gives you 8 versatile warm-toned looks that work on portraits, travel shots, and everyday content creation — no steep learning curve. Just drag, drop, and shoot. A genuine free gift from us to help you build your editing foundation before committing to a paid pack.",
+    price:         0,
+    category:      "Cinematic",
+    rating:        4.7,
+    reviewCount:   891,
+    badge:         "Free",
+    conversionTag: "BEGINNER FRIENDLY",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  8,
+    thumbnailUrl:  "/presets/cg1.webp",
+    images:        ["/presets/cg2.webp", "/presets/cg3.webp", "/presets/cinematic1.webp"],
+    beforeUrl:     "/presets/fr_before.webp",
+    afterUrl:      "/presets/fr_after.webp",
+    downloadFileName: "PXL_Warm_Starter_Pack_FREE_v1.zip",
+    features: [
+      "8 beginner-friendly warm presets",
+      "Works on portraits, travel & lifestyle shots",
+      "Mobile-optimised for Lightroom CC",
+      "Adjustable intensity — easy to fine-tune",
+      "Starter editing guide included (PDF)",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["warm", "starter", "cinematic", "clean", "lifestyle", "everyday", "versatile", "beginner", "simple"],
+  },
+
+  {
+    id:            "11",
+    slug:          "soft-portrait-freebie",
+    name:          "Soft Portrait Freebie",
+    tagline:       "Natural skin tones with a gentle warm lift",
+    description:
+      "One of the hardest things to nail in portrait editing is making skin look warm without looking orange. This free 6-preset pack solves exactly that. Each look uses a careful HSL adjustment system that lifts shadows softly and adds warmth without blowing up skin hue. A perfect sampler before you invest in the full Sunset Portrait Pack.",
+    price:         0,
+    category:      "Portrait",
+    rating:        4.6,
+    reviewCount:   654,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  6,
+    thumbnailUrl:  "/presets/ic.webp",
+    images:        ["/presets/ic1.webp", "/presets/ic2.webp", "/presets/ic3.webp"],
+    beforeUrl:     "/presets/tropical_before.webp",
+    afterUrl:      "/presets/tropical_after.webp",
+    downloadFileName: "PXL_Soft_Portrait_Freebie_FREE_v1.zip",
+    features: [
+      "6 skin-safe portrait presets",
+      "Natural warm lift — no orange cast",
+      "Soft shadow lift for open, flattering light",
+      "Works across diverse skin tones",
+      "Great starting point for portrait editing",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["portrait", "soft", "skin", "natural", "warm", "gentle", "lifestyle", "beginner", "flattering"],
+  },
+
+  {
+    id:            "12",
+    slug:          "film-grain-intro",
+    name:          "Film Grain Intro",
+    tagline:       "Your first taste of authentic film emulation",
+    description:
+      "Analogue film has a character that digital photography simply doesn't replicate by default. This free 5-preset pack gives you a genuine taste of what PXL's film emulation system looks like — real grain structures, halation on highlights, and the muted colour cast of actual photographic film. Think of it as your introduction to the Film Emulation Bundle.",
+    price:         0,
+    category:      "Film Emulation",
+    rating:        4.6,
+    reviewCount:   432,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  5,
+    thumbnailUrl:  "/presets/fr1.webp",
+    images:        ["/presets/documentary1.webp", "/presets/documentary2.webp", "/presets/fr2.webp"],
+    beforeUrl:     "/presets/documentary_before.webp",
+    afterUrl:      "/presets/documentary_after.webp",
+    downloadFileName: "PXL_Film_Grain_Intro_FREE_v1.zip",
+    features: [
+      "5 film-emulation presets",
+      "Authentic grain (not digital noise)",
+      "Halation effect on highlights",
+      "Muted, analogue colour cast",
+      "Sampler for the full Film Emulation Bundle",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["film", "grain", "analogue", "vintage", "retro", "fade", "nostalgic", "muted", "faded"],
+  },
+
+  {
+    id:            "13",
+    slug:          "clean-and-airy",
+    name:          "Clean & Airy",
+    tagline:       "Light, bright, and editorial-clean for any scene",
+    description:
+      "Sometimes you want the opposite of drama. Clean & Airy is built for photographers who want lifted, luminous, editorial-bright looks — the kind that work on architecture, flat-lays, product shots, and bright outdoor portraits. Six free presets that prove clean editing is a creative choice, not a lack of one.",
+    price:         0,
+    category:      "Landscape",
+    rating:        4.5,
+    reviewCount:   378,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  6,
+    thumbnailUrl:  "/presets/hdrbw1.webp",
+    images:        ["/presets/hdrbw2.webp", "/presets/hdrbw3.webp", "/presets/dark_blue.webp"],
+    beforeUrl:     "/presets/hdrbw_before.webp",
+    afterUrl:      "/presets/hdrbw_after.webp",
+    downloadFileName: "PXL_Clean_And_Airy_FREE_v1.zip",
+    features: [
+      "6 clean, editorial-bright presets",
+      "Lifted shadows with pure white highlights",
+      "No colour cast — tonally neutral",
+      "Great for architecture, product & portrait",
+      "Works brilliantly in bright natural light",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["clean", "airy", "light", "minimal", "editorial", "bright", "landscape", "crisp", "neutral", "open"],
+  },
+
+  {
+    id:            "14",
+    slug:          "golden-travel-freebie",
+    name:          "Golden Travel Freebie",
+    tagline:       "Sun-kissed travel tones for any destination",
+    description:
+      "Five presets built around the warm, saturated palette of travel photography. Whether you're shooting beaches, mountains, or ancient city streets, the Golden Travel Freebie gives your photos that distinctive sun-kissed warmth that stops the scroll. A free sampler of PXL's broader cinematic and lifestyle palette.",
+    price:         0,
+    category:      "Cinematic",
+    rating:        4.6,
+    reviewCount:   521,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  5,
+    thumbnailUrl:  "/presets/tropical1.webp",
+    images:        ["/presets/tropical2.webp", "/presets/tropical3.webp", "/presets/cg.webp"],
+    beforeUrl:     "/presets/tropical_before.webp",
+    afterUrl:      "/presets/tropical_after.webp",
+    downloadFileName: "PXL_Golden_Travel_Freebie_FREE_v1.zip",
+    features: [
+      "5 warm travel presets",
+      "Sun-kissed amber & golden palette",
+      "Works on beaches, mountains & cities",
+      "Optimised for bright, outdoor RAW files",
+      "Perfect for travel Reels & Instagram content",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["travel", "golden", "warm", "sunny", "adventure", "tropical", "lifestyle", "amber", "outdoor"],
+  },
+
+  {
+    id:            "15",
+    slug:          "street-contrast-starter",
+    name:          "Street Contrast Starter",
+    tagline:       "High-contrast urban tones for street beginners",
+    description:
+      "Street photography lives and dies by contrast. This free 5-preset pack introduces you to the high-contrast, slightly desaturated aesthetic that makes city scenes feel electric. Deep blacks, punchy midtones, and a subtle cool cast — everything you need to start building a strong urban visual identity. A taste of the full Urban Noir Pack experience.",
+    price:         0,
+    category:      "Street",
+    rating:        4.5,
+    reviewCount:   289,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  5,
+    thumbnailUrl:  "/presets/garage1.webp",
+    images:        ["/presets/garage2.webp", "/presets/garage3.webp", "/presets/dramatic_city.webp"],
+    beforeUrl:     "/presets/garage_before.webp",
+    afterUrl:      "/presets/garage_after.webp",
+    downloadFileName: "PXL_Street_Contrast_Starter_FREE_v1.zip",
+    features: [
+      "5 high-contrast street presets",
+      "Deep blacks with punchy midtones",
+      "Subtle cool shadow cast",
+      "Works on any urban or street scene",
+      "Great intro to dark & dramatic editing",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["street", "contrast", "urban", "dark", "gritty", "moody", "cool", "punchy", "raw", "dramatic"],
+  },
+
+  {
+    id:            "16",
+    slug:          "muted-cinematic-free",
+    name:          "Muted Cinematic",
+    tagline:       "Desaturated, muted, effortlessly cinematic",
+    description:
+      "The muted cinematic look has become one of the defining aesthetics of modern photography — and for good reason. It's versatile, sophisticated, and works across genres without looking overdone. This free 6-preset collection gives you PXL's take on the style: precisely desaturated, carefully toned, and ready to use on portraits, landscapes, and street work alike.",
+    price:         0,
+    category:      "Cinematic",
+    rating:        4.8,
+    reviewCount:   1043,
+    badge:         "Free",
+    conversionTag: "COMMUNITY FAVORITE",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  6,
+    thumbnailUrl:  "/presets/cinematic1.webp",
+    images:        ["/presets/cinematic2.webp", "/presets/cinematic3.webp", "/presets/cg2.webp"],
+    beforeUrl:     "/presets/fr_before.webp",
+    afterUrl:      "/presets/fr_after.webp",
+    downloadFileName: "PXL_Muted_Cinematic_FREE_v1.zip",
+    features: [
+      "6 muted cinematic presets",
+      "Precise desaturation — not washed out",
+      "Balanced for portraits, landscape & street",
+      "Sophisticated yet approachable",
+      "Our most-downloaded free preset pack",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["muted", "desaturated", "cinematic", "moody", "neutral", "balanced", "sophisticated", "minimal", "aesthetic"],
+  },
+
+  {
+    id:            "17",
+    slug:          "summer-glow-portrait",
+    name:          "Summer Glow Portrait",
+    tagline:       "Bright, airy portrait look with sun-kissed warmth",
+    description:
+      "High-key, bright, and warm — the Summer Glow Portrait pack captures that effortless outdoor light that every lifestyle photographer wants. Five free presets that lift your shadows, warm your skin tones gently, and add a subtle luminous quality to highlights. Ideal for Instagram creators, lifestyle bloggers, and anyone who wants their content to feel sunny and approachable.",
+    price:         0,
+    category:      "Portrait",
+    rating:        4.6,
+    reviewCount:   398,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  5,
+    thumbnailUrl:  "/presets/ic4.webp",
+    images:        ["/presets/magical_sunset.webp", "/presets/ic2.webp", "/presets/ic3.webp"],
+    beforeUrl:     "/presets/tropical_before.webp",
+    afterUrl:      "/presets/tropical_after.webp",
+    downloadFileName: "PXL_Summer_Glow_Portrait_FREE_v1.zip",
+    features: [
+      "5 summer lifestyle portrait presets",
+      "Bright, high-key tones",
+      "Sun-kissed skin warmth — no orange cast",
+      "Ideal for Instagram & lifestyle content",
+      "Works on outdoor & window-light portraits",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["summer", "glow", "portrait", "bright", "warm", "skin", "airy", "happy", "lifestyle", "instagram"],
+  },
+
+  {
+    id:            "18",
+    slug:          "bw-cinematic-starter",
+    name:          "B&W Cinematic Starter",
+    tagline:       "Classic monochrome with timeless cinematic depth",
+    description:
+      "Black-and-white photography rewards good editing more than almost any colour work — and bad editing shows immediately. The B&W Cinematic Starter gives you five free presets built around cinematic contrast curves, refined grain, and intentional tonal separation. A free introduction to timeless monochrome photography.",
+    price:         0,
+    category:      "Film Emulation",
+    rating:        4.6,
+    reviewCount:   267,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  5,
+    thumbnailUrl:  "/presets/hdrbw2.webp",
+    images:        ["/presets/hdrbw1.webp", "/presets/hdrbw3.webp", "/presets/garage2.webp"],
+    beforeUrl:     "/presets/hdrbw_before.webp",
+    afterUrl:      "/presets/hdrbw_after.webp",
+    downloadFileName: "PXL_BW_Cinematic_Starter_FREE_v1.zip",
+    features: [
+      "5 black-and-white cinematic presets",
+      "Refined grain structure — not digital noise",
+      "Intentional tonal separation",
+      "Works on portraits, street & landscape",
+      "Timeless monochrome aesthetic",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["black", "white", "monochrome", "cinematic", "classic", "dramatic", "timeless", "grain", "film", "contrast"],
+  },
+
+  {
+    id:            "19",
+    slug:          "faded-nostalgia",
+    name:          "Faded Nostalgia",
+    tagline:       "Soft, faded tones that feel like found photos",
+    description:
+      "Some photos should feel like memories. The Faded Nostalgia pack creates that slightly worn, analogue-print quality — lifted blacks, desaturated highlights, and a warm colour cast that evokes old prints found in a drawer. Five free presets for anyone who loves the dreamy, nostalgic editing style that's having such a big moment right now.",
+    price:         0,
+    category:      "Film Emulation",
+    rating:        4.5,
+    reviewCount:   312,
+    badge:         "Free",
+    priceTier:     "free",
+    isFeatured:    false,
+    isFree:        true,
+    includeCount:  5,
+    thumbnailUrl:  "/presets/documentary2.webp",
+    images:        ["/presets/documentary3.webp", "/presets/fr1.webp", "/presets/fr2.webp"],
+    beforeUrl:     "/presets/documentary_before.webp",
+    afterUrl:      "/presets/documentary_after.webp",
+    downloadFileName: "PXL_Faded_Nostalgia_FREE_v1.zip",
+    features: [
+      "5 faded nostalgic presets",
+      "Lifted blacks for analogue-print feel",
+      "Desaturated highlights",
+      "Warm, dreamy colour cast",
+      "Perfect for nostalgic & editorial content",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["faded", "nostalgic", "vintage", "film", "soft", "memory", "retro", "dreamy", "analogue", "worn"],
+  },
+
+  {
+    id:            "20",
+    slug:          "everyday-cinematic",
+    name:          "Everyday Cinematic",
+    tagline:       "Make any ordinary moment look like a short film",
+    description:
+      "This is our most-downloaded free preset — and for good reason. The Everyday Cinematic pack proves that cinematic editing isn't reserved for studio shoots or golden-hour landscapes. These 8 presets were built to work on the ordinary: coffee cups, city streets, afternoon light through windows, faces in conversation. If you only download one free pack from PXL, make it this one.",
+    price:         0,
+    category:      "Cinematic",
+    rating:        4.8,
+    reviewCount:   1247,
+    badge:         "Free",
+    conversionTag: "MOST POPULAR",
+    priceTier:     "free",
+    isFeatured:    true,
+    isFree:        true,
+    includeCount:  8,
+    thumbnailUrl:  "/presets/cinematic2.webp",
+    images:        ["/presets/cinematic3.webp", "/presets/cinematic.webp", "/presets/cg3.webp"],
+    beforeUrl:     "/presets/fr_before.webp",
+    afterUrl:      "/presets/fr_after.webp",
+    downloadFileName: "PXL_Everyday_Cinematic_FREE_v1.zip",
+    features: [
+      "8 versatile everyday cinematic presets",
+      "Works on any subject, any light condition",
+      "Balanced contrast — not over-processed",
+      "Our most-downloaded free pack",
+      "Great launchpad into the paid catalogue",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["cinematic", "everyday", "versatile", "balanced", "clean", "dynamic", "lifestyle", "morning", "natural", "modern"],
+  },
+
+  /* ═══════════════════════════════════════════════════════════
+     ENTRY TIER ($5) — low-friction first purchase, 8 presets
+  ═══════════════════════════════════════════════════════════ */
+
+  {
+    id:            "21",
+    slug:          "urban-daylight-pack",
+    name:          "Urban Daylight Pack",
+    tagline:       "Bold street photography tones for harsh daylight",
+    description:
+      "Shooting street photography in harsh midday sun is hard — the light is flat, shadows are black, and colour looks washed. The Urban Daylight Pack was built specifically for this problem. Eight presets that punch up the contrast, recover detail in shadows, and add an intentional gritty coolness to daylight street scenes. An accessible entry point into serious street photography editing.",
+    price:         5,
+    category:      "Street",
+    rating:        4.5,
+    reviewCount:   89,
+    badge:         "New",
+    conversionTag: "BEGINNER FRIENDLY",
+    priceTier:     "entry",
+    isFeatured:    false,
+    isFree:        false,
+    includeCount:  8,
+    thumbnailUrl:  "/presets/garage2.webp",
+    images:        ["/presets/garage3.webp", "/presets/garage1.webp", "/presets/dramatic_city.webp"],
+    beforeUrl:     "/presets/garage_before.webp",
+    afterUrl:      "/presets/garage_after.webp",
+    downloadFileName: "PXL_Urban_Daylight_Pack_v1.zip",
+    features: [
+      "8 street photography presets",
+      "Built for harsh midday & overcast light",
+      "Punchy contrast with shadow recovery",
+      "Cool, gritty urban colour cast",
+      "Perfect first street photography preset purchase",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["street", "urban", "daylight", "contrast", "gritty", "cool", "raw", "bold", "harsh", "city"],
+  },
+
+  {
+    id:            "22",
+    slug:          "studio-glow-starter",
+    name:          "Studio Glow Starter",
+    tagline:       "Clean studio skin tones without the learning curve",
+    description:
+      "Studio portrait editing has a reputation for being complex — and it is, when you're starting from scratch. The Studio Glow Starter pack removes that barrier. Eight presets calibrated for studio strobe and softbox light, with clean skin-safe tone mapping that makes every portrait look professionally lit. Your entry point into serious portrait post-processing.",
+    price:         5,
+    category:      "Portrait",
+    rating:        4.5,
+    reviewCount:   67,
+    badge:         "New",
+    conversionTag: "BEGINNER FRIENDLY",
+    priceTier:     "entry",
+    isFeatured:    false,
+    isFree:        false,
+    includeCount:  8,
+    thumbnailUrl:  "/presets/ic1.webp",
+    images:        ["/presets/ic2.webp", "/presets/ic3.webp", "/presets/ic4.webp"],
+    beforeUrl:     "/presets/tropical_before.webp",
+    afterUrl:      "/presets/tropical_after.webp",
+    downloadFileName: "PXL_Studio_Glow_Starter_v1.zip",
+    features: [
+      "8 studio portrait presets",
+      "Calibrated for strobe & softbox light",
+      "Skin-safe tone mapping — clean, not orange",
+      "Professional studio aesthetic",
+      "Perfect first portrait preset investment",
+    ],
+    compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
+    aiTags: ["studio", "portrait", "clean", "professional", "skin", "glow", "strobe", "softbox", "beginner", "warm"],
+  },
+
+]
+
+export const FEATURED_PRESETS = ALL_PRESETS.filter((p) => p.isFeatured)
+export const FREE_PRESETS     = ALL_PRESETS.filter((p) => p.isFree)
+export const PAID_PRESETS     = ALL_PRESETS.filter((p) => !p.isFree)

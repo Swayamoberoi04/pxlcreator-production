@@ -1,0 +1,8 @@
+﻿.next/dev/types/routes.d.ts(108,63): error TS1128: Declaration or statement expected.
+.next/dev/types/validator.ts(62,5): error TS1109: Expression expected.
+.next/dev/types/validator.ts(63,10): error TS1109: Expression expected.
+.next/dev/types/validator.ts(64,8): error TS1109: Expression expected.
+.next/dev/types/validator.ts(65,11): error TS1109: Expression expected.
+.next/dev/types/validator.ts(66,1): error TS1109: Expression expected.
+.next/dev/types/validator.ts(423,31): error TS1109: Expression expected.
+.next/dev/types/validator.ts(428,1): error TS1128: Declaration or statement expected.
