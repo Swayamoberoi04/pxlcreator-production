@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Terms and conditions governing your use of PXL Creator products and services.",
 }
 
-const LAST_UPDATED = "January 1, 2025"
+const LAST_UPDATED = "May 26, 2026"
 
 export default function TermsPage() {
   return (
@@ -38,97 +38,184 @@ export default function TermsPage() {
 
             <Section title="1. Acceptance of Terms">
               <p>
-                By accessing or purchasing from PXL Creator (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;), you agree to be
-                bound by these Terms of Service. If you do not agree, please do not use our products or services.
+                By accessing, browsing, or purchasing from PXL Creator (&ldquo;we&rdquo;, &ldquo;us&rdquo;,
+                &ldquo;our&rdquo;), you confirm that you have read, understood, and agree to be bound by
+                these Terms of Service and our Privacy Policy. If you do not agree to all of these
+                terms, please do not use our website, products, or services.
+              </p>
+              <p>
+                We reserve the right to modify these Terms at any time. Your continued use of our
+                services after any change constitutes your acceptance of the revised Terms.
               </p>
             </Section>
 
             <Section title="2. Digital Products — Licence">
               <p>
-                All presets, LUTs, and digital resources sold by PXL Creator are licensed, not sold.
-                Upon purchase you receive a <strong>personal, non-exclusive, non-transferable licence</strong> to:
+                All presets, LUTs, and digital resources sold or included with a PXL Creator
+                subscription are <strong>licensed, not sold</strong>. Upon purchase or subscription
+                activation, you receive a <strong>personal, non-exclusive, non-transferable,
+                revocable licence</strong> to:
               </p>
               <ul>
-                <li>Install and use the product on up to <strong>5 personal devices</strong> you own</li>
-                <li>Use the product in your own photography and video projects, including commercial client work</li>
+                <li>Install and use the files on up to <strong>5 personal devices</strong> you own or control</li>
+                <li>Use the presets in your own photography, videography, and commercial client work</li>
+                <li>Apply presets to images that are then delivered to clients as part of paid services</li>
               </ul>
               <p>You may <strong>not</strong>:</p>
               <ul>
-                <li>Redistribute, re-sell, sublicense, or share the raw preset files with any third party</li>
-                <li>Include the preset files in any product bundle sold or given away</li>
-                <li>Claim authorship of or rebrand the preset files</li>
+                <li>Redistribute, re-sell, sublicense, share, or gift the raw preset or LUT files to any third party</li>
+                <li>Include preset files in any product bundle that is sold, given away, or publicly shared</li>
+                <li>Upload preset files to any file-sharing platform, cloud drive shared with others, or community repository</li>
+                <li>Claim authorship of, rebrand, or rename the preset files</li>
+                <li>Use the presets to create competing preset products or derivative filter packs</li>
+              </ul>
+              <p>
+                Violation of these licence terms will result in immediate termination of your licence
+                without refund and may result in legal action.
+              </p>
+            </Section>
+
+            <Section title="3. AI-Powered Studio Feature">
+              <p>
+                PXL Creator includes an AI-powered preset recommendation feature (&ldquo;Studio&rdquo;).
+                This feature uses machine learning to suggest presets based on image analysis and your
+                stated preferences. By using the Studio feature, you agree that:
+              </p>
+              <ul>
+                <li>Images you upload for analysis are processed to generate recommendations and are not stored permanently</li>
+                <li>AI recommendations are suggestions only — results may vary depending on your specific photos</li>
+                <li>We do not use uploaded images for model training without explicit consent</li>
+                <li>The AI feature is provided as a convenience and carries no guarantee of specific outcomes</li>
               </ul>
             </Section>
 
-            <Section title="3. Courses and Educational Content">
+            <Section title="4. Courses and Educational Content">
               <p>
                 Course access is granted to the individual purchaser only. Sharing login credentials,
-                screen-recording course material, or distributing course content is strictly prohibited
-                and may result in immediate termination of access without refund.
+                screen-recording course material, or distributing course content in any form is strictly
+                prohibited and will result in immediate termination of access without refund. Each
+                account is for a single user only.
               </p>
             </Section>
 
-            <Section title="4. Payment and Pricing">
+            <Section title="5. Premium Subscriptions">
               <p>
-                All prices are listed in USD unless otherwise stated. We reserve the right to change
-                prices at any time. Promotions and discount codes cannot be applied retroactively.
-                Payments are processed securely via Stripe.
+                PXL Creator Premium is a recurring subscription service billed on a monthly or annual
+                basis. By subscribing, you authorise us to charge your payment method at the start of
+                each billing cycle until you cancel. Subscription benefits include:
+              </p>
+              <ul>
+                <li>Access to all current and future preset packs for the duration of the subscription</li>
+                <li>Full course library access</li>
+                <li>Early access to new releases and exclusive drops</li>
+                <li>Additional plan-specific benefits as described on the Premium page</li>
+              </ul>
+              <p>
+                Subscriptions do not grant permanent ownership of preset files. Upon cancellation or
+                expiry, access to subscription-only content will end. Any presets downloaded during
+                an active subscription may continue to be used under the personal licence terms in
+                Section&nbsp;2.
               </p>
             </Section>
 
-            <Section title="5. Refunds">
+            <Section title="6. Payment and Pricing">
+              <p>
+                Prices are displayed in USD and INR as applicable. Payments are processed securely
+                via <strong>Razorpay</strong> — a PCI-DSS compliant payment gateway. We do not store
+                your card details on our servers. By completing a purchase, you agree to Razorpay&apos;s
+                terms of service and privacy policy.
+              </p>
+              <p>
+                We reserve the right to change prices at any time. Promotions and discount codes
+                cannot be applied retroactively to completed orders. Price changes will not affect
+                active subscription billing cycles already in progress.
+              </p>
+            </Section>
+
+            <Section title="7. Refunds">
               <p>
                 Because our products are digital downloads, we generally do not offer refunds once
-                the download link has been accessed. Please read our{" "}
-                <a href="/refunds">Refund Policy</a> for full details and exceptions.
+                the download link has been accessed or a subscription has been used. Please read our{" "}
+                <a href="/refunds">Refund Policy</a> for complete details, eligible scenarios, and
+                the process for submitting a refund request.
               </p>
             </Section>
 
-            <Section title="6. Intellectual Property">
+            <Section title="8. Download Links and Access">
               <p>
-                All content on this website — including text, graphics, logos, product images, and
-                code — is the exclusive property of PXL Creator and is protected by copyright law.
-                You may not reproduce, distribute, or create derivative works without express
-                written permission.
+                Download links generated for individual preset purchases are valid for
+                <strong> 30 days</strong> from the date of purchase. After expiry, please contact us
+                to request a link renewal — we will honour reasonable requests where purchase can be
+                verified. Links are single-use and tied to the purchasing account.
               </p>
             </Section>
 
-            <Section title="7. Disclaimer of Warranties">
+            <Section title="9. Intellectual Property">
               <p>
-                Our products are provided &ldquo;as is&rdquo; without warranties of any kind, express or implied.
-                We do not warrant that the products will be compatible with every version of Lightroom
-                or every device. It is your responsibility to verify compatibility before purchase.
+                All content on this website — including text, graphics, logos, product images,
+                preset files, course videos, and code — is the exclusive intellectual property of
+                PXL Creator and is protected by copyright and applicable law. You may not reproduce,
+                distribute, publicly display, or create derivative works without express written
+                permission from us.
               </p>
             </Section>
 
-            <Section title="8. Limitation of Liability">
+            <Section title="10. User Accounts">
               <p>
-                To the maximum extent permitted by law, PXL Creator shall not be liable for any
-                indirect, incidental, or consequential damages arising from your use of our products
-                or services. Our total liability shall not exceed the amount you paid for the product
-                in question.
+                You are responsible for maintaining the confidentiality of your account credentials
+                and for all activity that occurs under your account. Notify us immediately at{" "}
+                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a> if you suspect
+                unauthorised access to your account. We reserve the right to suspend or terminate
+                accounts that violate these Terms.
               </p>
             </Section>
 
-            <Section title="9. Governing Law">
+            <Section title="11. Disclaimer of Warranties">
               <p>
-                These Terms are governed by the laws of India. Any disputes shall be resolved
-                exclusively in the courts of India.
+                Our products and services are provided &ldquo;as is&rdquo; without warranties of any kind,
+                express or implied. We do not warrant that our products will be compatible with every
+                version of Adobe Lightroom, every operating system, or every device. It is your
+                responsibility to verify compatibility with your specific software version before
+                purchasing. Lightroom compatibility information is listed on each product page.
               </p>
             </Section>
 
-            <Section title="10. Changes to Terms">
+            <Section title="12. Limitation of Liability">
               <p>
-                We may update these Terms at any time. The &ldquo;Last updated&rdquo; date at the top of this
-                page reflects the most recent revision. Continued use of our services constitutes
-                acceptance of the updated Terms.
+                To the maximum extent permitted by applicable law, PXL Creator shall not be liable
+                for any indirect, incidental, special, or consequential damages arising from your
+                use of our products, services, or website — including but not limited to loss of
+                data, loss of profits, or business interruption — even if we have been advised of
+                the possibility of such damages. Our total aggregate liability shall not exceed the
+                amount you paid for the specific product or service giving rise to the claim.
               </p>
             </Section>
 
-            <Section title="11. Contact">
+            <Section title="13. Governing Law and Disputes">
+              <p>
+                These Terms are governed by and construed in accordance with the laws of India.
+                Any dispute arising out of or relating to these Terms or your use of our products
+                shall be resolved exclusively through the courts of India. If you are a consumer
+                in the European Union, you may also have rights under your local consumer protection
+                laws that cannot be waived by contract.
+              </p>
+            </Section>
+
+            <Section title="14. Changes to Terms">
+              <p>
+                We may update these Terms at any time. The &ldquo;Last updated&rdquo; date at the top of
+                this page reflects the most recent revision. For material changes, we will make
+                reasonable efforts to notify active subscribers via email. Continued use of our
+                services after the effective date of changes constitutes your acceptance of the
+                updated Terms.
+              </p>
+            </Section>
+
+            <Section title="15. Contact">
               <p>
                 Questions about these Terms? Email us at{" "}
-                <a href="mailto:playsphereg@gmail.com">playsphereg@gmail.com</a>.
+                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>. We aim to respond
+                within 2 business days.
               </p>
             </Section>
 

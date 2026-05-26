@@ -80,7 +80,7 @@ export default function ContactPage() {
                 href={siteConfig.socials.email}
                 className="text-[0.9375rem] font-medium text-foreground hover:text-gold transition-colors break-all"
               >
-                playsphereg@gmail.com
+                pxlcreator@gmail.com
               </a>
             </div>
 
@@ -99,6 +99,8 @@ export default function ContactPage() {
                 </a>
                 <a
                   href={siteConfig.socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[0.9375rem] text-muted hover:text-gold transition-colors"
                 >
                   Instagram

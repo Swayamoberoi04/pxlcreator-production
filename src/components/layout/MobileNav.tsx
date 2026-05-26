@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils"
 
 /* Top-level links that appear before the Explore section */
 const TOP_LINKS = [
-  { label: "Home",    href: "/"        },
-  { label: "Presets", href: "/presets" },
-  { label: "Bundles", href: "/bundles" },
+  { label: "Presets", href: "/presets", highlight: false },
+  { label: "Bundles", href: "/bundles", highlight: false },
+  { label: "Premium", href: "/premium", highlight: true  },
 ]
 
 /* Bottom links that appear after the Explore section */
@@ -120,7 +120,7 @@ export function MobileNav() {
         {/* ── Nav links ── */}
         <nav className="flex flex-col gap-0.5 p-3 flex-1 overflow-y-auto" aria-label="Mobile navigation">
 
-          {/* Top links: Home, Presets */}
+          {/* Top links: Presets, Bundles, Premium */}
           {TOP_LINKS.map((item) => (
             <MobileLink
               key={item.href}
@@ -128,6 +128,7 @@ export function MobileNav() {
               label={item.label}
               pathname={pathname}
               onClose={() => setOpen(false)}
+              highlight={item.highlight}
             />
           ))}
 
@@ -187,9 +188,9 @@ export function MobileNav() {
 
 /* ── Individual mobile nav link ── */
 function MobileLink({
-  href, label, pathname, onClose, indent,
+  href, label, pathname, onClose, indent, highlight,
 }: {
-  href: string; label: string; pathname: string; onClose: () => void; indent?: boolean
+  href: string; label: string; pathname: string; onClose: () => void; indent?: boolean; highlight?: boolean
 }) {
   const isActive =
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/")
@@ -202,7 +203,9 @@ function MobileLink({
         "flex items-center gap-3 rounded-lg py-2.5 text-sm font-medium transition-colors duration-150",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         indent ? "px-5" : "px-3",
-        isActive
+        highlight && !isActive
+          ? "text-gold/80 hover:text-gold hover:bg-gold/5"
+          : isActive
           ? "bg-gold/8 text-gold"
           : "text-muted hover:bg-surface-2 hover:text-foreground"
       )}

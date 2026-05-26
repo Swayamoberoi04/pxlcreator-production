@@ -15,6 +15,7 @@ import {
   signInWithGoogle  as fbSignInWithGoogle,
   signOut           as fbSignOut,
   sendPasswordReset,
+  checkRedirectResult,
 } from "@/lib/firebase/auth"
 
 /* ─────────────────────────────────────────────────────
@@ -89,6 +90,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user,    setUser]    = useState<User | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
+
+  /*
+   * Handle the result of a signInWithRedirect flow.
+   * This fires once on mount. If the user was redirected from Google,
+   * Firebase returns the credential here; onAuthStateChanged handles
+   * the user object automatically. We only need to catch redirect errors.
+   */
+  useEffect(() => {
+    checkRedirectResult().catch((err: unknown) => {
+      const code = (err as { code?: string }).code ?? ""
+      if (code) {
+        console.error("[Auth] Redirect sign-in error:", { code, raw: err })
+      }
+    })
+  }, [])
 
   /* Subscribe to Firebase auth state — persists across refreshes */
   useEffect(() => {

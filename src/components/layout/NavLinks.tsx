@@ -12,26 +12,24 @@ import { cn } from "@/lib/utils"
    NavLinks (dropdown) and MobileNav (flat).
 ───────────────────────────────────────── */
 export const EXPLORE_ITEMS = [
-  { label: "Store",      href: "/store"    },
-  { label: "Bundles",    href: "/bundles"  },
-  { label: "AI Studio",  href: "/studio"   },
-  { label: "Blog",       href: "/blog"     },
-  { label: "E-Learning", href: "/courses"  },
-  { label: "FAQ",        href: "/faq"      },
-  { label: "Giveaway",   href: "/giveaway" },
+  { label: "Store",      href: "/store"   },
+  { label: "AI Studio",  href: "/studio"  },
+  { label: "Courses",    href: "/courses" },
+  { label: "Blog",       href: "/blog"    },
+  { label: "FAQ",        href: "/faq"     },
+  { label: "About",      href: "/about"   },
+  { label: "Contact",    href: "/contact" },
 ] as const
 
-type SimpleItem    = { type: "link";     label: string; href: string }
+type SimpleItem    = { type: "link";     label: string; href: string; highlight?: boolean }
 type DropdownItem  = { type: "dropdown"; label: string; items: readonly { label: string; href: string }[] }
 type NavItemConfig = SimpleItem | DropdownItem
 
 const NAV_ITEMS: NavItemConfig[] = [
-  { type: "link",     label: "Home",    href: "/"        },
   { type: "link",     label: "Presets", href: "/presets" },
   { type: "link",     label: "Bundles", href: "/bundles" },
   { type: "dropdown", label: "Explore", items: EXPLORE_ITEMS },
-  { type: "link",     label: "About",   href: "/about"   },
-  { type: "link",     label: "Contact", href: "/contact" },
+  { type: "link",     label: "Premium", href: "/premium", highlight: true },
 ]
 
 /* ─────────────────────────────────────────
@@ -76,6 +74,30 @@ export function NavLinks() {
             item.href === "/"
               ? pathname === "/"
               : pathname === item.href || pathname.startsWith(item.href + "/")
+
+          /* Premium gets a special gold badge treatment */
+          if (item.highlight) {
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "relative px-3.5 py-1.5 text-[0.8rem] font-semibold tracking-wide rounded-md",
+                  "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  isActive
+                    ? "text-gold text-glow-gold"
+                    : "text-gold/80 hover:text-gold"
+                )}
+              >
+                {item.label}
+                <span
+                  aria-hidden="true"
+                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold/60 shadow-[0_0_6px_2px_rgba(255,215,0,0.25)]"
+                />
+              </Link>
+            )
+          }
 
           return (
             <Link

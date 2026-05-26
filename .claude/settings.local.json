@@ -3,7 +3,8 @@
     "allow": [
       "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\" -Recurse | Select-Object -Property @{Name=\"Path\"; Expression={$_.FullName.Replace\\(\"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\\", \"\"\\)}} | Sort-Object Path | Format-Table -AutoSize)",
       "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\app\\\\blog\")",
-      "PowerShell($content = Get-Content \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\data\\\\presets.ts\" -Raw; $content.Substring\\(0, [Math]::Min\\(4000, $content.Length\\)\\))"
+      "PowerShell($content = Get-Content \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\data\\\\presets.ts\" -Raw; $content.Substring\\(0, [Math]::Min\\(4000, $content.Length\\)\\))",
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; Get-Job | Where-Object {$_.State -eq \"Running\"} | Select-Object Id, Name, State)"
     ]
   }
 }
