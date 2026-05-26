@@ -31,6 +31,144 @@ const nextConfig: NextConfig = {
      XSS via iframes, and information leakage via Referrer.
   ─────────────────────────────────────────────────────────── */
   async headers() {
+    // ── CSP directive builder ──────────────────────────────
+    // Each array entry is one allowlist item inside a directive.
+    // Join with space (within a directive) and "; " between directives.
+    const csp = [
+
+      // ── default fallback ──────────────────────────────────
+      // Only 'self' — specific directives below override this.
+      "default-src 'self'",
+
+      // ── scripts ───────────────────────────────────────────
+      // 'unsafe-inline' + 'unsafe-eval' are required by Next.js runtime hydration.
+      // Google:
+      //   apis.google.com      — firebase loads apis.google.com/js/api.js (root cause of the auth failure)
+      //   www.gstatic.com      — Firebase SDK bundles are served from here
+      //   accounts.google.com  — OAuth2 scripts loaded during Google sign-in popup
+      //   googletagmanager.com — analytics (optional but safe to keep)
+      // Razorpay:
+      //   checkout.razorpay.com — payment modal JS
+      [
+        "script-src",
+        "'self'",
+        "'unsafe-inline'",
+        "'unsafe-eval'",
+        // ─ Firebase / Google ─
+        "https://apis.google.com",
+        "https://www.gstatic.com",
+        "https://accounts.google.com",
+        // ─ Razorpay ─
+        "https://checkout.razorpay.com",
+        // ─ Analytics (harmless to keep) ─
+        "https://www.googletagmanager.com",
+      ].join(" "),
+
+      // ── stylesheets ───────────────────────────────────────
+      // 'unsafe-inline' required for Next.js CSS-in-JS / Tailwind.
+      // Google Fonts loaded from fonts.googleapis.com.
+      [
+        "style-src",
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+        "https://www.gstatic.com",   // Google Sign-In button styles
+        "https://accounts.google.com",
+      ].join(" "),
+
+      // ── web fonts ─────────────────────────────────────────
+      [
+        "font-src",
+        "'self'",
+        "https://fonts.gstatic.com",
+      ].join(" "),
+
+      // ── images ────────────────────────────────────────────
+      // data: — inline SVG / base64 images used in the UI
+      // blob: — canvas exports, Next.js image optimisation
+      // *.googleusercontent.com — Google account avatars (covers lh1-lh6, etc.)
+      // www.gstatic.com         — Google branding images (sign-in button logo)
+      // ytimg / youtube         — YouTube thumbnails for preset cards
+      // supabase                — future storage bucket assets
+      [
+        "img-src",
+        "'self'",
+        "data:",
+        "blob:",
+        "https://*.supabase.co",
+        "https://*.supabase.in",
+        "https://i.ytimg.com",
+        "https://img.youtube.com",
+        "https://*.googleusercontent.com",  // all Google avatar subdomains
+        "https://www.gstatic.com",
+        "https://accounts.google.com",
+      ].join(" "),
+
+      // ── fetch / XHR / WebSocket ───────────────────────────
+      // Firebase Auth REST stack:
+      //   identitytoolkit.googleapis.com  — sign-in, sign-up, password reset
+      //   securetoken.googleapis.com      — ID token refresh
+      //   firebase.googleapis.com         — base Firebase API
+      //   firebaseinstallations.googleapis.com — Firebase Installations API
+      //   apis.google.com                 — gapi requests
+      //   oauth2.googleapis.com           — OAuth2 token exchange
+      //   accounts.google.com             — OAuth2 / OIDC token endpoint
+      //   www.googleapis.com              — profile info fetch after sign-in
+      // Supabase: database + storage
+      // Razorpay: payment API + logging
+      [
+        "connect-src",
+        "'self'",
+        // ─ Supabase ─
+        "https://*.supabase.co",
+        "https://*.supabase.in",
+        // ─ Razorpay ─
+        "https://api.razorpay.com",
+        "https://lumberjack.razorpay.com",
+        // ─ Firebase Auth ─
+        "https://identitytoolkit.googleapis.com",
+        "https://securetoken.googleapis.com",
+        "https://firebase.googleapis.com",
+        "https://firebaseinstallations.googleapis.com",
+        // ─ Google OAuth2 / APIs ─
+        "https://apis.google.com",
+        "https://oauth2.googleapis.com",
+        "https://accounts.google.com",
+        "https://www.googleapis.com",
+      ].join(" "),
+
+      // ── iframes ───────────────────────────────────────────
+      // Firebase uses a hidden iframe at <project>.firebaseapp.com/__/auth/iframe
+      // to silently refresh ID tokens without a visible redirect.
+      // Google OAuth2 may also embed accounts.google.com in an iframe.
+      // Razorpay uses an iframe for its payment modal overlay.
+      [
+        "frame-src",
+        "https://api.razorpay.com",
+        "https://*.razorpay.com",
+        "https://*.firebaseapp.com",
+        "https://accounts.google.com",
+        "https://apis.google.com",      // gapi popup uses this
+      ].join(" "),
+
+      // ── media (audio / video) ─────────────────────────────
+      "media-src 'self'",
+
+      // ── plugins (Flash, Java, etc.) — fully blocked ───────
+      "object-src 'none'",
+
+      // ── base URL for relative links ───────────────────────
+      "base-uri 'self'",
+
+      // ── form submissions ──────────────────────────────────
+      // Only allow forms to submit to the same origin.
+      "form-action 'self'",
+
+      // ── upgrade plain-HTTP sub-resources to HTTPS ─────────
+      "upgrade-insecure-requests",
+
+    ].join("; ")
+
     return [
       {
         source: "/(.*)",
@@ -63,24 +201,8 @@ const nextConfig: NextConfig = {
             value: "max-age=31536000; includeSubDomains; preload",
           },
           {
-            // Content-Security-Policy — restricts what resources the browser loads.
-            // 'unsafe-inline' is required for Next.js inline style/script hydration.
-            // Razorpay checkout.js + api.razorpay.com are explicitly allowed.
             key:   "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://www.googletagmanager.com",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https://*.supabase.co https://*.supabase.in https://i.ytimg.com https://img.youtube.com https://lh3.googleusercontent.com",
-              "connect-src 'self' https://*.supabase.co https://*.supabase.in https://api.razorpay.com https://lumberjack.razorpay.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://apis.google.com https://oauth2.googleapis.com https://accounts.google.com https://firebaseinstallations.googleapis.com",
-              "frame-src https://api.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
-              "media-src 'self'",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "upgrade-insecure-requests",
-            ].join("; "),
+            value: csp,
           },
         ],
       },
