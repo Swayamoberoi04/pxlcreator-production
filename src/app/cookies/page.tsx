@@ -182,7 +182,7 @@ export default function CookiePolicyPage() {
             <Section title="9. Contact">
               <p>
                 Questions about our use of cookies? Email us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>.
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>.
               </p>
             </Section>
 

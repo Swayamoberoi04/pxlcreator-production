@@ -145,7 +145,7 @@ export default function ContactPage() {
                 href={siteConfig.socials.email}
                 className="text-[0.9375rem] font-medium text-foreground hover:text-gold transition-colors break-all"
               >
-                pxlcreator@gmail.com
+                creatorpxl@gmail.com
               </a>
             </div>
 
