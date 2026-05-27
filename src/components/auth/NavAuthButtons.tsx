@@ -1,10 +1,11 @@
 "use client"
 
-import { useState }       from "react"
-import Link               from "next/link"
-import { useRouter }      from "next/navigation"
-import { useAuth }        from "@/contexts/AuthContext"
-import { cn }             from "@/lib/utils"
+import { useState }             from "react"
+import Link                     from "next/link"
+import { useRouter }             from "next/navigation"
+import { useAuth }               from "@/contexts/AuthContext"
+import { cn }                    from "@/lib/utils"
+import { OnboardingSetupCTA }    from "@/components/onboarding/OnboardingSetupCTA"
 
 /**
  * Renders into the navbar's right-action zone.
@@ -37,6 +38,9 @@ export function NavAuthButtons() {
 
     return (
       <div className="flex items-center gap-1.5">
+
+        {/* Complete Setup CTA — only visible when onboarding incomplete */}
+        <OnboardingSetupCTA />
 
         {/* Avatar → account page */}
         <Link
