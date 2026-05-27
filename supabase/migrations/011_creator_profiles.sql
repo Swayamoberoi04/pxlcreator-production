@@ -26,6 +26,7 @@ create table if not exists public.creator_profiles (
   style_dna_badge           text,
   style_dna_color           text,
   style_dna_archetypes      text[]      default '{}',
+  style_dna_top_categories  text[]      default '{}',
 
   /* ── Lifecycle ── */
   onboarding_completed_at   timestamptz,
@@ -54,6 +55,7 @@ create table if not exists public.recommendation_cache (
   section_id   text not null,
   items        jsonb not null default '[]',
   generated_at timestamptz not null default now(),
+  expires_at   timestamptz not null default (now() + interval '7 days'),
 
   unique(firebase_uid, section_id)
 );
