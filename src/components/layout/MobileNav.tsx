@@ -15,11 +15,8 @@ const TOP_LINKS = [
   { label: "Premium", href: "/premium", highlight: true  },
 ]
 
-/* Bottom links that appear after the Explore section */
-const BOTTOM_LINKS = [
-  { label: "About",   href: "/about"   },
-  { label: "Contact", href: "/contact" },
-]
+/* Bottom links — intentionally empty; About & Contact live in EXPLORE_ITEMS above */
+const BOTTOM_LINKS: { label: string; href: string }[] = []
 
 export function MobileNav() {
   const [open, setOpen] = useState(false)
@@ -147,19 +144,21 @@ export function MobileNav() {
             />
           ))}
 
-          {/* Divider */}
-          <div className="my-2 mx-3 h-px bg-border" aria-hidden="true" />
-
-          {/* Bottom links: About, Contact */}
-          {BOTTOM_LINKS.map((item) => (
-            <MobileLink
-              key={item.href}
-              href={item.href}
-              label={item.label}
-              pathname={pathname}
-              onClose={() => setOpen(false)}
-            />
-          ))}
+          {/* Divider + extra links (reserved for future use) */}
+          {BOTTOM_LINKS.length > 0 && (
+            <>
+              <div className="my-2 mx-3 h-px bg-border" aria-hidden="true" />
+              {BOTTOM_LINKS.map((item) => (
+                <MobileLink
+                  key={item.href}
+                  href={item.href}
+                  label={item.label}
+                  pathname={pathname}
+                  onClose={() => setOpen(false)}
+                />
+              ))}
+            </>
+          )}
 
         </nav>
 
@@ -174,7 +173,7 @@ export function MobileNav() {
           </Link>
           <div className="flex items-center justify-center gap-4 mt-4">
             <a href={siteConfig.socials.youtube}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-muted hover:text-gold transition-colors p-1"><YouTubeIcon /></a>
-            <a href={siteConfig.socials.instagram} aria-label="Instagram" className="text-muted hover:text-gold transition-colors p-1"><InstagramIcon /></a>
+            <a href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted hover:text-gold transition-colors p-1"><InstagramIcon /></a>
             <a href={siteConfig.socials.email}     aria-label="Email"     className="text-muted hover:text-gold transition-colors p-1"><EmailIcon /></a>
           </div>
         </div>

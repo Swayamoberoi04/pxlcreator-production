@@ -40,6 +40,7 @@ export default function ContactPage() {
   /* Auto-fill from signed-in user */
   useEffect(() => {
     if (user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (user.displayName && !name) setName(user.displayName)
       if (user.email && !email)      setEmail(user.email)
     }
@@ -145,7 +146,7 @@ export default function ContactPage() {
                 href={siteConfig.socials.email}
                 className="text-[0.9375rem] font-medium text-foreground hover:text-gold transition-colors break-all"
               >
-                creatorpxl@gmail.com
+                {siteConfig.socials.email.replace("mailto:", "")}
               </a>
             </div>
 
