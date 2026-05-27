@@ -31,6 +31,25 @@ const EXPO_OUT = [0.16, 1, 0.3, 1] as const
 export function PageTransitionProvider({ children }: PageTransitionProviderProps) {
   const pathname = usePathname()
 
+  /*
+   * Admin routes use a `position:fixed; inset:0` overlay that must be
+   * viewport-relative. Any ancestor with `filter`, `transform`, or
+   * `perspective` becomes a new CSS containing block (spec §10.1), which
+   * breaks the overlay by constraining it to the <main> region.
+   *
+   * During AnimatePresence transitions the motion.div briefly has
+   * `filter:blur(Xpx)` and non-identity transforms — both of which trigger
+   * the containing-block rule. Bypassing the animation wrapper entirely for
+   * admin routes is the only reliable fix without restructuring the layout.
+   */
+  if (pathname.startsWith("/admin")) {
+    return (
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        {children}
+      </div>
+    )
+  }
+
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
@@ -48,7 +67,7 @@ export function PageTransitionProvider({ children }: PageTransitionProviderProps
           y:       0,
           scale:   1,
           rotateX: 0,
-          filter:  "blur(0px)",
+          filter:  "none",
         }}
         /* ── Exit: recede into depth ── */
         exit={{
@@ -67,12 +86,6 @@ export function PageTransitionProvider({ children }: PageTransitionProviderProps
           display:         "flex",
           flexDirection:   "column",
           transformOrigin: "50% 0%",
-          perspective:     "1400px",
-          /* willChange is intentionally omitted from the static style —
-             keeping it on permanently promotes this element to a
-             composited layer even when idle, wasting GPU memory.
-             Framer Motion promotes the layer automatically during
-             animation and demotes it when the transition completes. */
         }}
       >
         {children}

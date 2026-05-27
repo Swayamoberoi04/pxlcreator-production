@@ -81,7 +81,7 @@ export function AdminSidebar() {
   }
 
   return (
-    <aside className="flex flex-col w-[220px] shrink-0 min-h-screen bg-[#0d0d0d] border-r border-white/[0.06]">
+    <aside className="flex flex-col w-[220px] shrink-0 h-full bg-[#0d0d0d] border-r border-white/[0.06]">
 
       {/* ── Logo ── */}
       <div className="px-5 py-5 border-b border-white/[0.06]">
@@ -97,7 +97,7 @@ export function AdminSidebar() {
       </div>
 
       {/* ── Nav ── */}
-      <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5">
+      <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto min-h-0">
         {NAV_ITEMS.map((item) => {
           const isActive =
             item.href === "/admin"
