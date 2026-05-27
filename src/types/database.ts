@@ -705,6 +705,111 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── creator_profiles ──────────────────────────── */
+      creator_profiles: {
+        Row: {
+          id:                      string
+          firebase_uid:            string
+          professions:             string[]
+          goals:                   string[]
+          aesthetics:              string[]
+          skill_level:             string | null
+          platforms:               string[]
+          affinities:              Json
+          style_dna_title:         string | null
+          style_dna_tagline:       string | null
+          style_dna_badge:         string | null
+          style_dna_color:         string | null
+          style_dna_archetypes:    string[] | null
+          style_dna_top_categories: string[] | null
+          onboarding_completed_at: string | null
+          created_at:              string
+          updated_at:              string
+        }
+        Insert: {
+          id?:                     string
+          firebase_uid:            string
+          professions?:            string[]
+          goals?:                  string[]
+          aesthetics?:             string[]
+          skill_level?:            string | null
+          platforms?:              string[]
+          affinities?:             Json
+          style_dna_title?:        string | null
+          style_dna_tagline?:      string | null
+          style_dna_badge?:        string | null
+          style_dna_color?:        string | null
+          style_dna_archetypes?:   string[] | null
+          style_dna_top_categories?: string[] | null
+          onboarding_completed_at?: string | null
+        }
+        Update: {
+          professions?:            string[]
+          goals?:                  string[]
+          aesthetics?:             string[]
+          skill_level?:            string | null
+          platforms?:              string[]
+          affinities?:             Json
+          style_dna_title?:        string | null
+          style_dna_tagline?:      string | null
+          style_dna_badge?:        string | null
+          style_dna_color?:        string | null
+          style_dna_archetypes?:   string[] | null
+          style_dna_top_categories?: string[] | null
+          onboarding_completed_at?: string | null
+          updated_at?:             string
+        }
+        Relationships: []
+      }
+
+      /* ── recommendation_cache ───────────────────────── */
+      recommendation_cache: {
+        Row: {
+          id:           string
+          firebase_uid: string
+          section_id:   string
+          items:        Json
+          generated_at: string
+          expires_at:   string
+        }
+        Insert: {
+          id?:          string
+          firebase_uid: string
+          section_id:   string
+          items:        Json
+          generated_at?: string
+          expires_at:   string
+        }
+        Update: {
+          items?:        Json
+          generated_at?: string
+          expires_at?:   string
+        }
+        Relationships: []
+      }
+
+      /* ── user_behavior ──────────────────────────────── */
+      user_behavior: {
+        Row: {
+          id:          string
+          firebase_uid: string
+          event_type:  string
+          resource_id: string | null
+          metadata:    Json
+          created_at:  string
+        }
+        Insert: {
+          id?:          string
+          firebase_uid: string
+          event_type:   string
+          resource_id?: string | null
+          metadata?:    Json
+          created_at?:  string
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
       /* ── feedback_messages ──────────────────────────── */
       feedback_messages: {
         Row: {
@@ -785,6 +890,11 @@ export type FeedbackMessageRow = Database["public"]["Tables"]["feedback_messages
 export type BundleRow              = Database["public"]["Tables"]["bundles"]["Row"]
 export type BundleIncludedPackRow  = Database["public"]["Tables"]["bundle_included_packs"]["Row"]
 export type BundlePresetRow        = Database["public"]["Tables"]["bundle_presets"]["Row"]
+
+/* ── Onboarding / personalisation row types ─────────────── */
+export type CreatorProfileRow     = Database["public"]["Tables"]["creator_profiles"]["Row"]
+export type RecommendationCacheRow = Database["public"]["Tables"]["recommendation_cache"]["Row"]
+export type UserBehaviorRow       = Database["public"]["Tables"]["user_behavior"]["Row"]
 
 /* ── Preset with all relations joined ──────────────────── */
 export interface PresetWithRelations extends PresetRow {
