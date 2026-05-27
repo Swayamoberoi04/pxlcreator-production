@@ -19,6 +19,6 @@ export const siteConfig = {
   socials: {
     youtube: "https://youtube.com/@pxlcreator04",
     instagram: "https://www.instagram.com/pxl_creator?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-    email: "mailto:pxlcreator@gmail.com",
+    email: "mailto:creatorpxl@gmail.com",
   },
 } as const;

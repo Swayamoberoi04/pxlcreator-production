@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Container } from "@/components/layout/Container"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
@@ -14,7 +14,7 @@ export default function PrivacyPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* â”€â”€ Hero band â”€â”€ */}
+      {/* ── Hero band ── */}
       <div className="relative w-full border-b border-border bg-surface overflow-hidden depth-section">
         <LuminousEnvironment variant="neutral" intensity={0.7} />
         <GrainOverlay opacity={0.015} zIndex={1} />
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
         </Container>
       </div>
 
-      {/* â”€â”€ Content â”€â”€ */}
+      {/* ── Content ── */}
       <Container className="py-14 sm:py-20">
         <div className="max-w-2xl mx-auto">
           <LegalDoc>
@@ -49,31 +49,31 @@ export default function PrivacyPage() {
               <p>When you visit our website or make a purchase, we may collect:</p>
               <ul>
                 <li>
-                  <strong>Account information</strong> â€” name, email address, and profile data
+                  <strong>Account information</strong> — name, email address, and profile data
                   collected when you sign in with Google or register with email and password
                   via Firebase Authentication
                 </li>
                 <li>
-                  <strong>Purchase information</strong> â€” order details, product names, billing
+                  <strong>Purchase information</strong> — order details, product names, billing
                   amounts, and transaction IDs. Card numbers and payment credentials are processed
-                  exclusively by Razorpay â€” we never receive or store them
+                  exclusively by Razorpay — we never receive or store them
                 </li>
                 <li>
-                  <strong>Download and usage data</strong> â€” which presets you have purchased,
+                  <strong>Download and usage data</strong> — which presets you have purchased,
                   downloaded, or accessed via subscription, stored in our database to manage
                   your library
                 </li>
                 <li>
-                  <strong>Studio feature data</strong> â€” images uploaded for AI preset
+                  <strong>Studio feature data</strong> — images uploaded for AI preset
                   recommendations are processed in real time and are not stored permanently
                   on our servers beyond the duration of the session
                 </li>
                 <li>
-                  <strong>Usage analytics</strong> â€” pages visited, time on site, browser type,
+                  <strong>Usage analytics</strong> — pages visited, time on site, browser type,
                   and anonymised IP address for improving our products and services
                 </li>
                 <li>
-                  <strong>Communications</strong> â€” messages you send via our contact form or
+                  <strong>Communications</strong> — messages you send via our contact form or
                   directly to our support email
                 </li>
               </ul>
@@ -84,9 +84,9 @@ export default function PrivacyPage() {
               <ul>
                 <li>Authenticate your account and maintain secure sessions</li>
                 <li>Process and fulfil orders, including issuing download links and activating subscriptions</li>
-                <li>Send transactional emails â€” purchase receipts, download confirmations, and support replies</li>
+                <li>Send transactional emails — purchase receipts, download confirmations, and support replies</li>
                 <li>Deliver AI-powered preset recommendations via the Studio feature</li>
-                <li>Send our newsletter or product announcements â€” only if you have explicitly subscribed</li>
+                <li>Send our newsletter or product announcements — only if you have explicitly subscribed</li>
                 <li>Improve our website, products, and overall creator experience</li>
                 <li>Detect and prevent fraudulent transactions or abuse of our platform</li>
                 <li>Comply with applicable legal obligations</li>
@@ -142,13 +142,13 @@ export default function PrivacyPage() {
                 <li>Request correction of inaccurate or incomplete data</li>
                 <li>Request deletion of your personal data (&ldquo;right to be forgotten&rdquo;)</li>
                 <li>Object to or restrict the processing of your data</li>
-                <li>Data portability â€” receive a copy of your data in a structured format</li>
+                <li>Data portability — receive a copy of your data in a structured format</li>
                 <li>Withdraw consent for marketing emails at any time via the unsubscribe link</li>
                 <li>Lodge a complaint with your local data protection authority</li>
               </ul>
               <p>
                 To exercise any of these rights, contact us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>. We will respond
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>. We will respond
                 within 30 days.
               </p>
             </Section>
@@ -160,22 +160,22 @@ export default function PrivacyPage() {
               </p>
               <ul>
                 <li>
-                  <strong>Razorpay</strong> â€” payment processing (PCI-DSS compliant);
+                  <strong>Razorpay</strong> — payment processing (PCI-DSS compliant);
                   handles all card and UPI transactions
                 </li>
                 <li>
-                  <strong>Firebase / Google</strong> â€” authentication (Google Sign-In),
+                  <strong>Firebase / Google</strong> — authentication (Google Sign-In),
                   identity management, and secure token issuance
                 </li>
                 <li>
-                  <strong>Supabase</strong> â€” database and file storage for your account,
+                  <strong>Supabase</strong> — database and file storage for your account,
                   orders, and subscription data
                 </li>
                 <li>
-                  <strong>YouTube / Google</strong> â€” embedded course preview and tutorial videos
+                  <strong>YouTube / Google</strong> — embedded course preview and tutorial videos
                 </li>
                 <li>
-                  <strong>Vercel</strong> â€” website hosting and serverless function execution
+                  <strong>Vercel</strong> — website hosting and serverless function execution
                 </li>
               </ul>
             </Section>
@@ -185,7 +185,7 @@ export default function PrivacyPage() {
                 Our services are not directed to individuals under the age of 13. We do not
                 knowingly collect personal information from children. If you believe a child
                 has provided us with personal data, please contact us immediately at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a> so we can
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a> so we can
                 investigate and remove the data promptly.
               </p>
             </Section>
@@ -212,7 +212,7 @@ export default function PrivacyPage() {
             <Section title="12. Contact">
               <p>
                 Questions or concerns about this policy? Email us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>. We aim to respond
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>. We aim to respond
                 within 2 business days.
               </p>
             </Section>
@@ -225,7 +225,7 @@ export default function PrivacyPage() {
   )
 }
 
-/* â”€â”€ Shared legal prose components â”€â”€ */
+/* ── Shared legal prose components ── */
 function LegalDoc({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-10">

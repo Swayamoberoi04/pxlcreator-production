@@ -93,7 +93,7 @@ export async function GET(
     if (new Date(dt.expires_at) < new Date()) {
       return htmlError(
         `This download link expired on ${new Date(dt.expires_at).toLocaleDateString("en-IN")}. ` +
-        "Please contact support at pxlcreator@gmail.com for a new link.",
+        "Please contact support at creatorpxl@gmail.com for a new link.",
         410
       )
     }
@@ -102,7 +102,7 @@ export async function GET(
     if (dt.download_count >= dt.max_downloads) {
       return htmlError(
         `This download link has reached its limit of ${dt.max_downloads} downloads. ` +
-        "Contact pxlcreator@gmail.com to request a new link.",
+        "Contact creatorpxl@gmail.com to request a new link.",
         429
       )
     }
@@ -129,7 +129,7 @@ export async function GET(
         if (order?.status !== "paid") {
           return htmlError(
             "Payment has not been confirmed for this download. " +
-            "If you believe this is an error, contact pxlcreator@gmail.com.",
+            "If you believe this is an error, contact creatorpxl@gmail.com.",
             402
           )
         }
