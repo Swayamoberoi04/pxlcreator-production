@@ -9,6 +9,8 @@ import { SiteHeader }             from "@/components/layout/SiteHeader"
 import { SiteFooter }             from "@/components/layout/SiteFooter"
 import { CartDrawer }             from "@/components/cart/CartDrawer"
 import { CinematicCursor }        from "@/components/ui/CinematicCursor"
+import { OnboardingModal }        from "@/components/onboarding/OnboardingModal"
+import { OnboardingGate }         from "@/components/onboarding/OnboardingGate"
 import { GlobalAmbientWrapper }   from "@/components/3d/GlobalAmbientWrapper"
 import { siteConfig }             from "@/config/site"
 import { organizationSchema, websiteSchema } from "@/lib/seo/schemas"
@@ -154,6 +156,9 @@ export default function RootLayout({
             <SiteFooter />
             {/* CartDrawer is mounted once at the root — available on every page */}
             <CartDrawer />
+            {/* Onboarding — checks status after sign-in, shows modal if needed */}
+            <OnboardingGate />
+            <OnboardingModal />
           </AuthProvider>
         </SmoothScrollProvider>
       </body>
