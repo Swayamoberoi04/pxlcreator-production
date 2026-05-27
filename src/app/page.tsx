@@ -33,6 +33,7 @@ import { AIStudioBanner }             from "@/components/sections/AIStudioBanner
 import { ShotUsingPXLSection }        from "@/components/sections/ShotUsingPXLSection"
 import { SocialProofSection }         from "@/components/sections/SocialProofSection"
 import { PhilosophyStrip }            from "@/components/sections/PhilosophyStrip"
+import { GiveawayBanner }             from "@/components/sections/GiveawayBanner"
 import { CTABanner }                  from "@/components/sections/CTABanner"
 
 /* ── Skeleton placeholder — keeps layout stable during async streaming ── */
@@ -79,7 +80,10 @@ export default function Home() {
       {/* 10. PHILOSOPHY — compact 3-pillar + cinematic vision closer */}
       <PhilosophyStrip />
 
-      {/* 11. CONVERSION — final CTA */}
+      {/* 11. GIVEAWAY — live giveaway strip CTA */}
+      <GiveawayBanner />
+
+      {/* 12. CONVERSION — final CTA */}
       <CTABanner />
     </>
   )

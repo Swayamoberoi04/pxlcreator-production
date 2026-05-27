@@ -12,13 +12,14 @@ import { cn } from "@/lib/utils"
    NavLinks (dropdown) and MobileNav (flat).
 ───────────────────────────────────────── */
 export const EXPLORE_ITEMS = [
-  { label: "Store",      href: "/store"   },
-  { label: "AI Studio",  href: "/studio"  },
-  { label: "Courses",    href: "/courses" },
-  { label: "Blog",       href: "/blog"    },
-  { label: "FAQ",        href: "/faq"     },
-  { label: "About",      href: "/about"   },
-  { label: "Contact",    href: "/contact" },
+  { label: "Store",      href: "/store"    },
+  { label: "AI Studio",  href: "/studio"   },
+  { label: "Courses",    href: "/courses"  },
+  { label: "Blog",       href: "/blog"     },
+  { label: "Giveaway",   href: "/giveaway" },
+  { label: "FAQ",        href: "/faq"      },
+  { label: "About",      href: "/about"    },
+  { label: "Contact",    href: "/contact"  },
 ] as const
 
 type SimpleItem    = { type: "link";     label: string; href: string; highlight?: boolean }

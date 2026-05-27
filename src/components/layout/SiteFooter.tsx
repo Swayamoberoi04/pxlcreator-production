@@ -20,6 +20,7 @@ const SHOP_LINKS = [
 const COMPANY_LINKS = [
   { label: "About Us",        href: "/about"    },
   { label: "Blog",            href: "/blog"     },
+  { label: "Giveaway",        href: "/giveaway" },
   { label: "Contact",         href: "/contact"  },
   { label: "FAQ",             href: "/faq"      },
 ] as const
