@@ -22,13 +22,13 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed inset-0 z-[200] flex bg-[#080808] overflow-hidden">
+    <div className="fixed inset-0 z-[200] flex bg-[#080808]">
 
-      {/* ── Sidebar ── */}
+      {/* ── Sidebar — desktop only ── */}
       <AdminSidebar />
 
-      {/* ── Main content area ── */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-auto">
+      {/* ── Main content area — independently scrollable ── */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-y-auto">
         {children}
       </div>
 

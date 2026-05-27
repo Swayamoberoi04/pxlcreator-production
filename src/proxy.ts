@@ -34,8 +34,12 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl
   const isApiRoute   = pathname.startsWith("/api/admin")
 
-  /* ── Always allow the login page ── */
-  if (pathname === "/admin/login") {
+  /* ── Always allow the login page and the auth endpoint ──
+     /api/admin/auth is the endpoint that CREATES the session.
+     It cannot require a session to exist — that's circular.
+     The endpoint is self-protecting: it validates the password
+     and applies its own rate-limiter. ── */
+  if (pathname === "/admin/login" || pathname === "/api/admin/auth") {
     return NextResponse.next()
   }
 
