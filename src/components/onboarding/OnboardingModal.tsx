@@ -168,7 +168,7 @@ export function OnboardingModal() {
         />
 
         {/* ── Outer wrapper: modal + preview side-by-side on lg+ ── */}
-        <div className="relative z-10 flex items-start gap-4 w-full max-w-[940px]">
+        <div className="relative z-10 flex items-start gap-4 w-full max-w-[940px] h-[90vh]">
 
           {/* ── Modal panel ── */}
           <motion.div
@@ -176,7 +176,7 @@ export function OnboardingModal() {
             animate={{ scale: 1,    opacity: 1, y: 0  }}
             exit={{    scale: 0.94, opacity: 0, y: 16 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="relative flex-1 w-full max-w-[640px] max-h-[90vh] flex flex-col
+            className="relative flex-1 w-full max-w-[640px] h-full flex flex-col
               rounded-2xl border border-border/60 bg-black/90 backdrop-blur-2xl
               shadow-[0_32px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,215,0,0.06)]
               overflow-hidden"
@@ -233,7 +233,7 @@ export function OnboardingModal() {
             </div>
 
             {/* ── Step content ── */}
-            <div className="flex-1 overflow-hidden relative">
+            <div className="flex-1 min-h-0 overflow-hidden relative">
               <AnimatePresence mode="wait" custom={dir}>
                 <motion.div
                   key={step}
@@ -329,7 +329,7 @@ export function OnboardingModal() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.5, delay: 0.15, ease: EASE }}
-              className="hidden lg:flex flex-col w-[260px] shrink-0 rounded-2xl border border-border/40 bg-black/70 backdrop-blur-2xl p-4 self-start max-h-[90vh] overflow-y-auto
+              className="hidden lg:flex flex-col w-[260px] shrink-0 rounded-2xl border border-border/40 bg-black/70 backdrop-blur-2xl p-4 self-start max-h-full overflow-y-auto
                 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent
                 [&::-webkit-scrollbar-thumb]:bg-border/50 [&::-webkit-scrollbar-thumb]:rounded-full"
               onClick={(e) => e.stopPropagation()}
