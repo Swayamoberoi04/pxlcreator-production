@@ -31,9 +31,9 @@ const QUICK_ACTIONS = [
   },
   {
     icon:  "▷",
-    label: "Watch Tutorials",
+    label: "Watch Courses",
     sub:   "Learn at your own pace",
-    href:  "/tutorials",
+    href:  "/courses",
     color: "#FF6B35",
   },
   {
@@ -47,7 +47,7 @@ const QUICK_ACTIONS = [
     icon:  "◉",
     label: "Explore Bundles",
     sub:   "Maximum value packs",
-    href:  "/store/bundles",
+    href:  "/bundles",
     color: "#8B5CF6",
   },
 ] as const
@@ -185,6 +185,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplayName(user.displayName?.split(" ")[0] ?? user.email?.split("@")[0] ?? "Creator")
       void fetchProfile()
     }

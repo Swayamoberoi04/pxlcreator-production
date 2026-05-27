@@ -245,12 +245,14 @@ export function PersonalizedFeed({
 
   useEffect(() => {
     if (!authLoading && user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       void fetchRecommendations()
     }
   }, [user, authLoading, fetchRecommendations])
 
   /* Update localDna if parent passes dna prop change */
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (dna) setLocalDna(dna)
   }, [dna])
 

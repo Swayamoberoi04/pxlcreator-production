@@ -1,4 +1,4 @@
-/**
+﻿/**
  * src/lib/email/resend.ts
  *
  * Thin wrapper around the Resend SDK.
@@ -8,16 +8,16 @@
  *   await sendContactEmail({ ... })
  *
  * Required env variables:
- *   RESEND_API_KEY        — from resend.com dashboard
- *   CONTACT_EMAIL_TO      — address that receives contact messages (e.g. creatorpxl@gmail.com)
- *   CONTACT_EMAIL_FROM    — verified sender address in Resend  (e.g. noreply@yourdomain.com)
+ *   RESEND_API_KEY        â€” from resend.com dashboard
+ *   CONTACT_EMAIL_TO      â€” address that receives contact messages (e.g. pxlcreator@gmail.com)
+ *   CONTACT_EMAIL_FROM    â€” verified sender address in Resend  (e.g. noreply@yourdomain.com)
  *                           If you don't have a custom domain yet, Resend provides a free
  *                           onboarding address: "onboarding@resend.dev"
  */
 
 import { Resend } from "resend"
 
-/* ── Client (lazy-initialised so build-time won't crash without key) ── */
+/* â”€â”€ Client (lazy-initialised so build-time won't crash without key) â”€â”€ */
 
 let _resend: Resend | null = null
 
@@ -30,7 +30,7 @@ function getResend(): Resend {
   return _resend
 }
 
-/* ── Types ─────────────────────────────────────────────────────────── */
+/* â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export interface ContactEmailPayload {
   senderName:   string
@@ -41,7 +41,7 @@ export interface ContactEmailPayload {
   submittedAt:  Date
 }
 
-/* ── Send helpers ───────────────────────────────────────────────────── */
+/* â”€â”€ Send helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /**
  * Sends a contact-form notification to the site owner.
@@ -50,7 +50,7 @@ export interface ContactEmailPayload {
 export async function sendContactEmail(
   payload: ContactEmailPayload
 ): Promise<{ success: true } | { success: false; error: string }> {
-  const to   = process.env.CONTACT_EMAIL_TO   ?? "creatorpxl@gmail.com"
+  const to   = process.env.CONTACT_EMAIL_TO   ?? "pxlcreator@gmail.com"
   const from = process.env.CONTACT_EMAIL_FROM ?? "onboarding@resend.dev"
 
   try {
@@ -59,7 +59,7 @@ export async function sendContactEmail(
       from,
       to:      [to],
       replyTo: payload.senderEmail,
-      subject: `[PXL Creator] ${payload.subject} — from ${payload.senderName}`,
+      subject: `[PXL Creator] ${payload.subject} â€” from ${payload.senderName}`,
       html:    buildContactHtml(payload),
       text:    buildContactText(payload),
     })
@@ -74,7 +74,7 @@ export async function sendContactEmail(
   }
 }
 
-/* ── Email templates ────────────────────────────────────────────────── */
+/* â”€â”€ Email templates â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function fmt(d: Date): string {
   return d.toLocaleString("en-IN", {
@@ -95,7 +95,7 @@ function buildContactHtml(p: ContactEmailPayload): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>New Contact Message — PXL Creator</title>
+  <title>New Contact Message â€” PXL Creator</title>
 </head>
 <body style="margin:0;padding:0;background:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
   <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:560px;margin:40px auto;background:#111;border:1px solid #2a2a2a;border-radius:12px;overflow:hidden">
@@ -161,7 +161,7 @@ function buildContactHtml(p: ContactEmailPayload): string {
 
 function buildContactText(p: ContactEmailPayload): string {
   return [
-    "New Contact Message — PXL Creator",
+    "New Contact Message â€” PXL Creator",
     "===================================",
     "",
     `From:     ${p.senderName}`,
@@ -181,7 +181,7 @@ function buildContactText(p: ContactEmailPayload): string {
     .join("\n")
 }
 
-/* ── HTML entity escape ─────────────────────────────────────────────── */
+/* â”€â”€ HTML entity escape â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function esc(s: string): string {
   return s
     .replace(/&/g, "&amp;")

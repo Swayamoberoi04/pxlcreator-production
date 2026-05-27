@@ -77,6 +77,15 @@ export async function processImage(
     .rotate()
 
     /*
+     * Step 1b — flatten alpha channel to a black background and remove it.
+     * Sharp's .recomb() matrix is 3×3 (RGB only). If the input is RGBA (e.g.
+     * a PNG with transparency), recomb throws an error because the channel count
+     * doesn't match. .flatten() composites transparency onto black and converts
+     * to RGB, making the pipeline safe for any input format.
+     */
+    .flatten({ background: { r: 0, g: 0, b: 0 } })
+
+    /*
      * Step 2 — brightness, saturation, hue via HSL modulation.
      * Sharp's .modulate() works in HSL colour space:
      *   brightness: luminance multiplier (1.0 = no change)
@@ -113,10 +122,10 @@ export async function processImage(
 
     /*
      * Step 6 — encode as JPEG.
-     * quality 92 = visually lossless at reasonable file size.
-     * mozjpeg: true uses Mozilla's optimised JPEG encoder for smaller files.
+     * quality 88 = visually lossless at a good file size balance.
+     * (mozjpeg encoder omitted — requires separate native binary not always available.)
      */
-    .jpeg({ quality: 92, mozjpeg: true })
+    .jpeg({ quality: 88 })
 
     .toBuffer()
 }

@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: "Premium Cinematic Presets",
   description:
     "Handcrafted Lightroom presets, cinematic editing tools, and creator resources for photographers and filmmakers.",
-  url: "https://pxlcreator.com",
+  url: "https://www.pxlcreator.space",
   ogImage: "/opengraph-image",
 
   nav: [
@@ -19,6 +19,6 @@ export const siteConfig = {
   socials: {
     youtube: "https://youtube.com/@pxlcreator04",
     instagram: "https://www.instagram.com/pxl_creator?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-    email: "mailto:creatorpxl@gmail.com",
+    email: "mailto:pxlcreator@gmail.com",
   },
 } as const;

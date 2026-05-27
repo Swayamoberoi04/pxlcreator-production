@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import { Container } from "@/components/layout/Container"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
@@ -14,7 +14,7 @@ export default function TermsPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* ── Hero band ── */}
+      {/* â”€â”€ Hero band â”€â”€ */}
       <div className="relative w-full border-b border-border bg-surface overflow-hidden depth-section">
         <LuminousEnvironment variant="neutral" intensity={0.7} />
         <GrainOverlay opacity={0.015} zIndex={1} />
@@ -31,7 +31,7 @@ export default function TermsPage() {
         </Container>
       </div>
 
-      {/* ── Content ── */}
+      {/* â”€â”€ Content â”€â”€ */}
       <Container className="py-14 sm:py-20">
         <div className="max-w-2xl mx-auto">
           <LegalDoc>
@@ -49,7 +49,7 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section title="2. Digital Products — Licence">
+            <Section title="2. Digital Products â€” Licence">
               <p>
                 All presets, LUTs, and digital resources sold or included with a PXL Creator
                 subscription are <strong>licensed, not sold</strong>. Upon purchase or subscription
@@ -83,7 +83,7 @@ export default function TermsPage() {
               </p>
               <ul>
                 <li>Images you upload for analysis are processed to generate recommendations and are not stored permanently</li>
-                <li>AI recommendations are suggestions only — results may vary depending on your specific photos</li>
+                <li>AI recommendations are suggestions only â€” results may vary depending on your specific photos</li>
                 <li>We do not use uploaded images for model training without explicit consent</li>
                 <li>The AI feature is provided as a convenience and carries no guarantee of specific outcomes</li>
               </ul>
@@ -121,7 +121,7 @@ export default function TermsPage() {
             <Section title="6. Payment and Pricing">
               <p>
                 Prices are displayed in USD and INR as applicable. Payments are processed securely
-                via <strong>Razorpay</strong> — a PCI-DSS compliant payment gateway. We do not store
+                via <strong>Razorpay</strong> â€” a PCI-DSS compliant payment gateway. We do not store
                 your card details on our servers. By completing a purchase, you agree to Razorpay&apos;s
                 terms of service and privacy policy.
               </p>
@@ -145,15 +145,15 @@ export default function TermsPage() {
               <p>
                 Download links generated for individual preset purchases are valid for
                 <strong> 30 days</strong> from the date of purchase. After expiry, please contact us
-                to request a link renewal — we will honour reasonable requests where purchase can be
+                to request a link renewal â€” we will honour reasonable requests where purchase can be
                 verified. Links are single-use and tied to the purchasing account.
               </p>
             </Section>
 
             <Section title="9. Intellectual Property">
               <p>
-                All content on this website — including text, graphics, logos, product images,
-                preset files, course videos, and code — is the exclusive intellectual property of
+                All content on this website â€” including text, graphics, logos, product images,
+                preset files, course videos, and code â€” is the exclusive intellectual property of
                 PXL Creator and is protected by copyright and applicable law. You may not reproduce,
                 distribute, publicly display, or create derivative works without express written
                 permission from us.
@@ -164,7 +164,7 @@ export default function TermsPage() {
               <p>
                 You are responsible for maintaining the confidentiality of your account credentials
                 and for all activity that occurs under your account. Notify us immediately at{" "}
-                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a> if you suspect
+                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a> if you suspect
                 unauthorised access to your account. We reserve the right to suspend or terminate
                 accounts that violate these Terms.
               </p>
@@ -184,8 +184,8 @@ export default function TermsPage() {
               <p>
                 To the maximum extent permitted by applicable law, PXL Creator shall not be liable
                 for any indirect, incidental, special, or consequential damages arising from your
-                use of our products, services, or website — including but not limited to loss of
-                data, loss of profits, or business interruption — even if we have been advised of
+                use of our products, services, or website â€” including but not limited to loss of
+                data, loss of profits, or business interruption â€” even if we have been advised of
                 the possibility of such damages. Our total aggregate liability shall not exceed the
                 amount you paid for the specific product or service giving rise to the claim.
               </p>
@@ -214,7 +214,7 @@ export default function TermsPage() {
             <Section title="15. Contact">
               <p>
                 Questions about these Terms? Email us at{" "}
-                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>. We aim to respond
+                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>. We aim to respond
                 within 2 business days.
               </p>
             </Section>

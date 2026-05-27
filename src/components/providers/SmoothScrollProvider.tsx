@@ -87,6 +87,7 @@ export function SmoothScrollProvider({
       window.matchMedia("(pointer: coarse)").matches ||
       navigator.maxTouchPoints > 0
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isTouch) setIsTouchDevice(true)
   }, [])
 
