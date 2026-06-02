@@ -874,6 +874,15 @@ export interface Database {
           is_verified:      boolean
           is_premium:       boolean
           search_vector:    string | null
+          skills:           string[]
+          languages:        string[]
+          equipment:        string[]
+          software:         string[]
+          hired_count:      number
+          review_avg:       number | null
+          review_count:     number
+          available_for:    string[]
+          looking_for:      string[]
           created_at:       string
           updated_at:       string
         }
@@ -922,6 +931,399 @@ export interface Database {
           is_verified?:     boolean
           is_premium?:      boolean
           updated_at?:      string
+        }
+        Relationships: []
+      }
+
+      /* ══════════════════════════════════════════════════
+         COMMUNITY EXPANSION — migration 013
+      ══════════════════════════════════════════════════ */
+
+      /* ── community_spaces ────────────────────────────── */
+      community_spaces: {
+        Row: {
+          id:             string
+          slug:           string
+          name:           string
+          description:    string
+          icon:           string
+          category:       string
+          color:          string
+          is_featured:    boolean
+          member_count:   number
+          message_count:  number
+          moderator_uids: string[]
+          is_locked:      boolean
+          display_order:  number
+          created_at:     string
+        }
+        Insert: {
+          id?:             string
+          slug:            string
+          name:            string
+          description:     string
+          icon:            string
+          category?:       string
+          color?:          string
+          is_featured?:    boolean
+          member_count?:   number
+          message_count?:  number
+          moderator_uids?: string[]
+          is_locked?:      boolean
+          display_order?:  number
+        }
+        Update: {
+          name?:           string
+          description?:    string
+          icon?:           string
+          color?:          string
+          is_featured?:    boolean
+          member_count?:   number
+          message_count?:  number
+          moderator_uids?: string[]
+          is_locked?:      boolean
+          display_order?:  number
+        }
+        Relationships: []
+      }
+
+      /* ── community_messages ──────────────────────────── */
+      community_messages: {
+        Row: {
+          id:             string
+          space_id:       string
+          author_uid:     string
+          body:           string
+          reply_to_id:    string | null
+          reply_preview:  string | null
+          mentions:       string[]
+          media_url:      string | null
+          is_pinned:      boolean
+          is_removed:     boolean
+          reaction_count: number
+          created_at:     string
+          edited_at:      string | null
+        }
+        Insert: {
+          id?:             string
+          space_id:        string
+          author_uid:      string
+          body:            string
+          reply_to_id?:    string | null
+          reply_preview?:  string | null
+          mentions?:       string[]
+          media_url?:      string | null
+          is_pinned?:      boolean
+          is_removed?:     boolean
+          reaction_count?: number
+        }
+        Update: {
+          body?:           string
+          is_pinned?:      boolean
+          is_removed?:     boolean
+          reaction_count?: number
+          edited_at?:      string | null
+        }
+        Relationships: []
+      }
+
+      /* ── community_message_reactions ─────────────────── */
+      community_message_reactions: {
+        Row: {
+          id:           string
+          message_id:   string
+          firebase_uid: string
+          emoji:        string
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          message_id:   string
+          firebase_uid: string
+          emoji?:       string
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── community_space_members ─────────────────────── */
+      community_space_members: {
+        Row: {
+          id:           string
+          space_id:     string
+          firebase_uid: string
+          role:         string
+          joined_at:    string
+          last_read_at: string
+        }
+        Insert: {
+          id?:          string
+          space_id:     string
+          firebase_uid: string
+          role?:        string
+          joined_at?:   string
+          last_read_at?: string
+        }
+        Update: {
+          role?:         string
+          last_read_at?: string
+        }
+        Relationships: []
+      }
+
+      /* ── collaboration_requests ──────────────────────── */
+      collaboration_requests: {
+        Row: {
+          id:            string
+          requester_uid: string
+          recipient_uid: string
+          collab_type:   string
+          role_needed:   string
+          message:       string
+          budget:        string | null
+          project_brief: string | null
+          status:        string
+          created_at:    string
+          updated_at:    string
+        }
+        Insert: {
+          id?:            string
+          requester_uid:  string
+          recipient_uid:  string
+          collab_type:    string
+          role_needed:    string
+          message:        string
+          budget?:        string | null
+          project_brief?: string | null
+          status?:        string
+        }
+        Update: {
+          status?:     string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+
+      /* ── community_teams ─────────────────────────────── */
+      community_teams: {
+        Row: {
+          id:           string
+          name:         string
+          description:  string
+          avatar_url:   string | null
+          banner_url:   string | null
+          owner_uid:    string
+          category:     string
+          tags:         string[]
+          visibility:   string
+          member_count: number
+          is_hiring:    boolean
+          roles_needed: string[]
+          created_at:   string
+          updated_at:   string
+        }
+        Insert: {
+          id?:          string
+          name:         string
+          description?: string
+          avatar_url?:  string | null
+          banner_url?:  string | null
+          owner_uid:    string
+          category?:    string
+          tags?:        string[]
+          visibility?:  string
+          member_count?: number
+          is_hiring?:   boolean
+          roles_needed?: string[]
+        }
+        Update: {
+          name?:        string
+          description?: string
+          avatar_url?:  string | null
+          banner_url?:  string | null
+          category?:    string
+          tags?:        string[]
+          visibility?:  string
+          member_count?: number
+          is_hiring?:   boolean
+          roles_needed?: string[]
+          updated_at?:  string
+        }
+        Relationships: []
+      }
+
+      /* ── community_team_members ──────────────────────── */
+      community_team_members: {
+        Row: {
+          id:           string
+          team_id:      string
+          firebase_uid: string
+          role:         string
+          custom_title: string | null
+          joined_at:    string
+        }
+        Insert: {
+          id?:          string
+          team_id:      string
+          firebase_uid: string
+          role?:        string
+          custom_title?: string | null
+        }
+        Update: {
+          role?:         string
+          custom_title?: string | null
+        }
+        Relationships: []
+      }
+
+      /* ── community_team_invites ──────────────────────── */
+      community_team_invites: {
+        Row: {
+          id:           string
+          team_id:      string
+          inviter_uid:  string
+          invitee_uid:  string
+          role:         string
+          custom_title: string | null
+          message:      string | null
+          status:       string
+          expires_at:   string
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          team_id:      string
+          inviter_uid:  string
+          invitee_uid:  string
+          role?:        string
+          custom_title?: string | null
+          message?:     string | null
+          status?:      string
+          expires_at?:  string
+        }
+        Update: {
+          status?:   string
+          role?:     string
+        }
+        Relationships: []
+      }
+
+      /* ── project_reviews ─────────────────────────────── */
+      project_reviews: {
+        Row: {
+          id:               string
+          project_id:       string
+          reviewer_uid:     string
+          reviewee_uid:     string
+          rating:           number
+          body:             string | null
+          communication:    number | null
+          quality:          number | null
+          professionalism:  number | null
+          on_time:          boolean | null
+          would_work_again: boolean | null
+          created_at:       string
+        }
+        Insert: {
+          id?:               string
+          project_id:        string
+          reviewer_uid:      string
+          reviewee_uid:      string
+          rating:            number
+          body?:             string | null
+          communication?:    number | null
+          quality?:          number | null
+          professionalism?:  number | null
+          on_time?:          boolean | null
+          would_work_again?: boolean | null
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── creator_resources ───────────────────────────── */
+      creator_resources: {
+        Row: {
+          id:            string
+          title:         string
+          description:   string
+          url:           string
+          category:      string
+          icon:          string
+          is_featured:   boolean
+          display_order: number
+        }
+        Insert: {
+          id?:            string
+          title:          string
+          description:    string
+          url:            string
+          category?:      string
+          icon?:          string
+          is_featured?:   boolean
+          display_order?: number
+        }
+        Update: {
+          title?:         string
+          description?:   string
+          url?:           string
+          category?:      string
+          icon?:          string
+          is_featured?:   boolean
+          display_order?: number
+        }
+        Relationships: []
+      }
+
+      /* ── event_registrations ─────────────────────────── */
+      event_registrations: {
+        Row: {
+          id:            string
+          event_id:      string
+          firebase_uid:  string
+          registered_at: string
+        }
+        Insert: {
+          id?:           string
+          event_id:      string
+          firebase_uid:  string
+          registered_at?: string
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── event_submissions ───────────────────────────── */
+      event_submissions: {
+        Row: {
+          id:           string
+          event_id:     string
+          firebase_uid: string
+          title:        string
+          description:  string | null
+          media_url:    string
+          media_type:   string
+          vote_count:   number
+          is_winner:    boolean
+          winner_rank:  number | null
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          event_id:     string
+          firebase_uid: string
+          title:        string
+          description?: string | null
+          media_url:    string
+          media_type?:  string
+          vote_count?:  number
+          is_winner?:   boolean
+          winner_rank?: number | null
+        }
+        Update: {
+          vote_count?:  number
+          is_winner?:   boolean
+          winner_rank?: number | null
         }
         Relationships: []
       }

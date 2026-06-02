@@ -348,3 +348,187 @@ export interface SearchResponse {
   projects: ProjectWithMeta[]
   total:    number
 }
+
+/* ══════════════════════════════════════════════════════
+   EXPANSION TYPES — migration 013
+══════════════════════════════════════════════════════ */
+
+/* ── Community Space ─────────────────────────────────────────────────────────── */
+export interface CommunitySpace {
+  id:             string
+  slug:           string
+  name:           string
+  description:    string
+  icon:           string
+  category:       string
+  color:          string
+  is_featured:    boolean
+  member_count:   number
+  message_count:  number
+  moderator_uids: string[]
+  is_locked:      boolean
+  display_order:  number
+  created_at:     string
+  /* joined via API */
+  is_member?:     boolean
+}
+
+/* ── Space Message ───────────────────────────────────────────────────────────── */
+export interface SpaceMessage {
+  id:             string
+  space_id:       string
+  author_uid:     string
+  body:           string
+  reply_to_id:    string | null
+  reply_preview:  string | null
+  mentions:       string[]
+  media_url:      string | null
+  is_pinned:      boolean
+  is_removed:     boolean
+  reaction_count: number
+  created_at:     string
+  edited_at:      string | null
+  /* joined */
+  author?:        Pick<CommunityProfile, "username" | "display_name" | "avatar_url" | "is_verified">
+  user_reacted?:  boolean
+  user_emoji?:    string | null
+}
+
+/* ── Collaboration Request ───────────────────────────────────────────────────── */
+export type CollabType    = "paid_work" | "collaboration" | "internship" | "team_building"
+export type CollabStatus  = "pending" | "accepted" | "declined" | "withdrawn"
+
+export interface CollabRequest {
+  id:            string
+  requester_uid: string
+  recipient_uid: string
+  collab_type:   CollabType
+  role_needed:   string
+  message:       string
+  budget:        string | null
+  project_brief: string | null
+  status:        CollabStatus
+  created_at:    string
+  updated_at:    string
+  /* joined */
+  requester?:    Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
+  recipient?:    Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
+}
+
+/* ── Team ────────────────────────────────────────────────────────────────────── */
+export interface CommunityTeam {
+  id:           string
+  name:         string
+  description:  string
+  avatar_url:   string | null
+  banner_url:   string | null
+  owner_uid:    string
+  category:     string
+  tags:         string[]
+  visibility:   "public" | "invite_only"
+  member_count: number
+  is_hiring:    boolean
+  roles_needed: string[]
+  created_at:   string
+  updated_at:   string
+  /* joined */
+  is_member?:   boolean
+  my_role?:     string | null
+}
+
+export interface TeamMember {
+  id:           string
+  team_id:      string
+  firebase_uid: string
+  role:         string
+  custom_title: string | null
+  joined_at:    string
+  profile?:     Pick<CommunityProfile, "username" | "display_name" | "avatar_url" | "is_verified" | "roles">
+}
+
+export interface TeamInvite {
+  id:           string
+  team_id:      string
+  inviter_uid:  string
+  invitee_uid:  string
+  role:         string
+  custom_title: string | null
+  message:      string | null
+  status:       string
+  expires_at:   string
+  created_at:   string
+  team?:        Pick<CommunityTeam, "name" | "avatar_url" | "category">
+  inviter?:     Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
+}
+
+/* ── Project Review ──────────────────────────────────────────────────────────── */
+export interface ProjectReview {
+  id:               string
+  project_id:       string
+  reviewer_uid:     string
+  reviewee_uid:     string
+  rating:           number
+  body:             string | null
+  communication:    number | null
+  quality:          number | null
+  professionalism:  number | null
+  on_time:          boolean | null
+  would_work_again: boolean | null
+  created_at:       string
+  reviewer?:        Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
+}
+
+/* ── Creator Resource ────────────────────────────────────────────────────────── */
+export interface CreatorResource {
+  id:            string
+  title:         string
+  description:   string
+  url:           string
+  category:      string
+  icon:          string
+  is_featured:   boolean
+  display_order: number
+}
+
+/* ── Event Registration / Submission ─────────────────────────────────────────── */
+export interface EventRegistration {
+  id:            string
+  event_id:      string
+  firebase_uid:  string
+  registered_at: string
+}
+
+export interface EventSubmission {
+  id:           string
+  event_id:     string
+  firebase_uid: string
+  title:        string
+  description:  string | null
+  media_url:    string
+  media_type:   string
+  vote_count:   number
+  is_winner:    boolean
+  winner_rank:  number | null
+  created_at:   string
+  author?:      Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
+}
+
+/* ── Available For / Looking For constants ───────────────────────────────────── */
+export const AVAILABLE_FOR = [
+  { id: "paid_work",       label: "Paid Work",       color: "#ffd700" },
+  { id: "collaboration",   label: "Collaboration",   color: "#06b6d4" },
+  { id: "internship",      label: "Internship",      color: "#10b981" },
+  { id: "team_building",   label: "Team Building",   color: "#8b5cf6" },
+] as const
+
+export const SOFTWARE_LIST = [
+  "Lightroom", "Photoshop", "Premiere Pro", "After Effects",
+  "DaVinci Resolve", "Final Cut Pro", "Capture One",
+  "Luminar", "ON1 Photo RAW", "Affinity Photo",
+] as const
+
+export const EQUIPMENT_LIST = [
+  "Sony A7 Series", "Canon R Series", "Nikon Z Series",
+  "DJI Drone", "GoPro", "iPhone Pro", "Samsung Galaxy",
+  "Rode Microphone", "Zhiyun Gimbal", "DJI RS Series",
+] as const

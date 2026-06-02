@@ -12,12 +12,16 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/community",          label: "Hub",      icon: "🏠" },
-  { href: "/community/discover", label: "Discover", icon: "🔍" },
-  { href: "/community/channels", label: "Channels", icon: "💬" },
-  { href: "/community/projects", label: "Projects", icon: "🚀" },
-  { href: "/community/showcase", label: "Showcase", icon: "✨" },
-  { href: "/community/events",   label: "Events",   icon: "🎉" },
+  { href: "/community",              label: "Hub",         icon: "🏠" },
+  { href: "/community/discover",     label: "Discover",    icon: "🔍" },
+  { href: "/community/spaces",       label: "Spaces",      icon: "💬" },
+  { href: "/community/channels",     label: "Channels",    icon: "📡" },
+  { href: "/community/teams",        label: "Teams",       icon: "👥" },
+  { href: "/community/projects",     label: "Projects",    icon: "🚀" },
+  { href: "/community/showcase",     label: "Showcase",    icon: "✨" },
+  { href: "/community/events",       label: "Events",      icon: "🎉" },
+  { href: "/community/leaderboard",  label: "Leaderboard", icon: "🏆" },
+  { href: "/community/resources",    label: "Resources",   icon: "📚" },
 ]
 
 function useUnreadCount() {
