@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState, useCallback, useRef } from "react"
-import { useRouter, useSearchParams }               from "next/navigation"
+import { useEffect, useState, useCallback, useRef, Suspense } from "react"
+import { useRouter, useSearchParams }                          from "next/navigation"
 import { useAuth }                                  from "@/contexts/AuthContext"
 import { CreatorCard }                              from "@/components/community/CreatorCard"
 import { CollabRequestCard, type CollabRequest }    from "@/components/community/CollabRequestCard"
@@ -166,8 +166,8 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
   )
 }
 
-/* ─── Main page ────────────────────────────────────────────────────────────── */
-export default function DiscoverPage() {
+/* ─── Main page inner — uses useSearchParams, must be inside Suspense ─────── */
+function DiscoverPageInner() {
   const { user }       = useAuth()
   const router         = useRouter()
   const searchParams   = useSearchParams()
@@ -516,5 +516,30 @@ export default function DiscoverPage() {
         />
       )}
     </div>
+  )
+}
+
+/* ─── Skeleton shown while Suspense resolves ───────────────────────────────── */
+function DiscoverSkeleton() {
+  return (
+    <div className="flex flex-col gap-8 animate-pulse">
+      <div className="h-10 w-60 rounded-2xl bg-surface border border-border" />
+      <div className="h-12 w-full rounded-xl bg-surface border border-border" />
+      <div className="h-40 w-full rounded-2xl bg-surface border border-border" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-60 rounded-2xl bg-surface border border-border" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Default export wraps inner in Suspense (required for useSearchParams) ── */
+export default function DiscoverPage() {
+  return (
+    <Suspense fallback={<DiscoverSkeleton />}>
+      <DiscoverPageInner />
+    </Suspense>
   )
 }
