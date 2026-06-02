@@ -842,6 +842,711 @@ export interface Database {
         }
         Relationships: []
       }
+      /* ══════════════════════════════════════════════════════
+         COMMUNITY ECOSYSTEM — migration 012
+      ══════════════════════════════════════════════════════ */
+
+      /* ── community_profiles ──────────────────────────── */
+      community_profiles: {
+        Row: {
+          id:               string
+          firebase_uid:     string
+          username:         string
+          display_name:     string
+          bio:              string
+          avatar_url:       string | null
+          banner_url:       string | null
+          location_city:    string | null
+          location_country: string | null
+          website:          string | null
+          instagram_url:    string | null
+          youtube_url:      string | null
+          behance_url:      string | null
+          portfolio_url:    string | null
+          roles:            string[]
+          skill_level:      string
+          availability:     string
+          follower_count:   number
+          following_count:  number
+          post_count:       number
+          showcase_count:   number
+          reputation_score: number
+          is_verified:      boolean
+          is_premium:       boolean
+          search_vector:    string | null
+          created_at:       string
+          updated_at:       string
+        }
+        Insert: {
+          id?:              string
+          firebase_uid:     string
+          username:         string
+          display_name?:    string
+          bio?:             string
+          avatar_url?:      string | null
+          banner_url?:      string | null
+          location_city?:   string | null
+          location_country?: string | null
+          website?:         string | null
+          instagram_url?:   string | null
+          youtube_url?:     string | null
+          behance_url?:     string | null
+          portfolio_url?:   string | null
+          roles?:           string[]
+          skill_level?:     string
+          availability?:    string
+          is_verified?:     boolean
+          is_premium?:      boolean
+        }
+        Update: {
+          username?:        string
+          display_name?:    string
+          bio?:             string
+          avatar_url?:      string | null
+          banner_url?:      string | null
+          location_city?:   string | null
+          location_country?: string | null
+          website?:         string | null
+          instagram_url?:   string | null
+          youtube_url?:     string | null
+          behance_url?:     string | null
+          portfolio_url?:   string | null
+          roles?:           string[]
+          skill_level?:     string
+          availability?:    string
+          follower_count?:  number
+          following_count?: number
+          post_count?:      number
+          showcase_count?:  number
+          reputation_score?: number
+          is_verified?:     boolean
+          is_premium?:      boolean
+          updated_at?:      string
+        }
+        Relationships: []
+      }
+
+      /* ── creator_follows ─────────────────────────────── */
+      creator_follows: {
+        Row: {
+          id:            string
+          follower_uid:  string
+          following_uid: string
+          created_at:    string
+        }
+        Insert: {
+          id?:           string
+          follower_uid:  string
+          following_uid: string
+          created_at?:   string
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── creator_connections ─────────────────────────── */
+      creator_connections: {
+        Row: {
+          id:            string
+          requester_uid: string
+          recipient_uid: string
+          status:        string
+          message:       string | null
+          created_at:    string
+          updated_at:    string
+        }
+        Insert: {
+          id?:            string
+          requester_uid:  string
+          recipient_uid:  string
+          status?:        string
+          message?:       string | null
+        }
+        Update: {
+          status?:    string
+          message?:   string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+
+      /* ── community_channels ──────────────────────────── */
+      community_channels: {
+        Row: {
+          id:               string
+          slug:             string
+          name:             string
+          description:      string
+          long_description: string | null
+          banner_url:       string | null
+          icon:             string | null
+          category:         string
+          visibility:       string
+          owner_uid:        string
+          moderator_uids:   string[]
+          tags:             string[]
+          member_count:     number
+          post_count:       number
+          is_featured:      boolean
+          is_verified:      boolean
+          rules:            string | null
+          created_at:       string
+          updated_at:       string
+        }
+        Insert: {
+          id?:              string
+          slug:             string
+          name:             string
+          description?:     string
+          long_description?: string | null
+          banner_url?:      string | null
+          icon?:            string | null
+          category?:        string
+          visibility?:      string
+          owner_uid:        string
+          moderator_uids?:  string[]
+          tags?:            string[]
+          member_count?:    number
+          post_count?:      number
+          is_featured?:     boolean
+          is_verified?:     boolean
+          rules?:           string | null
+        }
+        Update: {
+          name?:            string
+          description?:     string
+          long_description?: string | null
+          banner_url?:      string | null
+          icon?:            string | null
+          category?:        string
+          visibility?:      string
+          moderator_uids?:  string[]
+          tags?:            string[]
+          member_count?:    number
+          post_count?:      number
+          is_featured?:     boolean
+          is_verified?:     boolean
+          rules?:           string | null
+          updated_at?:      string
+        }
+        Relationships: []
+      }
+
+      /* ── channel_members ─────────────────────────────── */
+      channel_members: {
+        Row: {
+          id:           string
+          channel_id:   string
+          firebase_uid: string
+          role:         string
+          joined_at:    string
+        }
+        Insert: {
+          id?:          string
+          channel_id:   string
+          firebase_uid: string
+          role?:        string
+          joined_at?:   string
+        }
+        Update: {
+          role?: string
+        }
+        Relationships: []
+      }
+
+      /* ── channel_posts ───────────────────────────────── */
+      channel_posts: {
+        Row: {
+          id:            string
+          channel_id:    string
+          author_uid:    string
+          title:         string | null
+          body:          string
+          post_type:     string
+          media_urls:    string[]
+          link_url:      string | null
+          hashtags:      string[]
+          is_pinned:     boolean
+          is_locked:     boolean
+          is_removed:    boolean
+          like_count:    number
+          comment_count: number
+          view_count:    number
+          search_vector: string | null
+          created_at:    string
+          updated_at:    string
+        }
+        Insert: {
+          id?:           string
+          channel_id:    string
+          author_uid:    string
+          title?:        string | null
+          body:          string
+          post_type?:    string
+          media_urls?:   string[]
+          link_url?:     string | null
+          hashtags?:     string[]
+          is_pinned?:    boolean
+          is_locked?:    boolean
+          is_removed?:   boolean
+          like_count?:   number
+          comment_count?: number
+          view_count?:   number
+        }
+        Update: {
+          title?:        string | null
+          body?:         string
+          is_pinned?:    boolean
+          is_locked?:    boolean
+          is_removed?:   boolean
+          like_count?:   number
+          comment_count?: number
+          view_count?:   number
+          updated_at?:   string
+        }
+        Relationships: []
+      }
+
+      /* ── post_comments ───────────────────────────────── */
+      post_comments: {
+        Row: {
+          id:         string
+          post_id:    string
+          author_uid: string
+          parent_id:  string | null
+          body:       string
+          is_removed: boolean
+          like_count: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?:        string
+          post_id:    string
+          author_uid: string
+          parent_id?: string | null
+          body:       string
+          is_removed?: boolean
+          like_count?: number
+        }
+        Update: {
+          body?:       string
+          is_removed?: boolean
+          like_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+
+      /* ── post_reactions ──────────────────────────────── */
+      post_reactions: {
+        Row: {
+          id:           string
+          post_id:      string | null
+          comment_id:   string | null
+          firebase_uid: string
+          reaction:     string
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          post_id?:     string | null
+          comment_id?:  string | null
+          firebase_uid: string
+          reaction?:    string
+          created_at?:  string
+        }
+        Update: {
+          reaction?: string
+        }
+        Relationships: []
+      }
+
+      /* ── project_listings ────────────────────────────── */
+      project_listings: {
+        Row: {
+          id:               string
+          poster_uid:       string
+          title:            string
+          description:      string
+          category:         string
+          work_type:        string
+          location_city:    string | null
+          location_country: string | null
+          budget_min_usd:   number | null
+          budget_max_usd:   number | null
+          budget_type:      string
+          deadline:         string | null
+          skills_needed:    string[]
+          status:           string
+          applicant_count:  number
+          view_count:       number
+          is_featured:      boolean
+          created_at:       string
+          updated_at:       string
+        }
+        Insert: {
+          id?:              string
+          poster_uid:       string
+          title:            string
+          description:      string
+          category?:        string
+          work_type?:       string
+          location_city?:   string | null
+          location_country?: string | null
+          budget_min_usd?:  number | null
+          budget_max_usd?:  number | null
+          budget_type?:     string
+          deadline?:        string | null
+          skills_needed?:   string[]
+          status?:          string
+          applicant_count?: number
+          is_featured?:     boolean
+        }
+        Update: {
+          title?:           string
+          description?:     string
+          category?:        string
+          work_type?:       string
+          location_city?:   string | null
+          location_country?: string | null
+          budget_min_usd?:  number | null
+          budget_max_usd?:  number | null
+          budget_type?:     string
+          deadline?:        string | null
+          skills_needed?:   string[]
+          status?:          string
+          applicant_count?: number
+          view_count?:      number
+          is_featured?:     boolean
+          updated_at?:      string
+        }
+        Relationships: []
+      }
+
+      /* ── project_applications ────────────────────────── */
+      project_applications: {
+        Row: {
+          id:             string
+          project_id:     string
+          applicant_uid:  string
+          cover_letter:   string | null
+          portfolio_link: string | null
+          status:         string
+          created_at:     string
+          updated_at:     string
+        }
+        Insert: {
+          id?:             string
+          project_id:      string
+          applicant_uid:   string
+          cover_letter?:   string | null
+          portfolio_link?: string | null
+          status?:         string
+        }
+        Update: {
+          status?:     string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+
+      /* ── showcase_items ──────────────────────────────── */
+      showcase_items: {
+        Row: {
+          id:             string
+          author_uid:     string
+          title:          string
+          description:    string | null
+          item_type:      string
+          media_urls:     string[]
+          before_url:     string | null
+          after_url:      string | null
+          thumbnail_url:  string | null
+          category:       string
+          software_used:  string[]
+          hashtags:       string[]
+          like_count:     number
+          comment_count:  number
+          bookmark_count: number
+          view_count:     number
+          is_featured:    boolean
+          is_removed:     boolean
+          created_at:     string
+          updated_at:     string
+        }
+        Insert: {
+          id?:            string
+          author_uid:     string
+          title:          string
+          description?:   string | null
+          item_type?:     string
+          media_urls?:    string[]
+          before_url?:    string | null
+          after_url?:     string | null
+          thumbnail_url?: string | null
+          category?:      string
+          software_used?: string[]
+          hashtags?:      string[]
+          like_count?:    number
+          comment_count?: number
+          bookmark_count?: number
+          is_featured?:   boolean
+          is_removed?:    boolean
+        }
+        Update: {
+          title?:         string
+          description?:   string | null
+          like_count?:    number
+          comment_count?: number
+          bookmark_count?: number
+          view_count?:    number
+          is_featured?:   boolean
+          is_removed?:    boolean
+          updated_at?:    string
+        }
+        Relationships: []
+      }
+
+      /* ── showcase_reactions ──────────────────────────── */
+      showcase_reactions: {
+        Row: {
+          id:           string
+          showcase_id:  string
+          firebase_uid: string
+          reaction:     string
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          showcase_id:  string
+          firebase_uid: string
+          reaction?:    string
+          created_at?:  string
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── community_notifications ─────────────────────── */
+      community_notifications: {
+        Row: {
+          id:            string
+          recipient_uid: string
+          actor_uid:     string | null
+          type:          string
+          title:         string
+          body:          string | null
+          resource_type: string | null
+          resource_id:   string | null
+          is_read:       boolean
+          created_at:    string
+        }
+        Insert: {
+          id?:            string
+          recipient_uid:  string
+          actor_uid?:     string | null
+          type:           string
+          title:          string
+          body?:          string | null
+          resource_type?: string | null
+          resource_id?:   string | null
+          is_read?:       boolean
+          created_at?:    string
+        }
+        Update: {
+          is_read?: boolean
+        }
+        Relationships: []
+      }
+
+      /* ── community_events ────────────────────────────── */
+      community_events: {
+        Row: {
+          id:                string
+          organiser_uid:     string
+          title:             string
+          description:       string
+          event_type:        string
+          banner_url:        string | null
+          start_date:        string
+          end_date:          string | null
+          location:          string | null
+          is_online:         boolean
+          prizes:            Json
+          rules:             string | null
+          participant_count: number
+          status:            string
+          is_featured:       boolean
+          created_at:        string
+          updated_at:        string
+        }
+        Insert: {
+          id?:               string
+          organiser_uid:     string
+          title:             string
+          description:       string
+          event_type?:       string
+          banner_url?:       string | null
+          start_date:        string
+          end_date?:         string | null
+          location?:         string | null
+          is_online?:        boolean
+          prizes?:           Json
+          rules?:            string | null
+          status?:           string
+          is_featured?:      boolean
+        }
+        Update: {
+          title?:            string
+          description?:      string
+          banner_url?:       string | null
+          end_date?:         string | null
+          prizes?:           Json
+          participant_count?: number
+          status?:           string
+          is_featured?:      boolean
+          updated_at?:       string
+        }
+        Relationships: []
+      }
+
+      /* ── community_badges ────────────────────────────── */
+      community_badges: {
+        Row: {
+          id:          string
+          slug:        string
+          name:        string
+          description: string
+          icon:        string
+          color:       string
+          award_type:  string
+        }
+        Insert: {
+          id?:         string
+          slug:        string
+          name:        string
+          description: string
+          icon:        string
+          color?:      string
+          award_type?: string
+        }
+        Update: {
+          name?:        string
+          description?: string
+          icon?:        string
+          color?:       string
+          award_type?:  string
+        }
+        Relationships: []
+      }
+
+      /* ── user_earned_badges ──────────────────────────── */
+      user_earned_badges: {
+        Row: {
+          id:           string
+          firebase_uid: string
+          badge_id:     string
+          awarded_at:   string
+          awarded_by:   string | null
+        }
+        Insert: {
+          id?:          string
+          firebase_uid: string
+          badge_id:     string
+          awarded_at?:  string
+          awarded_by?:  string | null
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── content_reports ─────────────────────────────── */
+      content_reports: {
+        Row: {
+          id:           string
+          reporter_uid: string
+          target_type:  string
+          target_id:    string
+          reason:       string
+          details:      string | null
+          status:       string
+          reviewed_by:  string | null
+          reviewed_at:  string | null
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          reporter_uid: string
+          target_type:  string
+          target_id:    string
+          reason:       string
+          details?:     string | null
+          status?:      string
+        }
+        Update: {
+          status?:      string
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+        }
+        Relationships: []
+      }
+
+      /* ── dm_threads ──────────────────────────────────── */
+      dm_threads: {
+        Row: {
+          id:              string
+          participant_a:   string
+          participant_b:   string
+          last_message_at: string
+          last_message:    string | null
+          unread_a:        number
+          unread_b:        number
+          created_at:      string
+        }
+        Insert: {
+          id?:             string
+          participant_a:   string
+          participant_b:   string
+          last_message_at?: string
+          last_message?:   string | null
+          unread_a?:       number
+          unread_b?:       number
+        }
+        Update: {
+          last_message_at?: string
+          last_message?:    string | null
+          unread_a?:        number
+          unread_b?:        number
+        }
+        Relationships: []
+      }
+
+      /* ── direct_messages ─────────────────────────────── */
+      direct_messages: {
+        Row: {
+          id:          string
+          thread_id:   string
+          sender_uid:  string
+          body:        string
+          media_url:   string | null
+          is_read:     boolean
+          created_at:  string
+        }
+        Insert: {
+          id?:         string
+          thread_id:   string
+          sender_uid:  string
+          body:        string
+          media_url?:  string | null
+          is_read?:    boolean
+          created_at?: string
+        }
+        Update: {
+          is_read?: boolean
+        }
+        Relationships: []
+      }
     }
     Views:          Record<string, never>
     Functions: {
