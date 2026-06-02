@@ -12,9 +12,9 @@ import type { ChannelWithMeta, CommunityProfile, ProjectWithMeta } from "@/types
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 interface CommunityStats {
-  creator_count: number
-  channel_count: number
-  project_count: number
+  creators: number
+  channels: number
+  projects: number
 }
 
 function StatPill({ label, value, delay }: { label: string; value: number; delay: number }) {
@@ -25,7 +25,7 @@ function StatPill({ label, value, delay }: { label: string; value: number; delay
       transition={{ duration: 0.6, ease: EASE, delay }}
       className="rounded-full border border-gold/20 bg-gold/5 px-5 py-2 text-sm"
     >
-      <span className="font-black text-gold">{value.toLocaleString()}</span>
+      <span className="font-black text-gold">{(value ?? 0).toLocaleString()}</span>
       <span className="text-muted/60 ml-1.5">{label}</span>
     </motion.div>
   )
@@ -69,7 +69,7 @@ export default function CommunityHubPage() {
           setStats(data)
         }
       } catch {
-        if (!cancelled) setStats({ creator_count: 0, channel_count: 0, project_count: 0 })
+        if (!cancelled) setStats({ creators: 0, channels: 0, projects: 0 })
       }
 
       // Featured channels
@@ -136,9 +136,9 @@ export default function CommunityHubPage() {
         <div className="flex flex-wrap justify-center gap-3 mt-2">
           {stats ? (
             <>
-              <StatPill label="Creators"  value={stats.creator_count}  delay={0.2} />
-              <StatPill label="Channels"  value={stats.channel_count}  delay={0.3} />
-              <StatPill label="Projects"  value={stats.project_count}  delay={0.4} />
+              <StatPill label="Creators"  value={stats.creators}  delay={0.2} />
+              <StatPill label="Channels"  value={stats.channels}  delay={0.3} />
+              <StatPill label="Projects"  value={stats.projects}  delay={0.4} />
             </>
           ) : (
             [0, 1, 2].map((i) => (
