@@ -38,10 +38,11 @@ export default function ShowcasePage() {
         headers["Authorization"] = `Bearer ${token}`
       }
 
-      const res  = await fetch(`/api/community/showcase?${params}`, { headers })
-      const data = await res.json() as { items: ShowcaseWithMeta[]; has_more: boolean }
-      setItems(append ? (prev) => [...prev, ...data.items] : data.items)
-      setHasMore(data.has_more)
+      const res   = await fetch(`/api/community/showcase?${params}`, { headers })
+      const data  = await res.json() as { items?: ShowcaseWithMeta[]; has_more?: boolean }
+      const fetched = data.items ?? []
+      setItems(append ? (prev) => [...prev, ...fetched] : fetched)
+      setHasMore(data.has_more ?? false)
     } catch (err) {
       console.error("[showcase]", err)
     } finally {
@@ -103,7 +104,7 @@ export default function ShowcasePage() {
             <div key={i} className="aspect-[4/3] rounded-2xl bg-surface border border-border animate-pulse" />
           ))}
         </div>
-      ) : items.length === 0 ? (
+      ) : (items ?? []).length === 0 ? (
         <div className="flex flex-col items-center gap-4 py-20 text-center">
           <span className="text-[3rem]">🖼</span>
           <p className="font-display font-black text-[1.25rem] text-foreground">No showcases yet</p>
