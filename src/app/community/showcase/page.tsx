@@ -51,7 +51,9 @@ export default function ShowcasePage() {
   }, [user])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPage(1)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void fetchItems(category, 1)
   }, [category, fetchItems])
 

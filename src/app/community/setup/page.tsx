@@ -81,7 +81,7 @@ export default function CommunitySetupPage() {
           className="flex flex-col items-center gap-4"
         >
           <p className="text-[2rem]">🎉</p>
-          <h2 className="font-display font-black text-[1.5rem] text-foreground">You're all set!</h2>
+          <h2 className="font-display font-black text-[1.5rem] text-foreground">You&apos;re all set!</h2>
           <p className="text-muted/60">Redirecting you to the community…</p>
           <div className="h-1 w-48 rounded-full bg-surface overflow-hidden">
             <motion.div
@@ -99,7 +99,7 @@ export default function CommunitySetupPage() {
               Join the Community
             </h1>
             <p className="text-muted/60 mt-2 text-[0.9375rem] leading-relaxed">
-              Get started with a single click. We'll set up your community presence
+              Get started with a single click. We&apos;ll set up your community presence
               and get you into the right spaces.
             </p>
           </div>

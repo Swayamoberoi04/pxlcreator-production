@@ -146,7 +146,11 @@ export default function TeamDetailPage() {
     } catch { /* ignore */ } finally { setLoading(false) }
   }
 
-  useEffect(() => { void load() /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [id, user])
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void load()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, user])
 
   async function handleLeave() {
     if (!user) return
@@ -206,7 +210,7 @@ export default function TeamDetailPage() {
         <div className="flex items-center gap-4 flex-wrap rounded-2xl border border-gold/30 bg-gold/5 p-4">
           <div className="flex-1">
             <p className="font-semibold text-foreground text-sm">You&apos;ve been invited to join <span className="text-gold">{team.name}</span></p>
-            {myInvite.message && <p className="text-xs text-muted/60 mt-0.5">"{myInvite.message}"</p>}
+            {myInvite.message && <p className="text-xs text-muted/60 mt-0.5">&quot;{myInvite.message}&quot;</p>}
           </div>
           <div className="flex gap-2 shrink-0">
             <button

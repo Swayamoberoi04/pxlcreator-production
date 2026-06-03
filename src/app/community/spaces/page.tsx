@@ -36,7 +36,11 @@ export default function SpacesPage() {
     }
   }
 
-  useEffect(() => { void fetchSpaces() /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [user])
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchSpaces()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   async function handleJoin(space: CommunitySpace) {
     if (!user) return

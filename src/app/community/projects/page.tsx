@@ -39,7 +39,10 @@ export default function ProjectsPage() {
     finally { setLoading(false) }
   }, [user])
 
-  useEffect(() => { void fetch_(category, workType) }, [category, workType, fetch_])
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetch_(category, workType)
+  }, [category, workType, fetch_])
 
   return (
     <div className="flex flex-col gap-8">

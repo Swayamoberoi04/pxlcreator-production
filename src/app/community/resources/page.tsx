@@ -85,7 +85,10 @@ export default function ResourcesPage() {
     } catch { setResources([]) } finally { setLoading(false) }
   }
 
-  useEffect(() => { void fetchResources() }, [])
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchResources()
+  }, [])
 
   const filtered = activeCategory === "all"
     ? resources

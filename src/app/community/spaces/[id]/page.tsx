@@ -107,6 +107,7 @@ export default function SpaceChatPage() {
   }, [id, user])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadInitial()
   }, [loadInitial])
 

@@ -58,7 +58,11 @@ export default function LeaderboardPage() {
     } catch { setEntries([]) } finally { setLoading(false) }
   }
 
-  useEffect(() => { void fetchLeaderboard(activeTab) /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [activeTab, user])
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchLeaderboard(activeTab)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, user])
 
   const TABS: { id: LeaderboardType; label: string; icon: string }[] = [
     { id: "reputation", label: "Reputation", icon: "⭐" },

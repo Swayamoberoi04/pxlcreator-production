@@ -254,6 +254,7 @@ function DiscoverPageInner() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (pageTab === "requests" && user) void fetchRequests()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageTab, user])

@@ -47,7 +47,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     if (error) throw error
 
     // If current user is logged in, check their reactions
-    let userReactions: Record<string, string[]> = {}
+    const userReactions: Record<string, string[]> = {}
     const authUid = await getFirebaseUidFromRequest(req).catch(() => null)
     if (authUid && data?.length) {
       const ids = data.map((i) => i.id)

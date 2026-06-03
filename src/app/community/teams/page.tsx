@@ -209,7 +209,11 @@ export default function TeamsPage() {
     } catch { setTeams([]) } finally { setLoading(false) }
   }
 
-  useEffect(() => { void fetchTeams(activeTab) /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [activeTab, user])
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchTeams(activeTab)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, user])
 
   const tabs: { id: FilterTab; label: string }[] = [
     { id: "all",    label: "All Teams" },
