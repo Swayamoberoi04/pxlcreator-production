@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Container } from "@/components/layout/Container"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
@@ -14,7 +14,7 @@ export default function CookiePolicyPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* â”€â”€ Hero band â”€â”€ */}
+      {/* ── Hero band ── */}
       <div className="relative w-full border-b border-border bg-surface overflow-hidden depth-section">
         <LuminousEnvironment variant="neutral" intensity={0.7} />
         <GrainOverlay opacity={0.015} zIndex={1} />
@@ -31,7 +31,7 @@ export default function CookiePolicyPage() {
         </Container>
       </div>
 
-      {/* â”€â”€ Content â”€â”€ */}
+      {/* ── Content ── */}
       <Container className="py-14 sm:py-20">
         <div className="max-w-2xl mx-auto">
           <LegalDoc>
@@ -66,20 +66,20 @@ export default function CookiePolicyPage() {
                 consent as they are necessary to provide a service you have requested.
               </p>
               <ul>
-                <li><strong>Session cookie</strong> â€” Maintains your Firebase authentication session</li>
-                <li><strong>Cart cookie</strong> â€” Persists your shopping cart between page loads</li>
-                <li><strong>Currency preference</strong> â€” Stores your selected display currency</li>
-                <li><strong>CSRF token</strong> â€” Protects against cross-site request forgery</li>
+                <li><strong>Session cookie</strong> — Maintains your Firebase authentication session</li>
+                <li><strong>Cart cookie</strong> — Persists your shopping cart between page loads</li>
+                <li><strong>Currency preference</strong> — Stores your selected display currency</li>
+                <li><strong>CSRF token</strong> — Protects against cross-site request forgery</li>
               </ul>
 
               <p className="mt-3"><strong>Analytics Cookies</strong></p>
               <p>
                 We use anonymised analytics to understand how visitors use our site and identify
                 areas for improvement. These cookies collect information about pages visited,
-                time spent, and general location data â€” never personally identifiable information.
+                time spent, and general location data — never personally identifiable information.
               </p>
               <ul>
-                <li><strong>Google Analytics</strong> â€” Anonymised traffic and behaviour analytics</li>
+                <li><strong>Google Analytics</strong> — Anonymised traffic and behaviour analytics</li>
               </ul>
 
               <p className="mt-3"><strong>Payment Processing Cookies</strong></p>
@@ -98,15 +98,15 @@ export default function CookiePolicyPage() {
               </p>
               <ul>
                 <li>
-                  <strong>Firebase / Google</strong> â€” Sets cookies to maintain authentication
+                  <strong>Firebase / Google</strong> — Sets cookies to maintain authentication
                   state and Google Sign-In sessions
                 </li>
                 <li>
-                  <strong>Razorpay</strong> â€” Sets cookies for secure payment processing
+                  <strong>Razorpay</strong> — Sets cookies for secure payment processing
                   and fraud prevention
                 </li>
                 <li>
-                  <strong>YouTube</strong> â€” If you view embedded videos on our site, YouTube
+                  <strong>YouTube</strong> — If you view embedded videos on our site, YouTube
                   may set cookies to track views and personalise content
                 </li>
               </ul>
@@ -119,22 +119,22 @@ export default function CookiePolicyPage() {
               </p>
               <ul>
                 <li>
-                  <strong>Chrome</strong> â€” Settings â†’ Privacy and Security â†’ Cookies and other
+                  <strong>Chrome</strong> — Settings → Privacy and Security → Cookies and other
                   site data
                 </li>
                 <li>
-                  <strong>Safari</strong> â€” Preferences â†’ Privacy â†’ Manage Website Data
+                  <strong>Safari</strong> — Preferences → Privacy → Manage Website Data
                 </li>
                 <li>
-                  <strong>Firefox</strong> â€” Options â†’ Privacy & Security â†’ Cookies and Site Data
+                  <strong>Firefox</strong> — Options → Privacy & Security → Cookies and Site Data
                 </li>
                 <li>
-                  <strong>Edge</strong> â€” Settings â†’ Cookies and site permissions
+                  <strong>Edge</strong> — Settings → Cookies and site permissions
                 </li>
               </ul>
               <p>
                 Please note that disabling strictly necessary cookies will prevent core features
-                of our website from working correctly â€” including sign-in, cart, and checkout.
+                of our website from working correctly — including sign-in, cart, and checkout.
                 Disabling analytics cookies will not affect your ability to use the site.
               </p>
             </Section>
@@ -145,18 +145,18 @@ export default function CookiePolicyPage() {
               </p>
               <ul>
                 <li>
-                  <strong>Session cookies</strong> â€” Expire when you close your browser
+                  <strong>Session cookies</strong> — Expire when you close your browser
                 </li>
                 <li>
-                  <strong>Authentication cookies</strong> â€” Expire after 30 days of inactivity,
+                  <strong>Authentication cookies</strong> — Expire after 30 days of inactivity,
                   or immediately upon sign-out
                 </li>
                 <li>
-                  <strong>Preference cookies</strong> â€” Persist for up to 1 year to avoid
+                  <strong>Preference cookies</strong> — Persist for up to 1 year to avoid
                   having to re-set your preferences on every visit
                 </li>
                 <li>
-                  <strong>Analytics cookies</strong> â€” Typically expire after 2 years
+                  <strong>Analytics cookies</strong> — Typically expire after 2 years
                   (Google Analytics default)
                 </li>
               </ul>
@@ -182,7 +182,7 @@ export default function CookiePolicyPage() {
             <Section title="9. Contact">
               <p>
                 Questions about our use of cookies? Email us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a>.
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a>.
               </p>
             </Section>
 

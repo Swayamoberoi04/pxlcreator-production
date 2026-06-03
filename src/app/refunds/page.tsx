@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Container } from "@/components/layout/Container"
 import Link from "next/link"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
@@ -20,8 +20,8 @@ const ELIGIBLE = [
 
 const NOT_ELIGIBLE = [
   "You changed your mind after accessing the download or using the preset",
-  "The preset style does not match your personal taste or aesthetic â€” please preview samples first",
-  "You purchased the wrong product â€” reach out and we will help you find the right one",
+  "The preset style does not match your personal taste or aesthetic — please preview samples first",
+  "You purchased the wrong product — reach out and we will help you find the right one",
   "Incompatibility with an unsupported or unlisted software version (check compatibility before buying)",
   "You forgot to cancel a subscription before the renewal date (more than 24 hours prior)",
   "Partial use of a course or subscription period",
@@ -31,7 +31,7 @@ export default function RefundsPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* â”€â”€ Hero band â”€â”€ */}
+      {/* ── Hero band ── */}
       <div className="relative w-full border-b border-border bg-surface overflow-hidden depth-section">
         <LuminousEnvironment variant="neutral" intensity={0.7} />
         <GrainOverlay opacity={0.015} zIndex={1} />
@@ -48,7 +48,7 @@ export default function RefundsPage() {
         </Container>
       </div>
 
-      {/* â”€â”€ Content â”€â”€ */}
+      {/* ── Content ── */}
       <Container className="py-14 sm:py-20">
         <div className="max-w-2xl mx-auto">
           <LegalDoc>
@@ -87,7 +87,7 @@ export default function RefundsPage() {
 
             {/* Visual callout */}
             <div className="rounded-xl border border-gold/20 bg-gold/5 px-6 py-5 flex gap-4">
-              <span className="text-gold text-[1.25rem] leading-none mt-0.5 shrink-0">âœ¦</span>
+              <span className="text-gold text-[1.25rem] leading-none mt-0.5 shrink-0">✦</span>
               <div className="flex flex-col gap-1.5">
                 <p className="text-[0.9375rem] font-semibold text-foreground">Not sure? Just ask first.</p>
                 <p className="text-[0.875rem] text-muted leading-relaxed">
@@ -125,8 +125,8 @@ export default function RefundsPage() {
             <Section title="How to Request a Refund">
               <p>
                 Email us at{" "}
-                <a href="mailto:pxlcreator@gmail.com">pxlcreator@gmail.com</a> with the subject line
-                <em> &ldquo;Refund Request â€” [Order Number]&rdquo;</em> and include:
+                <a href="mailto:creatorpxl@gmail.com">creatorpxl@gmail.com</a> with the subject line
+                <em> &ldquo;Refund Request — [Order Number]&rdquo;</em> and include:
               </p>
               <ul>
                 <li>Your order number or the email address used at checkout</li>
@@ -137,7 +137,7 @@ export default function RefundsPage() {
               <p>
                 We aim to respond to all refund requests within <strong>2 business days</strong>.
                 Approved refunds are processed via Razorpay to the original payment method and
-                typically appear within <strong>5â€“10 business days</strong>, depending on your
+                typically appear within <strong>5–10 business days</strong>, depending on your
                 bank or card issuer.
               </p>
             </Section>
@@ -147,7 +147,7 @@ export default function RefundsPage() {
                 If you initiate a chargeback or payment dispute without first contacting us, we
                 reserve the right to dispute it with documented evidence of product delivery,
                 download access, and these Terms. We strongly prefer to resolve all issues directly
-                and amicably â€”{" "}
+                and amicably —{" "}
                 <Link href="/contact" className="text-gold hover:underline">contact us first</Link>{" "}
                 and we will do our best to make it right.
               </p>

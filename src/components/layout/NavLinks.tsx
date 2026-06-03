@@ -22,15 +22,27 @@ export const EXPLORE_ITEMS = [
   { label: "Contact",    href: "/contact"  },
 ] as const
 
+export const COMMUNITY_ITEMS = [
+  { label: "Community Hub",  href: "/community"             },
+  { label: "Spaces",         href: "/community/spaces"      },
+  { label: "Discover",       href: "/community/discover"    },
+  { label: "Channels",       href: "/community/channels"    },
+  { label: "Teams",          href: "/community/teams"       },
+  { label: "Projects",       href: "/community/projects"    },
+  { label: "Showcase",       href: "/community/showcase"    },
+  { label: "Leaderboard",    href: "/community/leaderboard" },
+] as const
+
 type SimpleItem    = { type: "link";     label: string; href: string; highlight?: boolean }
-type DropdownItem  = { type: "dropdown"; label: string; items: readonly { label: string; href: string }[] }
+type DropdownItem  = { type: "dropdown"; label: string; items: readonly { label: string; href: string }[]; highlightActive?: boolean }
 type NavItemConfig = SimpleItem | DropdownItem
 
 const NAV_ITEMS: NavItemConfig[] = [
-  { type: "link",     label: "Presets", href: "/presets" },
-  { type: "link",     label: "Bundles", href: "/bundles" },
-  { type: "dropdown", label: "Explore", items: EXPLORE_ITEMS },
-  { type: "link",     label: "Premium", href: "/premium", highlight: true },
+  { type: "link",     label: "Presets",   href: "/presets"   },
+  { type: "link",     label: "Bundles",   href: "/bundles"   },
+  { type: "dropdown", label: "Community", items: COMMUNITY_ITEMS },
+  { type: "dropdown", label: "Explore",   items: EXPLORE_ITEMS },
+  { type: "link",     label: "Premium",   href: "/premium", highlight: true },
 ]
 
 /* ─────────────────────────────────────────
@@ -61,6 +73,9 @@ export function NavLinks() {
   }
 
   const exploreActive = EXPLORE_ITEMS.some(
+    (i) => pathname === i.href || pathname.startsWith(i.href + "/")
+  )
+  const communityActive = COMMUNITY_ITEMS.some(
     (i) => pathname === i.href || pathname.startsWith(i.href + "/")
   )
 
@@ -126,7 +141,7 @@ export function NavLinks() {
 
         /* ── Dropdown ── */
         const isOpen   = openKey === item.label
-        const isActive = exploreActive
+        const isActive = item.label === "Community" ? communityActive : exploreActive
 
         return (
           <div
