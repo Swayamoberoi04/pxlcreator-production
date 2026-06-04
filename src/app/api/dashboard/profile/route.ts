@@ -161,12 +161,18 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
 function findNextLesson(
   course: { modules: { title: string; lessons: { id: string; title: string; duration: string; type: string; free: boolean }[] }[] },
   completedIds: string[]
-): { lessonId: string; lessonTitle: string; moduleTitle: string; duration: string } | null {
+): { lessonId: string; lessonTitle: string; moduleTitle: string; duration: string; lessonType: string } | null {
   const completed = new Set(completedIds)
   for (const mod of course.modules) {
     for (const lesson of mod.lessons) {
       if (!completed.has(lesson.id)) {
-        return { lessonId: lesson.id, lessonTitle: lesson.title, moduleTitle: mod.title, duration: lesson.duration }
+        return {
+          lessonId:    lesson.id,
+          lessonTitle: lesson.title,
+          moduleTitle: mod.title,
+          duration:    lesson.duration,
+          lessonType:  lesson.type,
+        }
       }
     }
   }
