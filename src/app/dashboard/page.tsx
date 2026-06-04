@@ -38,7 +38,7 @@ interface DashboardProfile {
 interface PathProgress { stage_index: number; completed_tasks: number; total_tasks: number; progress_pct: number; completed: boolean }
 interface ActivePath   { id: string; title: string; tagline: string; icon: string; color: string; difficulty: string; estimatedWeeks: number; score: number; progress: PathProgress | null; stages: { index: number; title: string; description: string; tasks: { id: string; title: string; description: string; estimatedMinutes: number; type: string }[] }[] }
 interface ActiveChallenge { id: string; title: string; tagline: string; icon: string; color: string; totalDays: number; progress: PathProgress | null; completedDays: number[]; todaysDay: number; days: { day: number; title: string; prompt: string; tip: string; estimatedMinutes: number }[] }
-interface ActiveCourse  { id: string; title: string; tagline: string; icon: string; color: string; totalLessons: number; estimatedHours: number; progress: PathProgress | null; completedLessonIds: string[]; nextLesson: { lessonId: string; lessonTitle: string; moduleTitle: string; duration: string } | null; modules: { id: string; title: string; lessons: { id: string; title: string; duration: string; type: string; free: boolean }[] }[] }
+interface ActiveCourse  { id: string; title: string; tagline: string; icon: string; color: string; totalLessons: number; estimatedHours: number; progress: PathProgress | null; completedLessonIds: string[]; nextLesson: { lessonId: string; lessonTitle: string; moduleTitle: string; duration: string; lessonType?: string } | null; modules: { id: string; title: string; lessons: { id: string; title: string; duration: string; type: string; free: boolean }[] }[] }
 
 interface DashboardData {
   profile:         DashboardProfile
@@ -276,6 +276,17 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
   )
 }
 
+/* ── Lesson type label ───────────────────────────────────────────── */
+function lessonTypeLabel(type: string): string {
+  switch (type) {
+    case "read":      return "📖 Study"
+    case "article":   return "📄 Read"
+    case "exercise":  return "✏️ Practice"
+    case "checklist": return "✅ Checklist"
+    default:          return "📖 Study"
+  }
+}
+
 /* ── Course card ─────────────────────────────────────────────── */
 function CourseCard({ course, onCompleteLesson, accentColor }: {
   course: ActiveCourse; onCompleteLesson: (lessonId: string) => void; accentColor: string
@@ -308,7 +319,9 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
       {next ? (
         <div className="p-5 flex flex-col gap-3">
           <div>
-            <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40 mb-1">Up Next — {next.moduleTitle}</p>
+            <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40 mb-1">
+              {lessonTypeLabel(next.lessonType ?? "read")} · {next.moduleTitle}
+            </p>
             <p className="font-display font-black text-[0.9375rem] text-foreground">{next.lessonTitle}</p>
           </div>
           <div className="flex items-center gap-3">
@@ -319,10 +332,10 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
               disabled={marking || done}
               className={[
                 "ml-auto rounded-full px-4 py-1.5 text-xs font-bold transition-all",
-                done ? "bg-surface-2 text-muted/50" : "bg-gold text-background hover:bg-gold/90",
+                done ? "bg-surface-2 text-muted/50 cursor-default" : "bg-gold text-background hover:bg-gold/90",
               ].join(" ")}
             >
-              {done ? "✓ Watched" : marking ? "Saving…" : "Mark Watched"}
+              {done ? "✓ Complete" : marking ? "Saving…" : "Mark Complete"}
             </button>
           </div>
         </div>
@@ -542,7 +555,14 @@ export default function DashboardPage() {
           {(activeChallenge || activeCourse) && (
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22, duration: 0.5 }}
               className="flex flex-col gap-3">
-              <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Active Learning</h2>
+              <div className="flex items-center justify-between">
+                <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Active Learning</h2>
+                {activeChallenge && (
+                  <Link href={`/dashboard/challenge/${activeChallenge.id}`} className="text-[0.75rem] text-muted/40 hover:text-gold transition-colors">
+                    Full Challenge →
+                  </Link>
+                )}
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {activeChallenge && (
                   <ChallengeCard
