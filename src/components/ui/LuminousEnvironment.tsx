@@ -118,10 +118,15 @@ export function LuminousEnvironment({
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
       style={{
         zIndex: 0,
-        /* Single compositor layer for all orbs combined —
-           avoids creating N separate GPU layers per section. */
-        willChange: animated ? "transform" : "auto",
-        contain: "layout style paint",
+        /*
+         * `contain: strict` — tells the browser this element and its
+         * subtree do not affect layout/paint outside it. This lets the
+         * compositor skip repainting the rest of the page when orbs animate.
+         * `willChange` removed from the container: it promoted the wrong
+         * layer. CSS animations on opacity+transform inside the container
+         * are already compositor-accelerated without explicit promotion.
+         */
+        contain: "strict",
       }}
     >
       {orbs.map((orb, i) => (

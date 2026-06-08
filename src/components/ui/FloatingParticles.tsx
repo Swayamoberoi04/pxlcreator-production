@@ -85,7 +85,13 @@ export function FloatingParticles({
             boxShadow:       `0 0 ${p.size * 4}px ${color}`,
             animation:       `particle-float ${p.duration} ease-in-out infinite`,
             animationDelay:  p.delay,
-            willChange:      "transform, opacity",
+            /*
+             * willChange removed: each hint promotes the element to its own
+             * compositor layer, costing GPU memory. For tiny 2–3px particles
+             * the CSS animation engine handles transform/opacity natively without
+             * explicit promotion. Let the browser decide — it makes better choices
+             * than blanket willChange on every particle.
+             */
           }}
         />
       ))}

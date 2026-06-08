@@ -15,51 +15,47 @@
  *   OR on touch devices:
  *     {children} — plain wrapper, native scroll
  *
- * Why autoRaf=false: prevents a double-RAF situation where Lenis would
- * update itself AND GSAP would also call lenis.raf(). One loop is enough.
+ * Performance note:
+ *   GSAP + ScrollTrigger are NOT imported at the module level so they are
+ *   never bundled into the mobile JS path. The DesktopScrollProvider lazy-
+ *   loads them only when the component mounts, which only happens on non-
+ *   touch devices (touch branch returns before rendering DesktopScrollProvider).
  */
 
 import ReactLenis, { useLenis } from "lenis/react"
-import { useState, useEffect }   from "react"
-import gsap                      from "gsap"
-import { ScrollTrigger }         from "gsap/ScrollTrigger"
+import { useState, useEffect } from "react"
 
-/* Register GSAP plugins once, client-side */
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
-
-/* ── GSAP ↔ Lenis bridge ──────────────────────────────────────── */
+/* ── GSAP ↔ Lenis bridge — only imported in the desktop branch ── */
 function GSAPScrollBridge() {
   const lenis = useLenis()
 
   useEffect(() => {
     if (!lenis) return
-
-    /*
-     * Capture the narrowed, non-undefined instance into a const so that
-     * TypeScript preserves the type inside nested function declarations
-     * (control-flow narrowing is not propagated into deferred callbacks).
-     */
     const l = lenis
 
-    /* Drive Lenis from GSAP's ticker so both share one rAF loop.
-       GSAP passes `time` in seconds; Lenis.raf() expects milliseconds. */
-    function update(time: number) {
-      l.raf(time * 1000)
-    }
+    /* Lazy-import GSAP only when this component mounts (desktop only) */
+    let cleanup: (() => void) | undefined
 
-    gsap.ticker.add(update)
-    gsap.ticker.lagSmoothing(0) // prevents large jumps after tab switch
+    import("gsap").then(({ default: gsap }) =>
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        gsap.registerPlugin(ScrollTrigger)
 
-    /* Keep ScrollTrigger positions fresh on every Lenis scroll event */
-    const onScroll = () => ScrollTrigger.update()
-    l.on("scroll", onScroll)
+        function update(time: number) { l.raf(time * 1000) }
 
-    return () => {
-      gsap.ticker.remove(update)
-      l.off("scroll", onScroll)
-    }
+        gsap.ticker.add(update)
+        gsap.ticker.lagSmoothing(0)
+
+        const onScroll = () => ScrollTrigger.update()
+        l.on("scroll", onScroll)
+
+        cleanup = () => {
+          gsap.ticker.remove(update)
+          l.off("scroll", onScroll)
+        }
+      })
+    )
+
+    return () => { cleanup?.() }
   }, [lenis])
 
   return null
@@ -71,27 +67,17 @@ export function SmoothScrollProvider({
 }: {
   children: React.ReactNode
 }) {
-  /*
-   * On touch/mobile devices the browser's native momentum scroll is
-   * GPU-accelerated and always smoother than Lenis. Skip Lenis entirely
-   * on touch devices so scroll performance is maximised on mobile.
-   *
-   * We start as `false` (unknown) and set to `true` only on first touch
-   * so we don't SSR-mismatch (both server and client start as false).
-   */
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
-    /* Detect touch capability after mount */
     const isTouch =
       window.matchMedia("(pointer: coarse)").matches ||
       navigator.maxTouchPoints > 0
-
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isTouch) setIsTouchDevice(true)
   }, [])
 
-  /* On touch/mobile — skip Lenis, use native browser scroll */
+  /* On touch/mobile — skip Lenis and GSAP entirely, use native scroll */
   if (isTouchDevice) {
     return <>{children}</>
   }
@@ -101,11 +87,11 @@ export function SmoothScrollProvider({
       root
       autoRaf={false}
       options={{
-        lerp:           0.09,  /* smoothness — 0.09 balances butter vs responsiveness */
-        duration:       0.9,   /* slightly snappier than default 1.2 */
-        smoothWheel:    true,  /* smooth trackpad and wheel events */
-        wheelMultiplier: 1,    /* wheel sensitivity */
-        infinite:       false,
+        lerp:            0.10,  /* slightly snappier feel (was 0.09) */
+        duration:        0.85,
+        smoothWheel:     true,
+        wheelMultiplier: 1,
+        infinite:        false,
       }}
     >
       <GSAPScrollBridge />

@@ -30,10 +30,15 @@ import { useRef, useMemo } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import * as THREE            from "three"
 
+const IS_MOBILE = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
+
 /* ── Drifting dust particles ─────────────────────────────────────── */
 function AmbientDust() {
-  /* Fewer particles on low-end / mobile GPUs — still visually identical */
-  const COUNT = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches ? 60 : 120
+  /*
+   * Mobile: 30 particles (was 60). Desktop: 80 (was 120).
+   * Reducing geometry size cuts per-frame CPU and GPU upload cost.
+   */
+  const COUNT = IS_MOBILE ? 30 : 80
 
   /* Static seed positions — deterministic, no hydration issues */
   const geo = useMemo(() => {
@@ -46,31 +51,37 @@ function AmbientDust() {
     ]
     const s = (i: number) => seed[i % seed.length]
     for (let i = 0; i < COUNT; i++) {
-      pos[i * 3]     = (s(i * 3    ) - 0.5) * 22   // x: -11 to 11
-      pos[i * 3 + 1] = (s(i * 3 + 1) - 0.5) * 14   // y: -7  to 7
-      pos[i * 3 + 2] = (s(i * 3 + 2))       * -12   // z: 0 to -12
+      pos[i * 3]     = (s(i * 3    ) - 0.5) * 22
+      pos[i * 3 + 1] = (s(i * 3 + 1) - 0.5) * 14
+      pos[i * 3 + 2] = (s(i * 3 + 2))       * -12
     }
     const g = new THREE.BufferGeometry()
     g.setAttribute("position", new THREE.BufferAttribute(pos, 3))
     return g
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const matRef = useRef<THREE.PointsMaterial>(null)
-  const posRef = useRef<Float32Array | null>(null)
+  const matRef  = useRef<THREE.PointsMaterial>(null)
+  const posRef  = useRef<Float32Array | null>(null)
+  /* Frame counter — update particles every 2nd frame on mobile */
+  const frameRef = useRef(0)
 
   useFrame(({ clock }) => {
     if (!matRef.current) return
 
-    /* Breathing opacity — very faint, 0.06–0.12 */
+    frameRef.current++
+    /* Skip every other frame on mobile — halves CPU/GPU work, imperceptible visually */
+    if (IS_MOBILE && frameRef.current % 2 !== 0) return
+
     matRef.current.opacity = 0.07 + Math.sin(clock.elapsedTime * 0.22) * 0.03
 
-    /* Slow upward drift — wrap around vertically */
     const posAttr = geo.getAttribute("position") as THREE.BufferAttribute
     if (!posRef.current) posRef.current = posAttr.array as Float32Array
     const arr = posRef.current
+    /* Drift step doubled on mobile since we update half as often */
+    const step = IS_MOBILE ? 0.0016 : 0.0008
     for (let i = 0; i < COUNT; i++) {
-      arr[i * 3 + 1] += 0.0008  // drift up
-      if (arr[i * 3 + 1] > 7) arr[i * 3 + 1] = -7  // wrap
+      arr[i * 3 + 1] += step
+      if (arr[i * 3 + 1] > 7) arr[i * 3 + 1] = -7
     }
     posAttr.needsUpdate = true
   })
@@ -106,19 +117,19 @@ const ORBS: OrbData[] = [
 ]
 
 function GlobalOrb({ pos, color, size, speed, offset }: OrbData) {
-  const meshRef = useRef<THREE.Mesh>(null)
+  const meshRef  = useRef<THREE.Mesh>(null)
+  const frameRef = useRef(0)
 
   const mat = useMemo(
-    () => new THREE.MeshBasicMaterial({
-      color,
-      transparent: true,
-      opacity: 0,
-    }),
+    () => new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0 }),
     [color]
   )
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return
+    frameRef.current++
+    /* Orbs move very slowly — update every 3rd frame on mobile, no visible diff */
+    if (IS_MOBILE && frameRef.current % 3 !== 0) return
     const t = clock.elapsedTime * speed + offset
     mat.opacity = 0.018 + Math.sin(t) * 0.006
     meshRef.current.position.x = pos[0] + Math.sin(t * 0.4) * 0.6
@@ -127,7 +138,8 @@ function GlobalOrb({ pos, color, size, speed, offset }: OrbData) {
 
   return (
     <mesh ref={meshRef} position={pos} material={mat}>
-      <sphereGeometry args={[size, 12, 12]} />
+      {/* 6 segments instead of 12 — orbs are nearly transparent blobs, not geometry */}
+      <sphereGeometry args={[size, 6, 6]} />
     </mesh>
   )
 }

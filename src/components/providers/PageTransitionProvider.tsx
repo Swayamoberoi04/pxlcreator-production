@@ -36,11 +36,7 @@ export function PageTransitionProvider({ children }: PageTransitionProviderProps
    * viewport-relative. Any ancestor with `filter`, `transform`, or
    * `perspective` becomes a new CSS containing block (spec §10.1), which
    * breaks the overlay by constraining it to the <main> region.
-   *
-   * During AnimatePresence transitions the motion.div briefly has
-   * `filter:blur(Xpx)` and non-identity transforms — both of which trigger
-   * the containing-block rule. Bypassing the animation wrapper entirely for
-   * admin routes is the only reliable fix without restructuring the layout.
+   * Bypassing the animation wrapper entirely for admin routes.
    */
   if (pathname.startsWith("/admin")) {
     return (
@@ -54,38 +50,20 @@ export function PageTransitionProvider({ children }: PageTransitionProviderProps
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={pathname}
-        /* ── Enter: rise from depth ── */
-        initial={{
-          opacity: 0,
-          y:       20,
-          scale:   0.974,
-          rotateX: 5,
-          filter:  "blur(6px)",
-        }}
-        animate={{
-          opacity: 1,
-          y:       0,
-          scale:   1,
-          rotateX: 0,
-          filter:  "none",
-        }}
-        /* ── Exit: recede into depth ── */
-        exit={{
-          opacity: 0,
-          y:       -14,
-          scale:   0.968,
-          rotateX: -4,
-          filter:  "blur(4px)",
-        }}
-        transition={{
-          duration: 0.48,
-          ease:     EXPO_OUT,
-        }}
+        /*
+         * GPU-only transition: opacity + translateY + scale.
+         * No filter:blur (triggers full repaint behind element).
+         * No rotateX (triggers perspective rasterization).
+         * Only compositor-accelerated properties → smooth 60fps on mobile.
+         */
+        initial={{ opacity: 0, y: 16, scale: 0.982 }}
+        animate={{ opacity: 1, y: 0,  scale: 1     }}
+        exit={{    opacity: 0, y: -10, scale: 0.988 }}
+        transition={{ duration: 0.35, ease: EXPO_OUT }}
         style={{
-          flex:            1,
-          display:         "flex",
-          flexDirection:   "column",
-          transformOrigin: "50% 0%",
+          flex:          1,
+          display:       "flex",
+          flexDirection: "column",
         }}
       >
         {children}

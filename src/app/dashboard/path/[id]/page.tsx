@@ -411,7 +411,9 @@ export default function PathPage() {
     }
   }, [user, path, id])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (user) void loadProgress()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])

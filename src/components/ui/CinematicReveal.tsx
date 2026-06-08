@@ -43,24 +43,24 @@ const VARIANTS = {
   depth: {
     hidden: {
       opacity:   0,
-      y:         72,
-      rotateX:  -18,
-      scale:     0.97,
+      y:         52,   /* reduced from 72 — less travel distance */
+      rotateX:  -10,   /* reduced from -18 — less aggressive perspective rasterization */
+      scale:     0.975,
     },
     visible: (delay = 0) => ({
       opacity:  1,
       y:        0,
       rotateX:  0,
       scale:    1,
-      transition: { duration: 1.0, ease: EXPO_OUT, delay },
+      transition: { duration: 0.9, ease: EXPO_OUT, delay },
     }),
-    perspective: "1400px",
+    perspective: "1200px",  /* reduced from 1400px */
     perspectiveOrigin: "50% -10%",
     transformOrigin:   "50% 0%",
   },
 
   rise: {
-    hidden: { opacity: 0, y: 48 },
+    hidden: { opacity: 0, y: 36 },  /* reduced from 48 */
     visible: (delay = 0) => ({
       opacity: 1,
       y: 0,
@@ -129,6 +129,7 @@ export function CinematicReveal({
         style={{
           perspective:       cfg.perspective,
           perspectiveOrigin: cfg.perspectiveOrigin,
+          contain:           "layout",  /* prevent layout thrash during animation */
         }}
       >
         <motion.div

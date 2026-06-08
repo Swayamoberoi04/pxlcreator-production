@@ -91,10 +91,14 @@ export function HeroSection() {
         <div
           key={i}
           aria-hidden="true"
-          className="absolute inset-0 transition-opacity duration-[1800ms] ease-in-out will-change-transform"
+          className="absolute inset-0 transition-opacity duration-[1800ms] ease-in-out"
           style={{
-            opacity:   i === active ? 1 : 0,
-            animation: "hero-drift 22s ease-in-out infinite alternate",
+            opacity:              i === active ? 1 : 0,
+            animation:            "hero-drift 22s ease-in-out infinite alternate",
+            /* Pause the Ken Burns drift on hidden scenes — saves GPU per frame */
+            animationPlayState:   i === active ? "running" : "paused",
+            /* Only promote the active layer; inactive ones need no compositor layer */
+            willChange:           i === active ? "transform" : "auto",
           }}
         >
           <Image
@@ -262,7 +266,7 @@ export function HeroSection() {
           <MagneticButton>
             <Link
               href="/bundles"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-[0.9375rem] font-semibold text-white/80 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent backdrop-blur-sm"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-7 py-3.5 text-[0.9375rem] font-semibold text-white/80 hover:border-white/40 hover:bg-white/12 hover:text-white active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             >
               Browse Bundles
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

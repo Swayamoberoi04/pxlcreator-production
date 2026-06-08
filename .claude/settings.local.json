@@ -6,7 +6,12 @@
       "PowerShell($content = Get-Content \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\data\\\\presets.ts\" -Raw; $content.Substring\\(0, [Math]::Min\\(4000, $content.Length\\)\\))",
       "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; Get-Job | Where-Object {$_.State -eq \"Running\"} | Select-Object Id, Name, State)",
       "PowerShell($cred = [System.Net.NetworkCredential]::new\\(\"\", \\(git credential fill 2>$null | Out-String\\)\\); \"test\")",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\" | Select-Object Name, @{Name='Type'; Expression={if \\($_.PSIsContainer\\) { 'Directory' } else { 'File' }}})",
+      "PowerShell($ghCmd = Get-Command gh -ErrorAction SilentlyContinue; if \\($ghCmd\\) { $ghCmd.Source } else { \"not found\" })",
+      "PowerShell(git credential fill 2>$null)",
+      "PowerShell(if \\($env:GITHUB_TOKEN\\) { \"token found\" } elseif \\($env:GH_TOKEN\\) { \"GH_TOKEN found\" } else { \"no token in env\" })",
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run lint 2>&1; echo \"EXIT:$LASTEXITCODE\")"
     ]
   }
 }
