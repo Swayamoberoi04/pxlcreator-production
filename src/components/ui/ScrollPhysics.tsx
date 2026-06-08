@@ -42,12 +42,11 @@
  */
 
 import { useRef, useEffect, type ReactNode } from "react"
-import gsap    from "gsap"
-import ScrollTrigger from "gsap/ScrollTrigger"
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
+/*
+ * GSAP + ScrollTrigger lazy-loaded inside useEffect.
+ * ScrollPhysics only activates when elements approach the viewport;
+ * deferring GSAP to mount time keeps it out of the initial bundle.
+ */
 
 interface ScrollPhysicsProps {
   children:    ReactNode
@@ -91,39 +90,54 @@ export function ScrollPhysics({
     /* Compute Y travel from depth if not explicitly set */
     const travel = yRange ?? Math.round(depth * 160)
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        el,
-        {
-          y:       travel,
-          rotate:  rotate  ? -rotate  : 0,
-          scale:   scale   ? 1 + scale : 1,
-          x:       xDepth  ? -xDepth * 60 : 0,
-        },
-        {
-          y:       -travel,
-          rotate:  rotate  ? rotate   : 0,
-          scale:   1,
-          x:       xDepth  ? xDepth * 60  : 0,
-          ease:    "none",
-          scrollTrigger: {
-            trigger:  el,
-            start,
-            end,
-            scrub:    1.8,
-          },
-        }
-      )
-    }, el)
+    let ctx: { revert: () => void } | undefined
 
-    return () => ctx.revert()
+    /* Lazy-load GSAP + ScrollTrigger — deferred until after initial render */
+    import("gsap").then(({ default: gsap }) =>
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        gsap.registerPlugin(ScrollTrigger)
+        ctx = gsap.context(() => {
+          gsap.fromTo(
+            el,
+            {
+              y:       travel,
+              rotate:  rotate  ? -rotate  : 0,
+              scale:   scale   ? 1 + scale : 1,
+              x:       xDepth  ? -xDepth * 60 : 0,
+            },
+            {
+              y:       -travel,
+              rotate:  rotate  ? rotate   : 0,
+              scale:   1,
+              x:       xDepth  ? xDepth * 60  : 0,
+              ease:    "none",
+              scrollTrigger: {
+                trigger:  el,
+                start,
+                end,
+                scrub:    1.8,
+              },
+            }
+          )
+        }, el)
+      })
+    )
+
+    return () => { ctx?.revert() }
   }, [depth, yRange, rotate, scale, xDepth, start, end])
 
   return (
     <div
       ref={ref}
       className={className}
-      style={{ willChange: "transform" }}
+      /*
+       * will-change removed from the static style.
+       * GSAP sets it automatically via its own CSSPlugin when the
+       * ScrollTrigger animation is active, and removes it on completion.
+       * Setting it statically on every wrapper (even when off-screen) forces
+       * the browser to allocate a compositor layer for every element at load
+       * time — GPU memory pressure with no benefit until scroll starts.
+       */
     >
       {children}
     </div>

@@ -9,7 +9,12 @@ import { useCurrencyStore }    from "@/store/currency"
 import { formatPrice }         from "@/lib/currency/format"
 import { cn }                  from "@/lib/utils"
 import { Tilt3D }              from "@/components/ui/Tilt3D"
-import gsap                    from "gsap"
+/*
+ * GSAP is intentionally NOT imported at the module level.
+ * It's only used in the add-to-cart particle burst — a user-initiated
+ * action. Lazy-importing inside the callback keeps GSAP (~100 KB) out
+ * of the initial PresetCard bundle completely.
+ */
 
 interface PresetCardProps {
   preset:     Preset
@@ -58,9 +63,12 @@ export function PresetCard({ preset, className }: PresetCardProps) {
     : null
 
   /* ── GSAP particle burst — fired on add-to-cart ── */
-  const fireParticleBurst = useCallback(() => {
+  const fireParticleBurst = useCallback(async () => {
     const btn = btnRef.current
     if (!btn) return
+
+    /* Lazy-load GSAP on first click — keeps it out of the initial bundle */
+    const { default: gsap } = await import("gsap")
 
     const rect   = btn.getBoundingClientRect()
     const cx     = rect.left + rect.width  / 2
@@ -83,7 +91,6 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         pointer-events: none;
         z-index: 9998;
         transform: translate(-50%, -50%);
-        will-change: transform, opacity;
       `
       container.appendChild(p)
 

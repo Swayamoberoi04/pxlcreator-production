@@ -231,7 +231,13 @@ export function CinematicBackground({
             background: `radial-gradient(ellipse at center, ${orb.color} 0%, transparent 72%)`,
             animation:       `orb-drift ${orb.duration} ease-in-out infinite`,
             animationDelay:  orb.delay,
-            willChange:      "transform",
+            /*
+             * will-change: transform removed from decorative orbs.
+             * CSS keyframe animations are already compositor-promoted by the
+             * browser automatically when they only touch transform/opacity.
+             * Explicit will-change on every orb forces a dedicated GPU layer
+             * per-orb even when they're nearly invisible — GPU memory waste.
+             */
             filter:          orb.blur ? `blur(${orb.blur})` : undefined,
           }}
         />
@@ -250,7 +256,7 @@ export function CinematicBackground({
             "--pulse-min": "0.4",
             "--pulse-max": "1.0",
             animation:       `glow-pulse ${cfg.centerPulse.duration} ease-in-out infinite`,
-            willChange:      "transform, opacity",
+            /* No will-change — browser auto-promotes opacity/transform keyframes */
           } as React.CSSProperties}
         />
       )}
@@ -265,7 +271,6 @@ export function CinematicBackground({
             background: `linear-gradient(105deg, transparent 0%, ${cfg.spotlightColor} 40%, transparent 80%)`,
             animation:       "spotlight-sweep 9s ease-in-out infinite",
             animationDelay:  "1.5s",
-            willChange:      "transform",
           }}
         />
       )}

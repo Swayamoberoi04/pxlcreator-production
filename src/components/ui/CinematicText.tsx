@@ -21,12 +21,11 @@
  */
 
 import { useRef, useEffect }  from "react"
-import gsap                   from "gsap"
-import { ScrollTrigger }      from "gsap/ScrollTrigger"
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
+/*
+ * GSAP is lazy-loaded inside useEffect so it's excluded from the initial
+ * HTML payload. ScrollTrigger fires well after mount — the async import
+ * completes before the trigger point is ever reached in practice.
+ */
 
 type TagType = "h1" | "h2" | "h3" | "h4" | "p" | "span"
 
@@ -64,25 +63,37 @@ export function CinematicText({
     const wordEls = el.querySelectorAll<HTMLElement>(".cinema-word")
     if (!wordEls.length) return
 
-    const ctx = gsap.context(() => {
-      gsap.from(wordEls, {
-        scrollTrigger: {
-          trigger:  el,
-          start,
-        },
-        opacity:              0,
-        y:                    65,
-        rotateX:              -24,
-        transformPerspective: 1400,
-        transformOrigin:      "50% 0%",
-        duration:             0.88,
-        ease:                 "expo.out",
-        stagger,
-        delay,
-      })
-    }, el)
+    let ctx: { revert: () => void } | undefined
 
-    return () => ctx.revert()
+    /* Lazy-load GSAP — deferred until after initial render */
+    import("gsap").then(({ default: gsap }) =>
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        gsap.registerPlugin(ScrollTrigger)
+        ctx = gsap.context(() => {
+          gsap.from(wordEls, {
+            scrollTrigger: {
+              trigger:  el,
+              start,
+            },
+            opacity:              0,
+            y:                    65,
+            rotateX:              -24,
+            transformPerspective: 1400,
+            transformOrigin:      "50% 0%",
+            duration:             0.88,
+            ease:                 "expo.out",
+            stagger,
+            delay,
+            /* Clear will-change after animation completes — frees GPU layer */
+            onComplete() {
+              wordEls.forEach((w) => { w.style.willChange = "auto" })
+            },
+          })
+        }, el)
+      })
+    )
+
+    return () => { ctx?.revert() }
   }, [delay, stagger, start])
 
   return (
@@ -91,7 +102,7 @@ export function CinematicText({
       {words.map((word, i) => (
         <span
           key={i}
-          className="cinema-word inline-block will-change-transform"
+          className="cinema-word inline-block"
           style={{ marginRight: i < words.length - 1 ? "0.3em" : 0 }}
         >
           {word}

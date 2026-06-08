@@ -82,6 +82,8 @@ export function CinematicCursor() {
 
     /* ── rAF render loop ── */
     let rafId = 0
+    let idleTimer = 0
+    let isRunning = false
     const LERP = 0.115
 
     function tick() {
@@ -93,13 +95,37 @@ export function CinematicCursor() {
       ry += (my - ry) * LERP
       ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`
 
+      /* Stop the loop once ring has fully caught up (< 0.1px delta) */
+      const dxSettled = Math.abs(mx - rx) < 0.1
+      const dySettled = Math.abs(my - ry) < 0.1
+      if (dxSettled && dySettled) {
+        isRunning = false
+        return           /* No cancelAnimationFrame needed — loop just exits */
+      }
+
       rafId = requestAnimationFrame(tick)
     }
-    rafId = requestAnimationFrame(tick)
+
+    /* Start the loop only on pointer movement — idle pages pay zero cost */
+    const startLoop = () => {
+      if (isRunning) return
+      isRunning = true
+      rafId = requestAnimationFrame(tick)
+    }
+
+    const _origOnMove = onMove
+    const onMoveWithRAF = (e: MouseEvent) => {
+      _origOnMove(e)
+      startLoop()
+    }
+
+    document.removeEventListener("mousemove", onMove)
+    document.addEventListener("mousemove", onMoveWithRAF, { passive: true })
 
     return () => {
       cancelAnimationFrame(rafId)
-      document.removeEventListener("mousemove",  onMove)
+      clearTimeout(idleTimer)
+      document.removeEventListener("mousemove",  onMoveWithRAF)
       document.removeEventListener("mouseover",  onEnter)
       document.removeEventListener("mouseout",   onLeave)
       document.removeEventListener("mousedown",  onDown)

@@ -17,7 +17,7 @@
  */
 
 import { useRef, useMemo } from "react"
-import { Canvas, useFrame }            from "@react-three/fiber"
+import { Canvas, useFrame, useThree }  from "@react-three/fiber"
 import * as THREE                       from "three"
 
 /* ── Single breathing orb sphere ── */
@@ -43,24 +43,34 @@ function Orb({ position, color, size, speed, offset }: OrbProps) {
     [color]
   )
 
+  const { invalidate } = useThree()
+  const frameRef = useRef(0)
+
   useFrame(({ clock }) => {
     if (!meshRef.current) return
+    frameRef.current++
+    /* Update every 3rd frame (~20fps) — opacity variance at this scale is imperceptible */
+    if (frameRef.current % 3 !== 0) { invalidate(); return }
     const t = clock.elapsedTime * speed + offset
     mat.opacity = 0.04 + Math.sin(t) * 0.015
     meshRef.current.position.x = position[0] + Math.sin(t * 0.55) * 0.4
     meshRef.current.position.y = position[1] + Math.cos(t * 0.42) * 0.3
+    invalidate()
   })
 
   return (
     <mesh ref={meshRef} position={position} material={mat}>
-      <sphereGeometry args={[size, 16, 16]} />
+      {/* 8×8 segments instead of 16×16 — orbs are fully transparent blobs,
+          geometry resolution has zero visible impact at opacity 0.04 */}
+      <sphereGeometry args={[size, 8, 8]} />
     </mesh>
   )
 }
 
 /* ── Gold dust particles ── */
 function Dust() {
-  const COUNT = 60
+  /* Reduced from 60 → 30 — at sub-0.25 opacity the halving is invisible */
+  const COUNT = 30
 
   const geometry = useMemo(() => {
     const pos = new Float32Array(COUNT * 3)
@@ -113,8 +123,9 @@ export function AmbientOrbs() {
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 60 }}
-      gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
-      dpr={[1, 1.2]}
+      gl={{ antialias: false, alpha: true, powerPreference: "default" }}
+      dpr={[1, 1]}
+      frameloop="demand"
       style={{ pointerEvents: "none" }}
       aria-hidden="true"
     >

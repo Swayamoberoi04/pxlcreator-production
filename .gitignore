@@ -42,3 +42,20 @@ next-env.d.ts
 firebase-adminsdk*.json
 .env.local
 .env
+
+# ── Non-web assets (should never be in a web repo) ────────────────
+# Design/marketing documents — use Google Drive or Notion instead
+*.docx
+*.pptx
+*.xlsx
+*.pdf
+
+# Instagram / social media content — track in a separate marketing repo
+/IG/
+
+# Root-level assets mirror — public/assets/ is the canonical location.
+# The root /assets/ folder is a duplicate and bloats the repo by 35 MB.
+/assets/
+
+# Cursor IDE project files
+.cursor/

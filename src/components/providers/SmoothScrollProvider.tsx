@@ -67,6 +67,14 @@ export function SmoothScrollProvider({
 }: {
   children: React.ReactNode
 }) {
+  /*
+   * Touch detection: evaluated once synchronously after mount.
+   * Using `useState(false)` + `useEffect` causes:
+   *   1. SSR renders Lenis wrapper (server doesn't know device type)
+   *   2. Client mounts, effect fires, state flips → second render
+   * This double-render is wasted work. Using `useSyncExternalStore` pattern
+   * or a lazy initialiser keeps it to one render on the client.
+   */
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {

@@ -141,7 +141,8 @@ function StoreOrbs() {
 
         return (
           <mesh key={i} ref={ref} position={o.pos} material={mat}>
-            <sphereGeometry args={[o.size, 12, 12]} />
+            {/* 6×6 segments — nearly transparent blobs, geometry res is invisible */}
+            <sphereGeometry args={[o.size, 6, 6]} />
           </mesh>
         )
       })}

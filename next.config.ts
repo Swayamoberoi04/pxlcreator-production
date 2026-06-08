@@ -7,6 +7,23 @@ const nextConfig: NextConfig = {
   ─────────────────────────────────────────────────────────── */
   poweredByHeader: false,
 
+  /* ── Tree-shake heavy packages ────────────────────────────
+     optimizePackageImports rewrites named imports so only the
+     specific exports used are bundled, not the full package.
+     Critical for lucide-react (900+ icons) and framer-motion.
+  ─────────────────────────────────────────────────────────── */
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "framer-motion",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-select",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-tooltip",
+    ],
+  },
+
   /* ── Image optimisation ───────────────────────────────────
      AVIF delivers ~50% smaller files vs WebP, ~70% vs JPEG.
      WebP is the fallback for browsers without AVIF support.

@@ -41,8 +41,13 @@ export function GrainOverlay({
         backgroundSize:  "300px 300px",
         mixBlendMode:    "overlay",
         /* animation class lets the CSS media query suppress it cleanly */
+        /*
+         * 0.25s steps(1) ≈ 4fps — Film grain below ~6fps is indistinguishable
+         * from 7fps but cuts CSS-compositor work by ~44%. The difference is
+         * invisible because grain at 3.5% opacity registers subconsciously.
+         */
         animation: animated
-          ? "grain-shift 0.14s steps(1) infinite"
+          ? "grain-shift 0.25s steps(1) infinite"
           : "none",
       }}
     />
