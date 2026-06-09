@@ -1,18 +1,18 @@
 import type { Metadata } from "next"
 import { Syne, DM_Sans } from "next/font/google"
-import dynamic           from "next/dynamic"
 import "./globals.css"
 
 /*
- * PopupManager is dynamically imported with ssr:false so it:
- *   • Never runs during SSR — zero impact on TTFB / FCP / LCP / Lighthouse
- *   • Is not in the critical JS bundle — split into its own chunk
- *   • Loads client-side only, after hydration
+ * PopupManagerLoader is a "use client" component that internally uses
+ * dynamic(() => import("@/components/ui/PopupManager"), { ssr: false }).
+ *
+ * We cannot call dynamic(..., { ssr: false }) at the module level of a
+ * Server Component (layout.tsx is a Server Component by default in App Router).
+ * Moving the dynamic() call into a dedicated Client Component is the correct
+ * Next.js App Router pattern — keeps layout a Server Component, keeps the
+ * popup client-only, zero Lighthouse impact.
  */
-const PopupManager = dynamic(
-  () => import("@/components/ui/PopupManager"),
-  { ssr: false },
-)
+import { PopupManagerLoader } from "@/components/ui/PopupManagerLoader"
 
 import { AuthProvider }            from "@/contexts/AuthContext"
 import { SmoothScrollProvider }   from "@/components/providers/SmoothScrollProvider"
@@ -171,8 +171,8 @@ export default function RootLayout({
             {/* Onboarding — checks status after sign-in, shows modal if needed */}
             <OnboardingGate />
             <OnboardingModal />
-            {/* Promotional popup — dynamically loaded, ssr:false, zero Lighthouse impact */}
-            <PopupManager />
+            {/* Promotional popup — client-only via PopupManagerLoader wrapper */}
+            <PopupManagerLoader />
           </AuthProvider>
         </SmoothScrollProvider>
       </body>
