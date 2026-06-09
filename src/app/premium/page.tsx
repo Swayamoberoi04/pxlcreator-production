@@ -22,6 +22,7 @@ import { useState, useEffect, useCallback } from "react"
 import { useRouter }    from "next/navigation"
 import Link             from "next/link"
 import Script           from "next/script"
+import { motion, AnimatePresence } from "framer-motion"
 import { useAuth }      from "@/contexts/AuthContext"
 import { Container }    from "@/components/layout/Container"
 import { PLAN_LIST, yearlySavingsUsd, yearlySavingsPct } from "@/lib/subscriptions/plans"
@@ -420,27 +421,49 @@ export default function PremiumPage() {
             </div>
           )}
 
-          {/* Plans grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto items-stretch">
-
+          {/* Plans grid — staggered entrance */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto items-stretch"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-20px" }}
+            variants={{
+              hidden:  {},
+              visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+            }}
+          >
             {/* ── Free card ── */}
-            <FreePlanCard />
+            <motion.div
+              variants={{
+                hidden:  { opacity: 0, y: 28 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+              }}
+            >
+              <FreePlanCard />
+            </motion.div>
 
             {/* ── Paid plans ── */}
             {PLAN_LIST.map((plan) => (
-              <PaidPlanCard
+              <motion.div
                 key={plan.id}
-                plan={plan}
-                cycle={cycle}
-                isCurrentPlan={activePlanId === plan.id}
-                isProcessing={processing === plan.id}
-                scriptReady={scriptReady}
-                authLoading={authLoading || !statusLoaded}
-                isLoggedIn={!!user}
-                onClick={() => handlePlanClick(plan)}
-              />
+                variants={{
+                  hidden:  { opacity: 0, y: 28 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+                }}
+              >
+                <PaidPlanCard
+                  plan={plan}
+                  cycle={cycle}
+                  isCurrentPlan={activePlanId === plan.id}
+                  isProcessing={processing === plan.id}
+                  scriptReady={scriptReady}
+                  authLoading={authLoading || !statusLoaded}
+                  isLoggedIn={!!user}
+                  onClick={() => handlePlanClick(plan)}
+                />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Comparison note */}
           {cycle === "yearly" && (
@@ -803,7 +826,9 @@ function FeatureComparisonTable() {
 }
 
 /* ─────────────────────────────────────────
-   FAQ accordion
+   FAQ accordion — AnimatePresence for premium reveal
+   Animates only opacity + y (compositor path, no layout thrash).
+   The icon rotates via motion.span with spring physics.
 ───────────────────────────────────────── */
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
@@ -812,19 +837,31 @@ function FAQItem({ q, a }: { q: string; a: string }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
         className="flex w-full items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
       >
         <span className="font-display font-bold text-[0.9375rem] text-foreground">{q}</span>
-        <span className={cn(
-          "shrink-0 text-muted transition-transform duration-200",
-          open && "rotate-45"
-        )}>
+        <motion.span
+          animate={{ rotate: open ? 45 : 0 }}
+          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          className="shrink-0 text-muted"
+        >
           <PlusIcon />
-        </span>
+        </motion.span>
       </button>
-      {open && (
-        <p className="mt-3 text-[0.875rem] text-muted/70 leading-relaxed pr-8">{a}</p>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="answer"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="mt-3 text-[0.875rem] text-muted/70 leading-relaxed pr-8">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

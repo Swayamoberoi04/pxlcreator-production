@@ -1,15 +1,22 @@
 "use client"
 
-import { useState, useEffect }               from "react"
-import Link                                   from "next/link"
-import Image                                  from "next/image"
-import dynamic                                from "next/dynamic"
-import { motion, useMotionValue, useSpring }  from "framer-motion"
-import { cn }                                 from "@/lib/utils"
-import { CinematicBackground }                from "@/components/ui/CinematicBackground"
-import { FloatingParticles }                  from "@/components/ui/FloatingParticles"
-import { GrainOverlay }                       from "@/components/ui/GrainOverlay"
-import { MagneticButton }                     from "@/components/ui/MagneticButton"
+import { useState, useEffect, useRef }              from "react"
+import Link                                          from "next/link"
+import Image                                         from "next/image"
+import dynamic                                       from "next/dynamic"
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion"
+import { cn }                                        from "@/lib/utils"
+import { CinematicBackground }                       from "@/components/ui/CinematicBackground"
+import { FloatingParticles }                         from "@/components/ui/FloatingParticles"
+import { GrainOverlay }                              from "@/components/ui/GrainOverlay"
+import { MagneticButton }                            from "@/components/ui/MagneticButton"
 
 /*
  * HeroScene3D is a Three.js canvas — must skip SSR entirely.
@@ -50,12 +57,28 @@ const SCENES = [
 
 export function HeroSection() {
   const [active, setActive] = useState(0)
+  const heroRef  = useRef<HTMLElement>(null)
+  const reduced  = useReducedMotion()
 
   /* ── Scene cycling ── */
   useEffect(() => {
     const id = setInterval(() => setActive((v) => (v + 1) % SCENES.length), 5500)
     return () => clearInterval(id)
   }, [])
+
+  /* ── Scroll-linked fade-out: content gracefully exits as user scrolls away ──
+     Uses transform + opacity only — compositor path, zero layout work.
+     offset ["start start", "end start"] = 0 when hero top is at viewport top,
+     1 when hero bottom is at viewport top (hero fully scrolled past).
+     Animations complete at 0.55 so the hero feels gone before the next
+     section takes focus. prefers-reduced-motion: skip entirely.
+  ── */
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  })
+  const scrollOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const scrollY       = useTransform(scrollYProgress, [0, 0.55], [0, -24])
 
   /* ── Mouse parallax — content floats ±8px on pointer move ── */
   const rawX = useMotionValue(0)
@@ -79,6 +102,7 @@ export function HeroSection() {
 
   return (
     <section
+      ref={heroRef}
       className="relative w-full overflow-hidden flex items-center justify-center"
       style={{ minHeight: "calc(100svh - 3.5rem)" }}
     >
@@ -186,11 +210,19 @@ export function HeroSection() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
-          HERO CONTENT — floats on mouse parallax spring
+          HERO CONTENT — scroll-linked fade + mouse parallax
+          Outer wrapper handles the scroll exit (opacity + y).
+          Inner wrapper handles mouse parallax (x + y springs).
+          Two-layer approach keeps each transform orthogonal —
+          no fighting between scroll and mouse motion values.
       ═══════════════════════════════════════════════════════════ */}
       <motion.div
+        className="relative z-[10] w-full flex flex-col items-center justify-center"
+        style={reduced ? undefined : { opacity: scrollOpacity, y: scrollY }}
+      >
+      <motion.div
         style={{ x: springX, y: springY }}
-        className="relative z-[10] flex flex-col items-center text-center w-full px-5 select-none"
+        className="flex flex-col items-center text-center w-full px-5 select-none"
       >
 
         {/* ── Eyebrow ── */}
@@ -289,6 +321,9 @@ export function HeroSection() {
         </motion.p>
 
       </motion.div>
+      {/* /mouse-parallax wrapper */}
+      </motion.div>
+      {/* /scroll-fade wrapper */}
 
       {/* ── Scene indicator dots ── */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[10] flex items-center gap-2">

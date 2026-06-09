@@ -73,25 +73,50 @@ export function MagneticButton({
   }, [])
 
   useEffect(() => {
-    const el = outerRef.current
+    const el    = outerRef.current
+    const inner = innerRef.current
     if (!el) return
 
     const TRANSITION = "transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)"
     el.style.transition = TRANSITION
-    if (innerRef.current) innerRef.current.style.transition = TRANSITION
+    if (inner) inner.style.transition = TRANSITION
 
-    el.addEventListener("mousemove", handleMove, { passive: true })
-    el.addEventListener("mouseleave", handleLeave)
+    /*
+     * willChange: "transform" promotes the element to its own GPU compositor
+     * layer. Applying it permanently (even when the element is idle) wastes
+     * VRAM and creates unnecessary compositor layers — 6-10 extra layers on
+     * every page HeroSection appears on.
+     *
+     * Fix: set it only while the cursor is inside, clear on leave.
+     * This lets the browser promote the layer exactly when it needs to animate
+     * and reclaim that memory the moment the interaction ends.
+     */
+    const handleEnter = () => {
+      el.style.willChange = "transform"
+      if (inner) inner.style.willChange = "transform"
+    }
+    const handleDone = () => {
+      el.style.willChange = "auto"
+      if (inner) inner.style.willChange = "auto"
+    }
+
+    el.addEventListener("mouseenter",  handleEnter)
+    el.addEventListener("mousemove",   handleMove,  { passive: true })
+    el.addEventListener("mouseleave",  handleLeave)
+    el.addEventListener("mouseleave",  handleDone)
     return () => {
-      el.removeEventListener("mousemove", handleMove)
-      el.removeEventListener("mouseleave", handleLeave)
+      el.removeEventListener("mouseenter",  handleEnter)
+      el.removeEventListener("mousemove",   handleMove)
+      el.removeEventListener("mouseleave",  handleLeave)
+      el.removeEventListener("mouseleave",  handleDone)
       cancelAnimationFrame(rafId.current)
     }
   }, [handleMove, handleLeave])
 
   return (
-    <div ref={outerRef} className={className} style={{ willChange: "transform", display: "inline-flex" }}>
-      <div ref={innerRef} style={{ willChange: "transform" }}>
+    /* willChange starts as "auto" — set to "transform" only on mouseenter */
+    <div ref={outerRef} className={className} style={{ display: "inline-flex" }}>
+      <div ref={innerRef}>
         {children}
       </div>
     </div>

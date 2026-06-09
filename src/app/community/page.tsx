@@ -11,6 +11,12 @@ import type { ChannelWithMeta, CommunityProfile, ProjectWithMeta } from "@/types
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
+/* Lightweight section header reveal — opacity + y only, no 3D */
+const SECTION_HEADER_VARIANTS = {
+  hidden:  { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0,  transition: { duration: 0.55, ease: EASE } },
+} as const
+
 interface CommunityStats {
   creators: number
   channels: number
@@ -150,12 +156,18 @@ export default function CommunityHubPage() {
 
       {/* ── Featured Channels ───────────────────────────────── */}
       <section className="flex flex-col gap-5">
-        <div className="flex items-center justify-between">
+        <motion.div
+          className="flex items-center justify-between"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-20px" }}
+          variants={SECTION_HEADER_VARIANTS}
+        >
           <h2 className="font-display font-black text-xl text-foreground">Featured Channels</h2>
           <Link href="/community/channels" className="text-sm text-gold hover:underline">
             Browse all →
           </Link>
-        </div>
+        </motion.div>
 
         {loadingChannels ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -172,12 +184,18 @@ export default function CommunityHubPage() {
 
       {/* ── Discover Creators ───────────────────────────────── */}
       <section className="flex flex-col gap-5">
-        <div className="flex items-center justify-between">
+        <motion.div
+          className="flex items-center justify-between"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-20px" }}
+          variants={SECTION_HEADER_VARIANTS}
+        >
           <h2 className="font-display font-black text-xl text-foreground">Discover Creators</h2>
           <Link href="/community/discover" className="text-sm text-gold hover:underline">
             See all →
           </Link>
-        </div>
+        </motion.div>
 
         {loadingCreators ? (
           <div className="flex gap-3 overflow-x-auto pb-2">
@@ -200,12 +218,18 @@ export default function CommunityHubPage() {
 
       {/* ── Latest Projects ─────────────────────────────────── */}
       <section className="flex flex-col gap-5">
-        <div className="flex items-center justify-between">
+        <motion.div
+          className="flex items-center justify-between"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-20px" }}
+          variants={SECTION_HEADER_VARIANTS}
+        >
           <h2 className="font-display font-black text-xl text-foreground">Open Projects</h2>
           <Link href="/community/projects" className="text-sm text-gold hover:underline">
             Browse all →
           </Link>
-        </div>
+        </motion.div>
 
         {loadingProjects ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -221,35 +245,55 @@ export default function CommunityHubPage() {
       </section>
 
       {/* ── CTA row ─────────────────────────────────────────── */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4">
-        <Link
-          href="/community/showcase"
-          className="group flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 hover:border-gold/40 hover:bg-surface-2 transition-colors"
-        >
-          <span className="text-2xl">✨</span>
-          <div>
-            <h3 className="font-display font-black text-base text-foreground group-hover:text-gold transition-colors">
-              Share Your Work
-            </h3>
-            <p className="text-xs text-muted/60 mt-1">Showcase photos, edits, and reels to the community</p>
-          </div>
-          <span className="text-gold text-sm font-semibold">Go to Showcase →</span>
-        </Link>
-
-        <Link
-          href="/community/discover"
-          className="group flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 hover:border-gold/40 hover:bg-surface-2 transition-colors"
-        >
-          <span className="text-2xl">🤝</span>
-          <div>
-            <h3 className="font-display font-black text-base text-foreground group-hover:text-gold transition-colors">
-              Find Collaborators
-            </h3>
-            <p className="text-xs text-muted/60 mt-1">Browse creators by skill, role, and availability</p>
-          </div>
-          <span className="text-gold text-sm font-semibold">Discover Creators →</span>
-        </Link>
-      </section>
+      <motion.section
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-20px" }}
+        variants={{
+          hidden:  {},
+          visible: { transition: { staggerChildren: 0.10, delayChildren: 0 } },
+        }}
+      >
+        {[
+          {
+            href:    "/community/showcase",
+            emoji:   "✨",
+            title:   "Share Your Work",
+            desc:    "Showcase photos, edits, and reels to the community",
+            cta:     "Go to Showcase →",
+          },
+          {
+            href:    "/community/discover",
+            emoji:   "🤝",
+            title:   "Find Collaborators",
+            desc:    "Browse creators by skill, role, and availability",
+            cta:     "Discover Creators →",
+          },
+        ].map((card) => (
+          <motion.div
+            key={card.href}
+            variants={{
+              hidden:  { opacity: 0, y: 16 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+            }}
+          >
+            <Link
+              href={card.href}
+              className="group flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 hover:border-gold/40 hover:bg-surface-2 transition-colors h-full"
+            >
+              <span className="text-2xl">{card.emoji}</span>
+              <div>
+                <h3 className="font-display font-black text-base text-foreground group-hover:text-gold transition-colors">
+                  {card.title}
+                </h3>
+                <p className="text-xs text-muted/60 mt-1">{card.desc}</p>
+              </div>
+              <span className="text-gold text-sm font-semibold">{card.cta}</span>
+            </Link>
+          </motion.div>
+        ))}
+      </motion.section>
     </div>
   )
 }

@@ -106,7 +106,12 @@ interface CinematicRevealProps {
   className?: string
   variant?:   Variant
   delay?:     number
-  /** IntersectionObserver root margin. Default "-60px" */
+  /**
+   * IntersectionObserver root margin.
+   * Negative = element must be N px INSIDE viewport before firing.
+   * Default "-20px" — just 20px inside viewport, much safer than -60px
+   * which caused elements near the fold to never animate on small viewports.
+   */
   margin?:    string
 }
 
@@ -115,7 +120,7 @@ export function CinematicReveal({
   className,
   variant = "depth",
   delay   = 0,
-  margin  = "-60px",
+  margin  = "-20px",
 }: CinematicRevealProps) {
   const reduced = useReducedMotion()
   if (reduced) return <div className={className}>{children}</div>
@@ -186,7 +191,7 @@ export function CinematicStagger({
   stagger     = 0.085,
   baseDelay   = 0,
   itemVariant = "depth",
-  margin      = "-60px",
+  margin      = "-20px",
   style,
 }: CinematicStaggerProps) {
   const reduced = useReducedMotion()
