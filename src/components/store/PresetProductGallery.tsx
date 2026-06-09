@@ -6,10 +6,11 @@ import { BeforeAfterSlider } from "@/components/studio/BeforeAfterSlider"
 import { cn }           from "@/lib/utils"
 
 interface PresetProductGalleryProps {
-  images:     string[]    // all gallery images (thumbnail first)
-  beforeUrl?: string
-  afterUrl?:  string
-  name:       string
+  images:                  string[]    // all gallery images (thumbnail first)
+  beforeUrl?:              string
+  afterUrl?:               string
+  name:                    string
+  beforeAfterExplanation?: string      // caption shown below the before/after slider
 }
 
 type ViewMode = "gallery" | "before-after"
@@ -19,6 +20,7 @@ export function PresetProductGallery({
   beforeUrl,
   afterUrl,
   name,
+  beforeAfterExplanation,
 }: PresetProductGalleryProps) {
   const [active,   setActive]   = useState(0)
   const [viewMode, setViewMode] = useState<ViewMode>("gallery")
@@ -53,11 +55,18 @@ export function PresetProductGallery({
 
       {/* ── Main display ── */}
       {viewMode === "before-after" && hasBeforeAfter ? (
-        <BeforeAfterSlider
-          beforeUrl={beforeUrl!}
-          afterUrl={afterUrl!}
-          className="rounded-2xl"
-        />
+        <div className="flex flex-col gap-3">
+          <BeforeAfterSlider
+            beforeUrl={beforeUrl!}
+            afterUrl={afterUrl!}
+            className="rounded-2xl"
+          />
+          {beforeAfterExplanation && (
+            <p className="text-[0.78rem] text-muted/50 leading-relaxed border-l-2 border-gold/30 pl-3 italic">
+              {beforeAfterExplanation}
+            </p>
+          )}
+        </div>
       ) : (
         <>
           {/* Main image */}

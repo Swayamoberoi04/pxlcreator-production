@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const ogImage = preset.thumbnailUrl ?? siteConfig.ogImage
 
   return {
-    title:       preset.name,
-    description: preset.tagline,
+    title:       preset.seoTitle ?? preset.name,
+    description: preset.seoDescription ?? preset.tagline,
     keywords:    [
       preset.name,
       preset.category,
@@ -52,14 +52,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       type:        "website",
       url:          pageUrl,
-      title:        preset.name,
-      description:  preset.tagline,
+      title:        preset.seoTitle ?? preset.name,
+      description:  preset.seoDescription ?? preset.tagline,
       images: [{ url: ogImage, width: 1200, height: 630, alt: preset.name }],
     },
     twitter: {
       card:        "summary_large_image",
-      title:        preset.name,
-      description:  preset.tagline,
+      title:        preset.seoTitle ?? preset.name,
+      description:  preset.seoDescription ?? preset.tagline,
       images:       [ogImage],
     },
   }
@@ -171,6 +171,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 beforeUrl={preset.beforeUrl}
                 afterUrl={preset.afterUrl}
                 name={preset.name}
+                beforeAfterExplanation={preset.beforeAfterExplanation}
               />
             </CinematicReveal>
 
@@ -188,6 +189,13 @@ export default async function PresetDetailPage({ params }: PageProps) {
                     {preset.name}
                   </h1>
                   <p className="text-[1rem] text-muted/70 leading-relaxed">{preset.tagline}</p>
+
+                  {/* Hook */}
+                  {preset.hook && (
+                    <p className="text-[0.9rem] font-semibold text-foreground/85 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
+                      {preset.hook}
+                    </p>
+                  )}
                 </div>
 
                 {/* Rating row */}
@@ -256,6 +264,24 @@ export default async function PresetDetailPage({ params }: PageProps) {
                         </span>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {/* Best use case + ideal lighting */}
+                {(preset.bestUseCase || preset.idealLighting) && (
+                  <div className="flex flex-col gap-2 rounded-xl border border-border/60 bg-surface-2/40 px-4 py-3">
+                    {preset.bestUseCase && (
+                      <div className="flex gap-2.5 text-[0.8rem]">
+                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Best for</span>
+                        <span className="text-foreground/70 leading-snug">{preset.bestUseCase}</span>
+                      </div>
+                    )}
+                    {preset.idealLighting && (
+                      <div className="flex gap-2.5 text-[0.8rem]">
+                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Lighting</span>
+                        <span className="text-foreground/70 leading-snug">{preset.idealLighting}</span>
+                      </div>
+                    )}
                   </div>
                 )}
 

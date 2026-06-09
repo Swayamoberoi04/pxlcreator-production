@@ -61,7 +61,7 @@ export function productSchema(preset: Preset) {
     "@context":   "https://schema.org",
     "@type":      "Product",
     name:          preset.name,
-    description:   preset.tagline,
+    description:   preset.seoDescription ?? preset.description ?? preset.tagline,
     url:           `${siteConfig.url}/presets/${preset.slug}`,
     image:         preset.thumbnailUrl ?? `${siteConfig.url}${siteConfig.ogImage}`,
     brand: {

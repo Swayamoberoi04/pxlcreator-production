@@ -49,6 +49,14 @@ export interface Preset {
 
   /* ── AI Studio matching ── */
   aiTags?: string[]
+
+  /* ── SEO & editorial enrichment ── */
+  hook?:                   string   // one-line attention hook (max 15 words)
+  seoTitle?:               string   // <title> / og:title for the detail page
+  seoDescription?:         string   // meta description (max 80 words)
+  bestUseCase?:            string   // short phrase — ideal subject / genre
+  idealLighting?:          string   // lighting conditions this preset excels in
+  beforeAfterExplanation?: string   // caption for the before/after slider (max 40 words)
 }
 
 /* ── Category ───────────────────────────────────────────── */

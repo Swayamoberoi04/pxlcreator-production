@@ -59,6 +59,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["warm", "golden", "amber", "sunset", "sun", "cinematic", "rich", "shadows", "desert", "saturated", "orange", "tones"],
+
+    hook:                   "Golden-hour drama your camera couldn't capture — one click away.",
+    seoTitle:               "Desert Gold Pack — Warm Cinematic Golden Hour Lightroom Presets | PXL Creator",
+    seoDescription:         "Desert Gold Pack delivers 15 warm amber cinematic Lightroom presets built for outdoor and travel photographers. Handles blown highlights, recovers shadow detail, and pushes rich golden tones without damaging skin. Tested across Sony, Canon, Nikon, and Fuji RAW files. Perfect for desert landscapes, golden hour sessions, and harsh sun — PXL Creator's most reliable cinematic pack.",
+    bestUseCase:            "Desert landscapes, travel photography, outdoor golden hour portrait sessions",
+    idealLighting:          "Golden hour (5–8 PM), harsh midday sun, backlit sunset and sunrise scenes",
+    beforeAfterExplanation: "Flat, overexposed RAW transforms into a rich amber cinematic frame — highlights controlled, shadows warm and deep, orange tones rich.",
   },
 
   {
@@ -92,6 +99,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["noir", "dark", "contrast", "urban", "street", "moody", "cool", "blue", "shadows", "dramatic", "black", "gritty", "cinematic"],
+
+    hook:                   "City streets turned cinematic — drama in every shadow, every frame.",
+    seoTitle:               "Urban Noir Pack — High-Contrast Street Photography Lightroom Presets | PXL Creator",
+    seoDescription:         "Urban Noir Pack delivers 12 high-contrast street and architectural Lightroom presets that crush blacks, boost midtone contrast, and introduce a cinematic cool blue shadow cast. Designed for city scenes that feel electric and dramatic. Works in overcast daylight and harsh artificial light alike. The definitive dark-aesthetic pack for editorial urban photography and street work.",
+    bestUseCase:            "Street photography, architectural shots, night scenes, urban editorial work",
+    idealLighting:          "Overcast daylight, artificial city light, harsh directional shadows under direct sun",
+    beforeAfterExplanation: "A dull city scene transforms into high-contrast noir — blacks crushed, cool shadows deep, midtones punchy and dramatically electric.",
   },
 
   {
@@ -126,6 +140,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["film", "grain", "vintage", "faded", "analogue", "kodak", "fuji", "halation", "fade", "retro", "muted", "nostalgic", "washed"],
+
+    hook:                   "Kodak, Fuji, Ilford — five decades of film in one download.",
+    seoTitle:               "Film Emulation Bundle — Kodak, Fuji & Ilford Lightroom Presets | PXL Creator",
+    seoDescription:         "Film Emulation Bundle recreates Kodak Portra, Fuji Velvia, Ilford HP5, and more with authentic grain structures, halation effects, and signature colour casts. Thirty presets across 6 film stocks deliver real analogue character on digital RAW files. The most complete film emulation pack PXL Creator has made — for photographers who want images that feel genuinely shot on film.",
+    bestUseCase:            "Fashion, documentary, portrait, travel — any genre elevated by analogue character",
+    idealLighting:          "Any — authentic grain and halation shine in both natural and artificial light",
+    beforeAfterExplanation: "Clean digital RAW gains authentic grain, halated highlights, and the iconic muted colour cast of classic analogue film stock.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -163,6 +184,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["cool", "blue", "teal", "minimal", "clean", "editorial", "landscape", "airy", "winter", "crisp", "cold", "bright"],
+
+    hook:                   "Editorial-clean skies and icy tones — completely free to download.",
+    seoTitle:               "Arctic Blue Pack — Free Cool Landscape Lightroom Presets | PXL Creator",
+    seoDescription:         "Arctic Blue Pack offers 12 free minimal cool-toned Lightroom presets for landscape and travel photographers. A subtle cool-blue shift looks stunning on water, snow, forests, and overcast skies. Clean highlights, airy shadows, no heavy grading — just refined intentional tones. Compatible with aerial and drone RAW files. PXL Creator's gift to the landscape photography community.",
+    bestUseCase:            "Landscape photography, aerial and drone shots, winter scenes, blue-hour and coastal travel",
+    idealLighting:          "Overcast skies, blue hour, snowy environments, coastal and arctic natural light",
+    beforeAfterExplanation: "Flat landscape RAW becomes a cool, airy editorial frame — sky crisp, shadows lifted, colours intentionally and beautifully toned.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -199,6 +227,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["portrait", "warm", "skin", "sunset", "soft", "golden", "diffuse", "glow", "lifestyle", "light", "faces", "flattering"],
+
+    hook:                   "Skin that glows like golden hour — on every single shoot.",
+    seoTitle:               "Sunset Portrait Pack — Golden Hour Skin-Safe Portrait Lightroom Presets | PXL Creator",
+    seoDescription:         "Sunset Portrait Pack was refined across 50+ real portrait sessions to nail skin tones precisely. Ten presets lift shadows softly, warm skin without any orange cast, and add gentle diffusion mimicking golden-hour light. Works on every skin tone and camera. The go-to portrait pack for reliable, flattering results across studio, outdoor, and window-light conditions.",
+    bestUseCase:            "Portrait sessions, lifestyle photography, couple shoots, influencer content creation",
+    idealLighting:          "Golden hour, open shade, window light, overcast outdoor, studio with warm gels",
+    beforeAfterExplanation: "Flat portrait RAW becomes warm, luminous, and glowing — shadows lifted softly, skin tones beautifully rich without any orange cast.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -237,6 +272,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw", "DaVinci Resolve (LUT)"],
     aiTags: ["cinematic", "versatile", "balanced", "warm", "neutral", "modern", "clean", "contrast", "natural", "rich", "professional"],
+
+    hook:                   "Everything you need to edit like a pro — one single pack.",
+    seoTitle:               "Cinematic Starter Bundle — 25 Versatile Lightroom Presets + Video LUTs | PXL Creator",
+    seoDescription:         "Cinematic Starter Bundle packs 25 versatile Lightroom presets balanced across portrait, landscape, and street photography — plus video LUT exports in .cube format for DaVinci Resolve. Beginner-friendly fine-tuning, lifetime updates, and coverage across every genre. PXL Creator's most popular pack and the single best investment for any photographer starting their editing journey.",
+    bestUseCase:            "All genres — portrait, landscape, street, lifestyle, travel photography and videography",
+    idealLighting:          "Any — purposefully balanced to handle every real-world lighting condition",
+    beforeAfterExplanation: "Any RAW file, any genre, any light condition — transforms into a polished, professional cinematic look with a single click.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -272,6 +314,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["moody", "forest", "green", "dark", "mist", "atmospheric", "nature", "desaturated", "earthy", "shadows", "foliage", "mysterious"],
+
+    hook:                   "Deep greens and misty shadows — forest photography, transformed.",
+    seoTitle:               "Moody Forest Pack — Cinematic Nature & Woodland Lightroom Presets | PXL Creator",
+    seoDescription:         "Moody Forest Pack was built for woodland and nature photographers seeking cinematic depth. Twelve presets emphasise deep desaturated greens, add a low-contrast mist to shadows, and preserve fine foliage and bark texture. Tested on Canon R5 and Sony A7IV RAW files. Perfect for fine-art nature, editorial landscape, and moody forest photography that feels like a film still.",
+    bestUseCase:            "Forest and woodland photography, nature editorial, fine-art landscape, misty morning scenes",
+    idealLighting:          "Overcast forest light, misty mornings, golden hour filtering through trees, deep shade",
+    beforeAfterExplanation: "Bright unprocessed forest shot transforms into a deep atmospheric frame — greens desaturated, shadows misty, mood immediately cinematic.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -309,6 +358,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["vibrant", "punchy", "red", "blue", "saturated", "slide", "kodachrome", "travel", "vivid", "warm", "retro", "bold"],
+
+    hook:                   "Classic slide film's punchy reds and vivid blues — digitally reborn.",
+    seoTitle:               "Kodak Chrome Pack — Kodachrome-Inspired Slide Film Lightroom Presets | PXL Creator",
+    seoDescription:         "Kodak Chrome Pack recreates the iconic Kodachrome slide film look — punchy reds, saturated blues, warm mid-tones — with a precise modern digital interpretation. Fifteen presets feature authentic grain for travel, street, and lifestyle photography. When you want images that pop with the confident boldness of classic Kodachrome film, this pack delivers it consistently and beautifully.",
+    bestUseCase:            "Travel photography, street scenes, lifestyle shoots, vibrant outdoor and cultural scenes",
+    idealLighting:          "Bright outdoor sunlight, golden hour, tropical daylight — conditions where saturation and contrast thrive",
+    beforeAfterExplanation: "Muted travel RAW gains Kodachrome's iconic punch — reds vivid, blues saturated, grain authentic, mid-tones bold and warm.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -344,6 +400,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["golden", "warm", "magenta", "portrait", "haze", "luminous", "skin", "amber", "glow", "soft", "sunset", "hour"],
+
+    hook:                   "Warm, hazy, luminous portraits — no golden hour required.",
+    seoTitle:               "Golden Hour Portrait — Warm Lifestyle Portrait Lightroom Presets | PXL Creator",
+    seoDescription:         "Golden Hour Portrait captures the warmth, haze, and luminosity of late-afternoon light — even for noon shoots. Ten presets make magentas glow, shadows lift softly, and every skin tone turn radiant. Perfect for lifestyle content, couples sessions, and influencer photography. Delivers effortless sun-kissed quality consistently across all skin tones and lighting conditions.",
+    bestUseCase:            "Lifestyle content creation, couple sessions, influencer photography, outdoor portraits",
+    idealLighting:          "Any — simulates golden hour warmth regardless of actual shooting time and conditions",
+    beforeAfterExplanation: "A flat midday portrait transforms into a golden-hour dream — magentas warm and glowing, shadows lifted, skin luminous and inviting.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -384,6 +447,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["warm", "starter", "cinematic", "clean", "lifestyle", "everyday", "versatile", "beginner", "simple"],
+
+    hook:                   "Eight warm looks, zero cost — start editing like a pro today.",
+    seoTitle:               "Warm Starter Pack — Free Beginner Cinematic Lightroom Presets | PXL Creator",
+    seoDescription:         "Warm Starter Pack gives beginner photographers 8 free versatile warm-toned cinematic looks for portraits, travel, and everyday content. No learning curve — just drag, drop, and shoot. Mobile-optimised for Lightroom CC with an included starter editing PDF guide. PXL Creator's genuine free gift to help you build your editing foundation before committing to a paid pack.",
+    bestUseCase:            "Everyday content creation, portraits, travel photography, social media content",
+    idealLighting:          "Any — optimised for versatility across all common shooting conditions indoors and out",
+    beforeAfterExplanation: "An ordinary snapshot lifts into a warm, clean cinematic frame — inviting, polished, and immediately ready to post.",
   },
 
   {
@@ -416,6 +486,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["portrait", "soft", "skin", "natural", "warm", "gentle", "lifestyle", "beginner", "flattering"],
+
+    hook:                   "Natural skin warmth without the orange cast — free forever.",
+    seoTitle:               "Soft Portrait Freebie — Free Natural Skin Tone Portrait Lightroom Presets | PXL Creator",
+    seoDescription:         "Soft Portrait Freebie solves portrait editing's hardest challenge: warm skin that doesn't go orange. Six free presets use a careful HSL system to lift shadows softly and add warmth while protecting skin hue accuracy. A genuine sampler of PXL Creator's portrait system — quality that transforms portraits before you invest in the full Sunset Portrait Pack.",
+    bestUseCase:            "Portrait photography, headshots, lifestyle sessions, everyday social media content",
+    idealLighting:          "Window light, open shade, overcast outdoor, studio softbox and ring light",
+    beforeAfterExplanation: "Flat portrait gains natural warmth and lift — shadows open beautifully, skin tones glowing but accurate, never orange or artificial.",
   },
 
   {
@@ -448,6 +525,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["film", "grain", "analogue", "vintage", "retro", "fade", "nostalgic", "muted", "faded"],
+
+    hook:                   "Real film grain on digital files — your free taste of analogue.",
+    seoTitle:               "Film Grain Intro — Free Analogue Film Emulation Lightroom Presets | PXL Creator",
+    seoDescription:         "Film Grain Intro is a free 5-preset sampler of PXL Creator's full film emulation system. Each preset delivers authentic grain structures, highlight halation, and the muted colour cast of real photographic film — not digital noise. A genuine introduction to analogue film aesthetics for photographers who want digital files to carry unmistakable film character.",
+    bestUseCase:            "Travel, documentary, and portrait photography where analogue mood enhances the story",
+    idealLighting:          "Any — film grain and halation are especially flattering in natural and low light",
+    beforeAfterExplanation: "Crisp digital photo transforms into an analogue memory — grain authentically layered, highlights halated, colours muted with warm film cast.",
   },
 
   {
@@ -480,6 +564,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["clean", "airy", "light", "minimal", "editorial", "bright", "landscape", "crisp", "neutral", "open"],
+
+    hook:                   "Lifted, luminous, editorial-bright — the opposite of heavy grading.",
+    seoTitle:               "Clean & Airy — Free Bright Editorial Lightroom Presets | PXL Creator",
+    seoDescription:         "Clean & Airy delivers 6 free bright editorial-clean Lightroom presets for photographers who want luminosity over drama. Lifted shadows, pure white highlights, and no colour cast make them perfect for architecture, flat-lays, product photography, and bright outdoor portraits. Proves that minimal editing is a deliberate creative choice — polished and intentional, never washed out.",
+    bestUseCase:            "Architecture, product photography, flat-lays, bright outdoor portraits, interior design",
+    idealLighting:          "Bright natural daylight, overcast softbox, studio setups with white or neutral backgrounds",
+    beforeAfterExplanation: "Properly exposed RAW gains editorial brightness — shadows lifted, whites pure, tones clean and airy without ever feeling empty.",
   },
 
   {
@@ -512,6 +603,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["travel", "golden", "warm", "sunny", "adventure", "tropical", "lifestyle", "amber", "outdoor"],
+
+    hook:                   "Sun-kissed travel tones that stop the scroll — free to download.",
+    seoTitle:               "Golden Travel Freebie — Free Warm Travel Photography Lightroom Presets | PXL Creator",
+    seoDescription:         "Golden Travel Freebie offers five free warm saturated Lightroom presets built around the travel photography palette. Whether shooting beaches, mountains, or city streets, these deliver the sun-kissed amber warmth that stops the scroll. A free sampler of PXL Creator's cinematic and lifestyle palette, optimised for outdoor RAW files and social media travel content.",
+    bestUseCase:            "Travel photography, beach and mountain scenes, lifestyle and destination content",
+    idealLighting:          "Bright outdoor sunlight, golden hour, tropical daylight, warm destination light",
+    beforeAfterExplanation: "Flat travel snapshot transforms into a warm, sun-kissed hero image — amber palette rich, colours vibrant and instantly shareable.",
   },
 
   {
@@ -544,6 +642,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["street", "contrast", "urban", "dark", "gritty", "moody", "cool", "punchy", "raw", "dramatic"],
+
+    hook:                   "Deep blacks and punchy midtones — street photography finally upgraded.",
+    seoTitle:               "Street Contrast Starter — Free High-Contrast Urban Lightroom Presets | PXL Creator",
+    seoDescription:         "Street Contrast Starter introduces the high-contrast, desaturated aesthetic that makes city scenes electric. Five free presets build deep blacks, punchy midtones, and a subtle cool shadow cast — the foundation of a strong urban visual identity. A genuine taste of PXL Creator's Urban Noir Pack for street photographers developing their editorial editing style.",
+    bestUseCase:            "Street photography, urban scenes, architectural details, gritty city editorial work",
+    idealLighting:          "Harsh daylight with hard shadows, overcast city light, artificial street lighting",
+    beforeAfterExplanation: "Flat grey city scene gains electric contrast — blacks deep, midtones punchy, cool cast making every urban detail come alive.",
   },
 
   {
@@ -577,6 +682,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["muted", "desaturated", "cinematic", "moody", "neutral", "balanced", "sophisticated", "minimal", "aesthetic"],
+
+    hook:                   "PXL's most downloaded free preset — muted, sophisticated, endlessly versatile.",
+    seoTitle:               "Muted Cinematic — Free Desaturated Cinematic Lightroom Presets | PXL Creator",
+    seoDescription:         "Muted Cinematic is PXL Creator's most-downloaded free pack — six presets delivering the precisely desaturated, carefully toned cinematic aesthetic that defines modern photography. Sophisticated and versatile across portrait, landscape, and street. Not washed out — intentionally muted, calibrated to feel effortlessly cinematic without ever looking overdone. Works on any subject, any light.",
+    bestUseCase:            "Any genre — portrait, landscape, street, lifestyle; especially strong for editorial and social content",
+    idealLighting:          "Any — the muted desaturated palette is uniquely forgiving across all lighting conditions",
+    beforeAfterExplanation: "A richly-coloured RAW transforms into muted cinematic sophistication — desaturation precise and intentional, tones balanced, mood instantly elevated.",
   },
 
   {
@@ -609,6 +721,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["summer", "glow", "portrait", "bright", "warm", "skin", "airy", "happy", "lifestyle", "instagram"],
+
+    hook:                   "Sunny, bright, effortlessly outdoor-lit portraits — free to download.",
+    seoTitle:               "Summer Glow Portrait — Free Bright Airy Lifestyle Portrait Presets | PXL Creator",
+    seoDescription:         "Summer Glow Portrait captures effortless outdoor light with five free presets that lift shadows, warm skin gently, and add subtle luminosity to highlights. High-key and airy, ideal for Instagram creators, lifestyle bloggers, and influencer shoots. Works on outdoor portraits and window-light sessions alike, delivering warmth that never tips into orange territory.",
+    bestUseCase:            "Lifestyle photography, Instagram and TikTok content, influencer shoots, outdoor portraits",
+    idealLighting:          "Bright outdoor daylight, window light, open shade, soft overcast natural light",
+    beforeAfterExplanation: "A clean outdoor portrait lifts into warm, sun-kissed brightness — shadows open, skin glowing, highlights luminous and immediately inviting.",
   },
 
   {
@@ -641,6 +760,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["black", "white", "monochrome", "cinematic", "classic", "dramatic", "timeless", "grain", "film", "contrast"],
+
+    hook:                   "Timeless monochrome with cinematic contrast — classic, refined, free.",
+    seoTitle:               "B&W Cinematic Starter — Free Black & White Cinematic Lightroom Presets | PXL Creator",
+    seoDescription:         "B&W Cinematic Starter delivers five free black-and-white presets built around cinematic contrast curves, refined grain, and intentional tonal separation — not just desaturated colour files. Properly constructed monochrome edits with real tonal depth for portrait, street, and landscape photographers. A free introduction to timeless black-and-white photography that shows how B&W should truly look.",
+    bestUseCase:            "Portrait, street, and landscape work — wherever drama, tension, and timelessness matter",
+    idealLighting:          "Any — hard directional light and open shade both produce compelling monochrome results",
+    beforeAfterExplanation: "Colour RAW strips to powerful monochrome — contrast cinematic and precise, grain refined, tonal separation deep and intentionally expressive.",
   },
 
   {
@@ -673,6 +799,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["faded", "nostalgic", "vintage", "film", "soft", "memory", "retro", "dreamy", "analogue", "worn"],
+
+    hook:                   "Photos that feel like memories found at the bottom of a drawer.",
+    seoTitle:               "Faded Nostalgia — Free Vintage Analogue Film Lightroom Presets | PXL Creator",
+    seoDescription:         "Faded Nostalgia creates the worn, analogue-print quality of old photographs with five free presets. Lifted blacks, desaturated highlights, and warm colour casts evoke prints found in a forgotten drawer. Perfect for the dreamy nostalgic editing style dominating social media — for anyone who wants photos to feel like treasured, faintly faded memories of moments past.",
+    bestUseCase:            "Personal editorial projects, nostalgic content, lifestyle photography, social media storytelling",
+    idealLighting:          "Soft diffuse light, golden hour, window light — any warm and gentle natural light source",
+    beforeAfterExplanation: "Crisp digital image softens into an analogue memory — blacks lifted, highlights faded, warm cast making it genuinely feel old.",
   },
 
   {
@@ -706,6 +839,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["cinematic", "everyday", "versatile", "balanced", "clean", "dynamic", "lifestyle", "morning", "natural", "modern"],
+
+    hook:                   "Ordinary moments. Extraordinary edits — PXL's most downloaded free pack.",
+    seoTitle:               "Everyday Cinematic — Free Versatile Cinematic Lightroom Presets | PXL Creator",
+    seoDescription:         "Everyday Cinematic is PXL Creator's most-downloaded free preset pack — proof that cinematic editing works on ordinary moments. Eight versatile presets for coffee cups, city streets, afternoon light, and faces in conversation. Balanced contrast, never over-processed. Works on any subject in any light condition. The best free starting point in the entire PXL Creator catalogue.",
+    bestUseCase:            "Daily life photography, lifestyle content, travel, documentary — any everyday subject",
+    idealLighting:          "Any — specifically designed to handle all common real-world lighting conditions",
+    beforeAfterExplanation: "Ordinary everyday snapshot transforms into a cinematic frame — balanced, polished, and expressive without looking over-edited or artificial.",
   },
 
   /* ═══════════════════════════════════════════════════════════
@@ -743,6 +883,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["street", "urban", "daylight", "contrast", "gritty", "cool", "raw", "bold", "harsh", "city"],
+
+    hook:                   "Harsh midday street light — finally working entirely in your favour.",
+    seoTitle:               "Urban Daylight Pack — Street Photography Presets for Harsh Daylight | PXL Creator",
+    seoDescription:         "Urban Daylight Pack was built for street photographers struggling with harsh midday sun — flat light, clipped shadows, washed colour. Eight Lightroom presets punch up contrast, recover shadow detail, and add gritty coolness to daylight city scenes. At just $5, it's the most accessible entry into serious street photography editing for midday and overcast conditions.",
+    bestUseCase:            "Street photography, urban scenes, architectural candids, midday and overcast outdoor shooting",
+    idealLighting:          "Harsh midday sun, overcast city environments, harsh directional shadow scenes",
+    beforeAfterExplanation: "Washed-out midday street shot gains contrast and grit — shadows recovered, coolness intentional, city streets finally feeling electric.",
   },
 
   {
@@ -776,6 +923,13 @@ export const ALL_PRESETS: Preset[] = [
     ],
     compatibility: ["Lightroom Classic", "Lightroom CC", "Camera Raw"],
     aiTags: ["studio", "portrait", "clean", "professional", "skin", "glow", "strobe", "softbox", "beginner", "warm"],
+
+    hook:                   "Professional studio skin tones — no complex workflow, no steep learning curve.",
+    seoTitle:               "Studio Glow Starter — Studio Portrait Presets for Strobe & Softbox | PXL Creator",
+    seoDescription:         "Studio Glow Starter removes complexity from studio portrait editing. Eight Lightroom presets calibrated for strobe and softbox light deliver clean, skin-safe tone mapping that makes every studio portrait look professionally lit. At just $5, this is the most accessible entry point into serious portrait post-processing — professional results without any steep learning curve.",
+    bestUseCase:            "Studio portrait photography, headshots, commercial portraits, strobe-lit sessions",
+    idealLighting:          "Studio strobe, softbox, ring light, controlled artificial lighting environments",
+    beforeAfterExplanation: "Flat studio RAW transforms into a clean, professionally lit portrait — skin accurate, whites bright, tones refined and commercially polished.",
   },
 
 ]
