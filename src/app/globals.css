@@ -624,6 +624,60 @@ body::before {
   }
 }
 
+/* ─────────────────────────────────────────
+   PROMOTIONAL POPUP SYSTEM
+   Keyframes for PromoPopup.tsx enter/exit.
+   Entry: spring-out scale + translateY + fade.
+   Exit:  reverse — fast so user never waits.
+───────────────────────────────────────── */
+
+@keyframes popup-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes popup-backdrop-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes popup-modal-in {
+  0%   {
+    opacity:   0;
+    transform: scale(0.88) translateY(32px);
+    filter:    blur(4px);
+  }
+  60%  {
+    opacity:   1;
+    filter:    blur(0px);
+  }
+  100% {
+    opacity:   1;
+    transform: scale(1) translateY(0);
+    filter:    blur(0px);
+  }
+}
+
+@keyframes popup-modal-out {
+  0%   {
+    opacity:   1;
+    transform: scale(1) translateY(0);
+    filter:    blur(0px);
+  }
+  100% {
+    opacity:   0;
+    transform: scale(0.93) translateY(16px);
+    filter:    blur(2px);
+  }
+}
+
+/* Shimmer sweep across the top border of the modal */
+@keyframes popup-shimmer {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 0.6; }
+  100% { transform: translateX(100%);  opacity: 0; }
+}
+
 /* Suppress all cinematic animations when user prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .anim-orb,
@@ -632,7 +686,9 @@ body::before {
   .anim-spotlight,
   .anim-pulse,
   .anim-beam,
-  .anim-leak {
+  .anim-leak,
+  .popup-modal,
+  .popup-backdrop {
     animation: none !important;
     transition: none !important;
   }

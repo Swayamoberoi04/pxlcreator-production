@@ -1,6 +1,18 @@
 import type { Metadata } from "next"
 import { Syne, DM_Sans } from "next/font/google"
+import dynamic           from "next/dynamic"
 import "./globals.css"
+
+/*
+ * PopupManager is dynamically imported with ssr:false so it:
+ *   • Never runs during SSR — zero impact on TTFB / FCP / LCP / Lighthouse
+ *   • Is not in the critical JS bundle — split into its own chunk
+ *   • Loads client-side only, after hydration
+ */
+const PopupManager = dynamic(
+  () => import("@/components/ui/PopupManager"),
+  { ssr: false },
+)
 
 import { AuthProvider }            from "@/contexts/AuthContext"
 import { SmoothScrollProvider }   from "@/components/providers/SmoothScrollProvider"
@@ -159,6 +171,8 @@ export default function RootLayout({
             {/* Onboarding — checks status after sign-in, shows modal if needed */}
             <OnboardingGate />
             <OnboardingModal />
+            {/* Promotional popup — dynamically loaded, ssr:false, zero Lighthouse impact */}
+            <PopupManager />
           </AuthProvider>
         </SmoothScrollProvider>
       </body>
