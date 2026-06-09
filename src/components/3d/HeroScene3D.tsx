@@ -10,24 +10,34 @@
  *   • Custom gold-dust Points geometry
  *   • Smooth mouse-parallax camera rig
  *   • Atmospheric fog for depth
- *   • Post-processing: Bloom (glow on emissive surfaces) + Vignette
  *
  * Canvas uses alpha=true so every existing hero layer (photos, grains,
  * overlays) shows through. pointer-events=none keeps all hero interactions
  * on the DOM layer above.
  *
  * Performance:
- *   – antialias=false  (saves fillrate; Bloom MSAA handles edge quality)
- *   – dpr=[1, 1.5]     (no 2× on high-dpi)
+ *   – antialias=false        (saves fillrate)
+ *   – dpr=[1, 1]             (no 1.5× on high-dpi — single biggest fillrate saver)
  *   – powerPreference="high-performance" (discrete GPU hint)
  *   – Geometries created once in useMemo; no per-frame allocations
+ *   – EffectComposer REMOVED — was the single most expensive GPU operation
+ *     (mipmapBlur Bloom = 5-7 fullscreen render passes per frame)
+ *   – Returns null on touch devices — saves all WebGL work on mobile
  */
 
 import { useRef, useMemo, useEffect }    from "react"
 import { Canvas, useFrame, useThree }    from "@react-three/fiber"
 import { Float, Sparkles }               from "@react-three/drei"
-import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing"
 import * as THREE                        from "three"
+
+/*
+ * Evaluated once at module-load time on the client.
+ * This file is dynamically imported with ssr:false so window is always defined.
+ * Returns false during any hypothetical SSR (type guard).
+ */
+const IS_TOUCH_DEVICE =
+  typeof window !== "undefined" &&
+  (window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0)
 
 /* ── Frame definitions ──────────────────────────────────────────── */
 type FrameDef = {
@@ -153,7 +163,7 @@ function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
 
 /* ── Custom gold-dust point cloud ───────────────────────────────── */
 function GoldDust() {
-  const COUNT = 180
+  const COUNT = 80   // reduced from 180 — imperceptible difference, ~56% less geometry
 
   const geometry = useMemo(() => {
     const pos = new Float32Array(COUNT * 3)
@@ -246,7 +256,7 @@ function Scene() {
 
       {/* Sparkle cloud — drei's built-in atmospheric sparks */}
       <Sparkles
-        count={90}
+        count={45}
         scale={[18, 10, 7]}
         size={1.4}
         speed={0.10}
@@ -260,26 +270,27 @@ function Scene() {
       {/* Mouse-parallax camera rig */}
       <CameraRig />
 
-      {/* ── Post-processing ── */}
-      {/* mipmapBlur gives the soft organic bokeh-like glow */}
-      <EffectComposer>
-        <Bloom
-          intensity={0.35}
-          luminanceThreshold={0.12}
-          luminanceSmoothing={0.85}
-          mipmapBlur
-        />
-        <Vignette
-          offset={0.38}
-          darkness={0.45}
-        />
-      </EffectComposer>
+      {/*
+       * EffectComposer (Bloom + Vignette) REMOVED.
+       * mipmapBlur Bloom = 5–7 fullscreen render passes per frame.
+       * At dpr=1 on 1080p that was ~1M pixels × 6 passes = ~6M pixel ops/frame.
+       * The CSS vignette in HeroSection LAYER 6 provides the darkened edges.
+       * Gold emissive materials still add warmth without postprocessing.
+       */}
     </>
   )
 }
 
 /* ── Exported canvas — dynamically imported with ssr:false ──────── */
 export function HeroScene3D() {
+  /*
+   * Skip WebGL entirely on touch devices.
+   * On mobile: no WebGL context, no GPU draw calls, no animation loops.
+   * The hero is still visually rich — background images, CinematicBackground
+   * orbs, FloatingParticles, and the GrainOverlay all remain.
+   */
+  if (IS_TOUCH_DEVICE) return null
+
   return (
     <Canvas
       camera={{ position: [0, 0, 6], fov: 55 }}
@@ -288,7 +299,7 @@ export function HeroScene3D() {
         alpha:           true,
         powerPreference: "high-performance",
       }}
-      dpr={[1, 1.5]}
+      dpr={[1, 1]}   /* was [1, 1.5] — dpr 1.5 = 2.25× pixel work for negligible quality gain */
       style={{ pointerEvents: "none" }}
       aria-hidden="true"
     >

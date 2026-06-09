@@ -33,18 +33,30 @@ export function GrainOverlay({
   return (
     <div
       aria-hidden="true"
-      className={cn("absolute inset-0 pointer-events-none", className)}
+      className={cn(
+        "absolute inset-0 pointer-events-none",
+        /*
+         * `anim-grain` activates two existing CSS rules:
+         *   1. @media (prefers-reduced-motion: reduce) — suppresses animation for accessibility
+         *   2. @media (pointer: coarse) — suppresses animation on touch/mobile devices
+         *      (animated grain forces compositor repaint every 250ms; static grain is
+         *      perceptually identical at 3.5% opacity)
+         * Without this class, both media query rules have no effect.
+         */
+        animated && "anim-grain",
+        className,
+      )}
       style={{
         zIndex,
         opacity,
         backgroundImage: GRAIN_SVG,
         backgroundSize:  "300px 300px",
         mixBlendMode:    "overlay",
-        /* animation class lets the CSS media query suppress it cleanly */
         /*
          * 0.25s steps(1) ≈ 4fps — Film grain below ~6fps is indistinguishable
          * from 7fps but cuts CSS-compositor work by ~44%. The difference is
          * invisible because grain at 3.5% opacity registers subconsciously.
+         * On mobile the anim-grain class suppresses this entirely via CSS.
          */
         animation: animated
           ? "grain-shift 0.25s steps(1) infinite"

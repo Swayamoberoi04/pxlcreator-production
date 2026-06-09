@@ -23,7 +23,21 @@
  */
 
 import ReactLenis, { useLenis } from "lenis/react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useLayoutEffect } from "react"
+
+/*
+ * useLayoutEffect fires synchronously after DOM mutations but BEFORE the browser
+ * paints. On mobile, this means Lenis is torn down before the first visible frame —
+ * no scroll jank, no brief Lenis initialization on touch devices.
+ *
+ * useEffect fires after paint → Lenis briefly initializes on mobile → jank.
+ *
+ * SSR safety: Next.js server-renders "use client" components. useLayoutEffect
+ * would warn ("does nothing on the server"). useIsomorphicLayoutEffect uses
+ * useEffect on the server (no-op) and useLayoutEffect on the client (before-paint).
+ */
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect
 
 /* ── GSAP ↔ Lenis bridge — only imported in the desktop branch ── */
 function GSAPScrollBridge() {
@@ -77,11 +91,10 @@ export function SmoothScrollProvider({
    */
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const isTouch =
       window.matchMedia("(pointer: coarse)").matches ||
       navigator.maxTouchPoints > 0
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isTouch) setIsTouchDevice(true)
   }, [])
 
