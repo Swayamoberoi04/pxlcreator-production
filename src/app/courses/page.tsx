@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
-import { CinematicReveal }      from "@/components/ui/CinematicReveal"
+import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
 export const metadata: Metadata = {
   title: "Courses",
@@ -85,24 +85,36 @@ export default function CoursesPage() {
 
         {/* ── Featured course ── */}
         <div className="mb-14">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="h-px w-6 bg-gold" />
-            <span className="text-label text-gold">Featured Course</span>
-          </div>
-          <FeaturedCourseCard course={FEATURED_COURSE} />
+          <CinematicReveal variant="gentle">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="h-px w-6 bg-gold" />
+              <span className="text-label text-gold">Featured Course</span>
+            </div>
+          </CinematicReveal>
+          <CinematicReveal variant="rise" delay={0.06}>
+            <FeaturedCourseCard course={FEATURED_COURSE} />
+          </CinematicReveal>
         </div>
 
         {/* ── All other courses ── */}
         <div>
-          <div className="flex items-center gap-2 mb-8">
-            <span className="h-px w-6 bg-gold" />
-            <span className="text-label text-gold">All Courses</span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <CinematicReveal variant="gentle">
+            <div className="flex items-center gap-2 mb-8">
+              <span className="h-px w-6 bg-gold" />
+              <span className="text-label text-gold">All Courses</span>
+            </div>
+          </CinematicReveal>
+          <CinematicStagger
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+            itemVariant="rise"
+            stagger={0.09}
+          >
             {OTHER_COURSES.map((course) => (
-              <CourseCard key={course.id} course={course} />
+              <CinematicItem key={course.id} variant="rise">
+                <CourseCard course={course} />
+              </CinematicItem>
             ))}
-          </div>
+          </CinematicStagger>
         </div>
 
       </Container>

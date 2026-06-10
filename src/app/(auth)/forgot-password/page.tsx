@@ -2,9 +2,12 @@
 
 import { useState } from "react"
 import Link          from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 import { useAuth }   from "@/contexts/AuthContext"
 import { getFirebaseErrorMessage } from "@/lib/firebase/auth"
 import { cn }        from "@/lib/utils"
+
+const AUTH_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 export default function ForgotPasswordPage() {
   const { resetPassword } = useAuth()
@@ -38,7 +41,12 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(99,102,241,0.08)]">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0,  scale: 1     }}
+        transition={{ duration: 0.45, ease: AUTH_EASE }}
+        className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(99,102,241,0.08)]"
+      >
 
         {/* Top gold rule */}
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
@@ -53,7 +61,12 @@ export default function ForgotPasswordPage() {
 
         {/* ── Sent success state ── */}
         {sent ? (
-          <div className="flex flex-col items-center gap-5 text-center py-2">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: AUTH_EASE }}
+            className="flex flex-col items-center gap-5 text-center py-2"
+          >
             <div className="flex h-14 w-14 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10">
               <CheckIcon />
             </div>
@@ -71,7 +84,7 @@ export default function ForgotPasswordPage() {
               <BackArrow />
               Back to sign in
             </Link>
-          </div>
+          </motion.div>
         ) : (
           <>
             <div className="flex flex-col gap-1 mb-6">
@@ -83,12 +96,21 @@ export default function ForgotPasswordPage() {
 
             <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
 
-              {error && (
-                <div className="flex items-center gap-2.5 rounded-xl border border-red-500/20 bg-red-500/8 px-4 py-3">
-                  <ErrorIcon />
-                  <p className="text-[0.8125rem] text-red-400">{error}</p>
-                </div>
-              )}
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    key="fp-error"
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y:  0  }}
+                    exit={{    opacity: 0, y: -8  }}
+                    transition={{ duration: 0.22, ease: AUTH_EASE }}
+                    className="flex items-center gap-2.5 rounded-xl border border-red-500/20 bg-red-500/8 px-4 py-3"
+                  >
+                    <ErrorIcon />
+                    <p className="text-[0.8125rem] text-red-400">{error}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" className="text-[0.8125rem] font-medium text-muted/70">Email address</label>
@@ -127,7 +149,7 @@ export default function ForgotPasswordPage() {
           </>
         )}
 
-      </div>
+      </motion.div>
     </div>
   )
 }

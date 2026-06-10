@@ -94,6 +94,21 @@ const VARIANTS = {
     perspectiveOrigin: undefined,
     transformOrigin:   undefined,
   },
+
+  /* gentle — body text, labels, section captions.
+     Less travel (12px) and shorter duration than "rise" so headings
+     read as heavier than surrounding copy. */
+  gentle: {
+    hidden: { opacity: 0, y: 12 },
+    visible: (delay = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.65, ease: CINEMA_EASE, delay },
+    }),
+    perspective: undefined,
+    perspectiveOrigin: undefined,
+    transformOrigin:   undefined,
+  },
 } as const
 
 type Variant = keyof typeof VARIANTS

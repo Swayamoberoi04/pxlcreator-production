@@ -3,11 +3,14 @@
 import { useState, useEffect } from "react"
 import Link                     from "next/link"
 import { useRouter }            from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
 import { useAuth }              from "@/contexts/AuthContext"
 import { getFirebaseErrorMessage, getPasswordStrength } from "@/lib/firebase/auth"
 import { GoogleSignInButton }   from "@/components/auth/GoogleSignInButton"
 import { PasswordStrengthBar }  from "@/components/auth/PasswordStrengthBar"
 import { cn }                   from "@/lib/utils"
+
+const AUTH_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 export default function SignupPage() {
   const { user, signUp, signInWithGoogle } = useAuth()
@@ -90,7 +93,12 @@ export default function SignupPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(99,102,241,0.08)]">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0,  scale: 1     }}
+        transition={{ duration: 0.45, ease: AUTH_EASE }}
+        className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(99,102,241,0.08)]"
+      >
 
         {/* Top gold rule */}
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
@@ -121,12 +129,21 @@ export default function SignupPage() {
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
 
           {/* Server error */}
-          {serverError && (
-            <div className="flex items-center gap-2.5 rounded-xl border border-red-500/20 bg-red-500/8 px-4 py-3">
-              <ErrorIcon />
-              <p className="text-[0.8125rem] text-red-400 leading-snug">{serverError}</p>
-            </div>
-          )}
+          <AnimatePresence>
+            {serverError && (
+              <motion.div
+                key="signup-error"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y:  0  }}
+                exit={{    opacity: 0, y: -8  }}
+                transition={{ duration: 0.22, ease: AUTH_EASE }}
+                className="flex items-center gap-2.5 rounded-xl border border-red-500/20 bg-red-500/8 px-4 py-3"
+              >
+                <ErrorIcon />
+                <p className="text-[0.8125rem] text-red-400 leading-snug">{serverError}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Name */}
           <FormField
@@ -202,7 +219,7 @@ export default function SignupPage() {
           </Link>
         </p>
 
-      </div>
+      </motion.div>
     </div>
   )
 }

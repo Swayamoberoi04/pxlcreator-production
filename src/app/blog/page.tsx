@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
-import { CinematicReveal } from "@/components/ui/CinematicReveal"
+import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -77,24 +77,36 @@ export default function BlogPage() {
 
         {/* ── Featured post ── */}
         <div className="mb-14">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="h-px w-6 bg-gold" />
-            <span className="text-label text-gold">Featured</span>
-          </div>
-          <FeaturedCard post={FEATURED_POST} />
+          <CinematicReveal variant="gentle">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="h-px w-6 bg-gold" />
+              <span className="text-label text-gold">Featured</span>
+            </div>
+          </CinematicReveal>
+          <CinematicReveal variant="rise" delay={0.06}>
+            <FeaturedCard post={FEATURED_POST} />
+          </CinematicReveal>
         </div>
 
         {/* ── Recent posts ── */}
         <div>
-          <div className="flex items-center gap-2 mb-8">
-            <span className="h-px w-6 bg-gold" />
-            <span className="text-label text-gold">Recent Articles</span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <CinematicReveal variant="gentle">
+            <div className="flex items-center gap-2 mb-8">
+              <span className="h-px w-6 bg-gold" />
+              <span className="text-label text-gold">Recent Articles</span>
+            </div>
+          </CinematicReveal>
+          <CinematicStagger
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            itemVariant="rise"
+            stagger={0.08}
+          >
             {RECENT_POSTS.map((post) => (
-              <PostCard key={post.id} post={post} />
+              <CinematicItem key={post.id} variant="rise">
+                <PostCard post={post} />
+              </CinematicItem>
             ))}
-          </div>
+          </CinematicStagger>
         </div>
 
       </Container>

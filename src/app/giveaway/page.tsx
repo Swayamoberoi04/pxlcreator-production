@@ -6,7 +6,7 @@ import { Container }           from "@/components/layout/Container"
 import { siteConfig }          from "@/config/site"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
-import { CinematicReveal }     from "@/components/ui/CinematicReveal"
+import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
 /* ── Giveaway config — update these to run a real giveaway ── */
 const GIVEAWAY_END_DATE = new Date("2026-06-27T23:59:59+05:30") // 30 days from launch
@@ -113,44 +113,50 @@ export default function GiveawayPage() {
         <Container className="py-14 sm:py-20">
           <div className="flex flex-col items-center gap-10 max-w-3xl mx-auto">
 
-            <div className="flex flex-col items-center text-center gap-3">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
-                <span className="text-label text-gold tracking-widest">The Prize</span>
-                <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
-              </div>
-              <h2 className="heading-3 text-foreground">What you could win</h2>
-              <p className="text-[0.9375rem] text-muted">One winner takes the entire bundle.</p>
-            </div>
-
-            <div className="w-full grid sm:grid-cols-2 gap-4">
-              {PRIZE_ITEMS.map((item, i) => (
-                <div
-                  key={item.title}
-                  className="group relative flex flex-col gap-2 rounded-2xl border border-border bg-background p-5 sm:p-6 transition-all duration-300 hover:border-gold/25 hover:bg-surface"
-                  style={{ animationDelay: `${i * 60}ms` }}
-                >
-                  {/* Value badge */}
-                  <span className="self-start rounded-full bg-gold/10 border border-gold/20 px-2.5 py-0.5 text-[0.75rem] font-semibold text-gold">
-                    {item.value} value
-                  </span>
-                  <h3 className="text-[0.9375rem] font-bold text-foreground leading-snug mt-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-[0.875rem] text-muted leading-relaxed">
-                    {item.desc}
-                  </p>
-                  {/* Hover accent line */}
-                  <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl" />
+            <CinematicReveal variant="gentle">
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
+                  <span className="text-label text-gold tracking-widest">The Prize</span>
+                  <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
                 </div>
+                <h2 className="heading-3 text-foreground">What you could win</h2>
+                <p className="text-[0.9375rem] text-muted">One winner takes the entire bundle.</p>
+              </div>
+            </CinematicReveal>
+
+            <CinematicStagger
+              className="w-full grid sm:grid-cols-2 gap-4"
+              itemVariant="rise"
+              stagger={0.09}
+            >
+              {PRIZE_ITEMS.map((item) => (
+                <CinematicItem key={item.title} variant="rise">
+                  <div className="group relative flex flex-col gap-2 rounded-2xl border border-border bg-background p-5 sm:p-6 transition-all duration-300 hover:border-gold/25 hover:bg-surface h-full">
+                    {/* Value badge */}
+                    <span className="self-start rounded-full bg-gold/10 border border-gold/20 px-2.5 py-0.5 text-[0.75rem] font-semibold text-gold">
+                      {item.value} value
+                    </span>
+                    <h3 className="text-[0.9375rem] font-bold text-foreground leading-snug mt-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-[0.875rem] text-muted leading-relaxed">
+                      {item.desc}
+                    </p>
+                    {/* Hover accent line */}
+                    <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl" />
+                  </div>
+                </CinematicItem>
               ))}
-            </div>
+            </CinematicStagger>
 
             {/* Total value chip */}
-            <div className="flex items-center gap-3 rounded-full border border-gold/20 bg-gold/5 px-6 py-3">
-              <span className="text-[0.875rem] text-muted">Total prize value:</span>
-              <span className="font-display font-black text-[1.125rem] text-gold">$256+</span>
-            </div>
+            <CinematicReveal variant="gentle" delay={0.05}>
+              <div className="flex items-center gap-3 rounded-full border border-gold/20 bg-gold/5 px-6 py-3">
+                <span className="text-[0.875rem] text-muted">Total prize value:</span>
+                <span className="font-display font-black text-[1.125rem] text-gold">$256+</span>
+              </div>
+            </CinematicReveal>
 
           </div>
         </Container>
@@ -160,48 +166,53 @@ export default function GiveawayPage() {
       <Container className="py-14 sm:py-20">
         <div className="flex flex-col items-center gap-12 max-w-2xl mx-auto">
 
-          <div className="flex flex-col items-center text-center gap-3">
-            <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
-              <span className="text-label text-gold tracking-widest">How to Enter</span>
-              <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
-            </div>
-            <h2 className="heading-3 text-foreground">3 steps to enter</h2>
-            <p className="text-[0.9375rem] text-muted">Each step completed is one entry. Complete all three for 3×+ your chances.</p>
-          </div>
-
-          <div className="w-full flex flex-col gap-4">
-            {STEPS.map((step) => (
-              <div
-                key={step.number}
-                className="group flex gap-5 rounded-2xl border border-border bg-surface p-6 sm:p-8 transition-all duration-300 hover:border-gold/20"
-              >
-                {/* Step number */}
-                <div className="shrink-0 flex flex-col items-center gap-2">
-                  <span className="font-display text-[2.25rem] font-black text-gold/15 leading-none select-none group-hover:text-gold/25 transition-colors duration-300">
-                    {step.number}
-                  </span>
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col gap-1.5 flex-1 min-w-0">
-                  <h3 className="font-display font-bold text-foreground text-[1rem]">{step.title}</h3>
-                  <p className="text-[0.9375rem] text-muted leading-relaxed">{step.body}</p>
-                  {step.href && step.cta && (
-                    <a
-                      href={step.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 self-start inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-gold hover:text-gold-dim transition-colors"
-                    >
-                      {step.cta}
-                      <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
-                    </a>
-                  )}
-                </div>
+          <CinematicReveal variant="gentle">
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="flex items-center gap-3">
+                <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
+                <span className="text-label text-gold tracking-widest">How to Enter</span>
+                <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
               </div>
+              <h2 className="heading-3 text-foreground">3 steps to enter</h2>
+              <p className="text-[0.9375rem] text-muted">Each step completed is one entry. Complete all three for 3×+ your chances.</p>
+            </div>
+          </CinematicReveal>
+
+          <CinematicStagger
+            className="w-full flex flex-col gap-4"
+            itemVariant="rise"
+            stagger={0.10}
+          >
+            {STEPS.map((step) => (
+              <CinematicItem key={step.number} variant="rise">
+                <div className="group flex gap-5 rounded-2xl border border-border bg-surface p-6 sm:p-8 transition-all duration-300 hover:border-gold/20">
+                  {/* Step number */}
+                  <div className="shrink-0 flex flex-col items-center gap-2">
+                    <span className="font-display text-[2.25rem] font-black text-gold/15 leading-none select-none group-hover:text-gold/25 transition-colors duration-300">
+                      {step.number}
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex flex-col gap-1.5 flex-1 min-w-0">
+                    <h3 className="font-display font-bold text-foreground text-[1rem]">{step.title}</h3>
+                    <p className="text-[0.9375rem] text-muted leading-relaxed">{step.body}</p>
+                    {step.href && step.cta && (
+                      <a
+                        href={step.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 self-start inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-gold hover:text-gold-dim transition-colors"
+                      >
+                        {step.cta}
+                        <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </CinematicItem>
             ))}
-          </div>
+          </CinematicStagger>
 
           {/* Main CTA */}
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
@@ -231,39 +242,44 @@ export default function GiveawayPage() {
         <Container className="py-14 sm:py-20">
           <div className="flex flex-col items-center gap-10 max-w-2xl mx-auto">
 
-            <div className="flex flex-col items-center text-center gap-3">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
-                <span className="text-label text-gold tracking-widest">Hall of Fame</span>
-                <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
-              </div>
-              <h2 className="heading-3 text-foreground">Previous winners</h2>
-              <p className="text-[0.9375rem] text-muted">Real creators, real prizes. Could be you next.</p>
-            </div>
-
-            <div className="w-full flex flex-col gap-3">
-              {PAST_WINNERS.map((winner) => (
-                <div
-                  key={winner.handle}
-                  className="flex items-center justify-between gap-4 rounded-xl border border-border bg-background px-5 py-4"
-                >
-                  <div className="flex items-center gap-4 min-w-0">
-                    {/* Avatar placeholder */}
-                    <div className="h-9 w-9 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
-                      <span className="text-gold text-[0.75rem] font-bold">{winner.name[0]}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-[0.9375rem] font-semibold text-foreground truncate">{winner.name}</p>
-                      <p className="text-[0.8125rem] text-muted truncate">{winner.handle}</p>
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-[0.875rem] font-medium text-foreground">{winner.prize}</p>
-                    <p className="text-[0.8125rem] text-muted">{winner.month}</p>
-                  </div>
+            <CinematicReveal variant="gentle">
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
+                  <span className="text-label text-gold tracking-widest">Hall of Fame</span>
+                  <span className="h-px w-8 bg-gold opacity-70" aria-hidden="true" />
                 </div>
+                <h2 className="heading-3 text-foreground">Previous winners</h2>
+                <p className="text-[0.9375rem] text-muted">Real creators, real prizes. Could be you next.</p>
+              </div>
+            </CinematicReveal>
+
+            <CinematicStagger
+              className="w-full flex flex-col gap-3"
+              itemVariant="gentle"
+              stagger={0.07}
+            >
+              {PAST_WINNERS.map((winner) => (
+                <CinematicItem key={winner.handle} variant="gentle">
+                  <div className="flex items-center justify-between gap-4 rounded-xl border border-border bg-background px-5 py-4">
+                    <div className="flex items-center gap-4 min-w-0">
+                      {/* Avatar placeholder */}
+                      <div className="h-9 w-9 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
+                        <span className="text-gold text-[0.75rem] font-bold">{winner.name[0]}</span>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[0.9375rem] font-semibold text-foreground truncate">{winner.name}</p>
+                        <p className="text-[0.8125rem] text-muted truncate">{winner.handle}</p>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-[0.875rem] font-medium text-foreground">{winner.prize}</p>
+                      <p className="text-[0.8125rem] text-muted">{winner.month}</p>
+                    </div>
+                  </div>
+                </CinematicItem>
               ))}
-            </div>
+            </CinematicStagger>
 
           </div>
         </Container>
