@@ -11,7 +11,8 @@
       "PowerShell($ghCmd = Get-Command gh -ErrorAction SilentlyContinue; if \\($ghCmd\\) { $ghCmd.Source } else { \"not found\" })",
       "PowerShell(git credential fill 2>$null)",
       "PowerShell(if \\($env:GITHUB_TOKEN\\) { \"token found\" } elseif \\($env:GH_TOKEN\\) { \"GH_TOKEN found\" } else { \"no token in env\" })",
-      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run lint 2>&1; echo \"EXIT:$LASTEXITCODE\")"
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run lint 2>&1; echo \"EXIT:$LASTEXITCODE\")",
+      "PowerShell(Set-Location \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npx tsc --noEmit 2>&1; echo \"EXIT:$LASTEXITCODE\")"
     ]
   }
 }

@@ -46,6 +46,9 @@ export function adaptPreset(row: PresetWithRelations): Preset {
     /* ── AI Studio ── */
     aiTags:  row.ai_tags,
 
+    /* ── Unlock system ── */
+    youtubeVideoTitle: (row as unknown as Record<string, unknown>).youtube_video_title as string | null ?? null,
+
     /* ── Conversion & pricing metadata (static-data only; not in DB) ── */
     /* conversionTag and priceTier are set in src/data/presets.ts for the
        static catalogue. DB-sourced presets won't have these fields, which

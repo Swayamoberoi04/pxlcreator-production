@@ -57,6 +57,9 @@ export interface Preset {
   bestUseCase?:            string   // short phrase — ideal subject / genre
   idealLighting?:          string   // lighting conditions this preset excels in
   beforeAfterExplanation?: string   // caption for the before/after slider (max 40 words)
+
+  /* ── Unlock system ── */
+  youtubeVideoTitle?: string | null  // hint shown on the password modal
 }
 
 /* ── Category ───────────────────────────────────────────── */

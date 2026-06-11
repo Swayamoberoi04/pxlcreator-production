@@ -3,8 +3,7 @@ import type { Metadata }      from "next"
 import Image                  from "next/image"
 import Link                   from "next/link"
 import { Container }          from "@/components/layout/Container"
-import { AddToCartButton }    from "@/components/store/AddToCartButton"
-import { DownloadGate }       from "@/components/store/DownloadGate"
+import { UnlockOrBuyPanel }   from "@/components/store/UnlockOrBuyPanel"
 import { PresetProductGallery } from "@/components/store/PresetProductGallery"
 import { getPresetBySlug, getRelatedPresets } from "@/lib/presets/repository"
 import { trackPresetView }                    from "@/lib/presets/analytics"
@@ -285,10 +284,9 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   </div>
                 )}
 
-                {/* CTA — download gate (free) or add to cart (paid) */}
+                {/* CTA — unified unlock or buy panel */}
                 <div className="flex flex-col gap-3 pt-1">
-                  <DownloadGate preset={preset} />
-                  {!preset.isFree && <AddToCartButton preset={preset} />}
+                  <UnlockOrBuyPanel preset={preset} />
                 </div>
 
                 {/* Trust strip */}

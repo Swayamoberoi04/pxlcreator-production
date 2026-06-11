@@ -97,6 +97,8 @@ export interface Database {
           order_index:        number
           created_at:         string
           updated_at:         string
+          unlock_password:    string | null
+          youtube_video_title: string | null
         }
         Insert: {
           id?:                string
@@ -121,10 +123,12 @@ export interface Database {
           is_featured?:       boolean
           is_published?:      boolean
           badge?:             "New" | "Best Seller" | "Sale" | "Free" | null
-          download_url?:      string | null
+          download_url?:       string | null
           download_file_name?: string | null
-          include_count?:     number | null
-          preset_type?:       string
+          unlock_password?:    string | null
+          youtube_video_title?: string | null
+          include_count?:      number | null
+          preset_type?:        string
           mood?:              string | null
           tone?:              string | null
           features?:          string[]
@@ -175,6 +179,28 @@ export interface Database {
           download_count?:     number
           order_index?:        number
         }
+      }
+
+      /* ── user_unlocks ──────────────────────────────── */
+      user_unlocks: {
+        Row: {
+          id:            string
+          firebase_uid:  string
+          preset_id:     string
+          unlock_method: "payment" | "password"
+          unlocked_at:   string
+        }
+        Insert: {
+          id?:           string
+          firebase_uid:  string
+          preset_id:     string
+          unlock_method: "payment" | "password"
+          unlocked_at?:  string
+        }
+        Update: {
+          unlock_method?: "payment" | "password"
+        }
+        Relationships: []
       }
 
       /* ── preset_images ──────────────────────────────── */
