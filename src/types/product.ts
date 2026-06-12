@@ -60,6 +60,11 @@ export interface Preset {
 
   /* ── Unlock system ── */
   youtubeVideoTitle?: string | null  // hint shown on the password modal
+
+  /* ── Content metadata ── */
+  difficultyLevel?: "Beginner" | "Intermediate" | "Advanced"
+  cameraTypes?:     string[]   // recommended camera / mobile types
+  includedFiles?:   string[]   // actual file types included in the download
 }
 
 /* ── Category ───────────────────────────────────────────── */

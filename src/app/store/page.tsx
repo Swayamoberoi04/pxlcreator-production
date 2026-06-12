@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Container }    from "@/components/layout/Container"
-import { StoreShell }   from "@/components/store/StoreShell"
+import { StoreShell }          from "@/components/store/StoreShell"
+import { UnlockMethodBanner }  from "@/components/store/UnlockMethodBanner"
 import { getPresets }   from "@/lib/presets/repository"
 import type { PresetCategory } from "@/types/product"
 import { CinematicReveal }    from "@/components/ui/CinematicReveal"
@@ -96,9 +97,8 @@ export default async function StorePage({
               <p className="text-[1rem] sm:text-[1.0625rem] text-muted/65 max-w-xl leading-relaxed">
                 Start with{" "}
                 <span className="text-emerald-400 font-semibold">12 free preset packs</span>
-                {" "}— no credit card. Upgrade from{" "}
-                <span className="text-foreground font-medium">₹420</span>, or unlock everything
-                with a <span className="text-gold font-medium">Creator plan</span>.
+                {" "}— no credit card. Buy any paid preset instantly,
+                or <span className="text-gold font-medium">unlock free</span> using the password from our YouTube tutorials.
               </p>
             </CinematicReveal>
 
@@ -106,11 +106,11 @@ export default async function StorePage({
             <CinematicReveal variant="rise" delay={0.22}>
               <div className="flex flex-wrap gap-2.5 mt-1">
                 {[
-                  { label: "( 12 free presets )",    accent: true  },
-                  { label: "( Instant download )",   accent: false },
-                  { label: "( Lifetime updates )",   accent: false },
-                  { label: "( .xmp + .dng formats )", accent: false },
-                  { label: "( 30-day guarantee )",   accent: false },
+                  { label: "( 12 free presets )",        accent: true  },
+                  { label: "( YouTube unlock option )",  accent: true  },
+                  { label: "( Instant download )",       accent: false },
+                  { label: "( Lifetime ownership )",     accent: false },
+                  { label: "( .xmp + .dng formats )",    accent: false },
                 ].map(({ label, accent }) => (
                   <span key={label} className={`text-[0.75rem] font-medium rounded-full border px-3 py-1.5 backdrop-blur-sm ${
                     accent
@@ -134,6 +134,9 @@ export default async function StorePage({
         <LuminousEnvironment variant="gold" intensity={0.6} />
         <GrainOverlay opacity={0.015} zIndex={1} />
         <Container className="relative z-10 py-10 sm:py-14">
+          <div className="mb-8">
+            <UnlockMethodBanner variant="store" />
+          </div>
           <StoreShell presets={allPresets} initialCategory={initialCategory} />
         </Container>
       </div>

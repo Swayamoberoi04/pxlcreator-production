@@ -4,6 +4,7 @@ import Image                  from "next/image"
 import Link                   from "next/link"
 import { Container }          from "@/components/layout/Container"
 import { UnlockOrBuyPanel }   from "@/components/store/UnlockOrBuyPanel"
+import { UnlockMethodBanner }  from "@/components/store/UnlockMethodBanner"
 import { PresetProductGallery } from "@/components/store/PresetProductGallery"
 import { getPresetBySlug, getRelatedPresets } from "@/lib/presets/repository"
 import { trackPresetView }                    from "@/lib/presets/analytics"
@@ -284,6 +285,51 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   </div>
                 )}
 
+                {/* Difficulty + included files */}
+                {(preset.difficultyLevel || preset.includedFiles) && (
+                  <div className="flex flex-col gap-2 rounded-xl border border-border/60 bg-surface-2/40 px-4 py-3">
+                    {preset.difficultyLevel && (
+                      <div className="flex gap-2.5 text-[0.8rem]">
+                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Difficulty</span>
+                        <span className={`font-semibold ${
+                          preset.difficultyLevel === "Beginner"     ? "text-emerald-400" :
+                          preset.difficultyLevel === "Intermediate" ? "text-gold/80" :
+                          "text-rose-400"
+                        }`}>{preset.difficultyLevel}</span>
+                      </div>
+                    )}
+                    {preset.includedFiles && preset.includedFiles.length > 0 && (
+                      <div className="flex gap-2.5 text-[0.8rem]">
+                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Files</span>
+                        <div className="flex flex-col gap-0.5">
+                          {preset.includedFiles.map((f) => (
+                            <span key={f} className="text-foreground/70 leading-snug">{f}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Camera types */}
+                {preset.cameraTypes && preset.cameraTypes.length > 0 && (
+                  <div className="flex flex-col gap-2">
+                    <p className="text-label text-muted/50 tracking-widest">( Recommended cameras )</p>
+                    <div className="flex flex-wrap gap-2">
+                      {preset.cameraTypes.map((cam) => (
+                        <span key={cam} className="text-[0.72rem] text-muted/60 bg-surface border border-border rounded-full px-3 py-1">
+                          {cam}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Unlock method banner */}
+                {!preset.isFree && (
+                  <UnlockMethodBanner variant="detail" />
+                )}
+
                 {/* CTA — unified unlock or buy panel */}
                 <div className="flex flex-col gap-3 pt-1">
                   <UnlockOrBuyPanel preset={preset} />
@@ -292,9 +338,10 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {/* Trust strip */}
                 <div className="flex flex-wrap gap-2.5 pt-1">
                   {[
-                    "( Instant download )",
+                    "( Instant access )",
                     "( Lifetime ownership )",
                     "( .xmp + .dng )",
+                    ...(!preset.isFree ? ["( Free YouTube unlock )"] : []),
                   ].map((t) => (
                     <span key={t} className="text-[0.7rem] font-medium text-muted/40 rounded-full border border-border/50 px-2.5 py-1">
                       {t}

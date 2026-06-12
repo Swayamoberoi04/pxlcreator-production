@@ -2,9 +2,8 @@
 
 import Link         from "next/link"
 import Image        from "next/image"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect } from "react"
 import type { Preset }         from "@/types/product"
-import { useCartStore }        from "@/store/cart"
 import { useCurrencyStore }    from "@/store/currency"
 import { formatPrice }         from "@/lib/currency/format"
 import { cn }                  from "@/lib/utils"
@@ -52,82 +51,10 @@ export function PresetCard({ preset, className }: PresetCardProps) {
   const displayCurrency = mounted ? currency : "INR"
   const altCurrency     = displayCurrency === "INR" ? "USD" : "INR"
 
-  /* Cart */
-  const addItem    = useCartStore((s) => s.addItem)
-  const [added, setAdded] = useState(false)
-  const btnRef     = useRef<HTMLButtonElement>(null)
-
   const gradient = categoryGradients[preset.category] ?? categoryGradients["Street"]
   const discount  = preset.originalPrice
     ? Math.round((1 - preset.price / preset.originalPrice) * 100)
     : null
-
-  /* ── GSAP particle burst — fired on add-to-cart ── */
-  const fireParticleBurst = useCallback(async () => {
-    const btn = btnRef.current
-    if (!btn) return
-
-    /* Lazy-load GSAP on first click — keeps it out of the initial bundle */
-    const { default: gsap } = await import("gsap")
-
-    const rect   = btn.getBoundingClientRect()
-    const cx     = rect.left + rect.width  / 2
-    const cy     = rect.top  + rect.height / 2
-
-    /* Create 14 particle divs, append to body, GSAP them outward */
-    const PARTICLE_COUNT = 14
-    const container      = document.body
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const p = document.createElement("div")
-      p.style.cssText = `
-        position: fixed;
-        left: ${cx}px;
-        top:  ${cy}px;
-        width:  6px;
-        height: 6px;
-        border-radius: 50%;
-        background: ${i % 3 === 0 ? "#ffd700" : i % 3 === 1 ? "#ffffff" : "#e5a227"};
-        pointer-events: none;
-        z-index: 9998;
-        transform: translate(-50%, -50%);
-      `
-      container.appendChild(p)
-
-      const angle  = (i / PARTICLE_COUNT) * Math.PI * 2
-      const radius = 55 + Math.random() * 55
-      const tx     = Math.cos(angle) * radius
-      const ty     = Math.sin(angle) * radius
-
-      gsap.fromTo(p,
-        { x: 0, y: 0, scale: 1, opacity: 1 },
-        {
-          x:        tx,
-          y:        ty,
-          scale:    0,
-          opacity:  0,
-          duration: 0.65 + Math.random() * 0.3,
-          ease:     "power3.out",
-          delay:    i * 0.018,
-          onComplete() { p.remove() },
-        }
-      )
-    }
-
-    /* Button flash */
-    gsap.fromTo(btn,
-      { boxShadow: "0 0 0px rgba(255,215,0,0)" },
-      { boxShadow: "0 0 48px rgba(255,215,0,0.65)", duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }
-    )
-  }, [])
-
-  function handleAddToCart(e: React.MouseEvent) {
-    e.preventDefault()
-    fireParticleBurst()
-    addItem(preset)
-    setAdded(true)
-    setTimeout(() => setAdded(false), 1800)
-  }
 
   const convTagStyle = preset.conversionTag
     ? (CONV_TAG_STYLES[preset.conversionTag] ?? "bg-surface-2 text-muted border-border")
@@ -288,24 +215,13 @@ export function PresetCard({ preset, className }: PresetCardProps) {
             Download Free
           </Link>
         ) : (
-          <button
-            ref={btnRef}
-            type="button"
-            onClick={handleAddToCart}
-            suppressHydrationWarning
-            className={cn(
-              "flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-[0.8125rem] font-semibold transition-all duration-200",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              added
-                ? "bg-emerald-600 text-white"
-                : "bg-gold text-background hover:bg-gold-dim"
-            )}
+          <Link
+            href={`/presets/${preset.slug}`}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-gold py-2.5 text-[0.8125rem] font-semibold text-background transition-all hover:bg-gold/90 active:scale-[0.98]"
           >
-            {added ? <CheckIcon /> : <BagIcon />}
-            {added
-              ? "Added!"
-              : `Add to Cart — ${formatPrice(preset.price, displayCurrency)}`}
-          </button>
+            <UnlockIcon />
+            View &amp; Unlock — {formatPrice(preset.price, displayCurrency)}
+          </Link>
         )}
       </div>
     </div>
@@ -317,12 +233,9 @@ export function PresetCard({ preset, className }: PresetCardProps) {
 function StarIcon() {
   return <svg width="11" height="11" viewBox="0 0 24 24" fill="#ffd700" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 }
-function BagIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-}
-function CheckIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-}
 function DownloadIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+}
+function UnlockIcon() {
+  return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
 }
