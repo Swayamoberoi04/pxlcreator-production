@@ -112,7 +112,6 @@ export default async function PresetsPage() {
                 { v: `${totalCount}`,     l: "Preset Packs"     },
                 { v: `${groups.length}`,  l: "Style Categories" },
                 { v: `${freeCount}`,      l: "Free Packs"       },
-                { v: "4.9★",             l: "Avg Rating"        },
               ].map(({ v, l }, i, arr) => (
                 <div key={l} className="flex items-center">
                   <div className="flex flex-col items-center px-5 sm:px-8 gap-0.5">

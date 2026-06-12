@@ -23,8 +23,8 @@ export interface Preset {
   originalPrice?: number       // set when on sale
 
   category:       PresetCategory
-  rating:         number        // 0–5
-  reviewCount:    number
+  rating?:        number        // real avg from DB reviews; undefined = no reviews yet
+  reviewCount?:   number
 
   /* ── Badges ── */
   badge?:          PresetBadge

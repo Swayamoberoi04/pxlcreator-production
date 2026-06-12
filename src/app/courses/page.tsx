@@ -22,9 +22,6 @@ const LEVEL_STYLES: Record<CourseLevel, string> = {
   Advanced:     "text-gold       bg-gold/10       border-gold/20",
 }
 
-function formatStudents(n: number) {
-  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : `${n}`
-}
 
 export default function CoursesPage() {
   return (
@@ -69,11 +66,6 @@ export default function CoursesPage() {
               <StatPill
                 value={`${ALL_COURSES.reduce((s, c) => s + c.totalLessons, 0)}+`}
                 label="Lessons"
-              />
-              <span className="mx-5 h-7 w-px bg-border shrink-0" aria-hidden="true" />
-              <StatPill
-                value={`${formatStudents(ALL_COURSES.reduce((s, c) => s + c.students, 0))}+`}
-                label="Students"
               />
             </div>
 
@@ -180,8 +172,9 @@ function FeaturedCourseCard({ course }: { course: Course }) {
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           <CourseStat icon={<LessonIcon />} label={`${course.totalLessons} lessons`} />
           <CourseStat icon={<ClockIcon />}  label={`${course.totalHours}h content`} />
-          <CourseStat icon={<UserIcon />}   label={`${formatStudents(course.students)} students`} />
-          <CourseStat icon={<StarIcon />}   label={`${course.rating} (${course.reviewCount})`} gold />
+          {course.reviewCount && course.reviewCount > 0 && (
+            <CourseStat icon={<StarIcon />} label={`${course.rating} (${course.reviewCount})`} gold />
+          )}
         </div>
 
         {/* Price + CTA */}
@@ -262,7 +255,7 @@ function CourseCard({ course }: { course: Course }) {
           <span aria-hidden="true">·</span>
           <span>{course.totalHours}h</span>
           <span aria-hidden="true">·</span>
-          <span className="text-gold">★ {course.rating}</span>
+          {course.rating && <span className="text-gold">★ {course.rating}</span>}
         </div>
 
         {/* Price */}
@@ -318,9 +311,6 @@ function LessonIcon() {
 }
 function ClockIcon() {
   return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-}
-function UserIcon() {
-  return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 }
 function StarIcon() {
   return <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>

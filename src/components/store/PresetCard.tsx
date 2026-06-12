@@ -163,12 +163,16 @@ export function PresetCard({ preset, className }: PresetCardProps) {
 
         {/* Meta row */}
         <div className="flex items-center justify-between gap-2 pt-3 border-t border-border/60 mt-auto">
-          {/* Rating */}
-          <div className="flex items-center gap-1.5 text-[0.75rem] text-muted/50">
-            <StarIcon />
-            <span className="text-foreground/70 font-medium">{preset.rating.toFixed(1)}</span>
-            <span>( {preset.reviewCount.toLocaleString()} )</span>
-          </div>
+          {/* Rating — only shown when real reviews exist */}
+          {preset.reviewCount && preset.reviewCount > 0 ? (
+            <div className="flex items-center gap-1.5 text-[0.75rem] text-muted/50">
+              <StarIcon />
+              <span className="text-foreground/70 font-medium">{preset.rating?.toFixed(1)}</span>
+              <span>( {preset.reviewCount.toLocaleString()} )</span>
+            </div>
+          ) : (
+            <div />
+          )}
 
           {/* Price stack */}
           <div className="flex flex-col items-end gap-0.5">

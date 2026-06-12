@@ -15,6 +15,8 @@ import { productSchema, breadcrumbSchema } from "@/lib/seo/schemas"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
+import { ReviewList } from "@/components/store/ReviewList"
+import { ReviewForm } from "@/components/store/ReviewForm"
 
 export const dynamic = "force-dynamic"
 
@@ -198,18 +200,20 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   )}
                 </div>
 
-                {/* Rating row */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <StarIcon key={i} filled={i < Math.round(preset.rating)} />
-                    ))}
+                {/* Rating row — only shown when real reviews exist */}
+                {preset.reviewCount && preset.reviewCount > 0 && (
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-0.5">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <StarIcon key={i} filled={i < Math.round(preset.rating ?? 0)} />
+                      ))}
+                    </div>
+                    <span className="text-[0.875rem] font-medium text-foreground">{preset.rating?.toFixed(1)}</span>
+                    <span className="text-[0.8125rem] text-muted/50">
+                      ( {preset.reviewCount.toLocaleString()} reviews )
+                    </span>
                   </div>
-                  <span className="text-[0.875rem] font-medium text-foreground">{preset.rating.toFixed(1)}</span>
-                  <span className="text-[0.8125rem] text-muted/50">
-                    ( {preset.reviewCount.toLocaleString()} reviews )
-                  </span>
-                </div>
+                )}
 
                 {/* Price block */}
                 <div className="flex items-baseline gap-3 py-4 border-y border-border">
@@ -365,6 +369,36 @@ export default async function PresetDetailPage({ params }: PageProps) {
               </div>
             </CinematicReveal>
           )}
+
+          {/* ── Reviews ── */}
+          <div className="mt-14 sm:mt-20">
+            <CinematicReveal variant="rise">
+              <div className="flex items-center gap-3 mb-8">
+                <span className="h-px w-6 bg-gold/50" aria-hidden="true" />
+                <span className="text-label text-gold/70 tracking-widest">( Reviews )</span>
+              </div>
+            </CinematicReveal>
+
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 xl:gap-16">
+              {/* Left — existing reviews */}
+              <CinematicReveal variant="depth" delay={0.05}>
+                <ReviewList presetSlug={preset.slug} />
+              </CinematicReveal>
+
+              {/* Right — submit a review (only for users with access) */}
+              <CinematicReveal variant="rise" delay={0.1}>
+                <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface/60 px-5 py-5">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-[0.875rem] font-semibold text-foreground">Leave a review</p>
+                    <p className="text-[0.8rem] text-muted/55 leading-relaxed">
+                      Purchased or unlocked this preset? Share your experience — reviews go live after moderation.
+                    </p>
+                  </div>
+                  <ReviewForm presetSlug={preset.slug} />
+                </div>
+              </CinematicReveal>
+            </div>
+          </div>
 
           {/* ── Related presets ── */}
           {related.length > 0 && (

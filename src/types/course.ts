@@ -22,9 +22,9 @@ export interface Course {
   category: CourseCategory
   totalLessons: number
   totalHours: number
-  students: number
-  rating: number
-  reviewCount: number
+  students?: number
+  rating?: number
+  reviewCount?: number
   badge?: string
   coverGradient: string
   coverImage?:   string

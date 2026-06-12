@@ -55,8 +55,8 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
     }
 
     switch (sort) {
-      case "popular":    list.sort((a, b) => b.reviewCount - a.reviewCount);  break
-      case "rating":     list.sort((a, b) => b.rating - a.rating);            break
+      case "popular":    list.sort((a, b) => (b.reviewCount ?? 0) - (a.reviewCount ?? 0));  break
+      case "rating":     list.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));            break
       case "price-asc":  list.sort((a, b) => a.price - b.price);              break
       case "price-desc": list.sort((a, b) => b.price - a.price);              break
       case "newest":     list.sort((a, b) => Number(b.id) - Number(a.id));    break

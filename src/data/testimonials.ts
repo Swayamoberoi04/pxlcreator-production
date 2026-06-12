@@ -42,8 +42,8 @@ export const TESTIMONIALS: Testimonial[] = [
 ]
 
 export const SITE_STATS = [
-  { value: "10K+",  label: "Creators Worldwide" },
-  { value: "50K+",  label: "Presets Downloaded"  },
-  { value: "4.9",   label: "Average Rating"       },
-  { value: "20+",   label: "Preset Packs"         },
+  { value: "22+",  label: "Preset Packs"   },
+  { value: "12",   label: "Free Packs"     },
+  { value: "5",    label: "Courses"        },
+  { value: "7",    label: "Bundles"        },
 ] as const

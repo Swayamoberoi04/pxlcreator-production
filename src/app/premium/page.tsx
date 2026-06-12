@@ -529,8 +529,8 @@ export default function PremiumPage() {
                 </span>
               </h2>
               <p className="text-[1rem] text-muted/65 leading-relaxed">
-                Join thousands of photographers and filmmakers who have upgraded
-                their craft with PXL Premium.
+                Upgrade your editing workflow with PXL Premium — every preset,
+                every course, in one plan.
               </p>
               <a
                 href="#plans"

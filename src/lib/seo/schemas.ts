@@ -82,10 +82,10 @@ export function productSchema(preset: Preset) {
     category: preset.category,
   }
 
-  if (preset.reviewCount > 0) {
+  if (preset.reviewCount && preset.reviewCount > 0) {
     schema.aggregateRating = {
       "@type":       "AggregateRating",
-      ratingValue:   preset.rating.toFixed(1),
+      ratingValue:   preset.rating?.toFixed(1),
       reviewCount:   preset.reviewCount,
       bestRating:    "5",
       worstRating:   "1",

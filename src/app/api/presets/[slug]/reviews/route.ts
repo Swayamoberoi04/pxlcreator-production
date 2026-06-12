@@ -1,77 +1,158 @@
 /**
- * GET /api/presets/[slug]/reviews
- *
- * Returns approved reviews for a specific preset.
- * Public endpoint — no auth required.
- *
- * Query params:
- *   page  (default 1)
- *   limit (default 10, max 50)
+ * GET  /api/presets/[slug]/reviews  — public, approved reviews only
+ * POST /api/presets/[slug]/reviews  — auth required, access-gated
  */
 
-import { NextRequest, NextResponse }  from "next/server"
-import { createAdminClient }          from "@/lib/supabase/admin"
+import { NextRequest, NextResponse }    from "next/server"
+import { createAdminClient }            from "@/lib/supabase/admin"
+import { createServerSupabaseClient }   from "@/lib/supabase/server"
+import { getFirebaseUidFromRequest }    from "@/lib/account/auth"
+import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 
 export const runtime = "nodejs"
 
-export async function GET(
-  req:     NextRequest,
-  context: { params: Promise<{ slug: string }> }
-) {
-  const { slug } = await context.params
+type Params = { params: Promise<{ slug: string }> }
 
-  const searchParams = req.nextUrl.searchParams
-  const page  = Math.max(1, parseInt(searchParams.get("page")  ?? "1",  10))
-  const limit = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") ?? "10", 10)))
-  const from  = (page - 1) * limit
-  const to    = from + limit - 1
+const reviewPostLimiter = makeRateLimiter({ max: 5, windowMs: 60 * 60 * 1000 })
+const MAX_TEXT = 2000
 
-  const supabase = createAdminClient()
+/* ── GET — public ─────────────────────────────────────────── */
 
-  /* Resolve slug → preset */
-  const { data: preset } = await supabase
+export async function GET(_req: NextRequest, { params }: Params) {
+  const { slug } = await params
+  const supabase = await createServerSupabaseClient()
+
+  const { data: preset, error: presetErr } = await supabase
     .from("presets")
-    .select("id, rating, review_count")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle()
+
+  if (presetErr || !preset) {
+    return NextResponse.json({ error: "Preset not found" }, { status: 404 })
+  }
+
+  const { data: reviews, error } = await supabase
+    .from("preset_reviews")
+    .select("id, rating, title, review_text, created_at, email, is_verified_purchase")
+    .eq("preset_id", preset.id)
+    .eq("is_approved", true)
+    .order("created_at", { ascending: false })
+    .limit(50)
+
+  if (error) {
+    console.error("[reviews GET]", error)
+    return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 })
+  }
+
+  const count = reviews?.length ?? 0
+  const avgRating = count > 0
+    ? Math.round((reviews!.reduce((s, r) => s + r.rating, 0) / count) * 10) / 10
+    : null
+
+  return NextResponse.json({ reviews: reviews ?? [], avgRating, count })
+}
+
+/* ── POST — authenticated, access-gated ───────────────────── */
+
+export async function POST(req: NextRequest, { params }: Params) {
+  const { slug } = await params
+
+  const ip = getClientIp(req)
+  if (reviewPostLimiter.check(`review:${ip}`)) {
+    return NextResponse.json({ error: "Too many submissions. Try again later." }, { status: 429 })
+  }
+
+  const firebaseUid = await getFirebaseUidFromRequest(req)
+  if (!firebaseUid) {
+    return NextResponse.json({ error: "Sign in to leave a review." }, { status: 401 })
+  }
+
+  let body: { rating?: number; title?: string; review_text?: string }
+  try { body = await req.json() } catch {
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 })
+  }
+
+  const { rating, title, review_text } = body
+
+  if (!rating || rating < 1 || rating > 5 || !Number.isInteger(Number(rating))) {
+    return NextResponse.json({ error: "rating must be 1-5." }, { status: 400 })
+  }
+  if (title && title.length > 120) {
+    return NextResponse.json({ error: "Title must be 120 characters or fewer." }, { status: 400 })
+  }
+  if (review_text && review_text.length > MAX_TEXT) {
+    return NextResponse.json({ error: `Review must be ${MAX_TEXT} characters or fewer.` }, { status: 400 })
+  }
+
+  const admin = createAdminClient()
+
+  const { data: preset } = await admin
+    .from("presets")
+    .select("id")
     .eq("slug", slug)
     .maybeSingle()
 
   if (!preset) {
-    return NextResponse.json({ error: "Preset not found" }, { status: 404 })
+    return NextResponse.json({ error: "Preset not found." }, { status: 404 })
   }
 
-  /* Fetch approved reviews */
-  const { data: reviews, error, count } = await supabase
+  /* User must have purchased OR YouTube-unlocked the preset */
+  const [{ data: order }, { data: unlock }] = await Promise.all([
+    admin
+      .from("order_items")
+      .select("id, orders!inner(firebase_uid, status)")
+      .eq("preset_id", preset.id)
+      .eq("orders.firebase_uid", firebaseUid)
+      .eq("orders.status", "paid")
+      .limit(1)
+      .maybeSingle(),
+    admin
+      .from("user_unlocks")
+      .select("id")
+      .eq("preset_id", preset.id)
+      .eq("firebase_uid", firebaseUid)
+      .maybeSingle(),
+  ])
+
+  if (!order && !unlock) {
+    return NextResponse.json(
+      { error: "You must purchase or unlock this preset before reviewing it." },
+      { status: 403 }
+    )
+  }
+
+  const { data: profile } = await admin
+    .from("user_profiles")
+    .select("email")
+    .eq("firebase_uid", firebaseUid)
+    .maybeSingle()
+
+  const { data, error } = await admin
     .from("preset_reviews")
-    .select("id, rating, review_text, is_verified_purchase, created_at, email", {
-      count: "exact",
+    .insert({
+      preset_id:            preset.id,
+      firebase_uid:         firebaseUid,
+      email:                profile?.email ?? "",
+      rating,
+      title:                title?.trim() || null,
+      review_text:          review_text?.trim() || null,
+      is_verified_purchase: !!order,
+      is_approved:          false,
     })
-    .eq("preset_id", preset.id)
-    .eq("is_approved", true)
-    .order("created_at", { ascending: false })
-    .range(from, to)
+    .select()
+    .single()
 
   if (error) {
-    console.error("[preset reviews GET]", error)
-    return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 })
+    if (error.code === "23505") {
+      return NextResponse.json({ error: "You have already reviewed this preset." }, { status: 409 })
+    }
+    console.error("[reviews POST]", error)
+    return NextResponse.json({ error: "Failed to submit review." }, { status: 500 })
   }
 
-  /* Mask email: "john@gmail.com" → "jo**@gmail.com" */
-  const masked = (reviews ?? []).map((r) => {
-    const [local, domain] = (r.email ?? "").split("@")
-    const maskedLocal     = local && local.length > 2 ? local.slice(0, 2) + "**" : "**"
-    return {
-      ...r,
-      email: domain ? `${maskedLocal}@${domain}` : "**",
-    }
-  })
-
-  return NextResponse.json({
-    reviews:             masked,
-    total:               count ?? 0,
-    page,
-    limit,
-    total_pages:         Math.ceil((count ?? 0) / limit),
-    preset_rating:       preset.rating,
-    preset_review_count: preset.review_count,
-  })
+  return NextResponse.json(
+    { review: data, message: "Review submitted - pending moderation." },
+    { status: 201 }
+  )
 }

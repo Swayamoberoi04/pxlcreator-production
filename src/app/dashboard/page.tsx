@@ -117,7 +117,7 @@ function EmptyDashboard({ onStart }: { onStart: () => void }) {
 function AnalyticsStrip({ analytics, accentColor }: { analytics: CreatorAnalytics; accentColor: string }) {
   const stats = [
     { label: "Challenge Days",   value: analytics.challengeDaysCompleted, icon: "⚡" },
-    { label: "Lessons Done",     value: analytics.coursesCompleted > 0 ? analytics.coursesCompleted * 5 : (analytics.challengeDaysCompleted > 0 ? analytics.challengeDaysCompleted : 0), icon: "📚" },
+    { label: "Lessons Done",     value: analytics.coursesCompleted, icon: "📚" },
     { label: "Presets Explored", value: analytics.presetsViewed,          icon: "◈" },
     { label: "Community Rep",    value: analytics.communityReputation,    icon: "⭐" },
   ]

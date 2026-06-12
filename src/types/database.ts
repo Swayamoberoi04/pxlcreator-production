@@ -473,6 +473,7 @@ export interface Database {
           firebase_uid:         string
           email:                string
           rating:               number
+          title:                string | null
           review_text:          string | null
           is_approved:          boolean
           is_verified_purchase: boolean
@@ -485,12 +486,14 @@ export interface Database {
           firebase_uid:          string
           email:                 string
           rating:                number
+          title?:                string | null
           review_text?:          string | null
           is_approved?:          boolean
           is_verified_purchase?: boolean
         }
         Update: {
           rating?:               number
+          title?:                string | null
           review_text?:          string | null
           is_approved?:          boolean
           is_verified_purchase?: boolean

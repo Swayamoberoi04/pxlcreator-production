@@ -20,10 +20,10 @@ import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/u
 
 export const metadata: Metadata = {
   title:       "Creator Bundles — PXL Creator",
-  description: "Premium Lightroom preset bundles at 60–74% off individual pack prices. Cinematic, film, portrait, landscape and street looks — curated collections for every creator.",
+  description: "Premium Lightroom preset bundles — save 60–68% vs buying individual packs. Cinematic, film, portrait, landscape and street looks — curated collections for every creator.",
   openGraph: {
     title:       "Creator Bundles — PXL Creator",
-    description: "Curated preset collections at 60–74% off. 8 bundles. 110+ presets. One download.",
+    description: "Curated preset collections — save up to 68% vs individual packs. 7 bundles. 110+ presets. One download.",
     type:        "website",
     url:         "/bundles",
   },
@@ -85,7 +85,7 @@ export default async function BundlesPage() {
           <CinematicReveal variant="rise" delay={0.13}>
             <p className="text-[1rem] sm:text-[1.0625rem] text-muted/55 leading-relaxed max-w-xl mx-auto mb-10">
               {bundles.length} hand-curated bundles. {totalPresets}+ presets total.
-              Each collection saves you 60–74% off buying individual packs.
+              Each collection saves you 60–68% vs buying individual packs.
             </p>
           </CinematicReveal>
 
@@ -94,7 +94,7 @@ export default async function BundlesPage() {
             {[
               { value: `${bundles.length}`, label: "Bundles" },
               { value: `${totalPresets}+`,  label: "Total Presets" },
-              { value: "74%",               label: "Max Savings" },
+              { value: "68%",               label: "Max Savings" },
               { value: "∞",                label: "Lifetime Access" },
             ].map(({ value, label }) => (
               <CinematicItem key={label} variant="rise">

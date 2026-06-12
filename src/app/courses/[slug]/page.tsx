@@ -28,9 +28,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return { title: course.title, description: course.tagline }
 }
 
-function formatStudents(n: number) {
-  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : `${n}`
-}
 
 export default async function CourseDetailPage({ params }: PageProps) {
   const { slug } = await params
@@ -78,18 +75,19 @@ export default async function CourseDetailPage({ params }: PageProps) {
               <h1 className="heading-2 text-foreground">{course.title}</h1>
               <p className="text-lead">{course.tagline}</p>
 
-              {/* Rating + stats */}
+              {/* Stats */}
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
-                <div className="flex items-center gap-1.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i < Math.round(course.rating) ? "#ffd700" : "none"} stroke={i < Math.round(course.rating) ? "none" : "#555"} strokeWidth="1.5" aria-hidden="true">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                  ))}
-                  <span className="text-sm font-medium text-foreground ml-0.5">{course.rating}</span>
-                  <span className="text-small text-muted">({course.reviewCount} reviews)</span>
-                </div>
-                <span className="text-small text-muted">{formatStudents(course.students)} students</span>
+                {course.reviewCount && course.reviewCount > 0 && (
+                  <div className="flex items-center gap-1.5">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i < Math.round(course.rating ?? 0) ? "#ffd700" : "none"} stroke={i < Math.round(course.rating ?? 0) ? "none" : "#555"} strokeWidth="1.5" aria-hidden="true">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    ))}
+                    <span className="text-sm font-medium text-foreground ml-0.5">{course.rating}</span>
+                    <span className="text-small text-muted">({course.reviewCount} reviews)</span>
+                  </div>
+                )}
                 <span className="text-small text-muted">{course.totalLessons} lessons · {course.totalHours}h total</span>
               </div>
 
