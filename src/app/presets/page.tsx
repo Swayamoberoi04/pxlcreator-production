@@ -1,76 +1,56 @@
 import type { Metadata }   from "next"
-import Image               from "next/image"
-import Link                from "next/link"
-import { Container }       from "@/components/layout/Container"
-import { PresetCard }      from "@/components/store/PresetCard"
-import { getPresets }      from "@/lib/presets/repository"
-import type { Preset, PresetCategory } from "@/types/product"
+import Link               from "next/link"
+import { Container }      from "@/components/layout/Container"
+import { PresetCard }     from "@/components/store/PresetCard"
+import { BundleCard }     from "@/components/bundles/BundleCard"
+import { getPresets }     from "@/lib/presets/repository"
+import { getFeaturedBundles } from "@/lib/bundles/repository"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
-import { CinematicReveal } from "@/components/ui/CinematicReveal"
+import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Presets — Full Collection",
+  title: "Presets — Featured Collections",
   description:
-    "Explore every PXL Creator preset pack organised by style. Cinematic, film emulation, portrait, landscape, street and bundle collections.",
+    "Explore PXL Creator's featured preset collections and bundles. Handcrafted Lightroom presets for cinematic, portrait, film, landscape and street photography — buy instantly or unlock free from YouTube.",
 }
 
-/* ── Category metadata ── */
-const CATEGORY_META: Record<PresetCategory, { description: string; order: number }> = {
-  Bundle:          { description: "The best value way to start. Bundles combine multiple styles at a discounted price — perfect if you shoot across genres.",                                              order: 1 },
-  Cinematic:       { description: "Rich, intentional colour grading inspired by film directors. High contrast, warm shadows, and a look that feels finished from the first click.",                        order: 2 },
-  "Film Emulation":{ description: "Authentic recreations of legendary film stocks — Kodak, Fuji, Ilford and more. Real grain structure, real colour casts, real character.",                              order: 3 },
-  Portrait:        { description: "Built around skin. Every preset here has been tested across multiple skin tones to ensure it lifts and warms without going orange.",                                   order: 4 },
-  Landscape:       { description: "Made for wide open spaces. Whether you shoot arctic tundra or dense forest, these presets handle natural light with precision.",                                       order: 5 },
-  Street:          { description: "Gritty, high-contrast, cinematic. For photographers who shoot cities, architecture, and people in motion.",                                                           order: 6 },
-}
-
-function groupByCategory(presets: Preset[]) {
-  const map = new Map<PresetCategory, Preset[]>()
-  for (const p of presets) {
-    const existing = map.get(p.category) ?? []
-    map.set(p.category, [...existing, p])
-  }
-  return Array.from(map.entries())
-    .map(([cat, ps]) => ({
-      category:    cat,
-      description: CATEGORY_META[cat]?.description ?? "",
-      presets:     ps,
-    }))
-    .sort((a, b) =>
-      (CATEGORY_META[a.category]?.order ?? 99) -
-      (CATEGORY_META[b.category]?.order ?? 99)
-    )
-}
-
-/* ── Hero background images — one per category in order ── */
-const CATEGORY_HERO_IMAGES: Partial<Record<PresetCategory, string>> = {
-  Bundle:           "/presets/cinematic.webp",
-  Cinematic:        "/presets/cg.webp",
-  "Film Emulation": "/presets/documentary1.webp",
-  Portrait:         "/presets/magical_sunset.webp",
-  Landscape:        "/presets/dark_blue.webp",
-  Street:           "/presets/dramatic_city.webp",
-}
+/* ── Store categories → /store filter mapping ── */
+const VAULT_CATEGORIES = [
+  { label: "Cinematic",      href: "/store?category=Cinematic"      },
+  { label: "Film Emulation", href: "/store?category=Film+Emulation" },
+  { label: "Portrait",       href: "/store?category=Portrait"       },
+  { label: "Landscape",      href: "/store?category=Landscape"      },
+  { label: "Street",         href: "/store?category=Street"         },
+  { label: "Bundles",        href: "/store?category=Bundle"         },
+  { label: "Free Packs",     href: "/store?category=Free"           },
+]
 
 export default async function PresetsPage() {
-  const allPresets = await getPresets({ orderBy: "order_index" })
-  const groups     = groupByCategory(allPresets)
-  const totalCount = allPresets.length
-  const freeCount  = allPresets.filter((p) => p.isFree).length
+  const [featuredBundles, allPresets] = await Promise.all([
+    getFeaturedBundles(4),
+    getPresets({ featured: true, orderBy: "order_index", limit: 8 }),
+  ])
+
+  /* Fallback: if fewer than 6 featured presets exist, grab top 8 regardless */
+  const showcasePresets = allPresets.length >= 4
+    ? allPresets.slice(0, 8)
+    : allPresets
 
   return (
     <div className="w-full bg-background">
 
-      {/* ── Page hero ── */}
-      <div className="relative w-full border-b border-border overflow-hidden depth-section">
-        <LuminousEnvironment variant="gold" intensity={1.0} />
+      {/* ═══════════════════════════════════════════════════════
+          HERO — curated showcase, not catalogue
+      ═══════════════════════════════════════════════════════ */}
+      <div className="relative w-full border-b border-border overflow-hidden">
+        <LuminousEnvironment variant="gold" intensity={0.9} />
         <CinematicBackground variant="mission" />
-        <GrainOverlay opacity={0.019} animated zIndex={2} />
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent z-[3]" />
+        <GrainOverlay opacity={0.018} animated zIndex={2} />
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent z-[3]" />
 
         <Container className="relative z-10 py-16 sm:py-24">
           <div className="flex flex-col items-center text-center gap-5 max-w-2xl mx-auto">
@@ -78,14 +58,14 @@ export default async function PresetsPage() {
             <CinematicReveal variant="rise">
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 bg-gold/60 animate-gold-flicker" aria-hidden="true" />
-                <span className="text-label text-gold/80 tracking-widest animate-gold-flicker">( Collections )</span>
+                <span className="text-label text-gold/80 tracking-widest animate-gold-flicker">( Featured Collections )</span>
                 <span className="h-px w-8 bg-gold/60 animate-gold-flicker" aria-hidden="true" />
               </div>
             </CinematicReveal>
 
             <CinematicReveal variant="depth" delay={0.07}>
-              <h1 className="font-display font-black text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight text-foreground">
-                Every preset.<br />
+              <h1 className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.04] tracking-tight text-foreground">
+                Our most-loved<br />
                 <span
                   style={{
                     background: "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
@@ -94,139 +74,292 @@ export default async function PresetsPage() {
                     backgroundClip: "text",
                   }}
                 >
-                  Every style.
+                  presets & bundles.
                 </span>
               </h1>
             </CinematicReveal>
 
             <CinematicReveal variant="rise" delay={0.13}>
-              <p className="text-lead max-w-lg text-muted/65">
-                {totalCount} handcrafted packs organised by style.
-                Find the look that matches how you shoot — then own it forever.
+              <p className="text-lead max-w-md text-muted/60 leading-relaxed">
+                Hand-picked packs that creators reach for again and again.
+                Browse the full catalogue inside the Store.
               </p>
             </CinematicReveal>
 
-            {/* Stat strip */}
-            <div className="flex items-center pt-2">
-              {[
-                { v: `${totalCount}`,     l: "Preset Packs"     },
-                { v: `${groups.length}`,  l: "Style Categories" },
-                { v: `${freeCount}`,      l: "Free Packs"       },
-              ].map(({ v, l }, i, arr) => (
-                <div key={l} className="flex items-center">
-                  <div className="flex flex-col items-center px-5 sm:px-8 gap-0.5">
-                    <span className="font-display font-black text-[1.25rem] sm:text-[1.5rem] text-gold leading-none">
-                      {v}
-                    </span>
-                    <span className="text-[0.7rem] text-muted/50 whitespace-nowrap font-medium">
-                      ( {l} )
-                    </span>
-                  </div>
-                  {i < arr.length - 1 && (
-                    <span className="h-7 w-px bg-border shrink-0" aria-hidden="true" />
-                  )}
-                </div>
-              ))}
-            </div>
+            <CinematicReveal variant="rise" delay={0.19}>
+              <div className="flex items-center gap-3 mt-1">
+                <Link
+                  href="/store"
+                  className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-[0.875rem] font-semibold text-background hover:brightness-110 transition-all active:scale-[0.97]"
+                >
+                  Browse Full Store
+                  <ArrowRightIcon />
+                </Link>
+                <Link
+                  href="/bundles"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-2.5 text-[0.875rem] font-medium text-muted/70 hover:text-foreground hover:border-gold/30 transition-all"
+                >
+                  View Bundles
+                </Link>
+              </div>
+            </CinematicReveal>
 
           </div>
         </Container>
       </div>
 
-      {/* ── Category sections ── */}
-      <Container className="py-14 sm:py-20">
-        <div className="flex flex-col gap-20 sm:gap-28">
-
-          {groups.map(({ category, description, presets }, index) => {
-            const heroImg = CATEGORY_HERO_IMAGES[category]
-            return (
-              <div key={category} className="flex flex-col gap-7">
-
-                {/* Category header */}
-                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-                  <div className="flex flex-col gap-3">
-
-                    {/* Counter + category image + title */}
-                    <div className="flex items-center gap-4">
-                      <span className="font-display font-black text-[3rem] sm:text-[4rem] leading-none text-muted/8 select-none">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      {heroImg && (
-                        <div className="relative h-12 w-12 rounded-xl overflow-hidden border border-border shrink-0">
-                          <Image
-                            src={heroImg}
-                            alt={category}
-                            fill
-                            sizes="48px"
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <h2 className="font-display font-black text-[1.5rem] sm:text-[1.875rem] text-foreground leading-tight">
-                        ( {category} )
-                      </h2>
-                    </div>
-
-                    <p className="text-[0.9375rem] text-muted/60 leading-relaxed max-w-lg">
-                      {description}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="rounded-full border border-border bg-surface px-3 py-1.5 text-[0.75rem] font-medium text-muted/60 whitespace-nowrap">
-                      ( {presets.length} {presets.length === 1 ? "pack" : "packs"} )
-                    </span>
-                  </div>
-                </div>
-
-                {/* Gold rule */}
-                <div className="h-px bg-gradient-to-r from-gold/20 via-border to-transparent" aria-hidden="true" />
-
-                {/* Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {presets.map((preset) => (
-                    <PresetCard key={preset.id} preset={preset} />
-                  ))}
-                </div>
-
+      {/* ═══════════════════════════════════════════════════════
+          FEATURED BUNDLES
+      ═══════════════════════════════════════════════════════ */}
+      {featuredBundles.length > 0 && (
+        <Container className="pt-16 sm:pt-20 pb-0">
+          <CinematicReveal variant="rise">
+            <div className="flex items-center justify-between gap-4 mb-8">
+              <div className="flex items-center gap-3">
+                <span className="h-px w-6 bg-gold/60" aria-hidden="true" />
+                <h2 className="font-display font-black text-[1.125rem] text-foreground tracking-tight">
+                  ( Creator Bundles )
+                </h2>
               </div>
-            )
-          })}
+              <Link
+                href="/bundles"
+                className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors flex items-center gap-1.5"
+              >
+                All bundles <ArrowRightSmIcon />
+              </Link>
+            </div>
+          </CinematicReveal>
 
-        </div>
-
-        {/* ── Bottom CTA ── */}
-        <div className="mt-20 relative rounded-2xl border border-gold/15 bg-gold/[0.04] px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"
-          />
-          <div className="flex flex-col gap-1.5">
-            <p className="font-display font-bold text-[1.125rem] text-foreground">
-              ( Can&apos;t decide? Start with a bundle. )
-            </p>
-            <p className="text-[0.875rem] text-muted/60 max-w-sm">
-              Bundles give you multiple styles at a reduced price — perfect
-              for photographers who shoot across genres.
-            </p>
-          </div>
-          <Link
-            href="/store"
-            className="shrink-0 inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3 text-[0.9375rem] font-semibold text-background hover:bg-gold-dim transition-all active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap"
+          <CinematicStagger
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5"
+            itemVariant="rise"
+            stagger={0.07}
           >
-            Browse the Store
-            <ArrowRightIcon />
-          </Link>
-        </div>
+            {featuredBundles.map((bundle) => (
+              <CinematicItem key={bundle.id} variant="rise">
+                <BundleCard bundle={bundle} />
+              </CinematicItem>
+            ))}
+          </CinematicStagger>
+        </Container>
+      )}
 
-      </Container>
+      {/* ═══════════════════════════════════════════════════════
+          FEATURED INDIVIDUAL PRESETS
+      ═══════════════════════════════════════════════════════ */}
+      {showcasePresets.length > 0 && (
+        <Container className="pt-16 sm:pt-20 pb-16 sm:pb-20">
+          <CinematicReveal variant="rise">
+            <div className="flex items-center justify-between gap-4 mb-8">
+              <div className="flex items-center gap-3">
+                <span className="h-px w-6 bg-gold/60" aria-hidden="true" />
+                <h2 className="font-display font-black text-[1.125rem] text-foreground tracking-tight">
+                  ( Featured Packs )
+                </h2>
+              </div>
+              <Link
+                href="/store"
+                className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors flex items-center gap-1.5"
+              >
+                View all {showcasePresets.length > 0 ? "in Store" : ""} <ArrowRightSmIcon />
+              </Link>
+            </div>
+          </CinematicReveal>
+
+          <CinematicStagger
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+            itemVariant="depth"
+            stagger={0.06}
+          >
+            {showcasePresets.map((preset) => (
+              <CinematicItem key={preset.id} variant="depth">
+                <PresetCard preset={preset} />
+              </CinematicItem>
+            ))}
+          </CinematicStagger>
+        </Container>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════
+          CREATOR VAULT — cinematic store CTA
+      ═══════════════════════════════════════════════════════ */}
+      <CreatorVaultSection />
+
     </div>
   )
 }
 
+/* ── Creator Vault Section ─────────────────────────────────────────────── */
+
+function CreatorVaultSection() {
+  return (
+    <section className="relative w-full overflow-hidden bg-[#06060480]" aria-label="Discover the full store">
+      {/* Deep dark background */}
+      <div className="absolute inset-0 bg-[#040403]" aria-hidden="true" />
+
+      {/* Central atmospheric glow */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+        <div className="h-[500px] w-[700px] rounded-full bg-gold/[0.055] blur-[130px] translate-y-8" />
+      </div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden pt-0">
+        <div className="h-[300px] w-[500px] rounded-full bg-gold/[0.03] blur-[90px] -translate-y-8" />
+      </div>
+
+      {/* Top/bottom rules */}
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+
+      <GrainOverlay opacity={0.028} zIndex={1} />
+
+      <Container className="relative z-10 py-24 sm:py-36">
+        <div className="flex flex-col items-center text-center gap-0">
+
+          {/* Eyebrow */}
+          <CinematicReveal variant="rise">
+            <div className="flex items-center gap-4 mb-10">
+              <span className="h-px w-10 bg-gold/30" aria-hidden="true" />
+              <span className="text-[0.7rem] font-bold tracking-[0.3em] text-gold/50 uppercase">
+                The Creator Vault
+              </span>
+              <span className="h-px w-10 bg-gold/30" aria-hidden="true" />
+            </div>
+          </CinematicReveal>
+
+          {/* Main headline */}
+          <CinematicReveal variant="depth" delay={0.08}>
+            <h2 className="font-display font-black text-[clamp(2.8rem,8vw,6rem)] leading-[0.96] tracking-[-0.02em] mb-0">
+              <span className="block text-white/90">Discover the</span>
+              <span
+                className="block"
+                style={{
+                  background: "linear-gradient(135deg, #ffffff 0%, #ffd700 40%, #e5a227 75%, #c8841a 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Full Creator Vault
+              </span>
+            </h2>
+          </CinematicReveal>
+
+          {/* Value props */}
+          <CinematicReveal variant="rise" delay={0.15}>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 text-[0.9375rem] text-muted/40">
+              {[
+                "100+ Premium Presets",
+                "Exclusive Creator Bundles",
+                "Hidden YouTube Unlocks",
+                "Instant Downloads",
+              ].map((v, i, arr) => (
+                <span key={v} className="flex items-center gap-5">
+                  {v}
+                  {i < arr.length - 1 && <span aria-hidden="true" className="text-muted/20">·</span>}
+                </span>
+              ))}
+            </div>
+          </CinematicReveal>
+
+          {/* Category browse chips */}
+          <CinematicReveal variant="rise" delay={0.22}>
+            <div className="flex flex-wrap justify-center gap-2.5 mt-10">
+              <span className="text-[0.75rem] font-medium text-muted/30 self-center mr-1">
+                Search by:
+              </span>
+              {VAULT_CATEGORIES.map(({ label, href }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className="group rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[0.8125rem] font-medium text-muted/55 transition-all duration-200 hover:border-gold/35 hover:bg-gold/[0.07] hover:text-gold/90"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </CinematicReveal>
+
+          {/* Divider */}
+          <div aria-hidden="true" className="w-full max-w-sm h-px bg-gradient-to-r from-transparent via-gold/12 to-transparent my-14 sm:my-16" />
+
+          {/* Unlock methods */}
+          <CinematicReveal variant="depth" delay={0.28}>
+            <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 max-w-lg">
+              {/* Method 1 */}
+              <div className="flex flex-col items-center sm:items-start gap-3 text-center sm:text-left">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/25 bg-gold/[0.08]">
+                  <span className="font-display font-black text-[0.875rem] text-gold">①</span>
+                </div>
+                <p className="text-[0.875rem] text-muted/60 leading-relaxed max-w-[180px]">
+                  Enter the password hidden inside creator videos
+                </p>
+              </div>
+
+              {/* "or" divider */}
+              <div className="flex sm:flex-col items-center gap-3 shrink-0">
+                <div className="h-px w-8 sm:w-px sm:h-8 bg-white/[0.07]" aria-hidden="true" />
+                <span className="text-[0.75rem] font-medium text-muted/25">or</span>
+                <div className="h-px w-8 sm:w-px sm:h-8 bg-white/[0.07]" aria-hidden="true" />
+              </div>
+
+              {/* Method 2 */}
+              <div className="flex flex-col items-center sm:items-start gap-3 text-center sm:text-left">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/[0.08]">
+                  <span className="font-display font-black text-[0.875rem] text-emerald-400">②</span>
+                </div>
+                <p className="text-[0.875rem] text-muted/60 leading-relaxed max-w-[180px]">
+                  Purchase instantly and skip the hunt
+                </p>
+              </div>
+            </div>
+          </CinematicReveal>
+
+          {/* Tagline */}
+          <CinematicReveal variant="rise" delay={0.34}>
+            <p className="mt-12 text-[0.9375rem] sm:text-[1rem] text-muted/30 leading-[1.9] tracking-wide">
+              Every preset lives inside the Store.<br />
+              <span className="text-muted/50">Search.&nbsp;&nbsp;Preview.&nbsp;&nbsp;Unlock.&nbsp;&nbsp;Download.</span>
+            </p>
+          </CinematicReveal>
+
+          {/* CTA button */}
+          <CinematicReveal variant="depth" delay={0.4}>
+            <div className="mt-10">
+              <Link
+                href="/store"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-gold px-10 py-4 text-[1rem] font-bold text-background transition-all duration-300 hover:brightness-110 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+              >
+                {/* Shimmer sweep */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 -skew-x-12 translate-x-[-120%] bg-white/20 transition-transform duration-700 group-hover:translate-x-[200%]"
+                />
+                <span className="relative">Explore The Store</span>
+                <span className="relative">
+                  <ArrowRightIcon />
+                </span>
+              </Link>
+            </div>
+          </CinematicReveal>
+
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+/* ── Icons ─────────────────────────────────────────────────────────────── */
+
 function ArrowRightIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  )
+}
+
+function ArrowRightSmIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M5 12h14M12 5l7 7-7 7"/>
     </svg>
   )
