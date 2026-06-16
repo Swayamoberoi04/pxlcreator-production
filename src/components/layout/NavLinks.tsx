@@ -24,7 +24,6 @@ export const EXPLORE_ITEMS = [
 
 export const COMMUNITY_ITEMS = [
   { label: "Community Hub",  href: "/community"             },
-  { label: "Spaces",         href: "/community/spaces"      },
   { label: "Discover",       href: "/community/discover"    },
   { label: "Channels",       href: "/community/channels"    },
   { label: "Teams",          href: "/community/teams"       },
@@ -40,7 +39,7 @@ type NavItemConfig = SimpleItem | DropdownItem
 const NAV_ITEMS: NavItemConfig[] = [
   { type: "link",     label: "Presets",   href: "/presets"   },
   { type: "link",     label: "Bundles",   href: "/bundles"   },
-  { type: "dropdown", label: "Community", items: COMMUNITY_ITEMS },
+  { type: "link",     label: "Community", href: "/community" },
   { type: "dropdown", label: "Explore",   items: EXPLORE_ITEMS },
   { type: "link",     label: "Premium",   href: "/premium", highlight: true },
 ]
@@ -73,9 +72,6 @@ export function NavLinks() {
   }
 
   const exploreActive = EXPLORE_ITEMS.some(
-    (i) => pathname === i.href || pathname.startsWith(i.href + "/")
-  )
-  const communityActive = COMMUNITY_ITEMS.some(
     (i) => pathname === i.href || pathname.startsWith(i.href + "/")
   )
 
@@ -141,7 +137,7 @@ export function NavLinks() {
 
         /* ── Dropdown ── */
         const isOpen   = openKey === item.label
-        const isActive = item.label === "Community" ? communityActive : exploreActive
+        const isActive = exploreActive
 
         return (
           <div

@@ -14,7 +14,6 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { href: "/community",              label: "Hub",         icon: "🏠" },
   { href: "/community/discover",     label: "Discover",    icon: "🔍" },
-  { href: "/community/spaces",       label: "Spaces",      icon: "💬" },
   { href: "/community/channels",     label: "Channels",    icon: "📡" },
   { href: "/community/teams",        label: "Teams",       icon: "👥" },
   { href: "/community/projects",     label: "Projects",    icon: "🚀" },

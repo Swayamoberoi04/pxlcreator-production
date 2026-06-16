@@ -230,7 +230,7 @@ const cinematicFilmmakerPath: GrowthPath = {
           description:      "Introduce yourself in the PXL Creator Cinematography space. Post your portfolio link and say what kind of projects you're looking to collaborate on. Read through recent posts and comment on at least 3 other creators' work.",
           estimatedMinutes: 20,
           type:             "connect",
-          resource:         { title: "Cinematography Space", url: "/community/spaces" },
+          resource:         { title: "Community Hub", url: "/community" },
         },
         {
           id:               "cf-t18",

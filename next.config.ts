@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  /* ── Redirects ───────────────────────────────────────────
+     Spaces section has been removed. Redirect old URLs to Hub.
+  ─────────────────────────────────────────────────────────── */
+  async redirects() {
+    return [
+      { source: "/community/spaces",         destination: "/community", permanent: true },
+      { source: "/community/spaces/:path*",  destination: "/community", permanent: true },
+    ]
+  },
+
   /* ── Security headers ─────────────────────────────────────
      Applied to all routes. Prevents clickjacking, MIME sniffing,
      XSS via iframes, and information leakage via Referrer.
