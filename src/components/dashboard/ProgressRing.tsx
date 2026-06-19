@@ -13,7 +13,7 @@ export function ProgressRing({
   progress,
   size    = 48,
   stroke  = 4,
-  color   = "#ffd700",
+  color   = "#C9A84C",
   className = "",
   children,
 }: ProgressRingProps) {

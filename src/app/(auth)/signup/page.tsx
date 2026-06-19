@@ -97,7 +97,7 @@ export default function SignupPage() {
         initial={{ opacity: 0, y: 20, scale: 0.97 }}
         animate={{ opacity: 1, y: 0,  scale: 1     }}
         transition={{ duration: 0.45, ease: AUTH_EASE }}
-        className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(99,102,241,0.08)]"
+        className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(61,122,138,0.08)]"
       >
 
         {/* Top gold rule */}
@@ -203,7 +203,7 @@ export default function SignupPage() {
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               loading
                 ? "bg-gold/60 text-background/70 cursor-not-allowed"
-                : "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_32px_rgba(255,215,0,0.15)]"
+                : "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_32px_rgba(201,168,76,0.15)]"
             )}
           >
             {loading && <div className="h-4 w-4 rounded-full border-2 border-background/40 border-t-background animate-spin" />}

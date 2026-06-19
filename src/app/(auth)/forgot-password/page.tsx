@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
         initial={{ opacity: 0, y: 20, scale: 0.97 }}
         animate={{ opacity: 1, y: 0,  scale: 1     }}
         transition={{ duration: 0.45, ease: AUTH_EASE }}
-        className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(99,102,241,0.08)]"
+        className="relative rounded-2xl border border-[#6366f1]/20 bg-surface/70 backdrop-blur-xl p-8 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_60px_rgba(61,122,138,0.08)]"
       >
 
         {/* Top gold rule */}

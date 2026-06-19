@@ -27,7 +27,7 @@ export function CartButton() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{    scale: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 520, damping: 22 }}
-            className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-background text-[10px] font-bold leading-none shadow-[0_0_8px_rgba(255,215,0,0.5)]"
+            className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-background text-[10px] font-bold leading-none shadow-[0_0_8px_rgba(201,168,76,0.5)]"
           >
             {itemCount > 9 ? "9+" : itemCount}
           </motion.span>

@@ -43,7 +43,7 @@ export function SiteHeader() {
             </span>
             <span className="font-display text-[1.1rem] font-bold tracking-widest text-gold logo-glow uppercase
               transition-all duration-300
-              group-hover:text-shadow-[0_0_20px_rgba(255,215,0,1)]">
+              group-hover:text-shadow-[0_0_20px_rgba(201,168,76,1)]">
               &nbsp;CREATOR
             </span>
           </Link>

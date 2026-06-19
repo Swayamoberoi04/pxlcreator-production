@@ -54,7 +54,7 @@ const GALLERY: GalleryImage[] = [
     alt:      "Magical cinematic sunset",
     preset:   "Film Rich",
     category: "Landscape",
-    accent:   "#ffd700",
+    accent:   "#C9A84C",
     tall:     true,
   },
   {
@@ -150,7 +150,7 @@ export function ShotUsingPXLSection() {
               Real results.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
+                  background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -189,7 +189,7 @@ export function ShotUsingPXLSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-14">
             <Link
               href="/store"
-              className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,215,0,0.18)] hover:shadow-[0_0_60px_rgba(255,215,0,0.32)]"
+              className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(201,168,76,0.18)] hover:shadow-[0_0_60px_rgba(201,168,76,0.32)]"
             >
               Get These Looks
             </Link>

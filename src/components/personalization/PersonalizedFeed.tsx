@@ -52,7 +52,7 @@ function RecommendCard({
         className={cn(
           "group flex items-start gap-4 rounded-xl border border-border bg-surface",
           "px-4 py-3.5 transition-all duration-200",
-          "hover:border-gold/30 hover:bg-surface-2 hover:shadow-[0_0_20px_rgba(255,215,0,0.06)]",
+          "hover:border-gold/30 hover:bg-surface-2 hover:shadow-[0_0_20px_rgba(201,168,76,0.06)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         )}
       >
@@ -287,7 +287,7 @@ export function PersonalizedFeed({
   /* ── No recommendations yet ── */
   if (sections.length === 0) return null
 
-  const accentColor = localDna?.primaryColor ?? "#ffd700"
+  const accentColor = localDna?.primaryColor ?? "#C9A84C"
   const visibleSections = sections.slice(0, maxSections)
 
   return (

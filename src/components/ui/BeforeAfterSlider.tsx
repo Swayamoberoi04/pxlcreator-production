@@ -40,7 +40,7 @@ export function BeforeAfterSlider({
   afterSrc,
   alt,
   label,
-  accentColor = "#ffd700",
+  accentColor = "#C9A84C",
   className   = "",
   height      = 420,
 }: BeforeAfterSliderProps) {

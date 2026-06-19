@@ -73,7 +73,7 @@ export function CTABanner() {
                 asChild
                 size="lg"
                 className="bg-gold text-background font-semibold hover:bg-gold-dim px-8 h-12 text-base
-                  shadow-[0_0_32px_rgba(255,215,0,0.18)] hover:shadow-[0_0_48px_rgba(255,215,0,0.30)]
+                  shadow-[0_0_32px_rgba(201,168,76,0.18)] hover:shadow-[0_0_48px_rgba(201,168,76,0.30)]
                   transition-all duration-300"
               >
                 <Link href="/store">Browse All Presets</Link>
@@ -125,7 +125,7 @@ function CheckIcon() {
       height="14"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#ffd700"
+      stroke="#C9A84C"
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"

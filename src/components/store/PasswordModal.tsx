@@ -77,7 +77,7 @@ export function PasswordModal({
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div className="relative w-full max-w-md rounded-2xl border border-border/60 bg-background/95 shadow-[0_0_80px_rgba(255,215,0,0.08)] backdrop-blur-md p-6 flex flex-col gap-5">
+      <div className="relative w-full max-w-md rounded-2xl border border-border/60 bg-background/95 shadow-[0_0_80px_rgba(201,168,76,0.08)] backdrop-blur-md p-6 flex flex-col gap-5">
 
         {/* Close */}
         <button

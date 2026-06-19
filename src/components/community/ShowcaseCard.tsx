@@ -78,7 +78,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         "group flex flex-col rounded-2xl border border-border bg-surface overflow-hidden",
-        "transition-all duration-200 hover:border-gold/25 hover:shadow-[0_0_30px_rgba(255,215,0,0.06)]"
+        "transition-all duration-200 hover:border-gold/25 hover:shadow-[0_0_30px_rgba(201,168,76,0.06)]"
       )}
     >
       {/* Thumbnail */}

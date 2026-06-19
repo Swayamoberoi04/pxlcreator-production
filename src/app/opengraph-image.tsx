@@ -41,7 +41,7 @@ export default function OgImage() {
             width:      "600px",
             height:     "600px",
             borderRadius: "50%",
-            background:  "radial-gradient(circle, rgba(255,215,0,0.12) 0%, transparent 70%)",
+            background:  "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)",
           }}
         />
         {/* Background radial glow — bottom-right indigo */}
@@ -53,7 +53,7 @@ export default function OgImage() {
             width:      "500px",
             height:     "500px",
             borderRadius: "50%",
-            background:  "radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)",
+            background:  "radial-gradient(circle, rgba(61,122,138,0.10) 0%, transparent 70%)",
           }}
         />
 
@@ -65,7 +65,7 @@ export default function OgImage() {
             left:       0,
             right:      0,
             height:     "2px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.6) 50%, transparent 100%)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.6) 50%, transparent 100%)",
           }}
         />
 
@@ -85,18 +85,18 @@ export default function OgImage() {
             <span style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "0.18em", color: "rgba(255,255,255,0.9)", textTransform: "uppercase" }}>
               PXL
             </span>
-            <span style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "0.18em", color: "#ffd700", textTransform: "uppercase", textShadow: "0 0 32px rgba(255,215,0,0.6)" }}>
+            <span style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "0.18em", color: "#C9A84C", textTransform: "uppercase", textShadow: "0 0 32px rgba(201,168,76,0.6)" }}>
               {" "}CREATOR
             </span>
           </div>
 
           {/* Eyebrow */}
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{ width: "32px", height: "1px", background: "rgba(255,215,0,0.5)" }} />
-            <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.22em", color: "rgba(255,215,0,0.75)", textTransform: "uppercase" }}>
+            <div style={{ width: "32px", height: "1px", background: "rgba(201,168,76,0.5)" }} />
+            <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.22em", color: "rgba(201,168,76,0.75)", textTransform: "uppercase" }}>
               Premium Cinematic Presets
             </span>
-            <div style={{ width: "32px", height: "1px", background: "rgba(255,215,0,0.5)" }} />
+            <div style={{ width: "32px", height: "1px", background: "rgba(201,168,76,0.5)" }} />
           </div>
 
           {/* Headline */}
@@ -111,7 +111,7 @@ export default function OgImage() {
             }}
           >
             Edit Like a{" "}
-            <span style={{ color: "#ffd700", textShadow: "0 0 48px rgba(255,215,0,0.4)" }}>
+            <span style={{ color: "#C9A84C", textShadow: "0 0 48px rgba(201,168,76,0.4)" }}>
               Filmmaker.
             </span>
           </div>
@@ -135,13 +135,13 @@ export default function OgImage() {
               display:      "flex",
               alignItems:   "center",
               gap:          "8px",
-              background:   "rgba(255,215,0,0.12)",
-              border:       "1px solid rgba(255,215,0,0.3)",
+              background:   "rgba(201,168,76,0.12)",
+              border:       "1px solid rgba(201,168,76,0.3)",
               borderRadius: "9999px",
               padding:      "10px 24px",
             }}
           >
-            <span style={{ fontSize: "15px", color: "#ffd700", fontWeight: 600 }}>
+            <span style={{ fontSize: "15px", color: "#C9A84C", fontWeight: 600 }}>
               pxlcreator.com
             </span>
           </div>
@@ -155,7 +155,7 @@ export default function OgImage() {
             left:       0,
             right:      0,
             height:     "1px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.3) 50%, transparent 100%)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.3) 50%, transparent 100%)",
           }}
         />
       </div>

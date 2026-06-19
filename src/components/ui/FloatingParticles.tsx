@@ -6,7 +6,7 @@
  * Uses the `particle-float` CSS keyframe; suppressed by `prefers-reduced-motion`.
  *
  * Usage:
- *   <FloatingParticles count={8} color="rgba(255,215,0,0.7)" />
+ *   <FloatingParticles count={8} color="rgba(201,168,76,0.7)" />
  *
  * The parent element needs `position: relative` and `overflow-hidden`.
  */
@@ -48,7 +48,7 @@ interface FloatingParticlesProps {
 
 export function FloatingParticles({
   count    = 8,
-  color    = "rgba(255,215,0,0.65)",
+  color    = "rgba(201,168,76,0.65)",
   zIndex   = 2,
   className,
 }: FloatingParticlesProps) {

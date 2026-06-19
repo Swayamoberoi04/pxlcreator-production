@@ -168,7 +168,7 @@ export default function AboutPage() {
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <Link
                   href="/store"
-                  className="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,215,0,0.18)]"
+                  className="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(201,168,76,0.18)]"
                 >
                   Browse Store
                 </Link>

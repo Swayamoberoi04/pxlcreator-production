@@ -49,7 +49,7 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
       className={cn(
         "relative overflow-hidden rounded-2xl border border-gold/20",
         "bg-gradient-to-br from-black via-zinc-950 to-black p-6",
-        "shadow-[0_0_40px_rgba(255,215,0,0.08)]",
+        "shadow-[0_0_40px_rgba(201,168,76,0.08)]",
         className
       )}
     >

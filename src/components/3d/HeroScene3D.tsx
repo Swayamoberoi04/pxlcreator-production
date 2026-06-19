@@ -66,8 +66,8 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
   /* Shared gold emissive material — picked up by Bloom */
   const mat = useMemo(
     () => new THREE.MeshStandardMaterial({
-      color:             "#ffd700",
-      emissive:          "#ffd700",
+      color:             "#C9A84C",
+      emissive:          "#C9A84C",
       emissiveIntensity: 0.55,
       transparent:       true,
       opacity:           0.6,
@@ -78,8 +78,8 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
   /* Corner accent material — brighter emissive → stronger bloom halo */
   const cornerMat = useMemo(
     () => new THREE.MeshStandardMaterial({
-      color:             "#ffd700",
-      emissive:          "#ffd700",
+      color:             "#C9A84C",
+      emissive:          "#C9A84C",
       emissiveIntensity: 1.1,
       transparent:       true,
       opacity:           0.8,
@@ -130,7 +130,7 @@ function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
   const glassMat = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color:       "#ffd700",
+        color:       "#C9A84C",
         emissive:    "#443300",
         emissiveIntensity: 0.08,
         transparent: true,
@@ -191,7 +191,7 @@ function GoldDust() {
     <points geometry={geometry}>
       <pointsMaterial
         ref={matRef}
-        color="#ffd700"
+        color="#C9A84C"
         size={0.022}
         transparent
         opacity={0.25}
@@ -245,7 +245,7 @@ function Scene() {
       {/* Lighting */}
       <ambientLight intensity={0.12} />
       {/* Warm gold key — emissive surfaces bloom from this */}
-      <directionalLight position={[ 4,  3, 4]} color="#ffd700" intensity={0.9} />
+      <directionalLight position={[ 4,  3, 4]} color="#C9A84C" intensity={0.9} />
       {/* Cool indigo fill */}
       <directionalLight position={[-3, -2, 2]} color="#3322cc" intensity={0.18} />
 
@@ -260,7 +260,7 @@ function Scene() {
         scale={[18, 10, 7]}
         size={1.4}
         speed={0.10}
-        color="#ffd700"
+        color="#C9A84C"
         opacity={0.55}
       />
 

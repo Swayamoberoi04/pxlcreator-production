@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Syne, DM_Sans } from "next/font/google"
+import { Bebas_Neue, DM_Sans } from "next/font/google"
 import "./globals.css"
 
 /*
@@ -28,10 +28,10 @@ import { siteConfig }             from "@/config/site"
 import { organizationSchema, websiteSchema } from "@/lib/seo/schemas"
 
 /* ── Display font — headings, hero text, section titles ── */
-const syne = Syne({
+const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-syne",
+  weight: "400",
+  variable: "--font-bebas",
   display: "swap",
 })
 
@@ -124,7 +124,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${syne.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${bebasNeue.variable} ${dmSans.variable}`}>
       {/*
         flex + min-h-screen on body ensures:
         - SiteHeader stays at top

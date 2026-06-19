@@ -24,23 +24,23 @@ const PILLARS = [
     icon:  "◈",
     title: "Creative Identity",
     line:  "Build a signature look that's recognisably, undeniably you.",
-    glow:  "rgba(255,215,0,0.10)",
-    border: "rgba(255,215,0,0.15)",
+    glow:  "rgba(201,168,76,0.10)",
+    border: "rgba(201,168,76,0.15)",
     iconColor: "text-gold",
   },
   {
     icon:  "✦",
     title: "AI-Powered Editing",
     line:  "Upload a photo. Describe the vibe. Watch your vision come alive in seconds.",
-    glow:  "rgba(99,102,241,0.10)",
-    border: "rgba(99,102,241,0.18)",
+    glow:  "rgba(61,122,138,0.10)",
+    border: "rgba(61,122,138,0.18)",
     iconColor: "text-[#a5b4fc]",
   },
   {
     icon:  "▸",
     title: "Cinematic Systems",
     line:  "A cohesive visual language for every shoot — not just random filters.",
-    glow:  "rgba(255,215,0,0.06)",
+    glow:  "rgba(201,168,76,0.06)",
     border: "rgba(255,255,255,0.07)",
     iconColor: "text-gold/70",
   },
@@ -73,7 +73,7 @@ export function PhilosophyStrip() {
                   Not tools.{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
+                      background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -164,7 +164,7 @@ export function PhilosophyStrip() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-[1]"
-          style={{ background: "radial-gradient(ellipse 80% 50% at 50% 110%, rgba(255,215,0,0.07) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse 80% 50% at 50% 110%, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
         />
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent z-[2]" />
 
@@ -180,7 +180,7 @@ export function PhilosophyStrip() {
                 <h2
                   className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[1.02] tracking-tight"
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #e5a227 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 50%, #A8893A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -214,7 +214,7 @@ export function PhilosophyStrip() {
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <Link
                   href="/presets"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,215,0,0.2)] hover:shadow-[0_0_56px_rgba(255,215,0,0.32)]"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(201,168,76,0.2)] hover:shadow-[0_0_56px_rgba(201,168,76,0.32)]"
                 >
                   Start Building Your Identity
                   <ArrowRight />

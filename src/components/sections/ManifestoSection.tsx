@@ -50,7 +50,7 @@ type ContrastItem = typeof CONTRASTS[number]
 
 /* ── Gradient text style (shared between static + motion paths) ── */
 const GRADIENT_STYLE: React.CSSProperties = {
-  background:           "linear-gradient(135deg, #ffffff 0%, #ffd700 45%, #e5a227 100%)",
+  background:           "linear-gradient(135deg, #ffffff 0%, #C9A84C 45%, #A8893A 100%)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor:  "transparent",
   backgroundClip:       "text",

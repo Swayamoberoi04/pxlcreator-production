@@ -95,12 +95,12 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
   /* Gradient border wrapper (padding trick — 1px coloured layer) */
   const borderWrapperStyle: React.CSSProperties = {
     padding:         "1px",
-    background:      "linear-gradient(145deg, rgba(255,215,0,0.60) 0%, rgba(255,255,255,0.04) 45%, rgba(255,215,0,0.28) 80%, rgba(255,215,0,0.50) 100%)",
+    background:      "linear-gradient(145deg, rgba(201,168,76,0.60) 0%, rgba(255,255,255,0.04) 45%, rgba(201,168,76,0.28) 80%, rgba(201,168,76,0.50) 100%)",
     borderRadius:    "1.25rem",
     boxShadow: [
-      "0 0 0 1px rgba(255,215,0,0.07)",
+      "0 0 0 1px rgba(201,168,76,0.07)",
       `0 0 80px ${config.accentGlow}`,
-      "0 0 160px rgba(255,215,0,0.08)",
+      "0 0 160px rgba(201,168,76,0.08)",
       "0 40px 100px rgba(0,0,0,0.80)",
       "0 8px 32px rgba(0,0,0,0.60)",
     ].join(", "),
@@ -114,7 +114,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
   const innerBodyStyle: React.CSSProperties = {
     background: [
       /* Top-centre gold burst */
-      "radial-gradient(ellipse 130% 60% at 50% -8%, rgba(255,215,0,0.12) 0%, transparent 62%)",
+      "radial-gradient(ellipse 130% 60% at 50% -8%, rgba(201,168,76,0.12) 0%, transparent 62%)",
       /* Bottom-right accent glow */
       `radial-gradient(ellipse 80% 50% at 90% 110%, ${config.accentGlow} 0%, transparent 65%)`,
       /* Base */
@@ -175,7 +175,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
             <div
               style={{
                 height:     "100%",
-                background: "linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.70) 30%, rgba(255,255,255,0.45) 50%, rgba(255,215,0,0.70) 70%, transparent 100%)",
+                background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.70) 30%, rgba(255,255,255,0.45) 50%, rgba(201,168,76,0.70) 70%, transparent 100%)",
                 animation:  "popup-shimmer 3.5s ease-in-out infinite",
               }}
             />
@@ -229,8 +229,8 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               <span
                 className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.62rem] font-black tracking-[0.12em] uppercase text-background"
                 style={{
-                  background:  "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
-                  boxShadow:   "0 0 12px rgba(255,215,0,0.45), 0 2px 8px rgba(0,0,0,0.40)",
+                  background:  "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
+                  boxShadow:   "0 0 12px rgba(201,168,76,0.45), 0 2px 8px rgba(0,0,0,0.40)",
                 }}
               >
                 {config.highlight}
@@ -249,7 +249,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
             <p
               className="text-[0.875rem] font-semibold mb-3.5 leading-snug"
               style={{
-                background:         "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
+                background:         "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip:     "text",
@@ -275,18 +275,18 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gold focus-visible:ring-offset-background",
               )}
               style={{
-                background:  "linear-gradient(135deg, #ffd700 0%, #e5a227 55%, #ffd700 100%)",
+                background:  "linear-gradient(135deg, #C9A84C 0%, #A8893A 55%, #C9A84C 100%)",
                 backgroundSize: "200% 200%",
-                boxShadow:   "0 0 28px rgba(255,215,0,0.30), 0 4px 16px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.25)",
+                boxShadow:   "0 0 28px rgba(201,168,76,0.30), 0 4px 16px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.25)",
                 transition:  "box-shadow 0.2s ease, transform 0.1s ease",
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 0 48px rgba(255,215,0,0.55), 0 8px 24px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.30)"
+                  "0 0 48px rgba(201,168,76,0.55), 0 8px 24px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.30)"
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 0 28px rgba(255,215,0,0.30), 0 4px 16px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.25)"
+                  "0 0 28px rgba(201,168,76,0.30), 0 4px 16px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.25)"
               }}
             >
               {config.ctaLabel}

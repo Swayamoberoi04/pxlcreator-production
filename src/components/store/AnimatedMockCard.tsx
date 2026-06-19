@@ -18,7 +18,7 @@ export function AnimatedMockCard() {
         aria-hidden="true"
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          background:  "radial-gradient(ellipse at 50% 50%, rgba(255,215,0,0.10) 0%, rgba(99,102,241,0.08) 50%, transparent 75%)",
+          background:  "radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.10) 0%, rgba(61,122,138,0.08) 50%, transparent 75%)",
           animation:   "glow-pulse 4s ease-in-out infinite",
           "--pulse-min": "0.6",
           "--pulse-max": "1.0",
@@ -36,7 +36,7 @@ export function AnimatedMockCard() {
         <div
           className="absolute inset-0 rounded-2xl"
           style={{
-            background: "conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(255,215,0,0.4) 20%, rgba(99,102,241,0.4) 40%, transparent 60%)",
+            background: "conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(201,168,76,0.4) 20%, rgba(61,122,138,0.4) 40%, transparent 60%)",
             animation:  "spin-slow 6s linear infinite",
             opacity:    0.6,
           }}
@@ -59,7 +59,7 @@ export function AnimatedMockCard() {
             style={{
               left:       "-20%",
               width:      "40%",
-              background: "linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.08) 40%, rgba(255,215,0,0.06) 60%, transparent 100%)",
+              background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.08) 40%, rgba(201,168,76,0.06) 60%, transparent 100%)",
               animation:  "beam-scan 5s ease-in-out infinite",
               animationDelay: "0.8s",
               willChange: "transform",
@@ -93,7 +93,7 @@ export function AnimatedMockCard() {
             style={{
               left:       "-30%",
               width:      "60%",
-              background: "linear-gradient(90deg, transparent 0%, rgba(165,180,252,0.15) 50%, transparent 100%)",
+              background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.15) 50%, transparent 100%)",
               animation:  "beam-scan 3s ease-in-out infinite",
               animationDelay: "1.5s",
               willChange: "transform",

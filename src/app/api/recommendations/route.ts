@@ -53,7 +53,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     title:         profile.style_dna_title    ?? "Creator",
     tagline:       profile.style_dna_tagline  ?? "",
     badge:         profile.style_dna_badge    ?? "Creator",
-    primaryColor:  profile.style_dna_color    ?? "#ffd700",
+    primaryColor:  profile.style_dna_color    ?? "#C9A84C",
     archetypes:    profile.style_dna_archetypes ?? [],
     topCategories: Object.entries((profile.affinities as unknown as CategoryAffinities) ?? {})
       .sort(([, a], [, b]) => (b as number) - (a as number))

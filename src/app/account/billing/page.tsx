@@ -159,7 +159,7 @@ export default function BillingPage() {
               </p>
               <Link
                 href="/premium#plans"
-                className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3 text-sm font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_20px_rgba(255,215,0,0.15)]"
+                className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3 text-sm font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_20px_rgba(201,168,76,0.15)]"
               >
                 View Plans
               </Link>

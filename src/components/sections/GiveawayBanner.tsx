@@ -43,7 +43,7 @@ export function GiveawayBanner() {
               Win a{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
+                  background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",

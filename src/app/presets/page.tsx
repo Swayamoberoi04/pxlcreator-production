@@ -68,7 +68,7 @@ export default async function PresetsPage() {
                 Our most-loved<br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
+                    background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -232,7 +232,7 @@ function CreatorVaultSection() {
               <span
                 className="block"
                 style={{
-                  background: "linear-gradient(135deg, #ffffff 0%, #ffd700 40%, #e5a227 75%, #c8841a 100%)",
+                  background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 40%, #A8893A 75%, #c8841a 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",

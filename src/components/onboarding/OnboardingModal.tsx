@@ -164,7 +164,7 @@ export function OnboardingModal() {
         {/* Atmospheric gold glow */}
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] pointer-events-none opacity-20"
-          style={{ background: "radial-gradient(ellipse at 50% 0%, #ffd70060, transparent 70%)" }}
+          style={{ background: "radial-gradient(ellipse at 50% 0%, #C9A84C60, transparent 70%)" }}
         />
 
         {/* ── Outer wrapper: modal + preview side-by-side on lg+ ── */}
@@ -178,7 +178,7 @@ export function OnboardingModal() {
             transition={{ duration: 0.5, ease: EASE }}
             className="relative flex-1 w-full max-w-[640px] h-full flex flex-col
               rounded-2xl border border-border/60 bg-black/90 backdrop-blur-2xl
-              shadow-[0_32px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,215,0,0.06)]
+              shadow-[0_32px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(201,168,76,0.06)]
               overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >

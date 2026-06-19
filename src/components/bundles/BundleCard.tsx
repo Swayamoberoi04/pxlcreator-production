@@ -82,7 +82,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
         "bg-surface border border-border",
         "transition-all duration-300",
         "hover:border-gold/25 hover:-translate-y-1",
-        "hover:shadow-[0_20px_60px_rgba(255,215,0,0.08)]",
+        "hover:shadow-[0_20px_60px_rgba(201,168,76,0.08)]",
         className
       )}
     >

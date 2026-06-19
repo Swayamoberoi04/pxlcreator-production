@@ -31,7 +31,7 @@ export const POPUP_CONFIGS: PopupConfig[] = [
     highlight:    'SAVE 60%',
     ctaLabel:     'Explore the Bundle',
     ctaHref:      '/bundles',
-    accentGlow:   'rgba(255, 215, 0, 0.18)',
+    accentGlow:   'rgba(201, 168, 76, 0.18)',
   },
 
   /* ── 2 · Best Selling Presets ─────────────────────────────── */

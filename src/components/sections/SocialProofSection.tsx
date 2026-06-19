@@ -158,7 +158,7 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
         "depth-card flex flex-col gap-6 rounded-2xl p-7 border",
         "bg-surface-2 transition-all duration-300",
         isFeatured
-          ? "border-gold/30 shadow-[0_0_50px_rgba(255,215,0,0.07)]"
+          ? "border-gold/30 shadow-[0_0_50px_rgba(201,168,76,0.07)]"
           : "border-border hover:border-gold/15"
       )}
     >
@@ -219,7 +219,7 @@ function StarIcon({ filled }: { filled: boolean }) {
       width="14"
       height="14"
       viewBox="0 0 24 24"
-      fill={filled ? "#ffd700" : "none"}
+      fill={filled ? "#C9A84C" : "none"}
       stroke={filled ? "none" : "#555555"}
       strokeWidth="1.5"
       aria-hidden="true"

@@ -151,7 +151,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
               ? "bg-emerald-600/20 text-emerald-400 border border-emerald-600/30 cursor-default"
               : added
               ? "bg-emerald-600 text-white"
-              : "bg-gold text-[#0a0800] hover:brightness-110 active:brightness-95 shadow-[0_8px_24px_rgba(255,215,0,0.2)]"
+              : "bg-gold text-[#0a0800] hover:brightness-110 active:brightness-95 shadow-[0_8px_24px_rgba(201,168,76,0.2)]"
           )}
         >
           {alreadyInCart

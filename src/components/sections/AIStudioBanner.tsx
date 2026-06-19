@@ -39,7 +39,7 @@ export function AIStudioBanner() {
             left:       "-30%",
             width:      "55%",
             height:     "1px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(165,180,252,0.25) 40%, rgba(255,215,0,0.18) 60%, transparent 100%)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.25) 40%, rgba(201,168,76,0.18) 60%, transparent 100%)",
             animation:  "beam-scan 7s ease-in-out infinite",
             animationDelay: "1.2s",
             willChange: "transform",
@@ -52,7 +52,7 @@ export function AIStudioBanner() {
             left:       "-30%",
             width:      "45%",
             height:     "1px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.20) 50%, transparent 100%)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.20) 50%, transparent 100%)",
             animation:  "beam-scan 9s ease-in-out infinite",
             animationDelay: "3.5s",
             willChange: "transform",
@@ -97,7 +97,7 @@ export function AIStudioBanner() {
                   AI does{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #ffd700 100%)",
+                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #C9A84C 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -149,7 +149,7 @@ export function AIStudioBanner() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <Link
                   href="/studio"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all duration-200 hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,215,0,0.22)] hover:shadow-[0_0_60px_rgba(255,215,0,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all duration-200 hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(201,168,76,0.22)] hover:shadow-[0_0_60px_rgba(201,168,76,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Try AI Studio
                   <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">

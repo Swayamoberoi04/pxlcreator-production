@@ -190,7 +190,7 @@ function PostCard({ post }: { post: BlogPost }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col rounded-xl overflow-hidden border border-border bg-surface hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(255,215,0,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group flex flex-col rounded-xl overflow-hidden border border-border bg-surface hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(201,168,76,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {/* Cover */}
       <div className={cn(

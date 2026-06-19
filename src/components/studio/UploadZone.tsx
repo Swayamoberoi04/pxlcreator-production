@@ -126,7 +126,7 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
           "border-2 border-dashed cursor-pointer select-none",
           "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           isDragOver
-            ? "border-gold/60 bg-gold/5 shadow-[0_0_40px_rgba(255,215,0,0.08)]"
+            ? "border-gold/60 bg-gold/5 shadow-[0_0_40px_rgba(201,168,76,0.08)]"
             : "border-border bg-surface hover:border-border/80 hover:bg-surface-2"
         )}
       >

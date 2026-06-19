@@ -78,7 +78,7 @@ export function AestheticChips({ selected, onToggle }: AestheticChipsProps) {
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.8125rem] font-medium",
                 "border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 isActive
-                  ? "border-gold/50 bg-gold/12 text-gold shadow-[0_0_12px_rgba(255,215,0,0.12)]"
+                  ? "border-gold/50 bg-gold/12 text-gold shadow-[0_0_12px_rgba(201,168,76,0.12)]"
                   : "border-border bg-background text-muted hover:border-border/80 hover:text-foreground"
               )}
             >

@@ -26,7 +26,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
         className="relative w-full max-w-sm mx-auto"
       >
-        <div className="relative overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-br from-black via-zinc-950 to-black p-7 shadow-[0_0_60px_rgba(255,215,0,0.12)]">
+        <div className="relative overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-br from-black via-zinc-950 to-black p-7 shadow-[0_0_60px_rgba(201,168,76,0.12)]">
           {/* Ambient glow */}
           <div
             className="absolute inset-0 opacity-20 pointer-events-none"

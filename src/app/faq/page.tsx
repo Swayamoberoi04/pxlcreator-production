@@ -183,7 +183,7 @@ export default function FAQPage() {
                 Frequently Asked{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #ffd700 0%, #e5a227 100%)",
+                    background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -224,7 +224,7 @@ export default function FAQPage() {
                 className={cn(
                   "rounded-full px-4 py-1.5 text-[0.8125rem] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   activeCategory === cat
-                    ? "bg-gold text-background shadow-[0_0_16px_rgba(255,215,0,0.25)]"
+                    ? "bg-gold text-background shadow-[0_0_16px_rgba(201,168,76,0.25)]"
                     : "border border-border text-muted hover:text-foreground hover:border-gold/30"
                 )}
               >
@@ -249,7 +249,7 @@ export default function FAQPage() {
           <div className="mt-16 rounded-2xl border border-border bg-surface p-8 text-center">
             <div className="flex flex-col items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/25 bg-gold/[0.07]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffd700" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
               </div>
@@ -261,7 +261,7 @@ export default function FAQPage() {
               </div>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-[0.875rem] font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_24px_rgba(255,215,0,0.15)]"
+                className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-[0.875rem] font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_24px_rgba(201,168,76,0.15)]"
               >
                 Contact Support →
               </Link>

@@ -263,14 +263,14 @@ export function WhyPXLSection() {
                       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
                     )}
                     <div className="flex items-start justify-between gap-3">
-                      <span className="font-display font-black text-[2.5rem] leading-none select-none" style={{ color: `rgba(255,215,0,${0.08 + i * 0.04})` }}>
+                      <span className="font-display font-black text-[2.5rem] leading-none select-none" style={{ color: `rgba(201,168,76,${0.08 + i * 0.04})` }}>
                         0{i + 1}
                       </span>
                       <span
                         className="text-[0.65rem] font-bold tracking-[0.2em] uppercase px-2.5 py-1 rounded-full border mt-1"
                         style={{
-                          borderColor: moat.featured ? "rgba(255,215,0,0.3)" : "rgba(255,255,255,0.08)",
-                          color:       moat.featured ? "#ffd700" : "#666",
+                          borderColor: moat.featured ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.08)",
+                          color:       moat.featured ? "#C9A84C" : "#666",
                         }}
                       >
                         {moat.tag}
@@ -310,7 +310,7 @@ export function WhyPXLSection() {
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 60% 100% at 50% 0%, rgba(255,215,0,0.06) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse 60% 100% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 70%)",
           }}
         />
 
@@ -322,7 +322,7 @@ export function WhyPXLSection() {
                 className="font-display font-black select-none leading-none text-center"
                 style={{
                   fontSize:   "clamp(6rem, 20vw, 14rem)",
-                  background: "linear-gradient(180deg, rgba(255,215,0,0.22) 0%, rgba(255,215,0,0.04) 100%)",
+                  background: "linear-gradient(180deg, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0.04) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -354,7 +354,7 @@ export function WhyPXLSection() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-[1]"
-          style={{ background: "radial-gradient(ellipse 80% 55% at 50% 110%, rgba(255,215,0,0.07) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse 80% 55% at 50% 110%, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
         />
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent z-[2]" />
 
@@ -370,7 +370,7 @@ export function WhyPXLSection() {
                 <h2
                   className="font-display font-black text-[clamp(1.875rem,5.5vw,3.5rem)] leading-[1.05] tracking-tight"
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #e5a227 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 50%, #A8893A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -410,7 +410,7 @@ export function WhyPXLSection() {
               <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
                 <Link
                   href="/presets"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,215,0,0.2)] hover:shadow-[0_0_56px_rgba(255,215,0,0.32)]"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(201,168,76,0.2)] hover:shadow-[0_0_56px_rgba(201,168,76,0.32)]"
                 >
                   Start Building Your Identity
                   <ArrowRight />

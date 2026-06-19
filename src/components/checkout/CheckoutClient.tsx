@@ -177,7 +177,7 @@ export function CheckoutClient() {
         name:        "PXL Creator",
         description: `${itemCount} preset${itemCount > 1 ? "s" : ""}`,
         prefill:     { email: form.email, name: form.name },
-        theme:       { color: "#ffd700" },
+        theme:       { color: "#C9A84C" },
 
         handler: async (response) => {
           /* Step C: Verify payment on our server */
@@ -601,7 +601,7 @@ function LockIcon({ size = 16, className = "" }: { size?: number; className?: st
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
 }
 function CheckSmallIcon() {
-  return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffd700" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+  return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
 }
 function AlertIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>

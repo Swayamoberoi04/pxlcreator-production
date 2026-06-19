@@ -88,7 +88,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
             />
             <defs>
               <linearGradient id="ring-gradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%"   stopColor="#ffd700" stopOpacity="0.9" />
+                <stop offset="0%"   stopColor="#C9A84C" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#6366f1" stopOpacity="0.4" />
               </linearGradient>
             </defs>
@@ -124,7 +124,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
                 className={cn(
                   "flex items-center gap-3.5 rounded-xl px-4 py-3 border transition-all duration-500",
                   isDone   && "border-gold/20 bg-gold/5",
-                  isActive && "border-gold/35 bg-gold/8 shadow-[0_0_16px_rgba(255,215,0,0.08)]",
+                  isActive && "border-gold/35 bg-gold/8 shadow-[0_0_16px_rgba(201,168,76,0.08)]",
                   isPending && "border-border/50 bg-background/30"
                 )}
               >

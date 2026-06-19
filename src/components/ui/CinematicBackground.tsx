@@ -59,8 +59,8 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
   /* ── Hero — warm gold / amber atmosphere ── */
   hero: {
     spotlight: true,
-    spotlightColor: "rgba(255,215,0,0.06)",
-    centerPulse: { color: "rgba(255,215,0,0.08)", size: "800px", duration: "7s" },
+    spotlightColor: "rgba(201,168,76,0.06)",
+    centerPulse: { color: "rgba(201,168,76,0.08)", size: "800px", duration: "7s" },
     orbs: [
       {
         color:    "rgba(255,185,20,0.18)",
@@ -86,10 +86,10 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
   /* ── Manifesto / Distinction — warm gold identity ── */
   manifesto: {
     spotlight: false,
-    centerPulse: { color: "rgba(255,215,0,0.07)", size: "900px", duration: "10s" },
+    centerPulse: { color: "rgba(201,168,76,0.07)", size: "900px", duration: "10s" },
     orbs: [
       {
-        color:    "rgba(255,215,0,0.09)",
+        color:    "rgba(201,168,76,0.09)",
         size:     "700px",
         x: "50%", y: "50%",
         duration: "22s", delay: "0s",
@@ -114,25 +114,25 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     spotlight: false,
     orbs: [
       {
-        color:    "rgba(99,102,241,0.12)",
+        color:    "rgba(61,122,138,0.12)",
         size:     "520px",
         x: "82%", y: "18%",
         duration: "20s", delay: "0s",
       },
       {
-        color:    "rgba(255,215,0,0.09)",
+        color:    "rgba(201,168,76,0.09)",
         size:     "420px",
         x: "15%", y: "72%",
         duration: "18s", delay: "-6s",
       },
       {
-        color:    "rgba(139,92,246,0.08)",
+        color:    "rgba(61,122,138,0.08)",
         size:     "320px",
         x: "48%", y: "50%",
         duration: "26s", delay: "-13s",
       },
       {
-        color:    "rgba(99,102,241,0.07)",
+        color:    "rgba(61,122,138,0.07)",
         size:     "250px",
         x: "62%", y: "80%",
         duration: "22s", delay: "-18s",
@@ -145,7 +145,7 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     spotlight: false,
     orbs: [
       {
-        color:    "rgba(255,215,0,0.055)",
+        color:    "rgba(201,168,76,0.055)",
         size:     "900px",
         x: "50%", y: "110%",
         duration: "28s", delay: "0s",
@@ -168,10 +168,10 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
   /* ── Dark — single low-opacity pulse (vision/closing beat) ── */
   dark: {
     spotlight: false,
-    centerPulse: { color: "rgba(255,215,0,0.06)", size: "1000px", duration: "12s" },
+    centerPulse: { color: "rgba(201,168,76,0.06)", size: "1000px", duration: "12s" },
     orbs: [
       {
-        color:    "rgba(255,215,0,0.05)",
+        color:    "rgba(201,168,76,0.05)",
         size:     "700px",
         x: "50%", y: "90%",
         duration: "30s", delay: "0s",
@@ -184,7 +184,7 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     spotlight: false,
     orbs: [
       {
-        color:    "rgba(255,215,0,0.06)",
+        color:    "rgba(201,168,76,0.06)",
         size:     "500px",
         x: "50%", y: "50%",
         duration: "20s", delay: "0s",

@@ -165,7 +165,7 @@ export function HeroSection() {
       ═══════════════════════════════════════════ */}
       <FloatingParticles
         count={9}
-        color="rgba(255,215,0,0.65)"
+        color="rgba(201,168,76,0.65)"
         zIndex={3}
       />
 
@@ -244,7 +244,7 @@ export function HeroSection() {
             aria-hidden="true"
             className="absolute inset-0 -z-10 pointer-events-none"
             style={{
-              background:      "radial-gradient(ellipse 90% 60% at 50% 50%, rgba(255,215,0,0.12) 0%, transparent 70%)",
+              background:      "radial-gradient(ellipse 90% 60% at 50% 50%, rgba(201,168,76,0.12) 0%, transparent 70%)",
               animation:       "glow-pulse 5s ease-in-out infinite",
               "--pulse-min":   "0.7",
               "--pulse-max":   "1.0",
@@ -288,7 +288,7 @@ export function HeroSection() {
           <MagneticButton>
             <Link
               href="/store"
-              className="inline-flex items-center gap-2.5 rounded-full bg-gold px-9 py-3.5 text-[0.9375rem] font-semibold text-background hover:bg-gold-dim active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent shadow-[0_0_36px_rgba(255,215,0,0.3)] hover:shadow-[0_0_52px_rgba(255,215,0,0.45)]"
+              className="inline-flex items-center gap-2.5 rounded-full bg-gold px-9 py-3.5 text-[0.9375rem] font-semibold text-background hover:bg-gold-dim active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent shadow-[0_0_36px_rgba(201,168,76,0.3)] hover:shadow-[0_0_52px_rgba(201,168,76,0.45)]"
             >
               Shop Now
             </Link>
@@ -336,7 +336,7 @@ export function HeroSection() {
             className={cn(
               "rounded-full transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               i === active
-                ? "w-6 h-1.5 bg-gold shadow-[0_0_8px_rgba(255,215,0,0.6)]"
+                ? "w-6 h-1.5 bg-gold shadow-[0_0_8px_rgba(201,168,76,0.6)]"
                 : "w-1.5 h-1.5 bg-white/25 hover:bg-white/50"
             )}
           />

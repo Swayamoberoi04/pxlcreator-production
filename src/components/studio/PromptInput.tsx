@@ -99,7 +99,7 @@ export function PromptInput({
           "relative w-full rounded-xl py-4 text-[0.9375rem] font-semibold transition-all duration-200",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           canSubmit
-            ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_32px_rgba(255,215,0,0.18)] hover:shadow-[0_0_48px_rgba(255,215,0,0.28)]"
+            ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_32px_rgba(201,168,76,0.18)] hover:shadow-[0_0_48px_rgba(201,168,76,0.28)]"
             : "bg-surface-2 text-muted/40 cursor-not-allowed"
         )}
       >

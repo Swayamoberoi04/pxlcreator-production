@@ -53,7 +53,7 @@ export default function StudioPage() {
                 <span
                   className="bg-clip-text text-transparent"
                   style={{
-                    backgroundImage: "linear-gradient(90deg, #6366f1 0%, #ffd700 100%)",
+                    backgroundImage: "linear-gradient(90deg, #6366f1 0%, #C9A84C 100%)",
                   }}
                 >
                   AI does the edit.

@@ -105,7 +105,7 @@ export function NavLinks() {
                 {item.label}
                 <span
                   aria-hidden="true"
-                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold/60 shadow-[0_0_6px_2px_rgba(255,215,0,0.25)]"
+                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold/60 shadow-[0_0_6px_2px_rgba(201,168,76,0.25)]"
                 />
               </Link>
             )
@@ -128,7 +128,7 @@ export function NavLinks() {
               {isActive && (
                 <span
                   aria-hidden="true"
-                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(255,215,0,0.5)]"
+                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(201,168,76,0.5)]"
                 />
               )}
             </Link>
@@ -165,7 +165,7 @@ export function NavLinks() {
               {isActive && !isOpen && (
                 <span
                   aria-hidden="true"
-                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(255,215,0,0.5)]"
+                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(201,168,76,0.5)]"
                 />
               )}
             </button>
@@ -184,7 +184,7 @@ export function NavLinks() {
                   className={cn(
                     "absolute top-full left-0 mt-2 w-48 overflow-hidden rounded-xl",
                     "border border-border/70 bg-surface/95 backdrop-blur-xl",
-                    "shadow-[0_16px_48px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,215,0,0.04)]"
+                    "shadow-[0_16px_48px_rgba(0,0,0,0.6),0_0_0_1px_rgba(201,168,76,0.04)]"
                   )}
                 >
                   {/* Top glow line */}
