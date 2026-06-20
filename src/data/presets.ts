@@ -34,7 +34,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Warm tones, rich shadows, golden hour magic",
     description:
       "The Desert Gold Pack was built for photographers who shoot in harsh sunlight and golden hour. Each preset is calibrated to handle blown highlights, recover shadow detail, and push warm amber tones without destroying skin. Tested across RAW files from Sony, Canon, Nikon, and Fuji. This is PXL's most-loved cinematic pack — the one creators come back to repeatedly for its reliability across shooting conditions.",
-    price:          24,
+    price:          24.99,
     originalPrice:  34,
     category:       "Cinematic",
     rating:         4.9,
@@ -79,7 +79,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "High-contrast moody street & architecture",
     description:
       "Built for street photographers and architectural shooters who want drama. Urban Noir crushes blacks, boosts mid-tone contrast, and introduces a cool blue shadow cast that makes city scenes feel cinematic. Works equally well on cloudy days and harsh artificial light. The definitive dark-aesthetic preset pack for creators building a strong editorial identity.",
-    price:         18,
+    price:         14.99,
     category:      "Street",
     rating:        4.8,
     reviewCount:   187,
@@ -123,8 +123,8 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Authentic grain, faded highlights, timeless film look",
     description:
       "Five decades of film photography condensed into one pack. The Film Emulation Bundle recreates the look of Kodak Portra, Fuji Velvia, Ilford HP5, and more — complete with authentic grain structures, halation effects, and the characteristic color casts of each film stock. The most complete film pack we've made. If you've ever looked at a film photo and wondered how to replicate that character digitally, this is the answer.",
-    price:          34,
-    originalPrice:  54,
+    price:          29.99,
+    originalPrice:  49,
     category:       "Film Emulation",
     rating:         4.9,
     reviewCount:    544,
@@ -220,7 +220,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Skin tones that glow, soft diffused light",
     description:
       "Portrait presets are the hardest to get right — skin tones break easily. The Sunset Portrait Pack was built and refined across 50+ real portrait sessions. It lifts shadows softly, warms skin without making it orange, and introduces a gentle diffusion effect that mimics beautiful golden-hour light. Works on every skin tone, every camera, every light condition.",
-    price:         12,
+    price:         12.99,
     category:      "Portrait",
     rating:        4.8,
     reviewCount:   231,
@@ -267,8 +267,8 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Everything you need to start editing like a pro",
     description:
       "New to presets? The Cinematic Starter Bundle is the best place to begin. It includes our most versatile cinematic looks — balanced enough to work across portrait, landscape, and street photography without heavy adjustments. With 25 presets and video LUT exports, this is the most complete beginner-to-intermediate toolkit in our catalogue. If you only buy one pack, make it this one.",
-    price:          29,
-    originalPrice:  49,
+    price:          24.99,
+    originalPrice:  39,
     category:       "Cinematic",
     rating:         4.9,
     reviewCount:    421,
@@ -316,7 +316,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Deep greens, misty shadows, atmospheric depth",
     description:
       "Made specifically for forest, woodland, and nature photographers. The Moody Forest Pack emphasises deep, desaturated greens, adds a low-contrast mist to shadows, and preserves the natural texture of foliage and bark. Perfect for moody editorial and fine-art nature work. This is the pack for creators who want their landscape work to feel like a film still.",
-    price:         12,
+    price:         11.99,
     category:      "Landscape",
     rating:        4.7,
     reviewCount:   76,
@@ -362,8 +362,8 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Punchy reds, vivid blues, classic slide film character",
     description:
       "Inspired by Kodachrome slide film — the most beloved film stock in photography history. The Kodak Chrome Pack recreates the iconic punchy reds, saturated blues, and warm mid-tones of Kodachrome with a modern digital twist. Great for travel, street, and lifestyle photography. If you want your photos to pop with the confident boldness of classic film, this is your pack.",
-    price:          24,
-    originalPrice:  34,
+    price:          19.99,
+    originalPrice:  29,
     category:       "Film Emulation",
     rating:         4.9,
     reviewCount:    203,
@@ -410,7 +410,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Warm magentas, lifted shadows, luminous skin",
     description:
       "Designed around the magic window between 5pm and sunset. Golden Hour Portrait captures the warmth, haze, and luminosity of that light — even if your shoot happened at noon. The magentas glow, the shadows lift, and every skin tone becomes radiant. Ideal for lifestyle content, couples sessions, and influencer shoots.",
-    price:         12,
+    price:         11.99,
     category:      "Portrait",
     rating:        4.8,
     reviewCount:   145,
@@ -939,7 +939,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Bold street photography tones for harsh daylight",
     description:
       "Shooting street photography in harsh midday sun is hard — the light is flat, shadows are black, and colour looks washed. The Urban Daylight Pack was built specifically for this problem. Eight presets that punch up the contrast, recover detail in shadows, and add an intentional gritty coolness to daylight street scenes. An accessible entry point into serious street photography editing.",
-    price:         5,
+    price:         7.99,
     category:      "Street",
     rating:        4.5,
     reviewCount:   89,
@@ -983,7 +983,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Clean studio skin tones without the learning curve",
     description:
       "Studio portrait editing has a reputation for being complex — and it is, when you're starting from scratch. The Studio Glow Starter pack removes that barrier. Eight presets calibrated for studio strobe and softbox light, with clean skin-safe tone mapping that makes every portrait look professionally lit. Your entry point into serious portrait post-processing.",
-    price:         5,
+    price:         7.99,
     category:      "Portrait",
     rating:        4.5,
     reviewCount:   67,

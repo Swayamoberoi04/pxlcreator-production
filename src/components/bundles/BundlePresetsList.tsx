@@ -2,12 +2,11 @@
  * src/components/bundles/BundlePresetsList.tsx
  *
  * "What's Inside" section rendered on bundle detail pages.
- * Purely presentational — server component friendly.
- *
- * Displays each BundleIncludedPack as a row card showing:
- *   icon · name · category chip · preset count · description
+ * Shows each included pack with: icon · name · category chip ·
+ * preset count · description · individual price · link to preset page.
  */
 
+import Link from "next/link"
 import type { BundleIncludedPack } from "@/types/bundle"
 import { cn } from "@/lib/utils"
 
@@ -37,17 +36,21 @@ interface BundlePresetsListProps {
 export function BundlePresetsList({ packs, className }: BundlePresetsListProps) {
   if (packs.length === 0) return null
 
+  const totalIndividual = packs.reduce((sum, p) => sum + (p.priceUsd ?? 0), 0)
+
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={cn("flex flex-col gap-3", className)}>
       {packs.map((pack) => {
         const style = getCategoryStyle(pack.category)
-        return (
+        const isFreeBonus = pack.priceUsd === 0
+
+        const card = (
           <div
-            key={pack.name}
             className={cn(
               "flex items-center gap-4 rounded-xl p-4",
               "bg-surface-2/50 border border-border/50",
-              "transition-colors hover:border-border"
+              "transition-colors",
+              pack.slug && "hover:border-gold/20 hover:bg-surface-2/80 cursor-pointer"
             )}
           >
             {/* Icon */}
@@ -69,13 +72,18 @@ export function BundlePresetsList({ packs, className }: BundlePresetsListProps) 
                 )}>
                   {pack.category}
                 </span>
+                {isFreeBonus && (
+                  <span className="text-[0.6rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 bg-emerald-500/10 text-emerald-400/80 border border-emerald-500/20">
+                    FREE BONUS
+                  </span>
+                )}
               </div>
               <p className="text-[0.8rem] text-muted/45 mt-0.5 leading-relaxed">
                 {pack.description}
               </p>
             </div>
 
-            {/* Preset count */}
+            {/* Right: count + price */}
             <div className="flex-shrink-0 text-right">
               <p className="text-[1.1rem] font-black text-gold leading-none">
                 {pack.presetCount}
@@ -83,10 +91,38 @@ export function BundlePresetsList({ packs, className }: BundlePresetsListProps) 
               <p className="text-[0.6rem] font-medium text-muted/35 mt-0.5 tracking-wide">
                 presets
               </p>
+              {pack.priceUsd !== undefined && (
+                <p className={cn(
+                  "text-[0.75rem] font-semibold mt-1.5",
+                  isFreeBonus ? "text-emerald-400/70" : "text-muted/50"
+                )}>
+                  {isFreeBonus ? "Free" : `$${pack.priceUsd.toFixed(2)}`}
+                </p>
+              )}
             </div>
           </div>
         )
+
+        return pack.slug
+          ? (
+            <Link key={pack.name} href={`/presets/${pack.slug}`} className="block">
+              {card}
+            </Link>
+          )
+          : <div key={pack.name}>{card}</div>
       })}
+
+      {/* Total individual value row */}
+      {totalIndividual > 0 && (
+        <div className="flex items-center justify-between px-4 py-2.5 rounded-xl border border-border/30 bg-surface/30 mt-1">
+          <span className="text-[0.8rem] text-muted/45 font-medium">
+            Total if bought separately
+          </span>
+          <span className="text-[0.875rem] font-bold text-muted/60 line-through">
+            ${totalIndividual.toFixed(2)}
+          </span>
+        </div>
+      )}
     </div>
   )
 }

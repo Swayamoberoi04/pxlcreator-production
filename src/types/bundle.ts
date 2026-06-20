@@ -31,6 +31,8 @@ export interface BundleIncludedPack {
   category:     string    // Category label
   description:  string    // One-line description of what this pack does
   icon:         string    // Emoji for visual identity
+  slug?:        string    // Real preset slug → /presets/:slug (must exist in catalogue)
+  priceUsd?:    number    // Individual pack price in USD (0 = included free)
 }
 
 /* ── Use case tags ───────────────────────────────────────── */
