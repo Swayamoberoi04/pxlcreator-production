@@ -151,13 +151,13 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         {/* Name */}
         <Link
           href={`/presets/${preset.slug}`}
-          className="font-display font-bold text-[0.9375rem] leading-snug text-foreground group-hover:text-gold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+          className="font-semibold text-[0.9375rem] leading-snug tracking-[-0.01em] text-foreground group-hover:text-gold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
         >
           {preset.name}
         </Link>
 
         {/* Tagline */}
-        <p className="text-[0.8125rem] text-muted/70 leading-relaxed line-clamp-2 flex-1">
+        <p className="text-[0.8125rem] text-muted/65 leading-[1.55] tracking-[-0.005em] line-clamp-2 flex-1">
           {preset.tagline}
         </p>
 
@@ -177,7 +177,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
           {/* Price stack */}
           <div className="flex flex-col items-end gap-0.5">
             {preset.isFree ? (
-              <span className="font-display font-black text-[1rem] text-emerald-400">
+              <span className="font-bold text-[0.9375rem] text-emerald-400 tracking-tight">
                 Free
               </span>
             ) : (
@@ -190,7 +190,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
                 )}
                 {/* Primary price — user's chosen currency */}
                 <span
-                  className="font-display font-black text-[1rem] text-gold leading-none"
+                  className="font-bold text-[1rem] text-gold leading-none tracking-tight"
                   suppressHydrationWarning
                 >
                   {formatPrice(preset.price, displayCurrency)}

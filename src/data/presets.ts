@@ -3,16 +3,16 @@
  *
  * PXL Creator — Complete Preset Catalogue (static fallback / SSG data)
  *
- * Pricing architecture:
- *   Free     →  $0   (12 lead-magnet packs — genuine quality, ecosystem entry)
- *   Entry    →  $5   (₹420  — low-friction first purchase, 6–8 presets)
- *   Mid      → $12   (₹1,008 — core category packs, 10–12 presets)
- *   Premium  → $15–24 (₹1,260–2,016 — hero packs, 12–15 presets)
- *   Pro      → $29–34 (₹2,436–2,856 — large 25–30 preset suites)
+ * Pricing architecture (INR-native, stored as USD = INR ÷ 84):
+ *   Free     →  $0    (₹0   — 12 lead-magnet packs, genuine quality)
+ *   Entry    →  $1.77 (₹149 — low-friction first purchase, 8 presets)
+ *   Entry+   →  $2.37 (₹199 — slightly deeper, 8 presets)
+ *   Mid      →  $2.96 (₹249 — core category packs, 10–12 presets)
+ *   Mid+     →  $3.56 (₹299 — advanced mid tier, 12 presets)
+ *   Premium  →  $4.75 (₹399 — hero packs, 15 presets)
+ *   Pro      →  $5.94 (₹499 — large 15–30 preset suites)
  *
- * Subscription value framing:
- *   Creator plan = $19/mo → all presets. Mid/premium individual buys naturally
- *   surface the subscription as better long-term value.
+ * Title rules: match the thumbnail image text. Max 1–3 words, no marketing fluff.
  *
  * Free-preset strategy:
  *   Each free pack is a genuine sampler of a paid category — enough to impress,
@@ -34,8 +34,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Warm tones, rich shadows, golden hour magic",
     description:
       "The Desert Gold Pack was built for photographers who shoot in harsh sunlight and golden hour. Each preset is calibrated to handle blown highlights, recover shadow detail, and push warm amber tones without destroying skin. Tested across RAW files from Sony, Canon, Nikon, and Fuji. This is PXL's most-loved cinematic pack — the one creators come back to repeatedly for its reliability across shooting conditions.",
-    price:          24.99,
-    originalPrice:  34,
+    price:          5.94,
     category:       "Cinematic",
     rating:         4.9,
     reviewCount:    312,
@@ -79,7 +78,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "High-contrast moody street & architecture",
     description:
       "Built for street photographers and architectural shooters who want drama. Urban Noir crushes blacks, boosts mid-tone contrast, and introduces a cool blue shadow cast that makes city scenes feel cinematic. Works equally well on cloudy days and harsh artificial light. The definitive dark-aesthetic preset pack for creators building a strong editorial identity.",
-    price:         14.99,
+    price:         3.56,
     category:      "Street",
     rating:        4.8,
     reviewCount:   187,
@@ -123,12 +122,11 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Authentic grain, faded highlights, timeless film look",
     description:
       "Five decades of film photography condensed into one pack. The Film Emulation Bundle recreates the look of Kodak Portra, Fuji Velvia, Ilford HP5, and more — complete with authentic grain structures, halation effects, and the characteristic color casts of each film stock. The most complete film pack we've made. If you've ever looked at a film photo and wondered how to replicate that character digitally, this is the answer.",
-    price:          29.99,
-    originalPrice:  49,
+    price:          5.94,
     category:       "Film Emulation",
     rating:         4.9,
     reviewCount:    544,
-    badge:          "Sale",
+    badge:          "Best Seller",
     conversionTag:  "CREATOR FAVORITE",
     priceTier:      "pro",
     isFeatured:     true,
@@ -220,7 +218,7 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Skin tones that glow, soft diffused light",
     description:
       "Portrait presets are the hardest to get right — skin tones break easily. The Sunset Portrait Pack was built and refined across 50+ real portrait sessions. It lifts shadows softly, warms skin without making it orange, and introduces a gentle diffusion effect that mimics beautiful golden-hour light. Works on every skin tone, every camera, every light condition.",
-    price:         12.99,
+    price:         2.96,
     category:      "Portrait",
     rating:        4.8,
     reviewCount:   231,
@@ -267,12 +265,11 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Everything you need to start editing like a pro",
     description:
       "New to presets? The Cinematic Starter Bundle is the best place to begin. It includes our most versatile cinematic looks — balanced enough to work across portrait, landscape, and street photography without heavy adjustments. With 25 presets and video LUT exports, this is the most complete beginner-to-intermediate toolkit in our catalogue. If you only buy one pack, make it this one.",
-    price:          24.99,
-    originalPrice:  39,
+    price:          5.94,
     category:       "Cinematic",
     rating:         4.9,
     reviewCount:    421,
-    badge:          "Sale",
+    badge:          "Best Seller",
     conversionTag:  "MOST POPULAR",
     priceTier:      "pro",
     isFeatured:     true,
@@ -312,11 +309,11 @@ export const ALL_PRESETS: Preset[] = [
   {
     id:            "7",
     slug:          "moody-forest-pack",
-    name:          "Moody Forest Pack",
-    tagline:       "Deep greens, misty shadows, atmospheric depth",
+    name:          "Timber",
+    tagline:       "Deep greens, atmospheric depth, moody forest character",
     description:
-      "Made specifically for forest, woodland, and nature photographers. The Moody Forest Pack emphasises deep, desaturated greens, adds a low-contrast mist to shadows, and preserves the natural texture of foliage and bark. Perfect for moody editorial and fine-art nature work. This is the pack for creators who want their landscape work to feel like a film still.",
-    price:         11.99,
+      "Made specifically for forest, woodland, and nature photographers. Timber emphasises deep, desaturated greens, adds a low-contrast mist to shadows, and preserves the natural texture of foliage and bark. Perfect for moody editorial and fine-art nature work. This is the pack for creators who want their landscape work to feel like a film still.",
+    price:         2.96,
     category:      "Landscape",
     rating:        4.7,
     reviewCount:   76,
@@ -328,7 +325,7 @@ export const ALL_PRESETS: Preset[] = [
     images:        ["/presets/timber1.webp", "/presets/timber2.webp", "/presets/timber3.webp"],
     beforeUrl:     "/presets/documentary_before.webp",
     afterUrl:      "/presets/documentary_after.webp",
-    downloadFileName: "PXL_Moody_Forest_Pack_v1.zip",
+    downloadFileName: "PXL_Timber_v1.zip",
     features: [
       "12 forest & nature presets",
       "Deep, desaturated green tones",
@@ -358,16 +355,14 @@ export const ALL_PRESETS: Preset[] = [
   {
     id:            "8",
     slug:          "kodak-chrome-pack",
-    name:          "Kodak Chrome Pack",
-    tagline:       "Punchy reds, vivid blues, classic slide film character",
+    name:          "Tropical Chrome",
+    tagline:       "Punchy reds, vivid blues, sun-soaked slide film character",
     description:
-      "Inspired by Kodachrome slide film — the most beloved film stock in photography history. The Kodak Chrome Pack recreates the iconic punchy reds, saturated blues, and warm mid-tones of Kodachrome with a modern digital twist. Great for travel, street, and lifestyle photography. If you want your photos to pop with the confident boldness of classic film, this is your pack.",
-    price:          19.99,
-    originalPrice:  29,
+      "Inspired by Kodachrome slide film — the most beloved film stock in photography history. Tropical Chrome recreates the iconic punchy reds, saturated blues, and warm mid-tones of Kodachrome with a modern digital twist. Great for travel, street, and lifestyle photography. If you want your photos to pop with the confident boldness of classic film, this is your pack.",
+    price:          4.75,
     category:       "Film Emulation",
     rating:         4.9,
     reviewCount:    203,
-    badge:          "New",
     priceTier:      "premium",
     isFeatured:     false,
     isFree:         false,
@@ -376,7 +371,7 @@ export const ALL_PRESETS: Preset[] = [
     images:         ["/presets/tropical2.webp", "/presets/tropical3.webp", "/presets/fr2.webp"],
     beforeUrl:      "/presets/tropical_before.webp",
     afterUrl:       "/presets/tropical_after.webp",
-    downloadFileName: "PXL_Kodak_Chrome_Pack_v1.zip",
+    downloadFileName: "PXL_Tropical_Chrome_v1.zip",
     features: [
       "15 Kodachrome-inspired presets",
       "Punchy reds & vivid blues",
@@ -406,11 +401,11 @@ export const ALL_PRESETS: Preset[] = [
   {
     id:            "9",
     slug:          "golden-hour-portrait",
-    name:          "Golden Hour Portrait",
-    tagline:       "Warm magentas, lifted shadows, luminous skin",
+    name:          "Campfire",
+    tagline:       "Warm firesides, golden skin, intimate firelight",
     description:
-      "Designed around the magic window between 5pm and sunset. Golden Hour Portrait captures the warmth, haze, and luminosity of that light — even if your shoot happened at noon. The magentas glow, the shadows lift, and every skin tone becomes radiant. Ideal for lifestyle content, couples sessions, and influencer shoots.",
-    price:         11.99,
+      "Designed around the warmth and intimacy of firelight and golden-hour glow. Campfire captures amber warmth, lifted shadows, and the luminous quality of late-evening light — even if your shoot happened at noon. The magentas glow, the shadows lift, and every skin tone becomes radiant. Ideal for lifestyle content, couples sessions, and influencer shoots.",
+    price:         2.96,
     category:      "Portrait",
     rating:        4.8,
     reviewCount:   145,
@@ -422,7 +417,7 @@ export const ALL_PRESETS: Preset[] = [
     images:        ["/presets/ic.webp", "/presets/ic4.webp", "/presets/cg1.webp"],
     beforeUrl:     "/presets/fr_before.webp",
     afterUrl:      "/presets/fr_after.webp",
-    downloadFileName: "PXL_Golden_Hour_Portrait_v1.zip",
+    downloadFileName: "PXL_Campfire_v1.zip",
     features: [
       "10 golden hour portrait presets",
       "Warm magenta & amber tones",
@@ -939,11 +934,10 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Bold street photography tones for harsh daylight",
     description:
       "Shooting street photography in harsh midday sun is hard — the light is flat, shadows are black, and colour looks washed. The Urban Daylight Pack was built specifically for this problem. Eight presets that punch up the contrast, recover detail in shadows, and add an intentional gritty coolness to daylight street scenes. An accessible entry point into serious street photography editing.",
-    price:         7.99,
+    price:         1.77,
     category:      "Street",
     rating:        4.5,
     reviewCount:   89,
-    badge:         "New",
     conversionTag: "BEGINNER FRIENDLY",
     priceTier:     "entry",
     isFeatured:    false,
@@ -983,11 +977,10 @@ export const ALL_PRESETS: Preset[] = [
     tagline:       "Clean studio skin tones without the learning curve",
     description:
       "Studio portrait editing has a reputation for being complex — and it is, when you're starting from scratch. The Studio Glow Starter pack removes that barrier. Eight presets calibrated for studio strobe and softbox light, with clean skin-safe tone mapping that makes every portrait look professionally lit. Your entry point into serious portrait post-processing.",
-    price:         7.99,
+    price:         2.37,
     category:      "Portrait",
     rating:        4.5,
     reviewCount:   67,
-    badge:         "New",
     conversionTag: "BEGINNER FRIENDLY",
     priceTier:     "entry",
     isFeatured:    false,

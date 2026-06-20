@@ -30,8 +30,8 @@ export const ALL_BUNDLES: Bundle[] = [
   /* ─────────────────────────────────────────────────────────
      BUNDLE 1 — Cinema Director Bundle
      Target: YouTubers, filmmakers, cinematic content creators
-     Real individual value: $24.99 + $24.99 + $11.99 = $61.97
-     Bundle price: $39 → save $22.97 (37%)
+     Real individual value: $5.94 + $5.94 + $2.96 = $14.84 (₹1,247)
+     Bundle price: $9.51 (₹799) → save 36%
   ───────────────────────────────────────────────────────── */
   {
     id:            "bundle-001",
@@ -41,8 +41,8 @@ export const ALL_BUNDLES: Bundle[] = [
     description:   "The Cinema Director Bundle is the definitive collection for creators who want their work to look like it came out of a production house. We combined our most powerful cinematic looks — warm amber grades, rich shadow science, and luminous golden skin tones — into one cohesive 50-preset system. Whether you're shooting YouTube vlogs, short films, brand campaigns, or travel content, this bundle gives you a professional cinematic signature that's instantly recognisable.",
     whyCreatorsLoveIt: "Creators love this bundle because it solves the biggest editing problem: consistency. Every preset shares the same colour science and light response, so switching between looks feels intentional, not random. The tonal range is wide enough to cover golden-hour magic and overcast drama, but cohesive enough that your entire feed looks like one cinematic universe.",
 
-    price:          39,
-    originalPrice:  62,
+    price:          9.51,
+    originalPrice:  14.84,
     category:       "Bundle",
     isFeatured:     true,
     isFree:         false,
@@ -65,14 +65,14 @@ export const ALL_BUNDLES: Bundle[] = [
     aiTags:         ["cinematic", "warm", "golden", "amber", "dramatic", "rich", "film", "video", "youtube"],
 
     bundleBadge:         "BESTSELLER",
-    individualValueUsd:  61.97,
+    individualValueUsd:  14.84,
     targetAudience: ["YouTubers", "Filmmakers", "Travel Creators", "Brand Photographers", "Content Creators"],
     useCases: ["YouTube", "Reels", "Travel", "Portraits", "Content Creation"],
     includedPacks: [
       {
         name:        "Desert Gold Pack",
         slug:        "desert-gold-pack",
-        priceUsd:    24.99,
+        priceUsd:    5.94,
         presetCount: 15,
         category:    "Cinematic",
         icon:        "🌅",
@@ -81,20 +81,20 @@ export const ALL_BUNDLES: Bundle[] = [
       {
         name:        "Cinematic Starter Bundle",
         slug:        "cinematic-starter-bundle",
-        priceUsd:    24.99,
+        priceUsd:    5.94,
         presetCount: 25,
         category:    "Cinematic",
         icon:        "🎬",
         description: "25 versatile cinematic looks for any genre",
       },
       {
-        name:        "Golden Hour Portrait",
+        name:        "Campfire",
         slug:        "golden-hour-portrait",
-        priceUsd:    11.99,
+        priceUsd:    2.96,
         presetCount: 10,
         category:    "Portrait",
         icon:        "✨",
-        description: "Luminous golden skin-tone enhancement",
+        description: "Warm firelight & golden skin-tone enhancement",
       },
     ],
   },
@@ -102,8 +102,8 @@ export const ALL_BUNDLES: Bundle[] = [
   /* ─────────────────────────────────────────────────────────
      BUNDLE 2 — Film Lab Collection
      Target: Fine art photographers, vintage aesthetic creators
-     Real individual value: $29.99 + $19.99 = $49.98
-     Bundle price: $29 → save $20.98 (42%)
+     Real individual value: $5.94 + $4.75 = $10.69 (₹898)
+     Bundle price: $7.13 (₹599) → save 33%
   ───────────────────────────────────────────────────────── */
   {
     id:            "bundle-002",
@@ -113,8 +113,8 @@ export const ALL_BUNDLES: Bundle[] = [
     description:   "The Film Lab Collection brings together the finest film emulation presets we've ever made — 45 individual looks spanning Kodachrome slide film, Kodak Portra portraiture, Fuji Velvia landscapes, and classic Ilford black-and-white. Each preset is built from scratch to recreate authentic grain structures, halation, and the characteristic colour science of each film stock. If you've always wanted your digital photos to feel like they were shot on real film, this is the only bundle you need.",
     whyCreatorsLoveIt: "Film emulation is having a major moment — and for good reason. These presets don't just add grain, they recreate the full optical character of each film stock. Photographers use this bundle to create editorial series with narrative depth, build consistent Instagram feeds with a retro-analogue identity, and produce wedding galleries that feel timeless rather than trend-dependent.",
 
-    price:          29,
-    originalPrice:  50,
+    price:          7.13,
+    originalPrice:  10.69,
     category:       "Bundle",
     isFeatured:     true,
     isFree:         false,
@@ -137,27 +137,27 @@ export const ALL_BUNDLES: Bundle[] = [
     aiTags:         ["film", "grain", "vintage", "analogue", "kodak", "fuji", "ilford", "retro", "fade", "nostalgic", "editorial"],
 
     bundleBadge:         "MOST POPULAR",
-    individualValueUsd:  49.98,
+    individualValueUsd:  10.69,
     targetAudience: ["Fine Art Photographers", "Wedding Photographers", "Editorial Creators", "Instagram Aesthetic Builders"],
     useCases: ["Instagram", "Film Look", "Portraits", "Weddings", "Fashion"],
     includedPacks: [
       {
         name:        "Film Emulation Bundle",
         slug:        "film-emulation-bundle",
-        priceUsd:    29.99,
+        priceUsd:    5.94,
         presetCount: 30,
         category:    "Film Emulation",
         icon:        "📷",
         description: "6 complete film stock emulations",
       },
       {
-        name:        "Kodak Chrome Pack",
+        name:        "Tropical Chrome",
         slug:        "kodak-chrome-pack",
-        priceUsd:    19.99,
+        priceUsd:    4.75,
         presetCount: 15,
         category:    "Film Emulation",
         icon:        "🎞️",
-        description: "Kodachrome-inspired punchy slide look",
+        description: "Sun-soaked punchy slide look",
       },
     ],
   },
@@ -165,8 +165,8 @@ export const ALL_BUNDLES: Bundle[] = [
   /* ─────────────────────────────────────────────────────────
      BUNDLE 3 — Portrait Master Bundle
      Target: Portrait photographers, lifestyle influencers
-     Real individual value: $12.99 + $11.99 + $7.99 = $32.97
-     Bundle price: $18 → save $14.97 (45%)
+     Real individual value: $2.96 + $2.96 + $2.37 = $8.29 (₹697)
+     Bundle price: $5.35 (₹449) → save 35%
   ───────────────────────────────────────────────────────── */
   {
     id:            "bundle-003",
@@ -176,8 +176,8 @@ export const ALL_BUNDLES: Bundle[] = [
     description:   "Portrait editing is where most presets fail — skin tones break, shadows go muddy, and the warmth looks fake. The Portrait Master Bundle was built differently. Every single look was developed and tested across 200+ real portrait sessions on diverse skin tones. You get 28 presets that handle golden hour, studio strobe, window light, and harsh outdoor sun with equal grace. The shadows lift softly, the skin glows naturally, and the overall tone feels intentionally crafted — not filtered.",
     whyCreatorsLoveIt: "Skin-safe colour science is the difference between looking professional and looking amateur. This bundle uses a proprietary shadow-lift system that opens shadows without adding unwanted colour casts — something most presets get completely wrong. Portrait photographers report cutting their editing time in half after switching to these presets.",
 
-    price:          18,
-    originalPrice:  33,
+    price:          5.35,
+    originalPrice:  8.29,
     category:       "Bundle",
     isFeatured:     true,
     isFree:         false,
@@ -200,32 +200,32 @@ export const ALL_BUNDLES: Bundle[] = [
     aiTags:         ["portrait", "skin", "warm", "golden", "soft", "natural", "lifestyle", "flattering", "couple", "glow"],
 
     bundleBadge:         "CREATOR FAVORITE",
-    individualValueUsd:  32.97,
+    individualValueUsd:  8.29,
     targetAudience: ["Portrait Photographers", "Wedding Photographers", "Lifestyle Influencers", "Family Photographers"],
     useCases: ["Portraits", "Weddings", "Instagram", "Lifestyle", "Fashion"],
     includedPacks: [
       {
         name:        "Sunset Portrait Pack",
         slug:        "sunset-portrait-pack",
-        priceUsd:    12.99,
+        priceUsd:    2.96,
         presetCount: 10,
         category:    "Portrait",
         icon:        "🌇",
         description: "Warm skin with golden diffusion",
       },
       {
-        name:        "Golden Hour Portrait",
+        name:        "Campfire",
         slug:        "golden-hour-portrait",
-        priceUsd:    11.99,
+        priceUsd:    2.96,
         presetCount: 10,
         category:    "Portrait",
         icon:        "✨",
-        description: "Magenta & amber luminosity",
+        description: "Warm firelight & amber luminosity",
       },
       {
         name:        "Studio Glow Starter",
         slug:        "studio-glow-starter",
-        priceUsd:    7.99,
+        priceUsd:    2.37,
         presetCount: 8,
         category:    "Portrait",
         icon:        "💡",
@@ -237,8 +237,8 @@ export const ALL_BUNDLES: Bundle[] = [
   /* ─────────────────────────────────────────────────────────
      BUNDLE 4 — Creator Starter Kit  ← ENTRY BUNDLE
      Target: Beginners, photographers just starting with presets
-     Real individual value: $24.99 + $24.99 + $0 (free) = $49.98
-     Bundle price: $19 → save $30.98 (62%)
+     Real individual value: $5.94 + $5.94 + $0 = $11.88 (₹998)
+     Bundle price: $8.32 (₹699) → save 30%
   ───────────────────────────────────────────────────────── */
   {
     id:            "bundle-005",
@@ -248,8 +248,8 @@ export const ALL_BUNDLES: Bundle[] = [
     description:   "New to Lightroom presets? The Creator Starter Kit is where to begin. We selected our most versatile, forgiving, and widely-loved looks — presets that work on portraits, landscapes, and travel photography without needing manual adjustment. 52 total presets, including the acclaimed Desert Gold Pack and Cinematic Starter Bundle, plus the Arctic Blue Pack as a free bonus. This bundle converts 'I'll fix it in post' photographers into 'I can't believe how fast I edit now' creators.",
     whyCreatorsLoveIt: "Most beginners make the mistake of buying highly stylised presets that only work in very specific conditions. The Creator Starter Kit is built for the opposite — broad compatibility and forgiving colour science that works across a huge range of shooting scenarios. You get the same cinematic quality as our advanced packs, just without the steep learning curve.",
 
-    price:          19,
-    originalPrice:  50,
+    price:          8.32,
+    originalPrice:  11.88,
     category:       "Bundle",
     isFeatured:     true,
     isFree:         false,
@@ -271,14 +271,14 @@ export const ALL_BUNDLES: Bundle[] = [
     aiTags:         ["beginner", "versatile", "balanced", "warm", "cinematic", "clean", "natural", "starter", "easy", "workflow"],
 
     bundleBadge:         "BEST VALUE",
-    individualValueUsd:  49.98,
+    individualValueUsd:  11.88,
     targetAudience: ["Photography Beginners", "Hobbyist Creators", "Social Media Starters", "Lightroom Newcomers"],
     useCases: ["Instagram", "Reels", "Travel", "Portraits", "Content Creation"],
     includedPacks: [
       {
         name:        "Cinematic Starter Bundle",
         slug:        "cinematic-starter-bundle",
-        priceUsd:    24.99,
+        priceUsd:    5.94,
         presetCount: 25,
         category:    "Cinematic",
         icon:        "🎬",
@@ -287,7 +287,7 @@ export const ALL_BUNDLES: Bundle[] = [
       {
         name:        "Desert Gold Pack",
         slug:        "desert-gold-pack",
-        priceUsd:    24.99,
+        priceUsd:    5.94,
         presetCount: 15,
         category:    "Cinematic",
         icon:        "🌅",
@@ -308,8 +308,8 @@ export const ALL_BUNDLES: Bundle[] = [
   /* ─────────────────────────────────────────────────────────
      BUNDLE 5 — Golden Lifestyle Bundle
      Target: Lifestyle creators, travel bloggers, Instagram influencers
-     Real individual value: $24.99 + $12.99 + $11.99 = $49.97
-     Bundle price: $29 → save $20.97 (42%)
+     Real individual value: $5.94 + $2.96 + $2.96 = $11.86 (₹997)
+     Bundle price: $8.32 (₹699) → save 30%
   ───────────────────────────────────────────────────────── */
   {
     id:            "bundle-006",
@@ -319,8 +319,8 @@ export const ALL_BUNDLES: Bundle[] = [
     description:   "The Golden Lifestyle Bundle is built for the creators who understand that warmth sells. Warm skin, warm light, warm atmosphere — the kind of images that make people stop scrolling and wish they were there. 35 presets across portrait and golden-hour categories, all tuned to that specific honey-and-amber colour palette that consistently outperforms cooler tones on Instagram and Reels engagement metrics. If your brand is lifestyle, travel, fashion, or content creation, this is your signature pack.",
     whyCreatorsLoveIt: "Lifestyle photographers and Instagram influencers return to this bundle repeatedly because it produces consistent, on-brand results regardless of the shooting condition. The warmth feels natural — not orange — which is notoriously hard to achieve. Several of our users have built audiences of 100k+ using the Golden Lifestyle Bundle as their sole editing system.",
 
-    price:          29,
-    originalPrice:  50,
+    price:          8.32,
+    originalPrice:  11.86,
     category:       "Bundle",
     isFeatured:     true,
     isFree:         false,
@@ -343,14 +343,14 @@ export const ALL_BUNDLES: Bundle[] = [
     aiTags:         ["golden", "warm", "lifestyle", "amber", "instagram", "reels", "influencer", "travel", "soft", "honey", "glow"],
 
     bundleBadge:         "TRENDING",
-    individualValueUsd:  49.97,
+    individualValueUsd:  11.86,
     targetAudience: ["Instagram Influencers", "Lifestyle Creators", "Travel Bloggers", "Fashion Photographers", "Content Creators"],
     useCases: ["Instagram", "Reels", "Lifestyle", "Travel", "Fashion", "Content Creation"],
     includedPacks: [
       {
         name:        "Desert Gold Pack",
         slug:        "desert-gold-pack",
-        priceUsd:    24.99,
+        priceUsd:    5.94,
         presetCount: 15,
         category:    "Cinematic",
         icon:        "🌅",
@@ -359,20 +359,20 @@ export const ALL_BUNDLES: Bundle[] = [
       {
         name:        "Sunset Portrait Pack",
         slug:        "sunset-portrait-pack",
-        priceUsd:    12.99,
+        priceUsd:    2.96,
         presetCount: 10,
         category:    "Portrait",
         icon:        "🌇",
         description: "Warm skin with golden diffusion",
       },
       {
-        name:        "Golden Hour Portrait",
+        name:        "Campfire",
         slug:        "golden-hour-portrait",
-        priceUsd:    11.99,
+        priceUsd:    2.96,
         presetCount: 10,
         category:    "Portrait",
         icon:        "✨",
-        description: "Luminous magenta & amber",
+        description: "Warm firelight & amber luminosity",
       },
     ],
   },
@@ -380,8 +380,8 @@ export const ALL_BUNDLES: Bundle[] = [
   /* ─────────────────────────────────────────────────────────
      BUNDLE 6 — Nature & Travel Kit
      Target: Travel photographers, outdoor creators, drone pilots
-     Real individual value: $11.99 + $0 + $29.99 = $41.98
-     Bundle price: $24 → save $17.98 (43%)
+     Real individual value: $2.96 + $0 + $5.94 = $8.90 (₹748)
+     Bundle price: $5.94 (₹499) → save 33%
   ───────────────────────────────────────────────────────── */
   {
     id:            "bundle-007",
@@ -391,8 +391,8 @@ export const ALL_BUNDLES: Bundle[] = [
     description:   "Travel and nature photography demands a toolkit that handles every environment on the planet — the blue-white tones of Iceland's coast, the deep emerald greens of tropical forests, the warm terracotta of Rajasthan, the muted film character of an overcast Scottish morning. The Nature & Travel Kit is that toolkit. 54 presets spanning cool editorial landscapes, atmospheric forest work, and analogue travel film looks, built to cover every destination a creator might visit.",
     whyCreatorsLoveIt: "Travel photographers tell us this bundle solves their biggest location challenge: colour inconsistency. Shooting across five countries in a week means wildly different light conditions — this kit handles all of them cohesively, so your travel series looks intentionally edited rather than colour-random. Drone pilots especially love the Arctic Blue Pack's aerial compatibility.",
 
-    price:          24,
-    originalPrice:  42,
+    price:          5.94,
+    originalPrice:  8.90,
     category:       "Bundle",
     isFeatured:     false,
     isFree:         false,
@@ -415,14 +415,14 @@ export const ALL_BUNDLES: Bundle[] = [
     aiTags:         ["travel", "landscape", "nature", "outdoor", "drone", "forest", "arctic", "cool", "editorial", "adventure", "exploration"],
 
     bundleBadge:         "PRO LEVEL",
-    individualValueUsd:  41.98,
+    individualValueUsd:  8.90,
     targetAudience: ["Travel Photographers", "Drone Pilots", "Nature Photographers", "Outdoor Content Creators", "Adventure Bloggers"],
     useCases: ["Travel", "Landscapes", "Drone", "Film Look", "Content Creation", "YouTube"],
     includedPacks: [
       {
-        name:        "Moody Forest Pack",
+        name:        "Timber",
         slug:        "moody-forest-pack",
-        priceUsd:    11.99,
+        priceUsd:    2.96,
         presetCount: 12,
         category:    "Landscape",
         icon:        "🌲",
@@ -440,7 +440,7 @@ export const ALL_BUNDLES: Bundle[] = [
       {
         name:        "Film Emulation Bundle",
         slug:        "film-emulation-bundle",
-        priceUsd:    29.99,
+        priceUsd:    5.94,
         presetCount: 30,
         category:    "Film Emulation",
         icon:        "📷",
@@ -452,8 +452,8 @@ export const ALL_BUNDLES: Bundle[] = [
   /* ─────────────────────────────────────────────────────────
      BUNDLE 7 — Complete PXL Library  ← ANCHOR / FLAGSHIP
      Target: Serious creators who want the full toolkit
-     Real individual value: sum of all 10 paid presets = $167.90
-     Bundle price: $79 → save $88.90 (53%)
+     Real individual value: sum of all 10 paid presets = $39.15 (₹3,289)
+     Bundle price: $23.80 (₹1,999) → save 39%
   ───────────────────────────────────────────────────────── */
   {
     id:            "bundle-008",
@@ -463,8 +463,8 @@ export const ALL_BUNDLES: Bundle[] = [
     description:   "The Complete PXL Library is everything. All 110+ presets from every pack we've produced — cinematic, film emulation, portrait, street, landscape, lifestyle, and more — in a single download. This is the ultimate creator investment: a complete editing system that grows with you. Used by photographers who take their craft seriously and want a comprehensive toolkit ready for any commission, project, or personal series. Once you have the Complete Library, you'll never need to buy another preset pack.",
     whyCreatorsLoveIt: "Professional photographers who commission commercial work use this bundle because it gives them the confidence that whatever a client wants — warm and lifestyle, dark and editorial, film and nostalgic, clean and architectural — they have the exact look available without hunting through 50 different Lightroom folders. It's a complete professional editing system, not just a preset pack.",
 
-    price:          79,
-    originalPrice:  168,
+    price:          23.80,
+    originalPrice:  39.15,
     category:       "Bundle",
     isFeatured:     true,
     isFree:         false,
@@ -487,14 +487,14 @@ export const ALL_BUNDLES: Bundle[] = [
     aiTags:         ["complete", "all", "professional", "commercial", "everything", "ultimate", "library", "comprehensive", "system"],
 
     bundleBadge:         "BEST VALUE",
-    individualValueUsd:  167.90,
+    individualValueUsd:  39.15,
     targetAudience: ["Professional Photographers", "Commercial Creators", "Agencies", "Full-Time Content Creators"],
     useCases: ["Instagram", "YouTube", "Reels", "Portraits", "Travel", "Weddings", "Film Look", "Lifestyle", "Content Creation"],
     includedPacks: [
       {
         name:        "Desert Gold Pack",
         slug:        "desert-gold-pack",
-        priceUsd:    24.99,
+        priceUsd:    5.94,
         presetCount: 15,
         category:    "Cinematic",
         icon:        "🌅",
@@ -503,7 +503,7 @@ export const ALL_BUNDLES: Bundle[] = [
       {
         name:        "Cinematic Starter Bundle",
         slug:        "cinematic-starter-bundle",
-        priceUsd:    24.99,
+        priceUsd:    5.94,
         presetCount: 25,
         category:    "Cinematic",
         icon:        "🎬",
@@ -512,61 +512,61 @@ export const ALL_BUNDLES: Bundle[] = [
       {
         name:        "Film Emulation Bundle",
         slug:        "film-emulation-bundle",
-        priceUsd:    29.99,
+        priceUsd:    5.94,
         presetCount: 30,
         category:    "Film Emulation",
         icon:        "📷",
         description: "Complete analogue film collection",
       },
       {
-        name:        "Kodak Chrome Pack",
+        name:        "Tropical Chrome",
         slug:        "kodak-chrome-pack",
-        priceUsd:    19.99,
+        priceUsd:    4.75,
         presetCount: 15,
         category:    "Film Emulation",
         icon:        "🎞️",
-        description: "Kodachrome-inspired punchy slide look",
+        description: "Sun-soaked punchy slide look",
       },
       {
         name:        "Sunset Portrait Pack",
         slug:        "sunset-portrait-pack",
-        priceUsd:    12.99,
+        priceUsd:    2.96,
         presetCount: 10,
         category:    "Portrait",
         icon:        "🌇",
         description: "Full skin-tone portrait system",
       },
       {
-        name:        "Golden Hour Portrait",
+        name:        "Campfire",
         slug:        "golden-hour-portrait",
-        priceUsd:    11.99,
+        priceUsd:    2.96,
         presetCount: 10,
         category:    "Portrait",
         icon:        "✨",
-        description: "Luminous magenta & amber portrait looks",
+        description: "Warm firelight & amber portrait looks",
       },
       {
         name:        "Studio Glow Starter",
         slug:        "studio-glow-starter",
-        priceUsd:    7.99,
+        priceUsd:    2.37,
         presetCount: 8,
         category:    "Portrait",
         icon:        "💡",
         description: "Professional studio lighting look",
       },
       {
-        name:        "Moody Forest Pack",
+        name:        "Timber",
         slug:        "moody-forest-pack",
-        priceUsd:    11.99,
+        priceUsd:    2.96,
         presetCount: 12,
         category:    "Landscape",
         icon:        "🌲",
-        description: "Every outdoor & forest look",
+        description: "Deep atmospheric forest look",
       },
       {
         name:        "Urban Noir Pack",
         slug:        "urban-noir-pack",
-        priceUsd:    14.99,
+        priceUsd:    3.56,
         presetCount: 12,
         category:    "Street",
         icon:        "🌆",
@@ -575,7 +575,7 @@ export const ALL_BUNDLES: Bundle[] = [
       {
         name:        "Urban Daylight Pack",
         slug:        "urban-daylight-pack",
-        priceUsd:    7.99,
+        priceUsd:    1.77,
         presetCount: 8,
         category:    "Street",
         icon:        "🏙️",
