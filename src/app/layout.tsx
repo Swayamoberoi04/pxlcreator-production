@@ -21,6 +21,7 @@ import { SiteHeader }             from "@/components/layout/SiteHeader"
 import { SiteFooter }             from "@/components/layout/SiteFooter"
 import { CartDrawer }             from "@/components/cart/CartDrawer"
 import { CinematicCursor }        from "@/components/ui/CinematicCursor"
+import { NavProgressBar }         from "@/components/ui/NavProgressBar"
 import { OnboardingModal }        from "@/components/onboarding/OnboardingModal"
 import { OnboardingGate }         from "@/components/onboarding/OnboardingGate"
 import { GlobalAmbientWrapper }   from "@/components/3d/GlobalAmbientWrapper"
@@ -156,6 +157,9 @@ export default function RootLayout({
 
         {/* ── Cinematic custom cursor — desktop only, pointer:fine ── */}
         <CinematicCursor />
+
+        {/* ── Route navigation progress bar ── */}
+        <NavProgressBar />
 
         <SmoothScrollProvider>
           <AuthProvider>
