@@ -1,4 +1,4 @@
-/**
+﻿/**
  * src/app/opengraph-image.tsx
  *
  * Generates /opengraph-image (and /twitter-image) at build time.
@@ -11,7 +11,7 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt     = "PXL Creator — Premium Cinematic Presets"
+export const alt     = "PXL Creator â€” Premium Cinematic Presets"
 export const size    = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -32,7 +32,7 @@ export default function OgImage() {
           overflow:        "hidden",
         }}
       >
-        {/* Background radial glow — top-left gold */}
+        {/* Background radial glow â€” top-left gold */}
         <div
           style={{
             position:   "absolute",
@@ -41,10 +41,10 @@ export default function OgImage() {
             width:      "600px",
             height:     "600px",
             borderRadius: "50%",
-            background:  "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)",
+            background:  "radial-gradient(circle, rgba(255,214,10,0.12) 0%, transparent 70%)",
           }}
         />
-        {/* Background radial glow — bottom-right indigo */}
+        {/* Background radial glow â€” bottom-right indigo */}
         <div
           style={{
             position:   "absolute",
@@ -65,7 +65,7 @@ export default function OgImage() {
             left:       0,
             right:      0,
             height:     "2px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.6) 50%, transparent 100%)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(255,214,10,0.6) 50%, transparent 100%)",
           }}
         />
 
@@ -85,18 +85,18 @@ export default function OgImage() {
             <span style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "0.18em", color: "rgba(255,255,255,0.9)", textTransform: "uppercase" }}>
               PXL
             </span>
-            <span style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "0.18em", color: "#C9A84C", textTransform: "uppercase", textShadow: "0 0 32px rgba(201,168,76,0.6)" }}>
+            <span style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "0.18em", color: "#FFD60A", textTransform: "uppercase", textShadow: "0 0 32px rgba(255,214,10,0.6)" }}>
               {" "}CREATOR
             </span>
           </div>
 
           {/* Eyebrow */}
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{ width: "32px", height: "1px", background: "rgba(201,168,76,0.5)" }} />
-            <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.22em", color: "rgba(201,168,76,0.75)", textTransform: "uppercase" }}>
+            <div style={{ width: "32px", height: "1px", background: "rgba(255,214,10,0.5)" }} />
+            <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.22em", color: "rgba(255,214,10,0.75)", textTransform: "uppercase" }}>
               Premium Cinematic Presets
             </span>
-            <div style={{ width: "32px", height: "1px", background: "rgba(201,168,76,0.5)" }} />
+            <div style={{ width: "32px", height: "1px", background: "rgba(255,214,10,0.5)" }} />
           </div>
 
           {/* Headline */}
@@ -111,7 +111,7 @@ export default function OgImage() {
             }}
           >
             Edit Like a{" "}
-            <span style={{ color: "#C9A84C", textShadow: "0 0 48px rgba(201,168,76,0.4)" }}>
+            <span style={{ color: "#FFD60A", textShadow: "0 0 48px rgba(255,214,10,0.4)" }}>
               Filmmaker.
             </span>
           </div>
@@ -135,13 +135,13 @@ export default function OgImage() {
               display:      "flex",
               alignItems:   "center",
               gap:          "8px",
-              background:   "rgba(201,168,76,0.12)",
-              border:       "1px solid rgba(201,168,76,0.3)",
+              background:   "rgba(255,214,10,0.12)",
+              border:       "1px solid rgba(255,214,10,0.3)",
               borderRadius: "9999px",
               padding:      "10px 24px",
             }}
           >
-            <span style={{ fontSize: "15px", color: "#C9A84C", fontWeight: 600 }}>
+            <span style={{ fontSize: "15px", color: "#FFD60A", fontWeight: 600 }}>
               pxlcreator.com
             </span>
           </div>
@@ -155,7 +155,7 @@ export default function OgImage() {
             left:       0,
             right:      0,
             height:     "1px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.3) 50%, transparent 100%)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(255,214,10,0.3) 50%, transparent 100%)",
           }}
         />
       </div>
@@ -165,3 +165,4 @@ export default function OgImage() {
     }
   )
 }
+

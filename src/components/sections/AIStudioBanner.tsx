@@ -1,33 +1,33 @@
-import Link                                      from "next/link"
+﻿import Link                                      from "next/link"
 import { Container }                             from "@/components/layout/Container"
 import { CinematicBackground }                   from "@/components/ui/CinematicBackground"
 import { GrainOverlay }                          from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 import { AnimatedMockCard }                      from "@/components/store/AnimatedMockCard"
 
-/* ─────────────────────────────────────────────────────────────
-   AI Studio Banner — homepage section
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   AI Studio Banner â€” homepage section
    Sits between FeaturedSection and SocialProofSection.
    Server Component with client sub-components for animations.
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 const STEPS = [
-  { icon: "↑", label: "Upload photo"      },
-  { icon: "◈", label: "Describe the vibe" },
-  { icon: "✦", label: "Get your edit"     },
+  { icon: "â†‘", label: "Upload photo"      },
+  { icon: "â—ˆ", label: "Describe the vibe" },
+  { icon: "âœ¦", label: "Get your edit"     },
 ] as const
 
 export function AIStudioBanner() {
   return (
     <section className="relative w-full overflow-hidden bg-surface border-t border-border depth-section">
 
-      {/* ── Cinematic AI atmosphere ── */}
+      {/* â”€â”€ Cinematic AI atmosphere â”€â”€ */}
       <CinematicBackground variant="ai-studio" />
 
-      {/* ── Film grain ── */}
+      {/* â”€â”€ Film grain â”€â”€ */}
       <GrainOverlay opacity={0.022} animated zIndex={2} />
 
-      {/* ── AI holographic beam — horizontal ── */}
+      {/* â”€â”€ AI holographic beam â€” horizontal â”€â”€ */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none overflow-hidden z-[1]"
@@ -39,7 +39,7 @@ export function AIStudioBanner() {
             left:       "-30%",
             width:      "55%",
             height:     "1px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.25) 40%, rgba(201,168,76,0.18) 60%, transparent 100%)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.25) 40%, rgba(255,214,10,0.18) 60%, transparent 100%)",
             animation:  "beam-scan 7s ease-in-out infinite",
             animationDelay: "1.2s",
             willChange: "transform",
@@ -63,9 +63,9 @@ export function AIStudioBanner() {
       <Container className="relative z-[10] py-24 sm:py-32">
         <div className="grid lg:grid-cols-[1fr_420px] gap-14 lg:gap-20 items-center">
 
-          {/* ═══════════════════════════════
-              LEFT — Content
-          ═══════════════════════════════ */}
+          {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+              LEFT â€” Content
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           <div className="flex flex-col gap-7">
 
             {/* Badge */}
@@ -84,7 +84,7 @@ export function AIStudioBanner() {
               </div>
             </CinematicReveal>
 
-            {/* Headline — deep 3D entrance */}
+            {/* Headline â€” deep 3D entrance */}
             <CinematicReveal variant="depth" delay={0.08}>
               <div className="flex flex-col gap-3">
                 <h2
@@ -97,7 +97,7 @@ export function AIStudioBanner() {
                   AI does{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #C9A84C 100%)",
+                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #FFD60A 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -113,12 +113,12 @@ export function AIStudioBanner() {
             <CinematicReveal variant="rise" delay={0.14}>
               <p className="text-[1rem] sm:text-[1.0625rem] text-muted leading-relaxed max-w-lg">
                 Upload any photo, type the vibe you&apos;re going for, and PXL&apos;s AI
-                applies a cinematic grade — then recommends the exact preset that
+                applies a cinematic grade â€” then recommends the exact preset that
                 nails that look permanently.
               </p>
             </CinematicReveal>
 
-            {/* 3-step flow — each step depth-enters in sequence */}
+            {/* 3-step flow â€” each step depth-enters in sequence */}
             <CinematicStagger stagger={0.10} baseDelay={0.18} itemVariant="rise" className="flex items-center gap-0 flex-wrap">
               {STEPS.map((step, i) => (
                 <CinematicItem key={step.label} variant="rise">
@@ -149,11 +149,11 @@ export function AIStudioBanner() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <Link
                   href="/studio"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all duration-200 hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(201,168,76,0.22)] hover:shadow-[0_0_60px_rgba(201,168,76,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all duration-200 hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,214,10,0.22)] hover:shadow-[0_0_60px_rgba(255,214,10,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Try AI Studio
                   <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
-                    →
+                    â†’
                   </span>
                 </Link>
 
@@ -171,9 +171,9 @@ export function AIStudioBanner() {
 
           </div>
 
-          {/* ═══════════════════════════════
-              RIGHT — Animated mock card
-          ═══════════════════════════════ */}
+          {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+              RIGHT â€” Animated mock card
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           <CinematicReveal variant="depth" delay={0.1} className="hidden lg:block">
             <AnimatedMockCard />
           </CinematicReveal>
@@ -181,7 +181,7 @@ export function AIStudioBanner() {
         </div>
       </Container>
 
-      {/* ── Bottom gradient rule ── */}
+      {/* â”€â”€ Bottom gradient rule â”€â”€ */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent z-[2]"
@@ -190,3 +190,4 @@ export function AIStudioBanner() {
     </section>
   )
 }
+

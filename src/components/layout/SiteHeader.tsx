@@ -1,4 +1,4 @@
-import Link from "next/link"
+﻿import Link from "next/link"
 import { Container }        from "@/components/layout/Container"
 import { MobileNav }        from "@/components/layout/MobileNav"
 import { NavLinks }         from "@/components/layout/NavLinks"
@@ -17,10 +17,10 @@ export function SiteHeader() {
         header-glass
       "
     >
-      {/* ── Scroll-state client observer (zero-render) ── */}
+      {/* â”€â”€ Scroll-state client observer (zero-render) â”€â”€ */}
       <HeaderScrollState />
 
-      {/* ── Cinematic top accent line ── */}
+      {/* â”€â”€ Cinematic top accent line â”€â”€ */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-px
@@ -30,7 +30,7 @@ export function SiteHeader() {
       <Container>
         <div className="flex h-14 items-center justify-between gap-6">
 
-          {/* ── Logo ── */}
+          {/* â”€â”€ Logo â”€â”€ */}
           <Link
             href="/"
             className="group flex shrink-0 items-center gap-0.5
@@ -43,15 +43,15 @@ export function SiteHeader() {
             </span>
             <span className="font-display text-[1.1rem] font-bold tracking-widest text-gold logo-glow uppercase
               transition-all duration-300
-              group-hover:text-shadow-[0_0_20px_rgba(201,168,76,1)]">
+              group-hover:text-shadow-[0_0_20px_rgba(255,214,10,1)]">
               &nbsp;CREATOR
             </span>
           </Link>
 
-          {/* ── Desktop Nav ── */}
+          {/* â”€â”€ Desktop Nav â”€â”€ */}
           <NavLinks />
 
-          {/* ── Right actions ── */}
+          {/* â”€â”€ Right actions â”€â”€ */}
           <div className="flex items-center gap-2">
             <CurrencyToggle />
             <NavAuthButtons />
@@ -62,7 +62,7 @@ export function SiteHeader() {
         </div>
       </Container>
 
-      {/* ── Bottom cinematic rule ── */}
+      {/* â”€â”€ Bottom cinematic rule â”€â”€ */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px
@@ -72,3 +72,4 @@ export function SiteHeader() {
     </header>
   )
 }
+

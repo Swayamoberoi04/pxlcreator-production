@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { cn } from "@/lib/utils"
 import { AestheticChips } from "./AestheticChips"
@@ -15,7 +15,7 @@ interface PromptInputProps {
 
 const MAX_CHARS = 500
 const PLACEHOLDER =
-  "e.g. warm cinematic golden hour with lifted shadows and a subtle film grain…"
+  "e.g. warm cinematic golden hour with lifted shadows and a subtle film grainâ€¦"
 
 export function PromptInput({
   prompt,
@@ -32,7 +32,7 @@ export function PromptInput({
   return (
     <div className="flex flex-col gap-5 h-full">
 
-      {/* ── Prompt textarea ── */}
+      {/* â”€â”€ Prompt textarea â”€â”€ */}
       <div className="flex flex-col gap-2 flex-1">
         <div className="flex items-baseline justify-between">
           <label
@@ -83,13 +83,13 @@ export function PromptInput({
         )}
       </div>
 
-      {/* ── Aesthetic chips ── */}
+      {/* â”€â”€ Aesthetic chips â”€â”€ */}
       <AestheticChips
         selected={selectedAesthetics}
         onToggle={onToggleAesthetic}
       />
 
-      {/* ── Submit button ── */}
+      {/* â”€â”€ Submit button â”€â”€ */}
       <button
         type="button"
         onClick={onSubmit}
@@ -99,7 +99,7 @@ export function PromptInput({
           "relative w-full rounded-xl py-4 text-[0.9375rem] font-semibold transition-all duration-200",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           canSubmit
-            ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_32px_rgba(201,168,76,0.18)] hover:shadow-[0_0_48px_rgba(201,168,76,0.28)]"
+            ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_32px_rgba(255,214,10,0.18)] hover:shadow-[0_0_48px_rgba(255,214,10,0.28)]"
             : "bg-surface-2 text-muted/40 cursor-not-allowed"
         )}
       >
@@ -135,7 +135,7 @@ export function PromptInput({
 
       {/* Trust note */}
       <p className="text-center text-[0.75rem] text-muted/40 -mt-2">
-        Powered by GPT-4o Vision · ~8 seconds · Your photo is never stored
+        Powered by GPT-4o Vision Â· ~8 seconds Â· Your photo is never stored
       </p>
 
     </div>
@@ -149,7 +149,7 @@ const EXAMPLE_PROMPTS = [
   "moody forest with lifted shadows",
 ]
 
-/* ── Icons ── */
+/* â”€â”€ Icons â”€â”€ */
 function SparkIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -164,3 +164,4 @@ function LockIcon() {
     </svg>
   )
 }
+

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 /* eslint-disable react-hooks/immutability, react-hooks/purity */
 
 /**
@@ -6,9 +6,9 @@
  *
  * Lightweight React Three Fiber canvas for non-hero sections.
  * Renders:
- *   • 3 large, slow-breathing volumetric orbs (gold, indigo, teal)
- *   • 60 fine gold-dust particles
- *   • No frames or complex geometry — low GPU cost
+ *   â€¢ 3 large, slow-breathing volumetric orbs (gold, indigo, teal)
+ *   â€¢ 60 fine gold-dust particles
+ *   â€¢ No frames or complex geometry â€” low GPU cost
  *
  * Designed to sit as an absolute-inset background behind section content.
  * Canvas uses alpha=true + pointer-events-none.
@@ -20,7 +20,7 @@ import { useRef, useMemo } from "react"
 import { Canvas, useFrame, useThree }  from "@react-three/fiber"
 import * as THREE                       from "three"
 
-/* ── Single breathing orb sphere ── */
+/* â”€â”€ Single breathing orb sphere â”€â”€ */
 type OrbProps = {
   position:  [number, number, number]
   color:     string
@@ -49,7 +49,7 @@ function Orb({ position, color, size, speed, offset }: OrbProps) {
   useFrame(({ clock }) => {
     if (!meshRef.current) return
     frameRef.current++
-    /* Update every 3rd frame (~20fps) — opacity variance at this scale is imperceptible */
+    /* Update every 3rd frame (~20fps) â€” opacity variance at this scale is imperceptible */
     if (frameRef.current % 3 !== 0) { invalidate(); return }
     const t = clock.elapsedTime * speed + offset
     mat.opacity = 0.04 + Math.sin(t) * 0.015
@@ -60,16 +60,16 @@ function Orb({ position, color, size, speed, offset }: OrbProps) {
 
   return (
     <mesh ref={meshRef} position={position} material={mat}>
-      {/* 8×8 segments instead of 16×16 — orbs are fully transparent blobs,
+      {/* 8Ã—8 segments instead of 16Ã—16 â€” orbs are fully transparent blobs,
           geometry resolution has zero visible impact at opacity 0.04 */}
       <sphereGeometry args={[size, 8, 8]} />
     </mesh>
   )
 }
 
-/* ── Gold dust particles ── */
+/* â”€â”€ Gold dust particles â”€â”€ */
 function Dust() {
-  /* Reduced from 60 → 30 — at sub-0.25 opacity the halving is invisible */
+  /* Reduced from 60 â†’ 30 â€” at sub-0.25 opacity the halving is invisible */
   const COUNT = 30
 
   const geometry = useMemo(() => {
@@ -96,7 +96,7 @@ function Dust() {
     <points geometry={geometry}>
       <pointsMaterial
         ref={matRef}
-        color="#C9A84C"
+        color="#FFD60A"
         size={0.018}
         transparent
         opacity={0.18}
@@ -111,7 +111,7 @@ function Scene() {
   return (
     <>
       <fog attach="fog" args={["#000000", 5, 20]} />
-      <Orb position={[-4,  1.5, -4]} color="#C9A84C" size={3.5} speed={0.28} offset={0} />
+      <Orb position={[-4,  1.5, -4]} color="#FFD60A" size={3.5} speed={0.28} offset={0} />
       <Orb position={[ 5, -1.0, -6]} color="#4433cc" size={4.0} speed={0.22} offset={2.1} />
       <Orb position={[ 0,  3.0, -8]} color="#115544" size={5.0} speed={0.18} offset={4.5} />
       <Dust />
@@ -133,3 +133,4 @@ export function AmbientOrbs() {
     </Canvas>
   )
 }
+

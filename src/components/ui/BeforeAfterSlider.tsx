@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 /**
  * src/components/ui/BeforeAfterSlider.tsx
@@ -11,15 +11,15 @@
  *     where X% = (1 - position) * 100.  Dragging the handle changes X.
  *   - Both images use next/image with fill + object-cover inside a
  *     shared positioned container.
- *   - Mouse + touch + keyboard (←/→ keys, 5% step) all work.
+ *   - Mouse + touch + keyboard (â†/â†’ keys, 5% step) all work.
  *
  * Props:
- *   beforeSrc  — public path, e.g. "/assets/garage_before.webp"
- *   afterSrc   — public path, e.g. "/assets/garage_after.webp"
- *   alt        — shared base alt text (suffixed "before"/"after")
- *   label      — preset name shown in the bottom bar
- *   accentColor — hex/rgba for the "after" badge tint
- *   className  — extra classes on the outer container
+ *   beforeSrc  â€” public path, e.g. "/assets/garage_before.webp"
+ *   afterSrc   â€” public path, e.g. "/assets/garage_after.webp"
+ *   alt        â€” shared base alt text (suffixed "before"/"after")
+ *   label      â€” preset name shown in the bottom bar
+ *   accentColor â€” hex/rgba for the "after" badge tint
+ *   className  â€” extra classes on the outer container
  */
 
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -40,7 +40,7 @@ export function BeforeAfterSlider({
   afterSrc,
   alt,
   label,
-  accentColor = "#C9A84C",
+  accentColor = "#FFD60A",
   className   = "",
   height      = 420,
 }: BeforeAfterSliderProps) {
@@ -49,7 +49,7 @@ export function BeforeAfterSlider({
   const [position, setPosition] = useState(0.50)   // 0 = all before, 1 = all after
   const [hinted, setHinted]     = useState(false)  // hide hint once user drags
 
-  /* ── Convert pointer X into 0-1 position ── */
+  /* â”€â”€ Convert pointer X into 0-1 position â”€â”€ */
   const posFromClientX = useCallback((clientX: number) => {
     const el = containerRef.current
     if (!el) return
@@ -58,7 +58,7 @@ export function BeforeAfterSlider({
     if (!hinted) setHinted(true)
   }, [hinted])
 
-  /* ── Mouse handlers ── */
+  /* â”€â”€ Mouse handlers â”€â”€ */
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true
     posFromClientX(e.clientX)
@@ -74,7 +74,7 @@ export function BeforeAfterSlider({
     }
   }, [posFromClientX])
 
-  /* ── Touch handlers ── */
+  /* â”€â”€ Touch handlers â”€â”€ */
   const onTouchStart = (e: React.TouchEvent) => {
     isDragging.current = true
     posFromClientX(e.touches[0].clientX)
@@ -90,7 +90,7 @@ export function BeforeAfterSlider({
     }
   }, [posFromClientX])
 
-  /* ── Keyboard: left/right arrows for accessibility ── */
+  /* â”€â”€ Keyboard: left/right arrows for accessibility â”€â”€ */
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft")  { setPosition(p => Math.max(0, p - 0.05)); setHinted(true) }
     if (e.key === "ArrowRight") { setPosition(p => Math.min(1, p + 0.05)); setHinted(true) }
@@ -99,13 +99,13 @@ export function BeforeAfterSlider({
   /*
    * Layout: Before = LEFT, After = RIGHT.
    *
-   * The "after" (graded) image is the base layer — always fully visible.
+   * The "after" (graded) image is the base layer â€” always fully visible.
    * The "before" (unedited) image sits on top, clipped so only its
    * LEFT portion shows: clip-path inset(0 position*100% 0 0).
    *
-   *   position=0 (handle far left)  → full before visible  → see unedited
-   *   position=0.5 (default centre) → left half before, right half after
-   *   position=1 (handle far right) → no before visible   → see fully graded
+   *   position=0 (handle far left)  â†’ full before visible  â†’ see unedited
+   *   position=0.5 (default centre) â†’ left half before, right half after
+   *   position=1 (handle far right) â†’ no before visible   â†’ see fully graded
    */
   const beforeClip = `inset(0 ${(position * 100).toFixed(2)}% 0 0)`
 
@@ -118,17 +118,17 @@ export function BeforeAfterSlider({
       onTouchStart={onTouchStart}
     >
 
-      {/* ── After layer (base — always fully visible) ── */}
+      {/* â”€â”€ After layer (base â€” always fully visible) â”€â”€ */}
       <div className="absolute inset-0">
         <Image
           src={afterSrc}
-          alt={`${alt} — after`}
+          alt={`${alt} â€” after`}
           fill
           sizes="(max-width:768px) 100vw, 50vw"
           className="object-cover object-center"
           draggable={false}
         />
-        {/* Subtle cinematic warmth overlay — lifts the "graded" feel */}
+        {/* Subtle cinematic warmth overlay â€” lifts the "graded" feel */}
         <div
           className="absolute inset-0"
           style={{
@@ -138,14 +138,14 @@ export function BeforeAfterSlider({
         />
       </div>
 
-      {/* ── Before layer (top — clipped to left portion only) ── */}
+      {/* â”€â”€ Before layer (top â€” clipped to left portion only) â”€â”€ */}
       <div
         className="absolute inset-0"
         style={{ clipPath: beforeClip }}
       >
         <Image
           src={beforeSrc}
-          alt={`${alt} — before`}
+          alt={`${alt} â€” before`}
           fill
           sizes="(max-width:768px) 100vw, 50vw"
           className="object-cover object-center"
@@ -155,7 +155,7 @@ export function BeforeAfterSlider({
         <div className="absolute inset-0 bg-[#0a0e14]/20 mix-blend-multiply" />
       </div>
 
-      {/* ── Corner labels: Before always left, After always right ── */}
+      {/* â”€â”€ Corner labels: Before always left, After always right â”€â”€ */}
       <div className="absolute top-3 left-3 z-20 pointer-events-none">
         <span className="text-[0.6rem] font-semibold tracking-widest uppercase text-white/50 bg-black/55 backdrop-blur-sm border border-white/10 rounded-full px-2.5 py-1">
           Before
@@ -174,7 +174,7 @@ export function BeforeAfterSlider({
         </span>
       </div>
 
-      {/* ── Divider line ── */}
+      {/* â”€â”€ Divider line â”€â”€ */}
       <div
         className="absolute top-0 bottom-0 z-20 w-[2px] pointer-events-none"
         style={{
@@ -183,7 +183,7 @@ export function BeforeAfterSlider({
         }}
       />
 
-      {/* ── Drag handle ── */}
+      {/* â”€â”€ Drag handle â”€â”€ */}
       <div
         role="slider"
         aria-label={`${alt} comparison slider`}
@@ -200,7 +200,7 @@ export function BeforeAfterSlider({
         </svg>
       </div>
 
-      {/* ── "Drag to compare" hint (fades once user starts dragging) ── */}
+      {/* â”€â”€ "Drag to compare" hint (fades once user starts dragging) â”€â”€ */}
       {!hinted && (
         <div className="absolute bottom-14 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
           <span className="text-[0.7rem] font-medium tracking-wide text-white/60 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/10 whitespace-nowrap">
@@ -209,7 +209,7 @@ export function BeforeAfterSlider({
         </div>
       )}
 
-      {/* ── Bottom info bar ── */}
+      {/* â”€â”€ Bottom info bar â”€â”€ */}
       {label && (
         <div
           className="absolute bottom-0 left-0 right-0 z-20 px-4 py-3 pointer-events-none"
@@ -219,7 +219,7 @@ export function BeforeAfterSlider({
         </div>
       )}
 
-      {/* ── Vignette ── */}
+      {/* â”€â”€ Vignette â”€â”€ */}
       <div
         className="absolute inset-0 z-10 pointer-events-none"
         style={{ background: "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.40) 100%)" }}
@@ -227,3 +227,4 @@ export function BeforeAfterSlider({
     </div>
   )
 }
+

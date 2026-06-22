@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { motion } from "framer-motion"
 import { cn }     from "@/lib/utils"
@@ -48,7 +48,7 @@ export function StepGoals({ selected, onToggle }: Props) {
                 "focus-visible:ring-2 focus-visible:ring-ring",
                 isDisabled && "opacity-40 cursor-not-allowed",
                 isSelected
-                  ? "border-gold/50 bg-gold/8 shadow-[0_0_16px_rgba(201,168,76,0.1)]"
+                  ? "border-gold/50 bg-gold/8 shadow-[0_0_16px_rgba(255,214,10,0.1)]"
                   : "border-border bg-surface hover:border-border/70 hover:bg-surface-2"
               )}
             >
@@ -88,3 +88,4 @@ export function StepGoals({ selected, onToggle }: Props) {
     </div>
   )
 }
+

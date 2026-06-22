@@ -1,13 +1,13 @@
-"use client"
+﻿"use client"
 
 /**
- * CTABanner.tsx — Stop Spending Hours Editing. Start Creating.
+ * CTABanner.tsx â€” Stop Spending Hours Editing. Start Creating.
  *
  * Cinematic upgrade:
- *   • Added CinematicBackground + GrainOverlay for atmosphere
- *   • Eyebrow, headline, copy, CTAs all use CinematicReveal/Stagger
- *   • Edge glow accents
- *   • depth-section pseudo-borders
+ *   â€¢ Added CinematicBackground + GrainOverlay for atmosphere
+ *   â€¢ Eyebrow, headline, copy, CTAs all use CinematicReveal/Stagger
+ *   â€¢ Edge glow accents
+ *   â€¢ depth-section pseudo-borders
  * Content unchanged.
  */
 
@@ -22,16 +22,16 @@ export function CTABanner() {
   return (
     <section className="relative w-full overflow-hidden bg-background py-24 sm:py-32 depth-section">
 
-      {/* ── Cinematic atmosphere (upgraded from bare radial div) ── */}
+      {/* â”€â”€ Cinematic atmosphere (upgraded from bare radial div) â”€â”€ */}
       <CinematicBackground variant="dark" />
       <GrainOverlay opacity={0.020} animated zIndex={1} />
 
-      {/* ── Background: centered gold radial glow ── */}
+      {/* â”€â”€ Background: centered gold radial glow â”€â”€ */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[2]">
         <div className="absolute left-1/2 top-1/2 h-[700px] w-[1000px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold opacity-[0.04] blur-[120px]" />
       </div>
 
-      {/* ── Left + right edge light leaks ── */}
+      {/* â”€â”€ Left + right edge light leaks â”€â”€ */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-gold/10 to-transparent z-[2]" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-[1px] bg-gradient-to-b from-transparent via-gold/10 to-transparent z-[2]" />
 
@@ -49,7 +49,7 @@ export function CTABanner() {
             </div>
           </CinematicReveal>
 
-          {/* Headline — deep 3D entrance */}
+          {/* Headline â€” deep 3D entrance */}
           <CinematicReveal variant="depth" delay={0.05}>
             <h2 className="heading-2 text-foreground max-w-2xl">
               Stop Spending Hours
@@ -73,7 +73,7 @@ export function CTABanner() {
                 asChild
                 size="lg"
                 className="bg-gold text-background font-semibold hover:bg-gold-dim px-8 h-12 text-base
-                  shadow-[0_0_32px_rgba(201,168,76,0.18)] hover:shadow-[0_0_48px_rgba(201,168,76,0.30)]
+                  shadow-[0_0_32px_rgba(255,214,10,0.18)] hover:shadow-[0_0_48px_rgba(255,214,10,0.30)]
                   transition-all duration-300"
               >
                 <Link href="/store">Browse All Presets</Link>
@@ -90,7 +90,7 @@ export function CTABanner() {
             </div>
           </CinematicReveal>
 
-          {/* Trust micro-copy — staggered */}
+          {/* Trust micro-copy â€” staggered */}
           <CinematicStagger
             stagger={0.08}
             baseDelay={0.05}
@@ -125,7 +125,7 @@ function CheckIcon() {
       height="14"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#C9A84C"
+      stroke="#FFD60A"
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -135,3 +135,4 @@ function CheckIcon() {
     </svg>
   )
 }
+

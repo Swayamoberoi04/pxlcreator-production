@@ -1,7 +1,7 @@
-"use client"
+﻿"use client"
 
 interface ProgressRingProps {
-  progress:  number    // 0–100
+  progress:  number    // 0â€“100
   size?:     number    // px
   stroke?:   number    // px
   color?:    string
@@ -13,7 +13,7 @@ export function ProgressRing({
   progress,
   size    = 48,
   stroke  = 4,
-  color   = "#C9A84C",
+  color   = "#FFD60A",
   className = "",
   children,
 }: ProgressRingProps) {
@@ -56,3 +56,4 @@ export function ProgressRing({
     </div>
   )
 }
+

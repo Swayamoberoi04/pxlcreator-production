@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 /**
  * StyleDNACard.tsx
@@ -7,8 +7,8 @@
  * Used on the dashboard header and anywhere DNA needs to surface.
  *
  * Variants:
- *  - "full"    — large card with tagline + archetypes + accent bar
- *  - "compact" — pill badge with dot + title only
+ *  - "full"    â€” large card with tagline + archetypes + accent bar
+ *  - "compact" â€” pill badge with dot + title only
  */
 
 import { motion } from "framer-motion"
@@ -49,7 +49,7 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
       className={cn(
         "relative overflow-hidden rounded-2xl border border-gold/20",
         "bg-gradient-to-br from-black via-zinc-950 to-black p-6",
-        "shadow-[0_0_40px_rgba(201,168,76,0.08)]",
+        "shadow-[0_0_40px_rgba(255,214,10,0.08)]",
         className
       )}
     >
@@ -78,7 +78,7 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
             style={{ borderColor: `${dna.primaryColor}60`, color: dna.primaryColor }}
           >
             <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: dna.primaryColor }} />
-            Style DNA — {dna.badge}
+            Style DNA â€” {dna.badge}
           </span>
 
           {/* Decorative category dots */}
@@ -127,3 +127,4 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
     </motion.div>
   )
 }
+

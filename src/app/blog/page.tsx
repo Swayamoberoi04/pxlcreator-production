@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import Link  from "next/link"
 import Image from "next/image"
 import { Container } from "@/components/layout/Container"
@@ -37,7 +37,7 @@ export default function BlogPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* ── Page hero ── */}
+      {/* â”€â”€ Page hero â”€â”€ */}
       <div className="relative w-full border-b border-border overflow-hidden depth-section">
         <LuminousEnvironment variant="indigo" intensity={0.85} />
         <CinematicBackground variant="mission" />
@@ -75,7 +75,7 @@ export default function BlogPage() {
 
       <Container className="py-14 sm:py-20">
 
-        {/* ── Featured post ── */}
+        {/* â”€â”€ Featured post â”€â”€ */}
         <div className="mb-14">
           <CinematicReveal variant="gentle">
             <div className="flex items-center gap-2 mb-6">
@@ -88,7 +88,7 @@ export default function BlogPage() {
           </CinematicReveal>
         </div>
 
-        {/* ── Recent posts ── */}
+        {/* â”€â”€ Recent posts â”€â”€ */}
         <div>
           <CinematicReveal variant="gentle">
             <div className="flex items-center gap-2 mb-8">
@@ -114,9 +114,9 @@ export default function BlogPage() {
   )
 }
 
-/* ─────────────────────────────────────────
-   Featured post card — full-width, landscape
-───────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Featured post card â€” full-width, landscape
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function FeaturedCard({ post }: { post: BlogPost }) {
   const catStyle = CATEGORY_STYLES[post.category]
 
@@ -172,7 +172,7 @@ function FeaturedCard({ post }: { post: BlogPost }) {
           </div>
           <div className="flex items-center gap-3 text-small text-muted">
             <span>{formatDate(post.publishedAt)}</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">Â·</span>
             <span>{post.readTime} min read</span>
           </div>
         </div>
@@ -181,16 +181,16 @@ function FeaturedCard({ post }: { post: BlogPost }) {
   )
 }
 
-/* ─────────────────────────────────────────
-   Regular post card — vertical
-───────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Regular post card â€” vertical
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function PostCard({ post }: { post: BlogPost }) {
   const catStyle = CATEGORY_STYLES[post.category]
 
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col rounded-xl overflow-hidden border border-border bg-surface hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(201,168,76,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group flex flex-col rounded-xl overflow-hidden border border-border bg-surface hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(255,214,10,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {/* Cover */}
       <div className={cn(
@@ -237,7 +237,7 @@ function PostCard({ post }: { post: BlogPost }) {
   )
 }
 
-/* ── Shared ── */
+/* â”€â”€ Shared â”€â”€ */
 function AuthorAvatar({ initials, small }: { initials: string; small?: boolean }) {
   return (
     <div className={cn(
@@ -248,3 +248,4 @@ function AuthorAvatar({ initials, small }: { initials: string; small?: boolean }
     </div>
   )
 }
+

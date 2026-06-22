@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import { Container }    from "@/components/layout/Container"
 import { StudioShell }  from "@/components/studio/StudioShell"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
@@ -6,9 +6,9 @@ import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicBackground } from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* ── SEO ── */
+/* â”€â”€ SEO â”€â”€ */
 export const metadata: Metadata = {
-  title: "AI Studio — Describe the look. AI does the edit.",
+  title: "AI Studio â€” Describe the look. AI does the edit.",
   description:
     "Upload any photo and describe the mood in plain English. GPT-4o Vision analyses your image, applies a custom colour grade, and recommends the PXL preset that matches it best.",
 }
@@ -17,11 +17,11 @@ export default function StudioPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* ────────────────────────────────────────────────────────
+      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           HERO BAND
           Living luminous atmosphere: indigo + gold dual orbs.
           Mirrors the AIStudioBanner palette for visual coherence.
-      ──────────────────────────────────────────────────────── */}
+      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="relative w-full border-b border-border overflow-hidden depth-section">
 
         {/* Living luminous atmosphere */}
@@ -40,7 +40,7 @@ export default function StudioPage() {
               <div className="flex items-center gap-2 rounded-full border border-[#6366f1]/30 bg-[#6366f1]/8 px-4 py-1.5">
                 <SparkIcon />
                 <span className="text-[0.75rem] font-semibold tracking-widest uppercase text-[#a5b4fc]">
-                  AI Studio · Beta
+                  AI Studio Â· Beta
                 </span>
               </div>
             </CinematicReveal>
@@ -53,7 +53,7 @@ export default function StudioPage() {
                 <span
                   className="bg-clip-text text-transparent"
                   style={{
-                    backgroundImage: "linear-gradient(90deg, #6366f1 0%, #C9A84C 100%)",
+                    backgroundImage: "linear-gradient(90deg, #6366f1 0%, #FFD60A 100%)",
                   }}
                 >
                   AI does the edit.
@@ -64,7 +64,7 @@ export default function StudioPage() {
             {/* Subheadline */}
             <CinematicReveal variant="rise" delay={0.14}>
               <p className="text-lead max-w-lg">
-                Upload any photo, write what mood you&apos;re after — GPT-4o Vision reads your image,
+                Upload any photo, write what mood you&apos;re after â€” GPT-4o Vision reads your image,
                 applies a custom colour grade, and recommends the preset that matches it best.
               </p>
             </CinematicReveal>
@@ -81,7 +81,7 @@ export default function StudioPage() {
                       <span className="text-[0.8125rem] text-muted/60 font-medium">{step}</span>
                     </div>
                     {i < STEPS.length - 1 && (
-                      <span className="text-muted/25 text-[0.75rem]" aria-hidden="true">→</span>
+                      <span className="text-muted/25 text-[0.75rem]" aria-hidden="true">â†’</span>
                     )}
                   </div>
                 </CinematicItem>
@@ -92,9 +92,9 @@ export default function StudioPage() {
         </Container>
       </div>
 
-      {/* ────────────────────────────────────────────────────────
-          STUDIO SHELL — the full interactive tool
-      ──────────────────────────────────────────────────────── */}
+      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+          STUDIO SHELL â€” the full interactive tool
+      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="relative">
         <LuminousEnvironment variant="indigo" intensity={0.5} />
         <Container className="relative z-10 py-10 sm:py-14">
@@ -102,14 +102,14 @@ export default function StudioPage() {
         </Container>
       </div>
 
-      {/* ────────────────────────────────────────────────────────
+      {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           FINE PRINT
-      ──────────────────────────────────────────────────────── */}
+      â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="border-t border-border">
         <Container className="py-6">
           <p className="text-center text-[0.75rem] text-muted/35 leading-relaxed max-w-lg mx-auto">
-            Powered by GPT-4o Vision · Images are processed in-memory and never stored ·
-            5 edits / hour per session · Results are approximate — real Lightroom presets
+            Powered by GPT-4o Vision Â· Images are processed in-memory and never stored Â·
+            5 edits / hour per session Â· Results are approximate â€” real Lightroom presets
             give the full look.
           </p>
         </Container>
@@ -119,10 +119,10 @@ export default function StudioPage() {
   )
 }
 
-/* ── Data ── */
+/* â”€â”€ Data â”€â”€ */
 const STEPS = ["Upload photo", "Describe the mood", "Download your edit"] as const
 
-/* ── Icon ── */
+/* â”€â”€ Icon â”€â”€ */
 function SparkIcon() {
   return (
     <svg
@@ -141,3 +141,4 @@ function SparkIcon() {
     </svg>
   )
 }
+

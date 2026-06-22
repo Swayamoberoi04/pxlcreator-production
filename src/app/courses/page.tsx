@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import Link  from "next/link"
 import Image from "next/image"
 import { Container } from "@/components/layout/Container"
@@ -27,7 +27,7 @@ export default function CoursesPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* ── Hero ── */}
+      {/* â”€â”€ Hero â”€â”€ */}
       <div className="relative w-full border-b border-border overflow-hidden depth-section">
         <LuminousEnvironment variant="teal" intensity={0.9} />
         <CinematicBackground variant="mission" />
@@ -55,11 +55,11 @@ export default function CoursesPage() {
             <CinematicReveal variant="rise" delay={0.13}>
               <p className="text-lead max-w-lg">
                 {ALL_COURSES.length} practical courses covering editing, colour grading,
-                composition and business — taught by people who actually shoot.
+                composition and business â€” taught by people who actually shoot.
               </p>
             </CinematicReveal>
 
-            {/* Stats row — centered with pipe dividers */}
+            {/* Stats row â€” centered with pipe dividers */}
             <div className="flex items-center pt-2">
               <StatPill value={`${ALL_COURSES.length}`} label="Courses" />
               <span className="mx-5 h-7 w-px bg-border shrink-0" aria-hidden="true" />
@@ -75,7 +75,7 @@ export default function CoursesPage() {
 
       <Container className="py-14 sm:py-20">
 
-        {/* ── Featured course ── */}
+        {/* â”€â”€ Featured course â”€â”€ */}
         <div className="mb-14">
           <CinematicReveal variant="gentle">
             <div className="flex items-center gap-2 mb-6">
@@ -88,7 +88,7 @@ export default function CoursesPage() {
           </CinematicReveal>
         </div>
 
-        {/* ── All other courses ── */}
+        {/* â”€â”€ All other courses â”€â”€ */}
         <div>
           <CinematicReveal variant="gentle">
             <div className="flex items-center gap-2 mb-8">
@@ -114,7 +114,7 @@ export default function CoursesPage() {
   )
 }
 
-/* ── Featured course — wide horizontal card ── */
+/* â”€â”€ Featured course â€” wide horizontal card â”€â”€ */
 function FeaturedCourseCard({ course }: { course: Course }) {
   const discount = course.originalPrice
     ? Math.round((1 - course.price / course.originalPrice) * 100)
@@ -184,7 +184,7 @@ function FeaturedCourseCard({ course }: { course: Course }) {
             {course.originalPrice && (
               <>
                 <span className="text-small text-muted line-through">${course.originalPrice}</span>
-                <span className="text-label text-red-400">−{discount}%</span>
+                <span className="text-label text-red-400">âˆ’{discount}%</span>
               </>
             )}
           </div>
@@ -198,7 +198,7 @@ function FeaturedCourseCard({ course }: { course: Course }) {
   )
 }
 
-/* ── Regular course card — vertical ── */
+/* â”€â”€ Regular course card â€” vertical â”€â”€ */
 function CourseCard({ course }: { course: Course }) {
   const discount = course.originalPrice
     ? Math.round((1 - course.price / course.originalPrice) * 100)
@@ -207,7 +207,7 @@ function CourseCard({ course }: { course: Course }) {
   return (
     <Link
       href={`/courses/${course.slug}`}
-      className="group flex flex-col rounded-xl overflow-hidden border border-border bg-surface hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(201,168,76,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group flex flex-col rounded-xl overflow-hidden border border-border bg-surface hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(255,214,10,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {/* Cover */}
       <div className={cn(
@@ -252,10 +252,10 @@ function CourseCard({ course }: { course: Course }) {
         {/* Stats */}
         <div className="flex items-center gap-4 text-small text-muted">
           <span>{course.totalLessons} lessons</span>
-          <span aria-hidden="true">·</span>
+          <span aria-hidden="true">Â·</span>
           <span>{course.totalHours}h</span>
-          <span aria-hidden="true">·</span>
-          {course.rating && <span className="text-gold">★ {course.rating}</span>}
+          <span aria-hidden="true">Â·</span>
+          {course.rating && <span className="text-gold">â˜… {course.rating}</span>}
         </div>
 
         {/* Price */}
@@ -265,12 +265,12 @@ function CourseCard({ course }: { course: Course }) {
             {course.originalPrice && (
               <>
                 <span className="text-small text-muted line-through">${course.originalPrice}</span>
-                <span className="text-label text-red-400">−{discount}%</span>
+                <span className="text-label text-red-400">âˆ’{discount}%</span>
               </>
             )}
           </div>
           <span className="text-small font-medium text-muted group-hover:text-gold transition-colors">
-            View →
+            View â†’
           </span>
         </div>
       </div>
@@ -278,7 +278,7 @@ function CourseCard({ course }: { course: Course }) {
   )
 }
 
-/* ── Helpers ── */
+/* â”€â”€ Helpers â”€â”€ */
 function StatPill({ value, label }: { value: string; label: string }) {
   return (
     <div className="flex flex-col items-center gap-0.5 text-center">
@@ -297,7 +297,7 @@ function CourseStat({ icon, label, gold }: { icon: React.ReactNode; label: strin
   )
 }
 
-/* ── Icons ── */
+/* â”€â”€ Icons â”€â”€ */
 function PlayIcon({ small }: { small?: boolean }) {
   const s = small ? 12 : 14
   return (
@@ -318,3 +318,4 @@ function StarIcon() {
 function ArrowRightIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 }
+

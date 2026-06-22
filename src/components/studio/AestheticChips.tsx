@@ -1,61 +1,61 @@
-"use client"
+﻿"use client"
 
 import { cn } from "@/lib/utils"
 import type { AestheticChip } from "@/types/studio"
 
-/* ─────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Chip definitions
-   Exported so StudioShell can resolve chip IDs → keyword arrays
+   Exported so StudioShell can resolve chip IDs â†’ keyword arrays
    when building the FormData payload.
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export const AESTHETIC_CHIPS: AestheticChip[] = [
   {
     id:       "golden-hour",
     label:    "Golden Hour",
-    icon:     "☀",
+    icon:     "â˜€",
     keywords: ["warm", "golden", "amber", "sunset", "sun"],
   },
   {
     id:       "cinematic",
     label:    "Cinematic",
-    icon:     "◈",
+    icon:     "â—ˆ",
     keywords: ["cinematic", "dramatic", "contrast", "rich", "dark"],
   },
   {
     id:       "film-grain",
     label:    "Film Vintage",
-    icon:     "⬡",
+    icon:     "â¬¡",
     keywords: ["grain", "vintage", "faded", "analogue", "film"],
   },
   {
     id:       "cool-edit",
     label:    "Cool & Clean",
-    icon:     "◇",
+    icon:     "â—‡",
     keywords: ["cool", "teal", "minimal", "airy", "blue", "crisp"],
   },
   {
     id:       "moody",
     label:    "Moody Dark",
-    icon:     "◐",
+    icon:     "â—",
     keywords: ["moody", "dark", "shadows", "noir", "atmospheric"],
   },
   {
     id:       "portrait",
     label:    "Portrait Glow",
-    icon:     "◯",
+    icon:     "â—¯",
     keywords: ["portrait", "skin", "soft", "warm", "glow", "faces"],
   },
   {
     id:       "vibrant",
     label:    "Vibrant",
-    icon:     "✦",
+    icon:     "âœ¦",
     keywords: ["vibrant", "saturated", "punchy", "vivid", "bold"],
   },
 ]
 
-/* ─────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Component
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 interface AestheticChipsProps {
   selected:  string[]                 // array of chip IDs
   onToggle:  (id: string) => void
@@ -78,7 +78,7 @@ export function AestheticChips({ selected, onToggle }: AestheticChipsProps) {
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.8125rem] font-medium",
                 "border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 isActive
-                  ? "border-gold/50 bg-gold/12 text-gold shadow-[0_0_12px_rgba(201,168,76,0.12)]"
+                  ? "border-gold/50 bg-gold/12 text-gold shadow-[0_0_12px_rgba(255,214,10,0.12)]"
                   : "border-border bg-background text-muted hover:border-border/80 hover:text-foreground"
               )}
             >
@@ -93,3 +93,4 @@ export function AestheticChips({ selected, onToggle }: AestheticChipsProps) {
     </div>
   )
 }
+

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import Link         from "next/link"
 import Image        from "next/image"
@@ -10,7 +10,7 @@ import { cn }                  from "@/lib/utils"
 import { Tilt3D }              from "@/components/ui/Tilt3D"
 /*
  * GSAP is intentionally NOT imported at the module level.
- * It's only used in the add-to-cart particle burst — a user-initiated
+ * It's only used in the add-to-cart particle burst â€” a user-initiated
  * action. Lazy-importing inside the callback keeps GSAP (~100 KB) out
  * of the initial PresetCard bundle completely.
  */
@@ -20,7 +20,7 @@ interface PresetCardProps {
   className?: string
 }
 
-/* ── Category gradient map ─────────────────────────────── */
+/* â”€â”€ Category gradient map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const categoryGradients: Record<string, string> = {
   "Cinematic":      "from-[#3d2b00] via-[#1a1200] to-[#0a0800]",
   "Film Emulation": "from-[#2b1f0f] via-[#1a1208] to-[#0d0a05]",
@@ -30,7 +30,7 @@ const categoryGradients: Record<string, string> = {
   "Bundle":         "from-[#1a1500] via-[#12100a] to-[#080700]",
 }
 
-/* ── Conversion tag colour map ─────────────────────────── */
+/* â”€â”€ Conversion tag colour map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const CONV_TAG_STYLES: Record<string, string> = {
   "MOST POPULAR":      "bg-gold/15 text-gold border-gold/25",
   "BEST VALUE":        "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
@@ -68,10 +68,10 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         "bg-surface border border-border",
         "transition-all duration-300",
         "hover:border-gold/30",
-        "hover:shadow-[0_16px_60px_rgba(201,168,76,0.09)]",
+        "hover:shadow-[0_16px_60px_rgba(255,214,10,0.09)]",
       )}
     >
-      {/* ── Thumbnail ── */}
+      {/* â”€â”€ Thumbnail â”€â”€ */}
       <Link
         href={`/presets/${preset.slug}`}
         tabIndex={-1}
@@ -129,13 +129,13 @@ export function PresetCard({ preset, className }: PresetCardProps) {
               preset.badge === "Trending"    && "bg-rose-500/20 backdrop-blur-sm text-rose-400 border border-rose-500/30",
               preset.badge === "Creator Pick"&& "bg-pink-500/20 backdrop-blur-sm text-pink-300 border border-pink-500/30",
             )}>
-              {preset.badge === "Sale" && discount ? `−${discount}%` : preset.badge}
+              {preset.badge === "Sale" && discount ? `âˆ’${discount}%` : preset.badge}
             </span>
           </div>
         )}
       </Link>
 
-      {/* ── Card body ── */}
+      {/* â”€â”€ Card body â”€â”€ */}
       <div className="flex flex-col gap-2.5 p-5 flex-1">
 
         {/* Conversion tag chip */}
@@ -163,7 +163,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
 
         {/* Meta row */}
         <div className="flex items-center justify-between gap-2 pt-3 border-t border-border/60 mt-auto">
-          {/* Rating — only shown when real reviews exist */}
+          {/* Rating â€” only shown when real reviews exist */}
           {preset.reviewCount && preset.reviewCount > 0 ? (
             <div className="flex items-center gap-1.5 text-[0.75rem] text-muted/50">
               <StarIcon />
@@ -188,14 +188,14 @@ export function PresetCard({ preset, className }: PresetCardProps) {
                     {formatPrice(preset.originalPrice, displayCurrency)}
                   </span>
                 )}
-                {/* Primary price — user's chosen currency */}
+                {/* Primary price â€” user's chosen currency */}
                 <span
                   className="font-bold text-[1rem] text-gold leading-none tracking-tight"
                   suppressHydrationWarning
                 >
                   {formatPrice(preset.price, displayCurrency)}
                 </span>
-                {/* Alt currency — secondary, smaller */}
+                {/* Alt currency â€” secondary, smaller */}
                 <span
                   className="text-[0.68rem] text-muted/35 leading-none"
                   suppressHydrationWarning
@@ -208,7 +208,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         </div>
       </div>
 
-      {/* ── Hover CTA ── */}
+      {/* â”€â”€ Hover CTA â”€â”€ */}
       <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out px-4 pb-4 pt-8 bg-gradient-to-t from-surface via-surface/98 to-transparent">
         {preset.isFree ? (
           <Link
@@ -224,7 +224,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-gold py-2.5 text-[0.8125rem] font-semibold text-background transition-all hover:bg-gold/90 active:scale-[0.98]"
           >
             <UnlockIcon />
-            View &amp; Unlock — {formatPrice(preset.price, displayCurrency)}
+            View &amp; Unlock â€” {formatPrice(preset.price, displayCurrency)}
           </Link>
         )}
       </div>
@@ -233,9 +233,9 @@ export function PresetCard({ preset, className }: PresetCardProps) {
   )
 }
 
-/* ── Icons ── */
+/* â”€â”€ Icons â”€â”€ */
 function StarIcon() {
-  return <svg width="11" height="11" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+  return <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFD60A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 }
 function DownloadIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -243,3 +243,4 @@ function DownloadIcon() {
 function UnlockIcon() {
   return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
 }
+

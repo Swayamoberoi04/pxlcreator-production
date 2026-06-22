@@ -1,18 +1,18 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 
-/* ─────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Step definitions
    startsAt: ms after submission when this step becomes active.
-   The steps animate purely for UX — the API call runs in parallel.
-───────────────────────────────────────────────────────────── */
+   The steps animate purely for UX â€” the API call runs in parallel.
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const STEPS = [
-  { id: "reading",   label: "Reading your image",          icon: "◈", startsAt: 0    },
-  { id: "analyzing", label: "Analysing scene & mood",      icon: "◎", startsAt: 1400 },
-  { id: "grading",   label: "Applying cinematic grade",    icon: "◑", startsAt: 3200 },
-  { id: "matching",  label: "Matching to preset library",  icon: "✦", startsAt: 5200 },
+  { id: "reading",   label: "Reading your image",          icon: "â—ˆ", startsAt: 0    },
+  { id: "analyzing", label: "Analysing scene & mood",      icon: "â—Ž", startsAt: 1400 },
+  { id: "grading",   label: "Applying cinematic grade",    icon: "â—‘", startsAt: 3200 },
+  { id: "matching",  label: "Matching to preset library",  icon: "âœ¦", startsAt: 5200 },
 ] as const
 
 type StepId = (typeof STEPS)[number]["id"]
@@ -47,13 +47,13 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-[480px] w-full rounded-2xl overflow-hidden bg-surface border border-border">
 
-      {/* ── Ambient glows ── */}
+      {/* â”€â”€ Ambient glows â”€â”€ */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[320px] w-[480px] rounded-full bg-gold opacity-[0.045] blur-[80px]" />
         <div className="absolute bottom-0 left-1/4 h-[200px] w-[300px] rounded-full bg-[#6366f1] opacity-[0.05] blur-[60px]" />
       </div>
 
-      {/* ── Scanline texture ── */}
+      {/* â”€â”€ Scanline texture â”€â”€ */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.025]"
@@ -64,7 +64,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
         }}
       />
 
-      {/* ── Content ── */}
+      {/* â”€â”€ Content â”€â”€ */}
       <div className="relative z-10 flex flex-col items-center gap-10 px-8 py-14 w-full max-w-sm">
 
         {/* Animated ring + icon */}
@@ -88,7 +88,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
             />
             <defs>
               <linearGradient id="ring-gradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%"   stopColor="#C9A84C" stopOpacity="0.9" />
+                <stop offset="0%"   stopColor="#FFD60A" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#6366f1" stopOpacity="0.4" />
               </linearGradient>
             </defs>
@@ -102,7 +102,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
         {/* Current step label */}
         <div className="flex flex-col items-center gap-2 text-center">
           <p className="font-display font-bold text-foreground text-[1.125rem]">
-            {activeIndex >= 0 ? STEPS[activeIndex].label : "Starting…"}
+            {activeIndex >= 0 ? STEPS[activeIndex].label : "Startingâ€¦"}
           </p>
           {prompt && (
             <p className="text-[0.8125rem] text-muted/60 italic line-clamp-2 max-w-[260px]">
@@ -124,7 +124,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
                 className={cn(
                   "flex items-center gap-3.5 rounded-xl px-4 py-3 border transition-all duration-500",
                   isDone   && "border-gold/20 bg-gold/5",
-                  isActive && "border-gold/35 bg-gold/8 shadow-[0_0_16px_rgba(201,168,76,0.08)]",
+                  isActive && "border-gold/35 bg-gold/8 shadow-[0_0_16px_rgba(255,214,10,0.08)]",
                   isPending && "border-border/50 bg-background/30"
                 )}
               >
@@ -166,7 +166,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
 
         {/* Fine print */}
         <p className="text-[0.75rem] text-muted/35 text-center">
-          Hang tight — great things take ~8 seconds
+          Hang tight â€” great things take ~8 seconds
         </p>
 
       </div>
@@ -181,3 +181,4 @@ function CheckMiniIcon() {
     </svg>
   )
 }
+

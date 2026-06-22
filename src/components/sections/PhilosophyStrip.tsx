@@ -1,14 +1,14 @@
-"use client"
+﻿"use client"
 
 /**
- * PhilosophyStrip.tsx — Why PXL Creator + Vision Closer
+ * PhilosophyStrip.tsx â€” Why PXL Creator + Vision Closer
  *
  * Cinematic upgrade:
- *   • Pillar cards enter with CinematicStagger depth reveal
- *   • Vision headline uses CinematicReveal
- *   • Pills enter with staggered rise
- *   • depth-card CSS on pillar cards for hover depth
- *   • depth-section pseudo-borders on both halves
+ *   â€¢ Pillar cards enter with CinematicStagger depth reveal
+ *   â€¢ Vision headline uses CinematicReveal
+ *   â€¢ Pills enter with staggered rise
+ *   â€¢ depth-card CSS on pillar cards for hover depth
+ *   â€¢ depth-section pseudo-borders on both halves
  * Content unchanged.
  */
 
@@ -18,18 +18,18 @@ import { CinematicBackground }      from "@/components/ui/CinematicBackground"
 import { GrainOverlay }             from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* ── Three core brand pillars ── */
+/* â”€â”€ Three core brand pillars â”€â”€ */
 const PILLARS = [
   {
-    icon:  "◈",
+    icon:  "â—ˆ",
     title: "Creative Identity",
     line:  "Build a signature look that's recognisably, undeniably you.",
-    glow:  "rgba(201,168,76,0.10)",
-    border: "rgba(201,168,76,0.15)",
+    glow:  "rgba(255,214,10,0.10)",
+    border: "rgba(255,214,10,0.15)",
     iconColor: "text-gold",
   },
   {
-    icon:  "✦",
+    icon:  "âœ¦",
     title: "AI-Powered Editing",
     line:  "Upload a photo. Describe the vibe. Watch your vision come alive in seconds.",
     glow:  "rgba(61,122,138,0.10)",
@@ -37,10 +37,10 @@ const PILLARS = [
     iconColor: "text-[#a5b4fc]",
   },
   {
-    icon:  "▸",
+    icon:  "â–¸",
     title: "Cinematic Systems",
-    line:  "A cohesive visual language for every shoot — not just random filters.",
-    glow:  "rgba(201,168,76,0.06)",
+    line:  "A cohesive visual language for every shoot â€” not just random filters.",
+    glow:  "rgba(255,214,10,0.06)",
     border: "rgba(255,255,255,0.07)",
     iconColor: "text-gold/70",
   },
@@ -50,9 +50,9 @@ export function PhilosophyStrip() {
   return (
     <section className="relative w-full bg-background" aria-label="Why PXL Creator">
 
-      {/* ══════════════════════════════════════════════════
-          PART A — 3 Pillars
-      ══════════════════════════════════════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          PART A â€” 3 Pillars
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden border-y border-border bg-background depth-section">
 
         <CinematicBackground variant="mission" />
@@ -73,7 +73,7 @@ export function PhilosophyStrip() {
                   Not tools.{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
+                      background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -85,7 +85,7 @@ export function PhilosophyStrip() {
               </div>
             </CinematicReveal>
 
-            {/* Pillar cards — 3D stagger depth reveal */}
+            {/* Pillar cards â€” 3D stagger depth reveal */}
             <CinematicStagger
               stagger={0.13}
               baseDelay={0.05}
@@ -144,7 +144,7 @@ export function PhilosophyStrip() {
                 href="/about"
                 className="text-[0.8125rem] text-muted/40 hover:text-gold/70 transition-colors duration-200 tracking-wide"
               >
-                Our full story & philosophy →
+                Our full story & philosophy â†’
               </Link>
             </CinematicReveal>
 
@@ -152,9 +152,9 @@ export function PhilosophyStrip() {
         </Container>
       </div>
 
-      {/* ══════════════════════════════════════════════════
-          PART B — Cinematic Vision Closer
-      ══════════════════════════════════════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          PART B â€” Cinematic Vision Closer
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden bg-surface depth-section">
 
         <CinematicBackground variant="dark" />
@@ -164,7 +164,7 @@ export function PhilosophyStrip() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-[1]"
-          style={{ background: "radial-gradient(ellipse 80% 50% at 50% 110%, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse 80% 50% at 50% 110%, rgba(255,214,10,0.07) 0%, transparent 65%)" }}
         />
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent z-[2]" />
 
@@ -180,7 +180,7 @@ export function PhilosophyStrip() {
                 <h2
                   className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[1.02] tracking-tight"
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 50%, #A8893A 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 50%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -193,7 +193,7 @@ export function PhilosophyStrip() {
               </div>
             </CinematicReveal>
 
-            {/* Pillars — staggered rise */}
+            {/* Pillars â€” staggered rise */}
             <CinematicStagger
               stagger={0.07}
               baseDelay={0.1}
@@ -214,7 +214,7 @@ export function PhilosophyStrip() {
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <Link
                   href="/presets"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(201,168,76,0.2)] hover:shadow-[0_0_56px_rgba(201,168,76,0.32)]"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,214,10,0.2)] hover:shadow-[0_0_56px_rgba(255,214,10,0.32)]"
                 >
                   Start Building Your Identity
                   <ArrowRight />
@@ -253,3 +253,4 @@ function ArrowRight() {
     </svg>
   )
 }
+

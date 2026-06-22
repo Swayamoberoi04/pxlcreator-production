@@ -1,14 +1,14 @@
-"use client"
+﻿"use client"
 
 /**
- * SocialProofSection.tsx — Stats + Testimonials
+ * SocialProofSection.tsx â€” Stats + Testimonials
  *
  * Cinematic upgrade:
- *   • Stat numbers animate in with GSAP count-up on scroll enter
- *   • Testimonial cards enter with CinematicStagger depth reveal
- *   • Section header uses CinematicReveal
- *   • depth-card on testimonial cards
- *   • depth-section pseudo-borders
+ *   â€¢ Stat numbers animate in with GSAP count-up on scroll enter
+ *   â€¢ Testimonial cards enter with CinematicStagger depth reveal
+ *   â€¢ Section header uses CinematicReveal
+ *   â€¢ depth-card on testimonial cards
+ *   â€¢ depth-section pseudo-borders
  * Content unchanged.
  */
 
@@ -34,7 +34,7 @@ export function SocialProofSection() {
       <GrainOverlay opacity={0.014} zIndex={1} />
       <Container className="relative z-10">
 
-        {/* ── Stats Bar — animated count-up ── */}
+        {/* â”€â”€ Stats Bar â€” animated count-up â”€â”€ */}
         <CinematicStagger
           stagger={0.09}
           baseDelay={0}
@@ -48,7 +48,7 @@ export function SocialProofSection() {
           ))}
         </CinematicStagger>
 
-        {/* ── Testimonials header ── */}
+        {/* â”€â”€ Testimonials header â”€â”€ */}
         <CinematicReveal variant="depth" margin="-60px">
           <div className="flex flex-col items-center text-center gap-4 mb-12">
             <div className="flex items-center gap-3">
@@ -67,7 +67,7 @@ export function SocialProofSection() {
           </div>
         </CinematicReveal>
 
-        {/* ── Testimonial cards — depth stagger ── */}
+        {/* â”€â”€ Testimonial cards â€” depth stagger â”€â”€ */}
         <CinematicStagger
           stagger={0.12}
           baseDelay={0.05}
@@ -86,7 +86,7 @@ export function SocialProofSection() {
   )
 }
 
-/* ── Stat cell with GSAP count-up animation ── */
+/* â”€â”€ Stat cell with GSAP count-up animation â”€â”€ */
 function StatCell({ value, label }: { value: string; label: string }) {
   const numRef = useRef<HTMLSpanElement>(null)
 
@@ -95,7 +95,7 @@ function StatCell({ value, label }: { value: string; label: string }) {
     if (!el) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
-    /* Parse numeric part (e.g. "10,000+" → 10000) */
+    /* Parse numeric part (e.g. "10,000+" â†’ 10000) */
     const raw     = value.replace(/,/g, "")
     const numMatch = raw.match(/[\d.]+/)
     if (!numMatch) return
@@ -143,7 +143,7 @@ function StatCell({ value, label }: { value: string; label: string }) {
   )
 }
 
-/* ── Individual testimonial card ── */
+/* â”€â”€ Individual testimonial card â”€â”€ */
 interface TestimonialCardProps {
   testimonial: (typeof TESTIMONIALS)[number]
   index: number
@@ -158,7 +158,7 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
         "depth-card flex flex-col gap-6 rounded-2xl p-7 border",
         "bg-surface-2 transition-all duration-300",
         isFeatured
-          ? "border-gold/30 shadow-[0_0_50px_rgba(201,168,76,0.07)]"
+          ? "border-gold/30 shadow-[0_0_50px_rgba(255,214,10,0.07)]"
           : "border-border hover:border-gold/15"
       )}
     >
@@ -219,7 +219,7 @@ function StarIcon({ filled }: { filled: boolean }) {
       width="14"
       height="14"
       viewBox="0 0 24 24"
-      fill={filled ? "#C9A84C" : "none"}
+      fill={filled ? "#FFD60A" : "none"}
       stroke={filled ? "none" : "#555555"}
       strokeWidth="1.5"
       aria-hidden="true"
@@ -228,3 +228,4 @@ function StarIcon({ filled }: { filled: boolean }) {
     </svg>
   )
 }
+

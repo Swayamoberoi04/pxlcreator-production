@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { motion } from "framer-motion"
 import { cn }     from "@/lib/utils"
@@ -48,7 +48,7 @@ export function StepAesthetics({ selected, onToggle }: Props) {
                 "transition-all duration-300",
                 isDisabled && "opacity-35 cursor-not-allowed",
                 isSelected
-                  ? "border-gold/70 shadow-[0_0_24px_rgba(201,168,76,0.18)]"
+                  ? "border-gold/70 shadow-[0_0_24px_rgba(255,214,10,0.18)]"
                   : "border-border/60 hover:border-border"
               )}
             >
@@ -102,3 +102,4 @@ export function StepAesthetics({ selected, onToggle }: Props) {
     </div>
   )
 }
+

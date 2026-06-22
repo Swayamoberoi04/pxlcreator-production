@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import { Container }    from "@/components/layout/Container"
 import { StoreShell }          from "@/components/store/StoreShell"
 import { UnlockMethodBanner }  from "@/components/store/UnlockMethodBanner"
@@ -13,9 +13,9 @@ import { StoreScene3DWrapper } from "@/components/3d/StoreScene3DWrapper"
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Store — Preset Packs & Free Downloads",
+  title: "Store â€” Preset Packs & Free Downloads",
   description:
-    "Browse 24 PXL Creator preset packs — 12 free downloads and tiered paid packs from ₹420. Cinematic, film emulation, portrait, landscape and street. Instant download.",
+    "Browse 24 PXL Creator preset packs â€” 12 free downloads and tiered paid packs from â‚¹420. Cinematic, film emulation, portrait, landscape and street. Instant download.",
 }
 
 const VALID_CATEGORIES = new Set([
@@ -38,31 +38,31 @@ export default async function StorePage({
   return (
     <div className="w-full bg-background">
 
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           CINEMATIC STORE HERO
           Living luminous atmosphere + 3D floating panels
-      ══════════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden" style={{ minHeight: "clamp(440px, 52vh, 640px)" }}>
 
-        {/* ── Luminous atmospheric background ── */}
+        {/* â”€â”€ Luminous atmospheric background â”€â”€ */}
         <LuminousEnvironment variant="store" intensity={1.2} />
 
-        {/* ── 3D floating preset panels ── */}
+        {/* â”€â”€ 3D floating preset panels â”€â”€ */}
         <div aria-hidden="true" className="absolute inset-0 z-[2] pointer-events-none">
           <StoreScene3DWrapper />
         </div>
 
-        {/* ── Film grain ── */}
+        {/* â”€â”€ Film grain â”€â”€ */}
         <GrainOverlay opacity={0.022} animated zIndex={3} />
 
-        {/* ── Gold rules ── */}
+        {/* â”€â”€ Gold rules â”€â”€ */}
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent z-[4]" />
         <div aria-hidden="true" className="absolute inset-x-0 top-0    h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent z-[4]" />
 
-        {/* ── Bottom fade to grid section ── */}
+        {/* â”€â”€ Bottom fade to grid section â”€â”€ */}
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent z-[4]" />
 
-        {/* ── Hero content ── */}
+        {/* â”€â”€ Hero content â”€â”€ */}
         <Container className="relative z-[10] py-16 sm:py-24 flex flex-col justify-end h-full" /* style via parent div */ >
           <div className="flex flex-col gap-6 max-w-3xl">
 
@@ -81,7 +81,7 @@ export default async function StorePage({
                 Presets that earn their place<br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 45%, #A8893A 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 45%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -97,7 +97,7 @@ export default async function StorePage({
               <p className="text-[1rem] sm:text-[1.0625rem] text-muted/65 max-w-xl leading-relaxed">
                 Start with{" "}
                 <span className="text-emerald-400 font-semibold">12 free preset packs</span>
-                {" "}— no credit card. Buy any paid preset instantly,
+                {" "}â€” no credit card. Buy any paid preset instantly,
                 or <span className="text-gold font-medium">unlock free</span> using the password from our YouTube tutorials.
               </p>
             </CinematicReveal>
@@ -127,9 +127,9 @@ export default async function StorePage({
         </Container>
       </div>
 
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           FILTER + GRID (client shell)
-      ══════════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative bg-luminous-gold">
         <LuminousEnvironment variant="gold" intensity={0.6} />
         <GrainOverlay opacity={0.015} zIndex={1} />
@@ -144,3 +144,4 @@ export default async function StorePage({
     </div>
   )
 }
+

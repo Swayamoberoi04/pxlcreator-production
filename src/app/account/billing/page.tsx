@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useCallback } from "react"
 import { useRouter }    from "next/navigation"
@@ -10,7 +10,7 @@ import { cn }           from "@/lib/utils"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 
-/* ── Types ── */
+/* â”€â”€ Types â”€â”€ */
 interface Subscription {
   id:                   string
   plan_id:              string
@@ -36,9 +36,9 @@ interface PaymentRecord {
 
 type CancelState = "idle" | "confirming" | "cancelling" | "cancelled"
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Page
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function BillingPage() {
   const { user, loading: authLoading } = useAuth()
   const router = useRouter()
@@ -100,7 +100,7 @@ export default function BillingPage() {
     }
   }, [user, subscription, cancelState])
 
-  /* ── Loading skeleton ── */
+  /* â”€â”€ Loading skeleton â”€â”€ */
   if (authLoading || dataLoading) {
     return (
       <div className="w-full bg-background min-h-[70vh]">
@@ -121,9 +121,9 @@ export default function BillingPage() {
   const isActive = subscription?.status === "active"
   const isCancelled = subscription?.status === "cancelled"
 
-  /* ─────────────────────────────────────────
+  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
      Render
-  ───────────────────────────────────────── */
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   return (
     <div className="relative w-full bg-background overflow-hidden">
       <LuminousEnvironment variant="gold" intensity={0.6} />
@@ -137,13 +137,13 @@ export default function BillingPage() {
               href="/account"
               className="text-[0.8125rem] text-muted/60 hover:text-foreground transition-colors"
             >
-              ← Account
+              â† Account
             </Link>
             <span className="text-border" aria-hidden="true">|</span>
             <h1 className="font-display font-bold text-xl text-foreground">Billing</h1>
           </div>
 
-          {/* ── No subscription ── */}
+          {/* â”€â”€ No subscription â”€â”€ */}
           {!subscription && (
             <div className="rounded-2xl border border-border bg-surface p-8 text-center">
               <div className="flex justify-center mb-5">
@@ -159,14 +159,14 @@ export default function BillingPage() {
               </p>
               <Link
                 href="/premium#plans"
-                className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3 text-sm font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_20px_rgba(201,168,76,0.15)]"
+                className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3 text-sm font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_20px_rgba(255,214,10,0.15)]"
               >
                 View Plans
               </Link>
             </div>
           )}
 
-          {/* ── Active / cancelled subscription ── */}
+          {/* â”€â”€ Active / cancelled subscription â”€â”€ */}
           {subscription && (
             <div className="flex flex-col gap-5">
 
@@ -221,7 +221,7 @@ export default function BillingPage() {
                         </span>
                       </div>
                       <p className="text-[0.875rem] text-muted/65 capitalize">
-                        {subscription.billing_cycle} billing ·{" "}
+                        {subscription.billing_cycle} billing Â·{" "}
                         ${subscription.amount_usd}/
                         {subscription.billing_cycle === "yearly" ? "yr" : "mo"}
                       </p>
@@ -295,7 +295,7 @@ export default function BillingPage() {
                       {cancelState === "cancelling" && (
                         <div className="flex items-center gap-2 text-muted/60 text-[0.8125rem]">
                           <div className="h-3.5 w-3.5 rounded-full border-2 border-muted/30 border-t-muted/70 animate-spin" />
-                          Cancelling…
+                          Cancellingâ€¦
                         </div>
                       )}
                     </div>
@@ -314,7 +314,7 @@ export default function BillingPage() {
                 </div>
               </div>
 
-              {/* ── Payment history ── */}
+              {/* â”€â”€ Payment history â”€â”€ */}
               {history.length > 0 && (
                 <div className="rounded-2xl border border-border bg-surface overflow-hidden">
                   <div className="px-6 py-4 border-b border-border">
@@ -330,14 +330,14 @@ export default function BillingPage() {
                           </div>
                           <div className="flex flex-col gap-0.5 flex-1 min-w-0">
                             <p className="text-sm font-medium text-foreground">
-                              {pInfo?.name ?? payment.plan_id} — {payment.billing_cycle}
+                              {pInfo?.name ?? payment.plan_id} â€” {payment.billing_cycle}
                             </p>
                             <p className="text-[0.75rem] text-muted/60">
                               {new Date(payment.created_at).toLocaleDateString("en-US", {
                                 month: "short", day: "numeric", year: "numeric",
                               })}
                               {payment.period_end && (
-                                <> · Until {new Date(payment.period_end).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</>
+                                <> Â· Until {new Date(payment.period_end).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</>
                               )}
                             </p>
                           </div>
@@ -346,7 +346,7 @@ export default function BillingPage() {
                               ${payment.amount_usd}
                             </p>
                             <p className="text-[0.7rem] text-muted/50">
-                              ₹{payment.amount_inr.toLocaleString("en-IN")}
+                              â‚¹{payment.amount_inr.toLocaleString("en-IN")}
                             </p>
                           </div>
                         </li>
@@ -365,7 +365,7 @@ export default function BillingPage() {
   )
 }
 
-/* ── Icons ── */
+/* â”€â”€ Icons â”€â”€ */
 function CheckIcon({ className = "" }: { className?: string }) {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
 }
@@ -378,3 +378,4 @@ function StarIcon() {
 function ReceiptIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="16" y1="8" x2="8" y2="8"/><line x1="16" y1="12" x2="8" y2="12"/><line x1="12" y1="16" x2="8" y2="16"/></svg>
 }
+

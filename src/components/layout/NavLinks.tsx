@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Navigation data
    Explore items are referenced by both
    NavLinks (dropdown) and MobileNav (flat).
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export const EXPLORE_ITEMS = [
   { label: "Store",      href: "/store"    },
   { label: "AI Studio",  href: "/studio"   },
@@ -44,9 +44,9 @@ const NAV_ITEMS: NavItemConfig[] = [
   { type: "link",     label: "Premium",   href: "/premium", highlight: true },
 ]
 
-/* ─────────────────────────────────────────
-   NavLinks — desktop only (hidden on <md)
-───────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   NavLinks â€” desktop only (hidden on <md)
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export function NavLinks() {
   const pathname = usePathname()
   const [openKey, setOpenKey]   = useState<string | null>(null)
@@ -80,7 +80,7 @@ export function NavLinks() {
 
       {NAV_ITEMS.map((item) => {
 
-        /* ── Simple link ── */
+        /* â”€â”€ Simple link â”€â”€ */
         if (item.type === "link") {
           const isActive =
             item.href === "/"
@@ -105,7 +105,7 @@ export function NavLinks() {
                 {item.label}
                 <span
                   aria-hidden="true"
-                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold/60 shadow-[0_0_6px_2px_rgba(201,168,76,0.25)]"
+                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold/60 shadow-[0_0_6px_2px_rgba(255,214,10,0.25)]"
                 />
               </Link>
             )
@@ -128,14 +128,14 @@ export function NavLinks() {
               {isActive && (
                 <span
                   aria-hidden="true"
-                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(201,168,76,0.5)]"
+                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(255,214,10,0.5)]"
                 />
               )}
             </Link>
           )
         }
 
-        /* ── Dropdown ── */
+        /* â”€â”€ Dropdown â”€â”€ */
         const isOpen   = openKey === item.label
         const isActive = exploreActive
 
@@ -165,12 +165,12 @@ export function NavLinks() {
               {isActive && !isOpen && (
                 <span
                   aria-hidden="true"
-                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(201,168,76,0.5)]"
+                  className="absolute left-1/2 -bottom-px h-px w-4 -translate-x-1/2 rounded-full bg-gold shadow-[0_0_6px_2px_rgba(255,214,10,0.5)]"
                 />
               )}
             </button>
 
-            {/* ── Dropdown panel — Framer Motion AnimatePresence ── */}
+            {/* â”€â”€ Dropdown panel â€” Framer Motion AnimatePresence â”€â”€ */}
             <AnimatePresence>
               {isOpen && (
                 <motion.div
@@ -184,7 +184,7 @@ export function NavLinks() {
                   className={cn(
                     "absolute top-full left-0 mt-2 w-48 overflow-hidden rounded-xl",
                     "border border-border/70 bg-surface/95 backdrop-blur-xl",
-                    "shadow-[0_16px_48px_rgba(0,0,0,0.6),0_0_0_1px_rgba(201,168,76,0.04)]"
+                    "shadow-[0_16px_48px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,214,10,0.04)]"
                   )}
                 >
                   {/* Top glow line */}
@@ -228,7 +228,7 @@ export function NavLinks() {
   )
 }
 
-/* ── Chevron icon with open/close rotation ── */
+/* â”€â”€ Chevron icon with open/close rotation â”€â”€ */
 function ChevronDown({ open }: { open: boolean }) {
   return (
     <svg
@@ -247,3 +247,4 @@ function ChevronDown({ open }: { open: boolean }) {
     </svg>
   )
 }
+

@@ -1,19 +1,19 @@
-"use client"
+﻿"use client"
 /* eslint-disable react-hooks/immutability */
 
 /**
  * GlobalAmbientCanvas.tsx
  *
  * A fixed-position, full-viewport R3F canvas that renders a single very
- * subtle atmospheric layer across the entire site — persistent across all
+ * subtle atmospheric layer across the entire site â€” persistent across all
  * pages and route transitions.
  *
  * Performance:
- *   – dpr capped at [1, 1] — fullscreen canvas at native 1× is plenty
- *   – No per-frame allocations; geometry created once in useMemo
- *   – frameloop="demand" — only renders when something changes (idle = 0 CPU)
- *   – Page Visibility API — pauses when tab is hidden
- *   – Particle count halved vs original (mobile: 20, desktop: 50)
+ *   â€“ dpr capped at [1, 1] â€” fullscreen canvas at native 1Ã— is plenty
+ *   â€“ No per-frame allocations; geometry created once in useMemo
+ *   â€“ frameloop="demand" â€” only renders when something changes (idle = 0 CPU)
+ *   â€“ Page Visibility API â€” pauses when tab is hidden
+ *   â€“ Particle count halved vs original (mobile: 20, desktop: 50)
  */
 
 import { useRef, useMemo, useEffect } from "react"
@@ -22,7 +22,7 @@ import * as THREE                      from "three"
 
 const IS_MOBILE = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
 
-/* ── Page-visibility controller — pauses R3F when tab is hidden ─── */
+/* â”€â”€ Page-visibility controller â€” pauses R3F when tab is hidden â”€â”€â”€ */
 function VisibilityController() {
   const { invalidate, advance } = useThree()
 
@@ -42,16 +42,16 @@ function VisibilityController() {
   return null
 }
 
-/* ── Drifting dust particles ─────────────────────────────────────── */
+/* â”€â”€ Drifting dust particles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function AmbientDust() {
   /*
-   * Reduced from 80/30 → 50/20 particles.
-   * The particles are nearly invisible (opacity ~0.07) — half the count
+   * Reduced from 80/30 â†’ 50/20 particles.
+   * The particles are nearly invisible (opacity ~0.07) â€” half the count
    * is imperceptible but cuts geometry upload cost by 40%.
    */
   const COUNT = IS_MOBILE ? 20 : 50
 
-  /* Static seed positions — deterministic, no hydration issues */
+  /* Static seed positions â€” deterministic, no hydration issues */
   const geo = useMemo(() => {
     const pos  = new Float32Array(COUNT * 3)
     const seed = [
@@ -73,7 +73,7 @@ function AmbientDust() {
 
   const matRef  = useRef<THREE.PointsMaterial>(null)
   const posRef  = useRef<Float32Array | null>(null)
-  /* Frame counter — update particles every 2nd frame on mobile */
+  /* Frame counter â€” update particles every 2nd frame on mobile */
   const frameRef = useRef(0)
 
   const { invalidate } = useThree()
@@ -83,9 +83,9 @@ function AmbientDust() {
 
     frameRef.current++
     /*
-     * Mobile: update every 3rd frame (20fps) — particles drift so slowly
+     * Mobile: update every 3rd frame (20fps) â€” particles drift so slowly
      * the skip is completely invisible but saves 67% of mobile GPU work.
-     * Desktop: update every 2nd frame (30fps) — grain barely visible anyway.
+     * Desktop: update every 2nd frame (30fps) â€” grain barely visible anyway.
      */
     const skipRate = IS_MOBILE ? 3 : 2
     if (frameRef.current % skipRate !== 0) {
@@ -112,7 +112,7 @@ function AmbientDust() {
     <points geometry={geo}>
       <pointsMaterial
         ref={matRef}
-        color="#C9A84C"
+        color="#FFD60A"
         size={0.014}
         transparent
         opacity={0.08}
@@ -123,7 +123,7 @@ function AmbientDust() {
   )
 }
 
-/* ── Volumetric breathing orbs ───────────────────────────────────── */
+/* â”€â”€ Volumetric breathing orbs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 type OrbData = {
   pos:    [number, number, number]
   color:  string
@@ -133,7 +133,7 @@ type OrbData = {
 }
 
 const ORBS: OrbData[] = [
-  { pos: [-6, 2, -8],  color: "#C9A84C", size: 4.5, speed: 0.15, offset: 0    },
+  { pos: [-6, 2, -8],  color: "#FFD60A", size: 4.5, speed: 0.15, offset: 0    },
   { pos: [ 7, -3, -10], color: "#2211aa", size: 5.5, speed: 0.11, offset: 2.8 },
   { pos: [ 1,  4, -14], color: "#113322", size: 7.0, speed: 0.09, offset: 5.2 },
 ]
@@ -153,8 +153,8 @@ function GlobalOrb({ pos, color, size, speed, offset }: OrbData) {
     if (!meshRef.current) return
     frameRef.current++
     /*
-     * Orbs move very slowly — updating every 4th frame is imperceptible.
-     * On mobile skip every 5th — orbs are essentially invisible there.
+     * Orbs move very slowly â€” updating every 4th frame is imperceptible.
+     * On mobile skip every 5th â€” orbs are essentially invisible there.
      */
     const skipRate = IS_MOBILE ? 5 : 4
     if (frameRef.current % skipRate !== 0) return
@@ -167,13 +167,13 @@ function GlobalOrb({ pos, color, size, speed, offset }: OrbData) {
 
   return (
     <mesh ref={meshRef} position={pos} material={mat}>
-      {/* 6 segments instead of 12 — orbs are nearly transparent blobs, not geometry */}
+      {/* 6 segments instead of 12 â€” orbs are nearly transparent blobs, not geometry */}
       <sphereGeometry args={[size, 6, 6]} />
     </mesh>
   )
 }
 
-/* ── Scene ───────────────────────────────────────────────────────── */
+/* â”€â”€ Scene â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function GlobalScene() {
   return (
     <>
@@ -184,7 +184,7 @@ function GlobalScene() {
   )
 }
 
-/* ── Exported canvas — fixed behind all page content ────────────── */
+/* â”€â”€ Exported canvas â€” fixed behind all page content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export function GlobalAmbientCanvas() {
   return (
     <div
@@ -215,3 +215,4 @@ export function GlobalAmbientCanvas() {
     </div>
   )
 }
+

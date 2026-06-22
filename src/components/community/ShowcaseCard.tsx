@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState }          from "react"
 import Link                  from "next/link"
@@ -16,11 +16,11 @@ const TYPE_LABEL: Record<string, string> = {
 }
 
 const TYPE_ICON: Record<string, string> = {
-  photo:        "📷",
-  video:        "🎬",
-  before_after: "◐",
-  reel:         "⟳",
-  short_film:   "🎞",
+  photo:        "ðŸ“·",
+  video:        "ðŸŽ¬",
+  before_after: "â—",
+  reel:         "âŸ³",
+  short_film:   "ðŸŽž",
 }
 
 interface Props {
@@ -78,7 +78,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         "group flex flex-col rounded-2xl border border-border bg-surface overflow-hidden",
-        "transition-all duration-200 hover:border-gold/25 hover:shadow-[0_0_30px_rgba(201,168,76,0.06)]"
+        "transition-all duration-200 hover:border-gold/25 hover:shadow-[0_0_30px_rgba(255,214,10,0.06)]"
       )}
     >
       {/* Thumbnail */}
@@ -94,7 +94,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[2rem] text-muted/30">
-            {TYPE_ICON[item.item_type] ?? "🖼"}
+            {TYPE_ICON[item.item_type] ?? "ðŸ–¼"}
           </div>
         )}
 
@@ -106,7 +106,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
         {/* Featured badge */}
         {item.is_featured && (
           <span className="absolute top-2 right-2 text-[0.65rem] font-bold text-background bg-gold rounded-full px-2 py-0.5">
-            ✦ Featured
+            âœ¦ Featured
           </span>
         )}
       </div>
@@ -162,7 +162,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
                 !user && "cursor-default"
               )}
             >
-              {liked ? "♥" : "♡"} <span>{likeCount}</span>
+              {liked ? "â™¥" : "â™¡"} <span>{likeCount}</span>
             </button>
 
             {/* Bookmark */}
@@ -176,7 +176,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
                 !user && "cursor-default"
               )}
             >
-              {bookmarked ? "◈" : "◇"} <span>{bookmarkCount}</span>
+              {bookmarked ? "â—ˆ" : "â—‡"} <span>{bookmarkCount}</span>
             </button>
           </div>
 
@@ -188,3 +188,4 @@ export function ShowcaseCard({ item, compact = false }: Props) {
     </motion.article>
   )
 }
+

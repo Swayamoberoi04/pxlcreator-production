@@ -1,4 +1,4 @@
-import type { Metadata }   from "next"
+﻿import type { Metadata }   from "next"
 import Link               from "next/link"
 import { Container }      from "@/components/layout/Container"
 import { PresetCard }     from "@/components/store/PresetCard"
@@ -13,12 +13,12 @@ import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/u
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Presets — Featured Collections",
+  title: "Presets â€” Featured Collections",
   description:
-    "Explore PXL Creator's featured preset collections and bundles. Handcrafted Lightroom presets for cinematic, portrait, film, landscape and street photography — buy instantly or unlock free from YouTube.",
+    "Explore PXL Creator's featured preset collections and bundles. Handcrafted Lightroom presets for cinematic, portrait, film, landscape and street photography â€” buy instantly or unlock free from YouTube.",
 }
 
-/* ── Store categories → /store filter mapping ── */
+/* â”€â”€ Store categories â†’ /store filter mapping â”€â”€ */
 const VAULT_CATEGORIES = [
   { label: "Cinematic",      href: "/store?category=Cinematic"      },
   { label: "Film Emulation", href: "/store?category=Film+Emulation" },
@@ -43,9 +43,9 @@ export default async function PresetsPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* ═══════════════════════════════════════════════════════
-          HERO — curated showcase, not catalogue
-      ═══════════════════════════════════════════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          HERO â€” curated showcase, not catalogue
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full border-b border-border overflow-hidden">
         <LuminousEnvironment variant="gold" intensity={0.9} />
         <CinematicBackground variant="mission" />
@@ -68,7 +68,7 @@ export default async function PresetsPage() {
                 Our most-loved<br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
+                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -108,9 +108,9 @@ export default async function PresetsPage() {
         </Container>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           FEATURED BUNDLES
-      ═══════════════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {featuredBundles.length > 0 && (
         <Container className="pt-16 sm:pt-20 pb-0">
           <CinematicReveal variant="rise">
@@ -144,9 +144,9 @@ export default async function PresetsPage() {
         </Container>
       )}
 
-      {/* ═══════════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           FEATURED INDIVIDUAL PRESETS
-      ═══════════════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {showcasePresets.length > 0 && (
         <Container className="pt-16 sm:pt-20 pb-16 sm:pb-20">
           <CinematicReveal variant="rise">
@@ -180,16 +180,16 @@ export default async function PresetsPage() {
         </Container>
       )}
 
-      {/* ═══════════════════════════════════════════════════════
-          CREATOR VAULT — cinematic store CTA
-      ═══════════════════════════════════════════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          CREATOR VAULT â€” cinematic store CTA
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <CreatorVaultSection />
 
     </div>
   )
 }
 
-/* ── Creator Vault Section ─────────────────────────────────────────────── */
+/* â”€â”€ Creator Vault Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function CreatorVaultSection() {
   return (
@@ -232,7 +232,7 @@ function CreatorVaultSection() {
               <span
                 className="block"
                 style={{
-                  background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 40%, #A8893A 75%, #c8841a 100%)",
+                  background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 40%, #E0A800 75%, #c8841a 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -254,7 +254,7 @@ function CreatorVaultSection() {
               ].map((v, i, arr) => (
                 <span key={v} className="flex items-center gap-5">
                   {v}
-                  {i < arr.length - 1 && <span aria-hidden="true" className="text-muted/20">·</span>}
+                  {i < arr.length - 1 && <span aria-hidden="true" className="text-muted/20">Â·</span>}
                 </span>
               ))}
             </div>
@@ -287,7 +287,7 @@ function CreatorVaultSection() {
               {/* Method 1 */}
               <div className="flex flex-col items-center sm:items-start gap-3 text-center sm:text-left">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/25 bg-gold/[0.08]">
-                  <span className="font-display font-black text-[0.875rem] text-gold">①</span>
+                  <span className="font-display font-black text-[0.875rem] text-gold">â‘ </span>
                 </div>
                 <p className="text-[0.875rem] text-muted/60 leading-relaxed max-w-[180px]">
                   Enter the password hidden inside creator videos
@@ -304,7 +304,7 @@ function CreatorVaultSection() {
               {/* Method 2 */}
               <div className="flex flex-col items-center sm:items-start gap-3 text-center sm:text-left">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/[0.08]">
-                  <span className="font-display font-black text-[0.875rem] text-emerald-400">②</span>
+                  <span className="font-display font-black text-[0.875rem] text-emerald-400">â‘¡</span>
                 </div>
                 <p className="text-[0.875rem] text-muted/60 leading-relaxed max-w-[180px]">
                   Purchase instantly and skip the hunt
@@ -347,7 +347,7 @@ function CreatorVaultSection() {
   )
 }
 
-/* ── Icons ─────────────────────────────────────────────────────────────── */
+/* â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function ArrowRightIcon() {
   return (
@@ -364,3 +364,4 @@ function ArrowRightSmIcon() {
     </svg>
   )
 }
+

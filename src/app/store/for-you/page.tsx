@@ -1,7 +1,7 @@
-"use client"
+﻿"use client"
 
 /**
- * /store/for-you — Personalized preset store.
+ * /store/for-you â€” Personalized preset store.
  *
  * Fetches presets ranked by the user's category affinities from
  * /api/presets/personalized. Falls back to featured presets for
@@ -59,7 +59,7 @@ function PresetCard({ preset, accentColor }: { preset: PersonalizedPreset; accen
             <img src={preset.thumbnail_url} alt={preset.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-4xl" style={{ background: `linear-gradient(135deg, ${accentColor}15, transparent)` }}>
-              ◈
+              â—ˆ
             </div>
           )}
           {/* Badges */}
@@ -98,7 +98,7 @@ function PresetCard({ preset, accentColor }: { preset: PersonalizedPreset; accen
               )}
             </div>
             {preset.rating > 0 && (
-              <span className="text-[0.7rem] text-muted/50">⭐ {preset.rating.toFixed(1)}</span>
+              <span className="text-[0.7rem] text-muted/50">â­ {preset.rating.toFixed(1)}</span>
             )}
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function PersonalizedStorePage() {
   const [loading,      setLoading]          = useState(true)
   const [personalized, setPersonalized]     = useState(false)
   const [topAffinities, setTopAffinities]   = useState<string[]>([])
-  const [accentColor,  setAccentColor]      = useState("#C9A84C")
+  const [accentColor,  setAccentColor]      = useState("#FFD60A")
 
   useEffect(() => {
     async function load() {
@@ -196,9 +196,9 @@ export default function PersonalizedStorePage() {
         </div>
       ) : (
         <div className="flex flex-col items-center gap-4 py-20 text-center">
-          <span className="text-4xl">◈</span>
+          <span className="text-4xl">â—ˆ</span>
           <p className="font-display font-black text-lg text-foreground">No presets found</p>
-          <Link href="/store" className="text-gold hover:underline text-sm">Browse the full store →</Link>
+          <Link href="/store" className="text-gold hover:underline text-sm">Browse the full store â†’</Link>
         </div>
       )}
 
@@ -218,3 +218,4 @@ export default function PersonalizedStorePage() {
 function capitalise(s: string): string {
   return s.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
 }
+

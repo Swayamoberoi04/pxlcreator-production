@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { motion, AnimatePresence } from "framer-motion"
 import { useCartStore, selectItemCount } from "@/store/cart"
@@ -10,14 +10,14 @@ export function CartButton() {
   return (
     <button
       type="button"
-      aria-label={itemCount > 0 ? `Open cart — ${itemCount} item${itemCount > 1 ? "s" : ""}` : "Open cart"}
+      aria-label={itemCount > 0 ? `Open cart â€” ${itemCount} item${itemCount > 1 ? "s" : ""}` : "Open cart"}
       onClick={openCart}
       suppressHydrationWarning
       className="relative flex items-center justify-center w-9 h-9 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <BagIcon />
 
-      {/* Item count badge — Framer Motion scale-in for premium feel */}
+      {/* Item count badge â€” Framer Motion scale-in for premium feel */}
       <AnimatePresence>
         {itemCount > 0 && (
           <motion.span
@@ -27,7 +27,7 @@ export function CartButton() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{    scale: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 520, damping: 22 }}
-            className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-background text-[10px] font-bold leading-none shadow-[0_0_8px_rgba(201,168,76,0.5)]"
+            className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-background text-[10px] font-bold leading-none shadow-[0_0_8px_rgba(255,214,10,0.5)]"
           >
             {itemCount > 9 ? "9+" : itemCount}
           </motion.span>
@@ -56,3 +56,4 @@ function BagIcon() {
     </svg>
   )
 }
+

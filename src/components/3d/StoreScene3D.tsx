@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 /* eslint-disable react-hooks/immutability, react-hooks/rules-of-hooks */
 
 /**
@@ -6,19 +6,19 @@
  *
  * React Three Fiber 3D scene for the Store page hero.
  *
- * Renders 6 floating preset "panels" — thin glass rectangles with
- * gold gradient fills — drifting at different depths and speeds.
+ * Renders 6 floating preset "panels" â€” thin glass rectangles with
+ * gold gradient fills â€” drifting at different depths and speeds.
  * The panels represent the preset packs available in the store.
  *
  * Visual concept:
  *   "Entering a digital gallery of cinematic presets floating in space."
  *
  * Technical notes:
- *   • Thin MeshStandardMaterial panels with low opacity + emissive color
- *   • Float() from drei handles the idle bobbing
- *   • Mouse parallax camera rig for interactivity
- *   • Low poly count — 6 planes × 2 tri each. Minimal GPU cost.
- *   • Bloom via EffectComposer lights up the gold emissive panels
+ *   â€¢ Thin MeshStandardMaterial panels with low opacity + emissive color
+ *   â€¢ Float() from drei handles the idle bobbing
+ *   â€¢ Mouse parallax camera rig for interactivity
+ *   â€¢ Low poly count â€” 6 planes Ã— 2 tri each. Minimal GPU cost.
+ *   â€¢ Bloom via EffectComposer lights up the gold emissive panels
  */
 
 import { useRef, useMemo, useEffect } from "react"
@@ -27,17 +27,17 @@ import { Float }                       from "@react-three/drei"
 import { EffectComposer, Bloom }       from "@react-three/postprocessing"
 import * as THREE                      from "three"
 
-/* ── Panel color palettes — map to preset categories ────────────── */
+/* â”€â”€ Panel color palettes â€” map to preset categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const PANELS = [
-  { pos: [-3.5,  0.8, -2.0], rot: [ 0.06,  0.28, -0.04], w: 2.0, h: 2.8, color: "#C9A84C", em: 0.5 },  // Cinematic — gold
-  { pos: [ 3.2, -0.6, -3.2], rot: [-0.04, -0.24,  0.06], w: 2.8, h: 1.8, color: "#818cf8", em: 0.4 },  // Portrait — indigo
-  { pos: [ 0.2,  1.8, -5.5], rot: [ 0.02,  0.08,  0.02], w: 3.6, h: 2.2, color: "#C9A84C", em: 0.35 }, // Film — gold wide
-  { pos: [-2.2, -1.5, -3.8], rot: [-0.08,  0.18,  0.05], w: 1.8, h: 2.4, color: "#34d399", em: 0.4 },  // Landscape — teal
-  { pos: [ 2.8,  1.4, -4.5], rot: [ 0.05, -0.15, -0.03], w: 1.6, h: 2.0, color: "#f97316", em: 0.4 },  // Street — orange
-  { pos: [-1.0, -0.2, -1.4], rot: [ 0.02,  0.12,  0.01], w: 1.4, h: 1.8, color: "#a78bfa", em: 0.45 }, // Bundle — violet
+  { pos: [-3.5,  0.8, -2.0], rot: [ 0.06,  0.28, -0.04], w: 2.0, h: 2.8, color: "#FFD60A", em: 0.5 },  // Cinematic â€” gold
+  { pos: [ 3.2, -0.6, -3.2], rot: [-0.04, -0.24,  0.06], w: 2.8, h: 1.8, color: "#818cf8", em: 0.4 },  // Portrait â€” indigo
+  { pos: [ 0.2,  1.8, -5.5], rot: [ 0.02,  0.08,  0.02], w: 3.6, h: 2.2, color: "#FFD60A", em: 0.35 }, // Film â€” gold wide
+  { pos: [-2.2, -1.5, -3.8], rot: [-0.08,  0.18,  0.05], w: 1.8, h: 2.4, color: "#34d399", em: 0.4 },  // Landscape â€” teal
+  { pos: [ 2.8,  1.4, -4.5], rot: [ 0.05, -0.15, -0.03], w: 1.6, h: 2.0, color: "#f97316", em: 0.4 },  // Street â€” orange
+  { pos: [-1.0, -0.2, -1.4], rot: [ 0.02,  0.12,  0.01], w: 1.4, h: 1.8, color: "#a78bfa", em: 0.45 }, // Bundle â€” violet
 ] as const
 
-/* ── Single floating panel ───────────────────────────────────────── */
+/* â”€â”€ Single floating panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 type PanelProps = typeof PANELS[number] & { index: number }
 
 function FloatingPanel({ pos, rot, w, h, color, em, index }: PanelProps) {
@@ -62,7 +62,7 @@ function FloatingPanel({ pos, rot, w, h, color, em, index }: PanelProps) {
     opacity:           0.7,
   }), [color, em])
 
-  /* Corner accent — bright node that Bloom picks up */
+  /* Corner accent â€” bright node that Bloom picks up */
   const cornerMat = useMemo(() => new THREE.MeshStandardMaterial({
     color:             color,
     emissive:          color,
@@ -115,10 +115,10 @@ function FloatingPanel({ pos, rot, w, h, color, em, index }: PanelProps) {
   )
 }
 
-/* ── Floating color orbs ─────────────────────────────────────────── */
+/* â”€â”€ Floating color orbs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function StoreOrbs() {
   const orbs = [
-    { pos: [-5, 2, -8]  as [number,number,number], color: "#C9A84C", size: 3.8, speed: 0.16, off: 0    },
+    { pos: [-5, 2, -8]  as [number,number,number], color: "#FFD60A", size: 3.8, speed: 0.16, off: 0    },
     { pos: [ 6, -3, -10] as [number,number,number], color: "#4433cc", size: 4.8, speed: 0.12, off: 2.4 },
     { pos: [ 0, 4, -14]  as [number,number,number], color: "#115544", size: 6.2, speed: 0.09, off: 4.8 },
   ]
@@ -141,7 +141,7 @@ function StoreOrbs() {
 
         return (
           <mesh key={i} ref={ref} position={o.pos} material={mat}>
-            {/* 6×6 segments — nearly transparent blobs, geometry res is invisible */}
+            {/* 6Ã—6 segments â€” nearly transparent blobs, geometry res is invisible */}
             <sphereGeometry args={[o.size, 6, 6]} />
           </mesh>
         )
@@ -150,7 +150,7 @@ function StoreOrbs() {
   )
 }
 
-/* ── Mouse-parallax camera ───────────────────────────────────────── */
+/* â”€â”€ Mouse-parallax camera â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function StoreCamera() {
   const mouse    = useRef({ x: 0, y: 0 })
   const { camera } = useThree()
@@ -173,13 +173,13 @@ function StoreCamera() {
   return null
 }
 
-/* ── Scene ───────────────────────────────────────────────────────── */
+/* â”€â”€ Scene â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function StoreScene() {
   return (
     <>
       <fog attach="fog" args={["#08090f", 5, 22]} />
       <ambientLight intensity={0.08} />
-      <directionalLight position={[3, 4, 3]} color="#C9A84C" intensity={0.6} />
+      <directionalLight position={[3, 4, 3]} color="#FFD60A" intensity={0.6} />
       <directionalLight position={[-4, -2, 2]} color="#4433cc" intensity={0.15} />
 
       {PANELS.map((p, i) => <FloatingPanel key={i} {...p} index={i} />)}
@@ -206,3 +206,4 @@ export function StoreScene3D() {
     </Canvas>
   )
 }
+

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 /**
  * PersonalizedFeed.tsx
@@ -17,21 +17,21 @@ import { cn }                               from "@/lib/utils"
 import { useAuth }                          from "@/contexts/AuthContext"
 import type { PersonalizedSection, RecommendationItem, StyleDNA } from "@/types/onboarding"
 
-/* ── Item type icon map ─────────────────────────────────────── */
+/* â”€â”€ Item type icon map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const TYPE_ICON: Record<string, string> = {
-  "preset-bundle": "◈",
-  "lut-pack":      "◉",
-  "tutorial":      "▷",
-  "course":        "▶",
-  "challenge":     "✦",
-  "pathway":       "⬡",
-  "monetization":  "⧫",
-  "blog":          "✎",
-  "community":     "◬",
-  "tool":          "⬟",
+  "preset-bundle": "â—ˆ",
+  "lut-pack":      "â—‰",
+  "tutorial":      "â–·",
+  "course":        "â–¶",
+  "challenge":     "âœ¦",
+  "pathway":       "â¬¡",
+  "monetization":  "â§«",
+  "blog":          "âœŽ",
+  "community":     "â—¬",
+  "tool":          "â¬Ÿ",
 }
 
-/* ── Single recommendation card ─────────────────────────────── */
+/* â”€â”€ Single recommendation card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function RecommendCard({
   item,
   index,
@@ -52,7 +52,7 @@ function RecommendCard({
         className={cn(
           "group flex items-start gap-4 rounded-xl border border-border bg-surface",
           "px-4 py-3.5 transition-all duration-200",
-          "hover:border-gold/30 hover:bg-surface-2 hover:shadow-[0_0_20px_rgba(201,168,76,0.06)]",
+          "hover:border-gold/30 hover:bg-surface-2 hover:shadow-[0_0_20px_rgba(255,214,10,0.06)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         )}
       >
@@ -61,7 +61,7 @@ function RecommendCard({
           className="mt-0.5 shrink-0 text-[1.125rem] leading-none opacity-60 group-hover:opacity-100 transition-opacity"
           style={{ color: accentColor }}
         >
-          {TYPE_ICON[item.type] ?? "●"}
+          {TYPE_ICON[item.type] ?? "â—"}
         </span>
 
         {/* Content */}
@@ -115,7 +115,7 @@ function RecommendCard({
   )
 }
 
-/* ── Section block ───────────────────────────────────────────── */
+/* â”€â”€ Section block â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function FeedSection({
   section,
   accentColor,
@@ -163,7 +163,7 @@ function FeedSection({
   )
 }
 
-/* ── Skeleton loader ─────────────────────────────────────────── */
+/* â”€â”€ Skeleton loader â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function FeedSkeleton() {
   return (
     <div className="flex flex-col gap-8">
@@ -184,7 +184,7 @@ function FeedSkeleton() {
   )
 }
 
-/* ── Main component ──────────────────────────────────────────── */
+/* â”€â”€ Main component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 interface PersonalizedFeedProps {
   /** External DNA (e.g. from dashboard that already has profile data) */
   dna?:      StyleDNA | null
@@ -218,7 +218,7 @@ export function PersonalizedFeed({
       })
 
       if (res.status === 404) {
-        /* Onboarding not yet completed — no feed to show */
+        /* Onboarding not yet completed â€” no feed to show */
         return
       }
 
@@ -256,10 +256,10 @@ export function PersonalizedFeed({
     if (dna) setLocalDna(dna)
   }, [dna])
 
-  /* ── Not signed in ── */
+  /* â”€â”€ Not signed in â”€â”€ */
   if (!authLoading && !user) return null
 
-  /* ── Loading ── */
+  /* â”€â”€ Loading â”€â”€ */
   if (fetching || authLoading) {
     return (
       <div className={cn("w-full", className)}>
@@ -268,7 +268,7 @@ export function PersonalizedFeed({
     )
   }
 
-  /* ── Error ── */
+  /* â”€â”€ Error â”€â”€ */
   if (error) {
     return (
       <div className={cn("rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-[0.875rem] text-destructive", className)}>
@@ -284,10 +284,10 @@ export function PersonalizedFeed({
     )
   }
 
-  /* ── No recommendations yet ── */
+  /* â”€â”€ No recommendations yet â”€â”€ */
   if (sections.length === 0) return null
 
-  const accentColor = localDna?.primaryColor ?? "#C9A84C"
+  const accentColor = localDna?.primaryColor ?? "#FFD60A"
   const visibleSections = sections.slice(0, maxSections)
 
   return (
@@ -305,9 +305,10 @@ export function PersonalizedFeed({
 
       {fromCache && (
         <p className="text-center text-[0.75rem] text-muted/30">
-          Personalised for you · Updated today
+          Personalised for you Â· Updated today
         </p>
       )}
     </div>
   )
 }
+

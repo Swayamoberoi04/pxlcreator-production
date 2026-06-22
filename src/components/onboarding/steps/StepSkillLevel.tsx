@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { motion } from "framer-motion"
 import { cn }     from "@/lib/utils"
@@ -38,7 +38,7 @@ export function StepSkillLevel({ selected, onSelect }: Props) {
               "transition-all duration-250 cursor-pointer focus-visible:outline-none",
               "focus-visible:ring-2 focus-visible:ring-ring",
               isSelected
-                ? "border-gold/60 bg-gold/8 shadow-[0_0_24px_rgba(201,168,76,0.12)]"
+                ? "border-gold/60 bg-gold/8 shadow-[0_0_24px_rgba(255,214,10,0.12)]"
                 : "border-border bg-surface hover:border-border/70 hover:bg-surface-2"
             )}
           >
@@ -90,3 +90,4 @@ export function StepSkillLevel({ selected, onSelect }: Props) {
     </div>
   )
 }
+

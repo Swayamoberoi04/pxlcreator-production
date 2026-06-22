@@ -1,28 +1,28 @@
-"use client"
+﻿"use client"
 /* eslint-disable react-hooks/immutability, react-hooks/purity */
 
 /**
  * HeroScene3D.tsx
  *
  * React Three Fiber canvas that overlays the hero section with:
- *   • 4 floating glass frames (portrait / landscape mix) with gold borders
- *   • Gold Sparkles cloud from @react-three/drei
- *   • Custom gold-dust Points geometry
- *   • Smooth mouse-parallax camera rig
- *   • Atmospheric fog for depth
+ *   â€¢ 4 floating glass frames (portrait / landscape mix) with gold borders
+ *   â€¢ Gold Sparkles cloud from @react-three/drei
+ *   â€¢ Custom gold-dust Points geometry
+ *   â€¢ Smooth mouse-parallax camera rig
+ *   â€¢ Atmospheric fog for depth
  *
  * Canvas uses alpha=true so every existing hero layer (photos, grains,
  * overlays) shows through. pointer-events=none keeps all hero interactions
  * on the DOM layer above.
  *
  * Performance:
- *   – antialias=false        (saves fillrate)
- *   – dpr=[1, 1]             (no 1.5× on high-dpi — single biggest fillrate saver)
- *   – powerPreference="high-performance" (discrete GPU hint)
- *   – Geometries created once in useMemo; no per-frame allocations
- *   – EffectComposer REMOVED — was the single most expensive GPU operation
+ *   â€“ antialias=false        (saves fillrate)
+ *   â€“ dpr=[1, 1]             (no 1.5Ã— on high-dpi â€” single biggest fillrate saver)
+ *   â€“ powerPreference="high-performance" (discrete GPU hint)
+ *   â€“ Geometries created once in useMemo; no per-frame allocations
+ *   â€“ EffectComposer REMOVED â€” was the single most expensive GPU operation
  *     (mipmapBlur Bloom = 5-7 fullscreen render passes per frame)
- *   – Returns null on touch devices — saves all WebGL work on mobile
+ *   â€“ Returns null on touch devices â€” saves all WebGL work on mobile
  */
 
 import { useRef, useMemo, useEffect }    from "react"
@@ -39,7 +39,7 @@ const IS_TOUCH_DEVICE =
   typeof window !== "undefined" &&
   (window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0)
 
-/* ── Frame definitions ──────────────────────────────────────────── */
+/* â”€â”€ Frame definitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 type FrameDef = {
   pos:   [number, number, number]
   rot:   [number, number, number]
@@ -48,26 +48,26 @@ type FrameDef = {
 }
 
 const FRAMES: FrameDef[] = [
-  // Far-left portrait — warm, slightly tilted toward viewer
+  // Far-left portrait â€” warm, slightly tilted toward viewer
   { pos: [-3.8,  0.9, -1.6], rot: [ 0.06,  0.22, -0.03], w: 1.8, h: 2.4 },
-  // Right landscape — deeper, tilted away
+  // Right landscape â€” deeper, tilted away
   { pos: [ 3.4, -0.4, -3.0], rot: [-0.04, -0.20,  0.05], w: 2.6, h: 1.7 },
-  // Center-top — deepest, wide
+  // Center-top â€” deepest, wide
   { pos: [ 0.3,  1.5, -5.5], rot: [ 0.03,  0.01,  0.01], w: 3.4, h: 2.1 },
-  // Lower-left — medium depth, portrait
+  // Lower-left â€” medium depth, portrait
   { pos: [-2.4, -1.7, -3.4], rot: [-0.09,  0.13,  0.06], w: 1.6, h: 2.1 },
 ]
 
-/* ── Gold frame border (4 thin box edges + corner dots) ─────────── */
+/* â”€â”€ Gold frame border (4 thin box edges + corner dots) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function GoldBorder({ w, h }: { w: number; h: number }) {
   const t = 0.015   // border thickness
   const d = 0.003   // border depth
 
-  /* Shared gold emissive material — picked up by Bloom */
+  /* Shared gold emissive material â€” picked up by Bloom */
   const mat = useMemo(
     () => new THREE.MeshStandardMaterial({
-      color:             "#C9A84C",
-      emissive:          "#C9A84C",
+      color:             "#FFD60A",
+      emissive:          "#FFD60A",
       emissiveIntensity: 0.55,
       transparent:       true,
       opacity:           0.6,
@@ -75,11 +75,11 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
     []
   )
 
-  /* Corner accent material — brighter emissive → stronger bloom halo */
+  /* Corner accent material â€” brighter emissive â†’ stronger bloom halo */
   const cornerMat = useMemo(
     () => new THREE.MeshStandardMaterial({
-      color:             "#C9A84C",
-      emissive:          "#C9A84C",
+      color:             "#FFD60A",
+      emissive:          "#FFD60A",
       emissiveIntensity: 1.1,
       transparent:       true,
       opacity:           0.8,
@@ -108,7 +108,7 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
         <boxGeometry args={[t, h, d]} />
       </mesh>
 
-      {/* Corner accent dots — high emissive for bright bloom nodes */}
+      {/* Corner accent dots â€” high emissive for bright bloom nodes */}
       {(
         [
           [-w / 2 + cs / 2,  h / 2 - cs / 2, 0.001] as [number, number, number],
@@ -125,12 +125,12 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
   )
 }
 
-/* ── Single floating glass frame ────────────────────────────────── */
+/* â”€â”€ Single floating glass frame â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
   const glassMat = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color:       "#C9A84C",
+        color:       "#FFD60A",
         emissive:    "#443300",
         emissiveIntensity: 0.08,
         transparent: true,
@@ -149,7 +149,7 @@ function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
       floatIntensity={0.35}
     >
       <group position={pos} rotation={rot}>
-        {/* Glass fill — nearly invisible, catches light */}
+        {/* Glass fill â€” nearly invisible, catches light */}
         <mesh material={glassMat}>
           <planeGeometry args={[w, h]} />
         </mesh>
@@ -161,9 +161,9 @@ function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
   )
 }
 
-/* ── Custom gold-dust point cloud ───────────────────────────────── */
+/* â”€â”€ Custom gold-dust point cloud â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function GoldDust() {
-  const COUNT = 80   // reduced from 180 — imperceptible difference, ~56% less geometry
+  const COUNT = 80   // reduced from 180 â€” imperceptible difference, ~56% less geometry
 
   const geometry = useMemo(() => {
     const pos = new Float32Array(COUNT * 3)
@@ -191,7 +191,7 @@ function GoldDust() {
     <points geometry={geometry}>
       <pointsMaterial
         ref={matRef}
-        color="#C9A84C"
+        color="#FFD60A"
         size={0.022}
         transparent
         opacity={0.25}
@@ -202,7 +202,7 @@ function GoldDust() {
   )
 }
 
-/* ── Camera rig — smooth mouse-parallax ─────────────────────────── */
+/* â”€â”€ Camera rig â€” smooth mouse-parallax â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function CameraRig() {
   const mouse      = useRef({ x: 0, y: 0 })
   const { camera } = useThree()
@@ -235,17 +235,17 @@ function CameraRig() {
   return null
 }
 
-/* ── Scene root ─────────────────────────────────────────────────── */
+/* â”€â”€ Scene root â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Scene() {
   return (
     <>
-      {/* Atmospheric fog — frames at z=-1.5 to -5.5 fade gracefully */}
+      {/* Atmospheric fog â€” frames at z=-1.5 to -5.5 fade gracefully */}
       <fog attach="fog" args={["#000000", 6, 24]} />
 
       {/* Lighting */}
       <ambientLight intensity={0.12} />
-      {/* Warm gold key — emissive surfaces bloom from this */}
-      <directionalLight position={[ 4,  3, 4]} color="#C9A84C" intensity={0.9} />
+      {/* Warm gold key â€” emissive surfaces bloom from this */}
+      <directionalLight position={[ 4,  3, 4]} color="#FFD60A" intensity={0.9} />
       {/* Cool indigo fill */}
       <directionalLight position={[-3, -2, 2]} color="#3322cc" intensity={0.18} />
 
@@ -254,13 +254,13 @@ function Scene() {
         <GlassFrame key={i} {...f} index={i} />
       ))}
 
-      {/* Sparkle cloud — drei's built-in atmospheric sparks */}
+      {/* Sparkle cloud â€” drei's built-in atmospheric sparks */}
       <Sparkles
         count={45}
         scale={[18, 10, 7]}
         size={1.4}
         speed={0.10}
-        color="#C9A84C"
+        color="#FFD60A"
         opacity={0.55}
       />
 
@@ -272,8 +272,8 @@ function Scene() {
 
       {/*
        * EffectComposer (Bloom + Vignette) REMOVED.
-       * mipmapBlur Bloom = 5–7 fullscreen render passes per frame.
-       * At dpr=1 on 1080p that was ~1M pixels × 6 passes = ~6M pixel ops/frame.
+       * mipmapBlur Bloom = 5â€“7 fullscreen render passes per frame.
+       * At dpr=1 on 1080p that was ~1M pixels Ã— 6 passes = ~6M pixel ops/frame.
        * The CSS vignette in HeroSection LAYER 6 provides the darkened edges.
        * Gold emissive materials still add warmth without postprocessing.
        */}
@@ -281,12 +281,12 @@ function Scene() {
   )
 }
 
-/* ── Exported canvas — dynamically imported with ssr:false ──────── */
+/* â”€â”€ Exported canvas â€” dynamically imported with ssr:false â”€â”€â”€â”€â”€â”€â”€â”€ */
 export function HeroScene3D() {
   /*
    * Skip WebGL entirely on touch devices.
    * On mobile: no WebGL context, no GPU draw calls, no animation loops.
-   * The hero is still visually rich — background images, CinematicBackground
+   * The hero is still visually rich â€” background images, CinematicBackground
    * orbs, FloatingParticles, and the GrainOverlay all remain.
    */
   if (IS_TOUCH_DEVICE) return null
@@ -299,7 +299,7 @@ export function HeroScene3D() {
         alpha:           true,
         powerPreference: "high-performance",
       }}
-      dpr={[1, 1]}   /* was [1, 1.5] — dpr 1.5 = 2.25× pixel work for negligible quality gain */
+      dpr={[1, 1]}   /* was [1, 1.5] â€” dpr 1.5 = 2.25Ã— pixel work for negligible quality gain */
       style={{ pointerEvents: "none" }}
       aria-hidden="true"
     >
@@ -307,3 +307,4 @@ export function HeroScene3D() {
     </Canvas>
   )
 }
+

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * src/lib/presets/repository.ts
  *
  * Data access layer for presets.
@@ -15,7 +15,7 @@ import type { PresetWithRelations, CategoryRow } from "@/types/database"
 import { adaptPreset, adaptPresets }       from "./adapter"
 import { ALL_PRESETS, FEATURED_PRESETS }   from "@/data/presets"
 
-/* ── Supabase availability check ────────────────────────── */
+/* â”€â”€ Supabase availability check â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function isSupabaseConfigured(): boolean {
   return Boolean(
@@ -25,7 +25,7 @@ function isSupabaseConfigured(): boolean {
   )
 }
 
-/* ── Supabase select fragment ───────────────────────────── */
+/* â”€â”€ Supabase select fragment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 const PRESET_SELECT = `
   *,
@@ -33,7 +33,7 @@ const PRESET_SELECT = `
   images:preset_images(id, url, alt_text, order_index)
 ` as const
 
-/* ── Query options ──────────────────────────────────────── */
+/* â”€â”€ Query options â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export interface PresetQueryOptions {
   category?:  PresetCategory | "All" | "Free"
@@ -46,7 +46,7 @@ export interface PresetQueryOptions {
   ascending?: boolean
 }
 
-/* ── getPresets ─────────────────────────────────────────── */
+/* â”€â”€ getPresets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /**
  * Fetch presets with optional filters.
@@ -70,7 +70,7 @@ export async function getPresets(opts: PresetQueryOptions = {}): Promise<Preset[
     if (opts.category === "Free") {
       query = query.eq("is_free", true)
     } else if (opts.category && opts.category !== "All") {
-      // Resolve category name → id; filter by category_id (reliable across join aliases)
+      // Resolve category name â†’ id; filter by category_id (reliable across join aliases)
       const { data: cat } = await supabase
         .from("categories")
         .select("id")
@@ -107,7 +107,7 @@ export async function getPresets(opts: PresetQueryOptions = {}): Promise<Preset[
     const { data, error } = await query
 
     if (error) {
-      // Detect "table not yet migrated" — only log real unexpected errors
+      // Detect "table not yet migrated" â€” only log real unexpected errors
       const isTableMissing =
         error.message.includes("schema cache") ||
         error.message.includes("does not exist")
@@ -120,7 +120,7 @@ export async function getPresets(opts: PresetQueryOptions = {}): Promise<Preset[
     return adaptPresets((data ?? []) as unknown as PresetWithRelations[])
   } catch (err) {
     // "Dynamic server usage" = Next.js static pre-render attempted to call
-    // cookies() which isn't available at build time. Expected — fall back silently.
+    // cookies() which isn't available at build time. Expected â€” fall back silently.
     const msg = err instanceof Error ? err.message : String(err)
     const isBuildTimeError = msg.includes("Dynamic server usage") || msg.includes("cookies")
     if (!isBuildTimeError) {
@@ -130,7 +130,7 @@ export async function getPresets(opts: PresetQueryOptions = {}): Promise<Preset[
   }
 }
 
-/* ── getPresetBySlug ────────────────────────────────────── */
+/* â”€â”€ getPresetBySlug â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function getPresetBySlug(slug: string): Promise<Preset | null> {
   if (!isSupabaseConfigured()) {
@@ -156,7 +156,7 @@ export async function getPresetBySlug(slug: string): Promise<Preset | null> {
   }
 }
 
-/* ── getFeaturedPresets ─────────────────────────────────── */
+/* â”€â”€ getFeaturedPresets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function getFeaturedPresets(limit = 6): Promise<Preset[]> {
   if (!isSupabaseConfigured()) {
@@ -165,7 +165,7 @@ export async function getFeaturedPresets(limit = 6): Promise<Preset[]> {
   return getPresets({ featured: true, limit, orderBy: "order_index" })
 }
 
-/* ── getRelatedPresets ──────────────────────────────────── */
+/* â”€â”€ getRelatedPresets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function getRelatedPresets(
   category: PresetCategory,
@@ -187,7 +187,7 @@ export async function getRelatedPresets(
     const { createServerSupabaseClient } = await import("@/lib/supabase/server")
     const supabase = await createServerSupabaseClient()
 
-    // Resolve category name → id so we can filter by category_id
+    // Resolve category name â†’ id so we can filter by category_id
     const { data: cat } = await supabase
       .from("categories")
       .select("id")
@@ -213,18 +213,18 @@ export async function getRelatedPresets(
   }
 }
 
-/* ── getCategories ──────────────────────────────────────── */
+/* â”€â”€ getCategories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function getCategories(): Promise<CategoryRow[]> {
   if (!isSupabaseConfigured()) {
     // Return static category list
     return [
-      { id: "1", name: "Bundle",         slug: "bundle",         description: null, icon: "📦", color: "#C9A84C", order_index: 1, created_at: "" },
-      { id: "2", name: "Cinematic",      slug: "cinematic",      description: null, icon: "🎬", color: "#f59e0b", order_index: 2, created_at: "" },
-      { id: "3", name: "Film Emulation", slug: "film-emulation", description: null, icon: "🎞️", color: "#d97706", order_index: 3, created_at: "" },
-      { id: "4", name: "Portrait",       slug: "portrait",       description: null, icon: "🪞", color: "#ec4899", order_index: 4, created_at: "" },
-      { id: "5", name: "Landscape",      slug: "landscape",      description: null, icon: "🏔️", color: "#10b981", order_index: 5, created_at: "" },
-      { id: "6", name: "Street",         slug: "street",         description: null, icon: "🏙️", color: "#6366f1", order_index: 6, created_at: "" },
+      { id: "1", name: "Bundle",         slug: "bundle",         description: null, icon: "ðŸ“¦", color: "#FFD60A", order_index: 1, created_at: "" },
+      { id: "2", name: "Cinematic",      slug: "cinematic",      description: null, icon: "ðŸŽ¬", color: "#f59e0b", order_index: 2, created_at: "" },
+      { id: "3", name: "Film Emulation", slug: "film-emulation", description: null, icon: "ðŸŽžï¸", color: "#d97706", order_index: 3, created_at: "" },
+      { id: "4", name: "Portrait",       slug: "portrait",       description: null, icon: "ðŸªž", color: "#ec4899", order_index: 4, created_at: "" },
+      { id: "5", name: "Landscape",      slug: "landscape",      description: null, icon: "ðŸ”ï¸", color: "#10b981", order_index: 5, created_at: "" },
+      { id: "6", name: "Street",         slug: "street",         description: null, icon: "ðŸ™ï¸", color: "#6366f1", order_index: 6, created_at: "" },
     ]
   }
 
@@ -243,7 +243,7 @@ export async function getCategories(): Promise<CategoryRow[]> {
   }
 }
 
-/* ── getPresetStats ─────────────────────────────────────── */
+/* â”€â”€ getPresetStats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export interface PresetStats {
   totalPresets:    number
@@ -284,7 +284,7 @@ export async function getPresetStats(): Promise<PresetStats> {
   }
 }
 
-/* ── Static data fallback filter ─────────────────────────── */
+/* â”€â”€ Static data fallback filter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function filterStaticPresets(presets: Preset[], opts: PresetQueryOptions): Preset[] {
   let list = [...presets]
@@ -315,7 +315,7 @@ function filterStaticPresets(presets: Preset[], opts: PresetQueryOptions): Prese
   return list
 }
 
-/* ── Slug generation helper ──────────────────────────────── */
+/* â”€â”€ Slug generation helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function generateUniqueSlug(baseSlug: string): Promise<string> {
   if (!isSupabaseConfigured()) return baseSlug
@@ -340,3 +340,4 @@ export async function generateUniqueSlug(baseSlug: string): Promise<string> {
 
   return `${baseSlug}-${Date.now()}`
 }
+

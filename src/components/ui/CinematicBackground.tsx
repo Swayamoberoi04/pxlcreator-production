@@ -1,4 +1,4 @@
-/**
+﻿/**
  * src/components/ui/CinematicBackground.tsx
  *
  * Reusable atmospheric background layer engine.
@@ -24,7 +24,7 @@
 
 import { cn } from "@/lib/utils"
 
-/* ── Types ─────────────────────────────────────────────────── */
+/* â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export type CinematicVariant =
   | "hero"
@@ -52,15 +52,15 @@ interface VariantConfig {
   centerPulse?:    { color: string; size: string; duration: string }
 }
 
-/* ── Variant presets ────────────────────────────────────────── */
+/* â”€â”€ Variant presets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
 
-  /* ── Hero — warm gold / amber atmosphere ── */
+  /* â”€â”€ Hero â€” warm gold / amber atmosphere â”€â”€ */
   hero: {
     spotlight: true,
-    spotlightColor: "rgba(201,168,76,0.06)",
-    centerPulse: { color: "rgba(201,168,76,0.08)", size: "800px", duration: "7s" },
+    spotlightColor: "rgba(255,214,10,0.06)",
+    centerPulse: { color: "rgba(255,214,10,0.08)", size: "800px", duration: "7s" },
     orbs: [
       {
         color:    "rgba(255,185,20,0.18)",
@@ -83,13 +83,13 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     ],
   },
 
-  /* ── Manifesto / Distinction — warm gold identity ── */
+  /* â”€â”€ Manifesto / Distinction â€” warm gold identity â”€â”€ */
   manifesto: {
     spotlight: false,
-    centerPulse: { color: "rgba(201,168,76,0.07)", size: "900px", duration: "10s" },
+    centerPulse: { color: "rgba(255,214,10,0.07)", size: "900px", duration: "10s" },
     orbs: [
       {
-        color:    "rgba(201,168,76,0.09)",
+        color:    "rgba(255,214,10,0.09)",
         size:     "700px",
         x: "50%", y: "50%",
         duration: "22s", delay: "0s",
@@ -109,7 +109,7 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     ],
   },
 
-  /* ── AI Studio — indigo/violet + gold (AI + creativity) ── */
+  /* â”€â”€ AI Studio â€” indigo/violet + gold (AI + creativity) â”€â”€ */
   "ai-studio": {
     spotlight: false,
     orbs: [
@@ -120,7 +120,7 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
         duration: "20s", delay: "0s",
       },
       {
-        color:    "rgba(201,168,76,0.09)",
+        color:    "rgba(255,214,10,0.09)",
         size:     "420px",
         x: "15%", y: "72%",
         duration: "18s", delay: "-6s",
@@ -140,12 +140,12 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     ],
   },
 
-  /* ── Mission / Why — deep cinematic, understated gold haze ── */
+  /* â”€â”€ Mission / Why â€” deep cinematic, understated gold haze â”€â”€ */
   mission: {
     spotlight: false,
     orbs: [
       {
-        color:    "rgba(201,168,76,0.055)",
+        color:    "rgba(255,214,10,0.055)",
         size:     "900px",
         x: "50%", y: "110%",
         duration: "28s", delay: "0s",
@@ -165,13 +165,13 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     ],
   },
 
-  /* ── Dark — single low-opacity pulse (vision/closing beat) ── */
+  /* â”€â”€ Dark â€” single low-opacity pulse (vision/closing beat) â”€â”€ */
   dark: {
     spotlight: false,
-    centerPulse: { color: "rgba(201,168,76,0.06)", size: "1000px", duration: "12s" },
+    centerPulse: { color: "rgba(255,214,10,0.06)", size: "1000px", duration: "12s" },
     orbs: [
       {
-        color:    "rgba(201,168,76,0.05)",
+        color:    "rgba(255,214,10,0.05)",
         size:     "700px",
         x: "50%", y: "90%",
         duration: "30s", delay: "0s",
@@ -179,12 +179,12 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
     ],
   },
 
-  /* ── Default — minimal safe fallback ── */
+  /* â”€â”€ Default â€” minimal safe fallback â”€â”€ */
   default: {
     spotlight: false,
     orbs: [
       {
-        color:    "rgba(201,168,76,0.06)",
+        color:    "rgba(255,214,10,0.06)",
         size:     "500px",
         x: "50%", y: "50%",
         duration: "20s", delay: "0s",
@@ -193,7 +193,7 @@ const VARIANT_CONFIG: Record<CinematicVariant, VariantConfig> = {
   },
 }
 
-/* ── Component ──────────────────────────────────────────────── */
+/* â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 interface CinematicBackgroundProps {
   variant?:  CinematicVariant
@@ -216,7 +216,7 @@ export function CinematicBackground({
       style={{ zIndex: 0 }}
     >
 
-      {/* ── Floating blur orbs ── */}
+      {/* â”€â”€ Floating blur orbs â”€â”€ */}
       {cfg.orbs.map((orb, i) => (
         <div
           key={i}
@@ -236,14 +236,14 @@ export function CinematicBackground({
              * CSS keyframe animations are already compositor-promoted by the
              * browser automatically when they only touch transform/opacity.
              * Explicit will-change on every orb forces a dedicated GPU layer
-             * per-orb even when they're nearly invisible — GPU memory waste.
+             * per-orb even when they're nearly invisible â€” GPU memory waste.
              */
             filter:          orb.blur ? `blur(${orb.blur})` : undefined,
           }}
         />
       ))}
 
-      {/* ── Central breathing glow pulse ── */}
+      {/* â”€â”€ Central breathing glow pulse â”€â”€ */}
       {cfg.centerPulse && (
         <div
           className="absolute rounded-full anim-pulse"
@@ -256,12 +256,12 @@ export function CinematicBackground({
             "--pulse-min": "0.4",
             "--pulse-max": "1.0",
             animation:       `glow-pulse ${cfg.centerPulse.duration} ease-in-out infinite`,
-            /* No will-change — browser auto-promotes opacity/transform keyframes */
+            /* No will-change â€” browser auto-promotes opacity/transform keyframes */
           } as React.CSSProperties}
         />
       )}
 
-      {/* ── Cinematic spotlight sweep ── */}
+      {/* â”€â”€ Cinematic spotlight sweep â”€â”€ */}
       {cfg.spotlight && cfg.spotlightColor && (
         <div
           className="absolute inset-y-0 anim-spotlight"
@@ -278,3 +278,4 @@ export function CinematicBackground({
     </div>
   )
 }
+

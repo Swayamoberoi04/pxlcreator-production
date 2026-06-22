@@ -1,7 +1,7 @@
-/**
+﻿/**
  * src/app/bundles/page.tsx
  *
- * /bundles — Premium bundles store page.
+ * /bundles â€” Premium bundles store page.
  *
  * Server component: fetches all published bundles server-side.
  * BundleGrid (client) handles currency display and cart integration.
@@ -16,20 +16,20 @@ import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* ── SEO ────────────────────────────────────────────────── */
+/* â”€â”€ SEO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export const metadata: Metadata = {
-  title:       "Creator Bundles — PXL Creator",
-  description: "Premium Lightroom preset bundles — save 60–68% vs buying individual packs. Cinematic, film, portrait, landscape and street looks — curated collections for every creator.",
+  title:       "Creator Bundles â€” PXL Creator",
+  description: "Premium Lightroom preset bundles â€” save 60â€“68% vs buying individual packs. Cinematic, film, portrait, landscape and street looks â€” curated collections for every creator.",
   openGraph: {
-    title:       "Creator Bundles — PXL Creator",
-    description: "Curated preset collections — save up to 68% vs individual packs. 7 bundles. 110+ presets. One download.",
+    title:       "Creator Bundles â€” PXL Creator",
+    description: "Curated preset collections â€” save up to 68% vs individual packs. 7 bundles. 110+ presets. One download.",
     type:        "website",
     url:         "/bundles",
   },
 }
 
-/* ── Page ───────────────────────────────────────────────── */
+/* â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export default async function BundlesPage() {
   const bundles = await getBundles()
@@ -41,7 +41,7 @@ export default async function BundlesPage() {
   return (
     <main className="min-h-screen bg-background">
 
-      {/* ── Hero header ─────────────────────────────── */}
+      {/* â”€â”€ Hero header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative overflow-hidden border-b border-border depth-section">
         {/* Living luminous atmosphere */}
         <LuminousEnvironment variant="gold" intensity={1.0} />
@@ -70,7 +70,7 @@ export default async function BundlesPage() {
               <br className="sm:hidden" />
               <span
                 style={{
-                  background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -85,7 +85,7 @@ export default async function BundlesPage() {
           <CinematicReveal variant="rise" delay={0.13}>
             <p className="text-[1rem] sm:text-[1.0625rem] text-muted/55 leading-relaxed max-w-xl mx-auto mb-10">
               {bundles.length} hand-curated bundles. {totalPresets}+ presets total.
-              Each collection saves you 60–68% vs buying individual packs.
+              Each collection saves you 60â€“68% vs buying individual packs.
             </p>
           </CinematicReveal>
 
@@ -95,7 +95,7 @@ export default async function BundlesPage() {
               { value: `${bundles.length}`, label: "Bundles" },
               { value: `${totalPresets}+`,  label: "Total Presets" },
               { value: "68%",               label: "Max Savings" },
-              { value: "∞",                label: "Lifetime Access" },
+              { value: "âˆž",                label: "Lifetime Access" },
             ].map(({ value, label }) => (
               <CinematicItem key={label} variant="rise">
                 <div>
@@ -110,7 +110,7 @@ export default async function BundlesPage() {
         </div>
       </section>
 
-      {/* ── Bundle grid ─────────────────────────────── */}
+      {/* â”€â”€ Bundle grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative py-14 px-4">
         <LuminousEnvironment variant="gold" intensity={0.4} />
         <div className="relative z-10 mx-auto max-w-7xl">
@@ -135,12 +135,12 @@ export default async function BundlesPage() {
         </div>
       </section>
 
-      {/* ── Bottom CTA strip ────────────────────────── */}
+      {/* â”€â”€ Bottom CTA strip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative py-16 px-4 border-t border-border">
         <LuminousEnvironment variant="gold" intensity={0.3} />
         <div className="relative z-10 mx-auto max-w-2xl text-center">
           <CinematicReveal variant="depth">
-            <div className="rounded-2xl border border-gold/15 bg-surface/60 backdrop-blur-sm px-8 py-10 shadow-[0_0_60px_rgba(201,168,76,0.05)]">
+            <div className="rounded-2xl border border-gold/15 bg-surface/60 backdrop-blur-sm px-8 py-10 shadow-[0_0_60px_rgba(255,214,10,0.05)]">
               <p className="text-[0.8rem] font-bold tracking-widest uppercase text-gold/55 mb-3">
                 Need individual presets instead?
               </p>
@@ -168,3 +168,4 @@ export default async function BundlesPage() {
     </main>
   )
 }
+

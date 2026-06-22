@@ -1,7 +1,7 @@
-/**
+﻿/**
  * src/components/sections/GiveawayBanner.tsx
  *
- * Homepage giveaway CTA strip — sits between PhilosophyStrip and CTABanner.
+ * Homepage giveaway CTA strip â€” sits between PhilosophyStrip and CTABanner.
  * Compact, gold-accented, drives traffic to /giveaway.
  */
 
@@ -43,7 +43,7 @@ export function GiveawayBanner() {
               Win a{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -51,7 +51,7 @@ export function GiveawayBanner() {
               >
                 $256 creator bundle
               </span>
-              {" "}— free.
+              {" "}â€” free.
             </h2>
 
             <p className="text-[0.9375rem] text-muted/70 max-w-md leading-relaxed">
@@ -67,10 +67,10 @@ export function GiveawayBanner() {
               className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap"
             >
               Enter the Giveaway
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">â†’</span>
             </Link>
             <p className="text-[0.78rem] text-muted/40">
-              No purchase necessary · Closes June 27
+              No purchase necessary Â· Closes June 27
             </p>
           </div>
 
@@ -85,3 +85,4 @@ export function GiveawayBanner() {
     </section>
   )
 }
+

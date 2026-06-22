@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 /**
  * ReviewForm
@@ -66,7 +66,7 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
       <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] px-5 py-4">
         <p className="text-[0.875rem] font-semibold text-emerald-400">Review submitted</p>
         <p className="text-[0.8125rem] text-muted/60 mt-1">
-          Thanks — it will appear here after moderation.
+          Thanks â€” it will appear here after moderation.
         </p>
       </div>
     )
@@ -135,7 +135,7 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
         disabled={submitting || !rating}
         className="self-start rounded-xl bg-gold px-5 py-2.5 text-[0.8125rem] font-semibold text-background transition-all hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {submitting ? "Submitting…" : "Submit Review"}
+        {submitting ? "Submittingâ€¦" : "Submit Review"}
       </button>
     </form>
   )
@@ -144,8 +144,8 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
 function StarIcon({ filled }: { filled: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"
-      fill={filled ? "#C9A84C" : "none"}
-      stroke={filled ? "#C9A84C" : "currentColor"}
+      fill={filled ? "#FFD60A" : "none"}
+      stroke={filled ? "#FFD60A" : "currentColor"}
       strokeWidth="1.5"
       className={filled ? "" : "text-muted/30"}
     >
@@ -153,3 +153,4 @@ function StarIcon({ filled }: { filled: boolean }) {
     </svg>
   )
 }
+

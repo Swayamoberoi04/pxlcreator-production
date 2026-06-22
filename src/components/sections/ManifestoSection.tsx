@@ -1,21 +1,21 @@
-"use client"
+﻿"use client"
 
 /**
- * ManifestoSection.tsx — The PXL Distinction
+ * ManifestoSection.tsx â€” The PXL Distinction
  *
  * Premium scroll-linked animation system (Apple / Porsche aesthetic):
  *
- *   • useScroll() + useTransform() — zero React re-renders on scroll.
+ *   â€¢ useScroll() + useTransform() â€” zero React re-renders on scroll.
  *     All animation runs in Framer Motion's internal RAF loop.
- *   • Per-row ContrastRow sub-components each own their useTransform calls.
- *   • Left (wrong) side: slides in from left at low opacity — visually "faded".
- *   • Right (bold) side: slides in from right, full opacity — feels definitive.
- *   • Divider line scales in left → right as the row reveals.
- *   • Headline reveals last with scale + opacity.
- *   • All transforms use: opacity, x, y, scale only — compositor path, 60fps.
- *   • Respects prefers-reduced-motion: static fallback, no motion values.
+ *   â€¢ Per-row ContrastRow sub-components each own their useTransform calls.
+ *   â€¢ Left (wrong) side: slides in from left at low opacity â€” visually "faded".
+ *   â€¢ Right (bold) side: slides in from right, full opacity â€” feels definitive.
+ *   â€¢ Divider line scales in left â†’ right as the row reveals.
+ *   â€¢ Headline reveals last with scale + opacity.
+ *   â€¢ All transforms use: opacity, x, y, scale only â€” compositor path, 60fps.
+ *   â€¢ Respects prefers-reduced-motion: static fallback, no motion values.
  *
- * Scroll range: "start end" (section just entering viewport bottom) →
+ * Scroll range: "start end" (section just entering viewport bottom) â†’
  *               "end start" (section just exiting viewport top).
  * Row stagger: each row starts 0.08 progress units after the previous.
  */
@@ -39,7 +39,7 @@ const AmbientOrbs = dynamic(
   { ssr: false }
 )
 
-/* ── Content ─────────────────────────────────────────────────── */
+/* â”€â”€ Content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const CONTRASTS = [
   { faded: "A filter",  bold: "A signature."  },
   { faded: "Editing",   bold: "Expression."   },
@@ -48,19 +48,19 @@ const CONTRASTS = [
 
 type ContrastItem = typeof CONTRASTS[number]
 
-/* ── Gradient text style (shared between static + motion paths) ── */
+/* â”€â”€ Gradient text style (shared between static + motion paths) â”€â”€ */
 const GRADIENT_STYLE: React.CSSProperties = {
-  background:           "linear-gradient(135deg, #ffffff 0%, #C9A84C 45%, #A8893A 100%)",
+  background:           "linear-gradient(135deg, #ffffff 0%, #FFD60A 45%, #E0A800 100%)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor:  "transparent",
   backgroundClip:       "text",
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ContrastRow — owns its own scroll-derived motion values.
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ContrastRow â€” owns its own scroll-derived motion values.
    Each instance subscribes to the shared scrollYProgress and
-   derives its own x/opacity/scale — no React re-renders on scroll.
-══════════════════════════════════════════════════════════════════ */
+   derives its own x/opacity/scale â€” no React re-renders on scroll.
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 interface ContrastRowProps {
   item:            ContrastItem
   scrollYProgress: MotionValue<number>
@@ -73,14 +73,14 @@ interface ContrastRowProps {
 function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRowProps) {
   /*
    * Left side (faded / "wrong"):
-   *   - Enters from the left at low opacity — already muted, reinforces "faded" intent.
-   *   - Slides fully in slightly before the right side, creating a L→R reveal sweep.
+   *   - Enters from the left at low opacity â€” already muted, reinforces "faded" intent.
+   *   - Slides fully in slightly before the right side, creating a Lâ†’R reveal sweep.
    */
   const leftX       = useTransform(scrollYProgress, [rangeStart, rangeEnd - 0.02], [-24, 0])
   const leftOpacity = useTransform(scrollYProgress, [rangeStart, rangeEnd - 0.02], [0,   0.28])
 
   /*
-   * Arrow: subtle timing — appears halfway through the row reveal.
+   * Arrow: subtle timing â€” appears halfway through the row reveal.
    */
   const arrowOpacity = useTransform(
     scrollYProgress,
@@ -91,8 +91,8 @@ function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRo
   /*
    * Right side (bold / "right"):
    *   - Starts 1/3 into the row's range so it feels like a response to the left side.
-   *   - Slides from right + scale-up — depth/weight feel.
-   *   - Full opacity — visual emphasis.
+   *   - Slides from right + scale-up â€” depth/weight feel.
+   *   - Full opacity â€” visual emphasis.
    */
   const lag          = (rangeEnd - rangeStart) * 0.30
   const rightX       = useTransform(scrollYProgress, [rangeStart + lag, rangeEnd],  [28, 0]   )
@@ -100,20 +100,20 @@ function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRo
   const rightScale   = useTransform(scrollYProgress, [rangeStart + lag, rangeEnd],  [0.95, 1] )
 
   /*
-   * Divider line: scales in from left — acts as the punctuation of the row reveal.
+   * Divider line: scales in from left â€” acts as the punctuation of the row reveal.
    */
   const lineScale    = useTransform(scrollYProgress, [rangeStart, rangeEnd - 0.01], [0, 1])
 
   return (
     <div className="relative flex items-center justify-between gap-8 py-7">
-      {/* Divider — origin-left scale from 0 → 1 */}
+      {/* Divider â€” origin-left scale from 0 â†’ 1 */}
       <motion.div
         aria-hidden="true"
         className="absolute bottom-0 left-0 right-0 h-px bg-border/40 origin-left"
         style={{ scaleX: lineScale }}
       />
 
-      {/* Left — muted / wrong side */}
+      {/* Left â€” muted / wrong side */}
       <motion.span
         style={{ opacity: leftOpacity, x: leftX }}
         className="text-[1.0625rem] sm:text-[1.25rem] text-muted/30 line-through font-medium leading-none shrink-0"
@@ -127,10 +127,10 @@ function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRo
         className="text-gold/40 text-[0.75rem] shrink-0"
         aria-hidden="true"
       >
-        →
+        â†’
       </motion.span>
 
-      {/* Right — bold / definitive */}
+      {/* Right â€” bold / definitive */}
       <motion.span
         style={{ opacity: rightOpacity, x: rightX, scale: rightScale }}
         className="text-[1.25rem] sm:text-[1.5rem] font-display font-black text-foreground leading-none"
@@ -141,9 +141,9 @@ function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRo
   )
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ManifestoSection
-══════════════════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 export function ManifestoSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const reduced    = useReducedMotion()
@@ -151,8 +151,8 @@ export function ManifestoSection() {
   /*
    * Track scroll progress as the section moves through the viewport.
    * offset: ["start end", "end start"]
-   *   → 0 when section top reaches viewport bottom (entering)
-   *   → 1 when section bottom reaches viewport top (exiting)
+   *   â†’ 0 when section top reaches viewport bottom (entering)
+   *   â†’ 1 when section bottom reaches viewport top (exiting)
    * This covers the full "section in view" window.
    */
   const { scrollYProgress } = useScroll({
@@ -160,20 +160,20 @@ export function ManifestoSection() {
     offset: ["start end", "end start"],
   })
 
-  /* Eyebrow: fires first (0.08 → 0.17) */
+  /* Eyebrow: fires first (0.08 â†’ 0.17) */
   const eyebrowOpacity = useTransform(scrollYProgress, [0.08, 0.17], [0, 1])
   const eyebrowY       = useTransform(scrollYProgress, [0.08, 0.17], [14, 0])
 
-  /* Headline: fires after all rows (0.40 → 0.54) */
+  /* Headline: fires after all rows (0.40 â†’ 0.54) */
   const headlineOpacity = useTransform(scrollYProgress, [0.40, 0.54], [0, 1])
   const headlineY       = useTransform(scrollYProgress, [0.40, 0.54], [32, 0])
   const headlineScale   = useTransform(scrollYProgress, [0.40, 0.54], [0.96, 1])
 
   /*
-   * Row ranges — stagger: each row starts 0.08 progress units after the previous.
-   * Row 0: 0.14 → 0.26  (section ~15% through viewport)
-   * Row 1: 0.22 → 0.34
-   * Row 2: 0.30 → 0.42
+   * Row ranges â€” stagger: each row starts 0.08 progress units after the previous.
+   * Row 0: 0.14 â†’ 0.26  (section ~15% through viewport)
+   * Row 1: 0.22 â†’ 0.34
+   * Row 2: 0.30 â†’ 0.42
    */
   const ROW_RANGES: [number, number][] = [
     [0.14, 0.26],
@@ -187,7 +187,7 @@ export function ManifestoSection() {
       className="relative w-full overflow-hidden border-y border-border bg-surface depth-section"
     >
 
-      {/* ── 3D ambient orbs canvas ── */}
+      {/* â”€â”€ 3D ambient orbs canvas â”€â”€ */}
       <ClientOnly>
         <div aria-hidden="true" className="absolute inset-0 z-[1] pointer-events-none opacity-60">
           <AmbientOrbs />
@@ -206,7 +206,7 @@ export function ManifestoSection() {
       <Container className="relative z-[10] py-24 sm:py-36">
         <div className="flex flex-col items-center text-center gap-14 max-w-3xl mx-auto">
 
-          {/* ── Eyebrow ── */}
+          {/* â”€â”€ Eyebrow â”€â”€ */}
           {reduced ? (
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-gold/50 animate-gold-flicker" aria-hidden="true" />
@@ -224,14 +224,14 @@ export function ManifestoSection() {
             </motion.div>
           )}
 
-          {/* ── 3 contrast rows ── */}
+          {/* â”€â”€ 3 contrast rows â”€â”€ */}
           <div className="flex flex-col gap-0 w-full max-w-xl">
             {reduced
               /* Static layout for reduced-motion users */
               ? CONTRASTS.map(({ faded, bold }) => (
                   <div key={bold} className="flex items-center justify-between gap-8 py-7 border-b border-border/40">
                     <span className="text-[1.0625rem] sm:text-[1.25rem] text-muted/25 line-through font-medium leading-none">{faded}</span>
-                    <span className="text-gold/30 text-[0.75rem] shrink-0" aria-hidden="true">→</span>
+                    <span className="text-gold/30 text-[0.75rem] shrink-0" aria-hidden="true">â†’</span>
                     <span className="text-[1.25rem] sm:text-[1.5rem] font-display font-black text-foreground leading-none">{bold}</span>
                   </div>
                 ))
@@ -248,7 +248,7 @@ export function ManifestoSection() {
             }
           </div>
 
-          {/* ── Power headline ── */}
+          {/* â”€â”€ Power headline â”€â”€ */}
           <motion.h2
             className="font-display font-black leading-[1.05] tracking-tight text-[clamp(2rem,5.5vw,3.5rem)]"
             style={{
@@ -269,3 +269,4 @@ export function ManifestoSection() {
     </section>
   )
 }
+

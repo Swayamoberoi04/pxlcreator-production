@@ -1,7 +1,7 @@
-/**
+﻿/**
  * src/components/store/AnimatedMockCard.tsx
  *
- * Client Component — the AI Studio "before/after" demo card.
+ * Client Component â€” the AI Studio "before/after" demo card.
  * Uses real before/after images (fr_before / fr_after) to show
  * credible visual proof of the AI-powered preset recommendation.
  */
@@ -13,12 +13,12 @@ export function AnimatedMockCard() {
   return (
     <div className="relative">
 
-      {/* ── Outer glow behind card ── */}
+      {/* â”€â”€ Outer glow behind card â”€â”€ */}
       <div
         aria-hidden="true"
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          background:  "radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.10) 0%, rgba(61,122,138,0.08) 50%, transparent 75%)",
+          background:  "radial-gradient(ellipse at 50% 50%, rgba(255,214,10,0.10) 0%, rgba(61,122,138,0.08) 50%, transparent 75%)",
           animation:   "glow-pulse 4s ease-in-out infinite",
           "--pulse-min": "0.6",
           "--pulse-max": "1.0",
@@ -27,7 +27,7 @@ export function AnimatedMockCard() {
         } as React.CSSProperties}
       />
 
-      {/* ── Glowing animated border ring ── */}
+      {/* â”€â”€ Glowing animated border ring â”€â”€ */}
       <div
         aria-hidden="true"
         className="absolute -inset-[1px] rounded-2xl pointer-events-none overflow-hidden"
@@ -36,7 +36,7 @@ export function AnimatedMockCard() {
         <div
           className="absolute inset-0 rounded-2xl"
           style={{
-            background: "conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(201,168,76,0.4) 20%, rgba(61,122,138,0.4) 40%, transparent 60%)",
+            background: "conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(255,214,10,0.4) 20%, rgba(61,122,138,0.4) 40%, transparent 60%)",
             animation:  "spin-slow 6s linear infinite",
             opacity:    0.6,
           }}
@@ -45,10 +45,10 @@ export function AnimatedMockCard() {
         <div className="absolute inset-[1px] rounded-2xl bg-background" />
       </div>
 
-      {/* ── Card ── */}
+      {/* â”€â”€ Card â”€â”€ */}
       <div className="relative rounded-2xl border border-border bg-background/90 backdrop-blur-md overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.65)]" style={{ zIndex: 1 }}>
 
-        {/* Beam scan — sweeps across the entire card */}
+        {/* Beam scan â€” sweeps across the entire card */}
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none overflow-hidden"
@@ -59,7 +59,7 @@ export function AnimatedMockCard() {
             style={{
               left:       "-20%",
               width:      "40%",
-              background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.08) 40%, rgba(201,168,76,0.06) 60%, transparent 100%)",
+              background: "linear-gradient(90deg, transparent 0%, rgba(61,122,138,0.08) 40%, rgba(255,214,10,0.06) 60%, transparent 100%)",
               animation:  "beam-scan 5s ease-in-out infinite",
               animationDelay: "0.8s",
               willChange: "transform",
@@ -67,11 +67,11 @@ export function AnimatedMockCard() {
           />
         </div>
 
-        {/* ── BEFORE panel ── */}
+        {/* â”€â”€ BEFORE panel â”€â”€ */}
         <div className="relative h-44 overflow-hidden bg-[#1a1815]">
           <Image
             src="/assets/fr_before.webp"
-            alt="Before — Film Rich preset"
+            alt="Before â€” Film Rich preset"
             fill
             sizes="420px"
             className="object-cover object-center opacity-90"
@@ -84,7 +84,7 @@ export function AnimatedMockCard() {
           </div>
         </div>
 
-        {/* ── Divider with AI badge ── */}
+        {/* â”€â”€ Divider with AI badge â”€â”€ */}
         <div className="relative h-8 flex items-center justify-between px-4 bg-surface border-y border-border overflow-hidden">
           {/* Subtle scan line on divider */}
           <div
@@ -125,16 +125,16 @@ export function AnimatedMockCard() {
           </div>
         </div>
 
-        {/* ── AFTER panel ── */}
+        {/* â”€â”€ AFTER panel â”€â”€ */}
         <div className="relative h-44 overflow-hidden bg-[#1a100a]">
           <Image
             src="/assets/fr_after.webp"
-            alt="After — Film Rich preset applied"
+            alt="After â€” Film Rich preset applied"
             fill
             sizes="420px"
             className="object-cover object-center"
           />
-          {/* Cinematic warmth overlay — lifts the graded feel */}
+          {/* Cinematic warmth overlay â€” lifts the graded feel */}
           <div
             className="absolute inset-0"
             style={{
@@ -180,7 +180,7 @@ export function AnimatedMockCard() {
           className="text-gold text-[0.75rem]"
           style={{ animation: "glow-pulse 2.5s ease-in-out infinite", "--pulse-min": "0.6", "--pulse-max": "1.0" } as React.CSSProperties}
         >
-          ✦
+          âœ¦
         </span>
         <span className="text-[0.72rem] font-semibold text-foreground/80">GPT-4o Vision</span>
       </div>
@@ -199,3 +199,4 @@ export function AnimatedMockCard() {
     </div>
   )
 }
+

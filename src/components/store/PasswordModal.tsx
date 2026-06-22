@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useRef, useEffect } from "react"
 import { cn }                           from "@/lib/utils"
@@ -77,7 +77,7 @@ export function PasswordModal({
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div className="relative w-full max-w-md rounded-2xl border border-border/60 bg-background/95 shadow-[0_0_80px_rgba(201,168,76,0.08)] backdrop-blur-md p-6 flex flex-col gap-5">
+      <div className="relative w-full max-w-md rounded-2xl border border-border/60 bg-background/95 shadow-[0_0_80px_rgba(255,214,10,0.08)] backdrop-blur-md p-6 flex flex-col gap-5">
 
         {/* Close */}
         <button
@@ -127,7 +127,7 @@ export function PasswordModal({
               type="text"
               value={password}
               onChange={(e) => { setPassword(e.target.value); setError(null) }}
-              placeholder="Enter password from video…"
+              placeholder="Enter password from videoâ€¦"
               autoComplete="off"
               spellCheck={false}
               className={cn(
@@ -159,7 +159,7 @@ export function PasswordModal({
             )}
           >
             {loading && <SpinnerIcon />}
-            {loading ? "Checking password…" : "Unlock Preset"}
+            {loading ? "Checking passwordâ€¦" : "Unlock Preset"}
           </button>
         </form>
 
@@ -171,7 +171,7 @@ export function PasswordModal({
   )
 }
 
-/* ── Icons ── */
+/* â”€â”€ Icons â”€â”€ */
 function CloseIcon() {
   return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 }
@@ -184,3 +184,4 @@ function ErrorIcon() {
 function SpinnerIcon() {
   return <div className="h-4 w-4 rounded-full border-2 border-background/30 border-t-background animate-spin" aria-hidden="true" />
 }
+

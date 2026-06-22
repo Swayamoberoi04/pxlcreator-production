@@ -1,20 +1,20 @@
-"use client"
+﻿"use client"
 
 /**
  * src/app/premium/page.tsx
  *
- * Full client component — handles:
- *   • Billing cycle toggle (monthly ↔ yearly)
- *   • Auth gate (redirect to login if not signed in)
- *   • Razorpay subscription payment flow
- *   • Already-subscribed state detection
- *   • Loading / processing / verifying states
+ * Full client component â€” handles:
+ *   â€¢ Billing cycle toggle (monthly â†” yearly)
+ *   â€¢ Auth gate (redirect to login if not signed in)
+ *   â€¢ Razorpay subscription payment flow
+ *   â€¢ Already-subscribed state detection
+ *   â€¢ Loading / processing / verifying states
  *
  * Payment flow:
  *   1. Click plan CTA
- *   2. POST /api/subscriptions/create-order → get Razorpay order
+ *   2. POST /api/subscriptions/create-order â†’ get Razorpay order
  *   3. Open Razorpay modal
- *   4. On success → POST /api/subscriptions/verify-payment
+ *   4. On success â†’ POST /api/subscriptions/verify-payment
  *   5. Redirect to /premium/success
  */
 
@@ -33,7 +33,7 @@ import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* ── Razorpay type declarations ── */
+/* â”€â”€ Razorpay type declarations â”€â”€ */
 declare global {
   interface Window {
     Razorpay: new (opts: RazorpayOptions) => RazorpayInstance
@@ -48,28 +48,28 @@ interface RazorpayOptions {
 }
 interface RazorpayInstance { open(): void }
 
-/* ── Subscription status shape ── */
+/* â”€â”€ Subscription status shape â”€â”€ */
 interface SubStatus {
   plan_id:            string | null
   current_period_end: string | null
 }
 
-/* ── Free plan row ── */
+/* â”€â”€ Free plan row â”€â”€ */
 const FREE_FEATURES = [
   { label: "Browse all preset packs",          included: true  },
   { label: "Read all blog articles",            included: true  },
   { label: "Purchase individual presets",       included: true  },
   { label: "Access free course previews",       included: true  },
-  { label: "All preset packs — unlimited",      included: false },
+  { label: "All preset packs â€” unlimited",      included: false },
   { label: "Full course library",               included: false },
   { label: "Early access to new drops",         included: false },
   { label: "Monthly 1:1 feedback session",      included: false },
   { label: "Custom preset requests",            included: false },
 ]
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Page
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function PremiumPage() {
   const { user, loading: authLoading } = useAuth()
   const router = useRouter()
@@ -83,7 +83,7 @@ export default function PremiumPage() {
   const [subStatus,    setSubStatus]    = useState<SubStatus | null>(null)
   const [statusLoaded, setStatusLoaded] = useState(false)
 
-  /* Fetch current subscription status — requires Firebase ID token in header */
+  /* Fetch current subscription status â€” requires Firebase ID token in header */
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!user) { setStatusLoaded(true); return }
@@ -111,7 +111,7 @@ export default function PremiumPage() {
     return () => { cancelled = true }
   }, [user])
 
-  /* ── Payment handler ── */
+  /* â”€â”€ Payment handler â”€â”€ */
   const handlePlanClick = useCallback(async (plan: Plan) => {
     setApiError(null)
 
@@ -162,9 +162,9 @@ export default function PremiumPage() {
         currency:    "INR",
         order_id:    razorpay_order_id,
         name:        "PXL Creator",
-        description: `${plan.name} — ${cycle === "yearly" ? "Annual" : "Monthly"} Plan`,
+        description: `${plan.name} â€” ${cycle === "yearly" ? "Annual" : "Monthly"} Plan`,
         prefill:     { email: user.email ?? "", name: user.displayName ?? "" },
-        theme:       { color: "#C9A84C" },
+        theme:       { color: "#FFD60A" },
 
         handler: async (response) => {
           /* Step C: Verify payment on our server */
@@ -213,22 +213,22 @@ export default function PremiumPage() {
     }
   }, [user, cycle, activePlanId, router])
 
-  /* ── Processing overlay ── */
+  /* â”€â”€ Processing overlay â”€â”€ */
   if (verifying) {
     return (
       <div className="w-full bg-background min-h-[70vh] flex items-center justify-center">
         <div className="flex flex-col items-center gap-5 text-center px-6">
           <div className="h-12 w-12 rounded-full border-2 border-gold/30 border-t-gold animate-spin" />
-          <p className="font-semibold text-foreground text-lg">Activating your plan…</p>
+          <p className="font-semibold text-foreground text-lg">Activating your planâ€¦</p>
           <p className="text-small text-muted">Please don&apos;t close this tab.</p>
         </div>
       </div>
     )
   }
 
-  /* ─────────────────────────────────────────
+  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
      Main layout
-  ───────────────────────────────────────── */
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   return (
     <div className="w-full bg-background">
 
@@ -239,9 +239,9 @@ export default function PremiumPage() {
         strategy="afterInteractive"
       />
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           HERO
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <section className="relative w-full overflow-hidden border-b border-border depth-section">
         {/* Living luminous atmosphere */}
         <LuminousEnvironment variant="gold" intensity={1.1} />
@@ -265,7 +265,7 @@ export default function PremiumPage() {
                 One Membership.{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
+                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -287,7 +287,7 @@ export default function PremiumPage() {
               <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
                 <a
                   href="#plans"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_40px_rgba(201,168,76,0.22)]"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_40px_rgba(255,214,10,0.22)]"
                 >
                   View Plans
                 </a>
@@ -315,9 +315,9 @@ export default function PremiumPage() {
         </Container>
       </section>
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           PERKS GRID
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <section className="relative w-full border-b border-border py-16 sm:py-20">
         <LuminousEnvironment variant="gold" intensity={0.5} />
         <Container className="relative z-10">
@@ -339,9 +339,9 @@ export default function PremiumPage() {
         </Container>
       </section>
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           PRICING
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <section id="plans" className="w-full py-20 sm:py-28 scroll-mt-16">
         <Container>
 
@@ -369,7 +369,7 @@ export default function PremiumPage() {
                   className={cn(
                     "relative px-5 py-2 rounded-full text-[0.8125rem] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     cycle === c
-                      ? "bg-gold text-background shadow-[0_0_16px_rgba(201,168,76,0.25)]"
+                      ? "bg-gold text-background shadow-[0_0_16px_rgba(255,214,10,0.25)]"
                       : "text-muted hover:text-foreground"
                   )}
                 >
@@ -411,9 +411,9 @@ export default function PremiumPage() {
                     {new Date(subStatus.current_period_end).toLocaleDateString("en-US", {
                       month: "long", day: "numeric", year: "numeric",
                     })}
-                    {" · "}
+                    {" Â· "}
                     <Link href="/account/billing" className="text-gold hover:underline underline-offset-4">
-                      Manage billing →
+                      Manage billing â†’
                     </Link>
                   </p>
                 )}
@@ -421,7 +421,7 @@ export default function PremiumPage() {
             </div>
           )}
 
-          {/* Plans grid — staggered entrance */}
+          {/* Plans grid â€” staggered entrance */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto items-stretch"
             initial="hidden"
@@ -432,7 +432,7 @@ export default function PremiumPage() {
               visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
             }}
           >
-            {/* ── Free card ── */}
+            {/* â”€â”€ Free card â”€â”€ */}
             <motion.div
               variants={{
                 hidden:  { opacity: 0, y: 28 },
@@ -442,7 +442,7 @@ export default function PremiumPage() {
               <FreePlanCard />
             </motion.div>
 
-            {/* ── Paid plans ── */}
+            {/* â”€â”€ Paid plans â”€â”€ */}
             {PLAN_LIST.map((plan) => (
               <motion.div
                 key={plan.id}
@@ -468,21 +468,21 @@ export default function PremiumPage() {
           {/* Comparison note */}
           {cycle === "yearly" && (
             <p className="text-center text-[0.8125rem] text-muted/50 mt-8">
-              Annual plan — charged as a single payment · Access for 365 days
+              Annual plan â€” charged as a single payment Â· Access for 365 days
             </p>
           )}
 
         </Container>
       </section>
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           COMPARISON TABLE
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <FeatureComparisonTable />
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           FAQ
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <section className="w-full border-t border-border py-20 sm:py-24">
         <Container size="narrow">
           <div className="flex flex-col items-center text-center gap-4 mb-10">
@@ -504,9 +504,9 @@ export default function PremiumPage() {
         </Container>
       </section>
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           FINAL CTA
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <section className="relative w-full overflow-hidden py-20 sm:py-28 border-t border-border depth-section">
         <LuminousEnvironment variant="gold" intensity={1.0} />
         <CinematicBackground variant="dark" />
@@ -519,7 +519,7 @@ export default function PremiumPage() {
                 Start Creating at a{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #C9A84C 0%, #A8893A 100%)",
+                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -529,17 +529,17 @@ export default function PremiumPage() {
                 </span>
               </h2>
               <p className="text-[1rem] text-muted/65 leading-relaxed">
-                Upgrade your editing workflow with PXL Premium — every preset,
+                Upgrade your editing workflow with PXL Premium â€” every preset,
                 every course, in one plan.
               </p>
               <a
                 href="#plans"
-                className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_48px_rgba(201,168,76,0.28)]"
+                className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_48px_rgba(255,214,10,0.28)]"
               >
                 Get Premium Access
               </a>
               <p className="text-[0.8125rem] text-muted/50">
-                30-day money-back guarantee · Cancel anytime · Instant access
+                30-day money-back guarantee Â· Cancel anytime Â· Instant access
               </p>
             </div>
           </CinematicReveal>
@@ -550,9 +550,9 @@ export default function PremiumPage() {
   )
 }
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Free plan card
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function FreePlanCard() {
   return (
     <div className="flex flex-col rounded-2xl border border-border bg-surface overflow-hidden">
@@ -593,9 +593,9 @@ function FreePlanCard() {
   )
 }
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Paid plan card
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 interface PaidPlanCardProps {
   plan:          Plan
   cycle:         BillingCycle
@@ -620,7 +620,7 @@ function PaidPlanCard({
       className={cn(
         "relative flex flex-col rounded-2xl border overflow-hidden transition-all duration-300",
         plan.featured
-          ? "border-gold/40 bg-surface shadow-[0_0_80px_rgba(201,168,76,0.08)] md:scale-[1.02]"
+          ? "border-gold/40 bg-surface shadow-[0_0_80px_rgba(255,214,10,0.08)] md:scale-[1.02]"
           : "border-border bg-surface hover:border-gold/20"
       )}
     >
@@ -663,11 +663,11 @@ function PaidPlanCard({
           </div>
           {cycle === "yearly" ? (
             <p className="text-[0.8125rem] text-emerald-400 font-medium">
-              Save ${savings} vs monthly · {savePct}% off
+              Save ${savings} vs monthly Â· {savePct}% off
             </p>
           ) : (
             <p className="text-[0.8125rem] text-muted/50">
-              or ₹{pricing.inr.toLocaleString("en-IN")}/{cycle === "monthly" ? "mo" : "yr"}
+              or â‚¹{pricing.inr.toLocaleString("en-IN")}/{cycle === "monthly" ? "mo" : "yr"}
             </p>
           )}
           <p className="text-[0.8125rem] text-muted/60 mt-0.5">{plan.tagline}</p>
@@ -686,14 +686,14 @@ function PaidPlanCard({
               : disabled
                 ? "bg-gold/50 text-background/70 cursor-not-allowed"
                 : plan.featured
-                  ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_24px_rgba(201,168,76,0.20)]"
+                  ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_24px_rgba(255,214,10,0.20)]"
                   : "border border-border text-foreground hover:border-gold/40 hover:bg-surface-2 active:scale-[0.98]"
           )}
         >
           {isProcessing ? (
             <>
               <div className="h-3.5 w-3.5 rounded-full border-2 border-background/40 border-t-background animate-spin" />
-              Processing…
+              Processingâ€¦
             </>
           ) : isCurrentPlan ? (
             <>
@@ -751,7 +751,7 @@ function PaidPlanCard({
         <div className="mx-7 mb-6 flex items-center gap-2 rounded-xl border border-emerald-500/15 bg-emerald-500/[0.05] px-3.5 py-2.5">
           <TrendingUpIcon />
           <p className="text-[0.75rem] text-emerald-400/80">
-            Switch to yearly — save <strong className="text-emerald-400">${savings}</strong>
+            Switch to yearly â€” save <strong className="text-emerald-400">${savings}</strong>
           </p>
         </div>
       )}
@@ -759,15 +759,15 @@ function PaidPlanCard({
   )
 }
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Feature comparison table
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const COMPARISON_ROWS = [
   { feature: "Browse preset packs",      free: true,  creator: true,  pro: true  },
   { feature: "Blog & editorial content", free: true,  creator: true,  pro: true  },
   { feature: "Individual preset purchases", free: true, creator: true, pro: true },
   { feature: "Free course previews",     free: true,  creator: true,  pro: true  },
-  { feature: "All preset packs — unlimited", free: false, creator: true, pro: true },
+  { feature: "All preset packs â€” unlimited", free: false, creator: true, pro: true },
   { feature: "Full course library",      free: false, creator: true,  pro: true  },
   { feature: "Early access drops",       free: false, creator: true,  pro: true  },
   { feature: "Creator Discord",          free: false, creator: true,  pro: true  },
@@ -825,11 +825,11 @@ function FeatureComparisonTable() {
   )
 }
 
-/* ─────────────────────────────────────────
-   FAQ accordion — AnimatePresence for premium reveal
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   FAQ accordion â€” AnimatePresence for premium reveal
    Animates only opacity + y (compositor path, no layout thrash).
    The icon rotates via motion.span with spring physics.
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
@@ -866,18 +866,18 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   )
 }
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Static data
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const PERKS = [
   {
     title: "Every Preset. Instantly.",
-    body:  "Download any preset pack the moment it drops — no individual purchases. New packs ship every month.",
+    body:  "Download any preset pack the moment it drops â€” no individual purchases. New packs ship every month.",
     icon:  <PresetIcon />,
   },
   {
     title: "Full Course Library",
-    body:  "Access every editing, colour grading and business course — plus everything published in the future.",
+    body:  "Access every editing, colour grading and business course â€” plus everything published in the future.",
     icon:  <CourseIcon />,
   },
   {
@@ -887,7 +887,7 @@ const PERKS = [
   },
   {
     title: "Creator Community",
-    body:  "Private Discord for members — share edits, get feedback, connect with photographers worldwide.",
+    body:  "Private Discord for members â€” share edits, get feedback, connect with photographers worldwide.",
     icon:  <CommunityIcon />,
   },
 ]
@@ -895,7 +895,7 @@ const PERKS = [
 const FAQS = [
   {
     q: "Can I cancel anytime?",
-    a: "Yes. Cancel from your billing dashboard at any time. You keep full access until the end of your current billing period — no questions asked.",
+    a: "Yes. Cancel from your billing dashboard at any time. You keep full access until the end of your current billing period â€” no questions asked.",
   },
   {
     q: "Do downloaded presets stay after I cancel?",
@@ -907,7 +907,7 @@ const FAQS = [
   },
   {
     q: "What is the difference between Creator and Pro?",
-    a: "Creator gives you everything digital — presets, courses, community. Pro adds monthly 1:1 video feedback sessions where we review your actual work, plus custom preset requests.",
+    a: "Creator gives you everything digital â€” presets, courses, community. Pro adds monthly 1:1 video feedback sessions where we review your actual work, plus custom preset requests.",
   },
   {
     q: "What payment methods are accepted?",
@@ -915,13 +915,13 @@ const FAQS = [
   },
   {
     q: "How does the yearly plan work?",
-    a: "You pay a single charge for 365 days of access. It does not auto-renew — you'll receive a reminder email before your plan expires.",
+    a: "You pay a single charge for 365 days of access. It does not auto-renew â€” you'll receive a reminder email before your plan expires.",
   },
 ]
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Icons & micro-components
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function CheckIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
 }
@@ -955,3 +955,4 @@ function EarlyIcon() {
 function CommunityIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 }
+
