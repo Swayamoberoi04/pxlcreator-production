@@ -10,7 +10,7 @@ import { cn }           from "@/lib/utils"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 
-/* â”€â”€ Types â”€â”€ */
+/* ── Types ── */
 interface Subscription {
   id:                   string
   plan_id:              string
@@ -36,9 +36,9 @@ interface PaymentRecord {
 
 type CancelState = "idle" | "confirming" | "cancelling" | "cancelled"
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    Page
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 export default function BillingPage() {
   const { user, loading: authLoading } = useAuth()
   const router = useRouter()
@@ -100,7 +100,7 @@ export default function BillingPage() {
     }
   }, [user, subscription, cancelState])
 
-  /* â”€â”€ Loading skeleton â”€â”€ */
+  /* ── Loading skeleton ── */
   if (authLoading || dataLoading) {
     return (
       <div className="w-full bg-background min-h-[70vh]">
@@ -121,9 +121,9 @@ export default function BillingPage() {
   const isActive = subscription?.status === "active"
   const isCancelled = subscription?.status === "cancelled"
 
-  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /* ─────────────────────────────────────────
      Render
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  ───────────────────────────────────────── */
   return (
     <div className="relative w-full bg-background overflow-hidden">
       <LuminousEnvironment variant="gold" intensity={0.6} />
@@ -143,7 +143,7 @@ export default function BillingPage() {
             <h1 className="font-display font-bold text-xl text-foreground">Billing</h1>
           </div>
 
-          {/* â”€â”€ No subscription â”€â”€ */}
+          {/* ── No subscription ── */}
           {!subscription && (
             <div className="rounded-2xl border border-border bg-surface p-8 text-center">
               <div className="flex justify-center mb-5">
@@ -166,7 +166,7 @@ export default function BillingPage() {
             </div>
           )}
 
-          {/* â”€â”€ Active / cancelled subscription â”€â”€ */}
+          {/* ── Active / cancelled subscription ── */}
           {subscription && (
             <div className="flex flex-col gap-5">
 
@@ -221,7 +221,7 @@ export default function BillingPage() {
                         </span>
                       </div>
                       <p className="text-[0.875rem] text-muted/65 capitalize">
-                        {subscription.billing_cycle} billing Â·{" "}
+                        {subscription.billing_cycle} billing ·{" "}
                         ${subscription.amount_usd}/
                         {subscription.billing_cycle === "yearly" ? "yr" : "mo"}
                       </p>
@@ -295,7 +295,7 @@ export default function BillingPage() {
                       {cancelState === "cancelling" && (
                         <div className="flex items-center gap-2 text-muted/60 text-[0.8125rem]">
                           <div className="h-3.5 w-3.5 rounded-full border-2 border-muted/30 border-t-muted/70 animate-spin" />
-                          Cancellingâ€¦
+                          Cancelling…
                         </div>
                       )}
                     </div>
@@ -314,7 +314,7 @@ export default function BillingPage() {
                 </div>
               </div>
 
-              {/* â”€â”€ Payment history â”€â”€ */}
+              {/* ── Payment history ── */}
               {history.length > 0 && (
                 <div className="rounded-2xl border border-border bg-surface overflow-hidden">
                   <div className="px-6 py-4 border-b border-border">
@@ -330,14 +330,14 @@ export default function BillingPage() {
                           </div>
                           <div className="flex flex-col gap-0.5 flex-1 min-w-0">
                             <p className="text-sm font-medium text-foreground">
-                              {pInfo?.name ?? payment.plan_id} â€” {payment.billing_cycle}
+                              {pInfo?.name ?? payment.plan_id} — {payment.billing_cycle}
                             </p>
                             <p className="text-[0.75rem] text-muted/60">
                               {new Date(payment.created_at).toLocaleDateString("en-US", {
                                 month: "short", day: "numeric", year: "numeric",
                               })}
                               {payment.period_end && (
-                                <> Â· Until {new Date(payment.period_end).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</>
+                                <> · Until {new Date(payment.period_end).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</>
                               )}
                             </p>
                           </div>
@@ -346,7 +346,7 @@ export default function BillingPage() {
                               ${payment.amount_usd}
                             </p>
                             <p className="text-[0.7rem] text-muted/50">
-                              â‚¹{payment.amount_inr.toLocaleString("en-IN")}
+                              ₹{payment.amount_inr.toLocaleString("en-IN")}
                             </p>
                           </div>
                         </li>
@@ -365,7 +365,7 @@ export default function BillingPage() {
   )
 }
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function CheckIcon({ className = "" }: { className?: string }) {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
 }

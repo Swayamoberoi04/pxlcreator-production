@@ -4,7 +4,7 @@
  * src/components/bundles/BundleSidebarCTA.tsx
  *
  * Sticky purchase sidebar on the bundle detail page.
- * Client component â€” reads from currency + cart stores.
+ * Client component — reads from currency + cart stores.
  *
  * Shows:
  *   - Value comparison (individual vs bundle, strikethrough)
@@ -48,7 +48,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
     : 0
 
   const savingsAmount = displayCurrency === "INR"
-    ? `â‚¹${(toInr(bundle.individualValueUsd) - toInr(bundle.price)).toLocaleString("en-IN")}`
+    ? `₹${(toInr(bundle.individualValueUsd) - toInr(bundle.price)).toLocaleString("en-IN")}`
     : `$${(bundle.individualValueUsd - bundle.price).toFixed(2)}`
 
   function handleAddToCart() {
@@ -67,7 +67,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
 
         {/* Pricing block */}
         <div>
-          {/* Individual value â€” strikethrough */}
+          {/* Individual value — strikethrough */}
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[0.75rem] text-muted/40">Individual value:</span>
             <span
@@ -78,7 +78,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
             </span>
           </div>
 
-          {/* Bundle price â€” large */}
+          {/* Bundle price — large */}
           <p
             className="font-display font-black text-[2.2rem] leading-none text-gold"
             suppressHydrationWarning
@@ -89,10 +89,10 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
           {/* Secondary currency */}
           {mounted && (
             <p className="text-[0.75rem] text-muted/35 mt-1" suppressHydrationWarning>
-              â‰ˆ{" "}
+              ≈{" "}
               {displayCurrency === "INR"
                 ? `$${bundle.price.toFixed(2)}`
-                : `â‚¹${toInr(bundle.price).toLocaleString("en-IN")}`}
+                : `₹${toInr(bundle.price).toLocaleString("en-IN")}`}
             </p>
           )}
         </div>
@@ -207,7 +207,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
         <div className="space-y-2">
           {[
             "Instant download after purchase",
-            "Lifetime access â€” free updates",
+            "Lifetime access — free updates",
             "Works on Lightroom Classic & CC",
           ].map((line) => (
             <div key={line} className="flex items-center gap-2.5">
@@ -223,7 +223,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
   )
 }
 
-/* â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Icons ─────────────────────────────────────────────── */
 
 function BagIcon() {
   return (

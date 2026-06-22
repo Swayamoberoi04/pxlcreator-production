@@ -38,7 +38,7 @@ export function CheckoutSuccessClient() {
     )
   }
 
-  /* No session data â€” user navigated here directly */
+  /* No session data — user navigated here directly */
   if (!data) {
     return (
       <div className="w-full bg-background min-h-[70vh] flex items-center justify-center">
@@ -73,7 +73,7 @@ export function CheckoutSuccessClient() {
       <Container className="relative z-10 py-16 sm:py-20">
         <div className="mx-auto max-w-xl">
 
-          {/* â”€â”€ Success header â”€â”€ */}
+          {/* ── Success header ── */}
           <CinematicReveal variant="depth">
             <div className="flex flex-col items-center text-center gap-5 mb-10">
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gold/10 border border-gold/25 shadow-[0_0_48px_rgba(255,214,10,0.18)]">
@@ -88,7 +88,7 @@ export function CheckoutSuccessClient() {
             </div>
           </CinematicReveal>
 
-          {/* â”€â”€ Download cards â”€â”€ */}
+          {/* ── Download cards ── */}
           <CinematicReveal variant="rise" delay={0.1}>
             <div className="flex flex-col gap-3 mb-8">
               <p className="text-label text-muted/60 tracking-widest">YOUR DOWNLOADS</p>
@@ -128,7 +128,7 @@ export function CheckoutSuccessClient() {
             </div>
           </CinematicReveal>
 
-          {/* â”€â”€ Notice â”€â”€ */}
+          {/* ── Notice ── */}
           <CinematicReveal variant="rise" delay={0.18}>
             <div className="rounded-xl border border-border/60 bg-surface/40 backdrop-blur-sm px-4 py-3 mb-8">
               <p className="text-small text-muted text-center leading-relaxed">
@@ -139,7 +139,7 @@ export function CheckoutSuccessClient() {
             </div>
           </CinematicReveal>
 
-          {/* â”€â”€ Actions â”€â”€ */}
+          {/* ── Actions ── */}
           <CinematicReveal variant="rise" delay={0.24}>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
@@ -164,7 +164,7 @@ export function CheckoutSuccessClient() {
   )
 }
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function CheckCircleIcon() {
   return <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
 }

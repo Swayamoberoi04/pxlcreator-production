@@ -4,17 +4,17 @@ import { CinematicBackground }                      from "@/components/ui/Cinema
 import { GrainOverlay }                             from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   WHY PXL CREATOR â€” 5 editorial beats
+/* ─────────────────────────────────────────────────────────────────────────
+   WHY PXL CREATOR — 5 editorial beats
    All content is centre-aligned.
    Visual chapter-break divider sits between beat 04 and beat 05.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────────────────────────────────────── */
 export function WhyPXLSection() {
   return (
     <section className="relative w-full bg-background" aria-label="Why PXL Creator">
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          BEAT 01 â€” THE BROKEN SYSTEM
+          BEAT 01 — THE BROKEN SYSTEM
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden border-b border-border bg-surface">
 
@@ -70,7 +70,7 @@ export function WhyPXLSection() {
 
             <CinematicReveal variant="rise" delay={0.15} className="w-full max-w-2xl">
               <div className="rounded-2xl border border-border bg-background/70 backdrop-blur-sm px-6 py-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-                <span className="font-display font-black text-[2rem] text-muted/20 shrink-0 select-none">8Ã—</span>
+                <span className="font-display font-black text-[2rem] text-muted/20 shrink-0 select-none">8×</span>
                 <p className="text-[0.9375rem] text-muted/70 leading-relaxed text-left">
                   Eight distinct pain points. One root cause:{" "}
                   <span className="text-foreground font-semibold">
@@ -85,7 +85,7 @@ export function WhyPXLSection() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          BEAT 02 â€” THE GAP
+          BEAT 02 — THE GAP
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden border-b border-border bg-background">
 
@@ -100,7 +100,7 @@ export function WhyPXLSection() {
             <CinematicReveal variant="rise" delay={0.1} className="w-full max-w-4xl mx-auto">
               <div className="grid sm:grid-cols-[1fr_auto_1fr] gap-4 sm:gap-0 items-stretch text-left">
 
-                {/* Left â€” technical side */}
+                {/* Left — technical side */}
                 <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8 flex flex-col gap-4">
                   <span className="text-label text-muted/40 tracking-widest">What exists</span>
                   <h3 className="font-display font-bold text-[1.25rem] text-muted/50 leading-snug">
@@ -116,7 +116,7 @@ export function WhyPXLSection() {
                   </ul>
                 </div>
 
-                {/* Centre â€” gap indicator */}
+                {/* Centre — gap indicator */}
                 <div className="hidden sm:flex flex-col items-center justify-center px-4 gap-2">
                   <div className="h-full w-px bg-border" aria-hidden="true" />
                   <span className="font-display font-black text-[0.65rem] tracking-[0.2em] text-muted/30 uppercase rotate-90 whitespace-nowrap">
@@ -125,7 +125,7 @@ export function WhyPXLSection() {
                   <div className="h-full w-px bg-border" aria-hidden="true" />
                 </div>
 
-                {/* Right â€” identity side */}
+                {/* Right — identity side */}
                 <div className="relative rounded-2xl border border-gold/20 bg-gold/[0.04] p-6 sm:p-8 flex flex-col gap-4 overflow-hidden">
                   <div aria-hidden="true" className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
                   <span className="text-label text-gold/60 tracking-widest">What&apos;s missing</span>
@@ -162,7 +162,7 @@ export function WhyPXLSection() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          BEAT 03 â€” WHY WE EXIST
+          BEAT 03 — WHY WE EXIST
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden border-b border-border bg-surface depth-section">
 
@@ -181,7 +181,7 @@ export function WhyPXLSection() {
               <div className="flex flex-col gap-5 items-center">
                 <p className="text-[0.75rem] font-bold tracking-[0.25em] uppercase text-gold/60">Mission</p>
                 <blockquote className="font-display font-black text-[clamp(1.5rem,4vw,2.5rem)] leading-[1.1] tracking-tight text-foreground text-center">
-                  Empower creators to build visually powerful identities â€” through cinematic editing,{" "}
+                  Empower creators to build visually powerful identities — through cinematic editing,{" "}
                   <span className="text-gold-gradient">creative systems, education, and technology.</span>
                 </blockquote>
               </div>
@@ -195,7 +195,7 @@ export function WhyPXLSection() {
                   <ul className="flex flex-col gap-2">
                     {NOT_EVERYONE.map((item) => (
                       <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-muted/50">
-                        <span className="text-muted/25 text-lg leading-none">Ã—</span>
+                        <span className="text-muted/25 text-lg leading-none">×</span>
                         {item}
                       </li>
                     ))}
@@ -208,7 +208,7 @@ export function WhyPXLSection() {
                   <ul className="flex flex-col gap-2">
                     {EVERYONE_HAS.map((item) => (
                       <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-foreground/80">
-                        <span className="text-gold text-base leading-none">âœ¦</span>
+                        <span className="text-gold text-base leading-none">✦</span>
                         {item}
                       </li>
                     ))}
@@ -233,7 +233,7 @@ export function WhyPXLSection() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          BEAT 04 â€” THE FIVE MOATS
+          BEAT 04 — THE FIVE MOATS
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden border-b border-border bg-background">
 
@@ -284,7 +284,7 @@ export function WhyPXLSection() {
                     </div>
                     {moat.featured && (
                       <p className="text-[0.78rem] text-gold/70 font-semibold mt-auto">
-                        AI automates the edit. It cannot replicate taste. â†’
+                        AI automates the edit. It cannot replicate taste. →
                       </p>
                     )}
                   </div>
@@ -297,7 +297,7 @@ export function WhyPXLSection() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          CHAPTER BREAK â€” dramatic visual separator
+          CHAPTER BREAK — dramatic visual separator
           between beat 04 and the closing beat 05
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden bg-background" style={{ height: "1px" }}>
@@ -343,7 +343,7 @@ export function WhyPXLSection() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          BEAT 05 â€” THE VISION
+          BEAT 05 — THE VISION
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden bg-surface depth-section">
 
@@ -386,7 +386,7 @@ export function WhyPXLSection() {
             {/* Vision body */}
             <CinematicReveal variant="rise" delay={0.12}>
               <p className="text-[1rem] sm:text-[1.0625rem] text-muted/60 leading-relaxed max-w-2xl">
-                In a world flooded with generic content, AI-generated sameness, and disposable trends â€”
+                In a world flooded with generic content, AI-generated sameness, and disposable trends —
                 PXL Creator stands for{" "}
                 <span className="text-foreground/80 font-medium">intentional creativity</span>,{" "}
                 <span className="text-foreground/80 font-medium">cinematic storytelling</span>, and{" "}
@@ -434,10 +434,10 @@ export function WhyPXLSection() {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Beat counter â€” shared visual component
+/* ─────────────────────────────────────────
+   Beat counter — shared visual component
    Shows "01", "02" etc. with a section label
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────────── */
 function BeatCounter({ number, label }: { number: string; label: string }) {
   return (
     <div className="flex flex-col items-center gap-3">
@@ -465,9 +465,9 @@ function BeatCounter({ number, label }: { number: string; label: string }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    DATA
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 const PAIN_POINTS: { label: string; weight: number }[] = [
   { label: "Creative Overwhelm",        weight: 1.0  },
   { label: "Aesthetic Inconsistency",   weight: 0.95 },
@@ -517,7 +517,7 @@ const MOATS = [
   {
     title:    "Community Moat",
     tag:      "Social",
-    body:     "Creators stay for belonging, feedback, recognition, and culture â€” not just product downloads.",
+    body:     "Creators stay for belonging, feedback, recognition, and culture — not just product downloads.",
     featured: false,
   },
   {
@@ -529,7 +529,7 @@ const MOATS = [
   {
     title:    "Ecosystem Moat",
     tag:      "Retention",
-    body:     "Multiple interconnected products â€” presets, AI tools, courses, memberships â€” create compounding value and sticky retention.",
+    body:     "Multiple interconnected products — presets, AI tools, courses, memberships — create compounding value and sticky retention.",
     featured: false,
   },
   {

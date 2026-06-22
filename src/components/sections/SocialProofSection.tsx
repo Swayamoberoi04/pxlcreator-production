@@ -1,14 +1,14 @@
 ﻿"use client"
 
 /**
- * SocialProofSection.tsx â€” Stats + Testimonials
+ * SocialProofSection.tsx — Stats + Testimonials
  *
  * Cinematic upgrade:
- *   â€¢ Stat numbers animate in with GSAP count-up on scroll enter
- *   â€¢ Testimonial cards enter with CinematicStagger depth reveal
- *   â€¢ Section header uses CinematicReveal
- *   â€¢ depth-card on testimonial cards
- *   â€¢ depth-section pseudo-borders
+ *   • Stat numbers animate in with GSAP count-up on scroll enter
+ *   • Testimonial cards enter with CinematicStagger depth reveal
+ *   • Section header uses CinematicReveal
+ *   • depth-card on testimonial cards
+ *   • depth-section pseudo-borders
  * Content unchanged.
  */
 
@@ -34,7 +34,7 @@ export function SocialProofSection() {
       <GrainOverlay opacity={0.014} zIndex={1} />
       <Container className="relative z-10">
 
-        {/* â”€â”€ Stats Bar â€” animated count-up â”€â”€ */}
+        {/* ── Stats Bar — animated count-up ── */}
         <CinematicStagger
           stagger={0.09}
           baseDelay={0}
@@ -48,7 +48,7 @@ export function SocialProofSection() {
           ))}
         </CinematicStagger>
 
-        {/* â”€â”€ Testimonials header â”€â”€ */}
+        {/* ── Testimonials header ── */}
         <CinematicReveal variant="depth" margin="-60px">
           <div className="flex flex-col items-center text-center gap-4 mb-12">
             <div className="flex items-center gap-3">
@@ -67,7 +67,7 @@ export function SocialProofSection() {
           </div>
         </CinematicReveal>
 
-        {/* â”€â”€ Testimonial cards â€” depth stagger â”€â”€ */}
+        {/* ── Testimonial cards — depth stagger ── */}
         <CinematicStagger
           stagger={0.12}
           baseDelay={0.05}
@@ -86,7 +86,7 @@ export function SocialProofSection() {
   )
 }
 
-/* â”€â”€ Stat cell with GSAP count-up animation â”€â”€ */
+/* ── Stat cell with GSAP count-up animation ── */
 function StatCell({ value, label }: { value: string; label: string }) {
   const numRef = useRef<HTMLSpanElement>(null)
 
@@ -95,7 +95,7 @@ function StatCell({ value, label }: { value: string; label: string }) {
     if (!el) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
-    /* Parse numeric part (e.g. "10,000+" â†’ 10000) */
+    /* Parse numeric part (e.g. "10,000+" → 10000) */
     const raw     = value.replace(/,/g, "")
     const numMatch = raw.match(/[\d.]+/)
     if (!numMatch) return
@@ -143,7 +143,7 @@ function StatCell({ value, label }: { value: string; label: string }) {
   )
 }
 
-/* â”€â”€ Individual testimonial card â”€â”€ */
+/* ── Individual testimonial card ── */
 interface TestimonialCardProps {
   testimonial: (typeof TESTIMONIALS)[number]
   index: number

@@ -37,7 +37,7 @@ export default function BlogPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* â”€â”€ Page hero â”€â”€ */}
+      {/* ── Page hero ── */}
       <div className="relative w-full border-b border-border overflow-hidden depth-section">
         <LuminousEnvironment variant="indigo" intensity={0.85} />
         <CinematicBackground variant="mission" />
@@ -75,7 +75,7 @@ export default function BlogPage() {
 
       <Container className="py-14 sm:py-20">
 
-        {/* â”€â”€ Featured post â”€â”€ */}
+        {/* ── Featured post ── */}
         <div className="mb-14">
           <CinematicReveal variant="gentle">
             <div className="flex items-center gap-2 mb-6">
@@ -88,7 +88,7 @@ export default function BlogPage() {
           </CinematicReveal>
         </div>
 
-        {/* â”€â”€ Recent posts â”€â”€ */}
+        {/* ── Recent posts ── */}
         <div>
           <CinematicReveal variant="gentle">
             <div className="flex items-center gap-2 mb-8">
@@ -114,9 +114,9 @@ export default function BlogPage() {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Featured post card â€” full-width, landscape
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─────────────────────────────────────────
+   Featured post card — full-width, landscape
+───────────────────────────────────────── */
 function FeaturedCard({ post }: { post: BlogPost }) {
   const catStyle = CATEGORY_STYLES[post.category]
 
@@ -172,7 +172,7 @@ function FeaturedCard({ post }: { post: BlogPost }) {
           </div>
           <div className="flex items-center gap-3 text-small text-muted">
             <span>{formatDate(post.publishedAt)}</span>
-            <span aria-hidden="true">Â·</span>
+            <span aria-hidden="true">·</span>
             <span>{post.readTime} min read</span>
           </div>
         </div>
@@ -181,9 +181,9 @@ function FeaturedCard({ post }: { post: BlogPost }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Regular post card â€” vertical
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─────────────────────────────────────────
+   Regular post card — vertical
+───────────────────────────────────────── */
 function PostCard({ post }: { post: BlogPost }) {
   const catStyle = CATEGORY_STYLES[post.category]
 
@@ -237,7 +237,7 @@ function PostCard({ post }: { post: BlogPost }) {
   )
 }
 
-/* â”€â”€ Shared â”€â”€ */
+/* ── Shared ── */
 function AuthorAvatar({ initials, small }: { initials: string; small?: boolean }) {
   return (
     <div className={cn(

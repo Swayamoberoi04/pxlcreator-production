@@ -72,7 +72,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ sections, dna, fromCache: true })
   }
 
-  /* Recompute â€” profile has all the answers */
+  /* Recompute — profile has all the answers */
   const answers: OnboardingAnswers = {
     professions: profile.professions as OnboardingAnswers["professions"],
     goals:       profile.goals       as OnboardingAnswers["goals"],

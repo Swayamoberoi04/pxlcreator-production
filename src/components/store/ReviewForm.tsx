@@ -66,7 +66,7 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
       <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] px-5 py-4">
         <p className="text-[0.875rem] font-semibold text-emerald-400">Review submitted</p>
         <p className="text-[0.8125rem] text-muted/60 mt-1">
-          Thanks â€” it will appear here after moderation.
+          Thanks — it will appear here after moderation.
         </p>
       </div>
     )
@@ -135,7 +135,7 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
         disabled={submitting || !rating}
         className="self-start rounded-xl bg-gold px-5 py-2.5 text-[0.8125rem] font-semibold text-background transition-all hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {submitting ? "Submittingâ€¦" : "Submit Review"}
+        {submitting ? "Submitting…" : "Submit Review"}
       </button>
     </form>
   )

@@ -16,8 +16,8 @@ const CATEGORIES: Array<PresetCategory | "All" | "Free"> = [
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "popular",    label: "( Most Popular )"    },
   { value: "rating",     label: "( Highest Rated )"   },
-  { value: "price-asc",  label: "( Price: Low â†’ High )"},
-  { value: "price-desc", label: "( Price: High â†’ Low )"},
+  { value: "price-asc",  label: "( Price: Low → High )"},
+  { value: "price-desc", label: "( Price: High → Low )"},
   { value: "newest",     label: "( Newest First )"    },
 ]
 
@@ -34,7 +34,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
   /* Pre-compute counts for the filter pills */
   const freeCount = useMemo(() => presets.filter((p) => p.isFree).length, [presets])
 
-  /* â”€â”€ Filtered + sorted list â”€â”€ */
+  /* ── Filtered + sorted list ── */
   const visible = useMemo(() => {
     // Always exclude bundle-category items from the presets grid
     let list = [...presets].filter((p) => p.category !== "Bundle")
@@ -67,7 +67,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
     return list
   }, [presets, category, search, sort])
 
-  /* â”€â”€ Featured free presets (spotlight row â€” shown when category is "All" / no search) â”€â”€ */
+  /* ── Featured free presets (spotlight row — shown when category is "All" / no search) ── */
   const spotlightFree = useMemo(() => {
     if (category !== "All" || search.trim()) return []
     return presets
@@ -78,7 +78,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
   return (
     <div className="flex flex-col gap-10">
 
-      {/* â”€â”€ Free-preset spotlight callout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Free-preset spotlight callout ─────────────────────── */}
       {spotlightFree.length > 0 && (
         <section className="rounded-2xl border border-emerald-500/15 bg-emerald-500/[0.03] overflow-hidden">
           <div className="px-5 py-4 border-b border-emerald-500/10 flex items-center justify-between gap-4">
@@ -86,7 +86,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
               <GiftIcon />
               <div>
                 <p className="text-[0.8125rem] font-bold text-foreground">
-                  {freeCount} free presets â€” no credit card, no catch
+                  {freeCount} free presets — no credit card, no catch
                 </p>
                 <p className="text-[0.75rem] text-muted/55 mt-0.5">
                   Start here. Download instantly after creating a free account.
@@ -99,7 +99,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
               suppressHydrationWarning
               className="shrink-0 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-[0.75rem] font-semibold text-emerald-400 hover:bg-emerald-500/20 transition-colors focus-visible:outline-none"
             >
-              See all free â†’
+              See all free →
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-emerald-500/10">
@@ -117,7 +117,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
                     {preset.name}
                   </p>
                   <p className="text-[0.72rem] text-muted/50 truncate">
-                    {preset.includeCount} presets Â· {preset.category}
+                    {preset.includeCount} presets · {preset.category}
                   </p>
                 </div>
                 <span className="ml-auto shrink-0 text-[0.65rem] font-black text-emerald-400">FREE</span>
@@ -127,7 +127,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
         </section>
       )}
 
-      {/* â”€â”€ Search â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Search ─────────────────────────────────────────────── */}
       <div className="relative max-w-lg">
         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted/40" aria-hidden="true">
           <SearchIcon />
@@ -136,7 +136,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search presetsâ€¦"
+          placeholder="Search presets…"
           suppressHydrationWarning
           className="w-full rounded-2xl border border-border bg-surface pl-11 pr-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/35 focus:outline-none focus:border-gold/40 focus:shadow-[0_0_0_3px_rgba(255,214,10,0.10),0_0_16px_rgba(255,214,10,0.08)] transition-all duration-200"
         />
@@ -152,7 +152,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
         )}
       </div>
 
-      {/* â”€â”€ Filter bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Filter bar ─────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
 
         {/* Category pills */}
@@ -209,14 +209,14 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
 
       </div>
 
-      {/* â”€â”€ Results count â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Results count ─────────────────────────────────────── */}
       <div className="flex items-center gap-3 -mt-5">
         <span className="h-px flex-1 bg-border max-w-[40px]" aria-hidden="true" />
         <span className="text-[0.75rem] text-muted/50 font-medium">
           ( {visible.length} {visible.length === 1 ? "preset" : "presets"} )
         </span>
         {category === "Free" && (
-          <span className="text-[0.72rem] text-emerald-400/70 font-medium">Â· all free</span>
+          <span className="text-[0.72rem] text-emerald-400/70 font-medium">· all free</span>
         )}
         {search && (
           <span className="text-[0.75rem] text-muted/40">
@@ -225,7 +225,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
         )}
       </div>
 
-      {/* â”€â”€ Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Grid ──────────────────────────────────────────────── */}
       {visible.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout" initial={false}>
@@ -245,7 +245,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 py-20 rounded-2xl border border-border bg-surface text-center">
-          <span className="text-4xl opacity-20" aria-hidden="true">( Â· )</span>
+          <span className="text-4xl opacity-20" aria-hidden="true">( · )</span>
           <div className="flex flex-col gap-1">
             <p className="font-semibold text-foreground">No presets found</p>
             <p className="text-[0.875rem] text-muted/50">
@@ -263,7 +263,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
         </div>
       )}
 
-      {/* â”€â”€ Bundles callout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Bundles callout ─────────────────────────────────── */}
       {category === "All" && !search.trim() && (
         <section className="rounded-2xl border border-gold/10 bg-gold/[0.025] overflow-hidden">
           <div className="px-5 py-4 flex items-center justify-between gap-4">
@@ -274,7 +274,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
                   Want everything at once? Browse our preset bundles.
                 </p>
                 <p className="text-[0.75rem] text-muted/55 mt-0.5">
-                  Save 30â€“39% vs. buying individually â€” curated packs for every style.
+                  Save 30–39% vs. buying individually — curated packs for every style.
                 </p>
               </div>
             </div>
@@ -282,7 +282,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
               href="/bundles"
               className="shrink-0 rounded-xl border border-gold/30 bg-gold/10 px-4 py-2 text-[0.75rem] font-semibold text-gold hover:bg-gold/20 transition-colors focus-visible:outline-none"
             >
-              View bundles â†’
+              View bundles →
             </Link>
           </div>
         </section>
@@ -292,7 +292,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
   )
 }
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function SearchIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
 }

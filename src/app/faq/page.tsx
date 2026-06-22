@@ -8,7 +8,7 @@ import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicReveal }     from "@/components/ui/CinematicReveal"
 
-/* â”€â”€ FAQ data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FAQ data ──────────────────────────────────────────────── */
 interface FAQItem {
   q: string
   a: string
@@ -16,7 +16,7 @@ interface FAQItem {
 }
 
 const FAQS: FAQItem[] = [
-  /* â”€â”€ Presets & Compatibility â”€â”€ */
+  /* ── Presets & Compatibility ── */
   {
     category: "Presets & Compatibility",
     q: "What file formats do the presets come in?",
@@ -34,7 +34,7 @@ const FAQS: FAQItem[] = [
   },
   {
     category: "Presets & Compatibility",
-    q: "Will these work on any camera brand â€” Sony, Canon, Nikon, Fuji?",
+    q: "Will these work on any camera brand — Sony, Canon, Nikon, Fuji?",
     a: "Yes. Every preset is tested across RAW files from all major camera brands. You may need minor Exposure or White Balance tweaks depending on your specific body and lens combination, but the grade will be consistent.",
   },
   {
@@ -48,16 +48,16 @@ const FAQS: FAQItem[] = [
     a: "They work on both, but results are significantly better on RAW files. JPEGs have already had camera-side processing applied, which can cause clipping and colour shifts. For best results, always shoot RAW when using cinematic presets.",
   },
 
-  /* â”€â”€ Download & Installation â”€â”€ */
+  /* ── Download & Installation ── */
   {
     category: "Download & Installation",
     q: "How do I install presets in Lightroom Classic?",
-    a: "Open Lightroom Classic â†’ go to the Develop module â†’ right-click in the Presets panel â†’ Import Presets â†’ select the .xmp files from your download. The presets will appear in a named folder in your panel.",
+    a: "Open Lightroom Classic → go to the Develop module → right-click in the Presets panel → Import Presets → select the .xmp files from your download. The presets will appear in a named folder in your panel.",
   },
   {
     category: "Download & Installation",
     q: "How do I install presets in Lightroom Mobile?",
-    a: "Import the included .dng file into your Lightroom Mobile library â†’ open it â†’ tap the three-dot menu â†’ Copy Settings â†’ go to any photo â†’ Paste Settings. You can then save it as a preset for one-tap use.",
+    a: "Import the included .dng file into your Lightroom Mobile library → open it → tap the three-dot menu → Copy Settings → go to any photo → Paste Settings. You can then save it as a preset for one-tap use.",
   },
   {
     category: "Download & Installation",
@@ -67,19 +67,19 @@ const FAQS: FAQItem[] = [
   {
     category: "Download & Installation",
     q: "How long is my download link valid for?",
-    a: "Download links are valid for 30 days from purchase and allow up to 5 downloads. If your link expires, contact us at creatorpxl@gmail.com and we'll reissue it â€” no questions asked.",
+    a: "Download links are valid for 30 days from purchase and allow up to 5 downloads. If your link expires, contact us at creatorpxl@gmail.com and we'll reissue it — no questions asked.",
   },
 
-  /* â”€â”€ AI Studio â”€â”€ */
+  /* ── AI Studio ── */
   {
     category: "AI Studio",
     q: "What is AI Studio and how does it work?",
-    a: "AI Studio is our GPT-4o Vision powered tool. You upload a photo, describe the aesthetic you want (e.g. 'warm golden hour', 'moody cinematic blue'), and the AI analyses your image and applies a cinematic colour grade â€” then recommends the exact preset pack that permanently achieves that look.",
+    a: "AI Studio is our GPT-4o Vision powered tool. You upload a photo, describe the aesthetic you want (e.g. 'warm golden hour', 'moody cinematic blue'), and the AI analyses your image and applies a cinematic colour grade — then recommends the exact preset pack that permanently achieves that look.",
   },
   {
     category: "AI Studio",
     q: "Is AI Studio free to use?",
-    a: "Yes. AI Studio is completely free to try â€” no account required. You get a processed image and a preset recommendation instantly.",
+    a: "Yes. AI Studio is completely free to try — no account required. You get a processed image and a preset recommendation instantly.",
   },
   {
     category: "AI Studio",
@@ -92,7 +92,7 @@ const FAQS: FAQItem[] = [
     a: "Yes. After processing, you can download the graded image as a JPEG. The actual Lightroom preset file is a separate purchase if you want to apply the same look to your entire library.",
   },
 
-  /* â”€â”€ Returns & Refunds â”€â”€ */
+  /* ── Returns & Refunds ── */
   {
     category: "Returns & Refunds",
     q: "Can I get a refund?",
@@ -109,7 +109,7 @@ const FAQS: FAQItem[] = [
     a: "Yes. If you purchased the wrong pack within the last 30 days, contact us and we'll swap it for a different pack of equal or lesser value.",
   },
 
-  /* â”€â”€ Usage & Licensing â”€â”€ */
+  /* ── Usage & Licensing ── */
   {
     category: "Usage & Licensing",
     q: "Can I use these presets for commercial photography (paid client work)?",
@@ -118,37 +118,37 @@ const FAQS: FAQItem[] = [
   {
     category: "Usage & Licensing",
     q: "Can I share presets with friends or colleagues?",
-    a: "Each license covers one person. If your team or studio wants to use the presets, they need their own license. We offer volume discounts for teams of 3 or more â€” contact us.",
+    a: "Each license covers one person. If your team or studio wants to use the presets, they need their own license. We offer volume discounts for teams of 3 or more — contact us.",
   },
   {
     category: "Usage & Licensing",
     q: "Do the presets have any watermarks or restrictions on the output?",
-    a: "None at all. Your edited photos are completely yours â€” no watermarks, no attribution required, no restrictions on how you publish or sell the final images.",
+    a: "None at all. Your edited photos are completely yours — no watermarks, no attribution required, no restrictions on how you publish or sell the final images.",
   },
 
-  /* â”€â”€ Technical â”€â”€ */
+  /* ── Technical ── */
   {
     category: "Technical",
     q: "My preset looks too warm / too cool on my specific camera. What do I do?",
-    a: "This is normal. Every camera has its own colour science and sensor response. Start by adjusting White Balance (Â±200K) and Tint (Â±5). Most preset makers recommend fine-tuning these two controls first before touching anything else.",
+    a: "This is normal. Every camera has its own colour science and sensor response. Start by adjusting White Balance (±200K) and Tint (±5). Most preset makers recommend fine-tuning these two controls first before touching anything else.",
   },
   {
     category: "Technical",
     q: "The preset is clipping my highlights. How do I fix this?",
-    a: "Pull the Highlights slider down to âˆ’20 to âˆ’40, and reduce Whites by 5â€“10 points. If you shot a high-contrast scene, you may also want to open the Tone Curve and bring down the upper quarter slightly.",
+    a: "Pull the Highlights slider down to −20 to −40, and reduce Whites by 5–10 points. If you shot a high-contrast scene, you may also want to open the Tone Curve and bring down the upper quarter slightly.",
   },
   {
     category: "Technical",
     q: "Can I modify the presets to match my style?",
-    a: "Absolutely â€” that's encouraged. The presets are a starting point. Adjust any slider you want. A common workflow is: apply the preset, adjust WB and Exposure, then tweak the Tone Curve and HSL panel to personalise it.",
+    a: "Absolutely — that's encouraged. The presets are a starting point. Adjust any slider you want. A common workflow is: apply the preset, adjust WB and Exposure, then tweak the Tone Curve and HSL panel to personalise it.",
   },
 ]
 
 const CATEGORIES = [...new Set(FAQS.map((f) => f.category))]
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    Page
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 export default function FAQPage() {
   const [activeCategory, setActiveCategory] = useState<string>("All")
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -160,7 +160,7 @@ export default function FAQPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* â”€â”€ Hero â”€â”€ */}
+      {/* ── Hero ── */}
       <div className="relative w-full border-b border-border overflow-hidden depth-section">
         <LuminousEnvironment variant="gold" intensity={0.85} />
         <GrainOverlay opacity={0.016} animated zIndex={2} />
@@ -203,7 +203,7 @@ export default function FAQPage() {
             <p className="text-[0.875rem] text-muted/50">
               Can&apos;t find your answer?{" "}
               <Link href="/contact" className="text-gold hover:underline underline-offset-4 transition-colors">
-                Contact us â†’
+                Contact us →
               </Link>
             </p>
 
@@ -214,7 +214,7 @@ export default function FAQPage() {
       <Container className="py-12 sm:py-20">
         <div className="max-w-3xl mx-auto">
 
-          {/* â”€â”€ Category filter tabs â”€â”€ */}
+          {/* ── Category filter tabs ── */}
           <div className="flex flex-wrap gap-2 mb-10 justify-center">
             {["All", ...CATEGORIES].map((cat) => (
               <button
@@ -233,7 +233,7 @@ export default function FAQPage() {
             ))}
           </div>
 
-          {/* â”€â”€ Accordion â”€â”€ */}
+          {/* ── Accordion ── */}
           <div className="flex flex-col divide-y divide-border/60">
             {visible.map((faq, i) => (
               <AccordionItem
@@ -245,7 +245,7 @@ export default function FAQPage() {
             ))}
           </div>
 
-          {/* â”€â”€ Still need help â”€â”€ */}
+          {/* ── Still need help ── */}
           <div className="mt-16 rounded-2xl border border-border bg-surface p-8 text-center">
             <div className="flex flex-col items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/25 bg-gold/[0.07]">
@@ -263,7 +263,7 @@ export default function FAQPage() {
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-[0.875rem] font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_24px_rgba(255,214,10,0.15)]"
               >
-                Contact Support â†’
+                Contact Support →
               </Link>
             </div>
           </div>
@@ -274,7 +274,7 @@ export default function FAQPage() {
   )
 }
 
-/* â”€â”€ Accordion item â”€â”€ */
+/* ── Accordion item ── */
 function AccordionItem({
   faq,
   isOpen,

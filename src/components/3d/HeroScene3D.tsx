@@ -5,24 +5,24 @@
  * HeroScene3D.tsx
  *
  * React Three Fiber canvas that overlays the hero section with:
- *   â€¢ 4 floating glass frames (portrait / landscape mix) with gold borders
- *   â€¢ Gold Sparkles cloud from @react-three/drei
- *   â€¢ Custom gold-dust Points geometry
- *   â€¢ Smooth mouse-parallax camera rig
- *   â€¢ Atmospheric fog for depth
+ *   • 4 floating glass frames (portrait / landscape mix) with gold borders
+ *   • Gold Sparkles cloud from @react-three/drei
+ *   • Custom gold-dust Points geometry
+ *   • Smooth mouse-parallax camera rig
+ *   • Atmospheric fog for depth
  *
  * Canvas uses alpha=true so every existing hero layer (photos, grains,
  * overlays) shows through. pointer-events=none keeps all hero interactions
  * on the DOM layer above.
  *
  * Performance:
- *   â€“ antialias=false        (saves fillrate)
- *   â€“ dpr=[1, 1]             (no 1.5Ã— on high-dpi â€” single biggest fillrate saver)
- *   â€“ powerPreference="high-performance" (discrete GPU hint)
- *   â€“ Geometries created once in useMemo; no per-frame allocations
- *   â€“ EffectComposer REMOVED â€” was the single most expensive GPU operation
+ *   – antialias=false        (saves fillrate)
+ *   – dpr=[1, 1]             (no 1.5× on high-dpi — single biggest fillrate saver)
+ *   – powerPreference="high-performance" (discrete GPU hint)
+ *   – Geometries created once in useMemo; no per-frame allocations
+ *   – EffectComposer REMOVED — was the single most expensive GPU operation
  *     (mipmapBlur Bloom = 5-7 fullscreen render passes per frame)
- *   â€“ Returns null on touch devices â€” saves all WebGL work on mobile
+ *   – Returns null on touch devices — saves all WebGL work on mobile
  */
 
 import { useRef, useMemo, useEffect }    from "react"
@@ -40,7 +40,7 @@ const IS_TOUCH_DEVICE =
   typeof window !== "undefined" &&
   (window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0)
 
-/* â”€â”€ Frame definitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Frame definitions ──────────────────────────────────────────── */
 type FrameDef = {
   pos:   [number, number, number]
   rot:   [number, number, number]
@@ -49,22 +49,22 @@ type FrameDef = {
 }
 
 const FRAMES: FrameDef[] = [
-  // Far-left portrait â€” warm, slightly tilted toward viewer
+  // Far-left portrait — warm, slightly tilted toward viewer
   { pos: [-3.8,  0.9, -1.6], rot: [ 0.06,  0.22, -0.03], w: 1.8, h: 2.4 },
-  // Right landscape â€” deeper, tilted away
+  // Right landscape — deeper, tilted away
   { pos: [ 3.4, -0.4, -3.0], rot: [-0.04, -0.20,  0.05], w: 2.6, h: 1.7 },
-  // Center-top â€” deepest, wide
+  // Center-top — deepest, wide
   { pos: [ 0.3,  1.5, -5.5], rot: [ 0.03,  0.01,  0.01], w: 3.4, h: 2.1 },
-  // Lower-left â€” medium depth, portrait
+  // Lower-left — medium depth, portrait
   { pos: [-2.4, -1.7, -3.4], rot: [-0.09,  0.13,  0.06], w: 1.6, h: 2.1 },
 ]
 
-/* â”€â”€ Gold frame border (4 thin box edges + corner dots) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Gold frame border (4 thin box edges + corner dots) ─────────── */
 function GoldBorder({ w, h }: { w: number; h: number }) {
   const t = 0.015   // border thickness
   const d = 0.003   // border depth
 
-  /* Shared gold emissive material â€” picked up by Bloom */
+  /* Shared gold emissive material — picked up by Bloom */
   const mat = useMemo(
     () => new THREE.MeshStandardMaterial({
       color:             "#FFD60A",
@@ -76,7 +76,7 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
     []
   )
 
-  /* Corner accent material â€” brighter emissive â†’ stronger bloom halo */
+  /* Corner accent material — brighter emissive → stronger bloom halo */
   const cornerMat = useMemo(
     () => new THREE.MeshStandardMaterial({
       color:             "#FFD60A",
@@ -109,7 +109,7 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
         <boxGeometry args={[t, h, d]} />
       </mesh>
 
-      {/* Corner accent dots â€” high emissive for bright bloom nodes */}
+      {/* Corner accent dots — high emissive for bright bloom nodes */}
       {(
         [
           [-w / 2 + cs / 2,  h / 2 - cs / 2, 0.001] as [number, number, number],
@@ -126,7 +126,7 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
   )
 }
 
-/* â”€â”€ Single floating glass frame â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Single floating glass frame ────────────────────────────────── */
 function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
   const glassMat = useMemo(
     () =>
@@ -150,7 +150,7 @@ function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
       floatIntensity={0.35}
     >
       <group position={pos} rotation={rot}>
-        {/* Glass fill â€” nearly invisible, catches light */}
+        {/* Glass fill — nearly invisible, catches light */}
         <mesh material={glassMat}>
           <planeGeometry args={[w, h]} />
         </mesh>
@@ -162,9 +162,9 @@ function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
   )
 }
 
-/* â”€â”€ Custom gold-dust point cloud â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Custom gold-dust point cloud ───────────────────────────────── */
 function GoldDust() {
-  const COUNT = 80   // reduced from 180 â€” imperceptible difference, ~56% less geometry
+  const COUNT = 80   // reduced from 180 — imperceptible difference, ~56% less geometry
 
   const geometry = useMemo(() => {
     const pos = new Float32Array(COUNT * 3)
@@ -203,7 +203,7 @@ function GoldDust() {
   )
 }
 
-/* â”€â”€ Camera rig â€” smooth mouse-parallax â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Camera rig — smooth mouse-parallax ─────────────────────────── */
 function CameraRig() {
   const mouse      = useRef({ x: 0, y: 0 })
   const { camera } = useThree()
@@ -236,16 +236,16 @@ function CameraRig() {
   return null
 }
 
-/* â”€â”€ Scene root â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Scene root ─────────────────────────────────────────────────── */
 function Scene() {
   return (
     <>
-      {/* Atmospheric fog â€” frames at z=-1.5 to -5.5 fade gracefully */}
+      {/* Atmospheric fog — frames at z=-1.5 to -5.5 fade gracefully */}
       <fog attach="fog" args={["#000000", 6, 24]} />
 
       {/* Lighting */}
       <ambientLight intensity={0.12} />
-      {/* Warm gold key â€” emissive surfaces bloom from this */}
+      {/* Warm gold key — emissive surfaces bloom from this */}
       <directionalLight position={[ 4,  3, 4]} color="#FFD60A" intensity={0.9} />
       {/* Cool indigo fill */}
       <directionalLight position={[-3, -2, 2]} color="#3322cc" intensity={0.18} />
@@ -255,7 +255,7 @@ function Scene() {
         <GlassFrame key={i} {...f} index={i} />
       ))}
 
-      {/* Sparkle cloud â€” drei's built-in atmospheric sparks */}
+      {/* Sparkle cloud — drei's built-in atmospheric sparks */}
       <Sparkles
         count={45}
         scale={[18, 10, 7]}
@@ -288,12 +288,12 @@ function Scene() {
   )
 }
 
-/* â”€â”€ Exported canvas â€” dynamically imported with ssr:false â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Exported canvas — dynamically imported with ssr:false ──────── */
 export function HeroScene3D() {
   /*
    * Skip WebGL entirely on touch devices.
    * On mobile: no WebGL context, no GPU draw calls, no animation loops.
-   * The hero is still visually rich â€” background images, CinematicBackground
+   * The hero is still visually rich — background images, CinematicBackground
    * orbs, FloatingParticles, and the GrainOverlay all remain.
    */
   if (IS_TOUCH_DEVICE) return null
@@ -306,7 +306,7 @@ export function HeroScene3D() {
         alpha:           true,
         powerPreference: "high-performance",
       }}
-      dpr={[1, 1]}   /* was [1, 1.5] â€” dpr 1.5 = 2.25Ã— pixel work for negligible quality gain */
+      dpr={[1, 1]}   /* was [1, 1.5] — dpr 1.5 = 2.25× pixel work for negligible quality gain */
       style={{ pointerEvents: "none" }}
       aria-hidden="true"
     >

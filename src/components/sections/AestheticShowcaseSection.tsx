@@ -5,9 +5,9 @@
  * Sits after the product grid, before the manifesto statement.
  *
  * Uses real before/after image pairs for immediate, credible
- * visual proof of the preset's impact â€” no placeholder gradients.
+ * visual proof of the preset's impact — no placeholder gradients.
  *
- * Static split (not interactive drag â€” that lives in BeforeAfterSection
+ * Static split (not interactive drag — that lives in BeforeAfterSection
  * further down the page). This section is purely atmospheric and fast:
  * visitors scroll through and immediately feel the transformation.
  */
@@ -18,7 +18,7 @@ import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/u
 import { GrainOverlay }    from "@/components/ui/GrainOverlay"
 import { CinematicBackground } from "@/components/ui/CinematicBackground"
 
-/* â”€â”€ Aesthetic card data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Aesthetic card data ────────────────────────────────────── */
 interface AestheticPreset {
   id:          string
   name:        string
@@ -33,7 +33,7 @@ const AESTHETICS: AestheticPreset[] = [
   {
     id:          "tropical",
     name:        "Tropical",
-    mood:        "Vivid Â· Lush",
+    mood:        "Vivid · Lush",
     category:    "Landscape",
     beforeSrc:   "/assets/tropical_before.webp",
     afterSrc:    "/assets/tropical_after.webp",
@@ -42,7 +42,7 @@ const AESTHETICS: AestheticPreset[] = [
   {
     id:          "noir",
     name:        "HDR B&W",
-    mood:        "High Contrast Â· Drama",
+    mood:        "High Contrast · Drama",
     category:    "Portrait",
     beforeSrc:   "/assets/hdrbw_before.webp",
     afterSrc:    "/assets/hdrbw_after.webp",
@@ -51,7 +51,7 @@ const AESTHETICS: AestheticPreset[] = [
   {
     id:          "garage",
     name:        "Garage",
-    mood:        "Gritty Â· Urban",
+    mood:        "Gritty · Urban",
     category:    "Street",
     beforeSrc:   "/assets/garage_before.webp",
     afterSrc:    "/assets/garage_after.webp",
@@ -60,7 +60,7 @@ const AESTHETICS: AestheticPreset[] = [
   {
     id:          "documentary",
     name:        "Documentary",
-    mood:        "Raw Â· Honest",
+    mood:        "Raw · Honest",
     category:    "Film",
     beforeSrc:   "/assets/documentary_before.webp",
     afterSrc:    "/assets/documentary_after.webp",
@@ -68,7 +68,7 @@ const AESTHETICS: AestheticPreset[] = [
   },
 ]
 
-/* â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Component ──────────────────────────────────────────────── */
 export function AestheticShowcaseSection() {
   return (
     <section className="relative w-full overflow-hidden bg-background border-b border-border depth-section">
@@ -79,7 +79,7 @@ export function AestheticShowcaseSection() {
 
       <Container className="relative z-10 py-24 sm:py-32">
 
-        {/* â”€â”€ Section header â”€â”€ */}
+        {/* ── Section header ── */}
         <CinematicReveal variant="rise">
           <div className="flex flex-col items-center text-center gap-4 mb-14 sm:mb-16">
             <div className="flex items-center gap-3">
@@ -105,7 +105,7 @@ export function AestheticShowcaseSection() {
           </div>
         </CinematicReveal>
 
-        {/* â”€â”€ Showcase grid: 2Ã—2 on desktop, 1-col on mobile â”€â”€ */}
+        {/* ── Showcase grid: 2×2 on desktop, 1-col on mobile ── */}
         <CinematicStagger
           stagger={0.12}
           baseDelay={0.05}
@@ -119,7 +119,7 @@ export function AestheticShowcaseSection() {
           ))}
         </CinematicStagger>
 
-        {/* â”€â”€ Browse CTA â”€â”€ */}
+        {/* ── Browse CTA ── */}
         <CinematicReveal variant="rise" delay={0.25}>
           <div className="flex justify-center mt-12">
             <Link
@@ -127,7 +127,7 @@ export function AestheticShowcaseSection() {
               className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-7 py-3 text-[0.9375rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all duration-200"
             >
               Explore all aesthetics
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">â†’</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>
             </Link>
           </div>
         </CinematicReveal>
@@ -137,16 +137,16 @@ export function AestheticShowcaseSection() {
   )
 }
 
-/* â”€â”€ Static Before / After card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Static Before / After card ─────────────────────────────── */
 function AestheticCard({ preset }: { preset: AestheticPreset }) {
   return (
     <div className="relative rounded-2xl overflow-hidden group depth-card" style={{ height: "340px" }}>
 
-      {/* â”€â”€ Before half (left 48%) â”€â”€ */}
+      {/* ── Before half (left 48%) ── */}
       <div className="absolute left-0 top-0 bottom-0 w-[48%] overflow-hidden">
         <Image
           src={preset.beforeSrc}
-          alt={`${preset.name} â€” before`}
+          alt={`${preset.name} — before`}
           fill
           sizes="25vw"
           className="object-cover object-center"
@@ -167,11 +167,11 @@ function AestheticCard({ preset }: { preset: AestheticPreset }) {
         </div>
       </div>
 
-      {/* â”€â”€ After half (right 52%) â”€â”€ */}
+      {/* ── After half (right 52%) ── */}
       <div className="absolute right-0 top-0 bottom-0 w-[52%] overflow-hidden">
         <Image
           src={preset.afterSrc}
-          alt={`${preset.name} â€” after`}
+          alt={`${preset.name} — after`}
           fill
           sizes="25vw"
           className="object-cover object-center"
@@ -193,7 +193,7 @@ function AestheticCard({ preset }: { preset: AestheticPreset }) {
         </div>
       </div>
 
-      {/* â”€â”€ Divider line â”€â”€ */}
+      {/* ── Divider line ── */}
       <div
         className="absolute top-0 bottom-0 z-10 w-[2px]"
         style={{
@@ -212,7 +212,7 @@ function AestheticCard({ preset }: { preset: AestheticPreset }) {
         </svg>
       </div>
 
-      {/* â”€â”€ Bottom info bar â”€â”€ */}
+      {/* ── Bottom info bar ── */}
       <div
         className="absolute bottom-0 left-0 right-0 z-10 px-4 py-4"
         style={{ background: "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.40) 70%, transparent 100%)" }}
@@ -235,7 +235,7 @@ function AestheticCard({ preset }: { preset: AestheticPreset }) {
         </div>
       </div>
 
-      {/* â”€â”€ Hover glow â”€â”€ */}
+      {/* ── Hover glow ── */}
       <div
         className="absolute inset-0 z-[5] pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100"
         style={{

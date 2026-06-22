@@ -127,7 +127,7 @@ export function PasswordModal({
               type="text"
               value={password}
               onChange={(e) => { setPassword(e.target.value); setError(null) }}
-              placeholder="Enter password from videoâ€¦"
+              placeholder="Enter password from video…"
               autoComplete="off"
               spellCheck={false}
               className={cn(
@@ -159,7 +159,7 @@ export function PasswordModal({
             )}
           >
             {loading && <SpinnerIcon />}
-            {loading ? "Checking passwordâ€¦" : "Unlock Preset"}
+            {loading ? "Checking password…" : "Unlock Preset"}
           </button>
         </form>
 
@@ -171,7 +171,7 @@ export function PasswordModal({
   )
 }
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function CloseIcon() {
   return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 }

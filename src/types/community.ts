@@ -5,26 +5,26 @@
  * Mirrors the 012_community_schema.sql migration.
  */
 
-/* â”€â”€ Creator role catalogue â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Creator role catalogue ──────────────────────────────────────────────────── */
 export const CREATOR_ROLES = [
-  { id: "photographer",        label: "Photographer",         icon: "ðŸ“·", color: "#FFD60A" },
-  { id: "lightroom-editor",    label: "Lightroom Editor",     icon: "ðŸŽ¨", color: "#f59e0b" },
-  { id: "color-grader",        label: "Color Grader",         icon: "ðŸŽ¬", color: "#8b5cf6" },
-  { id: "cinematographer",     label: "Cinematographer",      icon: "ðŸŽ¥", color: "#06b6d4" },
-  { id: "videographer",        label: "Videographer",         icon: "ðŸ“½", color: "#ec4899" },
-  { id: "filmmaker",           label: "Filmmaker",            icon: "ðŸŽž", color: "#f97316" },
-  { id: "short-film-maker",    label: "Short Film Maker",     icon: "ðŸŽ­", color: "#10b981" },
-  { id: "vlogger",             label: "Vlogger",              icon: "ðŸ“±", color: "#e1306c" },
+  { id: "photographer",        label: "Photographer",         icon: "📷", color: "#FFD60A" },
+  { id: "lightroom-editor",    label: "Lightroom Editor",     icon: "🎨", color: "#f59e0b" },
+  { id: "color-grader",        label: "Color Grader",         icon: "🎬", color: "#8b5cf6" },
+  { id: "cinematographer",     label: "Cinematographer",      icon: "🎥", color: "#06b6d4" },
+  { id: "videographer",        label: "Videographer",         icon: "📽", color: "#ec4899" },
+  { id: "filmmaker",           label: "Filmmaker",            icon: "🎞", color: "#f97316" },
+  { id: "short-film-maker",    label: "Short Film Maker",     icon: "🎭", color: "#10b981" },
+  { id: "vlogger",             label: "Vlogger",              icon: "📱", color: "#e1306c" },
   { id: "drone-operator",      label: "Drone Operator",       icon: "ðŸš", color: "#0ea5e9" },
   { id: "retoucher",           label: "Retoucher",            icon: "âœï¸",  color: "#a78bfa" },
-  { id: "content-creator",     label: "Content Creator",      icon: "âœ¨", color: "#fb7185" },
-  { id: "thumbnail-designer",  label: "Thumbnail Designer",   icon: "ðŸ–¼", color: "#4ade80" },
-  { id: "preset-creator",      label: "Preset Creator",       icon: "âš¡", color: "#FFD60A" },
+  { id: "content-creator",     label: "Content Creator",      icon: "✨", color: "#fb7185" },
+  { id: "thumbnail-designer",  label: "Thumbnail Designer",   icon: "🖼", color: "#4ade80" },
+  { id: "preset-creator",      label: "Preset Creator",       icon: "⚡", color: "#FFD60A" },
 ] as const
 
 export type CreatorRoleId = (typeof CREATOR_ROLES)[number]["id"]
 
-/* â”€â”€ Skill / availability enums â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Skill / availability enums ──────────────────────────────────────────────── */
 export type SkillLevel    = "beginner" | "intermediate" | "advanced" | "professional"
 export type Availability  = "open_for_work" | "open_for_collab" | "hiring" | "unavailable"
 export type ChannelVisibility = "public" | "private"
@@ -45,7 +45,7 @@ export type EventStatus = "upcoming" | "active" | "ended"
 export type ConnectionStatus = "pending" | "accepted" | "declined"
 export type ReportStatus = "pending" | "reviewed" | "dismissed" | "actioned"
 
-/* â”€â”€ Community profile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Community profile ───────────────────────────────────────────────────────── */
 export interface CommunityProfile {
   id:               string
   firebase_uid:     string
@@ -86,7 +86,7 @@ export type CommunityProfileUpdate = Partial<Pick<CommunityProfile,
   "roles" | "skill_level" | "availability"
 >>
 
-/* â”€â”€ Follow / connection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Follow / connection ─────────────────────────────────────────────────────── */
 export interface CreatorFollow {
   id:            string
   follower_uid:  string
@@ -104,7 +104,7 @@ export interface CreatorConnection {
   updated_at:    string
 }
 
-/* â”€â”€ Channel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Channel ─────────────────────────────────────────────────────────────────── */
 export interface CommunityChannel {
   id:               string
   slug:             string
@@ -132,7 +132,7 @@ export type ChannelWithMeta = CommunityChannel & {
   owner?:      Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
 }
 
-/* â”€â”€ Channel post â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Channel post ────────────────────────────────────────────────────────────── */
 export interface ChannelPost {
   id:            string
   channel_id:    string
@@ -159,7 +159,7 @@ export type PostWithMeta = ChannelPost & {
   top_comments?:  CommentWithMeta[]
 }
 
-/* â”€â”€ Comment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Comment ─────────────────────────────────────────────────────────────────── */
 export interface PostComment {
   id:         string
   post_id:    string
@@ -177,7 +177,7 @@ export type CommentWithMeta = PostComment & {
   replies?: CommentWithMeta[]
 }
 
-/* â”€â”€ Project listing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Project listing ─────────────────────────────────────────────────────────── */
 export interface ProjectListing {
   id:               string
   poster_uid:       string
@@ -205,7 +205,7 @@ export type ProjectWithMeta = ProjectListing & {
   has_applied?:    boolean
 }
 
-/* â”€â”€ Project application â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Project application ─────────────────────────────────────────────────────── */
 export interface ProjectApplication {
   id:             string
   project_id:     string
@@ -217,7 +217,7 @@ export interface ProjectApplication {
   updated_at:     string
 }
 
-/* â”€â”€ Showcase â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Showcase ────────────────────────────────────────────────────────────────── */
 export interface ShowcaseItem {
   id:             string
   author_uid:     string
@@ -247,7 +247,7 @@ export type ShowcaseWithMeta = ShowcaseItem & {
   is_bookmarked?: boolean
 }
 
-/* â”€â”€ Notification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Notification ────────────────────────────────────────────────────────────── */
 export interface CommunityNotification {
   id:            string
   recipient_uid: string
@@ -261,7 +261,7 @@ export interface CommunityNotification {
   created_at:    string
 }
 
-/* â”€â”€ Event â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Event ───────────────────────────────────────────────────────────────────── */
 export interface CommunityEvent {
   id:                string
   organiser_uid:     string
@@ -282,7 +282,7 @@ export interface CommunityEvent {
   updated_at:        string
 }
 
-/* â”€â”€ Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Badge ───────────────────────────────────────────────────────────────────── */
 export interface CommunityBadge {
   id:          string
   slug:        string
@@ -301,20 +301,20 @@ export interface UserEarnedBadge {
   badge?:       CommunityBadge
 }
 
-/* â”€â”€ Channel categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Channel categories ──────────────────────────────────────────────────────── */
 export const CHANNEL_CATEGORIES = [
-  { id: "photography",    label: "Photography",     icon: "ðŸ“·" },
-  { id: "cinematography", label: "Cinematography",  icon: "ðŸŽ¥" },
-  { id: "editing",        label: "Editing",         icon: "ðŸŽ¨" },
-  { id: "travel",         label: "Travel",          icon: "âœˆï¸"  },
-  { id: "fashion",        label: "Fashion",         icon: "ðŸ‘—" },
+  { id: "photography",    label: "Photography",     icon: "📷" },
+  { id: "cinematography", label: "Cinematography",  icon: "🎥" },
+  { id: "editing",        label: "Editing",         icon: "🎨" },
+  { id: "travel",         label: "Travel",          icon: "✈ï¸"  },
+  { id: "fashion",        label: "Fashion",         icon: "👗" },
   { id: "food",           label: "Food",            icon: "ðŸœ" },
-  { id: "lifestyle",      label: "Lifestyle",       icon: "ðŸŒ¿" },
-  { id: "business",       label: "Business",        icon: "ðŸ’¼" },
-  { id: "other",          label: "Other",           icon: "âœ¨" },
+  { id: "lifestyle",      label: "Lifestyle",       icon: "🌿" },
+  { id: "business",       label: "Business",        icon: "💼" },
+  { id: "other",          label: "Other",           icon: "✨" },
 ] as const
 
-/* â”€â”€ Project categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Project categories ──────────────────────────────────────────────────────── */
 export const PROJECT_CATEGORIES = [
   { id: "photography",   label: "Photography" },
   { id: "videography",   label: "Videography" },
@@ -326,7 +326,7 @@ export const PROJECT_CATEGORIES = [
   { id: "other",         label: "Other" },
 ] as const
 
-/* â”€â”€ API response shapes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── API response shapes ─────────────────────────────────────────────────────── */
 export interface ProfileResponse {
   profile:         CommunityProfile
   badges:          UserEarnedBadge[]
@@ -350,10 +350,10 @@ export interface SearchResponse {
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   EXPANSION TYPES â€” migration 013
+   EXPANSION TYPES — migration 013
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* â”€â”€ Community Space â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Community Space ─────────────────────────────────────────────────────────── */
 export interface CommunitySpace {
   id:             string
   slug:           string
@@ -373,7 +373,7 @@ export interface CommunitySpace {
   is_member?:     boolean
 }
 
-/* â”€â”€ Space Message â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Space Message ───────────────────────────────────────────────────────────── */
 export interface SpaceMessage {
   id:             string
   space_id:       string
@@ -394,7 +394,7 @@ export interface SpaceMessage {
   user_emoji?:    string | null
 }
 
-/* â”€â”€ Collaboration Request â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Collaboration Request ───────────────────────────────────────────────────── */
 export type CollabType    = "paid_work" | "collaboration" | "internship" | "team_building"
 export type CollabStatus  = "pending" | "accepted" | "declined" | "withdrawn"
 
@@ -415,7 +415,7 @@ export interface CollabRequest {
   recipient?:    Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
 }
 
-/* â”€â”€ Team â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Team ────────────────────────────────────────────────────────────────────── */
 export interface CommunityTeam {
   id:           string
   name:         string
@@ -461,7 +461,7 @@ export interface TeamInvite {
   inviter?:     Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
 }
 
-/* â”€â”€ Project Review â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Project Review ──────────────────────────────────────────────────────────── */
 export interface ProjectReview {
   id:               string
   project_id:       string
@@ -478,7 +478,7 @@ export interface ProjectReview {
   reviewer?:        Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
 }
 
-/* â”€â”€ Creator Resource â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Creator Resource ────────────────────────────────────────────────────────── */
 export interface CreatorResource {
   id:            string
   title:         string
@@ -490,7 +490,7 @@ export interface CreatorResource {
   display_order: number
 }
 
-/* â”€â”€ Event Registration / Submission â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Event Registration / Submission ─────────────────────────────────────────── */
 export interface EventRegistration {
   id:            string
   event_id:      string
@@ -513,7 +513,7 @@ export interface EventSubmission {
   author?:      Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
 }
 
-/* â”€â”€ Available For / Looking For constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Available For / Looking For constants ───────────────────────────────────── */
 export const AVAILABLE_FOR = [
   { id: "paid_work",       label: "Paid Work",       color: "#FFD60A" },
   { id: "collaboration",   label: "Collaboration",   color: "#06b6d4" },

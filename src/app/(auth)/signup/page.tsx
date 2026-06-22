@@ -31,7 +31,7 @@ export default function SignupPage() {
   const [showPass,    setShowPass]    = useState(false)
   const [showConf,    setShowConf]    = useState(false)
 
-  /* â”€â”€ Field validation â”€â”€ */
+  /* ── Field validation ── */
   function validate(): boolean {
     const errs: Record<string, string> = {}
     if (!name.trim())    errs.name = "Name is required."
@@ -103,7 +103,7 @@ export default function SignupPage() {
         {/* Top gold rule */}
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
-        {/* â”€â”€ Brand + heading â”€â”€ */}
+        {/* ── Brand + heading ── */}
         <div className="flex flex-col items-center gap-6 mb-8">
           <Link href="/" className="flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
             <span className="font-display text-[1.1rem] font-bold tracking-widest text-foreground/90 uppercase">PXL</span>
@@ -115,17 +115,17 @@ export default function SignupPage() {
           </div>
         </div>
 
-        {/* â”€â”€ Google â”€â”€ */}
+        {/* ── Google ── */}
         <GoogleSignInButton onClick={handleGoogle} label="Sign up with Google" />
 
-        {/* â”€â”€ OR divider â”€â”€ */}
+        {/* ── OR divider ── */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-border" />
           <span className="text-[0.75rem] text-muted/40 font-medium tracking-wider">OR</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
-        {/* â”€â”€ Form â”€â”€ */}
+        {/* ── Form ── */}
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
 
           {/* Server error */}
@@ -207,7 +207,7 @@ export default function SignupPage() {
             )}
           >
             {loading && <div className="h-4 w-4 rounded-full border-2 border-background/40 border-t-background animate-spin" />}
-            {loading ? "Creating accountâ€¦" : "Create account"}
+            {loading ? "Creating account…" : "Create account"}
           </button>
 
         </form>
@@ -224,7 +224,7 @@ export default function SignupPage() {
   )
 }
 
-/* â”€â”€ Reusable field â”€â”€ */
+/* ── Reusable field ── */
 function FormField({
   id, label, type, value, onChange, placeholder, autoComplete, error,
 }: {
@@ -251,7 +251,7 @@ function FormField({
   )
 }
 
-/* â”€â”€ Password field with toggle â”€â”€ */
+/* ── Password field with toggle ── */
 function PasswordInput({
   id, value, onChange, show, onToggle, placeholder, autoComplete, error,
 }: {
@@ -286,7 +286,7 @@ function PasswordInput({
   )
 }
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function ErrorIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-400 shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
 }

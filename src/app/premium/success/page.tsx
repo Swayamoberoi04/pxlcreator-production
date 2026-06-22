@@ -8,7 +8,7 @@ import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicReveal }     from "@/components/ui/CinematicReveal"
 
-/* â”€â”€ Inner component â€” uses useSearchParams so needs Suspense â”€â”€ */
+/* ── Inner component — uses useSearchParams so needs Suspense ── */
 function SuccessContent() {
   const params    = useSearchParams()
   const plan      = params.get("plan")    ?? "creator"
@@ -29,7 +29,7 @@ function SuccessContent() {
 
   const unlocked = plan === "pro"
     ? [
-        "All preset packs â€” unlimited downloads",
+        "All preset packs — unlimited downloads",
         "Full course library",
         "Early access to new drops",
         "Creator Discord community",
@@ -38,7 +38,7 @@ function SuccessContent() {
         "Priority support",
       ]
     : [
-        "All preset packs â€” unlimited downloads",
+        "All preset packs — unlimited downloads",
         "Full course library",
         "Early access to new drops",
         "Creator Discord community",

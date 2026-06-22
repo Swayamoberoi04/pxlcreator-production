@@ -1,7 +1,7 @@
 ﻿/**
  * src/lib/recommendations/style-dna.ts
  *
- * Generates a creator's "Style DNA" â€” a unique identity string
+ * Generates a creator's "Style DNA" — a unique identity string
  * that captures their creative persona from their onboarding answers.
  *
  * Designed to feel AI-powered and personal. Results are deterministic
@@ -15,7 +15,7 @@ import type {
   StyleDNA,
 } from "@/types/onboarding"
 
-/* â”€â”€ DNA archetypes â€” ranked by dominant category pair â”€â”€â”€â”€â”€â”€ */
+/* ── DNA archetypes — ranked by dominant category pair ────── */
 
 interface DNATemplate {
   /** Primary category that must score above threshold */
@@ -33,7 +33,7 @@ const DNA_TEMPLATES: DNATemplate[] = [
     primary:   "cinematic",
     secondary: "dark_luxury",
     title:   "Moody Cinematic Storyteller",
-    tagline: "You don't take photos â€” you frame narratives. Every edit is a scene.",
+    tagline: "You don't take photos — you frame narratives. Every edit is a scene.",
     badge:   "Cinematic",
     color:   "#c2855a",
   },
@@ -121,7 +121,7 @@ const DNA_TEMPLATES: DNATemplate[] = [
     primary:   "commercial",
     secondary: "editorial",
     title:   "Commercial Visual Director",
-    tagline: "You bridge art and business. Your images don't just look good â€” they sell.",
+    tagline: "You bridge art and business. Your images don't just look good — they sell.",
     badge:   "Director",
     color:   "#3B82F6",
   },
@@ -151,15 +151,15 @@ const DNA_TEMPLATES: DNATemplate[] = [
   },
 ]
 
-/* â”€â”€ Fallback DNA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Fallback DNA ───────────────────────────────────────────── */
 const FALLBACK_DNA: Omit<DNATemplate, "primary" | "secondary"> = {
   title:   "Creative Visual Storyteller",
-  tagline: "You are just getting started â€” and the best creators start exactly here.",
+  tagline: "You are just getting started — and the best creators start exactly here.",
   badge:   "Creator",
   color:   "#FFD60A",
 }
 
-/* â”€â”€ Generator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Generator ──────────────────────────────────────────────── */
 
 export function generateStyleDNA(
   affinities: CategoryAffinities,
@@ -203,7 +203,7 @@ export function generateStyleDNA(
   }
 }
 
-/* â”€â”€ Explanation copy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Explanation copy ────────────────────────────────────────── */
 
 export function generateDNAExplanation(
   dna:      StyleDNA,

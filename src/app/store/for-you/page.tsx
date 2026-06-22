@@ -1,7 +1,7 @@
 ﻿"use client"
 
 /**
- * /store/for-you â€” Personalized preset store.
+ * /store/for-you — Personalized preset store.
  *
  * Fetches presets ranked by the user's category affinities from
  * /api/presets/personalized. Falls back to featured presets for
@@ -59,7 +59,7 @@ function PresetCard({ preset, accentColor }: { preset: PersonalizedPreset; accen
             <img src={preset.thumbnail_url} alt={preset.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-4xl" style={{ background: `linear-gradient(135deg, ${accentColor}15, transparent)` }}>
-              â—ˆ
+              ◈
             </div>
           )}
           {/* Badges */}
@@ -196,9 +196,9 @@ export default function PersonalizedStorePage() {
         </div>
       ) : (
         <div className="flex flex-col items-center gap-4 py-20 text-center">
-          <span className="text-4xl">â—ˆ</span>
+          <span className="text-4xl">◈</span>
           <p className="font-display font-black text-lg text-foreground">No presets found</p>
-          <Link href="/store" className="text-gold hover:underline text-sm">Browse the full store â†’</Link>
+          <Link href="/store" className="text-gold hover:underline text-sm">Browse the full store →</Link>
         </div>
       )}
 

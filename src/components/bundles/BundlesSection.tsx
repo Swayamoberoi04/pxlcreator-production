@@ -1,7 +1,7 @@
 ﻿/**
  * src/components/bundles/BundlesSection.tsx
  *
- * Homepage section â€” "Creator Bundles".
+ * Homepage section — "Creator Bundles".
  * Server component: fetches featured bundles server-side, passes to client BundleGrid.
  *
  * Position in page.tsx: between FeaturedSection and ManifestoSection,
@@ -30,7 +30,7 @@ export async function BundlesSection() {
 
       <Container className="relative z-10">
 
-        {/* â”€â”€ Section header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Section header ─────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
           <div className="flex flex-col gap-3">
             {/* Eyebrow */}
@@ -56,11 +56,11 @@ export async function BundlesSection() {
 
             {/* Sub-heading */}
             <p className="text-[0.9375rem] text-muted/60 max-w-md leading-relaxed">
-              Curated collections at 60â€“74% off individual pack prices.
+              Curated collections at 60–74% off individual pack prices.
             </p>
           </div>
 
-          {/* "View all" CTA â€” desktop only (repeated below on mobile) */}
+          {/* "View all" CTA — desktop only (repeated below on mobile) */}
           <Link
             href="/bundles"
             className="hidden sm:inline-flex items-center gap-2 text-[0.8125rem] font-semibold text-muted/50 hover:text-gold transition-colors whitespace-nowrap"
@@ -70,17 +70,17 @@ export async function BundlesSection() {
           </Link>
         </div>
 
-        {/* â”€â”€ Bundle grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Bundle grid ────────────────────────────── */}
         <BundleGrid bundles={bundles} />
 
-        {/* â”€â”€ Mobile CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Mobile CTA ─────────────────────────────── */}
         <div className="mt-10 flex justify-center sm:hidden">
           <Link
             href="/bundles"
             className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface-2 px-7 py-3 text-[0.9375rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all duration-200"
           >
             View all bundles
-            <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">â†’</span>
+            <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>
           </Link>
         </div>
       </Container>
@@ -88,7 +88,7 @@ export async function BundlesSection() {
   )
 }
 
-/* â”€â”€ Icon â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Icon ───────────────────────────────────────────────── */
 
 function ArrowRightIcon() {
   return (

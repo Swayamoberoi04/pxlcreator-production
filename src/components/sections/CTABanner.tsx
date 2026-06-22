@@ -1,13 +1,13 @@
 ﻿"use client"
 
 /**
- * CTABanner.tsx â€” Stop Spending Hours Editing. Start Creating.
+ * CTABanner.tsx — Stop Spending Hours Editing. Start Creating.
  *
  * Cinematic upgrade:
- *   â€¢ Added CinematicBackground + GrainOverlay for atmosphere
- *   â€¢ Eyebrow, headline, copy, CTAs all use CinematicReveal/Stagger
- *   â€¢ Edge glow accents
- *   â€¢ depth-section pseudo-borders
+ *   • Added CinematicBackground + GrainOverlay for atmosphere
+ *   • Eyebrow, headline, copy, CTAs all use CinematicReveal/Stagger
+ *   • Edge glow accents
+ *   • depth-section pseudo-borders
  * Content unchanged.
  */
 
@@ -22,16 +22,16 @@ export function CTABanner() {
   return (
     <section className="relative w-full overflow-hidden bg-background py-24 sm:py-32 depth-section">
 
-      {/* â”€â”€ Cinematic atmosphere (upgraded from bare radial div) â”€â”€ */}
+      {/* ── Cinematic atmosphere (upgraded from bare radial div) ── */}
       <CinematicBackground variant="dark" />
       <GrainOverlay opacity={0.020} animated zIndex={1} />
 
-      {/* â”€â”€ Background: centered gold radial glow â”€â”€ */}
+      {/* ── Background: centered gold radial glow ── */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[2]">
         <div className="absolute left-1/2 top-1/2 h-[700px] w-[1000px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold opacity-[0.04] blur-[120px]" />
       </div>
 
-      {/* â”€â”€ Left + right edge light leaks â”€â”€ */}
+      {/* ── Left + right edge light leaks ── */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-gold/10 to-transparent z-[2]" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-[1px] bg-gradient-to-b from-transparent via-gold/10 to-transparent z-[2]" />
 
@@ -49,7 +49,7 @@ export function CTABanner() {
             </div>
           </CinematicReveal>
 
-          {/* Headline â€” deep 3D entrance */}
+          {/* Headline — deep 3D entrance */}
           <CinematicReveal variant="depth" delay={0.05}>
             <h2 className="heading-2 text-foreground max-w-2xl">
               Stop Spending Hours
@@ -90,7 +90,7 @@ export function CTABanner() {
             </div>
           </CinematicReveal>
 
-          {/* Trust micro-copy â€” staggered */}
+          {/* Trust micro-copy — staggered */}
           <CinematicStagger
             stagger={0.08}
             baseDelay={0.05}

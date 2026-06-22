@@ -10,14 +10,14 @@ export function CartButton() {
   return (
     <button
       type="button"
-      aria-label={itemCount > 0 ? `Open cart â€” ${itemCount} item${itemCount > 1 ? "s" : ""}` : "Open cart"}
+      aria-label={itemCount > 0 ? `Open cart — ${itemCount} item${itemCount > 1 ? "s" : ""}` : "Open cart"}
       onClick={openCart}
       suppressHydrationWarning
       className="relative flex items-center justify-center w-9 h-9 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <BagIcon />
 
-      {/* Item count badge â€” Framer Motion scale-in for premium feel */}
+      {/* Item count badge — Framer Motion scale-in for premium feel */}
       <AnimatePresence>
         {itemCount > 0 && (
           <motion.span

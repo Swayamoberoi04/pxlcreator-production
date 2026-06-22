@@ -3,23 +3,23 @@
 /**
  * src/components/ui/PromoPopup.tsx
  *
- * PXL Creator â€” Premium promotional popup component.
+ * PXL Creator — Premium promotional popup component.
  *
  * Pure display: receives config + onClose, renders the modal.
  * All trigger/gating logic lives in PopupManager.tsx.
  *
  * Design principles (HCI):
- *   â€¢ Instant close â€” X button, backdrop click, Escape key all work immediately.
- *   â€¢ Focus trap â€” Tab stays inside the modal while it's open.
- *   â€¢ Spring entry animation â€” scale + fade feels alive, not mechanical.
- *   â€¢ Fast exit â€” 300ms so the user never waits for it to leave.
- *   â€¢ Gold aesthetic â€” radial glow, gradient border, grain overlay â€” matches PXL brand.
- *   â€¢ Responsive â€” full-width on mobile with safe padding; max-w-[480px] on desktop.
+ *   • Instant close — X button, backdrop click, Escape key all work immediately.
+ *   • Focus trap — Tab stays inside the modal while it's open.
+ *   • Spring entry animation — scale + fade feels alive, not mechanical.
+ *   • Fast exit — 300ms so the user never waits for it to leave.
+ *   • Gold aesthetic — radial glow, gradient border, grain overlay — matches PXL brand.
+ *   • Responsive — full-width on mobile with safe padding; max-w-[480px] on desktop.
  *
  * Animation phases:
- *   'entering' â†’ CSS popup-modal-in (550ms spring)
- *   'visible'  â†’ idle
- *   'exiting'  â†’ CSS popup-modal-out (300ms), then onClose() called
+ *   'entering' → CSS popup-modal-in (550ms spring)
+ *   'visible'  → idle
+ *   'exiting'  → CSS popup-modal-out (300ms), then onClose() called
  */
 
 import { useEffect, useCallback, useRef, useState } from "react"
@@ -27,9 +27,9 @@ import Link                from "next/link"
 import { cn }              from "@/lib/utils"
 import type { PopupConfig } from "@/types/popup"
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────────────────────────
    Props
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────────────────────────── */
 interface PromoPopupProps {
   config:  PopupConfig
   onClose: () => void
@@ -37,29 +37,29 @@ interface PromoPopupProps {
 
 type Phase = "entering" | "visible" | "exiting"
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────────────────────────
    Component
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────────────────────────── */
 export function PromoPopup({ config, onClose }: PromoPopupProps) {
   const [phase, setPhase] = useState<Phase>("entering")
   const firstFocusRef     = useRef<HTMLButtonElement>(null)
   const lastFocusRef      = useRef<HTMLButtonElement>(null)
 
-  /* â”€â”€ Auto-transition entering â†’ visible â”€â”€ */
+  /* ── Auto-transition entering → visible ── */
   useEffect(() => {
     if (phase !== "entering") return
     const t = setTimeout(() => setPhase("visible"), 560)
     return () => clearTimeout(t)
   }, [phase])
 
-  /* â”€â”€ Close handler â€” plays exit animation, then unmounts â”€â”€ */
+  /* ── Close handler — plays exit animation, then unmounts ── */
   const handleClose = useCallback(() => {
     if (phase === "exiting") return
     setPhase("exiting")
     setTimeout(onClose, 310)
   }, [phase, onClose])
 
-  /* â”€â”€ Escape key â”€â”€ */
+  /* ── Escape key ── */
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") handleClose()
@@ -68,7 +68,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
     return () => window.removeEventListener("keydown", onKey)
   }, [handleClose])
 
-  /* â”€â”€ Focus trap: Tab cycles inside modal â”€â”€ */
+  /* ── Focus trap: Tab cycles inside modal ── */
   useEffect(() => {
     firstFocusRef.current?.focus()
     function onTab(e: KeyboardEvent) {
@@ -88,11 +88,11 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
 
   const isExiting = phase === "exiting"
 
-  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /* ─────────────────────────────────────────────────────────
      Styles
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
+  ──────────────────────────────────────────────────────────*/
 
-  /* Gradient border wrapper (padding trick â€” 1px coloured layer) */
+  /* Gradient border wrapper (padding trick — 1px coloured layer) */
   const borderWrapperStyle: React.CSSProperties = {
     padding:         "1px",
     background:      "linear-gradient(145deg, rgba(255,214,10,0.60) 0%, rgba(255,255,255,0.04) 45%, rgba(255,214,10,0.28) 80%, rgba(255,214,10,0.50) 100%)",
@@ -123,11 +123,11 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
     borderRadius: "calc(1.25rem - 1px)",
   }
 
-  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /* ─────────────────────────────────────────────────────────
      Render
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
+  ──────────────────────────────────────────────────────────*/
   return (
-    /* â”€â”€ Full-screen overlay â”€â”€ */
+    /* ── Full-screen overlay ── */
     <div
       role="dialog"
       aria-modal="true"
@@ -135,7 +135,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
       className="fixed inset-0 z-[9990] flex items-center justify-center p-4 sm:p-6"
     >
 
-      {/* â”€â”€ Backdrop â”€â”€ */}
+      {/* ── Backdrop ── */}
       <div
         aria-hidden="true"
         onClick={handleClose}
@@ -150,14 +150,14 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
         }}
       />
 
-      {/* â”€â”€ Modal â”€â”€ */}
+      {/* ── Modal ── */}
       <div
         className="popup-modal relative z-10 w-full max-w-[480px]"
         style={borderWrapperStyle}
       >
         <div className="relative overflow-hidden" style={innerBodyStyle}>
 
-          {/* â”€â”€ Noise grain texture â”€â”€ */}
+          {/* ── Noise grain texture ── */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 opacity-[0.028]"
@@ -167,7 +167,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
             }}
           />
 
-          {/* â”€â”€ Shimmer line across top â”€â”€ */}
+          {/* ── Shimmer line across top ── */}
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-px overflow-hidden"
@@ -181,7 +181,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
             />
           </div>
 
-          {/* â”€â”€ Scanlines overlay â”€â”€ */}
+          {/* ── Scanlines overlay ── */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.018] scanlines" />
 
           {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -189,7 +189,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           <div className="relative px-7 py-8 sm:px-8 sm:py-9">
 
-            {/* â”€â”€ Close button (top-right) â”€â”€ */}
+            {/* ── Close button (top-right) ── */}
             <button
               ref={firstFocusRef}
               type="button"
@@ -209,7 +209,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               </svg>
             </button>
 
-            {/* â”€â”€ Badge row â”€â”€ */}
+            {/* ── Badge row ── */}
             <div className="flex items-center gap-3 mb-5">
               {/* Category badge */}
               <span className={cn(
@@ -237,7 +237,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               </span>
             </div>
 
-            {/* â”€â”€ Headline â”€â”€ */}
+            {/* ── Headline ── */}
             <h2
               className="font-display font-black tracking-tight text-foreground mb-2 leading-[1.05]"
               style={{ fontSize: "clamp(1.5rem, 5vw, 1.9rem)" }}
@@ -245,7 +245,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               {config.headline}
             </h2>
 
-            {/* â”€â”€ Subheadline â”€â”€ */}
+            {/* ── Subheadline ── */}
             <p
               className="text-[0.875rem] font-semibold mb-3.5 leading-snug"
               style={{
@@ -258,12 +258,12 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               {config.subheadline}
             </p>
 
-            {/* â”€â”€ Value proposition â”€â”€ */}
+            {/* ── Value proposition ── */}
             <p className="text-[0.875rem] leading-relaxed text-muted/65 mb-7">
               {config.valueProp}
             </p>
 
-            {/* â”€â”€ CTA button â”€â”€ */}
+            {/* ── CTA button ── */}
             <Link
               href={config.ctaHref}
               onClick={handleClose}
@@ -295,7 +295,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               </svg>
             </Link>
 
-            {/* â”€â”€ Dismiss link â”€â”€ */}
+            {/* ── Dismiss link ── */}
             <button
               ref={lastFocusRef}
               type="button"

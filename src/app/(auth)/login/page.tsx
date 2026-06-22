@@ -11,7 +11,7 @@ import { cn }                    from "@/lib/utils"
 
 const AUTH_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
-/* â”€â”€ LoginForm â€” uses useSearchParams, must be inside Suspense â”€â”€ */
+/* ── LoginForm — uses useSearchParams, must be inside Suspense ── */
 function LoginForm() {
   const { user, signIn, signInWithGoogle } = useAuth()
   const router       = useRouter()
@@ -29,7 +29,7 @@ function LoginForm() {
   const [loading,   setLoading]   = useState(false)
   const [showPass,  setShowPass]  = useState(false)
 
-  /* â”€â”€ Validation â”€â”€ */
+  /* ── Validation ── */
   function validate(): string | null {
     if (!email.trim())    return "Email is required."
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Enter a valid email address."
@@ -83,7 +83,7 @@ function LoginForm() {
   return (
     <div className="w-full max-w-md">
 
-      {/* â”€â”€ Card â€” entrance animation â”€â”€ */}
+      {/* ── Card — entrance animation ── */}
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.97 }}
         animate={{ opacity: 1, y: 0,  scale: 1     }}
@@ -94,7 +94,7 @@ function LoginForm() {
         {/* Top gold rule */}
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
-        {/* â”€â”€ Brand mark â”€â”€ */}
+        {/* ── Brand mark ── */}
         <div className="flex flex-col items-center gap-6 mb-8">
           <Link href="/" className="flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
             <span className="font-display text-[1.1rem] font-bold tracking-widest text-foreground/90 uppercase">PXL</span>
@@ -106,17 +106,17 @@ function LoginForm() {
           </div>
         </div>
 
-        {/* â”€â”€ Google â”€â”€ */}
+        {/* ── Google ── */}
         <GoogleSignInButton onClick={handleGoogle} />
 
-        {/* â”€â”€ Divider â”€â”€ */}
+        {/* ── Divider ── */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-border" />
           <span className="text-[0.75rem] text-muted/40 font-medium tracking-wider">OR</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
-        {/* â”€â”€ Form â”€â”€ */}
+        {/* ── Form ── */}
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
 
           {/* Error banner */}
@@ -173,7 +173,7 @@ function LoginForm() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                placeholder="••••••••"
                 suppressHydrationWarning
                 className={cn(
                   "w-full rounded-xl border bg-background px-4 py-3 pr-11 text-[0.9375rem] text-foreground",
@@ -208,12 +208,12 @@ function LoginForm() {
             )}
           >
             {loading && <div className="h-4 w-4 rounded-full border-2 border-background/40 border-t-background animate-spin" />}
-            {loading ? "Signing inâ€¦" : "Sign in"}
+            {loading ? "Signing in…" : "Sign in"}
           </button>
 
         </form>
 
-        {/* â”€â”€ Footer link â”€â”€ */}
+        {/* ── Footer link ── */}
         <p className="mt-6 text-center text-[0.8125rem] text-muted/50">
           Don&apos;t have an account?{" "}
           <Link href="/signup" className="font-medium text-gold hover:text-gold-dim transition-colors">
@@ -226,7 +226,7 @@ function LoginForm() {
   )
 }
 
-/* â”€â”€ Page â€” wraps LoginForm in Suspense (required by useSearchParams) â”€â”€ */
+/* ── Page — wraps LoginForm in Suspense (required by useSearchParams) ── */
 export default function LoginPage() {
   return (
     <Suspense fallback={
@@ -244,7 +244,7 @@ export default function LoginPage() {
   )
 }
 
-/* â”€â”€ Micro icons â”€â”€ */
+/* ── Micro icons ── */
 function ErrorIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

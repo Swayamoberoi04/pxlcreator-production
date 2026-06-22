@@ -1,14 +1,14 @@
 ﻿"use client"
 
 /**
- * PhilosophyStrip.tsx â€” Why PXL Creator + Vision Closer
+ * PhilosophyStrip.tsx — Why PXL Creator + Vision Closer
  *
  * Cinematic upgrade:
- *   â€¢ Pillar cards enter with CinematicStagger depth reveal
- *   â€¢ Vision headline uses CinematicReveal
- *   â€¢ Pills enter with staggered rise
- *   â€¢ depth-card CSS on pillar cards for hover depth
- *   â€¢ depth-section pseudo-borders on both halves
+ *   • Pillar cards enter with CinematicStagger depth reveal
+ *   • Vision headline uses CinematicReveal
+ *   • Pills enter with staggered rise
+ *   • depth-card CSS on pillar cards for hover depth
+ *   • depth-section pseudo-borders on both halves
  * Content unchanged.
  */
 
@@ -18,10 +18,10 @@ import { CinematicBackground }      from "@/components/ui/CinematicBackground"
 import { GrainOverlay }             from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* â”€â”€ Three core brand pillars â”€â”€ */
+/* ── Three core brand pillars ── */
 const PILLARS = [
   {
-    icon:  "â—ˆ",
+    icon:  "◈",
     title: "Creative Identity",
     line:  "Build a signature look that's recognisably, undeniably you.",
     glow:  "rgba(255,214,10,0.10)",
@@ -29,7 +29,7 @@ const PILLARS = [
     iconColor: "text-gold",
   },
   {
-    icon:  "âœ¦",
+    icon:  "✦",
     title: "AI-Powered Editing",
     line:  "Upload a photo. Describe the vibe. Watch your vision come alive in seconds.",
     glow:  "rgba(61,122,138,0.10)",
@@ -37,9 +37,9 @@ const PILLARS = [
     iconColor: "text-[#a5b4fc]",
   },
   {
-    icon:  "â–¸",
+    icon:  "▸",
     title: "Cinematic Systems",
-    line:  "A cohesive visual language for every shoot â€” not just random filters.",
+    line:  "A cohesive visual language for every shoot — not just random filters.",
     glow:  "rgba(255,214,10,0.06)",
     border: "rgba(255,255,255,0.07)",
     iconColor: "text-gold/70",
@@ -51,7 +51,7 @@ export function PhilosophyStrip() {
     <section className="relative w-full bg-background" aria-label="Why PXL Creator">
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          PART A â€” 3 Pillars
+          PART A — 3 Pillars
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden border-y border-border bg-background depth-section">
 
@@ -85,7 +85,7 @@ export function PhilosophyStrip() {
               </div>
             </CinematicReveal>
 
-            {/* Pillar cards â€” 3D stagger depth reveal */}
+            {/* Pillar cards — 3D stagger depth reveal */}
             <CinematicStagger
               stagger={0.13}
               baseDelay={0.05}
@@ -144,7 +144,7 @@ export function PhilosophyStrip() {
                 href="/about"
                 className="text-[0.8125rem] text-muted/40 hover:text-gold/70 transition-colors duration-200 tracking-wide"
               >
-                Our full story & philosophy â†’
+                Our full story & philosophy →
               </Link>
             </CinematicReveal>
 
@@ -153,7 +153,7 @@ export function PhilosophyStrip() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          PART B â€” Cinematic Vision Closer
+          PART B — Cinematic Vision Closer
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden bg-surface depth-section">
 
@@ -193,7 +193,7 @@ export function PhilosophyStrip() {
               </div>
             </CinematicReveal>
 
-            {/* Pillars â€” staggered rise */}
+            {/* Pillars — staggered rise */}
             <CinematicStagger
               stagger={0.07}
               baseDelay={0.1}

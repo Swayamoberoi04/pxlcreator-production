@@ -15,7 +15,7 @@ interface PromptInputProps {
 
 const MAX_CHARS = 500
 const PLACEHOLDER =
-  "e.g. warm cinematic golden hour with lifted shadows and a subtle film grainâ€¦"
+  "e.g. warm cinematic golden hour with lifted shadows and a subtle film grain…"
 
 export function PromptInput({
   prompt,
@@ -32,7 +32,7 @@ export function PromptInput({
   return (
     <div className="flex flex-col gap-5 h-full">
 
-      {/* â”€â”€ Prompt textarea â”€â”€ */}
+      {/* ── Prompt textarea ── */}
       <div className="flex flex-col gap-2 flex-1">
         <div className="flex items-baseline justify-between">
           <label
@@ -83,13 +83,13 @@ export function PromptInput({
         )}
       </div>
 
-      {/* â”€â”€ Aesthetic chips â”€â”€ */}
+      {/* ── Aesthetic chips ── */}
       <AestheticChips
         selected={selectedAesthetics}
         onToggle={onToggleAesthetic}
       />
 
-      {/* â”€â”€ Submit button â”€â”€ */}
+      {/* ── Submit button ── */}
       <button
         type="button"
         onClick={onSubmit}
@@ -135,7 +135,7 @@ export function PromptInput({
 
       {/* Trust note */}
       <p className="text-center text-[0.75rem] text-muted/40 -mt-2">
-        Powered by GPT-4o Vision Â· ~8 seconds Â· Your photo is never stored
+        Powered by GPT-4o Vision · ~8 seconds · Your photo is never stored
       </p>
 
     </div>
@@ -149,7 +149,7 @@ const EXAMPLE_PROMPTS = [
   "moody forest with lifted shadows",
 ]
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function SparkIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

@@ -1,7 +1,7 @@
 ﻿/**
  * src/components/sections/BeforeAfterSection.tsx
  *
- * "See The Difference" interactive section â€” real before/after image pairs
+ * "See The Difference" interactive section — real before/after image pairs
  * with drag-to-compare sliders.
  *
  * Five pairs available:
@@ -9,7 +9,7 @@
  *
  * Layout:
  *   - One large hero slider (fr / "Golden Hour") spans full width at top
- *   - 2Ã—2 grid of smaller sliders below
+ *   - 2×2 grid of smaller sliders below
  *   - Browse CTA at the bottom
  *
  * Replaces the pure CSS-gradient AestheticShowcaseSection as the
@@ -23,12 +23,12 @@ import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { BeforeAfterSlider }    from "@/components/ui/BeforeAfterSlider"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* â”€â”€ Preset pairs config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Preset pairs config ─────────────────────────────────────── */
 const HERO_PAIR = {
   beforeSrc:   "/assets/fr_before.webp",
   afterSrc:    "/assets/fr_after.webp",
   alt:         "Film Rich preset",
-  label:       "Film Rich â€” Warm Analog Grade",
+  label:       "Film Rich — Warm Analog Grade",
   accentColor: "#FFD60A",
 }
 
@@ -37,28 +37,28 @@ const GRID_PAIRS = [
     beforeSrc:   "/assets/garage_before.webp",
     afterSrc:    "/assets/garage_after.webp",
     alt:         "Garage preset",
-    label:       "Garage â€” Gritty Urban",
+    label:       "Garage — Gritty Urban",
     accentColor: "#f97316",
   },
   {
     beforeSrc:   "/assets/tropical_before.webp",
     afterSrc:    "/assets/tropical_after.webp",
     alt:         "Tropical preset",
-    label:       "Tropical â€” Vivid & Lush",
+    label:       "Tropical — Vivid & Lush",
     accentColor: "#10b981",
   },
   {
     beforeSrc:   "/assets/documentary_before.webp",
     afterSrc:    "/assets/documentary_after.webp",
     alt:         "Documentary preset",
-    label:       "Documentary â€” Raw Realism",
+    label:       "Documentary — Raw Realism",
     accentColor: "#94a3b8",
   },
   {
     beforeSrc:   "/assets/hdrbw_before.webp",
     afterSrc:    "/assets/hdrbw_after.webp",
     alt:         "HDR B&W preset",
-    label:       "HDR B&W â€” High Contrast",
+    label:       "HDR B&W — High Contrast",
     accentColor: "#e2e8f0",
   },
 ]
@@ -76,7 +76,7 @@ export function BeforeAfterSection() {
 
       <Container className="relative z-10 py-24 sm:py-32">
 
-        {/* â”€â”€ Section header â”€â”€ */}
+        {/* ── Section header ── */}
         <CinematicReveal variant="rise">
           <div className="flex flex-col items-center text-center gap-4 mb-14 sm:mb-16">
             <div className="flex items-center gap-3">
@@ -103,7 +103,7 @@ export function BeforeAfterSection() {
           </div>
         </CinematicReveal>
 
-        {/* â”€â”€ Hero slider â”€â”€ */}
+        {/* ── Hero slider ── */}
         <CinematicReveal variant="depth" className="mb-4 sm:mb-5">
           <BeforeAfterSlider
             {...HERO_PAIR}
@@ -112,7 +112,7 @@ export function BeforeAfterSection() {
           />
         </CinematicReveal>
 
-        {/* â”€â”€ 2Ã—2 grid â”€â”€ */}
+        {/* ── 2×2 grid ── */}
         <CinematicStagger
           stagger={0.1}
           baseDelay={0.05}
@@ -130,7 +130,7 @@ export function BeforeAfterSection() {
           ))}
         </CinematicStagger>
 
-        {/* â”€â”€ Browse CTA â”€â”€ */}
+        {/* ── Browse CTA ── */}
         <CinematicReveal variant="rise" delay={0.25}>
           <div className="flex justify-center mt-12">
             <Link
@@ -138,7 +138,7 @@ export function BeforeAfterSection() {
               className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-7 py-3 text-[0.9375rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all duration-200"
             >
               Browse all presets
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">â†’</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>
             </Link>
           </div>
         </CinematicReveal>

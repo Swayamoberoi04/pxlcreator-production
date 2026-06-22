@@ -9,7 +9,7 @@ import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/u
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about PXL Creator â€” the team behind the presets, our story, and what drives us to help creators tell better visual stories.",
+    "Learn about PXL Creator — the team behind the presets, our story, and what drives us to help creators tell better visual stories.",
 }
 
 const VALUES = [
@@ -27,14 +27,14 @@ const VALUES = [
   },
   {
     title: "Community Over Clout",
-    body:  "10,000+ creators use PXL tools. We answer DMs, run giveaways, and grow together â€” not just broadcast.",
+    body:  "10,000+ creators use PXL tools. We answer DMs, run giveaways, and grow together — not just broadcast.",
   },
 ] as const
 
 const STATS = [
   { value: "10K+",  label: "Creators" },
   { value: "50+",   label: "Presets"  },
-  { value: "4.9â˜…",  label: "Rating"   },
+  { value: "4.9★",  label: "Rating"   },
   { value: "2021",  label: "Founded"  },
 ] as const
 
@@ -42,7 +42,7 @@ export default function AboutPage() {
   return (
     <div className="w-full bg-background">
 
-      {/* â”€â”€ Hero band â”€â”€ */}
+      {/* ── Hero band ── */}
       <div className="relative w-full border-b border-border overflow-hidden depth-section">
         <LuminousEnvironment variant="gold" intensity={0.9} />
         <CinematicBackground variant="mission" />
@@ -70,7 +70,7 @@ export default function AboutPage() {
 
             <CinematicReveal variant="rise" delay={0.14}>
               <p className="text-lead max-w-lg">
-                PXL Creator started as a personal toolkit â€” handcrafted presets for our own
+                PXL Creator started as a personal toolkit — handcrafted presets for our own
                 work. When people kept asking where the look came from, we decided to share it.
               </p>
             </CinematicReveal>
@@ -79,7 +79,7 @@ export default function AboutPage() {
         </Container>
       </div>
 
-      {/* â”€â”€ Stats strip â”€â”€ */}
+      {/* ── Stats strip ── */}
       <div className="border-b border-border bg-surface">
         <Container>
           <div className="flex items-center justify-center flex-wrap gap-0 py-8">
@@ -98,7 +98,7 @@ export default function AboutPage() {
         </Container>
       </div>
 
-      {/* â”€â”€ Mission statement â”€â”€ */}
+      {/* ── Mission statement ── */}
       <div className="relative">
         <LuminousEnvironment variant="gold" intensity={0.45} />
         <Container className="relative z-10 py-16 sm:py-24">
@@ -113,7 +113,7 @@ export default function AboutPage() {
                 We help you find your visual language
               </h2>
               <p className="text-lead max-w-2xl">
-                Great photography isn&apos;t just sharp and well-exposed â€” it has a{" "}
+                Great photography isn&apos;t just sharp and well-exposed — it has a{" "}
                 <span className="text-foreground font-medium">mood</span>. PXL Creator
                 exists to give you the color science and editing knowledge to make that mood
                 deliberate and repeatable. Our presets are starting points; our courses and
@@ -124,7 +124,7 @@ export default function AboutPage() {
         </Container>
       </div>
 
-      {/* â”€â”€ Values grid â”€â”€ */}
+      {/* ── Values grid ── */}
       <div className="relative border-t border-border bg-surface depth-section">
         <LuminousEnvironment variant="neutral" intensity={0.6} />
         <Container className="relative z-10 py-16 sm:py-24">
@@ -153,7 +153,7 @@ export default function AboutPage() {
         </Container>
       </div>
 
-      {/* â”€â”€ CTA â”€â”€ */}
+      {/* ── CTA ── */}
       <div className="relative border-t border-border">
         <LuminousEnvironment variant="gold" intensity={0.5} />
         <Container className="relative z-10 py-16 sm:py-24">
