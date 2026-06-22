@@ -933,3 +933,12 @@ select.admin-input {
   padding-right: 2.25rem;
 }
 
+/* ── CTA breathing glow animation ── */
+@keyframes cta-glow-breathe {
+  0%, 100% { box-shadow: 0 0 28px rgba(255,214,10,0.28), 0 0 8px rgba(255,214,10,0.18); }
+  50%       { box-shadow: 0 0 52px rgba(255,214,10,0.50), 0 0 18px rgba(255,214,10,0.30); }
+}
+.animate-cta-glow {
+  animation: cta-glow-breathe 2.8s ease-in-out infinite;
+}
+

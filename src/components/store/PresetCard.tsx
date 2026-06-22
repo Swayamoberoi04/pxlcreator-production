@@ -67,8 +67,8 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         "group relative flex flex-col rounded-2xl overflow-hidden",
         "bg-surface border border-border",
         "transition-all duration-300",
-        "hover:border-gold/30",
-        "hover:shadow-[0_16px_60px_rgba(255,214,10,0.09)]",
+        "hover:border-gold/40",
+        "hover:shadow-[0_8px_48px_rgba(255,214,10,0.16),0_0_0_1px_rgba(255,214,10,0.07)]",
       )}
     >
       {/* â”€â”€ Thumbnail â”€â”€ */}

@@ -45,7 +45,8 @@ export function SiteFooter() {
       {/* ── Top gold rule — mirrors the header ── */}
       <div
         aria-hidden="true"
-        className="relative z-[2] h-px w-full bg-gradient-to-r from-transparent via-gold/30 to-transparent"
+        className="relative z-[2] h-px w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent"
+        style={{ boxShadow: "0 0 12px rgba(255,214,10,0.25)" }}
       />
 
       {/* ── Newsletter band ── */}
@@ -187,7 +188,7 @@ function FooterColumn({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-label text-foreground/70 tracking-widest uppercase">{heading}</p>
+      <p className="text-label text-gold/70 tracking-widest uppercase">{heading}</p>
       <nav className="flex flex-col gap-2.5" aria-label={`${heading} navigation`}>
         {children}
       </nav>

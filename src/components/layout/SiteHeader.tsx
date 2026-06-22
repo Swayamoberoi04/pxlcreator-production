@@ -1,4 +1,4 @@
-﻿import Link from "next/link"
+import Link from "next/link"
 import { Container }        from "@/components/layout/Container"
 import { MobileNav }        from "@/components/layout/MobileNav"
 import { NavLinks }         from "@/components/layout/NavLinks"
@@ -17,20 +17,23 @@ export function SiteHeader() {
         header-glass
       "
     >
-      {/* â”€â”€ Scroll-state client observer (zero-render) â”€â”€ */}
+      {/* Scroll-state client observer (zero-render) */}
       <HeaderScrollState />
 
-      {/* â”€â”€ Cinematic top accent line â”€â”€ */}
+      {/* Subtle scanline grain */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 scanlines opacity-25" />
+
+      {/* Cinematic top accent line */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-px
-          bg-gradient-to-r from-transparent via-gold/35 to-transparent"
+          bg-gradient-to-r from-transparent via-gold/50 to-transparent"
       />
 
       <Container>
         <div className="flex h-14 items-center justify-between gap-6">
 
-          {/* â”€â”€ Logo â”€â”€ */}
+          {/* Logo */}
           <Link
             href="/"
             className="group flex shrink-0 items-center gap-0.5
@@ -48,10 +51,10 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          {/* â”€â”€ Desktop Nav â”€â”€ */}
+          {/* Desktop Nav */}
           <NavLinks />
 
-          {/* â”€â”€ Right actions â”€â”€ */}
+          {/* Right actions */}
           <div className="flex items-center gap-2">
             <CurrencyToggle />
             <NavAuthButtons />
@@ -62,7 +65,7 @@ export function SiteHeader() {
         </div>
       </Container>
 
-      {/* â”€â”€ Bottom cinematic rule â”€â”€ */}
+      {/* Bottom cinematic rule */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px
@@ -72,4 +75,3 @@ export function SiteHeader() {
     </header>
   )
 }
-

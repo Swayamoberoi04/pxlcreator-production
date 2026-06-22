@@ -262,7 +262,7 @@ export function HeroSection() {
             style={{ fontSize: "clamp(3.5rem, 11.5vw, 15rem)" }}
           >
             PXL{" "}
-            <span className="text-gold logo-glow">CREATOR</span>
+            <span className="text-gold text-glow">CREATOR</span>
           </motion.h1>
         </div>
 
@@ -288,7 +288,7 @@ export function HeroSection() {
           <MagneticButton>
             <Link
               href="/store"
-              className="inline-flex items-center gap-2.5 rounded-full bg-gold px-9 py-3.5 text-[0.9375rem] font-semibold text-background hover:bg-gold-dim active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent shadow-[0_0_36px_rgba(255,214,10,0.3)] hover:shadow-[0_0_52px_rgba(255,214,10,0.45)]"
+              className="inline-flex items-center gap-2.5 rounded-full bg-gold px-9 py-3.5 text-[0.9375rem] font-semibold text-background hover:bg-gold-dim active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent animate-cta-glow"
             >
               Shop Now
             </Link>
