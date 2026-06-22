@@ -3,47 +3,47 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    DESIGN TOKENS
    Single source of truth for all visual
    decisions in PXL Creator.
    Derived from PXL Creator Brand Bible v1.0.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 @theme inline {
 
-  /* â”€â”€ Typography â”€â”€ */
+  /* ── Typography ── */
   --font-sans:    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-bebas),   ui-sans-serif, system-ui, sans-serif;
   --font-mono:    ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 
-  /* â”€â”€ Brand Colors â”€â”€ */
-  /* Cinematic Black â€” the brand's primary background. Pure neutral,
+  /* ── Brand Colors ── */
+  /* Cinematic Black — the brand's primary background. Pure neutral,
      not blue-tinted, so gold and teal glows read as genuinely luminous. */
   --color-background: #0A0A0A;
   --color-foreground: #F5F5F5;
 
-  /* Surfaces (dark layering â€” graphite neutrals from brand bible) */
+  /* Surfaces (dark layering — graphite neutrals from brand bible) */
   --color-surface:   #161616;
   --color-surface-2: #2A2A2A;
   --color-surface-3: #3A3A3A;
 
-  /* Brand Yellow â€” glowy yellow. Primary CTAs, highlights, logo accent. */
+  /* Brand Yellow — glowy yellow. Primary CTAs, highlights, logo accent. */
   --color-gold:        #FFD60A;   /* primary glow yellow  */
   --color-gold-dim:    #E0A800;   /* pressed / gradient anchor */
   --color-gold-bright: #FFE970;   /* inner bloom / text highlight */
   --color-gold-muted:  rgba(255, 214, 10, 0.12);
 
-  /* Glow RGB â€” for composable rgba() shadows */
+  /* Glow RGB — for composable rgba() shadows */
   --pxl-glow-rgb:  255, 214, 10;
 
-  /* Neutral Silver â€” body text, secondary elements */
+  /* Neutral Silver — body text, secondary elements */
   --color-muted: #D4D4D4;
 
   /* Borders */
   --color-border: #222222;
 
-  /* â”€â”€ Radius Scale â”€â”€ */
-  --radius:     0.625rem;   /* 10px â€” base */
+  /* ── Radius Scale ── */
+  --radius:     0.625rem;   /* 10px — base */
   --radius-xs:  0.25rem;    /* 4px  */
   --radius-sm:  0.375rem;   /* 6px  */
   --radius-md:  0.5rem;     /* 8px  */
@@ -52,7 +52,7 @@
   --radius-2xl: 1rem;       /* 16px */
   --radius-full: 9999px;
 
-  /* â”€â”€ Shadcn Required Tokens (mapped to brand) â”€â”€ */
+  /* ── Shadcn Required Tokens (mapped to brand) ── */
   --color-card:                 #161616;
   --color-card-foreground:      #F5F5F5;
   --color-popover:              #161616;
@@ -68,14 +68,14 @@
   --color-input:                #222222;
   --color-ring:                 #FFD60A;
 
-  /* â”€â”€ Chart Tokens (required by shadcn chart components) â”€â”€ */
+  /* ── Chart Tokens (required by shadcn chart components) ── */
   --color-chart-1: #FFD60A;
   --color-chart-2: #E0A800;
   --color-chart-3: #D4D4D4;
   --color-chart-4: #555555;
   --color-chart-5: #333333;
 
-  /* â”€â”€ Sidebar Tokens (required by shadcn sidebar component) â”€â”€ */
+  /* ── Sidebar Tokens (required by shadcn sidebar component) ── */
   --color-sidebar:                    #161616;
   --color-sidebar-foreground:         #F5F5F5;
   --color-sidebar-primary:            #FFD60A;
@@ -87,14 +87,14 @@
 
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    BASE RESET & GLOBAL STYLES
    IMPORTANT: Must be inside @layer base so
    that @layer utilities rules can override it.
    Without this wrapper, the unlayered * rule
    wins the CSS cascade and zeroes ALL padding/
    margin utilities (p-5, py-24, mx-auto, etc).
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 @layer base {
   *, *::before, *::after {
     border-color: var(--color-border);
@@ -105,7 +105,7 @@
 }
 
 html {
-  /* scroll-behavior: smooth intentionally OMITTED â€” Lenis handles this */
+  /* scroll-behavior: smooth intentionally OMITTED — Lenis handles this */
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
 }
@@ -126,7 +126,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* â”€â”€ Touch device scroll performance â”€â”€ */
+/* ── Touch device scroll performance ── */
 @media (pointer: coarse) {
   /* Reduce orb animation complexity on mobile */
   .anim-orb {
@@ -134,12 +134,12 @@ body {
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    TYPOGRAPHY UTILITIES
    Brand bible: display = Bebas Neue (all-caps,
    ultra-wide tracking). Body = DM Sans (light
    weight, generous line-height).
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 @layer utilities {
   .heading-1 {
     font-family: var(--font-display);
@@ -200,7 +200,7 @@ body {
     text-transform: uppercase;
   }
 
-  /* â”€â”€ Section eyebrow â€” use inside section headers â”€â”€ */
+  /* ── Section eyebrow — use inside section headers ── */
   .eyebrow {
     display: flex;
     align-items: center;
@@ -222,7 +222,7 @@ body {
     flex-shrink: 0;
   }
 
-  /* Glow yellow gradient text â€” for hero headlines */
+  /* Glow yellow gradient text — for hero headlines */
   .text-gold-gradient {
     background: linear-gradient(135deg, #FFE970 0%, #FFD60A 55%, #E0A800 100%);
     -webkit-background-clip: text;
@@ -230,7 +230,7 @@ body {
     background-clip: text;
   }
 
-  /* â”€â”€ Glow utilities â€” used by navbar and logo â”€â”€ */
+  /* ── Glow utilities — used by navbar and logo ── */
   .text-glow-gold {
     text-shadow:
       0 0 10px rgba(255, 214, 10, 0.80),
@@ -244,15 +244,15 @@ body {
       0 0 32px rgba(255, 214, 10, 0.25);
   }
 
-  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /* ─────────────────────────────────────────
      GLASSMORPHISM SYSTEM
-     Three tiers â€” neutral, gold-tinted, dark.
+     Three tiers — neutral, gold-tinted, dark.
      Pair with backdrop-blur-* for the frosted
      glass effect; blur is intentionally kept
      here so the utility is self-contained.
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  ───────────────────────────────────────── */
 
-  /* Base glass â€” neutral frosted panel */
+  /* Base glass — neutral frosted panel */
   .glass {
     background:    rgba(255, 255, 255, 0.04);
     border:        1px solid rgba(255, 255, 255, 0.08);
@@ -260,7 +260,7 @@ body {
     -webkit-backdrop-filter: blur(14px) saturate(160%);
   }
 
-  /* Gold glass â€” warm tinted, used for premium cards / CTAs */
+  /* Gold glass — warm tinted, used for premium cards / CTAs */
   .glass-gold {
     background:    rgba(255, 214, 10, 0.05);
     border:        1px solid rgba(255, 214, 10, 0.14);
@@ -269,7 +269,7 @@ body {
     box-shadow:    0 0 32px rgba(255, 214, 10, 0.06), inset 0 1px 0 rgba(255, 214, 10, 0.12);
   }
 
-  /* Dark glass â€” nearly opaque, for nav / drawers */
+  /* Dark glass — nearly opaque, for nav / drawers */
   .glass-dark {
     background:    rgba(0, 0, 0, 0.55);
     border:        1px solid rgba(255, 255, 255, 0.06);
@@ -277,7 +277,7 @@ body {
     -webkit-backdrop-filter: blur(20px) saturate(150%);
   }
 
-  /* â”€â”€ Holographic shimmer border â€” used on feature cards â”€â”€ */
+  /* ── Holographic shimmer border — used on feature cards ── */
   .border-holo {
     position: relative;
   }
@@ -302,7 +302,7 @@ body {
     pointer-events: none;
   }
 
-  /* â”€â”€ 3D card depth â€” adds subtle inner shadow for lifted feel â”€â”€ */
+  /* ── 3D card depth — adds subtle inner shadow for lifted feel ── */
   .card-3d {
     box-shadow:
       0 1px 0   rgba(255, 255, 255, 0.05) inset,
@@ -311,7 +311,7 @@ body {
       0 0  0 1px rgba(255, 255, 255, 0.04);
   }
 
-  /* â”€â”€ Cinema section reveal â€” 3D depth entrance keyframe â”€â”€ */
+  /* ── Cinema section reveal — 3D depth entrance keyframe ── */
   @keyframes cinema-rise {
     from {
       opacity: 0;
@@ -329,12 +329,12 @@ body {
     animation: cinema-rise 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  /* â”€â”€ Depth parallax layers â”€â”€ */
+  /* ── Depth parallax layers ── */
   /* Apply to bg elements for cheap CSS parallax without JS */
   .parallax-slow  { transform: translateZ(-1px) scale(2);   }
   .parallax-med   { transform: translateZ(-0.5px) scale(1.5); }
 
-  /* â”€â”€ Section ambient glow â€” underneath content, behind bg â”€â”€ */
+  /* ── Section ambient glow — underneath content, behind bg ── */
   .section-glow-gold {
     position: relative;
   }
@@ -351,7 +351,7 @@ body {
     z-index: 0;
   }
 
-  /* â”€â”€ Cinematic divider line â”€â”€ */
+  /* ── Cinematic divider line ── */
   .cinema-rule {
     height: 1px;
     background: linear-gradient(
@@ -364,19 +364,19 @@ body {
     );
   }
 
-  /* â”€â”€ Floating depth card â€” premium hover lift for cards â”€â”€
+  /* ── Floating depth card — premium hover lift for cards ──
      Note: translateZ requires a perspective *parent* to have
      any visual effect. Since cards sit in arbitrary parents
      we use translateY + scale to simulate depth via shadow.
      The result feels identical to 3D but works everywhere.
-  â”€â”€ */
+  ── */
   .depth-card {
     transition:
       transform      0.38s cubic-bezier(0.16, 1, 0.3, 1),
       box-shadow     0.38s cubic-bezier(0.16, 1, 0.3, 1),
       border-color   0.25s ease;
     /*
-     * willChange on depth-card is intentional â€” these are interactable
+     * willChange on depth-card is intentional — these are interactable
      * cards that the user actively hovers over. Promotion here is justified
      * unlike passive decorative elements.
      */
@@ -390,7 +390,7 @@ body {
                 0  1px 0   rgba(255, 255, 255, 0.06) inset;
   }
 
-  /* â”€â”€ Stat counter pulse â€” draws eye to number â”€â”€ */
+  /* ── Stat counter pulse — draws eye to number ── */
   @keyframes stat-pulse {
     0%   { opacity: 0; transform: scale(0.85) translateY(12px); }
     100% { opacity: 1; transform: scale(1)    translateY(0); }
@@ -398,7 +398,7 @@ body {
 
   .animate-stat { animation: stat-pulse 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-  /* â”€â”€ Holographic scanline overlay â€” ultra-premium detail â”€â”€ */
+  /* ── Holographic scanline overlay — ultra-premium detail ── */
   .scanlines {
     background-image: repeating-linear-gradient(
       0deg,
@@ -410,7 +410,7 @@ body {
     pointer-events: none;
   }
 
-  /* â”€â”€ Gold text flicker â€” for eyebrow labels â”€â”€ */
+  /* ── Gold text flicker — for eyebrow labels ── */
   @keyframes gold-flicker {
     0%, 100% { opacity: 1; }
     92%       { opacity: 1; }
@@ -423,7 +423,7 @@ body {
     animation: gold-flicker 8s ease-in-out infinite;
   }
 
-  /* â”€â”€ Depth section border (before/after pseudo) â”€â”€ */
+  /* ── Depth section border (before/after pseudo) ── */
   .depth-section {
     position: relative;
     isolation: isolate;
@@ -450,11 +450,11 @@ body {
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    HERO BACKGROUND ANIMATION
    Slow pan + zoom (Ken Burns) applied to
    each background layer in HeroSection.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 @keyframes hero-drift {
   0%   { transform: scale(1.00) translate( 0%,   0%); }
   25%  { transform: scale(1.08) translate(-2.5%, -1.5%); }
@@ -463,13 +463,13 @@ body {
   100% { transform: scale(1.04) translate( 1%,   2%); }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    CINEMATIC ANIMATION SYSTEM
    Shared keyframes used by the cinematic
    atmospheric background layer engine.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 
-/* Ambient orb drift â€” slow lissajous float */
+/* Ambient orb drift — slow lissajous float */
 @keyframes orb-drift {
   0%   { transform: translate(-50%, -50%) scale(1.00); }
   25%  { transform: translate(-50%, -50%) translate(3%, -4%) scale(1.06); }
@@ -478,7 +478,7 @@ body {
   100% { transform: translate(-50%, -50%) scale(1.00); }
 }
 
-/* Animated film grain â€” texture shift at ~4fps for film feel (halved from 8fps) */
+/* Animated film grain — texture shift at ~4fps for film feel (halved from 8fps) */
 @keyframes grain-shift {
   0%   { background-position:   0%    0%; }
   10%  { background-position: -5%  -10%; }
@@ -493,14 +493,14 @@ body {
   100% { background-position:   0%    0%; }
 }
 
-/* Glow breathe â€” slow in-out pulse for ambient orbs */
+/* Glow breathe — slow in-out pulse for ambient orbs */
 @keyframes glow-pulse {
   0%   { opacity: var(--pulse-min, 0.04); transform: translate(-50%, -50%) scale(1.00); }
   50%  { opacity: var(--pulse-max, 0.08); transform: translate(-50%, -50%) scale(1.12); }
   100% { opacity: var(--pulse-min, 0.04); transform: translate(-50%, -50%) scale(1.00); }
 }
 
-/* Spotlight sweep â€” cinematic beam passes Lâ†’R */
+/* Spotlight sweep — cinematic beam passes L→R */
 @keyframes spotlight-sweep {
   0%   { transform: translateX(-130%) skewX(-8deg); opacity: 0; }
   8%   { opacity: 1; }
@@ -525,7 +525,7 @@ body {
   100% { transform: translateX(220%)  rotate(12deg); opacity: 0; }
 }
 
-/* Edge light leak â€” cinematic colour fringe */
+/* Edge light leak — cinematic colour fringe */
 @keyframes light-leak {
   0%   { opacity: 0; transform: scaleX(0.6); }
   30%  { opacity: 1; }
@@ -533,13 +533,13 @@ body {
   100% { opacity: 0; transform: scaleX(1.0); }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    LUMINOUS ENVIRONMENT SYSTEM
    Keyframes for LuminousEnvironment.tsx orb breathing.
    Also includes global luminous background utilities.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 
-/* Orb variant A â€” slow gentle breathe */
+/* Orb variant A — slow gentle breathe */
 @keyframes lenv-breathe-a {
   0%   { opacity: 0.6; transform: scale(1.00) translate(0px,   0px); }
   33%  { opacity: 0.9; transform: scale(1.08) translate(8px,  -6px); }
@@ -547,7 +547,7 @@ body {
   100% { opacity: 0.8; transform: scale(1.04) translate(3px,  -3px); }
 }
 
-/* Orb variant B â€” slightly faster, different phase */
+/* Orb variant B — slightly faster, different phase */
 @keyframes lenv-breathe-b {
   0%   { opacity: 0.7; transform: scale(1.04) translate(-3px,  4px); }
   40%  { opacity: 1.0; transform: scale(1.10) translate(6px,  -8px); }
@@ -555,7 +555,7 @@ body {
   100% { opacity: 0.8; transform: scale(1.02) translate(2px,   5px); }
 }
 
-/* Orb drift â€” very slow long-period motion */
+/* Orb drift — very slow long-period motion */
 @keyframes lenv-drift {
   0%   { opacity: 0.5; transform: translate(0px,   0px)  scale(1.00); }
   25%  { opacity: 0.8; transform: translate(12px, -10px) scale(1.06); }
@@ -564,10 +564,10 @@ body {
   100% { opacity: 0.5; transform: translate(0px,   0px)  scale(1.00); }
 }
 
-/* â”€â”€ Global atmospheric base â€” static radial gradient wash behind all content â”€â”€ */
+/* ── Global atmospheric base — static radial gradient wash behind all content ── */
 /* Static (no animation): fixed radial gradients never change, animating them
    forces repaint of a complex multi-gradient fixed layer every frame.
-   The visual difference is zero â€” gradients at this opacity are imperceptible. */
+   The visual difference is zero — gradients at this opacity are imperceptible. */
 body::before {
   content: "";
   position: fixed;
@@ -580,7 +580,7 @@ body::before {
     radial-gradient(ellipse 60%  50% at 50% 50%,   rgba(61,122,138,0.02)  0%, transparent 60%);
 }
 
-/* â”€â”€ Glow utilities â€” composable box-shadow / text glow system â”€â”€ */
+/* ── Glow utilities — composable box-shadow / text glow system ── */
 @layer utilities {
   /* Box-shadow glow tiers */
   .glow-sm {
@@ -593,7 +593,7 @@ body::before {
     box-shadow: 0 0 48px rgba(var(--pxl-glow-rgb), 0.45), 0 0 18px rgba(var(--pxl-glow-rgb), 0.28), 0 0 4px rgba(var(--pxl-glow-rgb), 0.60);
   }
 
-  /* Text glow â€” for headings and logo text */
+  /* Text glow — for headings and logo text */
   .text-glow {
     text-shadow:
       0 0  8px rgba(var(--pxl-glow-rgb), 0.90),
@@ -610,12 +610,12 @@ body::before {
       var(--color-background);
   }
 
-  /* Top glow wash â€” use on hero/landing sections */
+  /* Top glow wash — use on hero/landing sections */
   .bg-glow-top {
     background: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(var(--pxl-glow-rgb), 0.08) 0%, transparent 65%);
   }
 
-  /* Film grain overlay â€” apply to pseudo-element or wrapper */
+  /* Film grain overlay — apply to pseudo-element or wrapper */
   .grain {
     position: relative;
     isolation: isolate;
@@ -643,7 +643,7 @@ body::before {
   }
 }
 
-/* â”€â”€ Luminous section backgrounds â€” replace flat bg-background â”€â”€ */
+/* ── Luminous section backgrounds — replace flat bg-background ── */
 @layer utilities {
   /* Stores, featured, and conversion sections */
   .bg-luminous-gold {
@@ -684,7 +684,7 @@ body::before {
       var(--color-background);
   }
 
-  /* AI Studio â€” cool tech atmosphere */
+  /* AI Studio — cool tech atmosphere */
   .bg-studio-atmosphere {
     background:
       radial-gradient(ellipse 80% 45% at 80% 0%,   rgba(61,122,138,0.12) 0%, transparent 55%),
@@ -694,12 +694,12 @@ body::before {
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    PROMOTIONAL POPUP SYSTEM
    Keyframes for PromoPopup.tsx enter/exit.
    Entry: spring-out scale + translateY + fade.
-   Exit:  reverse â€” fast so user never waits.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+   Exit:  reverse — fast so user never waits.
+───────────────────────────────────────── */
 
 @keyframes popup-backdrop-in {
   from { opacity: 0; }
@@ -775,22 +775,22 @@ body::before {
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    SHIMMER ANIMATION
    Used by PromptInput submit button when
    the form is ready to submit.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 @keyframes shimmer {
   0%   { transform: translateX(-100%); }
   60%  { transform: translateX(100%);  }
   100% { transform: translateX(100%);  }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   CINEMATIC HEADER â€” scroll-reactive state
+/* ─────────────────────────────────────────
+   CINEMATIC HEADER — scroll-reactive state
    `data-scrolled="true"` toggled by
    HeaderScrollState.tsx client component.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 
 header.header-glass {
   border-bottom: 1px solid transparent;
@@ -810,12 +810,12 @@ header.header-glass[data-scrolled="true"] {
               0 8px 40px rgba(0, 0, 0, 0.5);
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    CINEMATIC CURSOR
-   Custom cursor system â€” only activates on
+   Custom cursor system — only activates on
    pointer:fine (mouse) devices. CinematicCursor.tsx
    adds/removes `.cursor-none-cinematic` on body.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 
 /* Hide OS cursor when cinematic cursor is active */
 .cursor-none-cinematic,
@@ -823,7 +823,7 @@ header.header-glass[data-scrolled="true"] {
   cursor: none !important;
 }
 
-/* â”€â”€ Inner dot â€” snaps exactly to pointer â”€â”€ */
+/* ── Inner dot — snaps exactly to pointer ── */
 .cinematic-cursor-dot {
   position: fixed;
   top:  0;
@@ -839,7 +839,7 @@ header.header-glass[data-scrolled="true"] {
   transition: opacity 0.2s;
 }
 
-/* â”€â”€ Outer ring â€” spring-lagged, state-reactive â”€â”€ */
+/* ── Outer ring — spring-lagged, state-reactive ── */
 .cinematic-cursor-ring {
   position: fixed;
   top:  0;
@@ -859,7 +859,7 @@ header.header-glass[data-scrolled="true"] {
     opacity     0.2s ease;
 }
 
-/* Hover state â€” expand, fill with faint gold */
+/* Hover state — expand, fill with faint gold */
 .cinematic-cursor-ring.hovering {
   width:  64px;
   height: 64px;
@@ -868,7 +868,7 @@ header.header-glass[data-scrolled="true"] {
   box-shadow: 0 0 20px rgba(255, 214, 10, 0.15), inset 0 0 12px rgba(255, 214, 10, 0.05);
 }
 
-/* Click state â€” compress for tactile feel */
+/* Click state — compress for tactile feel */
 .cinematic-cursor-ring.clicking {
   width:  22px;
   height: 22px;
@@ -881,9 +881,9 @@ header.header-glass[data-scrolled="true"] {
     background-color 0.1s ease;
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   CUSTOM SCROLLBAR â€” brand-consistent gold
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─────────────────────────────────────────
+   CUSTOM SCROLLBAR — brand-consistent gold
+───────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 5px; }
 ::-webkit-scrollbar-track  { background: #0A0A0A; }
 ::-webkit-scrollbar-thumb  {
@@ -894,11 +894,11 @@ header.header-glass[data-scrolled="true"] {
 ::-webkit-scrollbar-thumb:hover  { background: rgba(255, 214, 10, 0.38); }
 ::-webkit-scrollbar-thumb:active { background: rgba(255, 214, 10, 0.55); }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    ADMIN COMPONENTS
    Shared input styles for the admin dashboard.
    Applied as a utility class: className="admin-input"
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 .admin-input {
   width: 100%;
   border-radius: 0.75rem;

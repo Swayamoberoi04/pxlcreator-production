@@ -19,7 +19,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
   return (
     <div className="flex flex-col items-center gap-8 py-2">
 
-      {/* â”€â”€ DNA card â”€â”€ */}
+      {/* ── DNA card ── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.88, y: 32 }}
         animate={{ opacity: 1, scale: 1,    y: 0  }}
@@ -54,7 +54,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
                 style={{ borderColor: `${dna.primaryColor}60`, color: dna.primaryColor }}
               >
                 <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: dna.primaryColor }} />
-                Style DNA â€” {dna.badge}
+                Style DNA — {dna.badge}
               </span>
             </motion.div>
 
@@ -101,7 +101,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
         </div>
       </motion.div>
 
-      {/* â”€â”€ Top recommendations preview â”€â”€ */}
+      {/* ── Top recommendations preview ── */}
       {topSections.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -123,10 +123,10 @@ export function StepComplete({ dna, sections, onClose }: Props) {
                   className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3"
                 >
                   <span className="text-[0.875rem]">
-                    {item.type === "preset-bundle" ? "â—ˆ" :
-                     item.type === "lut-pack"      ? "â—‰" :
-                     item.type === "tutorial"      ? "â–·" :
-                     item.type === "challenge"     ? "âœ¦" : "â¬¡"}
+                    {item.type === "preset-bundle" ? "◈" :
+                     item.type === "lut-pack"      ? "◉" :
+                     item.type === "tutorial"      ? "▷" :
+                     item.type === "challenge"     ? "✦" : "⬡"}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="text-[0.875rem] font-medium text-foreground truncate">{item.title}</p>
@@ -144,7 +144,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
         </motion.div>
       )}
 
-      {/* â”€â”€ CTA buttons â”€â”€ */}
+      {/* ── CTA buttons ── */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -157,7 +157,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
           className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           View My Dashboard
-          <span aria-hidden="true">â†’</span>
+          <span aria-hidden="true">→</span>
         </Link>
         <button
           type="button"

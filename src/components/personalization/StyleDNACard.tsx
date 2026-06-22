@@ -7,8 +7,8 @@
  * Used on the dashboard header and anywhere DNA needs to surface.
  *
  * Variants:
- *  - "full"    â€” large card with tagline + archetypes + accent bar
- *  - "compact" â€” pill badge with dot + title only
+ *  - "full"    — large card with tagline + archetypes + accent bar
+ *  - "compact" — pill badge with dot + title only
  */
 
 import { motion } from "framer-motion"
@@ -78,7 +78,7 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
             style={{ borderColor: `${dna.primaryColor}60`, color: dna.primaryColor }}
           >
             <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: dna.primaryColor }} />
-            Style DNA â€” {dna.badge}
+            Style DNA — {dna.badge}
           </span>
 
           {/* Decorative category dots */}

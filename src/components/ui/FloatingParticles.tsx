@@ -1,7 +1,7 @@
 ﻿/**
  * src/components/ui/FloatingParticles.tsx
  *
- * Floating micro-particle field â€” tiny glowing dust motes that drift upward.
+ * Floating micro-particle field — tiny glowing dust motes that drift upward.
  * Deterministic positions (no Math.random at render) so no hydration mismatch.
  * Uses the `particle-float` CSS keyframe; suppressed by `prefers-reduced-motion`.
  *
@@ -23,7 +23,7 @@ interface Particle {
   delay:    string
 }
 
-/* 12 fixed seed positions â€” pick the first `count` */
+/* 12 fixed seed positions — pick the first `count` */
 const SEED_POSITIONS = [
   { x: "12%",  y: "78%" },
   { x: "22%",  y: "52%" },
@@ -87,9 +87,9 @@ export function FloatingParticles({
             animationDelay:  p.delay,
             /*
              * willChange removed: each hint promotes the element to its own
-             * compositor layer, costing GPU memory. For tiny 2â€“3px particles
+             * compositor layer, costing GPU memory. For tiny 2–3px particles
              * the CSS animation engine handles transform/opacity natively without
-             * explicit promotion. Let the browser decide â€” it makes better choices
+             * explicit promotion. Let the browser decide — it makes better choices
              * than blanket willChange on every particle.
              */
           }}

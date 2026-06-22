@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    Navigation data
    Explore items are referenced by both
    NavLinks (dropdown) and MobileNav (flat).
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 export const EXPLORE_ITEMS = [
   { label: "Store",      href: "/store"    },
   { label: "AI Studio",  href: "/studio"   },
@@ -44,9 +44,9 @@ const NAV_ITEMS: NavItemConfig[] = [
   { type: "link",     label: "Premium",   href: "/premium", highlight: true },
 ]
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   NavLinks â€” desktop only (hidden on <md)
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─────────────────────────────────────────
+   NavLinks — desktop only (hidden on <md)
+───────────────────────────────────────── */
 export function NavLinks() {
   const pathname = usePathname()
   const [openKey, setOpenKey]   = useState<string | null>(null)
@@ -80,7 +80,7 @@ export function NavLinks() {
 
       {NAV_ITEMS.map((item) => {
 
-        /* â”€â”€ Simple link â”€â”€ */
+        /* ── Simple link ── */
         if (item.type === "link") {
           const isActive =
             item.href === "/"
@@ -135,7 +135,7 @@ export function NavLinks() {
           )
         }
 
-        /* â”€â”€ Dropdown â”€â”€ */
+        /* ── Dropdown ── */
         const isOpen   = openKey === item.label
         const isActive = exploreActive
 
@@ -170,7 +170,7 @@ export function NavLinks() {
               )}
             </button>
 
-            {/* â”€â”€ Dropdown panel â€” Framer Motion AnimatePresence â”€â”€ */}
+            {/* ── Dropdown panel — Framer Motion AnimatePresence ── */}
             <AnimatePresence>
               {isOpen && (
                 <motion.div
@@ -228,7 +228,7 @@ export function NavLinks() {
   )
 }
 
-/* â”€â”€ Chevron icon with open/close rotation â”€â”€ */
+/* ── Chevron icon with open/close rotation ── */
 function ChevronDown({ open }: { open: boolean }) {
   return (
     <svg

@@ -1,7 +1,7 @@
 ﻿"use client"
 
 /**
- * OnboardingModal.tsx â€” v2
+ * OnboardingModal.tsx — v2
  *
  * Full-screen cinematic onboarding experience.
  * Orchestrates 5 steps + Style DNA reveal using Framer Motion.
@@ -29,7 +29,7 @@ import type {
   PersonalizedSection, StyleDNA,
 } from "@/types/onboarding"
 
-/* â”€â”€ Step metadata â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Step metadata ────────────────────────────────────────── */
 const STEPS = [
   { n: 1, headline: "What best describes you?",       sub: "Your profession shapes every recommendation we make." },
   { n: 2, headline: "What are you trying to achieve?", sub: "Your goals define your personalised learning path."   },
@@ -41,7 +41,7 @@ const STEPS = [
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
-/* â”€â”€ Slide transition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Slide transition ─────────────────────────────────────── */
 const slideVariants = {
   enter: (dir: number) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0 }),
   center: { x: 0, opacity: 1, transition: { duration: 0.45, ease: EASE } },
@@ -63,7 +63,7 @@ export function OnboardingModal() {
 
   const dir = 1
 
-  /* â”€â”€ Toggle helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Toggle helpers ─────────────────────────────────────── */
   const toggleProfession = useCallback((id: ProfessionId) => {
     const curr = answers.professions ?? []
     setProfessions(curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])
@@ -86,7 +86,7 @@ export function OnboardingModal() {
     setPlatforms(curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])
   }, [answers.platforms, setPlatforms])
 
-  /* â”€â”€ Validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Validation ─────────────────────────────────────────── */
   const canAdvance = () => {
     if (step === 1) return (answers.professions?.length ?? 0) > 0
     if (step === 2) return (answers.goals?.length ?? 0) > 0
@@ -96,7 +96,7 @@ export function OnboardingModal() {
     return false
   }
 
-  /* â”€â”€ Submit onboarding â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Submit onboarding ──────────────────────────────────── */
   async function handleSubmit() {
     if (!user) return
     setSubmitting(true)
@@ -123,7 +123,7 @@ export function OnboardingModal() {
       if (res.ok) {
         const data = await res.json() as { dna: StyleDNA; sections: PersonalizedSection[] }
         if (data.dna) setDNA(data.dna)
-        next() // â†’ step 6 (complete)
+        next() // → step 6 (complete)
       }
     } catch (err) {
       console.error("[onboarding]", err)
@@ -132,7 +132,7 @@ export function OnboardingModal() {
     }
   }
 
-  /* â”€â”€ Next button handler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Next button handler ────────────────────────────────── */
   function handleNext() {
     if (step < 5) next()
     else if (step === 5) handleSubmit()
@@ -167,10 +167,10 @@ export function OnboardingModal() {
           style={{ background: "radial-gradient(ellipse at 50% 0%, #FFD60A60, transparent 70%)" }}
         />
 
-        {/* â”€â”€ Outer wrapper: modal + preview side-by-side on lg+ â”€â”€ */}
+        {/* ── Outer wrapper: modal + preview side-by-side on lg+ ── */}
         <div className="relative z-10 flex items-start gap-4 w-full max-w-[940px] h-[90vh]">
 
-          {/* â”€â”€ Modal panel â”€â”€ */}
+          {/* ── Modal panel ── */}
           <motion.div
             initial={{ scale: 0.92, opacity: 0, y: 24 }}
             animate={{ scale: 1,    opacity: 1, y: 0  }}
@@ -185,7 +185,7 @@ export function OnboardingModal() {
             {/* Top gold accent line */}
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
 
-            {/* â”€â”€ Header â”€â”€ */}
+            {/* ── Header ── */}
             <div className="px-6 pt-6 pb-4 shrink-0">
               {step < 6 && (
                 <div className="flex items-center gap-2 mb-5">
@@ -232,7 +232,7 @@ export function OnboardingModal() {
               </div>
             </div>
 
-            {/* â”€â”€ Step content â”€â”€ */}
+            {/* ── Step content ── */}
             <div className="flex-1 min-h-0 overflow-hidden relative">
               <AnimatePresence mode="wait" custom={dir}>
                 <motion.div
@@ -265,7 +265,7 @@ export function OnboardingModal() {
                     <StepComplete dna={dna} sections={[]} onClose={markComplete} />
                   )}
 
-                  {/* â”€â”€ Live preview (inline below step content, mobile-only) â”€â”€ */}
+                  {/* ── Live preview (inline below step content, mobile-only) ── */}
                   {showPreview && (
                     <div className="lg:hidden">
                       <LivePreviewPanel answers={answers} />
@@ -275,7 +275,7 @@ export function OnboardingModal() {
               </AnimatePresence>
             </div>
 
-            {/* â”€â”€ Footer navigation â”€â”€ */}
+            {/* ── Footer navigation ── */}
             {step < 6 && (
               <div className="px-6 py-4 border-t border-border/40 flex items-center justify-between gap-3 shrink-0">
                 {step > 1 ? (
@@ -310,19 +310,19 @@ export function OnboardingModal() {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="animate-spin" aria-hidden="true">
                         <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                       </svg>
-                      Buildingâ€¦
+                      Building…
                     </>
                   ) : step === 5 ? (
-                    "Build My Universe â†’"
+                    "Build My Universe →"
                   ) : (
-                    "Continue â†’"
+                    "Continue →"
                   )}
                 </button>
               </div>
             )}
           </motion.div>
 
-          {/* â”€â”€ Desktop live preview panel (right side) â”€â”€ */}
+          {/* ── Desktop live preview panel (right side) ── */}
           {showPreview && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -358,7 +358,7 @@ export function OnboardingModal() {
                     <div className="h-2 w-1/2 rounded-full bg-surface-2 animate-pulse [animation-delay:100ms]" />
                     <div className="h-2 w-2/3 rounded-full bg-surface-2 animate-pulse [animation-delay:200ms]" />
                     <p className="text-[0.7rem] text-muted/30 mt-2">
-                      Select your profession to see personalised picksâ€¦
+                      Select your profession to see personalised picks…
                     </p>
                   </motion.div>
                 ) : (

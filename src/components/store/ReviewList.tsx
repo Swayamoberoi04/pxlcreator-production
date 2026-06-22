@@ -38,7 +38,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
         setAvgRating(data.avgRating)
         setCount(data.count ?? 0)
       })
-      .catch(() => {/* silent â€” reviews are non-critical */})
+      .catch(() => {/* silent — reviews are non-critical */})
       .finally(() => setLoading(false))
   }, [presetSlug, refreshKey])
 
@@ -55,7 +55,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
   if (count === 0) {
     return (
       <p className="text-[0.875rem] text-muted/45 italic">
-        No reviews yet â€” be the first to share your experience.
+        No reviews yet — be the first to share your experience.
       </p>
     )
   }

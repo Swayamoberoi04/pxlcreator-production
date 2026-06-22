@@ -65,12 +65,12 @@ export default function AccountPage() {
   const provider     = user.providerData[0]?.providerId === "google.com" ? "Google" : "Email & Password"
   const memberSince  = user.metadata.creationTime
     ? new Date(user.metadata.creationTime).toLocaleDateString("en-US", { month: "long", year: "numeric" })
-    : "â€”"
+    : "—"
 
   return (
     <div className="w-full bg-background">
 
-      {/* â”€â”€ Hero band â”€â”€ */}
+      {/* ── Hero band ── */}
       <div className="relative border-b border-border overflow-hidden depth-section">
         <LuminousEnvironment variant="gold" intensity={0.75} />
         <GrainOverlay opacity={0.015} animated zIndex={1} />
@@ -105,7 +105,7 @@ export default function AccountPage() {
                 ? <div className="h-3.5 w-3.5 rounded-full border border-current border-t-transparent animate-spin" />
                 : <LogOutIcon />
               }
-              {signingOut ? "Signing outâ€¦" : "Sign out"}
+              {signingOut ? "Signing out…" : "Sign out"}
             </button>
 
           </div>
@@ -115,9 +115,9 @@ export default function AccountPage() {
       <Container className="py-10 sm:py-14">
         <div className="flex flex-col gap-10 max-w-3xl">
 
-          {/* â”€â”€ Account info cards â”€â”€ */}
+          {/* ── Account info cards ── */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <InfoCard label="Email"          value={user.email ?? "â€”"}  icon={<MailIcon />}     />
+            <InfoCard label="Email"          value={user.email ?? "—"}  icon={<MailIcon />}     />
             <InfoCard label="Sign-in method" value={provider}           icon={<ShieldIcon />}   />
             <InfoCard label="Member since"   value={memberSince}        icon={<CalendarIcon />} />
 
@@ -127,7 +127,7 @@ export default function AccountPage() {
                 <p className="font-display font-bold text-foreground text-[1.0625rem]">{planLabel}</p>
                 <p className="text-[0.8125rem] text-muted/60">
                   {isPremium && renewsDate
-                    ? `Active until ${renewsDate} Â· renew anytime from Plans`
+                    ? `Active until ${renewsDate} · renew anytime from Plans`
                     : "Upgrade to unlock all preset packs, courses, and early access drops."
                   }
                 </p>
@@ -141,7 +141,7 @@ export default function AccountPage() {
             </div>
           </div>
 
-          {/* â”€â”€ My Library â”€â”€ */}
+          {/* ── My Library ── */}
           <MyLibrary />
 
         </div>
@@ -151,9 +151,9 @@ export default function AccountPage() {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    My Library section
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 function MyLibrary() {
   const { user }  = useAuth()
   const [orders,  setOrders]  = useState<OrderSummary[]>([])
@@ -247,7 +247,7 @@ function MyLibrary() {
                       ? isExpired   ? "Link expired"
                       : isExhausted ? "Download limit reached"
                       : `${dl.download_count}/${dl.max_downloads} downloads used`
-                      : "Preparing downloadâ€¦"
+                      : "Preparing download…"
                     }
                   </p>
                 </div>
@@ -277,8 +277,8 @@ function MyLibrary() {
       {orders.length > 0 && (
         <div className="rounded-xl border border-border bg-surface/50 px-4 py-3">
           <p className="text-small text-muted text-center">
-            {orders.length} order{orders.length !== 1 ? "s" : ""} total Â·{" "}
-            â‚¹{orders.reduce((s, o) => s + o.total_inr, 0).toLocaleString("en-IN")} spent
+            {orders.length} order{orders.length !== 1 ? "s" : ""} total ·{" "}
+            ₹{orders.reduce((s, o) => s + o.total_inr, 0).toLocaleString("en-IN")} spent
           </p>
         </div>
       )}
@@ -286,9 +286,9 @@ function MyLibrary() {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────
    Sub-components
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────── */
 function InfoCard({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
   return (
     <div className="rounded-2xl border border-border bg-surface p-5 flex flex-col gap-3">
@@ -298,7 +298,7 @@ function InfoCard({ label, value, icon }: { label: string; value: string; icon: 
   )
 }
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function LogOutIcon()   { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> }
 function MailIcon()     { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg> }
 function ShieldIcon()   { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> }

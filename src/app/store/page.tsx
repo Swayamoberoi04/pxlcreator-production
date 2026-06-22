@@ -13,9 +13,9 @@ import { StoreScene3DWrapper } from "@/components/3d/StoreScene3DWrapper"
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Store â€” Preset Packs & Free Downloads",
+  title: "Store — Preset Packs & Free Downloads",
   description:
-    "Browse 24 PXL Creator preset packs â€” 12 free downloads and tiered paid packs from â‚¹420. Cinematic, film emulation, portrait, landscape and street. Instant download.",
+    "Browse 24 PXL Creator preset packs — 12 free downloads and tiered paid packs from ₹420. Cinematic, film emulation, portrait, landscape and street. Instant download.",
 }
 
 const VALID_CATEGORIES = new Set([
@@ -44,25 +44,25 @@ export default async function StorePage({
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative w-full overflow-hidden" style={{ minHeight: "clamp(440px, 52vh, 640px)" }}>
 
-        {/* â”€â”€ Luminous atmospheric background â”€â”€ */}
+        {/* ── Luminous atmospheric background ── */}
         <LuminousEnvironment variant="store" intensity={1.2} />
 
-        {/* â”€â”€ 3D floating preset panels â”€â”€ */}
+        {/* ── 3D floating preset panels ── */}
         <div aria-hidden="true" className="absolute inset-0 z-[2] pointer-events-none">
           <StoreScene3DWrapper />
         </div>
 
-        {/* â”€â”€ Film grain â”€â”€ */}
+        {/* ── Film grain ── */}
         <GrainOverlay opacity={0.022} animated zIndex={3} />
 
-        {/* â”€â”€ Gold rules â”€â”€ */}
+        {/* ── Gold rules ── */}
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent z-[4]" />
         <div aria-hidden="true" className="absolute inset-x-0 top-0    h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent z-[4]" />
 
-        {/* â”€â”€ Bottom fade to grid section â”€â”€ */}
+        {/* ── Bottom fade to grid section ── */}
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent z-[4]" />
 
-        {/* â”€â”€ Hero content â”€â”€ */}
+        {/* ── Hero content ── */}
         <Container className="relative z-[10] py-16 sm:py-24 flex flex-col justify-end h-full" /* style via parent div */ >
           <div className="flex flex-col gap-6 max-w-3xl">
 
@@ -97,7 +97,7 @@ export default async function StorePage({
               <p className="text-[1rem] sm:text-[1.0625rem] text-muted/65 max-w-xl leading-relaxed">
                 Start with{" "}
                 <span className="text-emerald-400 font-semibold">12 free preset packs</span>
-                {" "}â€” no credit card. Buy any paid preset instantly,
+                {" "}— no credit card. Buy any paid preset instantly,
                 or <span className="text-gold font-medium">unlock free</span> using the password from our YouTube tutorials.
               </p>
             </CinematicReveal>

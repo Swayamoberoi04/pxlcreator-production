@@ -112,7 +112,7 @@ export default function AdminLoginPage() {
               disabled={loading || !pw.trim()}
               className="rounded-xl bg-gold text-[#080808] font-bold py-3.5 text-[0.9375rem] tracking-wide transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gold-dim active:scale-[0.97] shadow-[0_4px_20px_rgba(255,214,10,0.20)]"
             >
-              {loading ? "Signing inâ€¦" : "Sign In"}
+              {loading ? "Signing in…" : "Sign In"}
             </button>
 
           </form>

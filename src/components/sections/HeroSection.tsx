@@ -19,7 +19,7 @@ import { GrainOverlay }                              from "@/components/ui/Grain
 import { MagneticButton }                            from "@/components/ui/MagneticButton"
 
 /*
- * HeroScene3D is a Three.js canvas â€” must skip SSR entirely.
+ * HeroScene3D is a Three.js canvas — must skip SSR entirely.
  * dynamic() is called at module level (not inside the component) so
  * Next.js can statically analyse the import for code-splitting.
  */
@@ -28,27 +28,27 @@ const HeroScene3D = dynamic(
   { ssr: false }
 )
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────────────────────────
    Background scenes
    Three real cinematic images cycle every 5.5 s with a 1.8 s
    crossfade. Each scene tints the photo with a matching colour
    grade overlay so the brand palette remains consistent.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────────────────────────── */
 const SCENES = [
   {
-    /* Warm golden hour â€” Film Rich vibe */
+    /* Warm golden hour — Film Rich vibe */
     img:    "/assets/magical_sunset.webp",
     tint:   "linear-gradient(to bottom, rgba(20,8,0,0.55) 0%, rgba(10,4,0,0.30) 50%, rgba(0,0,0,0.60) 100%)",
     accent: "radial-gradient(ellipse 85% 55% at 28% 38%, rgba(160,85,15,0.22) 0%, transparent 68%)",
   },
   {
-    /* Cool cinematic night â€” Noir Night vibe */
+    /* Cool cinematic night — Noir Night vibe */
     img:    "/assets/moody_city.webp",
     tint:   "linear-gradient(to bottom, rgba(2,8,20,0.60) 0%, rgba(5,14,30,0.30) 50%, rgba(0,0,0,0.65) 100%)",
     accent: "radial-gradient(ellipse 70% 60% at 72% 32%, rgba(15,55,115,0.28) 0%, transparent 68%)",
   },
   {
-    /* Forest / film green â€” Film Green vibe */
+    /* Forest / film green — Film Green vibe */
     img:    "/assets/film_green.webp",
     tint:   "linear-gradient(to bottom, rgba(4,10,4,0.58) 0%, rgba(8,18,8,0.28) 50%, rgba(0,0,0,0.62) 100%)",
     accent: "radial-gradient(ellipse 60% 70% at 50% 28%, rgba(20,75,25,0.18) 0%, transparent 68%)",
@@ -60,19 +60,19 @@ export function HeroSection() {
   const heroRef  = useRef<HTMLElement>(null)
   const reduced  = useReducedMotion()
 
-  /* â”€â”€ Scene cycling â”€â”€ */
+  /* ── Scene cycling ── */
   useEffect(() => {
     const id = setInterval(() => setActive((v) => (v + 1) % SCENES.length), 5500)
     return () => clearInterval(id)
   }, [])
 
-  /* â”€â”€ Scroll-linked fade-out: content gracefully exits as user scrolls away â”€â”€
-     Uses transform + opacity only â€” compositor path, zero layout work.
+  /* ── Scroll-linked fade-out: content gracefully exits as user scrolls away ──
+     Uses transform + opacity only — compositor path, zero layout work.
      offset ["start start", "end start"] = 0 when hero top is at viewport top,
      1 when hero bottom is at viewport top (hero fully scrolled past).
      Animations complete at 0.55 so the hero feels gone before the next
      section takes focus. prefers-reduced-motion: skip entirely.
-  â”€â”€ */
+  ── */
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -80,7 +80,7 @@ export function HeroSection() {
   const scrollOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
   const scrollY       = useTransform(scrollYProgress, [0, 0.55], [0, -24])
 
-  /* â”€â”€ Mouse parallax â€” content floats Â±8px on pointer move â”€â”€ */
+  /* ── Mouse parallax — content floats ±8px on pointer move ── */
   const rawX = useMotionValue(0)
   const rawY = useMotionValue(0)
   const springX = useSpring(rawX, { stiffness: 38, damping: 28, mass: 0.6 })
@@ -108,7 +108,7 @@ export function HeroSection() {
     >
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 0 â€” Scene: real cinematic photo
+          LAYER 0 — Scene: real cinematic photo
           Ken Burns slow zoom via hero-drift keyframe
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {SCENES.map((scene, i) => (
@@ -119,7 +119,7 @@ export function HeroSection() {
           style={{
             opacity:              i === active ? 1 : 0,
             animation:            "hero-drift 22s ease-in-out infinite alternate",
-            /* Pause the Ken Burns drift on hidden scenes â€” saves GPU per frame */
+            /* Pause the Ken Burns drift on hidden scenes — saves GPU per frame */
             animationPlayState:   i === active ? "running" : "paused",
             /* Only promote the active layer; inactive ones need no compositor layer */
             willChange:           i === active ? "transform" : "auto",
@@ -138,7 +138,7 @@ export function HeroSection() {
       ))}
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 1 â€” Per-scene colour-grade tint + accent
+          LAYER 1 — Per-scene colour-grade tint + accent
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {SCENES.map((scene, i) => (
         <div
@@ -155,13 +155,13 @@ export function HeroSection() {
       ))}
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 2 â€” Cinematic ambient orbs + spotlight
+          LAYER 2 — Cinematic ambient orbs + spotlight
           (CinematicBackground handles orb-drift keyframes)
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <CinematicBackground variant="hero" className="z-[2]" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 3 â€” Floating gold dust particles
+          LAYER 3 — Floating gold dust particles
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <FloatingParticles
         count={9}
@@ -170,17 +170,17 @@ export function HeroSection() {
       />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 4 â€” Animated film grain
+          LAYER 4 — Animated film grain
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <GrainOverlay opacity={0.038} animated zIndex={4} />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 5 â€” Dark readability overlay
+          LAYER 5 — Dark readability overlay
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div aria-hidden="true" className="absolute inset-0 bg-black/50 z-[5]" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 6 â€” Radial vignette (edges darken)
+          LAYER 6 — Radial vignette (edges darken)
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div
         aria-hidden="true"
@@ -191,13 +191,13 @@ export function HeroSection() {
       />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 7 â€” Cinematic letterbox bars
+          LAYER 7 — Cinematic letterbox bars
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div aria-hidden="true" className="absolute inset-x-0 top-0    h-[6%] bg-background/70 z-[7]" />
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[6%] bg-background/70 z-[7]" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          LAYER 9 â€” R3F 3D glass frames + gold cloud
+          LAYER 9 — R3F 3D glass frames + gold cloud
           Canvas has alpha=true; all layers beneath
           show through. pointer-events=none keeps DOM
           interactions intact for the content above.
@@ -210,10 +210,10 @@ export function HeroSection() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          HERO CONTENT â€” scroll-linked fade + mouse parallax
+          HERO CONTENT — scroll-linked fade + mouse parallax
           Outer wrapper handles the scroll exit (opacity + y).
           Inner wrapper handles mouse parallax (x + y springs).
-          Two-layer approach keeps each transform orthogonal â€”
+          Two-layer approach keeps each transform orthogonal —
           no fighting between scroll and mouse motion values.
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <motion.div
@@ -225,7 +225,7 @@ export function HeroSection() {
         className="flex flex-col items-center text-center w-full px-5 select-none"
       >
 
-        {/* â”€â”€ Eyebrow â”€â”€ */}
+        {/* ── Eyebrow ── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -237,7 +237,7 @@ export function HeroSection() {
           <span className="h-px w-10 bg-gold/60" aria-hidden="true" />
         </motion.div>
 
-        {/* â”€â”€ Headline â€” deep cinematic glow underneath â”€â”€ */}
+        {/* ── Headline — deep cinematic glow underneath ── */}
         <div className="relative">
           {/* Radial gold bloom behind the headline text */}
           <div
@@ -266,7 +266,7 @@ export function HeroSection() {
           </motion.h1>
         </div>
 
-        {/* â”€â”€ Subtitle â”€â”€ */}
+        {/* ── Subtitle ── */}
         <motion.p
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -277,14 +277,14 @@ export function HeroSection() {
           Your creative identity starts here.
         </motion.p>
 
-        {/* â”€â”€ CTAs â”€â”€ */}
+        {/* ── CTAs ── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mt-9 sm:mt-11 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
-          {/* Primary â€” magnetic */}
+          {/* Primary — magnetic */}
           <MagneticButton>
             <Link
               href="/store"
@@ -294,7 +294,7 @@ export function HeroSection() {
             </Link>
           </MagneticButton>
 
-          {/* Secondary â€” magnetic */}
+          {/* Secondary — magnetic */}
           <MagneticButton>
             <Link
               href="/bundles"
@@ -308,7 +308,7 @@ export function HeroSection() {
           </MagneticButton>
         </motion.div>
 
-        {/* â”€â”€ Trust line â”€â”€ */}
+        {/* ── Trust line ── */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -325,7 +325,7 @@ export function HeroSection() {
       </motion.div>
       {/* /scroll-fade wrapper */}
 
-      {/* â”€â”€ Scene indicator dots â”€â”€ */}
+      {/* ── Scene indicator dots ── */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[10] flex items-center gap-2">
         {SCENES.map((_, i) => (
           <button
@@ -343,7 +343,7 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* â”€â”€ Bottom fade into next section â”€â”€ */}
+      {/* ── Bottom fade into next section ── */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent z-[8]"

@@ -1,7 +1,7 @@
 ﻿"use client"
 
 interface ProgressRingProps {
-  progress:  number    // 0â€“100
+  progress:  number    // 0–100
   size?:     number    // px
   stroke?:   number    // px
   color?:    string

@@ -7,11 +7,11 @@
  * into living, glowing, dimensional cinematic environments.
  *
  * Architecture:
- *   â€¢ Absolutely positioned within a `relative` parent section
- *   â€¢ Multiple layered radial gradient orbs with CSS `@keyframes` breathing
- *   â€¢ 0 R3F / WebGL cost â€” lightweight CSS animations only
- *   â€¢ 8 environment variants, each with a unique atmospheric palette
- *   â€¢ Composes with GrainOverlay for micro-texture depth
+ *   • Absolutely positioned within a `relative` parent section
+ *   • Multiple layered radial gradient orbs with CSS `@keyframes` breathing
+ *   • 0 R3F / WebGL cost — lightweight CSS animations only
+ *   • 8 environment variants, each with a unique atmospheric palette
+ *   • Composes with GrainOverlay for micro-texture depth
  *
  * Usage:
  *   <section className="relative overflow-hidden">
@@ -21,7 +21,7 @@
  *
  * Design intent:
  *   Sections should never feel like "dark containers."
- *   They should feel like entering a room lit from multiple soft directions â€”
+ *   They should feel like entering a room lit from multiple soft directions —
  *   warm gold from one side, cool indigo from another, deep teal from below.
  */
 
@@ -37,12 +37,12 @@ type LuminousVariant =
 
 interface LuminousEnvironmentProps {
   variant?:    LuminousVariant
-  intensity?:  number   // 0â€“1, scales opacity. Default 1.0
+  intensity?:  number   // 0–1, scales opacity. Default 1.0
   animated?:   boolean  // enable breathing animation. Default true
   className?:  string
 }
 
-/* â”€â”€ Orb definitions per variant â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Orb definitions per variant ─────────────────────────────────── */
 type OrbDef = {
   pos:   string   // CSS background-position
   color: string   // rgba
@@ -119,7 +119,7 @@ export function LuminousEnvironment({
       style={{
         zIndex: 0,
         /*
-         * `contain: strict` â€” tells the browser this element and its
+         * `contain: strict` — tells the browser this element and its
          * subtree do not affect layout/paint outside it. This lets the
          * compositor skip repainting the rest of the page when orbs animate.
          * `willChange` removed from the container: it promoted the wrong
@@ -141,12 +141,12 @@ export function LuminousEnvironment({
               ? `${orb.anim} ${5 + i * 1.8}s ease-in-out infinite alternate`
               : "none",
             animationDelay: orb.delay,
-            /* No per-orb will-change â€” container handles promotion */
+            /* No per-orb will-change — container handles promotion */
           }}
         />
       ))}
 
-      {/* Subtle horizontal light sweep â€” cinematic atmosphere */}
+      {/* Subtle horizontal light sweep — cinematic atmosphere */}
       <div
         style={{
           position:   "absolute",
@@ -159,7 +159,7 @@ export function LuminousEnvironment({
   )
 }
 
-/* â”€â”€ Scale alpha channel of rgba() â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Scale alpha channel of rgba() ──────────────────────────────── */
 function scaleAlpha(rgba: string, scale: number): string {
   if (scale === 1) return rgba
   return rgba.replace(/[\d.]+\)$/, (m) => `${(parseFloat(m) * scale).toFixed(3)})`)

@@ -18,10 +18,10 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
   const [isDragOver, setIsDragOver] = useState(false)
   const [fileError, setFileError]   = useState<string | null>(null)
 
-  /* â”€â”€ dragCounter prevents the flicker caused by dragleave
+  /* ── dragCounter prevents the flicker caused by dragleave
      firing when the pointer moves over a child element.
-     Increment on enter, decrement on leave â€” only hide
-     the drag-over state when counter reaches zero.        â”€â”€ */
+     Increment on enter, decrement on leave — only hide
+     the drag-over state when counter reaches zero.        ── */
   const dragCounter = useRef(0)
 
   function validateAndSelect(f: File) {
@@ -63,7 +63,7 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
     e.target.value = "" // reset so re-selecting same file works
   }
 
-  /* â”€â”€ Showing a preview â”€â”€ */
+  /* ── Showing a preview ── */
   if (file && previewUrl) {
     return (
       <div className="flex flex-col gap-3 h-full">
@@ -75,7 +75,7 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
             alt="Your uploaded photo"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          {/* Overlay on hover â€” shows clear button */}
+          {/* Overlay on hover — shows clear button */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-200 flex items-center justify-center">
             <button
               type="button"
@@ -108,13 +108,13 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
     )
   }
 
-  /* â”€â”€ Empty drop zone â”€â”€ */
+  /* ── Empty drop zone ── */
   return (
     <div className="flex flex-col gap-3 h-full">
       <div
         role="button"
         tabIndex={0}
-        aria-label="Upload photo â€” click or drag and drop"
+        aria-label="Upload photo — click or drag and drop"
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -149,7 +149,7 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
             <span className="text-gold underline underline-offset-2">browse files</span>
           </p>
           <p className="text-[0.75rem] text-muted/40 mt-1">
-            JPEG Â· PNG Â· WebP Â· up to {MAX_SIZE_MB} MB
+            JPEG · PNG · WebP · up to {MAX_SIZE_MB} MB
           </p>
         </div>
 
@@ -173,7 +173,7 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
   )
 }
 
-/* â”€â”€ Icons â”€â”€ */
+/* ── Icons ── */
 function UploadIcon({ className }: { className?: string }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">

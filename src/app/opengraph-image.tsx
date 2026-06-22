@@ -11,7 +11,7 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt     = "PXL Creator â€” Premium Cinematic Presets"
+export const alt     = "PXL Creator — Premium Cinematic Presets"
 export const size    = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -32,7 +32,7 @@ export default function OgImage() {
           overflow:        "hidden",
         }}
       >
-        {/* Background radial glow â€” top-left gold */}
+        {/* Background radial glow — top-left gold */}
         <div
           style={{
             position:   "absolute",
@@ -44,7 +44,7 @@ export default function OgImage() {
             background:  "radial-gradient(circle, rgba(255,214,10,0.12) 0%, transparent 70%)",
           }}
         />
-        {/* Background radial glow â€” bottom-right indigo */}
+        {/* Background radial glow — bottom-right indigo */}
         <div
           style={{
             position:   "absolute",

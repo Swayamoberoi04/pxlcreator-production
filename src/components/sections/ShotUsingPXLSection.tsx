@@ -1,14 +1,14 @@
 ﻿/**
  * src/components/sections/ShotUsingPXLSection.tsx
  *
- * "Shot Using PXL" â€” cinematic creator gallery.
+ * "Shot Using PXL" — cinematic creator gallery.
  *
  * Purpose: social-proof through visual excellence.
  * Visitors see finished work and think "I want my photos to look like that."
  *
  * Layout (masonry-inspired, pure CSS grid):
- *   Desktop â€” 3-column asymmetric grid: tall / short / tall alternating
- *   Mobile  â€” 2-column even grid
+ *   Desktop — 3-column asymmetric grid: tall / short / tall alternating
+ *   Mobile  — 2-column even grid
  *
  * Each card shows:
  *   - Full-bleed image with cinematic tint overlay
@@ -23,14 +23,14 @@ import { CinematicBackground }  from "@/components/ui/CinematicBackground"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* â”€â”€ Gallery images â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Gallery images ─────────────────────────────────────────── */
 interface GalleryImage {
   src:      string
   alt:      string
   preset:   string
   category: string
   accent:   string
-  tall?:    boolean   // if true â†’ taller card in the desktop grid
+  tall?:    boolean   // if true → taller card in the desktop grid
 }
 
 const GALLERY: GalleryImage[] = [
@@ -129,16 +129,16 @@ export function ShotUsingPXLSection() {
   return (
     <section
       className="relative w-full overflow-hidden border-y border-border depth-section"
-      aria-label="Gallery â€” shot using PXL Creator presets"
+      aria-label="Gallery — shot using PXL Creator presets"
     >
-      {/* â”€â”€ Living luminous atmosphere â”€â”€ */}
+      {/* ── Living luminous atmosphere ── */}
       <LuminousEnvironment variant="teal" intensity={1.1} />
       <CinematicBackground variant="mission" />
       <GrainOverlay opacity={0.018} animated zIndex={2} />
 
       <Container className="relative z-10 py-24 sm:py-32">
 
-        {/* â”€â”€ Header â”€â”€ */}
+        {/* ── Header ── */}
         <CinematicReveal variant="rise">
           <div className="flex flex-col items-center text-center gap-4 mb-14 sm:mb-16">
             <div className="flex items-center gap-3">
@@ -165,7 +165,7 @@ export function ShotUsingPXLSection() {
           </div>
         </CinematicReveal>
 
-        {/* â”€â”€ Masonry-inspired grid â€” each card depth-enters â”€â”€ */}
+        {/* ── Masonry-inspired grid — each card depth-enters ── */}
         <CinematicStagger
           stagger={0.055}
           baseDelay={0.02}
@@ -184,7 +184,7 @@ export function ShotUsingPXLSection() {
           ))}
         </CinematicStagger>
 
-        {/* â”€â”€ CTA â”€â”€ */}
+        {/* ── CTA ── */}
         <CinematicReveal variant="rise" delay={0.2}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-14">
             <Link
@@ -198,7 +198,7 @@ export function ShotUsingPXLSection() {
               className="group inline-flex items-center gap-2 text-[0.9rem] text-muted/50 hover:text-foreground transition-colors"
             >
               Browse all presets
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">â†’</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>
             </Link>
           </div>
         </CinematicReveal>
@@ -208,7 +208,7 @@ export function ShotUsingPXLSection() {
   )
 }
 
-/* â”€â”€ Gallery card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Gallery card ───────────────────────────────────────────── */
 function GalleryCard({ img }: { img: GalleryImage }) {
   return (
     <div className="relative overflow-hidden rounded-xl h-full group cursor-pointer depth-card">
@@ -225,7 +225,7 @@ function GalleryCard({ img }: { img: GalleryImage }) {
       {/* Base tint for cinematic feel */}
       <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/10" />
 
-      {/* Hover reveal â€” bottom info */}
+      {/* Hover reveal — bottom info */}
       <div
         className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{ background: "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.30) 50%, transparent 100%)" }}

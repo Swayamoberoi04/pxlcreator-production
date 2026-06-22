@@ -3,34 +3,34 @@
 import { cn } from "@/lib/utils"
 import type { AestheticChip } from "@/types/studio"
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────────────────────────
    Chip definitions
-   Exported so StudioShell can resolve chip IDs â†’ keyword arrays
+   Exported so StudioShell can resolve chip IDs → keyword arrays
    when building the FormData payload.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────────────────────────── */
 export const AESTHETIC_CHIPS: AestheticChip[] = [
   {
     id:       "golden-hour",
     label:    "Golden Hour",
-    icon:     "â˜€",
+    icon:     "☀",
     keywords: ["warm", "golden", "amber", "sunset", "sun"],
   },
   {
     id:       "cinematic",
     label:    "Cinematic",
-    icon:     "â—ˆ",
+    icon:     "◈",
     keywords: ["cinematic", "dramatic", "contrast", "rich", "dark"],
   },
   {
     id:       "film-grain",
     label:    "Film Vintage",
-    icon:     "â¬¡",
+    icon:     "⬡",
     keywords: ["grain", "vintage", "faded", "analogue", "film"],
   },
   {
     id:       "cool-edit",
     label:    "Cool & Clean",
-    icon:     "â—‡",
+    icon:     "◇",
     keywords: ["cool", "teal", "minimal", "airy", "blue", "crisp"],
   },
   {
@@ -42,20 +42,20 @@ export const AESTHETIC_CHIPS: AestheticChip[] = [
   {
     id:       "portrait",
     label:    "Portrait Glow",
-    icon:     "â—¯",
+    icon:     "◯",
     keywords: ["portrait", "skin", "soft", "warm", "glow", "faces"],
   },
   {
     id:       "vibrant",
     label:    "Vibrant",
-    icon:     "âœ¦",
+    icon:     "✦",
     keywords: ["vibrant", "saturated", "punchy", "vivid", "bold"],
   },
 ]
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────────────────────────
    Component
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+───────────────────────────────────────────────────────────── */
 interface AestheticChipsProps {
   selected:  string[]                 // array of chip IDs
   onToggle:  (id: string) => void

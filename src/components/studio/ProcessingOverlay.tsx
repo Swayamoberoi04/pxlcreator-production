@@ -3,16 +3,16 @@
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────────────────────────
    Step definitions
    startsAt: ms after submission when this step becomes active.
-   The steps animate purely for UX â€” the API call runs in parallel.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+   The steps animate purely for UX — the API call runs in parallel.
+───────────────────────────────────────────────────────────── */
 const STEPS = [
-  { id: "reading",   label: "Reading your image",          icon: "â—ˆ", startsAt: 0    },
-  { id: "analyzing", label: "Analysing scene & mood",      icon: "â—Ž", startsAt: 1400 },
-  { id: "grading",   label: "Applying cinematic grade",    icon: "â—‘", startsAt: 3200 },
-  { id: "matching",  label: "Matching to preset library",  icon: "âœ¦", startsAt: 5200 },
+  { id: "reading",   label: "Reading your image",          icon: "◈", startsAt: 0    },
+  { id: "analyzing", label: "Analysing scene & mood",      icon: "◎", startsAt: 1400 },
+  { id: "grading",   label: "Applying cinematic grade",    icon: "◑", startsAt: 3200 },
+  { id: "matching",  label: "Matching to preset library",  icon: "✦", startsAt: 5200 },
 ] as const
 
 type StepId = (typeof STEPS)[number]["id"]
@@ -47,13 +47,13 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-[480px] w-full rounded-2xl overflow-hidden bg-surface border border-border">
 
-      {/* â”€â”€ Ambient glows â”€â”€ */}
+      {/* ── Ambient glows ── */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[320px] w-[480px] rounded-full bg-gold opacity-[0.045] blur-[80px]" />
         <div className="absolute bottom-0 left-1/4 h-[200px] w-[300px] rounded-full bg-[#6366f1] opacity-[0.05] blur-[60px]" />
       </div>
 
-      {/* â”€â”€ Scanline texture â”€â”€ */}
+      {/* ── Scanline texture ── */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.025]"
@@ -64,7 +64,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
         }}
       />
 
-      {/* â”€â”€ Content â”€â”€ */}
+      {/* ── Content ── */}
       <div className="relative z-10 flex flex-col items-center gap-10 px-8 py-14 w-full max-w-sm">
 
         {/* Animated ring + icon */}
@@ -102,7 +102,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
         {/* Current step label */}
         <div className="flex flex-col items-center gap-2 text-center">
           <p className="font-display font-bold text-foreground text-[1.125rem]">
-            {activeIndex >= 0 ? STEPS[activeIndex].label : "Startingâ€¦"}
+            {activeIndex >= 0 ? STEPS[activeIndex].label : "Starting…"}
           </p>
           {prompt && (
             <p className="text-[0.8125rem] text-muted/60 italic line-clamp-2 max-w-[260px]">
@@ -166,7 +166,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
 
         {/* Fine print */}
         <p className="text-[0.75rem] text-muted/35 text-center">
-          Hang tight â€” great things take ~8 seconds
+          Hang tight — great things take ~8 seconds
         </p>
 
       </div>

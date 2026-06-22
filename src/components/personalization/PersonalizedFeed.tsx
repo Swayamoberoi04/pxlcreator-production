@@ -17,21 +17,21 @@ import { cn }                               from "@/lib/utils"
 import { useAuth }                          from "@/contexts/AuthContext"
 import type { PersonalizedSection, RecommendationItem, StyleDNA } from "@/types/onboarding"
 
-/* â”€â”€ Item type icon map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Item type icon map ─────────────────────────────────────── */
 const TYPE_ICON: Record<string, string> = {
-  "preset-bundle": "â—ˆ",
-  "lut-pack":      "â—‰",
-  "tutorial":      "â–·",
-  "course":        "â–¶",
-  "challenge":     "âœ¦",
-  "pathway":       "â¬¡",
-  "monetization":  "â§«",
-  "blog":          "âœŽ",
-  "community":     "â—¬",
-  "tool":          "â¬Ÿ",
+  "preset-bundle": "◈",
+  "lut-pack":      "◉",
+  "tutorial":      "▷",
+  "course":        "▶",
+  "challenge":     "✦",
+  "pathway":       "⬡",
+  "monetization":  "⧫",
+  "blog":          "✎",
+  "community":     "◬",
+  "tool":          "⬟",
 }
 
-/* â”€â”€ Single recommendation card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Single recommendation card ─────────────────────────────── */
 function RecommendCard({
   item,
   index,
@@ -115,7 +115,7 @@ function RecommendCard({
   )
 }
 
-/* â”€â”€ Section block â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Section block ───────────────────────────────────────────── */
 function FeedSection({
   section,
   accentColor,
@@ -163,7 +163,7 @@ function FeedSection({
   )
 }
 
-/* â”€â”€ Skeleton loader â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Skeleton loader ─────────────────────────────────────────── */
 function FeedSkeleton() {
   return (
     <div className="flex flex-col gap-8">
@@ -184,7 +184,7 @@ function FeedSkeleton() {
   )
 }
 
-/* â”€â”€ Main component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Main component ──────────────────────────────────────────── */
 interface PersonalizedFeedProps {
   /** External DNA (e.g. from dashboard that already has profile data) */
   dna?:      StyleDNA | null
@@ -218,7 +218,7 @@ export function PersonalizedFeed({
       })
 
       if (res.status === 404) {
-        /* Onboarding not yet completed â€” no feed to show */
+        /* Onboarding not yet completed — no feed to show */
         return
       }
 
@@ -256,10 +256,10 @@ export function PersonalizedFeed({
     if (dna) setLocalDna(dna)
   }, [dna])
 
-  /* â”€â”€ Not signed in â”€â”€ */
+  /* ── Not signed in ── */
   if (!authLoading && !user) return null
 
-  /* â”€â”€ Loading â”€â”€ */
+  /* ── Loading ── */
   if (fetching || authLoading) {
     return (
       <div className={cn("w-full", className)}>
@@ -268,7 +268,7 @@ export function PersonalizedFeed({
     )
   }
 
-  /* â”€â”€ Error â”€â”€ */
+  /* ── Error ── */
   if (error) {
     return (
       <div className={cn("rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-[0.875rem] text-destructive", className)}>
@@ -284,7 +284,7 @@ export function PersonalizedFeed({
     )
   }
 
-  /* â”€â”€ No recommendations yet â”€â”€ */
+  /* ── No recommendations yet ── */
   if (sections.length === 0) return null
 
   const accentColor = localDna?.primaryColor ?? "#FFD60A"
@@ -305,7 +305,7 @@ export function PersonalizedFeed({
 
       {fromCache && (
         <p className="text-center text-[0.75rem] text-muted/30">
-          Personalised for you Â· Updated today
+          Personalised for you · Updated today
         </p>
       )}
     </div>

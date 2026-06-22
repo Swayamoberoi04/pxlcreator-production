@@ -1,15 +1,15 @@
 ﻿"use client"
 
 /**
- * /dashboard â€” Intelligent, personalized creator dashboard.
+ * /dashboard — Intelligent, personalized creator dashboard.
  *
  * Sections:
- *  1. Welcome header â€” greeting + Style DNA badge + streak
+ *  1. Welcome header — greeting + Style DNA badge + streak
  *  2. Style DNA card (full)
  *  3. Creator Analytics strip
- *  4. Growth Path card â€” current stage + next task
- *  5. Active Challenge â€” today's prompt + mark complete
- *  6. Continue Learning â€” current course + next lesson
+ *  4. Growth Path card — current stage + next task
+ *  5. Active Challenge — today's prompt + mark complete
+ *  6. Continue Learning — current course + next lesson
  *  7. Personalised recommendation feed
  *  8. Community picks
  *  9. Quick actions
@@ -26,7 +26,7 @@ import { ProgressRing }                     from "@/components/dashboard/Progres
 import type { StyleDNA }                    from "@/types/onboarding"
 import type { CreatorAnalytics }            from "@/app/api/dashboard/analytics/route"
 
-/* â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Types ──────────────────────────────────────────────────── */
 interface DashboardProfile {
   id: string; firebase_uid: string; professions: string[]; skill_level: string
   style_dna_title?: string; style_dna_tagline?: string; style_dna_badge?: string; style_dna_color?: string
@@ -50,7 +50,7 @@ interface DashboardData {
   topCourses:      { id: string; title: string; tagline: string; icon: string; color: string; score: number; totalLessons: number }[]
 }
 
-/* â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Helpers ─────────────────────────────────────────────────── */
 function getGreeting() {
   const h = new Date().getHours()
   if (h < 12) return "Good morning"
@@ -70,7 +70,7 @@ function dnaFromProfile(p: DashboardProfile): StyleDNA | null {
   }
 }
 
-/* â”€â”€ Skeleton â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Skeleton ─────────────────────────────────────────────────── */
 function DashboardSkeleton() {
   return (
     <div className="flex flex-col gap-8 animate-pulse">
@@ -87,7 +87,7 @@ function DashboardSkeleton() {
   )
 }
 
-/* â”€â”€ Empty / no onboarding â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Empty / no onboarding ───────────────────────────────────── */
 function EmptyDashboard({ onStart }: { onStart: () => void }) {
   return (
     <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
@@ -96,7 +96,7 @@ function EmptyDashboard({ onStart }: { onStart: () => void }) {
         <div className="absolute inset-0 rounded-full bg-gold/10 animate-pulse" />
         <div className="absolute inset-3 rounded-full bg-gold/15 animate-pulse [animation-delay:150ms]" />
         <div className="absolute inset-6 rounded-full bg-gold/20 flex items-center justify-center">
-          <span className="text-[1.5rem]">âœ¦</span>
+          <span className="text-[1.5rem]">✦</span>
         </div>
       </div>
       <div className="flex flex-col gap-3 max-w-md">
@@ -107,18 +107,18 @@ function EmptyDashboard({ onStart }: { onStart: () => void }) {
       </div>
       <button type="button" onClick={onStart}
         className="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3 text-[0.9375rem] font-semibold text-background hover:bg-gold/90 transition-all active:scale-[0.97]">
-        Build My Style DNA <span aria-hidden="true">â†’</span>
+        Build My Style DNA <span aria-hidden="true">→</span>
       </button>
     </motion.div>
   )
 }
 
-/* â”€â”€ Analytics strip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Analytics strip ─────────────────────────────────────────── */
 function AnalyticsStrip({ analytics, accentColor }: { analytics: CreatorAnalytics; accentColor: string }) {
   const stats = [
-    { label: "Challenge Days",   value: analytics.challengeDaysCompleted, icon: "âš¡" },
-    { label: "Lessons Done",     value: analytics.coursesCompleted, icon: "ðŸ“š" },
-    { label: "Presets Explored", value: analytics.presetsViewed,          icon: "â—ˆ" },
+    { label: "Challenge Days",   value: analytics.challengeDaysCompleted, icon: "⚡" },
+    { label: "Lessons Done",     value: analytics.coursesCompleted, icon: "📚" },
+    { label: "Presets Explored", value: analytics.presetsViewed,          icon: "◈" },
     { label: "Community Rep",    value: analytics.communityReputation,    icon: "â­" },
   ]
   return (
@@ -136,7 +136,7 @@ function AnalyticsStrip({ analytics, accentColor }: { analytics: CreatorAnalytic
   )
 }
 
-/* â”€â”€ Growth Path card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Growth Path card ────────────────────────────────────────── */
 function GrowthPathCard({ path, onCompleteTask, accentColor }: {
   path: ActivePath; onCompleteTask: () => void; accentColor: string
 }) {
@@ -182,13 +182,13 @@ function GrowthPathCard({ path, onCompleteTask, accentColor }: {
               disabled={completing}
               className="ml-auto rounded-full px-4 py-1.5 text-xs font-bold bg-gold text-background hover:bg-gold/90 transition-colors disabled:opacity-50"
             >
-              {completing ? "Markingâ€¦" : "Mark Complete"}
+              {completing ? "Marking…" : "Mark Complete"}
             </button>
           </div>
         </div>
       ) : (
         <div className="p-5 text-center">
-          <p className="text-sm font-semibold text-gold">ðŸŽ‰ Stage Complete! Moving to next stageâ€¦</p>
+          <p className="text-sm font-semibold text-gold">🎉 Stage Complete! Moving to next stage…</p>
         </div>
       )}
 
@@ -200,7 +200,7 @@ function GrowthPathCard({ path, onCompleteTask, accentColor }: {
   )
 }
 
-/* â”€â”€ Challenge card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Challenge card ──────────────────────────────────────────── */
 function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
   challenge: ActiveChallenge; onCompleteDay: (day: number) => void; accentColor: string
 }) {
@@ -236,7 +236,7 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
           <div className="flex items-start gap-3">
             <div className="shrink-0 size-7 rounded-full border-2 flex items-center justify-center text-[0.65rem] font-black"
               style={{ borderColor: done ? accentColor : undefined, background: done ? `${accentColor}20` : undefined, color: done ? accentColor : "var(--muted)" }}>
-              {done ? "âœ“" : todayDay}
+              {done ? "✓" : todayDay}
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-display font-black text-[0.9375rem] text-foreground">{todayData.title}</p>
@@ -246,7 +246,7 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
 
           {/* Tip */}
           <div className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 flex items-start gap-2">
-            <span className="text-gold text-sm shrink-0">ðŸ’¡</span>
+            <span className="text-gold text-sm shrink-0">💡</span>
             <p className="text-xs text-muted/70 leading-relaxed">{todayData.tip}</p>
           </div>
 
@@ -263,7 +263,7 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
                   : "bg-gold text-background hover:bg-gold/90",
               ].join(" ")}
             >
-              {done ? "âœ“ Completed" : marking ? "Savingâ€¦" : "Mark Complete"}
+              {done ? "✓ Completed" : marking ? "Saving…" : "Mark Complete"}
             </button>
           </div>
         </div>
@@ -276,18 +276,18 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
   )
 }
 
-/* â”€â”€ Lesson type label â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Lesson type label ───────────────────────────────────────────── */
 function lessonTypeLabel(type: string): string {
   switch (type) {
-    case "read":      return "ðŸ“– Study"
-    case "article":   return "ðŸ“„ Read"
+    case "read":      return "📖 Study"
+    case "article":   return "📄 Read"
     case "exercise":  return "âœï¸ Practice"
-    case "checklist": return "âœ… Checklist"
-    default:          return "ðŸ“– Study"
+    case "checklist": return "✅ Checklist"
+    default:          return "📖 Study"
   }
 }
 
-/* â”€â”€ Course card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Course card ─────────────────────────────────────────────── */
 function CourseCard({ course, onCompleteLesson, accentColor }: {
   course: ActiveCourse; onCompleteLesson: (lessonId: string) => void; accentColor: string
 }) {
@@ -309,7 +309,7 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
         <span className="text-2xl">{course.icon}</span>
         <div className="flex-1 min-w-0">
           <p className="font-display font-black text-sm text-foreground truncate">{course.title}</p>
-          <p className="text-xs text-muted/50 mt-0.5">{completedSet.size} / {course.totalLessons} lessons Â· {course.estimatedHours}h total</p>
+          <p className="text-xs text-muted/50 mt-0.5">{completedSet.size} / {course.totalLessons} lessons · {course.estimatedHours}h total</p>
         </div>
         <ProgressRing progress={progressPct} size={44} stroke={3} color={accentColor}>
           <span className="text-[0.6rem] font-black text-foreground">{progressPct}%</span>
@@ -320,7 +320,7 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
         <div className="p-5 flex flex-col gap-3">
           <div>
             <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40 mb-1">
-              {lessonTypeLabel(next.lessonType ?? "read")} Â· {next.moduleTitle}
+              {lessonTypeLabel(next.lessonType ?? "read")} · {next.moduleTitle}
             </p>
             <p className="font-display font-black text-[0.9375rem] text-foreground">{next.lessonTitle}</p>
           </div>
@@ -335,13 +335,13 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
                 done ? "bg-surface-2 text-muted/50 cursor-default" : "bg-gold text-background hover:bg-gold/90",
               ].join(" ")}
             >
-              {done ? "âœ“ Complete" : marking ? "Savingâ€¦" : "Mark Complete"}
+              {done ? "✓ Complete" : marking ? "Saving…" : "Mark Complete"}
             </button>
           </div>
         </div>
       ) : (
         <div className="p-5 text-center">
-          <p className="text-sm font-semibold text-gold">ðŸŽ“ Course Complete! Check your badge.</p>
+          <p className="text-sm font-semibold text-gold">🎓 Course Complete! Check your badge.</p>
         </div>
       )}
 
@@ -352,7 +352,7 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
   )
 }
 
-/* â”€â”€ Main page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Main page ───────────────────────────────────────────────── */
 export default function DashboardPage() {
   const { user }                         = useAuth()
   const { open: openOnboarding }         = useOnboardingStore()
@@ -408,7 +408,7 @@ export default function DashboardPage() {
     }
   }, [user, loadDashboard])
 
-  /* Progress callbacks â€” call API then refresh */
+  /* Progress callbacks — call API then refresh */
   async function handleCompleteTask(pathId: string) {
     if (!user || !dashboard?.activePath) return
     const token = await user.getIdToken()
@@ -445,7 +445,7 @@ export default function DashboardPage() {
 
   const accentColor = dna?.primaryColor ?? "#FFD60A"
 
-  /* â”€â”€ Loading â”€â”€ */
+  /* ── Loading ── */
   if (fetching) {
     return (
       <div className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
@@ -454,7 +454,7 @@ export default function DashboardPage() {
     )
   }
 
-  /* â”€â”€ No onboarding â”€â”€ */
+  /* ── No onboarding ── */
   if (hasProfile === false) {
     return (
       <div className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
@@ -473,7 +473,7 @@ export default function DashboardPage() {
         <motion.div key="dashboard-content" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}
           className="flex flex-col gap-10">
 
-          {/* â”€â”€ Welcome header â”€â”€ */}
+          {/* ── Welcome header ── */}
           <motion.header initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="flex flex-col gap-2">
             <p className="text-[0.8125rem] font-semibold tracking-widest uppercase text-gold/60">{getGreeting()}</p>
@@ -482,46 +482,46 @@ export default function DashboardPage() {
               {dna && <StyleDNACard dna={dna} variant="compact" />}
               {(dashboard?.profile.consistency_streak ?? 0) > 0 && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-[0.75rem] font-bold text-orange-400">
-                  ðŸ”¥ {dashboard!.profile.consistency_streak} day streak
+                  🔥 {dashboard!.profile.consistency_streak} day streak
                 </span>
               )}
             </div>
             <p className="text-[0.9375rem] text-muted/60 mt-1">Your creative universe, personalised just for you.</p>
           </motion.header>
 
-          {/* â”€â”€ Style DNA card â”€â”€ */}
+          {/* ── Style DNA card ── */}
           {dna && (
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.5 }}
               className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Your Style DNA</h2>
                 <button type="button" onClick={openOnboarding} className="text-[0.75rem] text-muted/40 hover:text-gold transition-colors rounded">
-                  Retake â†’
+                  Retake →
                 </button>
               </div>
               <StyleDNACard dna={dna} variant="full" />
             </motion.section>
           )}
 
-          {/* â”€â”€ Creator Analytics â”€â”€ */}
+          {/* ── Creator Analytics ── */}
           {analytics && (
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14, duration: 0.5 }}
               className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Your Progress</h2>
-                <Link href="/community" className="text-[0.75rem] text-muted/40 hover:text-gold transition-colors">View Community â†’</Link>
+                <Link href="/community" className="text-[0.75rem] text-muted/40 hover:text-gold transition-colors">View Community →</Link>
               </div>
               <AnalyticsStrip analytics={analytics} accentColor={accentColor} />
             </motion.section>
           )}
 
-          {/* â”€â”€ Growth Path â”€â”€ */}
+          {/* ── Growth Path ── */}
           {activePath && (
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18, duration: 0.5 }}
               className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Your Growth Path</h2>
-                <Link href={`/dashboard/path/${activePath.id}`} className="text-[0.75rem] text-muted/40 hover:text-gold transition-colors">Full Path â†’</Link>
+                <Link href={`/dashboard/path/${activePath.id}`} className="text-[0.75rem] text-muted/40 hover:text-gold transition-colors">Full Path →</Link>
               </div>
               <GrowthPathCard
                 path={activePath}
@@ -551,7 +551,7 @@ export default function DashboardPage() {
             </motion.section>
           )}
 
-          {/* â”€â”€ Two-column: Challenge + Course â”€â”€ */}
+          {/* ── Two-column: Challenge + Course ── */}
           {(activeChallenge || activeCourse) && (
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22, duration: 0.5 }}
               className="flex flex-col gap-3">
@@ -559,7 +559,7 @@ export default function DashboardPage() {
                 <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Active Learning</h2>
                 {activeChallenge && (
                   <Link href={`/dashboard/challenge/${activeChallenge.id}`} className="text-[0.75rem] text-muted/40 hover:text-gold transition-colors">
-                    Full Challenge â†’
+                    Full Challenge →
                   </Link>
                 )}
               </div>
@@ -582,7 +582,7 @@ export default function DashboardPage() {
             </motion.section>
           )}
 
-          {/* â”€â”€ Made For You (existing recommendation engine) â”€â”€ */}
+          {/* ── Made For You (existing recommendation engine) ── */}
           <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28, duration: 0.5 }}
             className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
@@ -592,16 +592,16 @@ export default function DashboardPage() {
             <PersonalizedFeed dna={dna} maxSections={4} />
           </motion.section>
 
-          {/* â”€â”€ Quick Actions â”€â”€ */}
+          {/* ── Quick Actions ── */}
           <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.34, duration: 0.5 }}
             className="flex flex-col gap-3">
             <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Quick Actions</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                { icon: "â—ˆ", label: "Presets For You",   sub: "Sorted by your style",    href: "/store/for-you",  color: "#FFD60A" },
-                { icon: "â–·", label: "Continue Learning", sub: "Pick up where you left off", href: "/courses",      color: "#FF6B35" },
-                { icon: "âœ¦", label: "Enter Giveaway",    sub: "Free presets every month",  href: "/giveaway",     color: "#10B981" },
-                { icon: "â—‰", label: "Explore Bundles",   sub: "Maximum value packs",       href: "/bundles",      color: "#8B5CF6" },
+                { icon: "◈", label: "Presets For You",   sub: "Sorted by your style",    href: "/store/for-you",  color: "#FFD60A" },
+                { icon: "▷", label: "Continue Learning", sub: "Pick up where you left off", href: "/courses",      color: "#FF6B35" },
+                { icon: "✦", label: "Enter Giveaway",    sub: "Free presets every month",  href: "/giveaway",     color: "#10B981" },
+                { icon: "◉", label: "Explore Bundles",   sub: "Maximum value packs",       href: "/bundles",      color: "#8B5CF6" },
               ].map((action) => (
                 <Link key={action.href} href={action.href}
                   className="group flex flex-col gap-2.5 rounded-xl border border-border bg-surface p-4 hover:border-gold/25 hover:bg-surface-2 transition-all duration-200">
@@ -615,7 +615,7 @@ export default function DashboardPage() {
             </div>
           </motion.section>
 
-          {/* â”€â”€ Bottom CTA â”€â”€ */}
+          {/* ── Bottom CTA ── */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.42, duration: 0.5 }}
             className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-border/40">
             <Link href="/store/for-you"
@@ -624,7 +624,7 @@ export default function DashboardPage() {
             </Link>
             <Link href="/giveaway"
               className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-[0.875rem] font-semibold text-background transition-all hover:bg-gold/90 active:scale-[0.97]">
-              âœ¦ Enter This Month&apos;s Giveaway
+              ✦ Enter This Month&apos;s Giveaway
             </Link>
           </motion.div>
 

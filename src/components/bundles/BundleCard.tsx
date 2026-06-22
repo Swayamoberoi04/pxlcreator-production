@@ -25,7 +25,7 @@ import { useCartStore }       from "@/store/cart"
 import { formatPrice }        from "@/lib/currency/format"
 import { cn }                 from "@/lib/utils"
 
-/* â”€â”€ Badge colour map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Badge colour map ──────────────────────────────────── */
 
 const BADGE_STYLES: Record<string, string> = {
   "BESTSELLER":       "bg-gold text-[#0a0800] font-black",
@@ -38,17 +38,17 @@ const BADGE_STYLES: Record<string, string> = {
   "NEW":              "bg-white/5 text-white/60 border border-white/10",
 }
 
-/* â”€â”€ Props â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Props ─────────────────────────────────────────────── */
 
 interface BundleCardProps {
   bundle:     Bundle
   className?: string
 }
 
-/* â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Component ─────────────────────────────────────────── */
 
 export function BundleCard({ bundle, className }: BundleCardProps) {
-  /* Currency toggle â€” hydration safe */
+  /* Currency toggle — hydration safe */
   const [mounted, setMounted] = useState(false)
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), [])
@@ -86,7 +86,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
         className
       )}
     >
-      {/* â”€â”€ Thumbnail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Thumbnail ─────────────────────────────────── */}
       <Link
         href={`/bundles/${bundle.slug}`}
         tabIndex={-1}
@@ -125,7 +125,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
           className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
         />
 
-        {/* Bundle badge â€” top-left */}
+        {/* Bundle badge — top-left */}
         <div className="absolute top-3 left-3 z-10">
           <span className={cn(
             "inline-block text-[0.6rem] font-black tracking-widest uppercase rounded-full px-2.5 py-[5px]",
@@ -135,7 +135,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
           </span>
         </div>
 
-        {/* Preset count â€” bottom-right */}
+        {/* Preset count — bottom-right */}
         <div className="absolute bottom-3 right-3 z-10">
           <span className="text-[0.65rem] font-semibold text-white/65 bg-black/55 backdrop-blur-sm rounded-full px-2.5 py-1 border border-white/[0.08]">
             {totalPresets} presets
@@ -143,7 +143,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
         </div>
       </Link>
 
-      {/* â”€â”€ Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Body ──────────────────────────────────────── */}
       <div className="flex flex-col gap-3 p-5 flex-1">
 
         {/* Title */}
@@ -168,7 +168,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
           {bundle.includedPacks.slice(0, 4).map((pack) => (
             <span
               key={pack.name}
-              title={`${pack.name} â€” ${pack.presetCount} presets`}
+              title={`${pack.name} — ${pack.presetCount} presets`}
               className={cn(
                 "flex items-center gap-1.5 text-[0.68rem] font-medium",
                 "text-muted/45 bg-surface-2/60 rounded-lg px-2 py-1.5 border border-border/40"
@@ -187,7 +187,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
           )}
         </div>
 
-        {/* â”€â”€ Pricing comparison â€” the key conversion panel â”€â”€ */}
+        {/* ── Pricing comparison — the key conversion panel ── */}
         <div className="mt-auto pt-3.5 border-t border-border/50">
           <div className="flex items-end justify-between gap-3">
 
@@ -203,7 +203,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
                   {formatPrice(bundle.individualValueUsd, displayCurrency)}
                 </span>
               </p>
-              {/* Bundle price â€” big and gold */}
+              {/* Bundle price — big and gold */}
               <p
                 className="font-display font-black text-[1.4rem] leading-none text-gold"
                 suppressHydrationWarning
@@ -226,10 +226,10 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
           </div>
         </div>
 
-        {/* â”€â”€ CTA buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── CTA buttons ───────────────────────────────── */}
         <div className="flex gap-2 mt-1">
 
-          {/* Add to Cart â€” primary */}
+          {/* Add to Cart — primary */}
           <button
             type="button"
             onClick={handleAddToCart}
@@ -247,7 +247,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
             {added ? "Added!" : "Add to Cart"}
           </button>
 
-          {/* View Details â€” icon-only secondary */}
+          {/* View Details — icon-only secondary */}
           <Link
             href={`/bundles/${bundle.slug}`}
             aria-label={`View ${bundle.name} details`}
@@ -266,7 +266,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
   )
 }
 
-/* â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Icons ─────────────────────────────────────────────── */
 
 function BagIcon() {
   return (
