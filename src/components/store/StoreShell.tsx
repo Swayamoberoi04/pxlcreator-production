@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react"
 import Link                  from "next/link"
+import { AnimatePresence, motion } from "framer-motion"
 import { PresetCard }        from "./PresetCard"
 import type { Preset, PresetCategory } from "@/types/product"
 import { cn }                from "@/lib/utils"
@@ -137,7 +138,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search presetsâ€¦"
           suppressHydrationWarning
-          className="w-full rounded-2xl border border-border bg-surface pl-11 pr-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/35 focus:outline-none focus:border-gold/40 transition-colors"
+          className="w-full rounded-2xl border border-border bg-surface pl-11 pr-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/35 focus:outline-none focus:border-gold/40 focus:shadow-[0_0_0_3px_rgba(255,214,10,0.10),0_0_16px_rgba(255,214,10,0.08)] transition-all duration-200"
         />
         {search && (
           <button
@@ -227,9 +228,20 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
       {/* â”€â”€ Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {visible.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {visible.map((preset) => (
-            <PresetCard key={preset.id} preset={preset} />
-          ))}
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visible.map((preset) => (
+              <motion.div
+                key={preset.id}
+                layout
+                initial={{ opacity: 0, scale: 0.94, y: 10 }}
+                animate={{ opacity: 1, scale: 1,    y: 0  }}
+                exit={{    opacity: 0, scale: 0.94, y: -6 }}
+                transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <PresetCard preset={preset} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 py-20 rounded-2xl border border-border bg-surface text-center">

@@ -179,7 +179,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
 
             {/* ── RIGHT — Sticky purchase panel ── */}
             <CinematicReveal variant="rise" delay={0.12}>
-              <div className="depth-card flex flex-col gap-6 lg:sticky lg:top-24 rounded-2xl border border-border/60 bg-surface/60 backdrop-blur-sm p-6 shadow-[0_0_60px_rgba(201,168,76,0.05)]">
+              <div className="depth-card flex flex-col gap-6 lg:sticky lg:top-24 rounded-2xl border border-border/60 bg-surface/60 backdrop-blur-sm p-6 shadow-[0_0_60px_rgba(255,214,10,0.08)]">
 
                 {/* Category + name */}
                 <div className="flex flex-col gap-3">
@@ -435,7 +435,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
 /* ── Icons ── */
 function StarIcon({ filled }: { filled: boolean }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "#C9A84C" : "none"} stroke={filled ? "none" : "#444"} strokeWidth="1.5" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "#FFD60A" : "none"} stroke={filled ? "none" : "#444"} strokeWidth="1.5" aria-hidden="true">
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
     </svg>
   )
