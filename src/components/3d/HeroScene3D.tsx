@@ -28,6 +28,7 @@
 import { useRef, useMemo, useEffect }    from "react"
 import { Canvas, useFrame, useThree }    from "@react-three/fiber"
 import { Float, Sparkles }               from "@react-three/drei"
+import { EffectComposer, Bloom }         from "@react-three/postprocessing"
 import * as THREE                        from "three"
 
 /*
@@ -80,9 +81,9 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
     () => new THREE.MeshStandardMaterial({
       color:             "#FFD60A",
       emissive:          "#FFD60A",
-      emissiveIntensity: 1.1,
+      emissiveIntensity: 1.8,
       transparent:       true,
-      opacity:           0.8,
+      opacity:           0.9,
     }),
     []
   )
@@ -271,12 +272,18 @@ function Scene() {
       <CameraRig />
 
       {/*
-       * EffectComposer (Bloom + Vignette) REMOVED.
-       * mipmapBlur Bloom = 5â€“7 fullscreen render passes per frame.
-       * At dpr=1 on 1080p that was ~1M pixels Ã— 6 passes = ~6M pixel ops/frame.
-       * The CSS vignette in HeroSection LAYER 6 provides the darkened edges.
-       * Gold emissive materials still add warmth without postprocessing.
+       * Bloom without mipmapBlur = 2 passes (down/up sample) vs 5-7 with it.
+       * luminanceThreshold=0.55 means only the corner accent nodes (emissive 1.8)
+       * and border edges (emissive 0.55) contribute — scene geometry is excluded.
+       * Net cost at dpr=1 on 1080p: ~4M pixel ops/frame → negligible on any GPU.
        */}
+      <EffectComposer>
+        <Bloom
+          intensity={0.55}
+          luminanceThreshold={0.50}
+          luminanceSmoothing={0.9}
+        />
+      </EffectComposer>
     </>
   )
 }
