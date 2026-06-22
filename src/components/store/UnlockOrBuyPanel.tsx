@@ -61,6 +61,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
     }
   }, [user, preset.slug, preset.isFree])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { void checkAccess() }, [checkAccess])
 
   /* ── Download ── */

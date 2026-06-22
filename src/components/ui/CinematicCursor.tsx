@@ -82,7 +82,7 @@ export function CinematicCursor() {
 
     /* ── rAF render loop ── */
     let rafId = 0
-    let idleTimer = 0
+    const idleTimer = 0
     let isRunning = false
     const LERP = 0.115
 

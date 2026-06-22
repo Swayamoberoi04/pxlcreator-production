@@ -307,7 +307,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
                 "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-muted/30 rounded-sm",
               )}
             >
-              No thanks, I'll pass
+              No thanks, I&apos;ll pass
             </button>
 
           </div>

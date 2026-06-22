@@ -31,7 +31,6 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
   const [loading,    setLoading]    = useState(true)
 
   useEffect(() => {
-    setLoading(true)
     fetch(`/api/presets/${presetSlug}/reviews`)
       .then((r) => r.json())
       .then((data) => {

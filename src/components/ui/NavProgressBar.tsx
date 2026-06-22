@@ -24,9 +24,9 @@ export function NavProgressBar() {
   useEffect(() => {
     clear()
 
-    // Show bar immediately
-    setOpacity(1)
-    setWidth(10)
+    // Deferred to avoid synchronous setState inside an effect body
+    const t0 = setTimeout(() => { setOpacity(1); setWidth(10) }, 0)
+    timers.current.push(t0)
 
     const t1 = setTimeout(() => setWidth(50),  120)
     const t2 = setTimeout(() => setWidth(82),  420)
