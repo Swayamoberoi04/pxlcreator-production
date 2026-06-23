@@ -55,6 +55,11 @@ export default function CommunityHubPage() {
   const [loadingCreators, setLoadingCreators] = useState(true)
   const [loadingProjects, setLoadingProjects] = useState(true)
 
+  /* Personalized recs — only for logged-in users with completed onboarding */
+  const [recCreators, setRecCreators] = useState<(CommunityProfile & { matchPct: number })[]>([])
+  const [recChannels, setRecChannels] = useState<ChannelWithMeta[]>([])
+  const [loadingRecs,  setLoadingRecs]  = useState(false)
+
   async function getHeaders(): Promise<HeadersInit> {
     if (!user) return {}
     const token = await user.getIdToken()
@@ -107,6 +112,26 @@ export default function CommunityHubPage() {
         }
       } catch { /* ignore */ }
       finally { if (!cancelled) setLoadingProjects(false) }
+
+      // Personalised recommendations — only if signed in with completed onboarding
+      if (user) {
+        setLoadingRecs(true)
+        try {
+          const statusRes = await fetch("/api/onboarding/status", { headers })
+          if (statusRes.ok && !cancelled) {
+            const statusData = await statusRes.json()
+            if (statusData.completed) {
+              const recRes = await fetch("/api/community/recommended?limit=6", { headers })
+              if (recRes.ok && !cancelled) {
+                const recData = await recRes.json()
+                setRecCreators(recData.creators ?? [])
+                setRecChannels(recData.channels ?? [])
+              }
+            }
+          }
+        } catch { /* ignore */ }
+        finally { if (!cancelled) setLoadingRecs(false) }
+      }
     }
 
     void load()
@@ -153,6 +178,63 @@ export default function CommunityHubPage() {
           )}
         </div>
       </section>
+
+      {/* ── Recommended For You (personalised, logged-in only) ── */}
+      {user && (recCreators.length > 0 || recChannels.length > 0 || loadingRecs) && (
+        <section className="flex flex-col gap-5">
+          <motion.div
+            className="flex items-center justify-between"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-20px" }}
+            variants={SECTION_HEADER_VARIANTS}
+          >
+            <div>
+              <h2 className="font-display font-black text-xl text-foreground">
+                Recommended For You
+              </h2>
+              <p className="text-[0.8rem] text-muted/50 mt-0.5">Based on your creative profile</p>
+            </div>
+            <Link href="/account#preferences" className="text-sm text-gold hover:underline">
+              Edit profile →
+            </Link>
+          </motion.div>
+
+          {loadingRecs ? (
+            <div className="flex gap-3 overflow-x-auto pb-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="rounded-xl border border-border bg-surface h-24 w-64 shrink-0 animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <>
+              {/* Matched creators */}
+              {recCreators.length > 0 && (
+                <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+                  {recCreators.map((profile) => (
+                    <div key={profile.id} className="shrink-0 w-64 relative">
+                      <CreatorCard profile={profile} compact showFollowButton />
+                      {profile.matchPct > 0 && (
+                        <span className="absolute top-2 right-2 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.6rem] font-bold text-gold/90">
+                          {profile.matchPct}% match
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Matched channels */}
+              {recChannels.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {recChannels.map((ch) => (
+                    <ChannelCard key={ch.id} channel={ch} />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </section>
+      )}
 
       {/* ── Featured Channels ───────────────────────────────── */}
       <section className="flex flex-col gap-5">
