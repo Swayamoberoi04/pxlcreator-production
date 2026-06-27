@@ -1,5 +1,5 @@
 /**
- * PXL Creator Design Tokens — v2.0 (Glow Yellow)
+ * PXL Creator Design Tokens — v2.1 (Canonical Gold)
  *
  * Single source of truth for all non-CSS design decisions.
  * CSS counterparts live in src/app/globals.css @theme inline.
@@ -8,14 +8,14 @@
 
 /* ── Brand palette ─────────────────────────────────────── */
 export const colors = {
-  /* Primary accent — glow yellow */
-  gold:        "#FFD60A",
-  goldBright:  "#FFE970",  // inner bloom
-  goldDim:     "#E0A800",  // pressed / gradient base
-  goldMuted:   "rgba(255, 214, 10, 0.12)",
+  /* Primary accent — cinematic warm amber (Brand Bible v1.0 canonical) */
+  gold:        "#C9A84C",
+  goldBright:  "#E2C97E",  // inner bloom
+  goldDim:     "#A8852A",  // pressed / gradient base
+  goldMuted:   "rgba(201, 168, 76, 0.12)",
 
-  /* Glow RGB for Three.js / canvas */
-  glowRgb:     [255, 214, 10] as [number, number, number],
+  /* Gold RGB for Three.js / canvas */
+  glowRgb:     [201, 168, 76] as [number, number, number],
 
   /* Surfaces */
   background:  "#0A0A0A",
@@ -34,19 +34,19 @@ export const colors = {
   teal:        "rgba(61, 122, 138, 1)",
 } as const
 
-/* ── Glow shadows (for inline style / JS) ──────────────── */
+/* ── Gold shadows (for inline style / JS) ──────────────── */
 export const glows = {
-  sm:   `0 0 12px rgba(255,214,10,0.35), 0 0 4px rgba(255,214,10,0.20)`,
-  md:   `0 0 24px rgba(255,214,10,0.40), 0 0 10px rgba(255,214,10,0.25)`,
-  lg:   `0 0 48px rgba(255,214,10,0.45), 0 0 18px rgba(255,214,10,0.28), 0 0 4px rgba(255,214,10,0.60)`,
-  text: `0 0 8px rgba(255,214,10,0.90), 0 0 24px rgba(255,214,10,0.55), 0 0 56px rgba(255,214,10,0.22)`,
+  sm:   `0 0 12px rgba(201,168,76,0.35), 0 0 4px rgba(201,168,76,0.20)`,
+  md:   `0 0 24px rgba(201,168,76,0.40), 0 0 10px rgba(201,168,76,0.25)`,
+  lg:   `0 0 48px rgba(201,168,76,0.45), 0 0 18px rgba(201,168,76,0.28), 0 0 4px rgba(201,168,76,0.60)`,
+  text: `0 0 8px rgba(201,168,76,0.90), 0 0 24px rgba(201,168,76,0.55), 0 0 56px rgba(201,168,76,0.22)`,
 } as const
 
 /* ── Three.js material colors (hex numbers) ────────────── */
 export const threeColors = {
-  gold:       0xFFD60A,
-  goldBright: 0xFFE970,
-  goldDim:    0xE0A800,
+  gold:       0xC9A84C,
+  goldBright: 0xE2C97E,
+  goldDim:    0xA8852A,
 } as const
 
 /* ── Motion timing ─────────────────────────────────────── */

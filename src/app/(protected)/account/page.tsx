@@ -335,6 +335,7 @@ function CreativePreferences() {
     finally { setLoading(false) }
   }, [user])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { void load() }, [load])
 
   async function handleSave() {
