@@ -34,6 +34,7 @@ import { ShotUsingPXLSection }        from "@/components/sections/ShotUsingPXLSe
 import { SocialProofSection }         from "@/components/sections/SocialProofSection"
 import { PhilosophyStrip }            from "@/components/sections/PhilosophyStrip"
 import { GiveawayBanner }             from "@/components/sections/GiveawayBanner"
+import { LeadMagnetSection }          from "@/components/sections/LeadMagnetSection"
 import { CTABanner }                  from "@/components/sections/CTABanner"
 
 /* ── Skeleton placeholder — keeps layout stable during async streaming ── */
@@ -83,7 +84,10 @@ export default function Home() {
       {/* 11. GIVEAWAY — live giveaway strip CTA */}
       <GiveawayBanner />
 
-      {/* 12. CONVERSION — final CTA */}
+      {/* 12. LEAD MAGNET — free preset email capture */}
+      <LeadMagnetSection />
+
+      {/* 13. CONVERSION — final CTA */}
       <CTABanner />
     </>
   )
