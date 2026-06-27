@@ -110,6 +110,60 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency:  "yearly",
       priority:         0.2,
     },
+    {
+      url:              `${BASE}/license`,
+      lastModified:     now,
+      changeFrequency:  "yearly",
+      priority:         0.3,
+    },
+    {
+      url:              `${BASE}/dmca`,
+      lastModified:     now,
+      changeFrequency:  "yearly",
+      priority:         0.2,
+    },
+    {
+      url:              `${BASE}/disclaimer`,
+      lastModified:     now,
+      changeFrequency:  "yearly",
+      priority:         0.2,
+    },
+    {
+      url:              `${BASE}/support`,
+      lastModified:     now,
+      changeFrequency:  "monthly",
+      priority:         0.4,
+    },
+    {
+      url:              `${BASE}/download-policy`,
+      lastModified:     now,
+      changeFrequency:  "yearly",
+      priority:         0.3,
+    },
+    {
+      url:              `${BASE}/course-policy`,
+      lastModified:     now,
+      changeFrequency:  "yearly",
+      priority:         0.3,
+    },
+    {
+      url:              `${BASE}/ai-terms`,
+      lastModified:     now,
+      changeFrequency:  "yearly",
+      priority:         0.3,
+    },
+    {
+      url:              `${BASE}/install`,
+      lastModified:     now,
+      changeFrequency:  "monthly",
+      priority:         0.5,
+    },
+    {
+      url:              `${BASE}/troubleshooting`,
+      lastModified:     now,
+      changeFrequency:  "monthly",
+      priority:         0.5,
+    },
   ]
 
   /* ── Preset detail pages ────────────────────────────────── */

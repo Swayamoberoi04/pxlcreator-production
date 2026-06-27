@@ -26,10 +26,30 @@ const COMPANY_LINKS = [
 ] as const
 
 const LEGAL_LINKS = [
-  { label: "Privacy Policy",  href: "/privacy"  },
-  { label: "Terms of Service",href: "/terms"    },
-  { label: "Refund Policy",   href: "/refunds"  },
-  { label: "Cookie Policy",   href: "/cookies"  },
+  { label: "Privacy Policy",     href: "/privacy"          },
+  { label: "Terms of Service",   href: "/terms"            },
+  { label: "Refund Policy",      href: "/refunds"          },
+  { label: "Cookie Policy",      href: "/cookies"          },
+  { label: "Licensing",          href: "/license"          },
+  { label: "DMCA / Copyright",   href: "/dmca"             },
+  { label: "Disclaimer",         href: "/disclaimer"       },
+] as const
+
+const HELP_LINKS = [
+  { label: "Support Policy",     href: "/support"          },
+  { label: "Download Policy",    href: "/download-policy"  },
+  { label: "Course Policy",      href: "/course-policy"    },
+  { label: "AI Studio Terms",    href: "/ai-terms"         },
+  { label: "Installation Guide", href: "/install"          },
+  { label: "Troubleshooting",    href: "/troubleshooting"  },
+] as const
+
+/* Core links shown in the bottom bar — keep short */
+const BOTTOM_BAR_LINKS = [
+  { label: "Privacy",  href: "/privacy"  },
+  { label: "Terms",    href: "/terms"    },
+  { label: "Refunds",  href: "/refunds"  },
+  { label: "Cookies",  href: "/cookies"  },
 ] as const
 
 export function SiteFooter() {
@@ -73,7 +93,7 @@ export function SiteFooter() {
 
       {/* ── Main footer grid ── */}
       <Container className="relative z-[2]">
-        <div className="py-16 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2.2fr_1fr_1fr_1fr]">
+        <div className="py-16 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr]">
 
           {/* ── Brand column ── */}
           <div className="flex flex-col gap-7">
@@ -90,7 +110,7 @@ export function SiteFooter() {
             </Link>
 
             {/* Tagline */}
-            <p className="text-small text-muted leading-relaxed max-w-[260px]">
+            <p className="text-small text-muted leading-relaxed max-w-[240px]">
               Premium cinematic Lightroom presets and editing resources for photographers
               and filmmakers who care about their craft.
             </p>
@@ -108,6 +128,12 @@ export function SiteFooter() {
               <span className="text-muted/80 font-medium">10,000+</span>{" "}
               creators worldwide.
             </p>
+
+            {/* Status badge */}
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 w-fit">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true" />
+              <span className="text-[0.75rem] text-muted font-medium">All systems normal</span>
+            </div>
 
           </div>
 
@@ -130,11 +156,13 @@ export function SiteFooter() {
             {LEGAL_LINKS.map((item) => (
               <FooterLink key={item.href} href={item.href}>{item.label}</FooterLink>
             ))}
-            {/* Extra gap filler — badge */}
-            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true" />
-              <span className="text-[0.75rem] text-muted font-medium">All systems normal</span>
-            </div>
+          </FooterColumn>
+
+          {/* ── Help column ── */}
+          <FooterColumn heading="Help">
+            {HELP_LINKS.map((item) => (
+              <FooterLink key={item.href} href={item.href}>{item.label}</FooterLink>
+            ))}
           </FooterColumn>
 
         </div>
@@ -152,8 +180,8 @@ export function SiteFooter() {
             </p>
 
             {/* Bottom legal quick links */}
-            <div className="flex items-center gap-5">
-              {LEGAL_LINKS.map((item) => (
+            <div className="flex flex-wrap items-center gap-4">
+              {BOTTOM_BAR_LINKS.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
