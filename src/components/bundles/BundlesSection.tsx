@@ -44,7 +44,7 @@ export async function BundlesSection() {
               Save more.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -98,4 +98,5 @@ function ArrowRightIcon() {
     </svg>
   )
 }
+
 

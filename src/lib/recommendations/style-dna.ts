@@ -67,7 +67,7 @@ const DNA_TEMPLATES: DNATemplate[] = [
     title:   "Dark Editorial Auteur",
     tagline: "Luxury and darkness collide in your work. Every frame is a fashion statement.",
     badge:   "Editorial",
-    color:   "#FFD60A",
+    color:   "#C9A84C",
   },
   {
     primary:   "editorial",
@@ -156,7 +156,7 @@ const FALLBACK_DNA: Omit<DNATemplate, "primary" | "secondary"> = {
   title:   "Creative Visual Storyteller",
   tagline: "You are just getting started — and the best creators start exactly here.",
   badge:   "Creator",
-  color:   "#FFD60A",
+  color:   "#C9A84C",
 }
 
 /* ── Generator ──────────────────────────────────────────────── */
@@ -252,4 +252,5 @@ function aestheticLabel(id: string): string {
   }
   return map[id] ?? id
 }
+
 

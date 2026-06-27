@@ -53,7 +53,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     title:         profile.style_dna_title    ?? "Creator",
     tagline:       profile.style_dna_tagline  ?? "",
     badge:         profile.style_dna_badge    ?? "Creator",
-    primaryColor:  profile.style_dna_color    ?? "#FFD60A",
+    primaryColor:  profile.style_dna_color    ?? "#C9A84C",
     archetypes:    profile.style_dna_archetypes ?? [],
     topCategories: Object.entries((profile.affinities as unknown as CategoryAffinities) ?? {})
       .sort(([, a], [, b]) => (b as number) - (a as number))
@@ -118,4 +118,5 @@ function getSectionSubheadline(id: string): string {
   }
   return map[id] ?? "Personalised picks based on your creator profile"
 }
+
 

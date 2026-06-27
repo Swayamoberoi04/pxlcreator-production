@@ -1,11 +1,11 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
 
 /**
  * Thin gold progress line that fires on every App Router navigation.
- * Mounts once in layout.tsx — no setup needed per-page.
+ * Mounts once in layout.tsx â€” no setup needed per-page.
  *
  * Fake-progress approach: jump to 15%, ease to 85% while the new
  * page loads, complete to 100% on pathname change, then fade out.
@@ -48,8 +48,8 @@ export function NavProgressBar() {
         height:     "2px",
         width:      `${width}%`,
         opacity,
-        background: "#FFD60A",
-        boxShadow:  "0 0 10px rgba(255,214,10,0.75), 0 0 24px rgba(255,214,10,0.35)",
+        background: "#C9A84C",
+        boxShadow:  "0 0 10px rgba(201,168,76,0.75), 0 0 24px rgba(201,168,76,0.35)",
         transition: "width 0.28s ease, opacity 0.22s ease",
         zIndex:     9999,
         pointerEvents: "none",
@@ -57,3 +57,4 @@ export function NavProgressBar() {
     />
   )
 }
+

@@ -219,7 +219,7 @@ function StarIcon({ filled }: { filled: boolean }) {
       width="14"
       height="14"
       viewBox="0 0 24 24"
-      fill={filled ? "#FFD60A" : "none"}
+      fill={filled ? "#C9A84C" : "none"}
       stroke={filled ? "none" : "#555555"}
       strokeWidth="1.5"
       aria-hidden="true"
@@ -228,4 +228,5 @@ function StarIcon({ filled }: { filled: boolean }) {
     </svg>
   )
 }
+
 

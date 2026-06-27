@@ -97,7 +97,7 @@ export function AIStudioBanner() {
                   AI does{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #FFD60A 100%)",
+                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #C9A84C 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -190,4 +190,5 @@ export function AIStudioBanner() {
     </section>
   )
 }
+
 

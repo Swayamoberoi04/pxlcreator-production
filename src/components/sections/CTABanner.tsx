@@ -125,7 +125,7 @@ function CheckIcon() {
       height="14"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#FFD60A"
+      stroke="#C9A84C"
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -135,4 +135,5 @@ function CheckIcon() {
     </svg>
   )
 }
+
 
