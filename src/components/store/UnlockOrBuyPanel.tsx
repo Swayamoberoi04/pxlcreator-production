@@ -5,6 +5,7 @@ import Link                                  from "next/link"
 import { useAuth }                           from "@/contexts/AuthContext"
 import { PasswordModal }                     from "./PasswordModal"
 import { cn }                                from "@/lib/utils"
+import { getPresetDownload }                 from "@/data/preset-downloads"
 
 interface UnlockOrBuyPanelProps {
   preset: {
@@ -206,15 +207,45 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
           <span className="flex-1 h-px bg-border/60" />
         </div>
 
-        {/* Unlock from YouTube */}
-        <button
-          type="button"
-          onClick={() => setShowModal(true)}
-          className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/70 bg-surface/50 py-3.5 text-[0.875rem] font-semibold text-foreground/80 hover:border-gold/40 hover:text-gold hover:bg-gold/[0.04] active:scale-[0.98] transition-all"
-        >
-          <YoutubeIcon />
-          Unlock From YouTube
-        </button>
+        {/* Unlock from YouTube / Google Drive */}
+        {(() => {
+          const dl = getPresetDownload(preset.name)
+          if (dl && dl.downloadUrl !== "NA") {
+            return (
+              <button
+                type="button"
+                onClick={() => window.open(dl.downloadUrl, "_blank", "noopener,noreferrer")}
+                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/70 bg-surface/50 py-3.5 text-[0.875rem] font-semibold text-foreground/80 hover:border-gold/40 hover:text-gold hover:bg-gold/[0.04] active:scale-[0.98] transition-all"
+              >
+                <DriveIcon />
+                Download Free Preset
+              </button>
+            )
+          }
+          if (dl && dl.downloadUrl === "NA") {
+            return (
+              <button
+                type="button"
+                disabled
+                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/40 bg-surface/30 py-3.5 text-[0.875rem] font-semibold text-muted/35 cursor-not-allowed"
+              >
+                <YoutubeIcon />
+                Download coming soon.
+              </button>
+            )
+          }
+          // Not in registry — fall back to password modal
+          return (
+            <button
+              type="button"
+              onClick={() => setShowModal(true)}
+              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/70 bg-surface/50 py-3.5 text-[0.875rem] font-semibold text-foreground/80 hover:border-gold/40 hover:text-gold hover:bg-gold/[0.04] active:scale-[0.98] transition-all"
+            >
+              <YoutubeIcon />
+              Unlock From YouTube
+            </button>
+          )
+        })()}
 
         {preset.youtubeVideoTitle && (
           <p className="text-center text-[0.7rem] text-muted/40 leading-snug px-2">
@@ -261,4 +292,7 @@ function UserIcon() {
 }
 function SpinnerIcon() {
   return <div className="h-4 w-4 rounded-full border-2 border-background/30 border-t-background animate-spin" aria-hidden="true" />
+}
+function DriveIcon() {
+  return <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.56 16.5 1.13 22h21.74l-3.43-5.5H4.56zM12 2 6.44 11.5h11.12L12 2zm6.44 9.5L12 2 5.56 11.5h12.88z" opacity=".3"/><path d="M16.44 11.5H7.56L2 21h4.56L12 11.5l5.44 9.5H22l-5.56-9.5zM12 2 6.44 11.5h11.12L12 2z"/></svg>
 }
