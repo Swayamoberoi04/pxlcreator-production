@@ -14,7 +14,10 @@
       "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run lint 2>&1; echo \"EXIT:$LASTEXITCODE\")",
       "PowerShell(Set-Location \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npx tsc --noEmit 2>&1; echo \"EXIT:$LASTEXITCODE\")",
       "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\app\\\\api\\\\community\\\\spaces\\\\\" -Force -Recurse | Where-Object { $_.PSIsContainer -or $_.Extension } | Select-Object -ExpandProperty FullName)",
-      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run lint 2>&1 | Where-Object { $_ -match \"idleTimer|prefer-const|UnlockOrBuy\" } | Select-Object -First 10)"
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run lint 2>&1 | Where-Object { $_ -match \"idleTimer|prefer-const|UnlockOrBuy\" } | Select-Object -First 10)",
+      "PowerShell([System.IO.File]::ReadAllText\\(\"C:\\\\Users\\\\swayam\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\90f3467f-c1d3-4e2a-b029-5ce686c84fb0\\\\tasks\\\\bqhs3em6g.output\"\\))",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\app\\\\api\\\\email\\\\subscribe\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\app\\\\api\\\\preset\\\\download\")"
     ]
   }
 }
