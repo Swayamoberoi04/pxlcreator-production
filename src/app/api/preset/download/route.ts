@@ -52,8 +52,7 @@ export async function POST(req: NextRequest) {
   /* ── Registry lookup by slug (server-only — Drive URL and password never leave this scope) ── */
   const securePreset = getSecurePreset(slug)
   if (!securePreset) {
-    console.error("[preset/download] not found — received slug:", JSON.stringify(slug))
-    return NextResponse.json({ error: "Preset not found.", debug_slug: slug }, { status: 404 })
+    return NextResponse.json({ error: "Preset not found." }, { status: 404 })
   }
 
   /* ── Coming soon ── */
