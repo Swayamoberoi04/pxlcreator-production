@@ -3,23 +3,8 @@
  *
  * Unified, secure download endpoint for all presets.
  *
- * Rules:
- *   • Free presets  — return Drive URL immediately (no password required)
- *   • Paid presets  — validate password OR verify existing unlock/purchase,
- *                     then return Drive URL
- *   • NA URLs       — return 503 "Coming soon"
- *   • Passwords and Drive URLs are NEVER sent to the browser from any other path
- *
- * Body: { presetName: string, password?: string }
- *
- * Returns:
- *   200  { url: string }
- *   400  { error: string }   — bad input or missing password
- *   401  { error: string }   — auth required for paid presets
- *   403  { error: string }   — wrong password
- *   404  { error: string }   — preset not in registry
- *   429  { error: string }   — rate limited
- *   503  { error: string }   — file not yet available
+ * Body: { slug: string, password?: string }
+ * Returns 200 { url } on success, 4xx/5xx { error, received? } on failure.
  */
 
 import { NextRequest, NextResponse }         from "next/server"
@@ -31,13 +16,15 @@ import { createAdminClient }                  from "@/lib/supabase/admin"
 const passwordLimiter = makeRateLimiter({ max: 10, windowMs: 15 * 60 * 1000 })
 
 export async function POST(req: NextRequest) {
+
   /* ── Parse body ── */
   let slug: string
   let password: string | undefined
+  let rawBody: unknown
 
   try {
-    const body = await req.json()
-    // Accept either slug (preferred) or presetName (title) for backward compat
+    rawBody  = await req.json()
+    const body = rawBody as Record<string, unknown>
     slug     = typeof body?.slug       === "string" ? body.slug.trim()       :
                typeof body?.presetName === "string" ? body.presetName.trim() : ""
     password = typeof body?.password   === "string" ? body.password.trim()   : undefined
@@ -45,14 +32,26 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 })
   }
 
+  console.log("[preset/download] RECEIVED BODY:", JSON.stringify(rawBody))
+  console.log("[preset/download] PARSED SLUG:", JSON.stringify(slug))
+
   if (!slug) {
-    return NextResponse.json({ error: "slug is required." }, { status: 400 })
+    return NextResponse.json(
+      { error: "slug is required.", received: rawBody },
+      { status: 400 }
+    )
   }
 
-  /* ── Registry lookup by slug (server-only — Drive URL and password never leave this scope) ── */
+  /* ── Registry lookup ── */
   const securePreset = getSecurePreset(slug)
+
+  console.log("[preset/download] REGISTRY LOOKUP:", slug, "->", securePreset ? `FOUND: ${securePreset.title}` : "NOT FOUND")
+
   if (!securePreset) {
-    return NextResponse.json({ error: "Preset not found." }, { status: 404 })
+    return NextResponse.json(
+      { error: "Preset not found.", received_slug: slug },
+      { status: 404 }
+    )
   }
 
   /* ── Coming soon ── */
@@ -63,20 +62,24 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  /* ── Free preset — no password or unlock check needed ── */
+  /* ── Free preset — no auth or password needed ── */
   if (securePreset.isFree) {
+    console.log("[preset/download] FREE PRESET — returning URL for:", securePreset.title)
     return NextResponse.json({ url: securePreset.downloadUrl })
   }
 
   /* ── Paid preset — auth required ── */
   const uid = await getFirebaseUidFromRequest(req)
   if (!uid) {
-    return NextResponse.json({ error: "Authentication required." }, { status: 401 })
+    return NextResponse.json(
+      { error: "Authentication required." },
+      { status: 401 }
+    )
   }
 
   const supabase = createAdminClient()
 
-  /* Resolve Supabase preset_id from slug (needed for user_unlocks foreign key) */
+  /* Resolve Supabase preset_id from slug */
   const { data: dbPreset } = await supabase
     .from("presets")
     .select("id")
@@ -84,8 +87,9 @@ export async function POST(req: NextRequest) {
     .maybeSingle()
 
   const presetId = dbPreset?.id as string | undefined
+  console.log("[preset/download] SUPABASE preset_id for slug", securePreset.slug, "->", presetId ?? "NOT FOUND IN DB")
 
-  /* ── Check existing unlock (password previously validated) ── */
+  /* Check existing unlock */
   if (presetId) {
     const { data: existingUnlock } = await supabase
       .from("user_unlocks")
@@ -95,6 +99,7 @@ export async function POST(req: NextRequest) {
       .maybeSingle()
 
     if (existingUnlock) {
+      console.log("[preset/download] ALREADY UNLOCKED — returning URL")
       return NextResponse.json({ url: securePreset.downloadUrl })
     }
 
@@ -108,16 +113,20 @@ export async function POST(req: NextRequest) {
       .maybeSingle()
 
     if (orderItem) {
+      console.log("[preset/download] PAID ORDER — returning URL")
       return NextResponse.json({ url: securePreset.downloadUrl })
     }
   }
 
   /* ── Password required but not provided ── */
   if (!password) {
-    return NextResponse.json({ error: "Password is required." }, { status: 400 })
+    return NextResponse.json(
+      { error: "Password is required." },
+      { status: 400 }
+    )
   }
 
-  /* ── Rate limit password attempts ── */
+  /* ── Rate limit ── */
   const ip      = getClientIp(req)
   const limited = passwordLimiter.check(`pwd:${ip}:${securePreset.slug}`)
   if (limited) {
@@ -128,6 +137,7 @@ export async function POST(req: NextRequest) {
   }
 
   /* ── Validate password (timing-safe) ── */
+  console.log("[preset/download] VALIDATING PASSWORD for:", securePreset.title)
   if (!securePreset.password || !timingSafeEqual(password, securePreset.password)) {
     return NextResponse.json(
       { error: "Incorrect password. Check the YouTube video again." },
@@ -135,7 +145,7 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  /* ── Record unlock in DB (upsert — idempotent) ── */
+  /* ── Record unlock ── */
   if (presetId) {
     await supabase
       .from("user_unlocks")
@@ -145,5 +155,6 @@ export async function POST(req: NextRequest) {
       )
   }
 
+  console.log("[preset/download] PASSWORD VALID — returning URL for:", securePreset.title)
   return NextResponse.json({ url: securePreset.downloadUrl })
 }

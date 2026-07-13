@@ -43,6 +43,10 @@ export function PasswordModal({
     setError(null)
 
     try {
+      const payload = { slug, password: password.trim() }
+      console.log("[PasswordModal] submitting — presetName:", presetName, "| slug:", slug)
+      console.log("[PasswordModal] POST /api/preset/download payload:", JSON.stringify({ slug, password: "***" }))
+
       const token = await getToken()
       const res   = await fetch("/api/preset/download", {
         method:  "POST",
@@ -50,13 +54,23 @@ export function PasswordModal({
           "Content-Type":  "application/json",
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ slug, password: password.trim() }),
+        body: JSON.stringify(payload),
       })
 
-      const data = await res.json()
+      let data: Record<string, unknown> = {}
+      try {
+        data = await res.json()
+      } catch {
+        console.error("[PasswordModal] Non-JSON response — status:", res.status)
+        setError(`Server error (status ${res.status}). Check server logs.`)
+        setLoading(false)
+        return
+      }
+
+      console.log("[PasswordModal] API response:", res.status, JSON.stringify(data))
 
       if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.")
+        setError((data.error as string | undefined) ?? "Something went wrong. Please try again.")
         setLoading(false)
         return
       }

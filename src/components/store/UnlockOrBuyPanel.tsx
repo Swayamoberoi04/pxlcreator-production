@@ -71,6 +71,10 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
     if (!user || downloading) return
     setDownloading(true)
 
+    const payload = { slug: preset.slug }
+    console.log("[UnlockOrBuyPanel] handleDriveDownload — preset:", preset.name, "| slug:", preset.slug)
+    console.log("[UnlockOrBuyPanel] POST /api/preset/download payload:", JSON.stringify(payload))
+
     try {
       const token = await user.getIdToken()
       const res   = await fetch("/api/preset/download", {
@@ -79,13 +83,25 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
           "Content-Type":  "application/json",
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ slug: preset.slug }),
+        body: JSON.stringify(payload),
       })
 
-      const data = await res.json()
+      let data: Record<string, unknown> = {}
+      try {
+        data = await res.json()
+      } catch (jsonErr) {
+        console.error("[UnlockOrBuyPanel] Failed to parse JSON response. Status:", res.status, jsonErr)
+        alert(`Download failed — server returned non-JSON (status ${res.status}). Check server logs.`)
+        setDownloading(false)
+        return
+      }
+
+      console.log("[UnlockOrBuyPanel] API response:", res.status, JSON.stringify(data))
 
       if (!res.ok || !data.url) {
-        alert(data.error ?? "Download unavailable. Please contact support.")
+        const msg = (data.error as string | undefined)
+          ?? `Download failed (status ${res.status}). Check server logs.`
+        alert(msg)
         setDownloading(false)
         return
       }
@@ -93,8 +109,9 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
       window.open(data.url as string, "_blank", "noopener,noreferrer")
       setDlDone(true)
       setTimeout(() => setDlDone(false), 5000)
-    } catch {
-      alert("Download failed. Please try again.")
+    } catch (err) {
+      console.error("[UnlockOrBuyPanel] fetch threw:", err)
+      alert("Network error — could not reach the download API. Check your connection.")
     } finally {
       setDownloading(false)
     }
