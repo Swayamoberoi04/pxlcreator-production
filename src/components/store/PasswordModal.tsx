@@ -7,7 +7,7 @@ interface PasswordModalProps {
   presetName:         string
   youtubeVideoTitle?: string | null
   onClose:            () => void
-  onSuccess:          () => void
+  onSuccess:          (url: string) => void
   slug:               string
   getToken:           () => Promise<string>
 }
@@ -44,13 +44,13 @@ export function PasswordModal({
 
     try {
       const token = await getToken()
-      const res   = await fetch(`/api/presets/${slug}/validate-password`, {
+      const res   = await fetch("/api/preset/download", {
         method:  "POST",
         headers: {
           "Content-Type":  "application/json",
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ password: password.trim() }),
+        body: JSON.stringify({ presetName, password: password.trim() }),
       })
 
       const data = await res.json()
@@ -61,7 +61,7 @@ export function PasswordModal({
         return
       }
 
-      onSuccess()
+      onSuccess(data.url as string)
     } catch {
       setError("Network error. Please check your connection.")
       setLoading(false)

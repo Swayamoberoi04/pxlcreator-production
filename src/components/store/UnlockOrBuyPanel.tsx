@@ -5,7 +5,6 @@ import Link                                  from "next/link"
 import { useAuth }                           from "@/contexts/AuthContext"
 import { PasswordModal }                     from "./PasswordModal"
 import { cn }                                from "@/lib/utils"
-import { getPresetDownload }                 from "@/data/preset-downloads"
 
 interface UnlockOrBuyPanelProps {
   preset: {
@@ -24,20 +23,22 @@ type AccessState = "loading" | "locked" | "unlocked"
 /**
  * UnlockOrBuyPanel
  *
- * Replaces the old DownloadGate + AddToCartButton combination.
  * Handles all three access paths:
- *   1. Free preset  → download immediately (signed in)
- *   2. Paid/bought  → download button
- *   3. Password     → modal → validate → download
- *   4. Neither yet  → show Buy Now + Unlock From YouTube buttons
+ *   1. Free preset    → Drive download via /api/preset/download (no password)
+ *   2. Paid/bought    → Drive download via /api/preset/download (auth proves ownership)
+ *   3. Password       → PasswordModal → /api/preset/download → open Drive URL
+ *   4. Neither yet    → Buy Now + Unlock From YouTube buttons
+ *
+ * Drive URLs and passwords are NEVER stored or exposed client-side.
+ * All download logic goes through the secure server endpoint.
  */
 export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
-  const { user }                          = useAuth()
-  const [access,       setAccess]         = useState<AccessState>("loading")
-  const [unlockMethod, setUnlockMethod]   = useState<string | null>(null)
-  const [showModal,    setShowModal]      = useState(false)
-  const [downloading,  setDownloading]    = useState(false)
-  const [dlDone,       setDlDone]         = useState(false)
+  const { user }                        = useAuth()
+  const [access,       setAccess]       = useState<AccessState>("loading")
+  const [unlockMethod, setUnlockMethod] = useState<string | null>(null)
+  const [showModal,    setShowModal]    = useState(false)
+  const [downloading,  setDownloading]  = useState(false)
+  const [dlDone,       setDlDone]       = useState(false)
 
   /* ── Check access on mount / auth change ── */
   const checkAccess = useCallback(async () => {
@@ -65,34 +66,31 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { void checkAccess() }, [checkAccess])
 
-  /* ── Download ── */
-  async function handleDownload() {
+  /* ── Secure Drive download via server endpoint ── */
+  async function handleDriveDownload() {
     if (!user || downloading) return
     setDownloading(true)
 
     try {
       const token = await user.getIdToken()
-      const res   = await fetch(`/api/presets/${preset.slug}/download`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res   = await fetch("/api/preset/download", {
+        method:  "POST",
+        headers: {
+          "Content-Type":  "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ presetName: preset.name }),
       })
 
-      if (!res.ok) {
-        alert("Download unavailable. Please contact support.")
+      const data = await res.json()
+
+      if (!res.ok || !data.url) {
+        alert(data.error ?? "Download unavailable. Please contact support.")
         setDownloading(false)
         return
       }
 
-      /* The API redirects to the actual file URL */
-      const blob = await res.blob()
-      const url  = URL.createObjectURL(blob)
-      const a    = document.createElement("a")
-      a.href     = url
-      a.download = preset.downloadFileName ?? `${preset.slug}.zip`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-
+      window.open(data.url as string, "_blank", "noopener,noreferrer")
       setDlDone(true)
       setTimeout(() => setDlDone(false), 5000)
     } catch {
@@ -102,11 +100,12 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
     }
   }
 
-  /* ── Password unlock success ── */
-  function handleUnlockSuccess() {
+  /* ── Password unlock success — modal already validated + got URL ── */
+  function handleUnlockSuccess(url: string) {
     setShowModal(false)
     setAccess("unlocked")
     setUnlockMethod("password")
+    window.open(url, "_blank", "noopener,noreferrer")
   }
 
   /* ── Not signed in ── */
@@ -166,7 +165,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
 
         <button
           type="button"
-          onClick={handleDownload}
+          onClick={handleDriveDownload}
           disabled={downloading || dlDone}
           className={cn(
             "flex w-full items-center justify-center gap-2.5 rounded-xl py-4",
@@ -207,45 +206,15 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
           <span className="flex-1 h-px bg-border/60" />
         </div>
 
-        {/* Unlock from YouTube / Google Drive */}
-        {(() => {
-          const dl = getPresetDownload(preset.name)
-          if (dl && dl.downloadUrl !== "NA") {
-            return (
-              <button
-                type="button"
-                onClick={() => window.open(dl.downloadUrl, "_blank", "noopener,noreferrer")}
-                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/70 bg-surface/50 py-3.5 text-[0.875rem] font-semibold text-foreground/80 hover:border-gold/40 hover:text-gold hover:bg-gold/[0.04] active:scale-[0.98] transition-all"
-              >
-                <DriveIcon />
-                Download Free Preset
-              </button>
-            )
-          }
-          if (dl && dl.downloadUrl === "NA") {
-            return (
-              <button
-                type="button"
-                disabled
-                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/40 bg-surface/30 py-3.5 text-[0.875rem] font-semibold text-muted/35 cursor-not-allowed"
-              >
-                <YoutubeIcon />
-                Download coming soon.
-              </button>
-            )
-          }
-          // Not in registry — fall back to password modal
-          return (
-            <button
-              type="button"
-              onClick={() => setShowModal(true)}
-              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/70 bg-surface/50 py-3.5 text-[0.875rem] font-semibold text-foreground/80 hover:border-gold/40 hover:text-gold hover:bg-gold/[0.04] active:scale-[0.98] transition-all"
-            >
-              <YoutubeIcon />
-              Unlock From YouTube
-            </button>
-          )
-        })()}
+        {/* Unlock from YouTube */}
+        <button
+          type="button"
+          onClick={() => setShowModal(true)}
+          className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/70 bg-surface/50 py-3.5 text-[0.875rem] font-semibold text-foreground/80 hover:border-gold/40 hover:text-gold hover:bg-gold/[0.04] active:scale-[0.98] transition-all"
+        >
+          <YoutubeIcon />
+          Unlock From YouTube
+        </button>
 
         {preset.youtubeVideoTitle && (
           <p className="text-center text-[0.7rem] text-muted/40 leading-snug px-2">
@@ -292,7 +261,4 @@ function UserIcon() {
 }
 function SpinnerIcon() {
   return <div className="h-4 w-4 rounded-full border-2 border-background/30 border-t-background animate-spin" aria-hidden="true" />
-}
-function DriveIcon() {
-  return <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.56 16.5 1.13 22h21.74l-3.43-5.5H4.56zM12 2 6.44 11.5h11.12L12 2zm6.44 9.5L12 2 5.56 11.5h12.88z" opacity=".3"/><path d="M16.44 11.5H7.56L2 21h4.56L12 11.5l5.44 9.5H22l-5.56-9.5zM12 2 6.44 11.5h11.12L12 2z"/></svg>
 }
