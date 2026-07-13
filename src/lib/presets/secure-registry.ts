@@ -726,14 +726,18 @@ const REGISTRY: SecurePreset[] = [
   },
 ]
 
-/* ── O(1) lookup index keyed by lowercase title ────────────────────────────── */
-const INDEX = new Map<string, SecurePreset>(
+/* ── O(1) lookup indexes ────────────────────────────────────────────────────── */
+const TITLE_INDEX = new Map<string, SecurePreset>(
   REGISTRY.map((p) => [p.title.toLowerCase().trim(), p])
 )
+const SLUG_INDEX = new Map<string, SecurePreset>(
+  REGISTRY.map((p) => [p.slug.toLowerCase().trim(), p])
+)
 
-/** Looks up a preset by title (case-insensitive). Returns null if not found. */
-export function getSecurePreset(presetName: string): SecurePreset | null {
-  return INDEX.get(presetName.toLowerCase().trim()) ?? null
+/** Looks up a preset by slug (primary) or title (fallback), case-insensitive. */
+export function getSecurePreset(slugOrTitle: string): SecurePreset | null {
+  const key = slugOrTitle.toLowerCase().trim()
+  return SLUG_INDEX.get(key) ?? TITLE_INDEX.get(key) ?? null
 }
 
 /** Timing-safe string comparison — prevents timing attacks on password checks. */

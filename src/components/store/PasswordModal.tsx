@@ -50,7 +50,7 @@ export function PasswordModal({
           "Content-Type":  "application/json",
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ presetName, password: password.trim() }),
+        body: JSON.stringify({ slug, password: password.trim() }),
       })
 
       const data = await res.json()

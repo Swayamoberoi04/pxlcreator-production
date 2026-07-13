@@ -32,23 +32,25 @@ const passwordLimiter = makeRateLimiter({ max: 10, windowMs: 15 * 60 * 1000 })
 
 export async function POST(req: NextRequest) {
   /* ── Parse body ── */
-  let presetName: string
+  let slug: string
   let password: string | undefined
 
   try {
     const body = await req.json()
-    presetName = typeof body?.presetName === "string" ? body.presetName.trim() : ""
-    password   = typeof body?.password   === "string" ? body.password.trim()   : undefined
+    // Accept either slug (preferred) or presetName (title) for backward compat
+    slug     = typeof body?.slug       === "string" ? body.slug.trim()       :
+               typeof body?.presetName === "string" ? body.presetName.trim() : ""
+    password = typeof body?.password   === "string" ? body.password.trim()   : undefined
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 })
   }
 
-  if (!presetName) {
-    return NextResponse.json({ error: "presetName is required." }, { status: 400 })
+  if (!slug) {
+    return NextResponse.json({ error: "slug is required." }, { status: 400 })
   }
 
-  /* ── Registry lookup (server-only — Drive URL and password never leave this scope) ── */
-  const securePreset = getSecurePreset(presetName)
+  /* ── Registry lookup by slug (server-only — Drive URL and password never leave this scope) ── */
+  const securePreset = getSecurePreset(slug)
   if (!securePreset) {
     return NextResponse.json({ error: "Preset not found." }, { status: 404 })
   }

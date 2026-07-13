@@ -79,7 +79,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
           "Content-Type":  "application/json",
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ presetName: preset.name }),
+        body: JSON.stringify({ slug: preset.slug }),
       })
 
       const data = await res.json()
