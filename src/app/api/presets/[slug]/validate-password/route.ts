@@ -54,10 +54,9 @@ export async function POST(req: NextRequest, { params }: Params) {
   /* ── Fetch preset (only fields we need — never return password to client) ── */
   const { data: preset, error: fetchErr } = await supabase
     .from("presets")
-    .select("id, unlock_password, is_free, is_published")
+    .select("id, unlock_password, is_free")
     .eq("slug", slug)
-    .eq("is_published", true)
-    .single()
+    .maybeSingle()
 
   if (fetchErr || !preset) {
     return NextResponse.json({ error: "Preset not found." }, { status: 404 })
