@@ -15,7 +15,7 @@ export const fadeUp: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: duration.reveal, ease: easing.spring },
+    transition: { duration: duration.reveal, ease: easing.cinematic },
   },
 }
 
@@ -26,17 +26,30 @@ export const fadeIn: Variants = {
 
 export const slideLeft: Variants = {
   hidden:  { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: duration.reveal, ease: easing.spring } },
+  visible: { opacity: 1, x: 0, transition: { duration: duration.reveal, ease: easing.cinematic } },
 }
 
 export const slideRight: Variants = {
   hidden:  { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: duration.reveal, ease: easing.spring } },
+  visible: { opacity: 1, x: 0, transition: { duration: duration.reveal, ease: easing.cinematic } },
 }
 
 export const scaleIn: Variants = {
   hidden:  { opacity: 0, scale: 0.92 },
-  visible: { opacity: 1, scale: 1,   transition: { duration: duration.reveal, ease: easing.spring } },
+  visible: { opacity: 1, scale: 1,   transition: { duration: duration.reveal, ease: easing.cinematic } },
+}
+
+/* ── Parallax (slow drift — use with useScroll / useTransform) ── */
+export const parallaxSlow: Variants = {
+  hidden:  { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: duration.slow * 1.4, ease: easing.smooth } },
+}
+
+/* ── Scene transition (black fade — page-level wipes) ─────────── */
+export const sceneTransition: Variants = {
+  initial:  { opacity: 0, backgroundColor: "#0A0A0A" },
+  animate:  { opacity: 1, backgroundColor: "transparent", transition: { duration: duration.page, ease: easing.smooth } },
+  exit:     { opacity: 0, backgroundColor: "#0A0A0A",     transition: { duration: duration.fast, ease: easing.cinematic } },
 }
 
 /* ── Stagger container ──────────────────────────────────── */
@@ -61,9 +74,9 @@ export const pageVariants: Variants = {
 export const glowPulse = {
   animate: {
     boxShadow: [
-      "0 0 12px rgba(255,214,10,0.35)",
-      "0 0 28px rgba(255,214,10,0.60)",
-      "0 0 12px rgba(255,214,10,0.35)",
+      "0 0 12px rgba(201,168,76,0.35)",
+      "0 0 28px rgba(201,168,76,0.60)",
+      "0 0 12px rgba(201,168,76,0.35)",
     ],
     transition: { duration: 2.4, ease: "easeInOut", repeat: Infinity },
   },

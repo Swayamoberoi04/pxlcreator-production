@@ -54,7 +54,7 @@ const GALLERY: GalleryImage[] = [
     alt:      "Magical cinematic sunset",
     preset:   "Film Rich",
     category: "Landscape",
-    accent:   "#FFD60A",
+    accent:   "#C9A84C",
     tall:     true,
   },
   {
@@ -150,7 +150,7 @@ export function ShotUsingPXLSection() {
               Real results.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -256,4 +256,5 @@ function GalleryCard({ img }: { img: GalleryImage }) {
     </div>
   )
 }
+
 

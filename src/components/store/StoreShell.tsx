@@ -138,7 +138,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search presets…"
           suppressHydrationWarning
-          className="w-full rounded-2xl border border-border bg-surface pl-11 pr-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/35 focus:outline-none focus:border-gold/40 focus:shadow-[0_0_0_3px_rgba(255,214,10,0.10),0_0_16px_rgba(255,214,10,0.08)] transition-all duration-200"
+          className="w-full rounded-2xl border border-border bg-surface pl-11 pr-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/35 focus:outline-none focus:border-gold/40 focus:shadow-[0_0_0_3px_rgba(201,168,76,0.10),0_0_16px_rgba(201,168,76,0.08)] transition-all duration-200"
         />
         {search && (
           <button
@@ -309,6 +309,7 @@ function DownloadMiniIcon() {
   return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
 }
 function BundlesIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
 }
+
 

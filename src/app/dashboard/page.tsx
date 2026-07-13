@@ -443,7 +443,7 @@ export default function DashboardPage() {
     void loadDashboard()
   }
 
-  const accentColor = dna?.primaryColor ?? "#FFD60A"
+  const accentColor = dna?.primaryColor ?? "#C9A84C"
 
   /* ── Loading ── */
   if (fetching) {
@@ -598,7 +598,7 @@ export default function DashboardPage() {
             <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">Quick Actions</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                { icon: "◈", label: "Presets For You",   sub: "Sorted by your style",    href: "/store/for-you",  color: "#FFD60A" },
+                { icon: "◈", label: "Presets For You",   sub: "Sorted by your style",    href: "/store/for-you",  color: "#C9A84C" },
                 { icon: "▷", label: "Continue Learning", sub: "Pick up where you left off", href: "/courses",      color: "#FF6B35" },
                 { icon: "✦", label: "Enter Giveaway",    sub: "Free presets every month",  href: "/giveaway",     color: "#10B981" },
                 { icon: "◉", label: "Explore Bundles",   sub: "Maximum value packs",       href: "/bundles",      color: "#8B5CF6" },
@@ -633,4 +633,5 @@ export default function DashboardPage() {
     </div>
   )
 }
+
 

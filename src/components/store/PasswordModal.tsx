@@ -7,7 +7,7 @@ interface PasswordModalProps {
   presetName:         string
   youtubeVideoTitle?: string | null
   onClose:            () => void
-  onSuccess:          () => void
+  onSuccess:          (url: string) => void
   slug:               string
   getToken:           () => Promise<string>
 }
@@ -43,25 +43,39 @@ export function PasswordModal({
     setError(null)
 
     try {
+      const payload = { slug, password: password.trim() }
+      console.log("[PasswordModal] submitting — presetName:", presetName, "| slug:", slug)
+      console.log("[PasswordModal] POST /api/preset/download payload:", JSON.stringify({ slug, password: "***" }))
+
       const token = await getToken()
-      const res   = await fetch(`/api/presets/${slug}/validate-password`, {
+      const res   = await fetch("/api/preset/download", {
         method:  "POST",
         headers: {
           "Content-Type":  "application/json",
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ password: password.trim() }),
+        body: JSON.stringify(payload),
       })
 
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.")
+      let data: Record<string, unknown> = {}
+      try {
+        data = await res.json()
+      } catch {
+        console.error("[PasswordModal] Non-JSON response — status:", res.status)
+        setError(`Server error (status ${res.status}). Check server logs.`)
         setLoading(false)
         return
       }
 
-      onSuccess()
+      console.log("[PasswordModal] API response:", res.status, JSON.stringify(data))
+
+      if (!res.ok) {
+        setError((data.error as string | undefined) ?? "Something went wrong. Please try again.")
+        setLoading(false)
+        return
+      }
+
+      onSuccess(data.url as string)
     } catch {
       setError("Network error. Please check your connection.")
       setLoading(false)

@@ -81,7 +81,7 @@ export default async function StorePage({
                 Presets that earn their place<br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 45%, #E0A800 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 45%, #A8852A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -144,4 +144,5 @@ export default async function StorePage({
     </div>
   )
 }
+
 

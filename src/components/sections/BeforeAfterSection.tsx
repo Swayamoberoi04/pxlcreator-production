@@ -29,7 +29,7 @@ const HERO_PAIR = {
   afterSrc:    "/assets/fr_after.webp",
   alt:         "Film Rich preset",
   label:       "Film Rich — Warm Analog Grade",
-  accentColor: "#FFD60A",
+  accentColor: "#C9A84C",
 }
 
 const GRID_PAIRS = [
@@ -88,7 +88,7 @@ export function BeforeAfterSection() {
               Every mood.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -147,4 +147,5 @@ export function BeforeAfterSection() {
     </section>
   )
 }
+
 

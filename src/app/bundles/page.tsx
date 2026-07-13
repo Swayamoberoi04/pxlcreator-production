@@ -70,7 +70,7 @@ export default async function BundlesPage() {
               <br className="sm:hidden" />
               <span
                 style={{
-                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -140,7 +140,7 @@ export default async function BundlesPage() {
         <LuminousEnvironment variant="gold" intensity={0.3} />
         <div className="relative z-10 mx-auto max-w-2xl text-center">
           <CinematicReveal variant="depth">
-            <div className="rounded-2xl border border-gold/15 bg-surface/60 backdrop-blur-sm px-8 py-10 shadow-[0_0_60px_rgba(255,214,10,0.05)]">
+            <div className="rounded-2xl border border-gold/15 bg-surface/60 backdrop-blur-sm px-8 py-10 shadow-[0_0_60px_rgba(201,168,76,0.05)]">
               <p className="text-[0.8rem] font-bold tracking-widest uppercase text-gold/55 mb-3">
                 Need individual presets instead?
               </p>
@@ -168,4 +168,5 @@ export default async function BundlesPage() {
     </main>
   )
 }
+
 

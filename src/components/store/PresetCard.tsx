@@ -68,7 +68,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         "bg-surface border border-border",
         "transition-all duration-300",
         "hover:border-gold/40",
-        "hover:shadow-[0_8px_48px_rgba(255,214,10,0.16),0_0_0_1px_rgba(255,214,10,0.07)]",
+        "hover:shadow-[0_8px_48px_rgba(201,168,76,0.16),0_0_0_1px_rgba(201,168,76,0.07)]",
       )}
     >
       {/* ── Thumbnail ── */}
@@ -235,7 +235,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
 
 /* ── Icons ── */
 function StarIcon() {
-  return <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFD60A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+  return <svg width="11" height="11" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 }
 function DownloadIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -243,4 +243,5 @@ function DownloadIcon() {
 function UnlockIcon() {
   return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
 }
+
 

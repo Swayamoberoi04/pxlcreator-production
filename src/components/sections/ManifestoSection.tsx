@@ -50,7 +50,7 @@ type ContrastItem = typeof CONTRASTS[number]
 
 /* ── Gradient text style (shared between static + motion paths) ── */
 const GRADIENT_STYLE: React.CSSProperties = {
-  background:           "linear-gradient(135deg, #ffffff 0%, #FFD60A 45%, #E0A800 100%)",
+  background:           "linear-gradient(135deg, #ffffff 0%, #C9A84C 45%, #A8852A 100%)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor:  "transparent",
   backgroundClip:       "text",
@@ -269,4 +269,5 @@ export function ManifestoSection() {
     </section>
   )
 }
+
 

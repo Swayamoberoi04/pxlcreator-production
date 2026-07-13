@@ -27,14 +27,14 @@
   --color-surface-2: #2A2A2A;
   --color-surface-3: #3A3A3A;
 
-  /* Brand Yellow — glowy yellow. Primary CTAs, highlights, logo accent. */
-  --color-gold:        #FFD60A;   /* primary glow yellow  */
-  --color-gold-dim:    #E0A800;   /* pressed / gradient anchor */
-  --color-gold-bright: #FFE970;   /* inner bloom / text highlight */
-  --color-gold-muted:  rgba(255, 214, 10, 0.12);
+  /* Brand Gold — cinematic warm amber. Primary CTAs, highlights, logo accent. */
+  --color-gold:        #C9A84C;   /* canonical brand gold (Brand Bible v1.0) */
+  --color-gold-dim:    #A8852A;   /* pressed / gradient anchor */
+  --color-gold-bright: #E2C97E;   /* inner bloom / text highlight */
+  --color-gold-muted:  rgba(201, 168, 76, 0.12);
 
-  /* Glow RGB — for composable rgba() shadows */
-  --pxl-glow-rgb:  255, 214, 10;
+  /* Gold RGB — for composable rgba() shadows */
+  --pxl-glow-rgb:  201, 168, 76;
 
   /* Neutral Silver — body text, secondary elements */
   --color-muted: #D4D4D4;
@@ -57,7 +57,7 @@
   --color-card-foreground:      #F5F5F5;
   --color-popover:              #161616;
   --color-popover-foreground:   #F5F5F5;
-  --color-primary:              #FFD60A;
+  --color-primary:              #C9A84C;
   --color-primary-foreground:   #000000;
   --color-secondary:            #2A2A2A;
   --color-secondary-foreground: #F5F5F5;
@@ -66,11 +66,11 @@
   --color-accent-foreground:    #F5F5F5;
   --color-destructive:          #ef4444;
   --color-input:                #222222;
-  --color-ring:                 #FFD60A;
+  --color-ring:                 #C9A84C;
 
   /* ── Chart Tokens (required by shadcn chart components) ── */
-  --color-chart-1: #FFD60A;
-  --color-chart-2: #E0A800;
+  --color-chart-1: #C9A84C;
+  --color-chart-2: #A8852A;
   --color-chart-3: #D4D4D4;
   --color-chart-4: #555555;
   --color-chart-5: #333333;
@@ -78,12 +78,12 @@
   /* ── Sidebar Tokens (required by shadcn sidebar component) ── */
   --color-sidebar:                    #161616;
   --color-sidebar-foreground:         #F5F5F5;
-  --color-sidebar-primary:            #FFD60A;
+  --color-sidebar-primary:            #C9A84C;
   --color-sidebar-primary-foreground: #000000;
   --color-sidebar-accent:             #2A2A2A;
   --color-sidebar-accent-foreground:  #F5F5F5;
   --color-sidebar-border:             #222222;
-  --color-sidebar-ring:               #FFD60A;
+  --color-sidebar-ring:               #C9A84C;
 
 }
 

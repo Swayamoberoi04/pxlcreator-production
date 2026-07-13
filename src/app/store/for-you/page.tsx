@@ -113,7 +113,7 @@ export default function PersonalizedStorePage() {
   const [loading,      setLoading]          = useState(true)
   const [personalized, setPersonalized]     = useState(false)
   const [topAffinities, setTopAffinities]   = useState<string[]>([])
-  const [accentColor,  setAccentColor]      = useState("#FFD60A")
+  const [accentColor,  setAccentColor]      = useState("#C9A84C")
 
   useEffect(() => {
     async function load() {

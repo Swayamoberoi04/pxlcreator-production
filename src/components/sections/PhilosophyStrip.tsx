@@ -73,7 +73,7 @@ export function PhilosophyStrip() {
                   Not tools.{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                      background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -180,7 +180,7 @@ export function PhilosophyStrip() {
                 <h2
                   className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[1.02] tracking-tight"
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 50%, #E0A800 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 50%, #A8852A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -253,4 +253,5 @@ function ArrowRight() {
     </svg>
   )
 }
+
 

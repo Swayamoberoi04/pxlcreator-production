@@ -270,7 +270,7 @@ export function WhyPXLSection() {
                         className="text-[0.65rem] font-bold tracking-[0.2em] uppercase px-2.5 py-1 rounded-full border mt-1"
                         style={{
                           borderColor: moat.featured ? "rgba(255,214,10,0.3)" : "rgba(255,255,255,0.08)",
-                          color:       moat.featured ? "#FFD60A" : "#666",
+                          color:       moat.featured ? "#C9A84C" : "#666",
                         }}
                       >
                         {moat.tag}
@@ -370,7 +370,7 @@ export function WhyPXLSection() {
                 <h2
                   className="font-display font-black text-[clamp(1.875rem,5.5vw,3.5rem)] leading-[1.05] tracking-tight"
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 50%, #E0A800 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 50%, #A8852A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -555,4 +555,5 @@ function ArrowRight() {
     </svg>
   )
 }
+
 

@@ -112,7 +112,7 @@ function AmbientDust() {
     <points geometry={geo}>
       <pointsMaterial
         ref={matRef}
-        color="#FFD60A"
+        color="#C9A84C"
         size={0.014}
         transparent
         opacity={0.08}
@@ -133,7 +133,7 @@ type OrbData = {
 }
 
 const ORBS: OrbData[] = [
-  { pos: [-6, 2, -8],  color: "#FFD60A", size: 4.5, speed: 0.15, offset: 0    },
+  { pos: [-6, 2, -8],  color: "#C9A84C", size: 4.5, speed: 0.15, offset: 0    },
   { pos: [ 7, -3, -10], color: "#2211aa", size: 5.5, speed: 0.11, offset: 2.8 },
   { pos: [ 1,  4, -14], color: "#113322", size: 7.0, speed: 0.09, offset: 5.2 },
 ]
@@ -215,4 +215,5 @@ export function GlobalAmbientCanvas() {
     </div>
   )
 }
+
 

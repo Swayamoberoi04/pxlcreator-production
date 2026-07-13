@@ -68,7 +68,7 @@ export default async function PresetsPage() {
                 Our most-loved<br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                    background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -232,7 +232,7 @@ function CreatorVaultSection() {
               <span
                 className="block"
                 style={{
-                  background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 40%, #E0A800 75%, #c8841a 100%)",
+                  background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 40%, #A8852A 75%, #c8841a 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -364,4 +364,5 @@ function ArrowRightSmIcon() {
     </svg>
   )
 }
+
 

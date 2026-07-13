@@ -144,8 +144,8 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
 function StarIcon({ filled }: { filled: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"
-      fill={filled ? "#FFD60A" : "none"}
-      stroke={filled ? "#FFD60A" : "currentColor"}
+      fill={filled ? "#C9A84C" : "none"}
+      stroke={filled ? "#C9A84C" : "currentColor"}
       strokeWidth="1.5"
       className={filled ? "" : "text-muted/30"}
     >
@@ -153,4 +153,5 @@ function StarIcon({ filled }: { filled: boolean }) {
     </svg>
   )
 }
+
 

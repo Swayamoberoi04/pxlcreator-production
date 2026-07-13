@@ -23,20 +23,22 @@ type AccessState = "loading" | "locked" | "unlocked"
 /**
  * UnlockOrBuyPanel
  *
- * Replaces the old DownloadGate + AddToCartButton combination.
  * Handles all three access paths:
- *   1. Free preset  → download immediately (signed in)
- *   2. Paid/bought  → download button
- *   3. Password     → modal → validate → download
- *   4. Neither yet  → show Buy Now + Unlock From YouTube buttons
+ *   1. Free preset    → Drive download via /api/preset/download (no password)
+ *   2. Paid/bought    → Drive download via /api/preset/download (auth proves ownership)
+ *   3. Password       → PasswordModal → /api/preset/download → open Drive URL
+ *   4. Neither yet    → Buy Now + Unlock From YouTube buttons
+ *
+ * Drive URLs and passwords are NEVER stored or exposed client-side.
+ * All download logic goes through the secure server endpoint.
  */
 export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
-  const { user }                          = useAuth()
-  const [access,       setAccess]         = useState<AccessState>("loading")
-  const [unlockMethod, setUnlockMethod]   = useState<string | null>(null)
-  const [showModal,    setShowModal]      = useState(false)
-  const [downloading,  setDownloading]    = useState(false)
-  const [dlDone,       setDlDone]         = useState(false)
+  const { user }                        = useAuth()
+  const [access,       setAccess]       = useState<AccessState>("loading")
+  const [unlockMethod, setUnlockMethod] = useState<string | null>(null)
+  const [showModal,    setShowModal]    = useState(false)
+  const [downloading,  setDownloading]  = useState(false)
+  const [dlDone,       setDlDone]       = useState(false)
 
   /* ── Check access on mount / auth change ── */
   const checkAccess = useCallback(async () => {
@@ -64,48 +66,63 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { void checkAccess() }, [checkAccess])
 
-  /* ── Download ── */
-  async function handleDownload() {
+  /* ── Secure Drive download via server endpoint ── */
+  async function handleDriveDownload() {
     if (!user || downloading) return
     setDownloading(true)
 
+    const payload = { slug: preset.slug }
+    console.log("[UnlockOrBuyPanel] handleDriveDownload — preset:", preset.name, "| slug:", preset.slug)
+    console.log("[UnlockOrBuyPanel] POST /api/preset/download payload:", JSON.stringify(payload))
+
     try {
       const token = await user.getIdToken()
-      const res   = await fetch(`/api/presets/${preset.slug}/download`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res   = await fetch("/api/preset/download", {
+        method:  "POST",
+        headers: {
+          "Content-Type":  "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
       })
 
-      if (!res.ok) {
-        alert("Download unavailable. Please contact support.")
+      let data: Record<string, unknown> = {}
+      try {
+        data = await res.json()
+      } catch (jsonErr) {
+        console.error("[UnlockOrBuyPanel] Failed to parse JSON response. Status:", res.status, jsonErr)
+        alert(`Download failed — server returned non-JSON (status ${res.status}). Check server logs.`)
         setDownloading(false)
         return
       }
 
-      /* The API redirects to the actual file URL */
-      const blob = await res.blob()
-      const url  = URL.createObjectURL(blob)
-      const a    = document.createElement("a")
-      a.href     = url
-      a.download = preset.downloadFileName ?? `${preset.slug}.zip`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
+      console.log("[UnlockOrBuyPanel] API response:", res.status, JSON.stringify(data))
 
+      if (!res.ok || !data.url) {
+        const msg = (data.error as string | undefined)
+          ?? `Download failed (status ${res.status}). Check server logs.`
+        alert(msg)
+        setDownloading(false)
+        return
+      }
+
+      window.open(data.url as string, "_blank", "noopener,noreferrer")
       setDlDone(true)
       setTimeout(() => setDlDone(false), 5000)
-    } catch {
-      alert("Download failed. Please try again.")
+    } catch (err) {
+      console.error("[UnlockOrBuyPanel] fetch threw:", err)
+      alert("Network error — could not reach the download API. Check your connection.")
     } finally {
       setDownloading(false)
     }
   }
 
-  /* ── Password unlock success ── */
-  function handleUnlockSuccess() {
+  /* ── Password unlock success — modal already validated + got URL ── */
+  function handleUnlockSuccess(url: string) {
     setShowModal(false)
     setAccess("unlocked")
     setUnlockMethod("password")
+    window.open(url, "_blank", "noopener,noreferrer")
   }
 
   /* ── Not signed in ── */
@@ -165,7 +182,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
 
         <button
           type="button"
-          onClick={handleDownload}
+          onClick={handleDriveDownload}
           disabled={downloading || dlDone}
           className={cn(
             "flex w-full items-center justify-center gap-2.5 rounded-xl py-4",

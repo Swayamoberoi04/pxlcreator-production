@@ -57,8 +57,8 @@ export async function GET(req: NextRequest, { params }: Params) {
     .eq("id", preset.id)
     .then(() => {})
 
-  /* ── Redirect to the actual file URL ── */
-  return NextResponse.redirect(preset.download_url, { status: 302 })
+  /* ── Return URL as JSON — client opens via window.open(), never fetch() ── */
+  return NextResponse.json({ url: preset.download_url })
 }
 
 async function checkAccess(

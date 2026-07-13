@@ -41,8 +41,9 @@ export async function GET(_req: NextRequest, { params }: Params) {
     .limit(50)
 
   if (error) {
-    console.error("[reviews GET]", error)
-    return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 })
+    console.error("[reviews GET]", error.message)
+    // Table may not exist yet — return empty rather than 500
+    return NextResponse.json({ reviews: [], avgRating: null, count: 0 })
   }
 
   const count = reviews?.length ?? 0

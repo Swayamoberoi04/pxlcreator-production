@@ -164,7 +164,7 @@ export default function PremiumPage() {
         name:        "PXL Creator",
         description: `${plan.name} — ${cycle === "yearly" ? "Annual" : "Monthly"} Plan`,
         prefill:     { email: user.email ?? "", name: user.displayName ?? "" },
-        theme:       { color: "#FFD60A" },
+        theme:       { color: "#C9A84C" },
 
         handler: async (response) => {
           /* Step C: Verify payment on our server */
@@ -265,7 +265,7 @@ export default function PremiumPage() {
                 One Membership.{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                    background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -287,7 +287,7 @@ export default function PremiumPage() {
               <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
                 <a
                   href="#plans"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_40px_rgba(255,214,10,0.22)]"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_40px_rgba(201,168,76,0.22)]"
                 >
                   View Plans
                 </a>
@@ -369,7 +369,7 @@ export default function PremiumPage() {
                   className={cn(
                     "relative px-5 py-2 rounded-full text-[0.8125rem] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     cycle === c
-                      ? "bg-gold text-background shadow-[0_0_16px_rgba(255,214,10,0.25)]"
+                      ? "bg-gold text-background shadow-[0_0_16px_rgba(201,168,76,0.25)]"
                       : "text-muted hover:text-foreground"
                   )}
                 >
@@ -519,7 +519,7 @@ export default function PremiumPage() {
                 Start Creating at a{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                    background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -534,7 +534,7 @@ export default function PremiumPage() {
               </p>
               <a
                 href="#plans"
-                className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_48px_rgba(255,214,10,0.28)]"
+                className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_48px_rgba(201,168,76,0.28)]"
               >
                 Get Premium Access
               </a>
@@ -620,7 +620,7 @@ function PaidPlanCard({
       className={cn(
         "relative flex flex-col rounded-2xl border overflow-hidden transition-all duration-300",
         plan.featured
-          ? "border-gold/40 bg-surface shadow-[0_0_80px_rgba(255,214,10,0.08)] md:scale-[1.02]"
+          ? "border-gold/40 bg-surface shadow-[0_0_80px_rgba(201,168,76,0.08)] md:scale-[1.02]"
           : "border-border bg-surface hover:border-gold/20"
       )}
     >
@@ -686,7 +686,7 @@ function PaidPlanCard({
               : disabled
                 ? "bg-gold/50 text-background/70 cursor-not-allowed"
                 : plan.featured
-                  ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_24px_rgba(255,214,10,0.20)]"
+                  ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_24px_rgba(201,168,76,0.20)]"
                   : "border border-border text-foreground hover:border-gold/40 hover:bg-surface-2 active:scale-[0.98]"
           )}
         >
@@ -955,4 +955,5 @@ function EarlyIcon() {
 function CommunityIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 }
+
 
