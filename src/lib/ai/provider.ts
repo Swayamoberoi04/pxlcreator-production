@@ -4,16 +4,20 @@
  * AIProvider — the interface every vision model must implement.
  *
  * ┌─────────────────────────────────────────────────────────┐
- * │  PHASE 2 INTEGRATION POINT                              │
+ * │  PROVIDER REGISTRY (Phase 2 active)                     │
  * │                                                         │
- * │  To add Gemini Vision:                                  │
- * │    1. Create src/lib/ai/providers/gemini.ts             │
- * │    2. Implement the AIProvider interface below          │
- * │    3. In getActiveProvider(), swap stub → gemini        │
- * │    4. Set GEMINI_API_KEY in your environment            │
+ * │  Providers:                                             │
+ * │    stub          — src/lib/ai/providers/stub.ts         │
+ * │    gemini-vision — src/lib/ai/providers/gemini.ts       │
  * │                                                         │
- * │  Zero downstream changes needed — all callers use       │
- * │  the same analyzeImage() signature.                     │
+ * │  Selection is env-driven (see getActiveProvider):       │
+ * │    GEMINI_API_KEY set  → GeminiProvider                 │
+ * │    AI_PROVIDER=stub    → force StubProvider             │
+ * │    neither             → StubProvider + warning         │
+ * │                                                         │
+ * │  To add another vendor (e.g. OpenAI Vision): create     │
+ * │  providers/openai.ts implementing AIProvider, add one   │
+ * │  branch below. Zero downstream changes.                 │
  * └─────────────────────────────────────────────────────────┘
  */
 
@@ -57,27 +61,37 @@ let _provider: AIProvider | null = null
 /**
  * Returns the active AI provider instance (singleton per process).
  *
- * Phase 2 swap:
- *   Replace the import + instantiation below with GeminiProvider.
- *   The caller (analyze.ts) never changes.
+ * Resolution order:
+ *   1. AI_PROVIDER=stub          → StubProvider (explicit override, useful in dev/CI)
+ *   2. GEMINI_API_KEY present    → GeminiProvider (Phase 2 — production)
+ *   3. otherwise                 → StubProvider with a startup warning
+ *
+ * Swapping to another vendor later (e.g. OpenAI Vision) means adding one
+ * provider file and one branch here. No other file changes.
  */
 export async function getActiveProvider(): Promise<AIProvider> {
   if (_provider) return _provider
 
-  /* Phase 1: StubProvider — no API key required */
+  const forced = process.env.AI_PROVIDER?.trim().toLowerCase()
+  const geminiKey = process.env.GEMINI_API_KEY?.trim()
+
+  if (forced !== "stub" && geminiKey) {
+    /* Phase 2: Gemini Vision — real image analysis */
+    const { GeminiProvider } = await import("@/lib/ai/providers/gemini")
+    _provider = new GeminiProvider({
+      apiKey: geminiKey,
+      model:  process.env.GEMINI_MODEL,
+    })
+    console.log(`[ai:provider] ${JSON.stringify({ event: "provider_selected", provider: "gemini-vision", model: process.env.GEMINI_MODEL || "gemini-3.5-flash" })}`)
+    return _provider
+  }
+
+  /* Fallback: StubProvider — no API key required */
+  if (forced !== "stub") {
+    console.warn(`[ai:provider] ${JSON.stringify({ event: "provider_fallback", reason: "GEMINI_API_KEY not set", provider: "stub" })}`)
+  }
   const { StubProvider } = await import("@/lib/ai/providers/stub")
   _provider = new StubProvider()
-
-  /* ─────────────────────────────────────────
-     Phase 2 swap — uncomment ONE of these:
-
-     import { GeminiProvider } from "@/lib/ai/providers/gemini"
-     _provider = new GeminiProvider({ apiKey: process.env.GEMINI_API_KEY! })
-
-     import { OpenAIProvider } from "@/lib/ai/providers/openai"
-     _provider = new OpenAIProvider({ apiKey: process.env.OPENAI_API_KEY! })
-  ───────────────────────────────────────── */
-
   return _provider
 }
 
