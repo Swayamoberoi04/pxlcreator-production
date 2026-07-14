@@ -135,7 +135,7 @@ export function PromptInput({
 
       {/* Trust note */}
       <p className="text-center text-[0.75rem] text-muted/40 -mt-2">
-        Powered by GPT-4o Vision · ~8 seconds · Your photo is never stored
+        Vision AI · ~8 seconds · Your photo is never stored
       </p>
 
     </div>

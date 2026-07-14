@@ -9,10 +9,11 @@ import { cn } from "@/lib/utils"
    The steps animate purely for UX — the API call runs in parallel.
 ───────────────────────────────────────────────────────────── */
 const STEPS = [
-  { id: "reading",   label: "Reading your image",          icon: "◈", startsAt: 0    },
-  { id: "analyzing", label: "Analysing scene & mood",      icon: "◎", startsAt: 1400 },
-  { id: "grading",   label: "Applying cinematic grade",    icon: "◑", startsAt: 3200 },
-  { id: "matching",  label: "Matching to preset library",  icon: "✦", startsAt: 5200 },
+  { id: "metadata",  label: "Reading image metadata",     icon: "◈", startsAt: 0    },
+  { id: "profiling", label: "Matching aesthetic profile", icon: "◎", startsAt: 1400 },
+  { id: "grading",   label: "Computing cinematic grade",  icon: "◑", startsAt: 3200 },
+  { id: "scoring",   label: "Scoring preset library",     icon: "✦", startsAt: 5200 },
+  { id: "report",    label: "Generating vision report",   icon: "✧", startsAt: 6800 },
 ] as const
 
 type StepId = (typeof STEPS)[number]["id"]

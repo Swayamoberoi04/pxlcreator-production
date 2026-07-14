@@ -3,74 +3,60 @@
  *
  * POST /api/studio/process
  *
- * Accepts multipart/form-data with:
- *   image      — image file (jpeg / png / webp, ≤ 10 MB)
+ * Accepts multipart/form-data:
+ *   image      — image file (JPEG / PNG / WebP, ≤ 10 MB)
  *   prompt     — user's aesthetic description string
  *   aesthetics — JSON-serialised string[] of chip keywords
  *
  * Pipeline:
- *   1. Validate request (type, size, prompt)
- *   2. Rate-limit by IP (5 req / hour in-memory)
- *   3. analyzeImage()   → AIAnalysis  (OpenAI GPT-4o Vision)
- *   4. processImage()   → Buffer      (Sharp color grading)  ┐ parallel
- *      recommendPreset()→ Recommendation (keyword matching)  ┘
- *   5. Return StudioSuccessResponse JSON
+ *   1. Validate file (type, size, integrity)
+ *   2. Rate-limit by IP
+ *   3. Extract Sharp metadata (real composition data for analysis)
+ *   4. analyzeImage() → { analysis, imageAnalysis }  (AIProvider)
+ *   5. processImage() + recommendPreset() in parallel (Sharp + keyword engine)
+ *   6. Return StudioSuccessResponse
  *
- * Server-only. Sharp requires Node.js runtime — never Edge.
+ * Server-only (Sharp requires Node.js runtime — never Edge).
+ *
+ * Phase 2: Step 4 automatically uses Gemini/OpenAI once the provider is
+ * swapped in src/lib/ai/provider.ts. No changes required in this file.
  */
 
-import type { NextRequest } from "next/server"
-import { analyzeImage }    from "@/lib/ai/analyze"
-import { processImage }    from "@/lib/studio/process"
-import { recommendPreset } from "@/lib/studio/recommend"
-import { getPresets }      from "@/lib/presets/repository"
-import { makeRateLimiter } from "@/lib/api/rate-limit"
+import type { NextRequest }   from "next/server"
+import { analyzeImage }       from "@/lib/ai/analyze"
+import { processImage }       from "@/lib/studio/process"
+import { recommendPreset }    from "@/lib/studio/recommend"
+import { getPresets }         from "@/lib/presets/repository"
+import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import type { StudioAPIResponse, StudioErrorCode } from "@/types/studio"
 
 /* ─────────────────────────────────────────────────────────────
-   Route segment config
+   Route config — Node.js runtime required (Sharp)
 ───────────────────────────────────────────────────────────── */
 
-/** Sharp is a native Node.js module — must NOT run on the Edge runtime */
 export const runtime = "nodejs"
-
-/** This route handles live user uploads — never pre-render or cache */
 export const dynamic = "force-dynamic"
 
 /* ─────────────────────────────────────────────────────────────
    Constants
 ───────────────────────────────────────────────────────────── */
 
-const MAX_FILE_SIZE    = 10 * 1024 * 1024              // 10 MB
-const ALLOWED_TYPES    = new Set(["image/jpeg", "image/png", "image/webp"])
-const MAX_PROMPT_LEN   = 500
+const MAX_FILE_SIZE  = 10 * 1024 * 1024
+const ALLOWED_TYPES  = new Set(["image/jpeg", "image/png", "image/webp"])
+const MAX_PROMPT_LEN = 500
 
 /* ─────────────────────────────────────────────────────────────
-   Rate limiter — shared module (in-process, resets on restart).
-   Phase 2: swap makeRateLimiter store for Upstash Redis client.
+   Rate limiter — 5 requests / hour per IP
+   Phase 2: swap store for Upstash Redis for distributed limiting
 ───────────────────────────────────────────────────────────── */
 
-/** 5 AI processing requests per hour per IP */
 const studioLimiter = makeRateLimiter({ max: 5, windowMs: 60 * 60 * 1000 })
 
-/** Extract the real client IP from forwarded headers */
-function getClientIp(request: NextRequest): string {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    request.headers.get("x-real-ip") ??
-    "unknown"
-  )
-}
-
 /* ─────────────────────────────────────────────────────────────
-   Response helpers
+   Helpers
 ───────────────────────────────────────────────────────────── */
 
-function errorResponse(
-  message: string,
-  code: StudioErrorCode,
-  status: number
-): Response {
+function errorResponse(message: string, code: StudioErrorCode, status: number): Response {
   const body: StudioAPIResponse = { success: false, error: message, code }
   return Response.json(body, { status })
 }
@@ -85,11 +71,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   /* ── 1. Rate limiting ── */
   const ip = getClientIp(request)
   if (studioLimiter.check(ip)) {
-    return errorResponse(
-      "Too many requests. Please wait before trying again.",
-      "RATE_LIMITED",
-      429
-    )
+    return errorResponse("Too many requests. Please wait before trying again.", "RATE_LIMITED", 429)
   }
 
   /* ── 2. Parse FormData ── */
@@ -100,9 +82,8 @@ export async function POST(request: NextRequest): Promise<Response> {
     return errorResponse("Invalid request body.", "INVALID_FILE", 400)
   }
 
-  /* ── 3. Extract + validate the image field ── */
+  /* ── 3. Validate image field ── */
   const imageField = formData.get("image")
-
   if (!imageField || typeof imageField === "string") {
     return errorResponse("No image file was provided.", "INVALID_FILE", 400)
   }
@@ -125,20 +106,15 @@ export async function POST(request: NextRequest): Promise<Response> {
     )
   }
 
-  /* ── 4. Extract + validate the prompt field ── */
+  /* ── 4. Validate prompt ── */
   const rawPrompt = formData.get("prompt")
-
   if (!rawPrompt || typeof rawPrompt !== "string" || rawPrompt.trim().length === 0) {
-    return errorResponse(
-      "Please describe the look you want before submitting.",
-      "PROMPT_MISSING",
-      400
-    )
+    return errorResponse("Please describe the look you want before submitting.", "PROMPT_MISSING", 400)
   }
 
   const prompt = rawPrompt.trim().slice(0, MAX_PROMPT_LEN)
 
-  /* ── 5. Extract aesthetic chip keywords ── */
+  /* ── 5. Extract aesthetic keywords ── */
   let aesthetics: string[] = []
   const rawAesthetics = formData.get("aesthetics")
   if (rawAesthetics && typeof rawAesthetics === "string") {
@@ -147,19 +123,24 @@ export async function POST(request: NextRequest): Promise<Response> {
       if (Array.isArray(parsed)) {
         aesthetics = parsed.map(String).filter(Boolean).slice(0, 10)
       }
-    } catch {
-      // Malformed JSON — ignore, proceed without chips
-    }
+    } catch { /* Malformed JSON — proceed without chips */ }
   }
 
   /* ── 6. Convert File → Node Buffer ── */
-  const arrayBuffer  = await imageFile.arrayBuffer()
-  const imageBuffer  = Buffer.from(arrayBuffer)
+  const arrayBuffer = await imageFile.arrayBuffer()
+  const imageBuffer = Buffer.from(arrayBuffer)
 
-  /* ── 7. Validate image integrity with Sharp (catches corrupt files) ── */
+  /* ── 7. Validate image integrity + extract real metadata ── */
+  let imageMetadata: { width?: number; height?: number; format?: string; size?: number }
   try {
-    const sharp = (await import("sharp")).default
-    await sharp(imageBuffer).metadata()
+    const sharp    = (await import("sharp")).default
+    const meta     = await sharp(imageBuffer).metadata()
+    imageMetadata  = {
+      width:  meta.width,
+      height: meta.height,
+      format: meta.format,
+      size:   imageFile.size,
+    }
   } catch {
     return errorResponse(
       "The uploaded file could not be read as an image. Please try a different file.",
@@ -168,13 +149,12 @@ export async function POST(request: NextRequest): Promise<Response> {
     )
   }
 
-  /* ── 8. AI analysis ── */
-  let analysis
+  /* ── 8. AI analysis — uses active AIProvider (stub in Phase 1) ── */
+  let analyzeResult
   try {
-    analysis = await analyzeImage(imageBuffer, prompt, aesthetics)
+    analyzeResult = await analyzeImage(imageBuffer, prompt, aesthetics, imageMetadata)
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error"
-    console.error("[studio/process] analyzeImage failed:", message)
+    console.error("[studio/process] analyzeImage failed:", err instanceof Error ? err.message : err)
     return errorResponse(
       "The AI analysis service is temporarily unavailable. Please try again in a moment.",
       "AI_ERROR",
@@ -182,42 +162,34 @@ export async function POST(request: NextRequest): Promise<Response> {
     )
   }
 
-  /* ── 9. Fetch preset pool + process image in parallel ── */
-  /*
-   * We fetch all published presets from Supabase (or the static fallback)
-   * so the recommender works with live data, not hardcoded arrays.
-   * getPresets() is fast: it's a simple indexed SELECT with no joins —
-   * and the result is used immediately by recommendPreset() below.
-   */
+  const { analysis, imageAnalysis } = analyzeResult
+
+  /* ── 9. Process image + fetch presets in parallel ── */
   let processedBuffer: Buffer
   let recommendation
   try {
     const [processedBuf, allPresets] = await Promise.all([
-      processImage(imageBuffer, analysis.adjustments),
+      processImage(imageBuffer, imageAnalysis.adjustments),
       getPresets({ orderBy: "order_index" }),
     ])
     processedBuffer = processedBuf
-    recommendation  = recommendPreset(analysis.presetKeywords, allPresets)
+    recommendation  = recommendPreset(imageAnalysis.presetKeywords, allPresets)
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error"
-    console.error("[studio/process] processImage failed:", message)
-    return errorResponse(
-      "Image processing failed. Please try a different image.",
-      "PROCESS_ERROR",
-      500
-    )
+    console.error("[studio/process] processImage failed:", err instanceof Error ? err.message : err)
+    return errorResponse("Image processing failed. Please try a different image.", "PROCESS_ERROR", 500)
   }
 
   /* ── 10. Encode processed image as base64 data URI ── */
   const processedImage = `data:image/jpeg;base64,${processedBuffer.toString("base64")}`
 
-  /* ── 11. Build + return success response ── */
+  /* ── 11. Return full response ── */
   const body: StudioAPIResponse = {
-    success:        true,
+    success: true,
     processedImage,
     analysis,
+    imageAnalysis,
     recommendation,
-    processingMs:   Date.now() - startMs,
+    processingMs: Date.now() - startMs,
   }
 
   return Response.json(body, { status: 200 })

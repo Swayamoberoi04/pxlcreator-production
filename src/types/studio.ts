@@ -14,6 +14,7 @@
  */
 
 import type { Preset, PresetCategory } from "@/types/product"
+import type { ImageAnalysisResult }    from "@/types/ai"
 
 /* ─────────────────────────────────────────────────────────────────
    IMAGE ADJUSTMENTS
@@ -88,7 +89,10 @@ export interface StudioSuccessResponse {
   success: true
   /** Base64 data URI of the Sharp-processed image, e.g. "data:image/jpeg;base64,..." */
   processedImage: string
+  /** Backward-compatible analysis shape */
   analysis: AIAnalysis
+  /** Rich vision analysis — powers the premium AnalysisCard UI */
+  imageAnalysis: ImageAnalysisResult
   recommendation: PresetRecommendation
   /** Server-side wall-clock time in milliseconds — useful for telemetry */
   processingMs: number

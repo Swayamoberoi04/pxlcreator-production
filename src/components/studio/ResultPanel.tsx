@@ -1,47 +1,69 @@
 "use client"
 
-import { BeforeAfterSlider } from "./BeforeAfterSlider"
+import { motion }              from "framer-motion"
+import { BeforeAfterSlider }   from "./BeforeAfterSlider"
 import { PresetRecommendCard } from "./PresetRecommendCard"
-import { DownloadButton } from "./DownloadButton"
+import { DownloadButton }      from "./DownloadButton"
+import { AnalysisCard }        from "./AnalysisCard"
+import { getStyleProfile }     from "@/lib/studio/style-profiles"
 import type { StudioSuccessResponse } from "@/types/studio"
 
 interface ResultPanelProps {
-  originalUrl: string               // object URL of the uploaded file
+  originalUrl: string
   result:      StudioSuccessResponse
   onReset:     () => void
 }
 
+const EASE = [0.22, 1, 0.36, 1] as const
+
 export function ResultPanel({ originalUrl, result, onReset }: ResultPanelProps) {
-  const { analysis, processedImage, recommendation, processingMs } = result
+  const { analysis, processedImage, recommendation, processingMs, imageAnalysis } = result
+
+  const profile = imageAnalysis
+    ? getStyleProfile(imageAnalysis.styleProfileId)
+    : null
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
 
       {/* ── Section header ── */}
-      <div className="flex items-center justify-between gap-4">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: EASE }}
+        className="flex items-center justify-between gap-4"
+      >
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-6 bg-gold opacity-70" aria-hidden="true" />
-            <span className="text-label text-gold tracking-widest">Your AI Edit</span>
+            <span className="text-label text-gold tracking-widest">Vision Edit</span>
           </div>
           <h2 className="font-display font-bold text-foreground text-[1.375rem]">
             {analysis.mood}
           </h2>
         </div>
-
-        {/* Processing time badge */}
         <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 shrink-0">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
           <span className="text-[0.75rem] text-muted/70">
             Done in {(processingMs / 1000).toFixed(1)}s
           </span>
         </div>
-      </div>
+      </motion.div>
+
+      {/* ── Vision Report — AnalysisCard (full width, above the grid) ── */}
+      {imageAnalysis && profile && (
+        <AnalysisCard
+          imageAnalysis={imageAnalysis}
+          profileName={profile.name}
+          profileEmoji={profile.emoji}
+          colorPalette={profile.colorPalette}
+        />
+      )}
 
       {/* ── Main content grid ── */}
       <div className="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
 
-        {/* ── Left — Before/After slider ── */}
+        {/* Left — Before/After slider */}
         <div className="flex flex-col gap-5">
           <BeforeAfterSlider
             beforeUrl={originalUrl}
@@ -49,18 +71,17 @@ export function ResultPanel({ originalUrl, result, onReset }: ResultPanelProps) 
           />
 
           {/* AI description */}
-          <div className="rounded-xl border border-border bg-surface px-5 py-4 flex flex-col gap-2">
-            <p className="text-label text-muted/50 tracking-widest">AI analysis</p>
-            <p className="text-[0.9375rem] text-foreground/80 leading-relaxed">
-              {analysis.description}
-            </p>
-          </div>
-
-          {/* Adjustments applied — collapsed summary */}
-          <AdjustmentPills analysis={result.analysis} />
+          {analysis.description && (
+            <div className="rounded-xl border border-border bg-surface px-5 py-4 flex flex-col gap-2">
+              <p className="text-label text-muted/50 tracking-widest">Applied grade</p>
+              <p className="text-[0.9375rem] text-foreground/80 leading-relaxed">
+                {analysis.description}
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* ── Right — Recommendation + Download ── */}
+        {/* Right — Recommendation + Download + Reset */}
         <div className="flex flex-col gap-4">
           <PresetRecommendCard recommendation={recommendation} />
 
@@ -75,55 +96,6 @@ export function ResultPanel({ originalUrl, result, onReset }: ResultPanelProps) 
             Try another photo
           </button>
         </div>
-      </div>
-    </div>
-  )
-}
-
-/* ── Compact pills showing what was adjusted ── */
-function AdjustmentPills({ analysis }: { analysis: StudioSuccessResponse["analysis"] }) {
-  const { adjustments } = analysis
-
-  const items = [
-    { label: "Brightness", value: adjustments.brightness, base: 1.0 },
-    { label: "Contrast",   value: adjustments.contrast,   base: 1.0 },
-    { label: "Saturation", value: adjustments.saturation, base: 1.0 },
-    { label: "Gamma",      value: adjustments.gamma,      base: 1.0 },
-  ]
-
-  return (
-    <div className="flex flex-col gap-2">
-      <p className="text-label text-muted/50 tracking-widest">Adjustments applied</p>
-      <div className="flex flex-wrap gap-2">
-        {items.map(({ label, value, base }) => {
-          const delta = value - base
-          const isUp  = delta > 0.02
-          const isDown = delta < -0.02
-          if (!isUp && !isDown) return null
-          return (
-            <span
-              key={label}
-              className="inline-flex items-center gap-1 rounded-full border border-border bg-surface px-3 py-1 text-[0.75rem] text-muted"
-            >
-              <span className={isUp ? "text-emerald-400" : "text-amber-400"} aria-hidden="true">
-                {isUp ? "↑" : "↓"}
-              </span>
-              {label}
-            </span>
-          )
-        })}
-        {adjustments.hue !== 0 && (
-          <span className="inline-flex items-center gap-1 rounded-full border border-border bg-surface px-3 py-1 text-[0.75rem] text-muted">
-            <span className="text-[#a5b4fc]" aria-hidden="true">◈</span>
-            Hue shift {adjustments.hue > 0 ? "+" : ""}{Math.round(adjustments.hue)}°
-          </span>
-        )}
-        {(Math.abs(adjustments.tintR) > 3 || Math.abs(adjustments.tintB) > 3) && (
-          <span className="inline-flex items-center gap-1 rounded-full border border-border bg-surface px-3 py-1 text-[0.75rem] text-muted">
-            <span className="text-gold" aria-hidden="true">◑</span>
-            {adjustments.tintR > 0 ? "Warm" : "Cool"} tint
-          </span>
-        )}
       </div>
     </div>
   )

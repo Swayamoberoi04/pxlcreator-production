@@ -10,7 +10,7 @@ import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/u
 export const metadata: Metadata = {
   title: "AI Studio — Describe the look. AI does the edit.",
   description:
-    "Upload any photo and describe the mood in plain English. GPT-4o Vision analyses your image, applies a custom colour grade, and recommends the PXL preset that matches it best.",
+    "Upload any photo and describe the mood in plain English. PXL Vision AI analyses your image, applies a custom colour grade, and recommends the PXL preset that matches it best.",
 }
 
 export default function StudioPage() {
@@ -64,7 +64,7 @@ export default function StudioPage() {
             {/* Subheadline */}
             <CinematicReveal variant="rise" delay={0.14}>
               <p className="text-lead max-w-lg">
-                Upload any photo, write what mood you&apos;re after — GPT-4o Vision reads your image,
+                Upload any photo, write what mood you&apos;re after — PXL Vision AI reads your image,
                 applies a custom colour grade, and recommends the preset that matches it best.
               </p>
             </CinematicReveal>
@@ -108,7 +108,7 @@ export default function StudioPage() {
       <div className="border-t border-border">
         <Container className="py-6">
           <p className="text-center text-[0.75rem] text-muted/35 leading-relaxed max-w-lg mx-auto">
-            Powered by GPT-4o Vision · Images are processed in-memory and never stored ·
+            PXL Vision AI · Images are processed in-memory and never stored ·
             5 edits / hour per session · Results are approximate — real Lightroom presets
             give the full look.
           </p>
