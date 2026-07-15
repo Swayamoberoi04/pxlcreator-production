@@ -52,6 +52,20 @@ export async function processImage(
   const contrastOffset = 128 * (1 - contrast)
 
   /*
+   * Gamma encoding for Sharp.
+   *
+   * Our adjustment semantics: gamma < 1.0 brightens mid-tones, > 1.0 darkens.
+   * Sharp's .gamma(gamma, gammaOut) requires BOTH values in [1.0, 3.0] and
+   * applies a net exponent of gamma / gammaOut (measured empirically:
+   * mid-grey 128 → 143 with gamma(2.0, 2.4), → 107 with gamma(2.0, 1.6);
+   * a single-argument .gamma(g) is a no-op since gammaOut defaults to g).
+   *
+   * So a target exponent g is encoded as .gamma(2.0 * g, 2.0).
+   * Clamping g to [0.7, 1.4] keeps both arguments inside Sharp's legal range.
+   */
+  const gammaTarget = Math.min(Math.max(gamma, 0.7), 1.4)
+
+  /*
    * Per-channel colour tint via a diagonal recombination matrix.
    *
    * .recomb(matrix) multiplies each pixel's [R, G, B] vector by the matrix.
@@ -96,11 +110,11 @@ export async function processImage(
 
     /*
      * Step 3 — gamma correction.
-     * gamma < 1.0 → brightens mid-tones (lift shadows)
-     * gamma > 1.0 → darkens mid-tones  (crush shadows)
-     * Sharp clips to [0, 255] automatically.
+     * gammaTarget < 1.0 → brightens mid-tones (lift shadows)
+     * gammaTarget > 1.0 → darkens mid-tones  (crush shadows)
+     * Encoded for Sharp's two-argument form — see gammaTarget above.
      */
-    .gamma(gamma)
+    .gamma(2.0 * gammaTarget, 2.0)
 
     /*
      * Step 4 — contrast centred on middle grey.
