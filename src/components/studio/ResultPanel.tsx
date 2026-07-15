@@ -3,6 +3,7 @@
 import { motion }              from "framer-motion"
 import { BeforeAfterSlider }   from "./BeforeAfterSlider"
 import { PresetRecommendCard } from "./PresetRecommendCard"
+import { RecommendationsV2 }   from "./RecommendationsV2"
 import { DownloadButton }      from "./DownloadButton"
 import { AnalysisCard }        from "./AnalysisCard"
 import { getStyleProfile }     from "@/lib/studio/style-profiles"
@@ -81,22 +82,34 @@ export function ResultPanel({ originalUrl, result, onReset }: ResultPanelProps) 
           )}
         </div>
 
-        {/* Right — Recommendation + Download + Reset */}
+        {/* Right — Download + Reset actions */}
         <div className="flex flex-col gap-4">
-          <PresetRecommendCard recommendation={recommendation} />
+          <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-5">
+            <p className="text-label text-muted/50 tracking-widest">Your edit</p>
+            <DownloadButton dataUrl={processedImage} className="w-full" />
+            <button
+              type="button"
+              onClick={onReset}
+              className="flex items-center justify-center gap-2 rounded-xl border border-border py-3 text-[0.875rem] font-medium text-muted transition-colors hover:border-border/80 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <ResetIcon />
+              Try another photo
+            </button>
+          </div>
 
-          <DownloadButton dataUrl={processedImage} className="w-full" />
-
-          <button
-            type="button"
-            onClick={onReset}
-            className="flex items-center justify-center gap-2 rounded-xl border border-border py-3 text-[0.875rem] font-medium text-muted transition-colors hover:border-border/80 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <ResetIcon />
-            Try another photo
-          </button>
+          {/* Fallback recommendation card when the rich analysis is absent —
+              the Intelligence Engine section below needs imageAnalysis. */}
+          {!imageAnalysis && <PresetRecommendCard recommendation={recommendation} />}
         </div>
       </div>
+
+      {/* ── Preset Intelligence Engine — top 5 matches (Phase 3) ── */}
+      {imageAnalysis && (
+        <RecommendationsV2
+          imageAnalysis={imageAnalysis}
+          fallbackRecommendation={recommendation}
+        />
+      )}
     </div>
   )
 }

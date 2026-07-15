@@ -1,6 +1,7 @@
 # PXL Creator — AI Vision Layer
 
 Phase 2 status: **Gemini Vision is the active production provider.**
+Phase 3 status: **Preset Intelligence Engine live** — see the Phase 3 section at the bottom.
 
 ```
                         ┌──────────────────────────────┐
@@ -111,3 +112,89 @@ npx tsx scripts/test-gemini-provider.ts path\to\photo.jpg "warm cinematic golden
 # Synthetic smoke test across scene categories (no photo needed):
 npx tsx scripts/test-gemini-provider.ts --synthetic
 ```
+
+---
+
+# Phase 3 — Preset Intelligence Engine
+
+The AI layer that understands every preset in the catalogue and matches
+Gemini image analyses against it with weighted similarity — replacing
+pure keyword intersection.
+
+```
+ ImageAnalysisResult (from Gemini / stub)
+          |
+          v
+ POST /api/ai/recommendations-v2          <150ms, no model call
+          |
+          v
+ +--------------------------+     +----------------------------------+
+ | Knowledge Base (cached)  |<----| Metadata Generator               |
+ | Map<slug, Intelligence>  |     | preset text corpus -> evidence   |
+ | keyed by catalog version |     | rules -> 35+ derived attributes  |
+ +------------+-------------+     +----------------------------------+
+              |
+              v
+ +--------------------------+
+ | Scoring Engine           |  14 weighted dimensions:
+ | rankPresets()            |  lighting, colorPalette (hex distance),
+ +------------+-------------+  scene, mood, composition, exposure,
+              |                style, subject, whiteBalance,
+              v                dominantColors, contrast, saturation,
+ Top 5 + confidence + reasons  tone, keywords
+ + chips + dimension breakdown
+```
+
+## Files
+
+| File | Responsibility |
+|---|---|
+| `src/types/preset-intelligence.ts` | PresetIntelligence, ScoringWeights, ScoredRecommendation, API response types |
+| `src/lib/ai/preset-intelligence/metadata-generator.ts` | Evidence-rule derivation of 35+ attributes per preset. Nothing hardcoded per preset. |
+| `src/lib/ai/preset-intelligence/knowledge-base.ts` | Cached KB (rebuilds only when catalogue changes) + lazy memoized similar/complementary relationships |
+| `src/lib/ai/preset-intelligence/scoring.ts` | 14-dimension weighted similarity, reasons, chips. `rankPresets()` is the stable public entry point. |
+| `src/app/api/ai/recommendations-v2/route.ts` | POST endpoint: imageAnalysis in, top-5 scored recommendations out |
+| `src/components/studio/RecommendationsV2.tsx` | Studio UI: hero card (stars, match %, reason + attribute chips) + 4 runner-ups, skeletons, v1 fallback |
+
+## Generated per preset (automatically, from its own catalogue data)
+
+Identity, mood, style, aesthetic tags, Instagram tags, film inspiration,
+lighting conditions, time of day, indoor/outdoor, seasons, skin-tone
+compatibility, white balance lean, contrast level, saturation tendency,
+exposure tendency, highlight recovery, shadow depth, black level,
+dominant colours, hex palette, 9 genre affinity scores (cinematic,
+portrait, landscape, street, travel, fashion, food, car, architecture),
+recommended cameras and phones, difficulty, similar presets,
+complementary presets, SEO tags, and a flat `embeddingText` descriptor.
+
+## Performance / scalability (measured)
+
+| Catalogue | KB build (once) | Ranking per request |
+|---|---|---|
+| 22 presets | <5ms | ~1ms |
+| 5,000 presets | ~1.7s | ~117ms |
+
+The KB is cached per catalogue signature; relationships are computed
+lazily per preset and memoized. No architecture changes needed from
+22 to 5,000 presets.
+
+## Future: vector embeddings
+
+`PresetIntelligence.embeddingText` is ready to be embedded. A vector
+engine replaces the internals of `rankPresets()` (same signature), the
+API and UI never change. For >5,000 presets add an ANN pre-filter in
+front of the weighted scorer.
+
+## Backward compatibility
+
+- `/api/ai/recommendations` (v1) unchanged
+- `recommendPreset()` keyword engine unchanged (still feeds `/api/studio/process`)
+- `PresetRecommendCard` retained — the v2 UI degrades to it if the engine call fails
+
+## Tests
+
+```powershell
+npx tsx scripts/test-preset-intelligence.ts
+```
+32 checks: metadata completeness, cache behaviour, 4 scoring scenarios,
+relationships, determinism, latency at 22 and 5,000 presets.
