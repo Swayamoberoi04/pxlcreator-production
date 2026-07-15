@@ -41,6 +41,17 @@ export const dynamic = "force-dynamic"
    Constants
 ───────────────────────────────────────────────────────────── */
 
+/*
+ * This 10MB ceiling is a defense-in-depth sanity check, not the binding
+ * constraint in production. Vercel Serverless Functions enforce a hard
+ * ~4.5MB request-body limit upstream of any Next.js code — a request
+ * over that size never reaches this handler at all (the platform
+ * returns its own 413 first). That limit isn't configurable from
+ * next.config.ts or here. The real fix is client-side: every upload is
+ * resized/re-encoded in the browser before it's sent (see
+ * src/lib/studio/client-image-prep.ts + UploadZone.tsx), which keeps
+ * real-world uploads far under the platform ceiling.
+ */
 const MAX_FILE_SIZE  = 10 * 1024 * 1024
 const ALLOWED_TYPES  = new Set(["image/jpeg", "image/png", "image/webp"])
 const MAX_PROMPT_LEN = 500
