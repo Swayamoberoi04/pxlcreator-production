@@ -153,6 +153,8 @@ export function StudioShell() {
         originalUrl={state.previewUrl}
         result={state.result}
         onReset={() => dispatch({ type: "RESET" })}
+        userPrompt={state.prompt}
+        sourceFile={state.file}
       />
     )
   }

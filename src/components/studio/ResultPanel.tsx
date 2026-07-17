@@ -2,6 +2,7 @@
 
 import { motion }              from "framer-motion"
 import { BeforeAfterSlider }   from "./BeforeAfterSlider"
+import { AIPreviewSlider }     from "./AIPreviewSlider"
 import { PresetRecommendCard } from "./PresetRecommendCard"
 import { RecommendationsV2 }   from "./RecommendationsV2"
 import { DownloadButton }      from "./DownloadButton"
@@ -13,11 +14,16 @@ interface ResultPanelProps {
   originalUrl: string
   result:      StudioSuccessResponse
   onReset:     () => void
+  /** User's original prompt — forwarded to the AI preview engine as data */
+  userPrompt?: string
+  /** The uploaded File — the AI preview engine sends it directly
+      (blob: URLs cannot be re-fetched under the site CSP) */
+  sourceFile?: File | null
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
-export function ResultPanel({ originalUrl, result, onReset }: ResultPanelProps) {
+export function ResultPanel({ originalUrl, result, onReset, userPrompt = "", sourceFile = null }: ResultPanelProps) {
   const { analysis, processedImage, recommendation, processingMs, imageAnalysis } = result
 
   const profile = imageAnalysis
@@ -64,12 +70,26 @@ export function ResultPanel({ originalUrl, result, onReset }: ResultPanelProps) 
       {/* ── Main content grid ── */}
       <div className="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
 
-        {/* Left — Before/After slider */}
+        {/* Left — Before/After slider.
+            Sharp preview shows instantly; the AI-visualized preview of the
+            top recommended preset cross-fades in asynchronously (Phase 4B).
+            Without imageAnalysis the plain slider renders — pre-4B behaviour. */}
         <div className="flex flex-col gap-5">
-          <BeforeAfterSlider
-            beforeUrl={originalUrl}
-            afterUrl={processedImage}
-          />
+          {imageAnalysis && sourceFile ? (
+            <AIPreviewSlider
+              originalUrl={originalUrl}
+              sourceFile={sourceFile}
+              sharpPreviewUrl={processedImage}
+              imageAnalysis={imageAnalysis}
+              presetSlug={recommendation.slug}
+              userPrompt={userPrompt}
+            />
+          ) : (
+            <BeforeAfterSlider
+              beforeUrl={originalUrl}
+              afterUrl={processedImage}
+            />
+          )}
 
           {/* AI description */}
           {analysis.description && (
