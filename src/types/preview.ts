@@ -92,17 +92,34 @@ export interface PreviewJob {
 ═══════════════════════════════════════════════════════════════ */
 
 export interface PreviewQACheck {
-  name:    string          // e.g. "phash-band", "dimensions", "vision-referee"
+  name:    string          // e.g. "similarity-dhash-band", "identity-edge-stability"
   passed:  boolean
   detail?: string
 }
 
 export interface PreviewQAResult {
-  /** "pending" = Phase 4B pass-through — real gating lands in Phase 4C */
+  /** "pending" was the Phase 4B pass-through; the Phase 4C FidelityQAGate
+      returns pass / retry / fail */
   verdict:       "pass" | "retry" | "fail" | "pending"
   checks:        PreviewQACheck[]
   realismScore:  number | null
   fidelityScore: number | null
+
+  /* ── Phase 4C composite report (optional: additive, so 4B-era
+        persisted verdicts remain type-valid) ── */
+  overallScore?:    number
+  similarityScore?: number | null
+  identityScore?:   number | null
+  metadataScore?:   number | null
+  histogramScore?:  number | null
+  /** Machine-readable failure/weakness reasons — consumed by the
+      Prompt Refinement engine and telemetry */
+  failureReasons?:  string[]
+  /** Raw metric values from every module (persisted in qa_verdict) */
+  metrics?:         Record<string, number>
+  /** QA_CONFIG_VERSION the verdict was produced under */
+  configVersion?:   string
+  evaluationMs?:    number
 }
 
 export interface PreviewQAInput {
@@ -110,6 +127,15 @@ export interface PreviewQAInput {
   previewBase64:  string
   mimeType:       string
   instruction:    string
+
+  /* ── Phase 4C context (optional: the gate degrades gracefully
+        when absent) ── */
+  /** Knowledge-base entry for the recommended preset — drives the
+      fidelity direction checks */
+  presetIntel?: import("@/types/preset-intelligence").PresetIntelligence
+  /** Sharp adjustments of the target grade — the gate renders a
+      deterministic reference via processImage for fidelity comparison */
+  referenceAdjustments?: import("@/types/ai").AIAdjustments
 }
 
 export interface PreviewQAGate {

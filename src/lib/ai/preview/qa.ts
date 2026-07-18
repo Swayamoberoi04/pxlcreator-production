@@ -1,23 +1,25 @@
 /**
  * src/lib/ai/preview/qa.ts
  *
- * Quality Assurance gate — Phase 4C EXTENSION POINT.
+ * Quality Assurance gate registry.
  *
- * Phase 4B ships the interfaces and wiring only: every generated
- * preview flows through getActiveQAGate().evaluate() and the result is
- * persisted on the job (qa_verdict) and surfaced in telemetry as
- * "pending". Phase 4C replaces PendingQAGate with the real gate from
- * blueprint §6 (pHash band via ./phash, dimension/histogram checks,
- * Gemini Vision referee) without touching the job service, routes,
- * or UI — they already handle every verdict value.
+ * Phase 4C: FidelityQAGate (src/lib/ai/preview/qa/gate.ts) is the
+ * active gate — the full deterministic pipeline from blueprint §6:
+ * similarity bands, histogram integrity, metadata validation,
+ * identity/composition stability, preset fidelity (with a Sharp
+ * reference render), and realism metrics, combined into a weighted
+ * composite with configurable thresholds (qa/config.ts).
+ *
+ * QA_GATE=off restores the Phase 4B pass-through (verdict "pending",
+ * everything publishes) — the operational escape hatch if thresholds
+ * ever misbehave in production.
  */
 
 import type { PreviewQAGate, PreviewQAInput, PreviewQAResult } from "@/types/preview"
 
 /**
- * Phase 4B pass-through: records that QA has not yet been performed.
- * The job proceeds to "ready"; the verdict is stored as "pending" so
- * Phase 4C telemetry can distinguish gated from ungated previews.
+ * Phase 4B pass-through, retained as the QA_GATE=off fallback:
+ * records that QA was not performed; the job proceeds to "ready".
  */
 export class PendingQAGate implements PreviewQAGate {
   readonly gateId = "pending-4b"
@@ -34,12 +36,20 @@ export class PendingQAGate implements PreviewQAGate {
 
 let _gate: PreviewQAGate | null = null
 
-/**
- * Phase 4C swap point: return the real gate here.
- * Everything downstream already consumes PreviewQAResult.
- */
-export function getActiveQAGate(): PreviewQAGate {
-  if (!_gate) _gate = new PendingQAGate()
+export async function getActiveQAGate(): Promise<PreviewQAGate> {
+  if (_gate) return _gate
+
+  if (process.env.QA_GATE?.trim().toLowerCase() === "off") {
+    console.log(`[ai:preview] ${JSON.stringify({ event: "qa_gate_selected", gate: "pending-4b", reason: "QA_GATE=off" })}`)
+    _gate = new PendingQAGate()
+    return _gate
+  }
+
+  /* Phase 4C: the real composite gate. Dynamic import keeps Sharp and
+     the analysis modules out of any bundle that only needs the types. */
+  const { FidelityQAGate } = await import("./qa/gate")
+  _gate = new FidelityQAGate()
+  console.log(`[ai:preview] ${JSON.stringify({ event: "qa_gate_selected", gate: _gate.gateId })}`)
   return _gate
 }
 

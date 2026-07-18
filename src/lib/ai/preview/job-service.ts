@@ -28,6 +28,7 @@ import type {
 import type { ImageAnalysisResult } from "@/types/ai"
 import { getActivePreviewProvider } from "./provider"
 import { getActiveQAGate } from "./qa"
+import { buildCorrectiveInstruction } from "./qa/refinement"
 import { buildPreviewInstruction, PROMPT_VERSION } from "./prompt-builder"
 import { getStyleProfile, matchStyleProfile } from "@/lib/studio/style-profiles"
 import { getCachedCatalog } from "@/lib/ai/preset-intelligence/catalog-cache"
@@ -356,6 +357,34 @@ async function logProviderCall(entry: {
   } catch { /* ledger is best-effort — never fail the job over it */ }
 }
 
+/**
+ * QA telemetry ledger entry (Phase 4C §9) — one provider_logs row per
+ * gate evaluation, operation "qa". Best-effort like logProviderCall.
+ */
+async function logQaCall(jobId: string, gateId: string, qa: PreviewQAResult): Promise<void> {
+  await logProviderCall({
+    jobId,
+    provider:  gateId,
+    operation: "qa",
+    latencyMs: qa.evaluationMs ?? 0,
+    tokensOrUnits: {
+      verdict:         qa.verdict,
+      overallScore:    qa.overallScore ?? null,
+      similarityScore: qa.similarityScore ?? null,
+      identityScore:   qa.identityScore ?? null,
+      fidelityScore:   qa.fidelityScore,
+      realismScore:    qa.realismScore,
+      metadataScore:   qa.metadataScore ?? null,
+      histogramScore:  qa.histogramScore ?? null,
+      configVersion:   qa.configVersion ?? null,
+    },
+    costUsd: null,
+    error:   qa.verdict === "pass" || qa.verdict === "pending"
+      ? null
+      : (qa.failureReasons ?? []).join(",") || qa.verdict,
+  })
+}
+
 /* ─────────────────────────────────────────────────────────────
    GENERATION ORCHESTRATION
 ───────────────────────────────────────────────────────────── */
@@ -417,39 +446,117 @@ export async function runGenerationJob(args: {
       error: null,
     })
 
-    /* ── QA — Phase 4C extension point (pending pass-through in 4B) ── */
+    /* ── QA — Phase 4C composite gate + retry decision engine ──
+       PASS  → publish
+       RETRY → one corrective regeneration (refined prompt) → QA again;
+               anything short of PASS on the second look → Sharp fallback
+       FAIL  → Sharp fallback immediately                              */
     await updateJob(jobId, { status: "qa", providerMs: generation.providerLatencyMs })
 
-    const qa: PreviewQAResult = await getActiveQAGate().evaluate({
+    const gate = await getActiveQAGate()
+    /* Reference adjustments: prefer the analysis' merged grade (present
+       when the client forwarded the full ImageAnalysisResult), fall back
+       to the style profile's own defaults. */
+    const referenceAdjustments =
+      typeof analysis.adjustments?.brightness === "number"
+        ? analysis.adjustments
+        : profile.defaultAdjustments
+    const qaInput = (previewB64: string, mime: string, instr: string) => ({
       originalBase64: imageBase64,
-      previewBase64:  generation.imageBase64,
-      mimeType:       generation.mimeType,
-      instruction,
+      previewBase64:  previewB64,
+      mimeType:       mime,
+      instruction:    instr,
+      presetIntel:    intel,
+      referenceAdjustments,
     })
 
-    if (qa.verdict === "fail") {
-      /* Real gating arrives in Phase 4C — the degrade path is already wired */
+    let activeGeneration = generation
+    let qa: PreviewQAResult = await gate.evaluate(
+      qaInput(generation.imageBase64, generation.mimeType, instruction)
+    )
+    let qaRetries = 0
+    await logQaCall(jobId, gate.gateId, qa)
+
+    if (qa.verdict === "retry") {
+      const refined = buildCorrectiveInstruction(instruction, qa.failureReasons ?? [])
+      qaRetries = 1
+      await updateJob(jobId, { status: "generating", qaRetries })
+      log("qa_retry", {
+        jobId,
+        overallScore:      qa.overallScore,
+        failureReasons:    qa.failureReasons,
+        corrections:       refined.correctionsApplied,
+        refinementVersion: refined.refinementVersion,
+      })
+
+      let regen
+      try {
+        regen = await provider.generatePreview({
+          imageBase64, mimeType: "image/jpeg", instruction: refined.instruction,
+        })
+      } catch (err) {
+        await logProviderCall({
+          jobId, provider: provider.providerId, operation: "edit",
+          latencyMs: Date.now() - startMs, tokensOrUnits: null, costUsd: null,
+          error: errMessage(err),
+        })
+        /* Regeneration failed — the first attempt was only RETRY-grade,
+           so publish nothing: Sharp fallback. */
+        await updateJob(jobId, { status: "degraded", qa, qaRetries, errorCode: "PROVIDER_FAILED", totalMs: Date.now() - startMs })
+        logError("generation_degraded", { jobId, reason: "RETRY_PROVIDER_FAILED", error: errMessage(err) })
+        return
+      }
+      await logProviderCall({
+        jobId, provider: provider.providerId, operation: "edit",
+        latencyMs: regen.providerLatencyMs, tokensOrUnits: regen.usage,
+        costUsd: provider.costPerPreviewUsd, error: null,
+      })
+
+      await updateJob(jobId, { status: "qa" })
+      const qa2: PreviewQAResult = await gate.evaluate(
+        qaInput(regen.imageBase64, regen.mimeType, refined.instruction)
+      )
+      await logQaCall(jobId, gate.gateId, qa2)
+
+      if (qa2.verdict === "pass" || qa2.verdict === "pending") {
+        activeGeneration = regen
+        qa = qa2
+      } else {
+        /* Max ONE retry (config.retry.maxRetries) — still not good enough */
+        await updateJob(jobId, { status: "degraded", qa: qa2, qaRetries, errorCode: "QA_REJECTED", totalMs: Date.now() - startMs })
+        log("generation_degraded", {
+          jobId, reason: "QA_REJECTED_AFTER_RETRY",
+          verdict: qa2.verdict, overallScore: qa2.overallScore, failureReasons: qa2.failureReasons,
+        })
+        return
+      }
+    } else if (qa.verdict === "fail") {
       await updateJob(jobId, { status: "degraded", qa, errorCode: "QA_REJECTED", totalMs: Date.now() - startMs })
-      log("generation_degraded", { jobId, reason: "QA_REJECTED" })
+      log("generation_degraded", {
+        jobId, reason: "QA_REJECTED",
+        overallScore: qa.overallScore, failureReasons: qa.failureReasons,
+      })
       return
     }
 
-    /* ── Store + cache ── */
-    const stored = await storePreview(jobId, generation.imageBase64, generation.mimeType)
+    /* ── Store + cache (PASS or pending only) ── */
+    const stored = await storePreview(jobId, activeGeneration.imageBase64, activeGeneration.mimeType)
     await cacheStore(
       buildCacheKey(imagePhash, presetSlug, provider.providerId),
       jobId, stored.previewPath, stored.previewDataUri
     )
 
     const totalMs = Date.now() - startMs
+    const generationsPaid = 1 + qaRetries
     await updateJob(jobId, {
       status:         "ready",
       qa,
+      qaRetries,
       previewPath:    stored.previewPath,
       previewDataUri: stored.previewDataUri,
       expiresAt:      new Date(Date.now() + PREVIEW_TTL_MS).toISOString(),
       totalMs,
-      costUsd:        provider.costPerPreviewUsd,
+      costUsd:        provider.costPerPreviewUsd * generationsPaid,
     })
 
     log("generation_ok", {
@@ -457,15 +564,18 @@ export async function runGenerationJob(args: {
       provider:     provider.providerId,
       presetSlug,
       promptVersion: PROMPT_VERSION,
-      providerMs:   generation.providerLatencyMs,
+      providerMs:   activeGeneration.providerLatencyMs,
       totalMs,
-      attempts:     generation.attempts,
-      retries:      generation.attempts - 1,
-      costUsd:      provider.costPerPreviewUsd,
+      attempts:     activeGeneration.attempts,
+      retries:      activeGeneration.attempts - 1,
+      qaRetries,
+      costUsd:      provider.costPerPreviewUsd * generationsPaid,
       cacheHit:     false,
       qaVerdict:    qa.verdict,
-      inputTokens:  generation.usage.inputTokens,
-      outputTokens: generation.usage.outputTokens,
+      qaOverall:    qa.overallScore,
+      qaMs:         qa.evaluationMs,
+      inputTokens:  activeGeneration.usage.inputTokens,
+      outputTokens: activeGeneration.usage.outputTokens,
       storage:      stored.previewPath ? "bucket" : "inline",
     })
   } catch (err) {

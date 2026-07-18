@@ -198,3 +198,96 @@ npx tsx scripts/test-preset-intelligence.ts
 ```
 32 checks: metadata completeness, cache behaviour, 4 scoring scenarios,
 relationships, determinism, latency at 22 and 5,000 presets.
+
+---
+
+# Phase 4C — AI Quality Assurance & Fidelity Engine
+
+The validation layer that decides whether an AI-generated preview is
+trustworthy enough to show. Active gate: `FidelityQAGate`
+(`src/lib/ai/preview/qa/gate.ts`), selected by `getActiveQAGate()` in
+`src/lib/ai/preview/qa.ts`. `QA_GATE=off` restores the Phase 4B
+pass-through (operational escape hatch).
+
+## Pipeline
+
+```
+ original ──┐
+ AI preview ─┼─ extractFeatures (one decode each: metadata, 64x64 RGB
+ Sharp ref ──┘   plane, 32x32 gray plane, dHash, DCT pHash)
+      │
+      ├─ similarity  hash bands + tonal no-op detection
+      ├─ histogram   RGB/luminance intersection, luminance-shift ceiling
+      ├─ metadata    aspect / orientation / relative resolution floor
+      ├─ identity    8x8 block-structure + edge-map Pearson correlation
+      ├─ fidelity    Sharp-reference histogram match + per-promise
+      │              direction checks from Preset Intelligence
+      └─ realism     clipping / posterization / hypersaturation /
+                     edge-energy (oversharpening & noise)
+      │
+      ▼
+ weighted composite (config weights, normalized)
+      │
+      ▼
+ verdict:  hard fail ──────────────────────────→ FAIL
+           composite < retryFloor ─────────────→ FAIL
+           retry-capped reason OR < pass ──────→ RETRY
+           otherwise ──────────────────────────→ PASS
+```
+
+## Decision & retry logic (job-service integration)
+
+- PASS → store + cache + publish (`status: ready`)
+- RETRY → `buildCorrectiveInstruction()` (qa/refinement.ts) appends
+  deterministic corrective clauses mapped from machine-readable
+  failure reasons — identity lock untouched, grade/lighting/mood only —
+  then ONE regeneration and one more QA pass. PASS publishes; anything
+  else degrades to the Sharp preview (`QA_REJECTED_AFTER_RETRY`).
+- FAIL → degrade immediately (`QA_REJECTED`). The user always keeps the
+  Sharp preview; QA can never make the studio worse.
+
+Hard-fail reasons (unfixable by prompt): corrupt-file,
+composition-replaced, aspect-changed, orientation-changed,
+structure-diverged+edges-diverged.
+Retry-capping reasons (never publish, always correctable):
+edit-invisible, every wrong-direction fidelity reason, channel-collapsed,
+luminance-shifted, and all realism artefacts.
+
+## Scoring
+
+Weighted composite over module scores (weights in qa/config.ts:
+identity 0.30, similarity 0.25, fidelity 0.20, realism 0.15,
+metadata 0.10; histogram folds in as a 0.85–1.0 multiplier).
+Thresholds: pass >= 0.70, fail < 0.45, RETRY between. Every verdict is
+stamped with `QA_CONFIG_VERSION` and persisted (preview_jobs.qa_verdict
+jsonb, full report incl. per-module scores, raw metrics, failure
+reasons) plus one provider_logs row per evaluation (`operation: "qa"`).
+
+Key insight encoded in the similarity module: perceptual hashes are
+grade-invariant BY DESIGN, so hash identity alone cannot detect a
+provider no-op — "edit-invisible" additionally requires unchanged tonal
+statistics (meanL / warmth / chroma deltas + luminance-histogram
+intersection). Conversely, LOW hash distance with real tonal change is
+the ideal outcome (identity preserved, grade applied).
+
+## Fixture verdicts (scripts/test-qa-engine.ts — 24 checks, no AI calls)
+
+| Fixture (Sharp-built from a real photo) | Verdict |
+|---|---|
+| The style profile's own grade via processImage | PASS (0.93) |
+| Unchanged re-encode | RETRY (edit-invisible) |
+| Cool desaturated grade vs warm preset | RETRY (wb-went-cool, palette-off-lean) |
+| Center crop / 90-degree rotation | FAIL (geometry hard fail) |
+| Different photograph (hashes fooled, sim=1!) | FAIL (identity hard fail) |
+| Corrupt bytes | FAIL (corrupt-file) |
+
+Measured: ~37ms per full evaluation including the Sharp reference
+render (budget 500ms).
+
+## Extension points (Phase 5)
+
+- `FaceVerifier` (qa/identity.ts) → `gate.setFaceVerifier()` — face
+  embedding identity checks
+- `RealismReferee` (qa/realism.ts) → `gate.setRealismReferee()` — the
+  blueprint §6.2 Gemini Vision referee
+Both abstain today and are recorded in checks for telemetry.
