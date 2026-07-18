@@ -69,7 +69,13 @@ export interface PreviewJob {
   status:         PreviewJobStatus
   clientIpHash:   string
   imagePhash:     string
-  imageMeta:      { width: number; height: number; format: string; bytes: number }
+  imageMeta:      {
+    width: number; height: number; format: string; bytes: number
+    /** Phase 4D: worker-level pipeline attempts (jsonb data, not schema) */
+    workerAttempts?: number
+    /** Phase 4D: last failure category driving the retry policy */
+    failureCategory?: string
+  }
   presetSlug:     string
   styleProfileId: string
   promptVersion:  string
@@ -167,6 +173,14 @@ export interface PreviewStatusResponse {
   elapsedMs:  number
   qa:         { verdict: PreviewQAResult["verdict"] } | null
   errorCode:  string | null
+
+  /* ── Phase 4D (additive) ── */
+  /** Full lifecycle state (QUEUED/VALIDATING/GENERATING/QA/RETRYING/
+      READY/FAILED/DEGRADED/CANCELLED/EXPIRED) */
+  lifecycle?:    string
+  /** Adaptive-polling hint: suggested delay before the next poll;
+      0 = terminal, stop polling */
+  retryAfterMs?: number
 }
 
 export interface PreviewErrorResponse {

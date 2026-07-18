@@ -10,6 +10,8 @@
 import type { NextRequest } from "next/server"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { getJob, resolvePreviewUrl } from "@/lib/ai/preview/job-service"
+import { toLifecycleState, isTerminal } from "@/lib/ai/preview/lifecycle"
+import { DEFAULT_WORKER_CONFIG } from "@/lib/ai/preview/worker-config"
 import type { PreviewStatusResponse, PreviewErrorResponse } from "@/types/preview"
 
 export const runtime = "nodejs"
@@ -39,6 +41,18 @@ export async function GET(request: NextRequest): Promise<Response> {
   }
 
   const previewUrl = job.status === "ready" ? await resolvePreviewUrl(job) : null
+  const elapsedMs  = Date.now() - new Date(job.createdAt).getTime()
+
+  /* Phase 4D §5 — adaptive polling hint: the interval grows with job
+     age (early polls are cheap and responsive, long waits back off),
+     capped by config; 0 on terminal states = stop polling. */
+  const cfgPoll = DEFAULT_WORKER_CONFIG.polling
+  const retryAfterMs = isTerminal(job.status)
+    ? 0
+    : Math.min(
+        Math.max(Math.round(elapsedMs / cfgPoll.adaptiveDivisor), cfgPoll.minIntervalMs),
+        cfgPoll.maxIntervalMs
+      )
 
   const body: PreviewStatusResponse = {
     success:    true,
@@ -46,9 +60,11 @@ export async function GET(request: NextRequest): Promise<Response> {
     status:     job.status,
     previewUrl,
     provider:   job.provider,
-    elapsedMs:  Date.now() - new Date(job.createdAt).getTime(),
+    elapsedMs,
     qa:         job.qa ? { verdict: job.qa.verdict } : null,
     errorCode:  job.errorCode,
+    lifecycle:  toLifecycleState(job),
+    retryAfterMs,
   }
   return Response.json(body, { headers: { "Cache-Control": "no-store" } })
 }

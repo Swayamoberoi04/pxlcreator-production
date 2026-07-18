@@ -42,7 +42,10 @@ const SIGNED_URL_SECS = 60 * 60                       // 1h signed URLs
    Backend selection
 ───────────────────────────────────────────────────────────── */
 
-function supabaseConfigured(): boolean {
+export function supabaseConfigured(): boolean {
+  /* PREVIEW_STORE=memory forces the in-memory backend — used by the
+     deterministic Phase 4D test suite; never set in production. */
+  if (process.env.PREVIEW_STORE?.trim().toLowerCase() === "memory") return false
   return Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
     process.env.SUPABASE_SERVICE_ROLE_KEY &&
@@ -58,9 +61,41 @@ async function adminClient(): Promise<import("@supabase/supabase-js").SupabaseCl
   return createAdminClient() as unknown as import("@supabase/supabase-js").SupabaseClient
 }
 
-/* In-memory fallback stores (single-process dev) */
+/* In-memory fallback stores (single-process dev).
+   Bounded (Phase 4D §11): terminal jobs are evicted first once the cap
+   is reached; Map iteration order = insertion order = oldest first. */
 const memJobs  = new Map<string, PreviewJob>()
 const memCache = new Map<string, { previewDataUri: string; expiresAt: number }>()
+
+const MAX_MEM_JOBS = Number(process.env.PREVIEW_MEM_JOB_CAP) || 12_000
+
+function memJobsSet(job: PreviewJob): void {
+  if (!memJobs.has(job.id) && memJobs.size >= MAX_MEM_JOBS) {
+    let evicted = 0
+    for (const [id, j] of memJobs) {
+      if (!["queued", "generating", "qa"].includes(j.status)) {
+        memJobs.delete(id)
+        if (++evicted >= 100) break
+      }
+    }
+    /* All-active overflow: evict oldest regardless (log — this means
+       the cap is undersized for the workload) */
+    if (memJobs.size >= MAX_MEM_JOBS) {
+      const oldest = memJobs.keys().next().value
+      if (oldest) {
+        memJobs.delete(oldest)
+        log("mem_store_evicted_active", { evictedJobId: oldest, cap: MAX_MEM_JOBS })
+      }
+    }
+  }
+  memJobs.set(job.id, job)
+}
+
+/** Test/ops hook — wipe the in-memory stores. */
+export function resetMemoryStores(): void {
+  memJobs.clear()
+  memCache.clear()
+}
 
 /* ─────────────────────────────────────────────────────────────
    IP hashing — never store raw IPs (blueprint §11)
@@ -116,7 +151,7 @@ export async function createJob(fields: {
       log("job_store_insert_failed_using_memory", { jobId: job.id, error: errMessage(err) })
     }
   }
-  memJobs.set(job.id, job)
+  memJobsSet(job)
   return job
 }
 
@@ -177,6 +212,142 @@ export async function getJob(jobId: string): Promise<PreviewJob | null> {
     }
   }
   return memJobs.get(jobId) ?? null
+}
+
+/**
+ * Phase 4D §8 — atomic state transition (job locking).
+ *
+ * Conditional UPDATE: the row moves only if its CURRENT status is one
+ * of `fromStatuses`. Two workers racing for the same job get exactly
+ * one winner — the loser's update matches zero rows and returns false.
+ * The in-memory backend applies the same check synchronously (a single
+ * JS thread makes check-then-set atomic per process).
+ *
+ * The requested transition must be legal per the lifecycle table.
+ */
+export async function transitionJob(
+  jobId:        string,
+  fromStatuses: PreviewJobStatus[],
+  patch:        Partial<PreviewJob> & { status: PreviewJobStatus }
+): Promise<boolean> {
+  const { assertTransition } = await import("./lifecycle")
+  for (const from of fromStatuses) assertTransition(from, patch.status)
+
+  const updated = { ...patch, updatedAt: new Date().toISOString() }
+
+  if (supabaseConfigured()) {
+    try {
+      const supabase = await adminClient()
+      const { data, error } = await supabase
+        .from("preview_jobs")
+        .update(toRow(updated as PreviewJob, true))
+        .eq("id", jobId)
+        .in("status", fromStatuses)
+        .select("id")
+      if (error) throw error
+      return (data?.length ?? 0) > 0
+    } catch (err) {
+      log("job_store_transition_failed", { jobId, to: patch.status, error: errMessage(err) })
+      /* fall through to memory so dev keeps working */
+    }
+  }
+
+  const mem = memJobs.get(jobId)
+  if (!mem || !fromStatuses.includes(mem.status)) return false
+  memJobs.set(jobId, { ...mem, ...updated })
+  return true
+}
+
+/**
+ * Bounded job listing for the worker claim loop, recovery sweep, and
+ * cleanup service. Uses the (status, updated_at) index from migration
+ * 020 — one indexed query per tick, no per-job reads (§11).
+ */
+export async function listJobs(filter: {
+  statuses:       PreviewJobStatus[]
+  updatedBefore?: string
+  expiresBefore?: string
+  limit:          number
+}): Promise<PreviewJob[]> {
+  if (supabaseConfigured()) {
+    try {
+      const supabase = await adminClient()
+      let query = supabase
+        .from("preview_jobs").select("*")
+        .in("status", filter.statuses)
+        .order("updated_at", { ascending: true })
+        .limit(filter.limit)
+      if (filter.updatedBefore) query = query.lt("updated_at", filter.updatedBefore)
+      if (filter.expiresBefore) query = query.lt("expires_at", filter.expiresBefore)
+      const { data, error } = await query
+      if (error) throw error
+      return (data ?? []).map((r) => fromRow(r as Record<string, unknown>))
+    } catch (err) {
+      log("job_store_list_failed", { error: errMessage(err) })
+    }
+  }
+
+  const out: PreviewJob[] = []
+  for (const job of memJobs.values()) {
+    if (!filter.statuses.includes(job.status)) continue
+    if (filter.updatedBefore && job.updatedAt >= filter.updatedBefore) continue
+    if (filter.expiresBefore && (!job.expiresAt || job.expiresAt >= filter.expiresBefore)) continue
+    out.push(job)
+  }
+  out.sort((a, b) => a.updatedAt.localeCompare(b.updatedAt))
+  return out.slice(0, filter.limit)
+}
+
+/** Hard-delete job rows (cleanup §7). Returns count removed. */
+export async function purgeJobs(jobIds: string[]): Promise<number> {
+  if (jobIds.length === 0) return 0
+  let removed = 0
+  if (supabaseConfigured()) {
+    try {
+      const supabase = await adminClient()
+      const { data, error } = await supabase
+        .from("preview_jobs").delete().in("id", jobIds).select("id")
+      if (error) throw error
+      removed = data?.length ?? 0
+    } catch (err) {
+      log("job_store_purge_failed", { error: errMessage(err) })
+    }
+  }
+  for (const id of jobIds) { if (memJobs.delete(id)) removed++ }
+  return removed
+}
+
+/** Delete expired preview_cache rows (cleanup §7). */
+export async function purgeExpiredCache(before: string, limit: number): Promise<number> {
+  let removed = 0
+  if (supabaseConfigured()) {
+    try {
+      const supabase = await adminClient()
+      const { data, error } = await supabase
+        .from("preview_cache").delete().lt("expires_at", before)
+        .select("cache_key").limit(limit)
+      if (error) throw error
+      removed = data?.length ?? 0
+    } catch (err) {
+      log("cache_purge_failed", { error: errMessage(err) })
+    }
+  }
+  const cutoff = new Date(before).getTime()
+  for (const [key, entry] of memCache) {
+    if (entry.expiresAt < cutoff) { memCache.delete(key); removed++ }
+  }
+  return removed
+}
+
+/** Delete a stored preview asset from the bucket (cleanup §7). */
+export async function deletePreviewAsset(previewPath: string): Promise<void> {
+  if (!supabaseConfigured()) return
+  try {
+    const supabase = await adminClient()
+    await supabase.storage.from(BUCKET).remove([previewPath])
+  } catch (err) {
+    log("asset_delete_failed", { previewPath, error: errMessage(err) })
+  }
 }
 
 async function updateJob(jobId: string, patch: Partial<PreviewJob>): Promise<void> {
@@ -337,7 +508,7 @@ export function checkAndReserveSpend(costUsd: number): boolean {
    Provider call ledger (best-effort)
 ───────────────────────────────────────────────────────────── */
 
-async function logProviderCall(entry: {
+export async function logProviderCall(entry: {
   jobId: string; provider: string; operation: string
   latencyMs: number; tokensOrUnits: Record<string, unknown> | null
   costUsd: number | null; error: string | null
@@ -389,15 +560,55 @@ async function logQaCall(jobId: string, gateId: string, qa: PreviewQAResult): Pr
    GENERATION ORCHESTRATION
 ───────────────────────────────────────────────────────────── */
 
-export async function runGenerationJob(args: {
-  jobId:       string
-  imageBuffer: Buffer
-  imagePhash:  string
-  analysis:    ImageAnalysisResult
-  presetSlug:  string
-  userPrompt:  string
-}): Promise<void> {
+/** Phase 4D — classified pipeline result consumed by the worker. */
+export interface GenerationOutcome {
+  outcome:   "ready" | "degraded"
+  errorCode: string | null
+  category:  import("./worker-config").FailureCategory | null
+  retryable: boolean
+  /** true = this run already wrote the terminal job state */
+  finalized: boolean
+}
+
+/**
+ * Failure taxonomy (Phase 4D §3) — maps an error to the retry-policy
+ * category. Deterministic and directly testable.
+ */
+export function classifyFailure(
+  code: string,
+  message: string
+): { category: import("./worker-config").FailureCategory; retryable: boolean } {
+  if (code === "QA_REJECTED") return { category: "qa", retryable: false }
+  if (code === "ENGINE_DISABLED" || code === "PRESET_NOT_FOUND" || code === "PAYLOAD_LOST") {
+    return { category: "permanent", retryable: false }
+  }
+  const msg = message.toLowerCase()
+  if (/timed out|timeout/.test(msg))                                      return { category: "timeout", retryable: true }
+  if (/fetch failed|network|econnreset|econnrefused|etimedout|socket|aborted/.test(msg)) {
+    return { category: "network", retryable: true }
+  }
+  if (code === "PROVIDER_FAILED") return { category: "provider", retryable: true }
+  return { category: "permanent", retryable: false }
+}
+
+export async function runGenerationJob(
+  args: {
+    jobId:       string
+    imageBuffer: Buffer
+    imagePhash:  string
+    analysis:    ImageAnalysisResult
+    presetSlug:  string
+    userPrompt:  string
+  },
+  opts?: {
+    /** false = a RETRYABLE failure is NOT written as terminal — the
+        caller (worker) owns the retry decision. Default true preserves
+        the Phase 4B/4C behaviour for any direct caller. */
+    finalizeFailures?: boolean
+  }
+): Promise<GenerationOutcome> {
   const { jobId, imageBuffer, imagePhash, analysis, presetSlug, userPrompt } = args
+  const finalizeFailures = opts?.finalizeFailures ?? true
   const startMs = Date.now()
 
   try {
@@ -501,10 +712,15 @@ export async function runGenerationJob(args: {
           error: errMessage(err),
         })
         /* Regeneration failed — the first attempt was only RETRY-grade,
-           so publish nothing: Sharp fallback. */
-        await updateJob(jobId, { status: "degraded", qa, qaRetries, errorCode: "PROVIDER_FAILED", totalMs: Date.now() - startMs })
-        logError("generation_degraded", { jobId, reason: "RETRY_PROVIDER_FAILED", error: errMessage(err) })
-        return
+           so publish nothing. The worker may re-run the whole pipeline
+           if the provider error is transient. */
+        const cls = classifyFailure("PROVIDER_FAILED", errMessage(err))
+        const finalize = finalizeFailures || !cls.retryable
+        if (finalize) {
+          await updateJob(jobId, { status: "degraded", qa, qaRetries, errorCode: "PROVIDER_FAILED", totalMs: Date.now() - startMs })
+        }
+        logError("generation_degraded", { jobId, reason: "RETRY_PROVIDER_FAILED", error: errMessage(err), finalized: finalize })
+        return { outcome: "degraded", errorCode: "PROVIDER_FAILED", category: cls.category, retryable: cls.retryable, finalized: finalize }
       }
       await logProviderCall({
         jobId, provider: provider.providerId, operation: "edit",
@@ -522,13 +738,14 @@ export async function runGenerationJob(args: {
         activeGeneration = regen
         qa = qa2
       } else {
-        /* Max ONE retry (config.retry.maxRetries) — still not good enough */
+        /* Max ONE QA retry (4C config) — the worker never re-runs
+           QA-rejected jobs, so this is always final. */
         await updateJob(jobId, { status: "degraded", qa: qa2, qaRetries, errorCode: "QA_REJECTED", totalMs: Date.now() - startMs })
         log("generation_degraded", {
           jobId, reason: "QA_REJECTED_AFTER_RETRY",
           verdict: qa2.verdict, overallScore: qa2.overallScore, failureReasons: qa2.failureReasons,
         })
-        return
+        return { outcome: "degraded", errorCode: "QA_REJECTED", category: "qa", retryable: false, finalized: true }
       }
     } else if (qa.verdict === "fail") {
       await updateJob(jobId, { status: "degraded", qa, errorCode: "QA_REJECTED", totalMs: Date.now() - startMs })
@@ -536,7 +753,7 @@ export async function runGenerationJob(args: {
         jobId, reason: "QA_REJECTED",
         overallScore: qa.overallScore, failureReasons: qa.failureReasons,
       })
-      return
+      return { outcome: "degraded", errorCode: "QA_REJECTED", category: "qa", retryable: false, finalized: true }
     }
 
     /* ── Store + cache (PASS or pending only) ── */
@@ -578,14 +795,23 @@ export async function runGenerationJob(args: {
       outputTokens: activeGeneration.usage.outputTokens,
       storage:      stored.previewPath ? "bucket" : "inline",
     })
+    return { outcome: "ready", errorCode: null, category: null, retryable: false, finalized: true }
   } catch (err) {
     const code = err instanceof JobError ? err.code : "INTERNAL"
-    await updateJob(jobId, {
-      status:    "degraded",
-      errorCode: code,
-      totalMs:   Date.now() - startMs,
+    const cls  = classifyFailure(code, errMessage(err))
+    const finalize = finalizeFailures || !cls.retryable
+    if (finalize) {
+      await updateJob(jobId, {
+        status:    "degraded",
+        errorCode: code,
+        totalMs:   Date.now() - startMs,
+      })
+    }
+    logError("generation_failed", {
+      jobId, code, category: cls.category, retryable: cls.retryable,
+      finalized: finalize, error: errMessage(err), totalMs: Date.now() - startMs,
     })
-    logError("generation_failed", { jobId, code, error: errMessage(err), totalMs: Date.now() - startMs })
+    return { outcome: "degraded", errorCode: code, category: cls.category, retryable: cls.retryable, finalized: finalize }
   }
 }
 

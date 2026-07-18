@@ -27,9 +27,10 @@ import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { getActivePreviewProvider } from "@/lib/ai/preview/provider"
 import { computePhash } from "@/lib/ai/preview/phash"
 import {
-  createJob, runGenerationJob, cacheLookup, buildCacheKey,
+  createJob, cacheLookup, buildCacheKey,
   hashClientIp, checkAndReserveSpend, findActiveJob,
 } from "@/lib/ai/preview/job-service"
+import { enqueuePreviewJob } from "@/lib/ai/preview/worker"
 import type { ImageAnalysisResult } from "@/types/ai"
 import type { PreviewCreateResponse, PreviewErrorResponse } from "@/types/preview"
 
@@ -158,10 +159,13 @@ export async function POST(request: NextRequest): Promise<Response> {
     styleProfileId: analysis.styleProfileId,
   })
 
+  /* Phase 4D: the request only enqueues — the worker owns execution.
+     enqueuePreviewJob persists the payload (restart-recoverable) and
+     runs a claim-based worker tick that starts with this job. */
   after(() =>
-    runGenerationJob({
+    enqueuePreviewJob({
       jobId:       job.id,
-      imageBuffer: normalized,
+      imageBase64: normalized.toString("base64"),
       imagePhash:  phash,
       analysis,
       presetSlug:  presetSlug.trim(),

@@ -291,3 +291,99 @@ render (budget 500ms).
 - `RealismReferee` (qa/realism.ts) → `gate.setRealismReferee()` — the
   blueprint §6.2 Gemini Vision referee
 Both abstain today and are recorded in checks for telemetry.
+
+---
+
+# Phase 4D — Production Async Job System
+
+Request lifecycle is fully separated from execution: the POST route
+validates, persists the job + payload, and kicks a worker tick. Workers
+claim jobs atomically and own retries, timeouts, recovery, and cleanup.
+The external API is unchanged (status/cancel additions are additive).
+
+## Job lifecycle (10 states over the UNCHANGED migration-020 schema)
+
+```
+                      VALIDATING (pre-persistence, POST route)
+                          |
+                          v
+   QUEUED ──claim──> GENERATING ──> QA ──pass──> READY ──TTL──> EXPIRED
+     ^  ^                |           |
+     |  |   (worker/QA retry)        |fail
+     |  └── RETRYING <───┴───────────┘
+     |          |                        any failure path
+     |          └─ attempts exhausted ─> DEGRADED (Sharp fallback)
+     |                                       |resume
+  resume <── CANCELLED (idempotent cancel)   |
+     └───────────────────────────────────────┘
+   FAILED = request-level failures before generation
+```
+
+Persisted mapping (schema untouched): RETRYING = queued+workerAttempts>0
+or generating+qa_retries>0; CANCELLED = deleted+error_code CANCELLED
+(the 'deleted' CHECK value was reserved unused by migration 020);
+workerAttempts/failureCategory live as DATA inside the image_meta jsonb.
+`src/lib/ai/preview/lifecycle.ts` holds the deterministic projection +
+the explicit transition table; illegal transitions throw.
+
+## Worker architecture (src/lib/ai/preview/worker.ts)
+
+- enqueuePreviewJob(): payload -> payload-store (in-process LRU +
+  durable pending/{jobId}.json in the private bucket) -> tick
+- runWorkerTick(): recovery sweep -> claim loop (atomic
+  transitionJob(queued->generating) conditional UPDATE = the job lock;
+  racing instances get exactly one winner) -> bounded concurrency
+  (maxConcurrent=2, maxJobsPerTick=5 per tick) -> opportunistic cleanup
+- processClaimedJob(): watchdog(120s) around the untouched 4B/4C
+  pipeline (runGenerationJob with finalizeFailures:false) -> outcome
+  classified -> per-category retry policy
+- Horizontal scaling = more claim competitors; nothing else changes.
+
+## Retry strategy (worker-config.ts, w4d.1.0.0)
+
+| Category | Max attempts | Backoff |
+|---|---|---|
+| provider (429/5xx) | 2 | 2s x2 exponential + jitter |
+| timeout (watchdog/stall) | 2 | 1s x2 + jitter |
+| network | 3 | 1.5s x2 + jitter |
+| qa | 1 (owned by the 4C gate, inside the pipeline) | — |
+| permanent (ENGINE_DISABLED, PRESET_NOT_FOUND, PAYLOAD_LOST) | 0 | — |
+
+Between attempts the job returns to queued (lifecycle RETRYING) so any
+instance may claim it after the backoff; exhaustion -> degraded (Sharp).
+
+## Recovery + timeouts
+
+- updated_at is the heartbeat. generating/qa jobs stale beyond 180s
+  (hungAfterMs > watchdog 120s) are swept every tick: payload present ->
+  re-queued; payload lost -> degraded TIMEOUT.
+- Server restart: QUEUED/GENERATING/RETRYING jobs survive in Supabase;
+  payloads survive in the bucket; the next tick re-claims them.
+- Queued jobs nobody claims for 10 min -> expired QUEUE_TIMEOUT.
+
+## Cleanup (cleanup.ts — config-driven, self-rate-limited to 1/5min)
+
+TTL-expired previews -> expired + bucket asset deleted + inline data-URI
+cleared; terminal rows purged after 30d; expired preview_cache rows
+deleted; orphaned pending payloads swept. Callable with force=true from
+a platform cron.
+
+## Polling (adaptive)
+
+Status endpoint returns retryAfterMs = clamp(elapsed/6, 1.2s, 5s), 0 on
+terminal (stop). The slider consumes the hint; 30s client budget and
+early termination unchanged. Cancellation: POST /api/ai/preview/cancel
+{jobId, action: cancel|resume} — idempotent; in-flight workers discover
+cancellation at their next atomic transition and abandon cleanly.
+
+## Observability (existing schema only)
+
+provider_logs gains operation "worker" rows: queueWaitMs, attempt,
+outcome, failure category, worker latency, config version. preview_jobs
+carries qa_retries, workerAttempts, failureCategory, total_ms.
+
+## Measured (scripts/test-worker-system.ts — 41 checks)
+
+10,000 queued jobs: seed 85ms, claim-batch selection 2.5ms, heap 21MB.
+Live drill: real Gemini 429 -> worker retry (300ms backoff) -> second
+429 -> retries exhausted -> degraded. Nothing mocked anywhere.

@@ -91,14 +91,21 @@ export function AIPreviewSlider({
         }
         if (!created.jobId) { setState({ phase: "off" }); return }
 
-        /* Poll until ready / terminal / budget exhausted */
+        /* Poll until ready / terminal / budget exhausted.
+           Adaptive interval (Phase 4D): the server suggests the next
+           delay via retryAfterMs — early polls stay snappy, long waits
+           back off automatically. */
         const deadline = Date.now() + POLL_BUDGET_MS
+        let waitMs = POLL_INTERVAL_MS
         while (Date.now() < deadline && !cancelled.current) {
-          await sleep(POLL_INTERVAL_MS)
+          await sleep(waitMs)
           const poll = await fetch(`/api/ai/preview/status?jobId=${created.jobId}`)
           if (!poll.ok) continue
           const status = (await poll.json()) as PreviewStatusResponse
           if (!status.success) continue
+          if (typeof status.retryAfterMs === "number" && status.retryAfterMs > 0) {
+            waitMs = Math.min(status.retryAfterMs, 5000)
+          }
 
           if (status.status === "ready" && status.previewUrl) {
             if (!cancelled.current) setState({ phase: "ready", previewUrl: status.previewUrl })
