@@ -387,3 +387,86 @@ carries qa_retries, workerAttempts, failureCategory, total_ms.
 10,000 queued jobs: seed 85ms, claim-batch selection 2.5ms, heap 21MB.
 Live drill: real Gemini 429 -> worker retry (300ms backoff) -> second
 429 -> retries exhausted -> degraded. Nothing mocked anywhere.
+
+---
+
+# Phase 4E — Production Cache & Cost Optimization Platform
+
+Multi-level caching + cost intelligence over the UNCHANGED migration-020
+schema. The 4D worker pipeline is untouched — job-service''s cache
+functions now delegate to the engine with identical signatures.
+
+## Cache hierarchy
+
+```
+ request ─> POST /api/ai/preview
+    │
+    ├─ 1. EXACT   cacheGet("preview", key)      L0 (in-process LRU, ~4µs)
+    │                                       └─> L1 (preview_cache table,
+    │                                            re-warms L0 on hit)
+    ├─ 2. NEAR-DUP findNearDuplicate()          same photo re-encoded/
+    │              dHash Hamming <= 4           renamed -> serve twin
+    ├─ 3. IN-FLIGHT findActiveJob()             attach to running job
+    └─ 4. MISS  -> 4D worker -> cacheStore on QA-passed completion
+```
+
+Six namespaces share the one L1 table via key prefixes (cache_key text
+PK; JSON payloads ride the existing preview_data_uri text column — zero
+schema change): preview, metadata, feature, prompt, qa, provider. The
+"provider" namespace exists so future QA re-tuning can re-verdict paid
+generations without regenerating them.
+
+## Keys + invalidation (cache/keys.ts)
+
+`v2:preview:{phash}:{preset}:{profile}:{provider}:{promptV}:{qaV}:{engineV}`
+Deterministic, deployment-stable. Any version change (prompt template,
+QA config, engine, provider) rotates the key — passive invalidation, no
+stale preview can ever match. Manual/targeted invalidation:
+cacheInvalidate({namespace|keyContains|all}) via POST /api/admin/ai-cache.
+
+## Duplicate detection (cache/duplicates.ts)
+
+Filenames are irrelevant (keys are content-addressed by dHash). Near
+duplicates — the same photo re-encoded — match within a configurable
+Hamming tolerance (default 4/64 bits, the same visually-identical band
+QA uses), candidates drawn from the per-preset key index. Closest twin
+wins deterministically.
+
+## Cost intelligence (cache/cost-intelligence.ts)
+
+Every avoided generation books $0.04 + ~8s latency saved: rolling
+in-process counters + a durable provider_logs row (operation "cache",
+negative cost_usd = savings, sums cleanly against real spend).
+getOperationalMetrics() is the reusable dashboard service: hit ratio by
+source (l0/l1/near-duplicate/inflight-dedup), per-preset frequency,
+lookup latency, L0 usage, ledger aggregates (spend vs saved, avg
+generation/worker ms). Exposed at GET /api/admin/ai-cache.
+
+## Adaptive expiration + storage + warming
+
+- TTL classes per namespace (config c4e.1.0.0): previews 24h, extended
+  to 7d after 3 hits (sliding, popular entries live longer); inline
+  previews 6h; features 1h; QA verdicts 6h.
+- storage-optimizer.ts (admin/cron): re-encodes oversized previews
+  (>350KB -> JPEG q80), dedupes byte-identical objects (repoints cache +
+  job rows), removes unreferenced orphans, reports usage. Complements —
+  never replaces — the 4D cleanup service.
+- warming.ts: warms the free layers now (knowledge base, deterministic
+  prompts, near-dup index priming) for the top presets by observed
+  traffic; generation warming is budget-gated (0 until billing).
+
+## Measured (scripts/test-cache-engine.ts — 41 checks)
+
+L0 lookups: p50 0.004ms, p95 0.005ms over 10,000 reads (target <20ms).
+Live against production Supabase: L1 round-trip + L0 re-warm verified;
+storage optimizer removed a real orphan and deduped real identical
+bucket objects (fixtures cleaned up). Concurrency: 200 parallel ops,
+stats consistent. Zero AI generation used; nothing mocked.
+
+## Scaling forward
+
+L0 is per-instance (more instances = more independent hot caches over
+one shared L1). At volume: swap L0 for Redis behind the same
+cacheGet/cacheSet signatures; add a phash column + index if per-preset
+key listing outgrows the LIKE scan; the provider namespace turns QA
+re-tuning into a zero-cost re-verdict pass over stored generations.

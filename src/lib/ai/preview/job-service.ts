@@ -33,6 +33,8 @@ import { buildPreviewInstruction, PROMPT_VERSION } from "./prompt-builder"
 import { getStyleProfile, matchStyleProfile } from "@/lib/studio/style-profiles"
 import { getCachedCatalog } from "@/lib/ai/preset-intelligence/catalog-cache"
 import { getKnowledgeBase } from "@/lib/ai/preset-intelligence/knowledge-base"
+import { previewKey } from "./cache/keys"
+import { cacheGet, cacheSet } from "./cache/engine"
 
 const BUCKET          = "ai-previews"
 const PREVIEW_TTL_MS  = 24 * 60 * 60 * 1000          // blueprint §10: 24h retention
@@ -368,41 +370,34 @@ async function updateJob(jobId: string, patch: Partial<PreviewJob>): Promise<voi
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Exact-result cache (blueprint §7 tier 1)
+   Exact-result cache — Phase 4E: delegates to the multi-level
+   cache engine (src/lib/ai/preview/cache/). Signatures preserved,
+   so the worker pipeline and routes are untouched by the swap.
 ───────────────────────────────────────────────────────────── */
 
-export function buildCacheKey(phash: string, presetSlug: string, providerId: string): string {
-  return `${phash}:${presetSlug}:${PROMPT_VERSION}:${providerId}`
+/**
+ * Deterministic preview cache key. Phase 4E composition includes the
+ * style profile plus the prompt/QA/engine versions (see cache/keys.ts)
+ * — any version change rotates the key, so stale previews can never be
+ * served. styleProfileId defaults keep older call sites compiling.
+ */
+export function buildCacheKey(
+  phash: string,
+  presetSlug: string,
+  providerId: string,
+  styleProfileId = "any"
+): string {
+  return previewKey({ imagePhash: phash, presetSlug, styleProfileId, providerId })
 }
 
 export async function cacheLookup(cacheKey: string): Promise<string | null> {
-  if (supabaseConfigured()) {
-    try {
-      const supabase = await adminClient()
-      const { data, error } = await supabase
-        .from("preview_cache").select("*").eq("cache_key", cacheKey).maybeSingle()
-      if (error) throw error
-      if (data && new Date(data.expires_at as string).getTime() > Date.now()) {
-        /* best-effort hit counter */
-        void supabase.from("preview_cache")
-          .update({ hit_count: ((data.hit_count as number) ?? 0) + 1 })
-          .eq("cache_key", cacheKey)
-          .then(() => undefined, () => undefined)
-
-        if (data.preview_path) {
-          const url = await signPreviewUrl(data.preview_path as string)
-          if (url) return url
-        }
-        if (data.preview_data_uri) return data.preview_data_uri as string
-      }
-    } catch (err) {
-      log("cache_read_failed", { error: errMessage(err) })
-    }
+  const entry = await cacheGet("preview", cacheKey)
+  if (!entry) return null
+  if (entry.kind === "path") {
+    const url = await signPreviewUrl(entry.value)
+    return url   // unsignable path = miss (asset likely swept)
   }
-
-  const mem = memCache.get(cacheKey)
-  if (mem && mem.expiresAt > Date.now()) return mem.previewDataUri
-  return null
+  return entry.value
 }
 
 async function cacheStore(
@@ -411,26 +406,10 @@ async function cacheStore(
   previewPath: string | null,
   previewDataUri: string | null
 ): Promise<void> {
-  const expiresAt = new Date(Date.now() + PREVIEW_TTL_MS).toISOString()
-
-  if (supabaseConfigured()) {
-    try {
-      const supabase = await adminClient()
-      const { error } = await supabase.from("preview_cache").upsert({
-        cache_key:        cacheKey,
-        preview_path:     previewPath,
-        preview_data_uri: previewDataUri,
-        expires_at:       expiresAt,
-        source_job_id:    jobId,
-      })
-      if (error) throw error
-      return
-    } catch (err) {
-      log("cache_write_failed", { error: errMessage(err) })
-    }
-  }
-  if (previewDataUri) {
-    memCache.set(cacheKey, { previewDataUri, expiresAt: Date.now() + PREVIEW_TTL_MS })
+  if (previewPath) {
+    await cacheSet("preview", cacheKey, previewPath, { kind: "path", sourceJobId: jobId })
+  } else if (previewDataUri) {
+    await cacheSet("preview", cacheKey, previewDataUri, { kind: "inline", sourceJobId: jobId })
   }
 }
 
@@ -509,7 +488,8 @@ export function checkAndReserveSpend(costUsd: number): boolean {
 ───────────────────────────────────────────────────────────── */
 
 export async function logProviderCall(entry: {
-  jobId: string; provider: string; operation: string
+  /** null = event not tied to a job (e.g. cache hits) — column is nullable */
+  jobId: string | null; provider: string; operation: string
   latencyMs: number; tokensOrUnits: Record<string, unknown> | null
   costUsd: number | null; error: string | null
 }): Promise<void> {
@@ -759,7 +739,7 @@ export async function runGenerationJob(
     /* ── Store + cache (PASS or pending only) ── */
     const stored = await storePreview(jobId, activeGeneration.imageBase64, activeGeneration.mimeType)
     await cacheStore(
-      buildCacheKey(imagePhash, presetSlug, provider.providerId),
+      buildCacheKey(imagePhash, presetSlug, provider.providerId, analysis.styleProfileId),
       jobId, stored.previewPath, stored.previewDataUri
     )
 
