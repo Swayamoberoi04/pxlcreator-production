@@ -621,7 +621,7 @@ body::before {
     isolation: isolate;
   }
   .grain::after {
-    content: “”;
+    content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
@@ -748,7 +748,16 @@ body::before {
   100% { transform: translateX(100%);  opacity: 0; }
 }
 
-/* Suppress all cinematic animations when user prefers reduced motion */
+/* ─────────────────────────────────────────
+   REDUCED MOTION — comprehensive baseline
+   The named block below documents the intent for the cinematic
+   decorative layers; the universal rule underneath is the safety net
+   that neutralises EVERY CSS animation/transition site-wide (infinite
+   glows, shimmer, grain, Ken-Burns drift, Tailwind animate-* utilities).
+   Durations collapse to ~0 rather than `none` so transitionend /
+   animationend listeners still fire and nothing hangs waiting on them.
+   (Framer Motion is handled separately via <MotionConfig reducedMotion>.)
+───────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .anim-orb,
   .anim-grain,
@@ -761,6 +770,13 @@ body::before {
   .popup-backdrop {
     animation: none !important;
     transition: none !important;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

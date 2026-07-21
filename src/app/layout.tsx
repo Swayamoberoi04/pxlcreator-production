@@ -15,6 +15,7 @@ import "./globals.css"
 import { PopupManagerLoader } from "@/components/ui/PopupManagerLoader"
 
 import { AuthProvider }            from "@/contexts/AuthContext"
+import { MotionProvider }          from "@/components/providers/MotionProvider"
 import { SmoothScrollProvider }   from "@/components/providers/SmoothScrollProvider"
 import { PageTransitionProvider } from "@/components/providers/PageTransitionProvider"
 import { SiteHeader }             from "@/components/layout/SiteHeader"
@@ -172,6 +173,7 @@ export default function RootLayout({
         </a>
 
         <SmoothScrollProvider>
+          <MotionProvider>
           <AuthProvider>
             <SiteHeader />
             <PageTransitionProvider>
@@ -188,6 +190,7 @@ export default function RootLayout({
             {/* Promotional popup — client-only via PopupManagerLoader wrapper */}
             <PopupManagerLoader />
           </AuthProvider>
+          </MotionProvider>
         </SmoothScrollProvider>
       </body>
     </html>
