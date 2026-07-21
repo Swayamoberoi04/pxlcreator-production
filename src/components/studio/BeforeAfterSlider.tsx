@@ -26,6 +26,24 @@ export function BeforeAfterSlider({ beforeUrl, afterUrl, className }: BeforeAfte
   /* ── Mouse events ── */
   const onMouseDown  = () => { isDragging.current = true }
 
+  /* ── Keyboard access (WCAG 2.1.1) ──
+     Arrow keys nudge 2%, Shift+Arrow 10%, Home/End jump to edges. */
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+    const step = e.shiftKey ? 10 : 2
+    let next: number | null = null
+    switch (e.key) {
+      case "ArrowLeft":
+      case "ArrowDown":  next = position - step; break
+      case "ArrowRight":
+      case "ArrowUp":    next = position + step; break
+      case "Home":       next = 0;   break
+      case "End":        next = 100; break
+      default: return
+    }
+    e.preventDefault()
+    setPosition(Math.max(0, Math.min(100, next)))
+  }, [position])
+
   useEffect(() => {
     function onMouseMove(e: MouseEvent) {
       if (!isDragging.current) return
@@ -106,11 +124,18 @@ export function BeforeAfterSlider({ beforeUrl, afterUrl, className }: BeforeAfte
         style={{ left: `${position}%` }}
       />
 
-      {/* ── Drag handle ── */}
+      {/* ── Drag handle — keyboard-operable slider (WCAG 2.1.1) ── */}
       <div
-        aria-hidden="true"
+        role="slider"
+        tabIndex={0}
+        aria-label="Reveal the AI-edited image versus the original"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(position)}
+        aria-valuetext={`${Math.round(position)}% edited image shown`}
         onMouseDown={onMouseDown}
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow-[0_2px_16px_rgba(0,0,0,0.4)] cursor-ew-resize"
+        onKeyDown={onKeyDown}
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow-[0_2px_16px_rgba(0,0,0,0.4)] cursor-ew-resize focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black/40"
         style={{ left: `${position}%` }}
       >
         <ChevronHandleIcon />

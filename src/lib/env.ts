@@ -47,6 +47,17 @@ const SERVER_ENV_SPECS: EnvSpec[] = [
   // ── Optional integrations ───────────────────────────────────
   { key: "OPENAI_API_KEY",                  required: false, secret: true  },
   { key: "YOUTUBE_API_KEY",                 required: false, secret: true  },
+
+  // ── AI preview engine (Phases 2–4E) — all optional: absent ⇒ the
+  //    studio degrades to the deterministic Sharp preview, by design ──
+  { key: "GEMINI_API_KEY",                  required: false, secret: true  },
+  { key: "GEMINI_MODEL",                    required: false, secret: false },
+  { key: "GEMINI_IMAGE_MODEL",              required: false, secret: false },
+  { key: "PREVIEW_ENGINE",                  required: false, secret: false },
+  { key: "PREVIEW_DAILY_COST_CEILING",      required: false, secret: false },
+
+  // ── Observability (Phase 5) — optional; absent ⇒ alerts log only ──
+  { key: "ALERT_WEBHOOK_URL",               required: false, secret: true  },
 ]
 
 let validated = false

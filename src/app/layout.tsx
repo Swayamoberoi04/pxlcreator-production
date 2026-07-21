@@ -161,11 +161,21 @@ export default function RootLayout({
         {/* ── Route navigation progress bar ── */}
         <NavProgressBar />
 
+        {/* ── Skip to content (WCAG 2.4.1 Bypass Blocks) ──
+            Visually hidden until focused; lets keyboard + screen-reader
+            users jump past the header/nav straight to the main content. */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-gold focus:px-4 focus:py-2 focus:text-[0.875rem] focus:font-semibold focus:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          Skip to content
+        </a>
+
         <SmoothScrollProvider>
           <AuthProvider>
             <SiteHeader />
             <PageTransitionProvider>
-              <main className="flex-1">
+              <main id="main-content" className="flex-1">
                 {children}
               </main>
             </PageTransitionProvider>
