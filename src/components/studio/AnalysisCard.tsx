@@ -23,7 +23,6 @@ import type { ImageAnalysisResult } from "@/types/ai"
 interface AnalysisCardProps {
   imageAnalysis: ImageAnalysisResult
   profileName:   string
-  profileEmoji:  string
   colorPalette:  string[]
 }
 
@@ -32,7 +31,6 @@ const EASE = [0.22, 1, 0.36, 1] as const
 export function AnalysisCard({
   imageAnalysis,
   profileName,
-  profileEmoji,
   colorPalette,
 }: AnalysisCardProps) {
   const { scene, lighting, colors, mood, composition, quality, adjustments, confidence, processingMs } = imageAnalysis
@@ -48,8 +46,8 @@ export function AnalysisCard({
       {/* ── Header ── */}
       <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-border/60 bg-gradient-to-r from-surface to-surface-2">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-gold/15 border border-[#6366f1]/20 text-lg shrink-0">
-            {profileEmoji}
+          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-gold/15 border border-[#6366f1]/20 shrink-0">
+            <span className="font-display text-[1.05rem] leading-none text-gold/90">{profileName.charAt(0)}</span>
           </div>
           <div>
             <div className="flex items-center gap-2">

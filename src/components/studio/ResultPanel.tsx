@@ -62,7 +62,6 @@ export function ResultPanel({ originalUrl, result, onReset, userPrompt = "", sou
         <AnalysisCard
           imageAnalysis={imageAnalysis}
           profileName={profile.name}
-          profileEmoji={profile.emoji}
           colorPalette={profile.colorPalette}
         />
       )}

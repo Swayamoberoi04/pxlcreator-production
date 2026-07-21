@@ -8,19 +8,18 @@ import { useAuth }             from "@/contexts/AuthContext"
 interface NavItem {
   href:  string
   label: string
-  icon:  string
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/community",              label: "Hub",         icon: "🏠" },
-  { href: "/community/discover",     label: "Discover",    icon: "🔍" },
-  { href: "/community/channels",     label: "Channels",    icon: "📡" },
-  { href: "/community/teams",        label: "Teams",       icon: "👥" },
-  { href: "/community/projects",     label: "Projects",    icon: "🚀" },
-  { href: "/community/showcase",     label: "Showcase",    icon: "✨" },
-  { href: "/community/events",       label: "Events",      icon: "🎉" },
-  { href: "/community/leaderboard",  label: "Leaderboard", icon: "🏆" },
-  { href: "/community/resources",    label: "Resources",   icon: "📚" },
+  { href: "/community",              label: "Hub"         },
+  { href: "/community/discover",     label: "Discover"    },
+  { href: "/community/channels",     label: "Channels"    },
+  { href: "/community/teams",        label: "Teams"       },
+  { href: "/community/projects",     label: "Projects"    },
+  { href: "/community/showcase",     label: "Showcase"    },
+  { href: "/community/events",       label: "Events"      },
+  { href: "/community/leaderboard",  label: "Leaderboard" },
+  { href: "/community/resources",    label: "Resources"   },
 ]
 
 function useUnreadCount() {
@@ -77,7 +76,6 @@ export function CommunitySidebar() {
               : "text-muted/70 hover:bg-surface-2 hover:text-foreground",
           ].join(" ")}
         >
-          <span className="text-base leading-none">{item.icon}</span>
           <span>{item.label}</span>
           {item.href === "/community" && unreadCount > 0 && (
             <span className="ml-auto rounded-full bg-gold text-black text-[10px] font-bold px-1.5 py-0.5 min-w-[18px] text-center">
@@ -102,7 +100,6 @@ export function CommunitySidebar() {
                 : "text-muted/70 hover:bg-surface-2 hover:text-foreground",
             ].join(" ")}
           >
-            <span className="text-base leading-none">👤</span>
             <span>My Profile</span>
           </Link>
         </>
@@ -136,7 +133,6 @@ export function CommunityMobileTabs() {
                 : "text-muted/60 hover:bg-surface-2 hover:text-foreground",
             ].join(" ")}
           >
-            <span>{item.icon}</span>
             <span>{item.label}</span>
             {item.href === "/community" && unreadCount > 0 && (
               <span className="rounded-full bg-gold text-black text-[9px] font-bold px-1 py-0.5 min-w-[14px] text-center">
@@ -155,7 +151,6 @@ export function CommunityMobileTabs() {
                 : "text-muted/60 hover:bg-surface-2 hover:text-foreground",
             ].join(" ")}
           >
-            <span>👤</span>
             <span>My Profile</span>
           </Link>
         )}

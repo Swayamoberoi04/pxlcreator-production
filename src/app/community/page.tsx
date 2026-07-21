@@ -340,14 +340,12 @@ export default function CommunityHubPage() {
         {[
           {
             href:    "/community/showcase",
-            emoji:   "✨",
             title:   "Share Your Work",
             desc:    "Showcase photos, edits, and reels to the community",
             cta:     "Go to Showcase →",
           },
           {
             href:    "/community/discover",
-            emoji:   "🤝",
             title:   "Find Collaborators",
             desc:    "Browse creators by skill, role, and availability",
             cta:     "Discover Creators →",
@@ -364,7 +362,6 @@ export default function CommunityHubPage() {
               href={card.href}
               className="group flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 hover:border-gold/40 hover:bg-surface-2 transition-colors h-full"
             >
-              <span className="text-2xl">{card.emoji}</span>
               <div>
                 <h3 className="font-display font-black text-base text-foreground group-hover:text-gold transition-colors">
                   {card.title}

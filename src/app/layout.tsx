@@ -21,7 +21,6 @@ import { PageTransitionProvider } from "@/components/providers/PageTransitionPro
 import { SiteHeader }             from "@/components/layout/SiteHeader"
 import { SiteFooter }             from "@/components/layout/SiteFooter"
 import { CartDrawer }             from "@/components/cart/CartDrawer"
-import { CinematicCursor }        from "@/components/ui/CinematicCursor"
 import { NavProgressBar }         from "@/components/ui/NavProgressBar"
 import { OnboardingModal }        from "@/components/onboarding/OnboardingModal"
 import { OnboardingGate }         from "@/components/onboarding/OnboardingGate"
@@ -155,9 +154,6 @@ export default function RootLayout({
 
         {/* ── Global persistent 3D ambient layer — behind all content ── */}
         <GlobalAmbientWrapper />
-
-        {/* ── Cinematic custom cursor — desktop only, pointer:fine ── */}
-        <CinematicCursor />
 
         {/* ── Route navigation progress bar ── */}
         <NavProgressBar />

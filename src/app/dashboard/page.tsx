@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * /dashboard — Intelligent, personalized creator dashboard.
@@ -116,16 +116,15 @@ function EmptyDashboard({ onStart }: { onStart: () => void }) {
 /* ── Analytics strip ─────────────────────────────────────────── */
 function AnalyticsStrip({ analytics, accentColor }: { analytics: CreatorAnalytics; accentColor: string }) {
   const stats = [
-    { label: "Challenge Days",   value: analytics.challengeDaysCompleted, icon: "⚡" },
-    { label: "Lessons Done",     value: analytics.coursesCompleted, icon: "📚" },
-    { label: "Presets Explored", value: analytics.presetsViewed,          icon: "◈" },
-    { label: "Community Rep",    value: analytics.communityReputation,    icon: "â­" },
+    { label: "Challenge Days",   value: analytics.challengeDaysCompleted },
+    { label: "Lessons Done",     value: analytics.coursesCompleted },
+    { label: "Presets Explored", value: analytics.presetsViewed },
+    { label: "Community Rep",    value: analytics.communityReputation },
   ]
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {stats.map((s) => (
         <div key={s.label} className="rounded-xl border border-border bg-surface p-3.5 flex flex-col gap-1">
-          <span className="text-base">{s.icon}</span>
           <p className="font-display font-black text-[1.25rem] text-foreground" style={{ color: s.value > 0 ? accentColor : undefined }}>
             {s.value.toLocaleString()}
           </p>
@@ -156,7 +155,6 @@ function GrowthPathCard({ path, onCompleteTask, accentColor }: {
     <div className="rounded-2xl border border-border bg-surface overflow-hidden">
       {/* Header bar */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-        <span className="text-2xl">{path.icon}</span>
         <div className="flex-1 min-w-0">
           <p className="font-display font-black text-sm text-foreground truncate">{path.title}</p>
           <p className="text-xs text-muted/50 mt-0.5">Stage {stageIndex + 1} of {path.stages.length}: {stage?.title}</p>
@@ -188,7 +186,7 @@ function GrowthPathCard({ path, onCompleteTask, accentColor }: {
         </div>
       ) : (
         <div className="p-5 text-center">
-          <p className="text-sm font-semibold text-gold">🎉 Stage Complete! Moving to next stage…</p>
+          <p className="text-sm font-semibold text-gold">Stage Complete — moving to the next stage…</p>
         </div>
       )}
 
@@ -221,7 +219,6 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
   return (
     <div className="rounded-2xl border border-border bg-surface overflow-hidden">
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-        <span className="text-2xl">{challenge.icon}</span>
         <div className="flex-1 min-w-0">
           <p className="font-display font-black text-sm text-foreground truncate">{challenge.title}</p>
           <p className="text-xs text-muted/50 mt-0.5">{completedSet.size} / {challenge.totalDays} days complete</p>
@@ -245,8 +242,8 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
           </div>
 
           {/* Tip */}
-          <div className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 flex items-start gap-2">
-            <span className="text-gold text-sm shrink-0">💡</span>
+          <div className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 flex items-start gap-2.5">
+            <span className="text-gold text-[0.6rem] font-bold uppercase tracking-widest shrink-0 mt-0.5">Tip</span>
             <p className="text-xs text-muted/70 leading-relaxed">{todayData.tip}</p>
           </div>
 
@@ -279,11 +276,11 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
 /* ── Lesson type label ───────────────────────────────────────────── */
 function lessonTypeLabel(type: string): string {
   switch (type) {
-    case "read":      return "📖 Study"
-    case "article":   return "📄 Read"
-    case "exercise":  return "âœï¸ Practice"
-    case "checklist": return "✅ Checklist"
-    default:          return "📖 Study"
+    case "read":      return "Study"
+    case "article":   return "Read"
+    case "exercise":  return "Practice"
+    case "checklist": return "Checklist"
+    default:          return "Study"
   }
 }
 
@@ -306,7 +303,6 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
   return (
     <div className="rounded-2xl border border-border bg-surface overflow-hidden">
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-        <span className="text-2xl">{course.icon}</span>
         <div className="flex-1 min-w-0">
           <p className="font-display font-black text-sm text-foreground truncate">{course.title}</p>
           <p className="text-xs text-muted/50 mt-0.5">{completedSet.size} / {course.totalLessons} lessons · {course.estimatedHours}h total</p>
@@ -341,7 +337,7 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
         </div>
       ) : (
         <div className="p-5 text-center">
-          <p className="text-sm font-semibold text-gold">🎓 Course Complete! Check your badge.</p>
+          <p className="text-sm font-semibold text-gold">Course Complete — check your badge.</p>
         </div>
       )}
 
@@ -482,7 +478,7 @@ export default function DashboardPage() {
               {dna && <StyleDNACard dna={dna} variant="compact" />}
               {(dashboard?.profile.consistency_streak ?? 0) > 0 && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-[0.75rem] font-bold text-orange-400">
-                  🔥 {dashboard!.profile.consistency_streak} day streak
+                  {dashboard!.profile.consistency_streak} day streak
                 </span>
               )}
             </div>
@@ -543,7 +539,7 @@ export default function DashboardPage() {
                       }}
                       className="shrink-0 flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted/60 hover:border-gold/30 hover:text-foreground transition-all"
                     >
-                      <span>{p.icon}</span><span>{p.title}</span>
+                      <span>{p.title}</span>
                     </button>
                   ))}
                 </div>
