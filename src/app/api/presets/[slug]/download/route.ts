@@ -16,6 +16,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient }         from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
+import { recordDownload }            from "@/lib/analytics/download-tracker"
 
 type Params = { params: Promise<{ slug: string }> }
 
@@ -31,7 +32,7 @@ export async function GET(req: NextRequest, { params }: Params) {
   /* ── Fetch preset ── */
   const { data: preset } = await supabase
     .from("presets")
-    .select("id, is_free, is_published, download_url, download_file_name")
+    .select("id, slug, is_free, is_published, download_url, download_file_name")
     .eq("slug", slug)
     .eq("is_published", true)
     .single()
@@ -50,12 +51,15 @@ export async function GET(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: "Purchase or unlock required." }, { status: 403 })
   }
 
-  /* ── Increment download counter (fire-and-forget) ── */
-  supabase
-    .from("presets")
-    .update({ download_count: supabase.rpc("increment" as never) } as never)
-    .eq("id", preset.id)
-    .then(() => {})
+  /* ── Success point — access verified, URL about to be served.
+       Count a genuine download (atomic + dedup, fire-and-forget). ── */
+  void recordDownload({
+    presetId:   preset.id,
+    presetSlug: preset.slug ?? slug,
+    type:       preset.is_free ? "free" : "paid",
+    uid,
+    request:    req,
+  })
 
   /* ── Return URL as JSON — client opens via window.open(), never fetch() ── */
   return NextResponse.json({ url: preset.download_url })

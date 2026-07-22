@@ -29,6 +29,10 @@ export function adaptPreset(row: PresetWithRelations): Preset {
     isFeatured:    row.is_featured,
     isFree:        row.is_free,
 
+    /* Public download counter (social proof). download_count predates the
+       generated Database row type, so read it defensively. */
+    downloadCount: Number((row as unknown as Record<string, unknown>).download_count ?? 0),
+
     /* ── Media ── */
     thumbnailUrl:  row.thumbnail_url  ?? undefined,
     images:        row.images

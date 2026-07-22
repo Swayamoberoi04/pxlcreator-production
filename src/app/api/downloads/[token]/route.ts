@@ -23,6 +23,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient }          from "@/lib/supabase/admin"
 import { log }                        from "@/lib/api/logger"
+import { recordDownload }             from "@/lib/analytics/download-tracker"
 import type { DownloadTokenRow }      from "@/types/database"
 
 export const runtime = "nodejs"
@@ -63,7 +64,7 @@ function isTrustedUrl(rawUrl: string): boolean {
 /* ── Handler ────────────────────────────────────────────── */
 
 export async function GET(
-  _req:    NextRequest,
+  req:     NextRequest,
   context: { params: Promise<{ token: string }> }
 ) {
   try {
@@ -157,26 +158,27 @@ export async function GET(
       )
     }
 
-    /* ── 7. Increment counters (token + preset) in parallel ── */
-    await Promise.all([
-      /* token-level: tracks per-link usage and expiry */
-      supabase
-        .from("download_tokens")
-        .update({
-          download_count:  dt.download_count + 1,
-          last_downloaded: new Date().toISOString(),
-        })
-        .eq("id", dt.id),
+    /* ── 7. Count the download ──
+       Token-level counter (drives per-link expiry / max_downloads) is
+       updated directly; the aggregate preset analytics go through the
+       shared tracker (atomic event + free/paid counter, dedup-aware).
+       A token delivery is always a PAID download; the token id is the
+       audit reference and the dedup identity. */
+    await supabase
+      .from("download_tokens")
+      .update({
+        download_count:  dt.download_count + 1,
+        last_downloaded: new Date().toISOString(),
+      })
+      .eq("id", dt.id)
 
-      /* preset-level: aggregate download analytics */
-      presetId
-        ? supabase
-            .rpc("increment_preset_downloads", { p_id: presetId })
-            .then(({ error: rpcErr }) => {
-              if (rpcErr) console.error("[downloads] download_count rpc failed:", rpcErr)
-            })
-        : Promise.resolve(),
-    ])
+    void recordDownload({
+      presetId,
+      presetSlug:     dt.preset_title ?? presetId ?? "paid-download",
+      type:           "paid",
+      request:        req,
+      orderReference: dt.id,
+    })
 
     /* ── 8. Log the download event ── */
     log.info("download", "preset download served", {

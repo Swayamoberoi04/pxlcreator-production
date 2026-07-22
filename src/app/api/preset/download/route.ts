@@ -12,6 +12,7 @@ import { getSecurePreset, timingSafeEqual }  from "@/lib/presets/secure-registry
 import { getFirebaseUidFromRequest }          from "@/lib/account/auth"
 import { makeRateLimiter, getClientIp }       from "@/lib/api/rate-limit"
 import { createAdminClient }                  from "@/lib/supabase/admin"
+import { recordDownload }                     from "@/lib/analytics/download-tracker"
 
 const passwordLimiter = makeRateLimiter({ max: 10, windowMs: 15 * 60 * 1000 })
 
@@ -65,6 +66,8 @@ export async function POST(req: NextRequest) {
   /* ── Free preset — no auth or password needed ── */
   if (securePreset.isFree) {
     console.log("[preset/download] FREE PRESET — returning URL for:", securePreset.title)
+    /* Success point — count a genuine free download (fire-and-forget) */
+    void recordDownload({ presetSlug: securePreset.slug, type: "free", request: req })
     return NextResponse.json({ url: securePreset.downloadUrl })
   }
 
@@ -100,6 +103,7 @@ export async function POST(req: NextRequest) {
 
     if (existingUnlock) {
       console.log("[preset/download] ALREADY UNLOCKED — returning URL")
+      void recordDownload({ presetId, presetSlug: securePreset.slug, type: "paid", uid, request: req })
       return NextResponse.json({ url: securePreset.downloadUrl })
     }
 
@@ -114,6 +118,7 @@ export async function POST(req: NextRequest) {
 
     if (orderItem) {
       console.log("[preset/download] PAID ORDER — returning URL")
+      void recordDownload({ presetId, presetSlug: securePreset.slug, type: "paid", uid, request: req, orderReference: orderItem.id as string })
       return NextResponse.json({ url: securePreset.downloadUrl })
     }
   }
@@ -156,5 +161,7 @@ export async function POST(req: NextRequest) {
   }
 
   console.log("[preset/download] PASSWORD VALID — returning URL for:", securePreset.title)
+  /* Success point — password unlock just granted access to a paid preset */
+  void recordDownload({ presetId, presetSlug: securePreset.slug, type: "paid", uid, request: req })
   return NextResponse.json({ url: securePreset.downloadUrl })
 }

@@ -29,6 +29,7 @@ export default async function AdminDashboardPage() {
     { label: "Import from YouTube",  href: "/admin/import",     desc: "Paste a URL, auto-populate fields" },
     { label: "Manage Presets",       href: "/admin/presets",    desc: "Edit, publish, reorder presets"    },
     { label: "Manage Categories",    href: "/admin/categories", desc: "Add or rename preset categories"   },
+    { label: "Download Analytics",   href: "/admin/downloads",  desc: "Downloads, revenue & trends per preset" },
     { label: "View Store",           href: "/store",            desc: "See how the store looks live"      },
   ]
 

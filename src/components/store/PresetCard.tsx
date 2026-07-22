@@ -163,16 +163,23 @@ export function PresetCard({ preset, className }: PresetCardProps) {
 
         {/* Meta row */}
         <div className="flex items-center justify-between gap-2 pt-3 border-t border-border/60 mt-auto">
-          {/* Rating — only shown when real reviews exist */}
-          {preset.reviewCount && preset.reviewCount > 0 ? (
-            <div className="flex items-center gap-1.5 text-[0.75rem] text-muted/50">
-              <StarIcon />
-              <span className="text-foreground/70 font-medium">{preset.rating?.toFixed(1)}</span>
-              <span>( {preset.reviewCount.toLocaleString()} )</span>
-            </div>
-          ) : (
-            <div />
-          )}
+          {/* Social proof — rating (if real reviews) + download count (if any).
+              Each shown only when it has genuine data, matching the premium
+              "no empty/zero values" convention. */}
+          <div className="flex items-center gap-3 text-[0.75rem] text-muted/50 min-h-[16px]">
+            {preset.reviewCount && preset.reviewCount > 0 && (
+              <span className="flex items-center gap-1">
+                <StarIcon />
+                <span className="text-foreground/70 font-medium">{preset.rating?.toFixed(1)}</span>
+              </span>
+            )}
+            {preset.downloadCount && preset.downloadCount > 0 && (
+              <span className="flex items-center gap-1" title={`${preset.downloadCount.toLocaleString()} downloads`}>
+                <DownloadCountIcon />
+                <span className="text-foreground/70 font-medium">{formatCount(preset.downloadCount)}</span>
+              </span>
+            )}
+          </div>
 
           {/* Price stack */}
           <div className="flex flex-col items-end gap-0.5">
@@ -257,9 +264,19 @@ export function PresetCard({ preset, className }: PresetCardProps) {
   )
 }
 
+/* ── Compact count formatting: 4,382 · 12.3k · 1.2M ── */
+function formatCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`
+  if (n >= 10_000)    return `${(n / 1_000).toFixed(n % 1_000 === 0 ? 0 : 1)}k`
+  return n.toLocaleString()
+}
+
 /* ── Icons ── */
 function StarIcon() {
   return <svg width="11" height="11" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+}
+function DownloadCountIcon() {
+  return <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-muted/45" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
 }
 function DownloadIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>

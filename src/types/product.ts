@@ -25,6 +25,7 @@ export interface Preset {
   category:       PresetCategory
   rating?:        number        // real avg from DB reviews; undefined = no reviews yet
   reviewCount?:   number
+  downloadCount?: number        // total genuine downloads (public social proof)
 
   /* ── Badges ── */
   badge?:          PresetBadge
