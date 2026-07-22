@@ -19,7 +19,7 @@ export function CurrencyToggle() {
 
   if (!mounted) {
     return (
-      <div className="h-7 w-[72px] rounded-full border border-border bg-surface animate-pulse" />
+      <div className="h-9 w-[72px] rounded-full border border-border bg-surface animate-pulse" />
     )
   }
 
@@ -29,7 +29,7 @@ export function CurrencyToggle() {
       onClick={toggle}
       aria-label={`Switch to ${currency === "INR" ? "USD" : "INR"}`}
       className={cn(
-        "flex items-center gap-1.5 rounded-full border px-3 py-1",
+        "flex items-center gap-1.5 rounded-full border px-3 py-2",
         "text-[0.75rem] font-semibold tracking-wide transition-all duration-200",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "hover:border-gold/40 hover:text-foreground active:scale-95",

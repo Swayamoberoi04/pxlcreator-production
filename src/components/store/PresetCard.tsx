@@ -206,10 +206,34 @@ export function PresetCard({ preset, className }: PresetCardProps) {
             )}
           </div>
         </div>
+
+        {/* ── Touch CTA — always visible on devices without hover (mobile/tablet) ──
+             On hover-capable pointers this is hidden and the slide-up overlay
+             below takes over. On touch there is no hover, so the primary action
+             must be permanently reachable. */}
+        <div className="[@media(hover:hover)]:hidden pt-1">
+          {preset.isFree ? (
+            <Link
+              href={`/presets/${preset.slug}`}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-3 text-[0.8125rem] font-semibold text-emerald-400 transition-transform active:scale-[0.98]"
+            >
+              <DownloadIcon />
+              Download Free
+            </Link>
+          ) : (
+            <Link
+              href={`/presets/${preset.slug}`}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gold py-3 text-[0.8125rem] font-semibold text-background transition-transform active:scale-[0.98]"
+            >
+              <UnlockIcon />
+              View &amp; Unlock — {formatPrice(preset.price, displayCurrency)}
+            </Link>
+          )}
+        </div>
       </div>
 
-      {/* ── Hover CTA ── */}
-      <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out px-4 pb-4 pt-8 bg-gradient-to-t from-surface via-surface/98 to-transparent">
+      {/* ── Hover CTA — desktop / hover-capable pointers only ── */}
+      <div className="[@media(hover:none)]:hidden absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out px-4 pb-4 pt-8 bg-gradient-to-t from-surface via-surface/98 to-transparent">
         {preset.isFree ? (
           <Link
             href={`/presets/${preset.slug}`}

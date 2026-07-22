@@ -326,20 +326,25 @@ export function HeroSection() {
       {/* /scroll-fade wrapper */}
 
       {/* ── Scene indicator dots ── */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[10] flex items-center gap-2">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[10] flex items-center">
         {SCENES.map((_, i) => (
           <button
             key={i}
             type="button"
             aria-label={`Switch to scene ${i + 1}`}
+            aria-current={i === active ? "true" : undefined}
             onClick={() => setActive(i)}
-            className={cn(
-              "rounded-full transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              i === active
-                ? "w-6 h-1.5 bg-gold shadow-[0_0_8px_rgba(255,214,10,0.6)]"
-                : "w-1.5 h-1.5 bg-white/25 hover:bg-white/50"
-            )}
-          />
+            className="group/dot flex h-11 w-8 items-center justify-center focus-visible:outline-none"
+          >
+            <span
+              className={cn(
+                "block rounded-full transition-all duration-300 ease-out group-focus-visible/dot:ring-2 group-focus-visible/dot:ring-ring",
+                i === active
+                  ? "w-6 h-1.5 bg-gold shadow-[0_0_8px_rgba(201,168,76,0.6)]"
+                  : "w-1.5 h-1.5 bg-white/25 group-hover/dot:bg-white/50"
+              )}
+            />
+          </button>
         ))}
       </div>
 

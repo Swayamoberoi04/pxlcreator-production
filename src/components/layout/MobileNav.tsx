@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
+import { createPortal } from "react-dom"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -19,8 +20,22 @@ const TOP_LINKS = [
 const BOTTOM_LINKS: { label: string; href: string }[] = []
 
 export function MobileNav() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen]       = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const triggerRef            = useRef<HTMLButtonElement>(null)
+  const drawerRef             = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
+
+  /*
+   * The drawer + backdrop are rendered through a portal into document.body.
+   * This is REQUIRED: the site header uses `backdrop-blur` (backdrop-filter),
+   * which establishes a containing block for position:fixed descendants.
+   * Without the portal, the fixed drawer resolves inset-y-0 against the 56px
+   * header instead of the viewport — collapsing it to a 56px sliver and
+   * breaking mobile navigation entirely. Portalling to <body> escapes that.
+   */
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setMounted(true) }, [])
 
   /* Close drawer on route change */
   // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -45,21 +60,47 @@ export function MobileNav() {
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [handleKeyDown])
 
+  /* Focus management (WCAG 2.2 — modal dialog):
+     move focus into the drawer on open, restore it to the trigger on close.
+     `wasOpen` prevents stealing focus to the trigger on the initial mount. */
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (open) {
+      wasOpen.current = true
+      /* Wait a frame so the portalled drawer is in the DOM before focusing. */
+      const id = requestAnimationFrame(() => {
+        const first = drawerRef.current?.querySelector<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])'
+        )
+        first?.focus()
+      })
+      return () => cancelAnimationFrame(id)
+    }
+    if (wasOpen.current) {
+      wasOpen.current = false
+      triggerRef.current?.focus()
+    }
+  }, [open])
+
   return (
     <>
       {/* ── Hamburger trigger ── */}
       <button
+        ref={triggerRef}
         type="button"
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"
         onClick={() => setOpen((v) => !v)}
         suppressHydrationWarning
-        className="md:hidden flex items-center justify-center w-9 h-9 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="md:hidden flex items-center justify-center h-11 w-11 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {open ? <CloseIcon /> : <MenuIcon />}
       </button>
 
+      {/* Drawer + backdrop are portalled to <body> to escape the header's
+          backdrop-filter containing block (see note at top of component). */}
+      {mounted && createPortal(
       <AnimatePresence>
         {/* ── Backdrop ── */}
         {open && (
@@ -79,6 +120,7 @@ export function MobileNav() {
         {open && (
         <motion.div
           key="drawer"
+          ref={drawerRef}
           id="mobile-nav-drawer"
           role="dialog"
           aria-modal="true"
@@ -88,8 +130,9 @@ export function MobileNav() {
           exit={{ x: "100%" }}
           transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            "fixed inset-y-0 right-0 z-50 flex w-72 flex-col",
+            "fixed inset-y-0 right-0 z-50 flex w-[min(20rem,85vw)] flex-col",
             "bg-surface/95 backdrop-blur-2xl border-l border-border/60",
+            "pt-[env(safe-area-inset-top)]",
             "shadow-[-24px_0_80px_rgba(0,0,0,0.6)] md:hidden"
           )}
         >
@@ -108,7 +151,7 @@ export function MobileNav() {
             type="button"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
-            className="flex items-center justify-center w-8 h-8 rounded-md text-muted hover:text-foreground hover:bg-surface-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="-mr-2 flex items-center justify-center h-11 w-11 rounded-md text-muted hover:text-foreground hover:bg-surface-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <CloseIcon />
           </button>
@@ -163,24 +206,26 @@ export function MobileNav() {
         </nav>
 
         {/* ── Drawer footer ── */}
-        <div className="p-4 border-t border-border shrink-0">
+        <div className="p-4 border-t border-border shrink-0 pb-[calc(1rem+env(safe-area-inset-bottom))]">
           <Link
             href="/store"
             onClick={() => setOpen(false)}
-            className="flex items-center justify-center w-full rounded-xl bg-gold py-3 text-sm font-semibold text-background transition-colors hover:bg-gold-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center justify-center w-full rounded-xl bg-gold py-3.5 text-sm font-semibold text-background transition-colors hover:bg-gold-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Browse Store
           </Link>
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <a href={siteConfig.socials.youtube}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-muted hover:text-gold transition-colors p-1"><YouTubeIcon /></a>
-            <a href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted hover:text-gold transition-colors p-1"><InstagramIcon /></a>
-            <a href={siteConfig.socials.email}     aria-label="Email"     className="text-muted hover:text-gold transition-colors p-1"><EmailIcon /></a>
+          <div className="flex items-center justify-center gap-2 mt-3">
+            <a href={siteConfig.socials.youtube}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="flex h-11 w-11 items-center justify-center rounded-lg text-muted hover:text-gold hover:bg-surface-2 transition-colors"><YouTubeIcon /></a>
+            <a href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-11 w-11 items-center justify-center rounded-lg text-muted hover:text-gold hover:bg-surface-2 transition-colors"><InstagramIcon /></a>
+            <a href={siteConfig.socials.email}     aria-label="Email"     className="flex h-11 w-11 items-center justify-center rounded-lg text-muted hover:text-gold hover:bg-surface-2 transition-colors"><EmailIcon /></a>
           </div>
         </div>
 
         </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+      )}
     </>
   )
 }
@@ -199,7 +244,7 @@ function MobileLink({
       href={href}
       onClick={onClose}
       className={cn(
-        "flex items-center gap-3 rounded-lg py-2.5 text-sm font-medium transition-colors duration-150",
+        "flex items-center gap-3 rounded-lg py-3.5 text-sm font-medium transition-colors duration-150",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         indent ? "px-5" : "px-3",
         highlight && !isActive

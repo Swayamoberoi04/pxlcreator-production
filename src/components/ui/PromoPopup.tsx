@@ -189,21 +189,21 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           <div className="relative px-7 py-8 sm:px-8 sm:py-9">
 
-            {/* ── Close button (top-right) ── */}
+            {/* ── Close button (top-right) — 44px min touch target ── */}
             <button
               ref={firstFocusRef}
               type="button"
               onClick={handleClose}
               aria-label="Close promotional offer"
               className={cn(
-                "absolute top-4 right-4",
-                "flex h-8 w-8 items-center justify-center rounded-full",
-                "text-muted/40 transition-all duration-200",
+                "absolute top-2.5 right-2.5",
+                "flex h-11 w-11 items-center justify-center rounded-full",
+                "text-muted/60 transition-all duration-200",
                 "hover:bg-white/[0.07] hover:text-foreground",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60",
               )}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
                 <line x1="18" y1="6" x2="6" y2="18"/>
                 <line x1="6" y1="6" x2="18" y2="18"/>
               </svg>

@@ -13,7 +13,7 @@ export function CartButton() {
       aria-label={itemCount > 0 ? `Open cart — ${itemCount} item${itemCount > 1 ? "s" : ""}` : "Open cart"}
       onClick={openCart}
       suppressHydrationWarning
-      className="relative flex items-center justify-center w-9 h-9 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="relative flex items-center justify-center h-11 w-11 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <BagIcon />
 

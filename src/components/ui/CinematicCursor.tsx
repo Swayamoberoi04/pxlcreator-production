@@ -25,22 +25,37 @@
  * Mounted once in layout.tsx — survives route changes.
  */
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export function CinematicCursor() {
   const dotRef  = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
+  /*
+   * enabled gates whether the cursor DOM is rendered at all.
+   * On touch devices (pointer: coarse) or with reduced-motion the effect
+   * returns early — but if we still rendered the two fixed divs they would
+   * sit as a stray gold dot + ring stuck in the top-left corner on mobile
+   * (no transform is ever applied). Rendering nothing avoids that artifact.
+   */
+  const [enabled, setEnabled] = useState(false)
 
+  /* ── Capability detection — decides whether to render + activate ── */
   useEffect(() => {
-    /* Skip on touch / coarse-pointer devices */
+    /* Skip on touch / coarse-pointer devices and reduced-motion */
     if (!window.matchMedia("(pointer: fine)").matches) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    setEnabled(true)
+  }, [])
 
-    /* Non-null assertion safe here — both refs attach to real DOM divs
-       rendered unconditionally below. The null guard is just defensive. */
+  /* ── Activation — runs only after the cursor DOM has rendered ── */
+  useEffect(() => {
+    if (!enabled) return
+
+    /* Non-null after the guard; asserted so the values stay non-null when
+       captured inside the rAF `tick` closure below (TS re-widens otherwise). */
+    if (!dotRef.current || !ringRef.current) return
     const dot  = dotRef.current!
     const ring = ringRef.current!
-    if (!dot || !ring) return
 
     /* Current raw position of pointer */
     let mx = -100, my = -100
@@ -132,7 +147,11 @@ export function CinematicCursor() {
       document.removeEventListener("mouseup",    onUp)
       document.body.classList.remove("cursor-none-cinematic")
     }
-  }, [])
+  }, [enabled])
+
+  /* Render nothing on touch devices — avoids a stray gold dot/ring artifact
+     stuck in the top-left corner where no transform is ever applied. */
+  if (!enabled) return null
 
   return (
     <>

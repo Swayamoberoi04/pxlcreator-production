@@ -154,9 +154,9 @@ export function BeforeAfterSlider({
         aria-valuenow={Math.round(position * 100)}
         tabIndex={0}
         onKeyDown={onKeyDown}
-        className="absolute z-30 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full backdrop-blur-lg flex items-center justify-center cursor-col-resize focus-visible:outline-none focus-visible:ring-2 transition-transform duration-75 hover:scale-110 active:scale-95"
+        className="absolute z-30 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full backdrop-blur-lg flex items-center justify-center cursor-col-resize focus-visible:outline-none focus-visible:ring-2 transition-transform duration-75 hover:scale-110 active:scale-95"
         style={{
-          left:            `calc(${(position * 100).toFixed(2)}% - 20px)`,
+          left:            `calc(${(position * 100).toFixed(2)}% - 22px)`,
           background:      `radial-gradient(circle at center, ${accentColor}28 0%, rgba(0,0,0,0.55) 100%)`,
           border:          `2px solid ${accentColor}90`,
           boxShadow:       `0 0 14px ${accentColor}60, 0 0 32px ${accentColor}28, inset 0 1px 0 ${accentColor}30`,
