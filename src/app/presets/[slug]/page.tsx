@@ -4,7 +4,6 @@ import Image                  from "next/image"
 import Link                   from "next/link"
 import { Container }          from "@/components/layout/Container"
 import { UnlockOrBuyPanel }   from "@/components/store/UnlockOrBuyPanel"
-import { UnlockMethodBanner }  from "@/components/store/UnlockMethodBanner"
 import { PresetProductGallery } from "@/components/store/PresetProductGallery"
 import { getPresetBySlug, getRelatedPresets } from "@/lib/presets/repository"
 import { trackPresetView }                    from "@/lib/presets/analytics"
@@ -17,6 +16,7 @@ import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 import { ReviewList } from "@/components/store/ReviewList"
 import { ReviewForm } from "@/components/store/ReviewForm"
+import { generatePresetDescription, HOW_TO_UNLOCK_COPY } from "@/lib/presets/description-generator"
 
 export const dynamic = "force-dynamic"
 
@@ -329,11 +329,6 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   </div>
                 )}
 
-                {/* Unlock method banner */}
-                {!preset.isFree && (
-                  <UnlockMethodBanner variant="detail" />
-                )}
-
                 {/* CTA — unified unlock or buy panel */}
                 <div className="flex flex-col gap-3 pt-1">
                   <UnlockOrBuyPanel preset={preset} />
@@ -357,15 +352,48 @@ export default async function PresetDetailPage({ params }: PageProps) {
             </CinematicReveal>
           </div>
 
-          {/* ── Description ── */}
-          {preset.description && (
-            <CinematicReveal variant="rise" delay={0.1}>
-              <div className="mt-14 sm:mt-20 max-w-2xl">
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="h-px w-6 bg-gold/50" aria-hidden="true" />
-                  <span className="text-label text-gold/70 tracking-widest">( About this pack )</span>
+          {/* ── About this preset (generated description) ── */}
+          <CinematicReveal variant="rise" delay={0.1}>
+            <div className="mt-16 sm:mt-20 max-w-prose">
+              <div className="flex items-center gap-3 mb-5">
+                <span className="h-px w-6 bg-gold/50" aria-hidden="true" />
+                <span className="text-label text-gold/70 tracking-widest">( About this preset )</span>
+              </div>
+              <div className="flex flex-col gap-4">
+                {generatePresetDescription({
+                  name:        preset.name,
+                  slug:        preset.slug,
+                  category:    preset.category,
+                  aiTags:      preset.aiTags,
+                  tagline:     preset.tagline ?? undefined,
+                  bestUseCase: preset.bestUseCase ?? undefined,
+                  isFree:      preset.isFree,
+                })
+                  .split("\n\n")
+                  .map((para, i) => (
+                    <p key={i} className="text-[0.9375rem] text-muted/65 leading-[1.85]">{para}</p>
+                  ))}
+              </div>
+            </div>
+          </CinematicReveal>
+
+          {/* ── How to Access ── */}
+          {!preset.isFree && (
+            <CinematicReveal variant="rise" delay={0.05}>
+              <div className="mt-10 max-w-prose rounded-2xl border border-border/60 bg-surface/50 backdrop-blur-sm px-6 py-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-gold/25 bg-gold/[0.08] text-gold">
+                    <KeyIcon />
+                  </span>
+                  <h2 className="text-[0.9375rem] font-semibold text-foreground">
+                    {HOW_TO_UNLOCK_COPY.heading}
+                  </h2>
                 </div>
-                <p className="text-[1rem] text-muted/70 leading-[1.8]">{preset.description}</p>
+                <div className="flex flex-col gap-3 pl-11">
+                  {HOW_TO_UNLOCK_COPY.body.map((para, i) => (
+                    <p key={i} className="text-[0.875rem] text-muted/60 leading-relaxed">{para}</p>
+                  ))}
+                </div>
               </div>
             </CinematicReveal>
           )}
@@ -442,4 +470,14 @@ function StarIcon({ filled }: { filled: boolean }) {
 }
 function CheckIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+}
+function KeyIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="7.5" cy="15.5" r="5.5"/>
+      <path d="M21 2l-9.6 9.6"/>
+      <path d="M15.5 7.5l3 3L22 7l-3-3"/>
+    </svg>
+  )
 }

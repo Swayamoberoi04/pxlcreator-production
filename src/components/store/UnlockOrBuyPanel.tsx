@@ -203,39 +203,116 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
     )
   }
 
-  /* ── LOCKED — show Buy + Unlock options ── */
+  /* ── LOCKED — two-card access layout ── */
   return (
     <>
-      <div className="flex flex-col gap-3">
-        {/* Buy Now */}
-        <Link
-          href={`/checkout?preset=${preset.slug}`}
-          className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-gold py-4 text-[0.9375rem] font-semibold text-background hover:bg-gold/90 active:scale-[0.98] transition-all"
-        >
-          <CartIcon />
-          Buy Preset — ${preset.price}
-        </Link>
+      <div className="flex flex-col gap-4">
 
-        {/* Divider */}
-        <div className="flex items-center gap-3">
-          <span className="flex-1 h-px bg-border/60" />
-          <span className="text-[0.7rem] font-medium text-muted/35 tracking-widest uppercase">or</span>
-          <span className="flex-1 h-px bg-border/60" />
+        {/* Header */}
+        <div className="flex flex-col gap-1">
+          <p className="text-[0.9375rem] font-semibold text-foreground leading-tight">
+            Two Ways to Access This Preset
+          </p>
+          <p className="text-[0.8rem] text-muted/55 leading-relaxed">
+            Choose the option that best fits your workflow.
+          </p>
         </div>
 
-        {/* Unlock from YouTube */}
-        <button
-          type="button"
-          onClick={() => setShowModal(true)}
-          className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border/70 bg-surface/50 py-3.5 text-[0.875rem] font-semibold text-foreground/80 hover:border-gold/40 hover:text-gold hover:bg-gold/[0.04] active:scale-[0.98] transition-all"
-        >
-          <YoutubeIcon />
-          Unlock From YouTube
-        </button>
+        {/* Cards grid — side by side on sm+, stacked on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+          {/* ── Buy Instantly card ── */}
+          <div className="flex flex-col rounded-2xl border border-gold/30 bg-gold/[0.04] p-4 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gold/15 text-gold">
+                  <CartIcon />
+                </span>
+                <p className="text-[0.8125rem] font-bold text-gold/90 leading-none">Buy Instantly</p>
+              </div>
+              <p className="text-[0.72rem] text-muted/50 leading-snug">
+                One-time purchase. Permanent access.
+              </p>
+            </div>
+
+            <ul className="flex flex-col gap-1.5" role="list">
+              {[
+                "Permanent access",
+                "Instant download",
+                "No password required",
+                "Supports PXL Creator",
+                "Commercial license included",
+              ].map((f) => (
+                <li key={f} className="flex items-center gap-2">
+                  <span className="shrink-0 text-gold"><MiniCheckIcon /></span>
+                  <span className="text-[0.75rem] text-foreground/70 leading-snug">{f}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              href={`/checkout?preset=${preset.slug}`}
+              className={cn(
+                "mt-auto flex w-full items-center justify-center gap-2 rounded-xl py-3",
+                "bg-gold text-background text-[0.875rem] font-bold",
+                "hover:bg-gold/90 active:scale-[0.98] transition-all duration-200",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              )}
+            >
+              Buy Now — ${preset.price}
+            </Link>
+          </div>
+
+          {/* ── Unlock for Free card ── */}
+          <div className="flex flex-col rounded-2xl border border-emerald-500/25 bg-emerald-500/[0.04] p-4 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
+                  <YoutubeIcon />
+                </span>
+                <p className="text-[0.8125rem] font-bold text-emerald-400/90 leading-none">Unlock for Free</p>
+              </div>
+              <p className="text-[0.72rem] text-muted/50 leading-snug">
+                Watch the tutorial. Enter the password.
+              </p>
+            </div>
+
+            <ul className="flex flex-col gap-1.5" role="list">
+              {[
+                "Watch the YouTube tutorial",
+                "Password hidden in the video",
+                "No purchase required",
+                "Full download access",
+                "Same file as paid version",
+              ].map((f) => (
+                <li key={f} className="flex items-center gap-2">
+                  <span className="shrink-0 text-emerald-400"><MiniCheckIcon /></span>
+                  <span className="text-[0.75rem] text-foreground/70 leading-snug">{f}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              type="button"
+              onClick={() => setShowModal(true)}
+              className={cn(
+                "mt-auto flex w-full items-center justify-center gap-2 rounded-xl py-3",
+                "border border-emerald-500/40 bg-emerald-500/10 text-emerald-400",
+                "text-[0.875rem] font-bold",
+                "hover:bg-emerald-500/15 hover:border-emerald-500/60 active:scale-[0.98] transition-all duration-200",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              )}
+            >
+              <YoutubeIcon />
+              Unlock From YouTube
+            </button>
+          </div>
+        </div>
 
         {preset.youtubeVideoTitle && (
-          <p className="text-center text-[0.7rem] text-muted/40 leading-snug px-2">
-            Password available in: <span className="text-muted/60">{preset.youtubeVideoTitle}</span>
+          <p className="text-[0.7rem] text-muted/35 leading-snug px-0.5">
+            Password found in:{" "}
+            <span className="text-muted/55 font-medium">{preset.youtubeVideoTitle}</span>
           </p>
         )}
       </div>
@@ -261,21 +338,24 @@ function DownloadIcon() {
 function CheckIcon() {
   return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
 }
+function MiniCheckIcon() {
+  return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+}
 function CartIcon() {
-  return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
 }
 function YoutubeIcon() {
-  return <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5V8.5l6.25 3.5-6.25 3.5z"/></svg>
-}
-function UnlockIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-}
-function CardIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+  return <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5V8.5l6.25 3.5-6.25 3.5z"/></svg>
 }
 function UserIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
 }
 function SpinnerIcon() {
   return <div className="h-4 w-4 rounded-full border-2 border-background/30 border-t-background animate-spin" aria-hidden="true" />
+}
+function CardIcon() {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+}
+function UnlockIcon() {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
 }

@@ -3,7 +3,6 @@ import type { Metadata }     from "next"
 import Link                  from "next/link"
 import { Container }         from "@/components/layout/Container"
 import { UnlockOrBuyPanel }  from "@/components/store/UnlockOrBuyPanel"
-import { UnlockMethodBanner } from "@/components/store/UnlockMethodBanner"
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider"
 import { PresetCard }        from "@/components/store/PresetCard"
 import { ReviewList }        from "@/components/store/ReviewList"
@@ -17,6 +16,7 @@ import { GrainOverlay }       from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 import { cn }                from "@/lib/utils"
 import Image                 from "next/image"
+import { generatePresetDescription, HOW_TO_UNLOCK_COPY } from "@/lib/presets/description-generator"
 
 export const dynamic = "force-dynamic"
 
@@ -379,9 +379,6 @@ export default async function StorePresetPage({ params }: PageProps) {
                   </div>
                 )}
 
-                {/* Unlock banner */}
-                {!preset.isFree && <UnlockMethodBanner variant="detail" />}
-
                 {/* CTA */}
                 <div className="flex flex-col gap-3 pt-1">
                   <UnlockOrBuyPanel preset={preset} />
@@ -409,12 +406,43 @@ export default async function StorePresetPage({ params }: PageProps) {
             </CinematicReveal>
           </div>
 
-          {/* ── DESCRIPTION ──────────────────────────────────── */}
-          {preset.description && (
-            <CinematicReveal variant="rise" delay={0.1}>
-              <div className="mt-16 sm:mt-20 max-w-2xl">
-                <SectionLabel>About this pack</SectionLabel>
-                <p className="text-[1rem] text-muted/70 leading-[1.8] mt-5">{preset.description}</p>
+          {/* ── ABOUT THIS PRESET ────────────────────────────── */}
+          <CinematicReveal variant="rise" delay={0.1}>
+            <div className="mt-16 sm:mt-20 max-w-prose">
+              <SectionLabel>About this preset</SectionLabel>
+              <div className="mt-5 flex flex-col gap-4">
+                {generatePresetDescription({
+                  name:         preset.name,
+                  slug:         preset.slug,
+                  category:     preset.category,
+                  aiTags:       preset.aiTags,
+                  tagline:      preset.tagline,
+                  bestUseCase:  preset.bestUseCase,
+                  isFree:       preset.isFree,
+                }).split("\n\n").map((para, i) => (
+                  <p key={i} className="text-[0.9375rem] text-muted/65 leading-[1.85]">{para}</p>
+                ))}
+              </div>
+            </div>
+          </CinematicReveal>
+
+          {/* ── HOW TO ACCESS ────────────────────────────────── */}
+          {!preset.isFree && (
+            <CinematicReveal variant="rise" delay={0.05}>
+              <div className="mt-10 max-w-prose rounded-2xl border border-border/60 bg-surface/50 backdrop-blur-sm px-6 py-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-gold/25 bg-gold/[0.08] text-gold">
+                    <KeyIcon />
+                  </span>
+                  <h2 className="text-[0.9375rem] font-semibold text-foreground">
+                    {HOW_TO_UNLOCK_COPY.heading}
+                  </h2>
+                </div>
+                <div className="flex flex-col gap-3 pl-11">
+                  {HOW_TO_UNLOCK_COPY.body.map((para, i) => (
+                    <p key={i} className="text-[0.875rem] text-muted/60 leading-relaxed">{para}</p>
+                  ))}
+                </div>
               </div>
             </CinematicReveal>
           )}
@@ -538,6 +566,17 @@ function CheckIcon() {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <polyline points="20 6 9 17 4 12" />
+    </svg>
+  )
+}
+
+function KeyIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="7.5" cy="15.5" r="5.5"/>
+      <path d="M21 2l-9.6 9.6"/>
+      <path d="M15.5 7.5l3 3L22 7l-3-3"/>
     </svg>
   )
 }
