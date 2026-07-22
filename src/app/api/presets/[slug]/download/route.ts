@@ -13,7 +13,7 @@
  * Future: replace redirect with Supabase signed URL for time-limited access.
  */
 
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse, after } from "next/server"
 import { createAdminClient }         from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { recordDownload }            from "@/lib/analytics/download-tracker"
@@ -52,14 +52,14 @@ export async function GET(req: NextRequest, { params }: Params) {
   }
 
   /* ── Success point — access verified, URL about to be served.
-       Count a genuine download (atomic + dedup, fire-and-forget). ── */
-  void recordDownload({
+       after() guarantees the tracker completes on serverless. ── */
+  after(() => recordDownload({
     presetId:   preset.id,
     presetSlug: preset.slug ?? slug,
     type:       preset.is_free ? "free" : "paid",
     uid,
     request:    req,
-  })
+  }))
 
   /* ── Return URL as JSON — client opens via window.open(), never fetch() ── */
   return NextResponse.json({ url: preset.download_url })

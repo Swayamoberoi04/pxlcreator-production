@@ -20,7 +20,7 @@
  *   6. 302 redirect to the actual file
  */
 
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse, after } from "next/server"
 import { createAdminClient }          from "@/lib/supabase/admin"
 import { log }                        from "@/lib/api/logger"
 import { recordDownload }             from "@/lib/analytics/download-tracker"
@@ -172,13 +172,13 @@ export async function GET(
       })
       .eq("id", dt.id)
 
-    void recordDownload({
+    after(() => recordDownload({
       presetId,
       presetSlug:     dt.preset_title ?? presetId ?? "paid-download",
       type:           "paid",
       request:        req,
       orderReference: dt.id,
-    })
+    }))
 
     /* ── 8. Log the download event ── */
     log.info("download", "preset download served", {
