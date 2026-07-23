@@ -52,6 +52,143 @@ void main() {
   outColor = vec4(sum, 1.0);
 }`
 
+/**
+ * COPY — trivial passthrough used to present the final masked accumulator FBO
+ * onto the screen (the masked path renders into FBOs, then blits here).
+ */
+export const COPY_SRC = /* glsl */ `#version 300 es
+precision highp float;
+in vec2 v_uv;
+out vec4 outColor;
+uniform sampler2D u_tex;
+void main() { outColor = texture(u_tex, v_uv); }`
+
+/**
+ * MASK — one local-adjustment layer.
+ *
+ * Reads the current accumulator (the global result, or the previous mask's
+ * output), computes a per-pixel mask weight for its type, applies its local
+ * adjustments to the pixel, and mixes the two by the weight. Running this once
+ * per enabled mask (ping-ponging FBOs) layers local edits non-destructively.
+ */
+export const MASK_SRC = /* glsl */ `#version 300 es
+precision highp float;
+in vec2 v_uv;
+out vec4 outColor;
+
+uniform sampler2D u_accum; // previous result
+uniform sampler2D u_blur;  // shared low-frequency reference
+uniform sampler2D u_brush; // brush mask (R = weight)
+uniform vec2 u_texel;
+
+uniform int   u_maskType;   // 0 linear,1 radial,2 brush,3 luminance,4 sky,5 subject
+uniform float u_maskInvert; // 0/1
+uniform float u_maskOpacity;// 0..1
+
+uniform vec2  u_linA;
+uniform vec2  u_linB;
+uniform vec2  u_radCenter;
+uniform vec2  u_radRadii;
+uniform float u_radFeather; // 0..1
+uniform vec2  u_lumRange;   // min,max
+uniform float u_lumFeather; // 0..1
+
+// Local adjustments (already scaled, like the main pass).
+uniform float m_exposure;
+uniform float m_contrast;
+uniform float m_highlights;
+uniform float m_shadows;
+uniform float m_whites;
+uniform float m_blacks;
+uniform float m_temp;
+uniform float m_tint;
+uniform float m_sat;
+uniform float m_clarity;
+uniform float m_sharpen;
+
+const vec3 LUMA = vec3(0.2126, 0.7152, 0.0722);
+float luma(vec3 c) { return dot(c, LUMA); }
+
+vec3 applyLocal(vec3 c, vec3 blur, vec3 hp) {
+  c.r += m_temp * 0.10;
+  c.b -= m_temp * 0.10;
+  c.g -= m_tint * 0.10;
+  c = clamp(c, 0.0, 1.0);
+  c *= exp2(m_exposure);
+  c = clamp(c, 0.0, 4.0);
+  float l = clamp(luma(c), 0.0, 1.0);
+  c += m_highlights * smoothstep(0.3, 0.95, l) * 0.35;
+  c += m_shadows    * (1.0 - smoothstep(0.05, 0.7, l)) * 0.35;
+  c += m_whites     * smoothstep(0.6, 1.0, l) * 0.30;
+  c += m_blacks     * (1.0 - smoothstep(0.0, 0.4, l)) * 0.30;
+  c = clamp(c, 0.0, 1.0);
+  c = (c - 0.5) * (1.0 + m_contrast) + 0.5;
+  c = clamp(c, 0.0, 1.0);
+  float mid = clamp(1.0 - abs(l - 0.5) * 2.0, 0.0, 1.0);
+  c += (c - blur) * m_clarity * mid;
+  c += hp * m_sharpen * 2.0;
+  c = clamp(c, 0.0, 1.0);
+  float lu = luma(c);
+  c = mix(vec3(lu), c, 1.0 + m_sat);
+  return clamp(c, 0.0, 1.0);
+}
+
+float maskWeight(vec3 c) {
+  // Geometry is authored in display space (y down, 0 = top); the rendered image
+  // has v_uv.y = 1 at the top, so flip Y for geometry evaluation.
+  vec2 P = vec2(v_uv.x, 1.0 - v_uv.y);
+  if (u_maskType == 0) {
+    // Linear gradient: 0 on the start line, 1 on the end line.
+    vec2 ab = u_linB - u_linA;
+    float t = dot(P - u_linA, ab) / max(dot(ab, ab), 1e-5);
+    return smoothstep(0.0, 1.0, clamp(t, 0.0, 1.0));
+  } else if (u_maskType == 1) {
+    // Radial ellipse: 1 inside, feathered to 0 at the edge.
+    vec2 d = (P - u_radCenter) / max(u_radRadii, vec2(1e-4));
+    float dist = length(d);
+    float inner = 1.0 - u_radFeather;
+    return 1.0 - smoothstep(inner, 1.0, dist);
+  } else if (u_maskType == 2) {
+    return texture(u_brush, v_uv).a;
+  } else if (u_maskType == 3) {
+    // Luminance band pass.
+    float L = luma(c);
+    float f = max(u_lumFeather, 0.001);
+    return smoothstep(u_lumRange.x - f, u_lumRange.x, L) *
+           (1.0 - smoothstep(u_lumRange.y, u_lumRange.y + f, L));
+  } else if (u_maskType == 4) {
+    // Auto sky: bright + blue-dominant, biased to the top.
+    float L = luma(c);
+    float blueness = clamp((c.b - max(c.r, c.g)) * 3.0 + 0.35, 0.0, 1.0);
+    float top = 1.0 - smoothstep(0.15, 0.7, P.y);
+    return clamp(smoothstep(0.4, 0.85, L) * blueness * (0.5 + 0.5 * top), 0.0, 1.0);
+  } else {
+    // Auto subject: not-sky, centre-weighted.
+    float L = luma(c);
+    float blueness = clamp((c.b - max(c.r, c.g)) * 3.0 + 0.35, 0.0, 1.0);
+    float sky = clamp(smoothstep(0.4, 0.85, L) * blueness, 0.0, 1.0);
+    float centre = 1.0 - smoothstep(0.25, 0.75, length(P - vec2(0.5)));
+    return clamp((1.0 - sky) * centre, 0.0, 1.0);
+  }
+}
+
+void main() {
+  vec3 c = texture(u_accum, v_uv).rgb;
+  vec3 blur = texture(u_blur, v_uv).rgb;
+  vec3 nb =
+      texture(u_accum, v_uv + vec2(u_texel.x, 0.0)).rgb +
+      texture(u_accum, v_uv - vec2(u_texel.x, 0.0)).rgb +
+      texture(u_accum, v_uv + vec2(0.0, u_texel.y)).rgb +
+      texture(u_accum, v_uv - vec2(0.0, u_texel.y)).rgb;
+  vec3 hp = c - nb * 0.25;
+
+  float w = clamp(maskWeight(c), 0.0, 1.0);
+  w = mix(w, 1.0 - w, u_maskInvert) * u_maskOpacity;
+
+  vec3 local = applyLocal(c, blur, hp);
+  outColor = vec4(mix(c, local, w), 1.0);
+}`
+
 export const MAIN_SRC = /* glsl */ `#version 300 es
 precision highp float;
 in vec2 v_uv;

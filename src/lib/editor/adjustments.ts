@@ -273,6 +273,120 @@ export interface NoiseReduction {
 }
 export const DEFAULT_NOISE: NoiseReduction = { luminance: 0, color: 0 }
 
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 3 — Masking (local adjustments)
+   A mask carries its own small bag of tonal/colour adjustments that
+   the shader applies ONLY where the mask is > 0. Masks are layered
+   on top of the global result, in order, non-destructively.
+═══════════════════════════════════════════════════════════════ */
+
+/** The subset of adjustments a mask can apply locally. */
+export interface MaskAdjustments {
+  exposure: number // -100..100
+  contrast: number
+  highlights: number
+  shadows: number
+  whites: number
+  blacks: number
+  temperature: number
+  tint: number
+  saturation: number
+  clarity: number
+  sharpness: number // 0..100
+}
+export const DEFAULT_MASK_ADJUSTMENTS: MaskAdjustments = {
+  exposure: 0,
+  contrast: 0,
+  highlights: 0,
+  shadows: 0,
+  whites: 0,
+  blacks: 0,
+  temperature: 0,
+  tint: 0,
+  saturation: 0,
+  clarity: 0,
+  sharpness: 0,
+}
+
+export type MaskAdjustmentKey = keyof MaskAdjustments
+
+export const MASK_SLIDERS: { key: MaskAdjustmentKey; label: string; min: number; max: number; center: number }[] = [
+  { key: "exposure", label: "Exposure", min: -100, max: 100, center: 0 },
+  { key: "contrast", label: "Contrast", min: -100, max: 100, center: 0 },
+  { key: "highlights", label: "Highlights", min: -100, max: 100, center: 0 },
+  { key: "shadows", label: "Shadows", min: -100, max: 100, center: 0 },
+  { key: "whites", label: "Whites", min: -100, max: 100, center: 0 },
+  { key: "blacks", label: "Blacks", min: -100, max: 100, center: 0 },
+  { key: "temperature", label: "Temp", min: -100, max: 100, center: 0 },
+  { key: "tint", label: "Tint", min: -100, max: 100, center: 0 },
+  { key: "saturation", label: "Saturation", min: -100, max: 100, center: 0 },
+  { key: "clarity", label: "Clarity", min: -100, max: 100, center: 0 },
+  { key: "sharpness", label: "Sharpness", min: 0, max: 100, center: 0 },
+]
+
+export type MaskType = "linear" | "radial" | "brush" | "luminance" | "sky" | "subject"
+
+/** A single freehand brush stroke, in normalised image coordinates. */
+export interface BrushStroke {
+  points: { x: number; y: number }[]
+  /** Radius as a fraction of the image's smaller edge. */
+  radius: number
+  /** 0..1 edge softness. */
+  feather: number
+  /** true = erase from the mask instead of adding. */
+  erase: boolean
+}
+
+export interface Mask {
+  id: string
+  type: MaskType
+  name: string
+  enabled: boolean
+  inverted: boolean
+  /** Overall mask strength, 0..100. */
+  opacity: number
+  adjustments: MaskAdjustments
+
+  // ── geometry (only the field for `type` is used) ──
+  /** Linear gradient: start line (x1,y1) → end line (x2,y2), normalised. */
+  linear?: { x1: number; y1: number; x2: number; y2: number }
+  /** Radial: centre + radii (normalised), feather 0..100. */
+  radial?: { cx: number; cy: number; rx: number; ry: number; feather: number }
+  /** Luminance range: keep tones in [min,max] (0..1), feather 0..100. */
+  luminance?: { min: number; max: number; feather: number }
+  /** Brush strokes (vector, rasterised to a texture at render time). */
+  brush?: { strokes: BrushStroke[] }
+}
+
+export const MASK_TYPES: { type: MaskType; label: string; hint: string; beta?: boolean }[] = [
+  { type: "brush", label: "Brush", hint: "Paint a mask by hand" },
+  { type: "linear", label: "Linear Gradient", hint: "Graduated across a line" },
+  { type: "radial", label: "Radial Gradient", hint: "Elliptical selection" },
+  { type: "luminance", label: "Luminance Range", hint: "Target a brightness range" },
+  { type: "sky", label: "Auto Sky", hint: "Detects sky by colour + position", beta: true },
+  { type: "subject", label: "Auto Subject", hint: "Foreground vs sky heuristic", beta: true },
+]
+
+let maskCounter = 0
+export function createMask(type: MaskType): Mask {
+  maskCounter += 1
+  const meta = MASK_TYPES.find((m) => m.type === type)!
+  const base: Mask = {
+    id: `mask_${Date.now()}_${maskCounter}`,
+    type,
+    name: `${meta.label} ${maskCounter}`,
+    enabled: true,
+    inverted: false,
+    opacity: 100,
+    adjustments: { ...DEFAULT_MASK_ADJUSTMENTS },
+  }
+  if (type === "linear") base.linear = { x1: 0.5, y1: 0.15, x2: 0.5, y2: 0.6 }
+  if (type === "radial") base.radial = { cx: 0.5, cy: 0.5, rx: 0.32, ry: 0.32, feather: 50 }
+  if (type === "luminance") base.luminance = { min: 0.0, max: 0.5, feather: 30 }
+  if (type === "brush") base.brush = { strokes: [] }
+  return base
+}
+
 /* ── The complete render state the shader consumes ── */
 export interface RenderSettings {
   adjustments: Adjustments
@@ -282,6 +396,7 @@ export interface RenderSettings {
   vignette: Vignette
   grain: Grain
   noise: NoiseReduction
+  masks: Mask[]
 }
 
 export const DEFAULT_RENDER_SETTINGS: RenderSettings = {
@@ -299,6 +414,7 @@ export const DEFAULT_RENDER_SETTINGS: RenderSettings = {
   vignette: { ...DEFAULT_VIGNETTE },
   grain: { ...DEFAULT_GRAIN },
   noise: { ...DEFAULT_NOISE },
+  masks: [],
 }
 
 /* Vignette / Grain / Noise slider metadata (hand-built sections). */

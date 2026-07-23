@@ -45,6 +45,10 @@ import {
   type Grain,
   type NoiseReduction,
   type RenderSettings,
+  type Mask,
+  type MaskType,
+  type MaskAdjustmentKey,
+  createMask,
 } from "./adjustments"
 
 /** A full editor snapshot — everything undo/redo and sessions persist. */
@@ -57,6 +61,7 @@ export interface Snapshot {
   vignette: Vignette
   grain: Grain
   noise: NoiseReduction
+  masks: Mask[]
 }
 
 export type ResetGroup = "curves" | "hsl" | "grading" | "vignette" | "grain" | "noise"
@@ -65,6 +70,13 @@ interface EditorStore extends Snapshot {
   history: Snapshot[]
   index: number
   showBefore: boolean
+  /** Currently selected mask (UI state, not part of the edit snapshot). */
+  activeMaskId: string | null
+  /** Brush tool settings (UI state, shared by the overlay + controls). */
+  brushRadius: number
+  brushFeather: number
+  brushErase: boolean
+  setBrush: (partial: Partial<{ brushRadius: number; brushFeather: number; brushErase: boolean }>) => void
   /** Bumped whenever the live state changes so the canvas re-renders. */
   revision: number
 
@@ -87,6 +99,13 @@ interface EditorStore extends Snapshot {
   jumpTo: (index: number) => void
   canUndo: () => boolean
   canRedo: () => boolean
+
+  // ── masks (Phase 3) ──
+  addMask: (type: MaskType) => void
+  deleteMask: (id: string) => void
+  selectMask: (id: string | null) => void
+  updateMask: (id: string, partial: Partial<Mask>) => void
+  setMaskAdjustment: (id: string, key: MaskAdjustmentKey, value: number) => void
 
   // ── bulk / sessions ──
   applyAdjustments: (partial: Partial<Adjustments>) => void
@@ -116,6 +135,7 @@ const emptySnapshot = (): Snapshot => ({
   vignette: { ...DEFAULT_VIGNETTE },
   grain: { ...DEFAULT_GRAIN },
   noise: { ...DEFAULT_NOISE },
+  masks: [],
 })
 
 export const snapshotOf = (s: Snapshot): Snapshot => ({
@@ -127,6 +147,7 @@ export const snapshotOf = (s: Snapshot): Snapshot => ({
   vignette: s.vignette,
   grain: s.grain,
   noise: s.noise,
+  masks: s.masks,
 })
 
 const snapshotsEqual = (a: Snapshot, b: Snapshot): boolean =>
@@ -142,6 +163,7 @@ export function renderSettingsFrom(s: Snapshot): RenderSettings {
     vignette: s.vignette,
     grain: s.grain,
     noise: s.noise,
+    masks: s.masks,
   }
 }
 
@@ -163,6 +185,11 @@ export const useEditorStore = create<EditorStore>((set, get) => {
     history: [emptySnapshot()],
     index: 0,
     showBefore: false,
+    activeMaskId: null,
+    brushRadius: 0.06,
+    brushFeather: 0.5,
+    brushErase: false,
+    setBrush: (partial) => set(partial),
     revision: 0,
 
     // ── live edits ──
@@ -180,6 +207,38 @@ export const useEditorStore = create<EditorStore>((set, get) => {
     setGrain: (partial) => live({ grain: { ...get().grain, ...partial } }),
     setNoise: (partial) => live({ noise: { ...get().noise, ...partial } }),
 
+    // ── masks ──
+    addMask: (type) => {
+      const s = get()
+      const mask = createMask(type)
+      const masks = [...s.masks, mask]
+      const history = s.history.slice(0, s.index + 1)
+      history.push(deepClone({ ...snapshotOf(s), masks }))
+      set({ masks, history, index: history.length - 1, activeMaskId: mask.id, revision: s.revision + 1 })
+    },
+    deleteMask: (id) => {
+      const s = get()
+      const masks = s.masks.filter((m) => m.id !== id)
+      const history = s.history.slice(0, s.index + 1)
+      history.push(deepClone({ ...snapshotOf(s), masks }))
+      set({
+        masks,
+        history,
+        index: history.length - 1,
+        activeMaskId: s.activeMaskId === id ? null : s.activeMaskId,
+        revision: s.revision + 1,
+      })
+    },
+    selectMask: (id) => set({ activeMaskId: id }),
+    updateMask: (id, partial) =>
+      live({ masks: get().masks.map((m) => (m.id === id ? { ...m, ...partial } : m)) }),
+    setMaskAdjustment: (id, key, value) =>
+      live({
+        masks: get().masks.map((m) =>
+          m.id === id ? { ...m, adjustments: { ...m.adjustments, [key]: value } } : m
+        ),
+      }),
+
     // ── history ──
     commit: () => {
       const s = get()
@@ -193,20 +252,26 @@ export const useEditorStore = create<EditorStore>((set, get) => {
       const s = get()
       if (s.index <= 0) return
       const index = s.index - 1
-      set({ ...deepClone(s.history[index]), index, revision: s.revision + 1 })
+      const snap = deepClone(s.history[index])
+      const activeMaskId = snap.masks.some((m) => m.id === s.activeMaskId) ? s.activeMaskId : null
+      set({ ...snap, index, activeMaskId, revision: s.revision + 1 })
     },
 
     redo: () => {
       const s = get()
       if (s.index >= s.history.length - 1) return
       const index = s.index + 1
-      set({ ...deepClone(s.history[index]), index, revision: s.revision + 1 })
+      const snap = deepClone(s.history[index])
+      const activeMaskId = snap.masks.some((m) => m.id === s.activeMaskId) ? s.activeMaskId : null
+      set({ ...snap, index, activeMaskId, revision: s.revision + 1 })
     },
 
     jumpTo: (index) => {
       const s = get()
       if (index < 0 || index >= s.history.length || index === s.index) return
-      set({ ...deepClone(s.history[index]), index, revision: s.revision + 1 })
+      const snap = deepClone(s.history[index])
+      const activeMaskId = snap.masks.some((m) => m.id === s.activeMaskId) ? s.activeMaskId : null
+      set({ ...snap, index, activeMaskId, revision: s.revision + 1 })
     },
 
     canUndo: () => get().index > 0,
@@ -216,7 +281,10 @@ export const useEditorStore = create<EditorStore>((set, get) => {
     applyAdjustments: (partial) =>
       checkpoint({ adjustments: { ...DEFAULT_ADJUSTMENTS, ...partial } }),
 
-    loadSnapshot: (snap) => checkpoint(deepClone(snap)),
+    loadSnapshot: (snap) => {
+      checkpoint(deepClone(snap))
+      set({ activeMaskId: null })
+    },
 
     // ── resets ──
     resetAll: () => {
@@ -224,6 +292,7 @@ export const useEditorStore = create<EditorStore>((set, get) => {
       const empty = emptySnapshot()
       if (snapshotsEqual(snapshotOf(s), empty)) return
       checkpoint(empty)
+      set({ activeMaskId: null })
     },
 
     resetSection: (keys) => {
@@ -258,6 +327,7 @@ export const useEditorStore = create<EditorStore>((set, get) => {
         history: [emptySnapshot()],
         index: 0,
         showBefore: false,
+        activeMaskId: null,
         revision: 0,
       }),
   }
