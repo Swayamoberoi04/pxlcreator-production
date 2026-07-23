@@ -31,6 +31,7 @@ import { AdjustmentSlider } from "./AdjustmentSlider"
 import { CurveEditor } from "./CurveEditor"
 import { HSLPanel } from "./HSLPanel"
 import { ColorGradingPanel } from "./ColorGradingPanel"
+import { MaskControls } from "./MaskControls"
 
 interface RightPanelProps {
   cropMode: boolean
@@ -40,6 +41,12 @@ interface RightPanelProps {
 }
 
 export function RightPanel({ cropMode, setCropMode, cropAspect, setCropAspect }: RightPanelProps) {
+  const activeMaskId = useEditorStore((s) => s.activeMaskId)
+  const activeMask = useEditorStore((s) => s.masks.find((m) => m.id === s.activeMaskId) ?? null)
+
+  // When a mask is selected the whole panel becomes that mask's controls.
+  if (activeMaskId && activeMask) return <MaskControls mask={activeMask} />
+
   return (
     <div className="flex h-full flex-col overflow-y-auto">
       <div className="flex flex-col divide-y divide-border">

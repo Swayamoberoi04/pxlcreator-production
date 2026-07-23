@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils"
 import { useEditorStore } from "@/lib/editor/store"
 import { QUICK_PRESETS } from "@/lib/editor/presets"
 import { listSessions, deleteSession, type EditorSession } from "@/lib/editor/sessions"
+import { MASK_TYPES, type MaskType } from "@/lib/editor/adjustments"
 
 type Tab = "presets" | "history" | "sessions" | "masks"
 
@@ -157,17 +158,79 @@ function SessionsTab() {
 }
 
 function MasksTab() {
-  const masks = ["Brush", "Linear Gradient", "Radial Gradient", "AI Subject", "AI Sky"]
+  const [adding, setAdding] = useState(false)
+  const masks = useEditorStore((s) => s.masks)
+  const activeMaskId = useEditorStore((s) => s.activeMaskId)
+  const addMask = useEditorStore((s) => s.addMask)
+  const selectMask = useEditorStore((s) => s.selectMask)
+  const updateMask = useEditorStore((s) => s.updateMask)
+  const commit = useEditorStore((s) => s.commit)
+
   return (
-    <div className="flex flex-col gap-1.5 p-3">
-      <p className="mb-1 text-[0.6875rem] uppercase tracking-wider text-muted/40">Masking · Phase 3</p>
+    <div className="flex flex-col gap-2 p-3">
+      {/* Add mask */}
+      <button
+        type="button"
+        onClick={() => setAdding((a) => !a)}
+        className="flex items-center justify-center gap-1.5 rounded-lg border border-gold/40 bg-gold/5 py-2 text-[0.8125rem] font-medium text-gold transition-colors hover:bg-gold/10"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        Add mask
+      </button>
+
+      {adding && (
+        <div className="flex flex-col gap-1 rounded-lg border border-border p-1.5">
+          {MASK_TYPES.map((m) => (
+            <button
+              key={m.type}
+              type="button"
+              onClick={() => {
+                addMask(m.type as MaskType)
+                setAdding(false)
+              }}
+              className="flex items-center justify-between rounded-md px-2.5 py-2 text-left text-[0.8125rem] text-foreground/80 transition-colors hover:bg-surface-2"
+            >
+              <span>{m.label}</span>
+              {m.beta && <span className="text-[0.625rem] uppercase tracking-wider text-gold/70">Beta</span>}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {masks.length === 0 && !adding && (
+        <p className="px-1 py-2 text-[0.8125rem] leading-relaxed text-muted/50">
+          No masks yet. Add one to apply adjustments to just part of the image.
+        </p>
+      )}
+
+      {/* Mask list */}
       {masks.map((m) => (
         <div
-          key={m}
-          className="flex items-center justify-between rounded-lg border border-dashed border-border px-3 py-2.5 text-[0.8125rem] text-muted/40"
+          key={m.id}
+          className={cn(
+            "flex items-center gap-2 rounded-lg border px-2.5 py-2 transition-colors",
+            activeMaskId === m.id ? "border-gold/50 bg-gold/10" : "border-border hover:border-gold/30"
+          )}
         >
-          {m}
-          <span className="text-[0.625rem] uppercase tracking-wider text-muted/30">Soon</span>
+          <button
+            type="button"
+            onClick={() => {
+              updateMask(m.id, { enabled: !m.enabled })
+              commit()
+            }}
+            className={cn("shrink-0 transition-colors", m.enabled ? "text-gold" : "text-muted/30")}
+            title={m.enabled ? "Disable" : "Enable"}
+            aria-label="Toggle mask visibility"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" /><circle cx="12" cy="12" r="3" /></svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => selectMask(activeMaskId === m.id ? null : m.id)}
+            className="flex-1 truncate text-left text-[0.8125rem] text-foreground/85"
+          >
+            {m.name}
+          </button>
         </div>
       ))}
     </div>
