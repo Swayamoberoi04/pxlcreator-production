@@ -15,10 +15,11 @@ interface TopBarProps {
   canvasRef: RefObject<EditorCanvasHandle | null>
   zoomPercent: number
   onExportClick: () => void
+  onSaveClick: () => void
   onClose: () => void
 }
 
-export function TopBar({ canvasRef, zoomPercent, onExportClick, onClose }: TopBarProps) {
+export function TopBar({ canvasRef, zoomPercent, onExportClick, onSaveClick, onClose }: TopBarProps) {
   const undo = useEditorStore((s) => s.undo)
   const redo = useEditorStore((s) => s.redo)
   const index = useEditorStore((s) => s.index)
@@ -100,6 +101,15 @@ export function TopBar({ canvasRef, zoomPercent, onExportClick, onClose }: TopBa
         <div className="mx-1 h-6 w-px bg-border" />
         <button
           type="button"
+          onClick={onSaveClick}
+          className="hidden items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-[0.8125rem] font-medium text-muted transition-colors hover:border-gold/40 hover:text-foreground sm:flex"
+          title="Save editing session"
+        >
+          <SaveIcon />
+          Save
+        </button>
+        <button
+          type="button"
           onClick={onExportClick}
           className="flex items-center gap-1.5 rounded-lg bg-gold px-3.5 py-1.5 text-[0.8125rem] font-semibold text-black transition-colors hover:bg-gold-bright"
         >
@@ -145,3 +155,4 @@ function ResetIcon() { return <svg {...s}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75
 function PlusIcon() { return <svg {...s}><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg> }
 function MinusIcon() { return <svg {...s}><line x1="5" y1="12" x2="19" y2="12" /></svg> }
 function ExportIcon() { return <svg {...s}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg> }
+function SaveIcon() { return <svg {...s}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></svg> }

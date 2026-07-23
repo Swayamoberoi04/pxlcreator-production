@@ -23,7 +23,11 @@
  */
 
 import { VERTEX_SRC, BLUR_SRC, MAIN_SRC } from "./shaders"
-import { DEFAULT_ADJUSTMENTS, type Adjustments } from "./adjustments"
+import {
+  DEFAULT_RENDER_SETTINGS,
+  type RenderSettings,
+} from "./adjustments"
+import { bakeCurveLUT, curvesAreIdentity } from "./curves"
 
 /** Blur radius in source texels — widens the Gaussian for clarity/dehaze. */
 const BLUR_RADIUS = 3.0
@@ -64,8 +68,10 @@ interface Fbo {
   height: number
 }
 
-/** Normalise the slider bag into shader-space uniform values. */
-function uniformsFor(a: Adjustments) {
+/** Normalise the Phase-1 slider bag into scalar shader uniforms. */
+function scalarUniformsFor(s: RenderSettings) {
+  const a = s.adjustments
+  const g = s.grain
   return {
     u_exposure: (a.exposure / 100) * 2.5, // ±2.5 stops
     u_contrast: a.contrast / 100,
@@ -81,6 +87,19 @@ function uniformsFor(a: Adjustments) {
     u_clarity: a.clarity / 100,
     u_dehaze: a.dehaze / 100,
     u_sharpen: a.sharpening / 100,
+    // Phase 2 scalars
+    u_nrLum: s.noise.luminance / 100,
+    u_nrColor: s.noise.color / 100,
+    u_vigAmount: s.vignette.amount / 100,
+    u_vigMid: s.vignette.midpoint / 100,
+    u_vigRound: s.vignette.roundness / 100,
+    u_vigFeather: s.vignette.feather / 100,
+    u_vigHi: s.vignette.highlights / 100,
+    u_grainAmount: g.amount / 100,
+    u_grainScale: 200 + (1 - g.size / 100) * 1400, // cells across the image
+    u_grainRough: g.roughness / 100,
+    u_gradeBlend: s.grading.blending / 100,
+    u_gradeBalance: s.grading.balance / 100,
   }
 }
 
@@ -91,6 +110,7 @@ export class EditorRenderer {
   private mainProgram: WebGLProgram
   private quad: WebGLBuffer
   private sourceTex: WebGLTexture | null = null
+  private lutTex: WebGLTexture
   private srcW = 0
   private srcH = 0
   private fboA: Fbo | null = null
@@ -118,6 +138,20 @@ export class EditorRenderer {
       new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
       gl.STATIC_DRAW
     )
+
+    // 256×1 tone-curve LUT, seeded with the identity ramp.
+    this.lutTex = gl.createTexture()!
+    gl.bindTexture(gl.TEXTURE_2D, this.lutTex)
+    const identity = new Uint8Array(256 * 4)
+    for (let i = 0; i < 256; i++) {
+      identity[i * 4] = identity[i * 4 + 1] = identity[i * 4 + 2] = i
+      identity[i * 4 + 3] = 255
+    }
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 256, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, identity)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
   }
 
   /** True if the engine is usable (context not lost / not disposed). */
@@ -201,12 +235,16 @@ export class EditorRenderer {
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
   }
 
+  private loc(name: string): WebGLUniformLocation | null {
+    return this.gl.getUniformLocation(this.mainProgram, name)
+  }
+
   /**
    * Render one frame at the canvas's current drawing-buffer size.
-   * @param adjustments live parameter bag
-   * @param showBefore  when true, ignore adjustments and show the AI original
+   * @param settings   the complete non-destructive render state
+   * @param showBefore when true, ignore all edits and show the AI original
    */
-  render(adjustments: Adjustments, showBefore = false): void {
+  render(settings: RenderSettings, showBefore = false): void {
     if (!this.ok || !this.sourceTex) return
     const gl = this.gl
     const w = this.canvas.width
@@ -214,7 +252,7 @@ export class EditorRenderer {
     if (w === 0 || h === 0) return
 
     this.ensureFbos(w, h)
-    const a = showBefore ? DEFAULT_ADJUSTMENTS : adjustments
+    const s = showBefore ? DEFAULT_RENDER_SETTINGS : settings
 
     // ── Blur pass H: source → fboA ──
     gl.useProgram(this.blurProgram)
@@ -234,6 +272,14 @@ export class EditorRenderer {
     gl.uniform2f(gl.getUniformLocation(this.blurProgram, "u_dir"), 0, BLUR_RADIUS / h)
     gl.drawArrays(gl.TRIANGLES, 0, 6)
 
+    // ── Update the tone-curve LUT (only when curves are active) ──
+    const curvesOn = !curvesAreIdentity(s.curves)
+    if (curvesOn) {
+      const lut = bakeCurveLUT(s.curves)
+      gl.bindTexture(gl.TEXTURE_2D, this.lutTex)
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 256, 1, gl.RGBA, gl.UNSIGNED_BYTE, lut)
+    }
+
     // ── Main pass: source + blurred → target ──
     gl.useProgram(this.mainProgram)
     this.bindQuad(this.mainProgram)
@@ -242,17 +288,48 @@ export class EditorRenderer {
 
     gl.activeTexture(gl.TEXTURE0)
     gl.bindTexture(gl.TEXTURE_2D, this.sourceTex)
-    gl.uniform1i(gl.getUniformLocation(this.mainProgram, "u_tex"), 0)
+    gl.uniform1i(this.loc("u_tex"), 0)
     gl.activeTexture(gl.TEXTURE1)
     gl.bindTexture(gl.TEXTURE_2D, this.fboB!.tex)
-    gl.uniform1i(gl.getUniformLocation(this.mainProgram, "u_blur"), 1)
+    gl.uniform1i(this.loc("u_blur"), 1)
+    gl.activeTexture(gl.TEXTURE2)
+    gl.bindTexture(gl.TEXTURE_2D, this.lutTex)
+    gl.uniform1i(this.loc("u_lut"), 2)
     // Neighbour taps are 1px at the current render resolution.
-    gl.uniform2f(gl.getUniformLocation(this.mainProgram, "u_texel"), 1 / w, 1 / h)
+    gl.uniform2f(this.loc("u_texel"), 1 / w, 1 / h)
+    gl.uniform1f(this.loc("u_aspect"), this.srcW / this.srcH)
+    gl.uniform1f(this.loc("u_curvesOn"), curvesOn ? 1 : 0)
 
-    const u = uniformsFor(a)
+    // Scalar uniforms.
+    const u = scalarUniformsFor(s)
     for (const [name, value] of Object.entries(u)) {
-      gl.uniform1f(gl.getUniformLocation(this.mainProgram, name), value)
+      gl.uniform1f(this.loc(name), value)
     }
+
+    // HSL arrays (8 bands).
+    const hH = new Float32Array(8)
+    const hS = new Float32Array(8)
+    const hL = new Float32Array(8)
+    for (let i = 0; i < 8; i++) {
+      hH[i] = s.hsl[i].h / 100
+      hS[i] = s.hsl[i].s / 100
+      hL[i] = s.hsl[i].l / 100
+    }
+    gl.uniform1fv(this.loc("u_hslH"), hH)
+    gl.uniform1fv(this.loc("u_hslS"), hS)
+    gl.uniform1fv(this.loc("u_hslL"), hL)
+
+    // Colour-grading zones → vec3(hue 0..1, sat 0..1, lum -1..1).
+    const zone = (z: { hue: number; sat: number; lum: number }): number[] => [
+      z.hue / 360,
+      z.sat / 100,
+      z.lum / 100,
+    ]
+    gl.uniform3fv(this.loc("u_gradeSh"), zone(s.grading.shadows))
+    gl.uniform3fv(this.loc("u_gradeMid"), zone(s.grading.midtones))
+    gl.uniform3fv(this.loc("u_gradeHi"), zone(s.grading.highlights))
+    gl.uniform3fv(this.loc("u_gradeGlobal"), zone(s.grading.global))
+
     gl.drawArrays(gl.TRIANGLES, 0, 6)
   }
 
@@ -270,10 +347,10 @@ export class EditorRenderer {
    * (preserveDrawingBuffer keeps the pixels) and applies crop/rotate in 2D,
    * then calls `restoreSize` to hand the canvas back to the live preview.
    */
-  renderFullResolution(adjustments: Adjustments): void {
+  renderFullResolution(settings: RenderSettings): void {
     this.canvas.width = this.srcW
     this.canvas.height = this.srcH
-    this.render(adjustments, false)
+    this.render(settings, false)
   }
 
   /** Restore the preview drawing-buffer size after an export readback. */
@@ -287,6 +364,7 @@ export class EditorRenderer {
     const gl = this.gl
     this.destroyFbos()
     if (this.sourceTex) gl.deleteTexture(this.sourceTex)
+    gl.deleteTexture(this.lutTex)
     gl.deleteBuffer(this.quad)
     gl.deleteProgram(this.blurProgram)
     gl.deleteProgram(this.mainProgram)
