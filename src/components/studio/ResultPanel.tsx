@@ -6,6 +6,7 @@ import { AIPreviewSlider }     from "./AIPreviewSlider"
 import { PresetRecommendCard } from "./PresetRecommendCard"
 import { RecommendationsV2 }   from "./RecommendationsV2"
 import { DownloadButton }      from "./DownloadButton"
+import { PhotoEditorLauncher } from "@/components/editor/PhotoEditorLauncher"
 import { AnalysisCard }        from "./AnalysisCard"
 import { getStyleProfile }     from "@/lib/studio/style-profiles"
 import type { StudioSuccessResponse } from "@/types/studio"
@@ -105,6 +106,9 @@ export function ResultPanel({ originalUrl, result, onReset, userPrompt = "", sou
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-5">
             <p className="text-label text-muted/50 tracking-widest">Your edit</p>
+            {/* Two choices: fine-tune in the pro editor, or download as-is.
+                "Continue editing" is the primary path (the flagship workspace). */}
+            <PhotoEditorLauncher imageUrl={processedImage} className="w-full" />
             <DownloadButton dataUrl={processedImage} className="w-full" />
             <button
               type="button"
