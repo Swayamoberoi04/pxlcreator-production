@@ -1,19 +1,20 @@
 "use client"
 
 /**
- * LeftSidebar — Navigator / History / Presets / Masks.
+ * LeftSidebar — Navigator / Presets / History / Sessions / Masks.
  *
- * History and Presets are fully live. Navigator shows the current zoom/frame
- * context. Masks are the future-ready placeholder (Phase 3) — the tab exists so
- * the layout and mental model are already in place, but the tools are disabled.
+ * Presets, History and Sessions are fully live. Navigator shows the current
+ * zoom. Masks are the future-ready placeholder (Phase 3) — the tab exists so the
+ * layout and mental model are already in place, but the tools are disabled.
  */
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { useEditorStore } from "@/lib/editor/store"
 import { QUICK_PRESETS } from "@/lib/editor/presets"
+import { listSessions, deleteSession, type EditorSession } from "@/lib/editor/sessions"
 
-type Tab = "history" | "presets" | "masks"
+type Tab = "presets" | "history" | "sessions" | "masks"
 
 export function LeftSidebar({ zoomPercent }: { zoomPercent: number }) {
   const [tab, setTab] = useState<Tab>("presets")
@@ -28,13 +29,13 @@ export function LeftSidebar({ zoomPercent }: { zoomPercent: number }) {
 
       {/* Tabs */}
       <div className="flex border-b border-border">
-        {(["presets", "history", "masks"] as Tab[]).map((t) => (
+        {(["presets", "history", "sessions", "masks"] as Tab[]).map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => setTab(t)}
             className={cn(
-              "flex-1 py-2.5 text-[0.75rem] uppercase tracking-wider transition-colors",
+              "flex-1 py-2.5 text-[0.6875rem] uppercase tracking-wide transition-colors",
               tab === t ? "text-gold border-b-2 border-gold" : "text-muted/50 hover:text-foreground"
             )}
           >
@@ -46,6 +47,7 @@ export function LeftSidebar({ zoomPercent }: { zoomPercent: number }) {
       <div className="flex-1 overflow-y-auto">
         {tab === "presets" && <PresetsTab />}
         {tab === "history" && <HistoryTab />}
+        {tab === "sessions" && <SessionsTab />}
         {tab === "masks" && <MasksTab />}
       </div>
     </div>
@@ -92,6 +94,63 @@ function HistoryTab() {
         >
           {i === 0 ? "Original (AI result)" : `Edit ${i}`}
         </button>
+      ))}
+    </div>
+  )
+}
+
+function SessionsTab() {
+  const [sessions, setSessions] = useState<EditorSession[]>([])
+  const loadSnapshot = useEditorStore((s) => s.loadSnapshot)
+
+  const refresh = () => setSessions(listSessions())
+  useEffect(() => {
+    refresh()
+    window.addEventListener("pxl-sessions-changed", refresh)
+    return () => window.removeEventListener("pxl-sessions-changed", refresh)
+  }, [])
+
+  if (sessions.length === 0) {
+    return (
+      <div className="p-4 text-[0.8125rem] leading-relaxed text-muted/50">
+        No saved sessions yet. Use <span className="text-foreground/80">Save</span> in the top bar to
+        store the current edit recipe and resume it later.
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-1.5 p-3">
+      {sessions.map((s) => (
+        <div
+          key={s.id}
+          className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 transition-colors hover:border-gold/40"
+        >
+          <button
+            type="button"
+            onClick={() => loadSnapshot(s.snapshot)}
+            className="flex-1 text-left"
+            title="Load this session onto the current image"
+          >
+            <p className="truncate text-[0.8125rem] text-foreground/85">{s.name}</p>
+            <p className="text-[0.6875rem] text-muted/40">{new Date(s.createdAt).toLocaleDateString()}</p>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              deleteSession(s.id)
+              refresh()
+            }}
+            className="text-muted/40 transition-colors hover:text-red-400"
+            aria-label="Delete session"
+            title="Delete"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
+          </button>
+        </div>
       ))}
     </div>
   )

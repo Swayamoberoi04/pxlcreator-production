@@ -27,7 +27,7 @@ import {
 import { EditorRenderer } from "@/lib/editor/renderer"
 import { drawGeometry, orientedDims } from "@/lib/editor/geometry"
 import { exportImage, type ExportOptions } from "@/lib/editor/export"
-import { useEditorStore } from "@/lib/editor/store"
+import { useEditorStore, renderSettingsFrom } from "@/lib/editor/store"
 import type { CropRect } from "@/lib/editor/adjustments"
 import { CropOverlay } from "./CropOverlay"
 
@@ -84,7 +84,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
     if (!renderer || !renderer.ok || !glCanvas || !display || !container || !readyRef.current) return
 
     const state = useEditorStore.getState()
-    const { adjustments, geometry, showBefore } = state
+    const { geometry, showBefore } = state
 
     // 1) Size the GL buffer to a capped preview resolution and render colour.
     const srcW = renderer.imageWidth
@@ -96,7 +96,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
       glCanvas.width = glW
       glCanvas.height = glH
     }
-    renderer.render(adjustments, showBefore)
+    renderer.render(renderSettingsFrom(state), showBefore)
 
     // 2) Work out the on-screen fit size of the visible content.
     const applyCrop = !cropMode
@@ -258,7 +258,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
         const state = useEditorStore.getState()
         const blob = await exportImage(
           renderer,
-          state.adjustments,
+          renderSettingsFrom(state),
           state.geometry,
           options,
           previewW,

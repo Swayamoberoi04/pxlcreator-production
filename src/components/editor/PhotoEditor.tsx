@@ -17,8 +17,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
-import { useEditorStore } from "@/lib/editor/store"
+import { useEditorStore, snapshotOf } from "@/lib/editor/store"
 import { downloadBlob, type ExportOptions } from "@/lib/editor/export"
+import { saveSession } from "@/lib/editor/sessions"
 import { TopBar } from "./TopBar"
 import { LeftSidebar } from "./LeftSidebar"
 import { RightPanel } from "./RightPanel"
@@ -37,6 +38,9 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
   const [zoomPercent, setZoomPercent] = useState(100)
   const [exportOpen, setExportOpen] = useState(false)
   const [exporting, setExporting] = useState(false)
+  const [saveOpen, setSaveOpen] = useState(false)
+  const [saveName, setSaveName] = useState("")
+  const [savedMsg, setSavedMsg] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const canvasRef = useRef<EditorCanvasHandle | null>(null)
@@ -96,6 +100,16 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
     []
   )
 
+  const handleSave = useCallback(() => {
+    const state = useEditorStore.getState()
+    saveSession(saveName, snapshotOf(state))
+    window.dispatchEvent(new Event("pxl-sessions-changed"))
+    setSaveOpen(false)
+    setSaveName("")
+    setSavedMsg(true)
+    setTimeout(() => setSavedMsg(false), 2500)
+  }, [saveName])
+
   if (!mounted) return null
 
   const src = canvasRef.current?.sourceSize() ?? { w: 0, h: 0 }
@@ -106,6 +120,7 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
         canvasRef={canvasRef}
         zoomPercent={zoomPercent}
         onExportClick={() => setExportOpen(true)}
+        onSaveClick={() => setSaveOpen(true)}
         onClose={onClose}
       />
 
@@ -162,6 +177,52 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
           setCropAspect={setCropAspect}
         />
       </div>
+
+      {/* Save-session dialog */}
+      {saveOpen && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-border bg-surface p-6 shadow-2xl">
+            <h3 className="font-display text-[1.125rem] font-bold text-foreground">Save session</h3>
+            <p className="mt-1 text-[0.8125rem] text-muted/60">
+              Stores this edit recipe so you can resume it later.
+            </p>
+            <input
+              autoFocus
+              value={saveName}
+              onChange={(e) => setSaveName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSave()
+              }}
+              placeholder="Session name"
+              className="admin-input mt-4"
+            />
+            <div className="mt-5 flex gap-2.5">
+              <button
+                type="button"
+                onClick={() => setSaveOpen(false)}
+                className="flex-1 rounded-xl border border-border py-2.5 text-[0.875rem] font-medium text-muted transition-colors hover:text-foreground"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                className="flex-1 rounded-xl bg-gold py-2.5 text-[0.875rem] font-semibold text-black transition-colors hover:bg-gold-bright"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {savedMsg && (
+        <div className="absolute inset-x-0 top-16 z-40 flex justify-center px-4">
+          <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-[0.8125rem] text-emerald-300">
+            Session saved — find it under Sessions in the left panel.
+          </div>
+        </div>
+      )}
 
       {errorMsg && (
         <div className="absolute inset-x-0 top-16 z-40 flex justify-center px-4">
