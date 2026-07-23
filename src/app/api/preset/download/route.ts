@@ -153,14 +153,24 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  /* ── Record unlock ── */
+  /* ── Record unlock ──
+     This write is what review-eligibility later reads from. If it fails
+     silently (e.g. missing table), the user gets their download but can
+     never review — so we check the error explicitly and log loudly. */
   if (presetId) {
-    await supabase
+    const { error: unlockErr } = await supabase
       .from("user_unlocks")
       .upsert(
         { firebase_uid: uid, preset_id: presetId, unlock_method: "password" },
         { onConflict: "firebase_uid,preset_id", ignoreDuplicates: true }
       )
+    if (unlockErr) {
+      console.error("[preset/download] FAILED to record unlock in user_unlocks:", unlockErr.code, unlockErr.message)
+    } else {
+      console.log("[preset/download] UNLOCK RECORDED for uid", uid, "preset", presetId)
+    }
+  } else {
+    console.error("[preset/download] CANNOT record unlock — no Supabase preset_id for slug", securePreset.slug)
   }
 
   console.log("[preset/download] PASSWORD VALID — returning URL for:", securePreset.title)

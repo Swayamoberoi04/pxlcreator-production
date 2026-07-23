@@ -99,7 +99,7 @@ export async function POST(req: NextRequest, { params }: Params) {
   }
 
   /* User must have purchased OR YouTube-unlocked the preset */
-  const [{ data: order }, { data: unlock }] = await Promise.all([
+  const [orderRes, unlockRes] = await Promise.all([
     admin
       .from("order_items")
       .select("id, orders!inner(firebase_uid, status)")
@@ -116,12 +116,27 @@ export async function POST(req: NextRequest, { params }: Params) {
       .maybeSingle(),
   ])
 
-  if (!order && !unlock) {
+  /* Distinguish a genuine "no access" from an infrastructure error.
+     A failed eligibility query (e.g. missing table) must NOT masquerade
+     as a legitimate access denial — surface it as a 500 so it is
+     diagnosable instead of silently blocking every reviewer. */
+  if (orderRes.error && unlockRes.error) {
+    console.error("[reviews POST] eligibility lookup failed:",
+      "order:", orderRes.error.message, "| unlock:", unlockRes.error.message)
+    return NextResponse.json(
+      { error: "Could not verify your access right now. Please try again shortly." },
+      { status: 500 }
+    )
+  }
+
+  if (!orderRes.data && !unlockRes.data) {
     return NextResponse.json(
       { error: "You must purchase or unlock this preset before reviewing it." },
       { status: 403 }
     )
   }
+
+  const order = orderRes.data
 
   const { data: profile } = await admin
     .from("user_profiles")
