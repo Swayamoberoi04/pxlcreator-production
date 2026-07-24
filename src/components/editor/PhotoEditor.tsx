@@ -25,6 +25,7 @@ import { LeftSidebar } from "./LeftSidebar"
 import { RightPanel } from "./RightPanel"
 import { EditorCanvas, type EditorCanvasHandle } from "./EditorCanvas"
 import { ExportDialog } from "./ExportDialog"
+import { AIAssistant } from "./AIAssistant"
 
 interface PhotoEditorProps {
   imageUrl: string
@@ -38,6 +39,7 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
   const [zoomPercent, setZoomPercent] = useState(100)
   const [exportOpen, setExportOpen] = useState(false)
   const [exporting, setExporting] = useState(false)
+  const [aiOpen, setAiOpen] = useState(false)
   const [saveOpen, setSaveOpen] = useState(false)
   const [saveName, setSaveName] = useState("")
   const [savedMsg, setSavedMsg] = useState(false)
@@ -119,6 +121,8 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
       <TopBar
         canvasRef={canvasRef}
         zoomPercent={zoomPercent}
+        assistantOpen={aiOpen}
+        onAssistantClick={() => setAiOpen((o) => !o)}
         onExportClick={() => setExportOpen(true)}
         onSaveClick={() => setSaveOpen(true)}
         onClose={onClose}
@@ -155,6 +159,7 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
             onCancel={() => setExportOpen(false)}
             onExport={handleExport}
           />
+          {aiOpen && <AIAssistant onClose={() => setAiOpen(false)} />}
         </main>
 
         {/* Right controls — desktop */}

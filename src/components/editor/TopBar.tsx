@@ -14,12 +14,14 @@ import type { EditorCanvasHandle } from "./EditorCanvas"
 interface TopBarProps {
   canvasRef: RefObject<EditorCanvasHandle | null>
   zoomPercent: number
+  assistantOpen: boolean
+  onAssistantClick: () => void
   onExportClick: () => void
   onSaveClick: () => void
   onClose: () => void
 }
 
-export function TopBar({ canvasRef, zoomPercent, onExportClick, onSaveClick, onClose }: TopBarProps) {
+export function TopBar({ canvasRef, zoomPercent, assistantOpen, onAssistantClick, onExportClick, onSaveClick, onClose }: TopBarProps) {
   const undo = useEditorStore((s) => s.undo)
   const redo = useEditorStore((s) => s.redo)
   const index = useEditorStore((s) => s.index)
@@ -27,6 +29,8 @@ export function TopBar({ canvasRef, zoomPercent, onExportClick, onSaveClick, onC
   const resetAll = useEditorStore((s) => s.resetAll)
   const showBefore = useEditorStore((s) => s.showBefore)
   const setShowBefore = useEditorStore((s) => s.setShowBefore)
+  const compareMode = useEditorStore((s) => s.compareMode)
+  const setCompare = useEditorStore((s) => s.setCompare)
 
   const canUndo = index > 0
   const canRedo = index < historyLen - 1
@@ -47,6 +51,20 @@ export function TopBar({ canvasRef, zoomPercent, onExportClick, onSaveClick, onC
         <span className="hidden font-display text-[0.9375rem] tracking-wider text-foreground/90 md:inline">
           PXL EDITOR
         </span>
+        <button
+          type="button"
+          onClick={onAssistantClick}
+          className={cn(
+            "flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[0.8125rem] font-medium transition-colors",
+            assistantOpen
+              ? "border-gold/50 bg-gold/15 text-gold"
+              : "border-gold/30 bg-gold/5 text-gold/90 hover:bg-gold/10"
+          )}
+          title="AI Assistant"
+        >
+          <SparkIcon />
+          <span className="hidden sm:inline">Assistant</span>
+        </button>
       </div>
 
       {/* Centre — history + before/after */}
@@ -68,9 +86,21 @@ export function TopBar({ canvasRef, zoomPercent, onExportClick, onSaveClick, onC
             "rounded-lg px-2.5 py-1.5 text-[0.75rem] font-medium transition-colors",
             showBefore ? "bg-gold/15 text-gold" : "text-muted hover:text-foreground"
           )}
-          title="Toggle before / after"
+          title="Hold to view the original (before / after)"
         >
           {showBefore ? "Before" : "After"}
+        </button>
+        <button
+          type="button"
+          onClick={() => setCompare({ compareMode: !compareMode })}
+          className={cn(
+            "rounded-lg p-2 transition-colors",
+            compareMode ? "bg-gold/15 text-gold" : "text-muted hover:bg-surface-2 hover:text-foreground"
+          )}
+          title="Split before / after compare"
+          aria-label="Split compare"
+        >
+          <CompareIcon />
         </button>
       </div>
 
@@ -156,3 +186,5 @@ function PlusIcon() { return <svg {...s}><line x1="12" y1="5" x2="12" y2="19" />
 function MinusIcon() { return <svg {...s}><line x1="5" y1="12" x2="19" y2="12" /></svg> }
 function ExportIcon() { return <svg {...s}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg> }
 function SaveIcon() { return <svg {...s}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></svg> }
+function SparkIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.9 4.8L18.8 9.6l-4.9 1.8L12 16.2l-1.9-4.8L5.2 9.6l4.9-1.8z" /><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" /></svg> }
+function CompareIcon() { return <svg {...s}><rect x="3" y="4" width="18" height="16" rx="2" /><line x1="12" y1="4" x2="12" y2="20" /><path d="M8 9l-2 3 2 3" /><path d="M16 9l2 3-2 3" /></svg> }
