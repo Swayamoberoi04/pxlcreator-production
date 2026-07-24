@@ -16,7 +16,7 @@
  */
 
 import type { EditorRenderer } from "./renderer"
-import type { Adjustments, Geometry } from "./adjustments"
+import type { RenderSettings, Geometry } from "./adjustments"
 import { orientedDims, drawGeometry } from "./geometry"
 
 export type ExportFormat = "jpeg" | "png" | "webp"
@@ -81,14 +81,14 @@ function clampResolution(canvas: HTMLCanvasElement, maxEdge: number | null): HTM
  */
 export async function exportImage(
   renderer: EditorRenderer,
-  adjustments: Adjustments,
+  settings: RenderSettings,
   geometry: Geometry,
   options: ExportOptions,
   previewW: number,
   previewH: number
 ): Promise<Blob> {
   // Stage 1 — colour at full resolution on the GL canvas.
-  renderer.renderFullResolution(adjustments)
+  renderer.renderFullResolution(settings)
   const srcW = renderer.imageWidth
   const srcH = renderer.imageHeight
 

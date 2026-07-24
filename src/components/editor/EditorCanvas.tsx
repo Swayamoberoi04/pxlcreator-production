@@ -27,9 +27,10 @@ import {
 import { EditorRenderer } from "@/lib/editor/renderer"
 import { drawGeometry, orientedDims } from "@/lib/editor/geometry"
 import { exportImage, type ExportOptions } from "@/lib/editor/export"
-import { useEditorStore } from "@/lib/editor/store"
+import { useEditorStore, renderSettingsFrom } from "@/lib/editor/store"
 import type { CropRect } from "@/lib/editor/adjustments"
 import { CropOverlay } from "./CropOverlay"
+import { MaskOverlay } from "./MaskOverlay"
 
 /** Longest-edge cap for the live preview render (export uses full resolution). */
 const MAX_PREVIEW_EDGE = 2048
@@ -84,7 +85,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
     if (!renderer || !renderer.ok || !glCanvas || !display || !container || !readyRef.current) return
 
     const state = useEditorStore.getState()
-    const { adjustments, geometry, showBefore } = state
+    const { geometry, showBefore } = state
 
     // 1) Size the GL buffer to a capped preview resolution and render colour.
     const srcW = renderer.imageWidth
@@ -96,7 +97,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
       glCanvas.width = glW
       glCanvas.height = glH
     }
-    renderer.render(adjustments, showBefore)
+    renderer.render(renderSettingsFrom(state), showBefore)
 
     // 2) Work out the on-screen fit size of the visible content.
     const applyCrop = !cropMode
@@ -258,7 +259,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
         const state = useEditorStore.getState()
         const blob = await exportImage(
           renderer,
-          state.adjustments,
+          renderSettingsFrom(state),
           state.geometry,
           options,
           previewW,
@@ -279,7 +280,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
   /* ── Drag to pan when zoomed in (disabled in crop mode) ── */
   const panDrag = useRef<{ x: number; y: number; startPan: { x: number; y: number } } | null>(null)
   const onPointerDown = (e: React.PointerEvent) => {
-    if (cropMode || zoom <= 1) return
+    if (cropMode || activeMaskId || zoom <= 1) return
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
     panDrag.current = { x: e.clientX, y: e.clientY, startPan: pan }
   }
@@ -297,6 +298,14 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
 
   const geometry = useEditorStore((s) => s.geometry)
   const handleCropChange = useCallback((c: CropRect) => setCrop(c), [setCrop])
+
+  const activeMaskId = useEditorStore((s) => s.activeMaskId)
+  const activeMask = useEditorStore((s) => s.masks.find((m) => m.id === s.activeMaskId) ?? null)
+  const updateMask = useEditorStore((s) => s.updateMask)
+  const brushRadius = useEditorStore((s) => s.brushRadius)
+  const brushFeather = useEditorStore((s) => s.brushFeather)
+  const brushErase = useEditorStore((s) => s.brushErase)
+  const maskEditable = activeMask && (activeMask.type === "radial" || activeMask.type === "linear" || activeMask.type === "brush")
 
   return (
     <div
@@ -330,6 +339,18 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
             aspect={cropAspect}
             onChange={handleCropChange}
             onCommit={commit}
+          />
+        )}
+        {!cropMode && maskEditable && activeMask && fitDims.w > 0 && (
+          <MaskOverlay
+            mask={activeMask}
+            width={fitDims.w}
+            height={fitDims.h}
+            brushRadius={brushRadius}
+            brushFeather={brushFeather}
+            brushErase={brushErase}
+            updateMask={updateMask}
+            commit={commit}
           />
         )}
       </div>

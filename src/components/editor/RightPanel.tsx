@@ -1,22 +1,37 @@
 "use client"
 
 /**
- * RightPanel — the editing controls, grouped into collapsible sections that map
- * one-to-one to `EDIT_SECTIONS`. Every slider is wired to the Zustand store:
- * dragging calls `setAdjustment` (live, smooth) and release calls `commit` (one
- * undo step). The Crop & Geometry block drives the geometry state and the crop
- * UI mode owned by the shell.
+ * RightPanel — the editing controls, grouped into collapsible sections.
+ *
+ * Phase 1 sections (Light/Color/Detail) are generated from `EDIT_SECTIONS`;
+ * Phase 2 adds Curves, HSL, Color Grading, Vignette, Grain, and Noise Reduction,
+ * each backed by the store. Every control drags live (`set…`) and checkpoints on
+ * release (`commit`). The Crop & Geometry block drives geometry + the crop mode
+ * owned by the shell.
  */
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import {
   EDIT_SECTIONS,
+  VIGNETTE_SLIDERS,
+  GRAIN_SLIDERS,
+  NOISE_SLIDERS,
+  DEFAULT_VIGNETTE,
+  DEFAULT_GRAIN,
+  DEFAULT_NOISE,
   type AdjustmentKey,
   type SectionMeta,
+  type Vignette,
+  type Grain,
+  type NoiseReduction,
 } from "@/lib/editor/adjustments"
 import { useEditorStore } from "@/lib/editor/store"
 import { AdjustmentSlider } from "./AdjustmentSlider"
+import { CurveEditor } from "./CurveEditor"
+import { HSLPanel } from "./HSLPanel"
+import { ColorGradingPanel } from "./ColorGradingPanel"
+import { MaskControls } from "./MaskControls"
 
 interface RightPanelProps {
   cropMode: boolean
@@ -26,12 +41,24 @@ interface RightPanelProps {
 }
 
 export function RightPanel({ cropMode, setCropMode, cropAspect, setCropAspect }: RightPanelProps) {
+  const activeMaskId = useEditorStore((s) => s.activeMaskId)
+  const activeMask = useEditorStore((s) => s.masks.find((m) => m.id === s.activeMaskId) ?? null)
+
+  // When a mask is selected the whole panel becomes that mask's controls.
+  if (activeMaskId && activeMask) return <MaskControls mask={activeMask} />
+
   return (
     <div className="flex h-full flex-col overflow-y-auto">
       <div className="flex flex-col divide-y divide-border">
         {EDIT_SECTIONS.map((section) => (
-          <Section key={section.id} section={section} />
+          <AdjustmentSection key={section.id} section={section} />
         ))}
+        <CurvesSection />
+        <HSLSection />
+        <GradingSection />
+        <VignetteSection />
+        <GrainSection />
+        <NoiseSection />
         <CropSection
           cropMode={cropMode}
           setCropMode={setCropMode}
@@ -43,17 +70,21 @@ export function RightPanel({ cropMode, setCropMode, cropAspect, setCropAspect }:
   )
 }
 
-/* ── A collapsible adjustment section ── */
-function Section({ section }: { section: SectionMeta }) {
-  const [open, setOpen] = useState(true)
-  const adjustments = useEditorStore((s) => s.adjustments)
-  const setAdjustment = useEditorStore((s) => s.setAdjustment)
-  const commit = useEditorStore((s) => s.commit)
-  const resetSection = useEditorStore((s) => s.resetSection)
-
-  const keys = section.sliders.map((s) => s.key)
-  const sectionEdited = keys.some((k) => adjustments[k] !== 0)
-
+/* ── Reusable collapsible shell ── */
+function Collapsible({
+  title,
+  edited,
+  onReset,
+  defaultOpen = false,
+  children,
+}: {
+  title: string
+  edited?: boolean
+  onReset?: () => void
+  defaultOpen?: boolean
+  children: React.ReactNode
+}) {
+  const [open, setOpen] = useState(defaultOpen)
   return (
     <div className="px-4 py-3.5">
       <div className="flex items-center justify-between">
@@ -63,36 +94,184 @@ function Section({ section }: { section: SectionMeta }) {
           className="flex items-center gap-2 text-label tracking-widest text-foreground/90 hover:text-gold transition-colors"
         >
           <Chevron open={open} />
-          {section.title}
+          {title}
         </button>
-        {sectionEdited && (
+        {edited && onReset && (
           <button
             type="button"
-            onClick={() => resetSection(keys)}
+            onClick={onReset}
             className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold transition-colors"
           >
             Reset
           </button>
         )}
       </div>
-
-      {open && (
-        <div className="mt-3.5 flex flex-col gap-3.5">
-          {section.sliders.map((meta) => (
-            <AdjustmentSlider
-              key={meta.key}
-              label={meta.label}
-              value={adjustments[meta.key]}
-              min={meta.min}
-              max={meta.max}
-              center={meta.center}
-              onChange={(v) => setAdjustment(meta.key as AdjustmentKey, v)}
-              onCommit={commit}
-            />
-          ))}
-        </div>
-      )}
+      {open && <div className="mt-3.5 flex flex-col gap-3.5">{children}</div>}
     </div>
+  )
+}
+
+/* ── Phase 1 adjustment section ── */
+function AdjustmentSection({ section }: { section: SectionMeta }) {
+  const adjustments = useEditorStore((s) => s.adjustments)
+  const setAdjustment = useEditorStore((s) => s.setAdjustment)
+  const commit = useEditorStore((s) => s.commit)
+  const resetSection = useEditorStore((s) => s.resetSection)
+
+  const keys = section.sliders.map((s) => s.key)
+  const edited = keys.some((k) => adjustments[k] !== 0)
+
+  return (
+    <Collapsible title={section.title} defaultOpen edited={edited} onReset={() => resetSection(keys)}>
+      {section.sliders.map((meta) => (
+        <AdjustmentSlider
+          key={meta.key}
+          label={meta.label}
+          value={adjustments[meta.key]}
+          min={meta.min}
+          max={meta.max}
+          center={meta.center}
+          onChange={(v) => setAdjustment(meta.key as AdjustmentKey, v)}
+          onCommit={commit}
+        />
+      ))}
+    </Collapsible>
+  )
+}
+
+/* ── Curves ── */
+function CurvesSection() {
+  const curves = useEditorStore((s) => s.curves)
+  const setCurve = useEditorStore((s) => s.setCurve)
+  const commit = useEditorStore((s) => s.commit)
+  const resetGroup = useEditorStore((s) => s.resetGroup)
+  const edited = (["rgb", "r", "g", "b"] as const).some(
+    (ch) => curves[ch].length !== 2 || curves[ch].some((p, i) => p.x !== i || p.y !== i)
+  )
+  return (
+    <Collapsible title="Curve" edited={edited} onReset={() => resetGroup("curves")}>
+      <CurveEditor curves={curves} setCurve={setCurve} commit={commit} />
+    </Collapsible>
+  )
+}
+
+/* ── HSL ── */
+function HSLSection() {
+  const hsl = useEditorStore((s) => s.hsl)
+  const setHSLBand = useEditorStore((s) => s.setHSLBand)
+  const commit = useEditorStore((s) => s.commit)
+  const resetGroup = useEditorStore((s) => s.resetGroup)
+  const edited = hsl.some((b) => b.h !== 0 || b.s !== 0 || b.l !== 0)
+  return (
+    <Collapsible title="Color Mixer (HSL)" edited={edited} onReset={() => resetGroup("hsl")}>
+      <HSLPanel hsl={hsl} setHSLBand={setHSLBand} commit={commit} />
+    </Collapsible>
+  )
+}
+
+/* ── Color Grading ── */
+function GradingSection() {
+  const grading = useEditorStore((s) => s.grading)
+  const setGrade = useEditorStore((s) => s.setGrade)
+  const setGradingParam = useEditorStore((s) => s.setGradingParam)
+  const commit = useEditorStore((s) => s.commit)
+  const resetGroup = useEditorStore((s) => s.resetGroup)
+  const zoneEdited = (z: { hue: number; sat: number; lum: number }) => z.sat !== 0 || z.lum !== 0
+  const edited =
+    zoneEdited(grading.shadows) ||
+    zoneEdited(grading.midtones) ||
+    zoneEdited(grading.highlights) ||
+    zoneEdited(grading.global)
+  return (
+    <Collapsible title="Color Grading" edited={edited} onReset={() => resetGroup("grading")}>
+      <ColorGradingPanel
+        grading={grading}
+        setGrade={setGrade}
+        setGradingParam={setGradingParam}
+        commit={commit}
+      />
+    </Collapsible>
+  )
+}
+
+/* ── Vignette ── */
+function VignetteSection() {
+  const vignette = useEditorStore((s) => s.vignette)
+  const setVignette = useEditorStore((s) => s.setVignette)
+  const commit = useEditorStore((s) => s.commit)
+  const resetGroup = useEditorStore((s) => s.resetGroup)
+  const edited = (Object.keys(DEFAULT_VIGNETTE) as (keyof Vignette)[]).some(
+    (k) => vignette[k] !== DEFAULT_VIGNETTE[k]
+  )
+  return (
+    <Collapsible title="Vignette" edited={edited} onReset={() => resetGroup("vignette")}>
+      {VIGNETTE_SLIDERS.map((m) => (
+        <AdjustmentSlider
+          key={m.key}
+          label={m.label}
+          value={vignette[m.key]}
+          min={m.min}
+          max={m.max}
+          center={m.center}
+          onChange={(v) => setVignette({ [m.key]: v })}
+          onCommit={commit}
+        />
+      ))}
+    </Collapsible>
+  )
+}
+
+/* ── Grain ── */
+function GrainSection() {
+  const grain = useEditorStore((s) => s.grain)
+  const setGrain = useEditorStore((s) => s.setGrain)
+  const commit = useEditorStore((s) => s.commit)
+  const resetGroup = useEditorStore((s) => s.resetGroup)
+  const edited = (Object.keys(DEFAULT_GRAIN) as (keyof Grain)[]).some(
+    (k) => grain[k] !== DEFAULT_GRAIN[k]
+  )
+  return (
+    <Collapsible title="Grain" edited={edited} onReset={() => resetGroup("grain")}>
+      {GRAIN_SLIDERS.map((m) => (
+        <AdjustmentSlider
+          key={m.key}
+          label={m.label}
+          value={grain[m.key]}
+          min={m.min}
+          max={m.max}
+          center={m.center}
+          onChange={(v) => setGrain({ [m.key]: v })}
+          onCommit={commit}
+        />
+      ))}
+    </Collapsible>
+  )
+}
+
+/* ── Noise Reduction ── */
+function NoiseSection() {
+  const noise = useEditorStore((s) => s.noise)
+  const setNoise = useEditorStore((s) => s.setNoise)
+  const commit = useEditorStore((s) => s.commit)
+  const resetGroup = useEditorStore((s) => s.resetGroup)
+  const edited = (Object.keys(DEFAULT_NOISE) as (keyof NoiseReduction)[]).some(
+    (k) => noise[k] !== DEFAULT_NOISE[k]
+  )
+  return (
+    <Collapsible title="Noise Reduction" edited={edited} onReset={() => resetGroup("noise")}>
+      {NOISE_SLIDERS.map((m) => (
+        <AdjustmentSlider
+          key={m.key}
+          label={m.label}
+          value={noise[m.key]}
+          min={m.min}
+          max={m.max}
+          center={m.center}
+          onChange={(v) => setNoise({ [m.key]: v })}
+          onCommit={commit}
+        />
+      ))}
+    </Collapsible>
   )
 }
 
@@ -106,13 +285,7 @@ const ASPECTS: { label: string; value: number | null }[] = [
   { label: "16:9", value: 16 / 9 },
 ]
 
-function CropSection({
-  cropMode,
-  setCropMode,
-  cropAspect,
-  setCropAspect,
-}: RightPanelProps) {
-  const [open, setOpen] = useState(false)
+function CropSection({ cropMode, setCropMode, cropAspect, setCropAspect }: RightPanelProps) {
   const geometry = useEditorStore((s) => s.geometry)
   const setGeometry = useEditorStore((s) => s.setGeometry)
   const setCrop = useEditorStore((s) => s.setCrop)
@@ -121,16 +294,10 @@ function CropSection({
   const applyAspect = (value: number | null) => {
     setCropAspect(value)
     if (value == null) return
-    // Centre a crop of the requested aspect within the frame (normalised).
-    // Use a square-ish default; the exporter re-derives exact pixels.
     let w = 1
     let h = 1
-    if (value >= 1) {
-      h = 1 / value
-    } else {
-      w = value
-    }
-    // Scale to 90% and centre.
+    if (value >= 1) h = 1 / value
+    else w = value
     w *= 0.9
     h *= 0.9
     setCrop({ x: (1 - w) / 2, y: (1 - h) / 2, w, h })
@@ -142,113 +309,90 @@ function CropSection({
     commit()
   }
 
-  return (
-    <div className="px-4 py-3.5">
-      <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => setOpen((o) => !o)}
-          className="flex items-center gap-2 text-label tracking-widest text-foreground/90 hover:text-gold transition-colors"
-        >
-          <Chevron open={open} />
-          Crop &amp; Geometry
-        </button>
-      </div>
+  const geoEdited =
+    !!geometry.crop || !!geometry.rotate90 || geometry.flipH || geometry.flipV || geometry.straighten !== 0
 
-      {open && (
-        <div className="mt-3.5 flex flex-col gap-4">
+  return (
+    <Collapsible title="Crop & Geometry">
+      <button
+        type="button"
+        onClick={() => setCropMode(!cropMode)}
+        className={cn(
+          "rounded-lg border py-2 text-[0.8125rem] font-medium transition-colors",
+          cropMode
+            ? "border-gold/50 bg-gold/10 text-gold"
+            : "border-border text-muted hover:border-gold/40 hover:text-foreground"
+        )}
+      >
+        {cropMode ? "Done cropping" : "Crop image"}
+      </button>
+
+      <div className="grid grid-cols-3 gap-1.5">
+        {ASPECTS.map((a) => (
           <button
+            key={a.label}
             type="button"
-            onClick={() => setCropMode(!cropMode)}
+            onClick={() => applyAspect(a.value)}
             className={cn(
-              "rounded-lg border py-2 text-[0.8125rem] font-medium transition-colors",
-              cropMode
+              "rounded-md border py-1.5 text-[0.75rem] transition-colors",
+              cropAspect === a.value
                 ? "border-gold/50 bg-gold/10 text-gold"
-                : "border-border text-muted hover:border-gold/40 hover:text-foreground"
+                : "border-border text-muted/70 hover:border-gold/30 hover:text-foreground"
             )}
           >
-            {cropMode ? "Done cropping" : "Crop image"}
+            {a.label}
           </button>
+        ))}
+      </div>
 
-          {/* Aspect ratios */}
-          <div className="grid grid-cols-3 gap-1.5">
-            {ASPECTS.map((a) => (
-              <button
-                key={a.label}
-                type="button"
-                onClick={() => applyAspect(a.value)}
-                className={cn(
-                  "rounded-md border py-1.5 text-[0.75rem] transition-colors",
-                  cropAspect === a.value
-                    ? "border-gold/50 bg-gold/10 text-gold"
-                    : "border-border text-muted/70 hover:border-gold/30 hover:text-foreground"
-                )}
-              >
-                {a.label}
-              </button>
-            ))}
-          </div>
+      <div className="grid grid-cols-3 gap-1.5">
+        <GeoButton label="Rotate" onClick={rotate} />
+        <GeoButton
+          label="Flip H"
+          active={geometry.flipH}
+          onClick={() => {
+            setGeometry({ flipH: !geometry.flipH })
+            commit()
+          }}
+        />
+        <GeoButton
+          label="Flip V"
+          active={geometry.flipV}
+          onClick={() => {
+            setGeometry({ flipV: !geometry.flipV })
+            commit()
+          }}
+        />
+      </div>
 
-          {/* Rotate / flip */}
-          <div className="grid grid-cols-3 gap-1.5">
-            <GeoButton label="Rotate" onClick={rotate} />
-            <GeoButton
-              label="Flip H"
-              active={geometry.flipH}
-              onClick={() => {
-                setGeometry({ flipH: !geometry.flipH })
-                commit()
-              }}
-            />
-            <GeoButton
-              label="Flip V"
-              active={geometry.flipV}
-              onClick={() => {
-                setGeometry({ flipV: !geometry.flipV })
-                commit()
-              }}
-            />
-          </div>
+      <AdjustmentSlider
+        label="Straighten"
+        value={geometry.straighten}
+        min={-45}
+        max={45}
+        center={0}
+        onChange={(v) => setGeometry({ straighten: v })}
+        onCommit={commit}
+      />
 
-          {/* Straighten */}
-          <AdjustmentSlider
-            label="Straighten"
-            value={geometry.straighten}
-            min={-45}
-            max={45}
-            center={0}
-            onChange={(v) => setGeometry({ straighten: v })}
-            onCommit={commit}
-          />
-
-          {(geometry.crop || geometry.rotate90 || geometry.flipH || geometry.flipV || geometry.straighten) && (
-            <button
-              type="button"
-              onClick={() => {
-                setGeometry({ rotate90: 0, flipH: false, flipV: false, straighten: 0, crop: null })
-                setCropAspect(null)
-                commit()
-              }}
-              className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold transition-colors"
-            >
-              Reset geometry
-            </button>
-          )}
-        </div>
+      {geoEdited && (
+        <button
+          type="button"
+          onClick={() => {
+            setGeometry({ rotate90: 0, flipH: false, flipV: false, straighten: 0, crop: null })
+            setCropAspect(null)
+            commit()
+          }}
+          className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold transition-colors"
+        >
+          Reset geometry
+        </button>
       )}
-    </div>
+    </Collapsible>
   )
 }
 
-function GeoButton({
-  label,
-  active,
-  onClick,
-}: {
-  label: string
-  active?: boolean
-  onClick: () => void
-}) {
+function GeoButton({ label, active, onClick }: { label: string; active?: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
