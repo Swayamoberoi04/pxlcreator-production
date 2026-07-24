@@ -48,7 +48,9 @@ import {
   type Mask,
   type MaskType,
   type MaskAdjustmentKey,
+  type Spot,
   createMask,
+  createSpot,
 } from "./adjustments"
 
 /** A full editor snapshot — everything undo/redo and sessions persist. */
@@ -62,6 +64,7 @@ export interface Snapshot {
   grain: Grain
   noise: NoiseReduction
   masks: Mask[]
+  spots: Spot[]
 }
 
 export type ResetGroup = "curves" | "hsl" | "grading" | "vignette" | "grain" | "noise"
@@ -77,6 +80,13 @@ interface EditorStore extends Snapshot {
   brushFeather: number
   brushErase: boolean
   setBrush: (partial: Partial<{ brushRadius: number; brushFeather: number; brushErase: boolean }>) => void
+  /** Heal/spot tool settings (UI state). */
+  healRadius: number
+  healFeather: number
+  healClone: boolean
+  /** Whether the canvas is in spot-placement mode. */
+  healMode: boolean
+  setHeal: (partial: Partial<{ healRadius: number; healFeather: number; healClone: boolean; healMode: boolean }>) => void
   /** Bumped whenever the live state changes so the canvas re-renders. */
   revision: number
 
@@ -107,6 +117,12 @@ interface EditorStore extends Snapshot {
   updateMask: (id: string, partial: Partial<Mask>) => void
   setMaskAdjustment: (id: string, key: MaskAdjustmentKey, value: number) => void
 
+  // ── spots / healing (Phase 3B) ──
+  addSpot: (tx: number, ty: number) => void
+  updateSpot: (id: string, partial: Partial<Spot>) => void
+  deleteSpot: (id: string) => void
+  clearSpots: () => void
+
   // ── bulk / sessions ──
   applyAdjustments: (partial: Partial<Adjustments>) => void
   loadSnapshot: (snap: Snapshot) => void
@@ -136,6 +152,7 @@ const emptySnapshot = (): Snapshot => ({
   grain: { ...DEFAULT_GRAIN },
   noise: { ...DEFAULT_NOISE },
   masks: [],
+  spots: [],
 })
 
 export const snapshotOf = (s: Snapshot): Snapshot => ({
@@ -148,6 +165,7 @@ export const snapshotOf = (s: Snapshot): Snapshot => ({
   grain: s.grain,
   noise: s.noise,
   masks: s.masks,
+  spots: s.spots,
 })
 
 const snapshotsEqual = (a: Snapshot, b: Snapshot): boolean =>
@@ -164,6 +182,7 @@ export function renderSettingsFrom(s: Snapshot): RenderSettings {
     grain: s.grain,
     noise: s.noise,
     masks: s.masks,
+    spots: s.spots,
   }
 }
 
@@ -190,6 +209,11 @@ export const useEditorStore = create<EditorStore>((set, get) => {
     brushFeather: 0.5,
     brushErase: false,
     setBrush: (partial) => set(partial),
+    healRadius: 0.05,
+    healFeather: 0.5,
+    healClone: false,
+    healMode: false,
+    setHeal: (partial) => set(partial),
     revision: 0,
 
     // ── live edits ──
@@ -238,6 +262,20 @@ export const useEditorStore = create<EditorStore>((set, get) => {
           m.id === id ? { ...m, adjustments: { ...m.adjustments, [key]: value } } : m
         ),
       }),
+
+    // ── spots / healing ──
+    addSpot: (tx, ty) => {
+      const s = get()
+      const spot = createSpot(tx, ty, s.healRadius, s.healFeather, !s.healClone)
+      checkpoint({ spots: [...s.spots, spot] })
+    },
+    updateSpot: (id, partial) =>
+      live({ spots: get().spots.map((sp) => (sp.id === id ? { ...sp, ...partial } : sp)) }),
+    deleteSpot: (id) => checkpoint({ spots: get().spots.filter((sp) => sp.id !== id) }),
+    clearSpots: () => {
+      if (get().spots.length === 0) return
+      checkpoint({ spots: [] })
+    },
 
     // ── history ──
     commit: () => {
@@ -328,6 +366,7 @@ export const useEditorStore = create<EditorStore>((set, get) => {
         index: 0,
         showBefore: false,
         activeMaskId: null,
+        healMode: false,
         revision: 0,
       }),
   }

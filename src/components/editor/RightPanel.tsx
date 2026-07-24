@@ -59,6 +59,7 @@ export function RightPanel({ cropMode, setCropMode, cropAspect, setCropAspect }:
         <VignetteSection />
         <GrainSection />
         <NoiseSection />
+        <HealSection />
         <CropSection
           cropMode={cropMode}
           setCropMode={setCropMode}
@@ -271,6 +272,79 @@ function NoiseSection() {
           onCommit={commit}
         />
       ))}
+    </Collapsible>
+  )
+}
+
+/* ── Healing / Spot Removal (Phase 3B) ── */
+function HealSection() {
+  const spots = useEditorStore((s) => s.spots)
+  const healMode = useEditorStore((s) => s.healMode)
+  const healRadius = useEditorStore((s) => s.healRadius)
+  const healFeather = useEditorStore((s) => s.healFeather)
+  const healClone = useEditorStore((s) => s.healClone)
+  const setHeal = useEditorStore((s) => s.setHeal)
+  const clearSpots = useEditorStore((s) => s.clearSpots)
+
+  return (
+    <Collapsible title="Healing" edited={spots.length > 0} onReset={clearSpots}>
+      <button
+        type="button"
+        onClick={() => setHeal({ healMode: !healMode })}
+        className={cn(
+          "rounded-lg border py-2 text-[0.8125rem] font-medium transition-colors",
+          healMode
+            ? "border-gold/50 bg-gold/10 text-gold"
+            : "border-border text-muted hover:border-gold/40 hover:text-foreground"
+        )}
+      >
+        {healMode ? "Done retouching" : "Remove spots"}
+      </button>
+
+      {healMode && (
+        <p className="text-[0.75rem] leading-relaxed text-muted/60">
+          Click a blemish to remove it. Drag the white ring to move the fix, the dashed ring to
+          change where it samples from.
+        </p>
+      )}
+
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={() => setHeal({ healClone: false })}
+          className={cn(
+            "flex-1 rounded-lg border py-2 text-[0.75rem] transition-colors",
+            !healClone ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/60 hover:text-foreground"
+          )}
+        >
+          Heal
+        </button>
+        <button
+          type="button"
+          onClick={() => setHeal({ healClone: true })}
+          className={cn(
+            "flex-1 rounded-lg border py-2 text-[0.75rem] transition-colors",
+            healClone ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/60 hover:text-foreground"
+          )}
+        >
+          Clone
+        </button>
+      </div>
+
+      <label className="flex flex-col gap-1 text-[0.75rem] text-muted/70">
+        Size
+        <input type="range" min={0.01} max={0.25} step={0.005} value={healRadius}
+          onChange={(e) => setHeal({ healRadius: Number(e.target.value) })} className="accent-gold" />
+      </label>
+      <label className="flex flex-col gap-1 text-[0.75rem] text-muted/70">
+        Softness
+        <input type="range" min={0} max={1} step={0.05} value={healFeather}
+          onChange={(e) => setHeal({ healFeather: Number(e.target.value) })} className="accent-gold" />
+      </label>
+
+      {spots.length > 0 && (
+        <p className="text-[0.6875rem] text-muted/40">{spots.length} spot{spots.length === 1 ? "" : "s"} removed</p>
+      )}
     </Collapsible>
   )
 }
