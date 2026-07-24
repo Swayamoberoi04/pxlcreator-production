@@ -17,6 +17,11 @@
  * sharpening as 0..1.
  */
 
+import { MAX_SPOTS } from "./adjustments"
+
+/** Injected into the SPOT shader's uniform array sizes + loop bound. */
+const MAX_SPOTS_GLSL = MAX_SPOTS
+
 export const VERTEX_SRC = /* glsl */ `#version 300 es
 in vec2 a_pos;
 out vec2 v_uv;
@@ -62,6 +67,54 @@ in vec2 v_uv;
 out vec4 outColor;
 uniform sampler2D u_tex;
 void main() { outColor = texture(u_tex, v_uv); }`
+
+/**
+ * SPOT — healing / clone retouch pre-pass.
+ *
+ * Runs on the source image before any adjustments. For each spot, pixels inside
+ * the (feathered) target ellipse are replaced by pixels sampled from the source
+ * location. Clone copies verbatim; Heal transfers only the source's texture
+ * (high frequency) and keeps the target's own colour (low frequency, from the
+ * blurred reference) — the classic gradient-domain heal, cheap enough for live.
+ */
+export const SPOT_SRC = /* glsl */ `#version 300 es
+precision highp float;
+in vec2 v_uv;
+out vec4 outColor;
+
+uniform sampler2D u_src;
+uniform sampler2D u_blur;
+uniform float u_aspect;      // width / height
+uniform int   u_spotCount;
+uniform vec2  u_spotT[${MAX_SPOTS_GLSL}];
+uniform vec2  u_spotS[${MAX_SPOTS_GLSL}];
+uniform float u_spotR[${MAX_SPOTS_GLSL}];
+uniform float u_spotF[${MAX_SPOTS_GLSL}];
+uniform float u_spotHeal[${MAX_SPOTS_GLSL}];
+
+void main() {
+  vec3 c = texture(u_src, v_uv).rgb;
+  vec2 P = vec2(v_uv.x, 1.0 - v_uv.y); // display space (y down)
+
+  for (int i = 0; i < ${MAX_SPOTS_GLSL}; i++) {
+    if (i >= u_spotCount) break;
+    vec2 t = u_spotT[i];
+    float r = u_spotR[i];
+    vec2 rn = (u_aspect >= 1.0) ? vec2(r / u_aspect, r) : vec2(r, r * u_aspect);
+    float dist = length((P - t) / max(rn, vec2(1e-4)));
+    if (dist > 1.0) continue;
+    float w = 1.0 - smoothstep(1.0 - u_spotF[i], 1.0, dist);
+    vec2 dP = u_spotS[i] - t;
+    vec2 srcUV = v_uv + vec2(dP.x, -dP.y);
+    vec3 s = texture(u_src, srcUV).rgb;
+    if (u_spotHeal[i] > 0.5) {
+      // Heal: source texture + target colour.
+      s = s - texture(u_blur, srcUV).rgb + texture(u_blur, v_uv).rgb;
+    }
+    c = mix(c, clamp(s, 0.0, 1.0), w);
+  }
+  outColor = vec4(c, 1.0);
+}`
 
 /**
  * MASK — one local-adjustment layer.

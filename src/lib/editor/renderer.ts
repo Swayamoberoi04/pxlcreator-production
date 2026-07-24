@@ -22,11 +22,13 @@
  * uploads 14 floats per frame.
  */
 
-import { VERTEX_SRC, BLUR_SRC, MAIN_SRC, MASK_SRC, COPY_SRC } from "./shaders"
+import { VERTEX_SRC, BLUR_SRC, MAIN_SRC, MASK_SRC, COPY_SRC, SPOT_SRC } from "./shaders"
 import {
   DEFAULT_RENDER_SETTINGS,
+  MAX_SPOTS,
   type RenderSettings,
   type Mask,
+  type Spot,
 } from "./adjustments"
 import { bakeCurveLUT, curvesAreIdentity } from "./curves"
 import { rasterizeBrush, brushSignature } from "./masks"
@@ -138,6 +140,7 @@ export class EditorRenderer {
   private mainProgram: WebGLProgram
   private maskProgram: WebGLProgram
   private copyProgram: WebGLProgram
+  private spotProgram: WebGLProgram
   private quad: WebGLBuffer
   private sourceTex: WebGLTexture | null = null
   private lutTex: WebGLTexture
@@ -148,6 +151,7 @@ export class EditorRenderer {
   private fboB: Fbo | null = null
   private accumA: Fbo | null = null
   private accumB: Fbo | null = null
+  private healedFbo: Fbo | null = null
   private brushCache = new Map<string, BrushEntry>()
   private disposed = false
 
@@ -165,6 +169,7 @@ export class EditorRenderer {
     this.mainProgram = linkProgram(gl, VERTEX_SRC, MAIN_SRC)
     this.maskProgram = linkProgram(gl, VERTEX_SRC, MASK_SRC)
     this.copyProgram = linkProgram(gl, VERTEX_SRC, COPY_SRC)
+    this.spotProgram = linkProgram(gl, VERTEX_SRC, SPOT_SRC)
 
     // Fullscreen quad (two triangles) shared by every program.
     this.quad = gl.createBuffer()!
@@ -300,6 +305,57 @@ export class EditorRenderer {
     this.accumB = this.makeFbo(width, height)
   }
 
+  private ensureHealed(width: number, height: number): void {
+    if (this.healedFbo && this.healedFbo.width === width && this.healedFbo.height === height) return
+    if (this.healedFbo) {
+      this.gl.deleteFramebuffer(this.healedFbo.fbo)
+      this.gl.deleteTexture(this.healedFbo.tex)
+    }
+    this.healedFbo = this.makeFbo(width, height)
+  }
+
+  /** Retouch pre-pass: heal/clone the source into `targetFbo`. */
+  private runSpotPass(spots: Spot[], w: number, h: number, targetFbo: WebGLFramebuffer): void {
+    const gl = this.gl
+    const p = this.spotProgram
+    const n = spots.length
+    gl.useProgram(p)
+    this.bindQuad(p)
+    gl.bindFramebuffer(gl.FRAMEBUFFER, targetFbo)
+    gl.viewport(0, 0, w, h)
+
+    gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D, this.sourceTex)
+    gl.uniform1i(this.uloc(p, "u_src"), 0)
+    gl.activeTexture(gl.TEXTURE1)
+    gl.bindTexture(gl.TEXTURE_2D, this.fboB!.tex)
+    gl.uniform1i(this.uloc(p, "u_blur"), 1)
+    gl.uniform1f(this.uloc(p, "u_aspect"), this.srcW / this.srcH)
+    gl.uniform1i(this.uloc(p, "u_spotCount"), n)
+
+    const t = new Float32Array(n * 2)
+    const src = new Float32Array(n * 2)
+    const r = new Float32Array(n)
+    const f = new Float32Array(n)
+    const heal = new Float32Array(n)
+    for (let i = 0; i < n; i++) {
+      t[i * 2] = spots[i].tx
+      t[i * 2 + 1] = spots[i].ty
+      src[i * 2] = spots[i].sx
+      src[i * 2 + 1] = spots[i].sy
+      r[i] = spots[i].radius
+      f[i] = spots[i].feather
+      heal[i] = spots[i].heal ? 1 : 0
+    }
+    gl.uniform2fv(this.uloc(p, "u_spotT"), t)
+    gl.uniform2fv(this.uloc(p, "u_spotS"), src)
+    gl.uniform1fv(this.uloc(p, "u_spotR"), r)
+    gl.uniform1fv(this.uloc(p, "u_spotF"), f)
+    gl.uniform1fv(this.uloc(p, "u_spotHeal"), heal)
+
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
+  }
+
   /**
    * Render one frame at the canvas's current drawing-buffer size.
    *
@@ -342,13 +398,22 @@ export class EditorRenderer {
       gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 256, 1, gl.RGBA, gl.UNSIGNED_BYTE, lut)
     }
 
+    // ── Spot removal pre-pass: retouch the source before anything else ──
+    const spots = (s.spots ?? []).slice(0, MAX_SPOTS)
+    let sourceTex = this.sourceTex!
+    if (spots.length > 0) {
+      this.ensureHealed(w, h)
+      this.runSpotPass(spots, w, h, this.healedFbo!.fbo)
+      sourceTex = this.healedFbo!.tex
+    }
+
     // ── Which masks actually change pixels ──
     const masks = s.masks.filter(maskHasEffect)
     const usingMasks = masks.length > 0
     if (usingMasks) this.ensureAccum(w, h)
 
     // ── Main (global) pass → accumulator or straight to screen ──
-    this.runMain(s, w, h, curvesOn, usingMasks ? this.accumA!.fbo : null)
+    this.runMain(s, w, h, curvesOn, usingMasks ? this.accumA!.fbo : null, sourceTex)
 
     // ── Mask passes (ping-pong) + present ──
     if (usingMasks) {
@@ -377,7 +442,8 @@ export class EditorRenderer {
     w: number,
     h: number,
     curvesOn: boolean,
-    targetFbo: WebGLFramebuffer | null
+    targetFbo: WebGLFramebuffer | null,
+    sourceTex: WebGLTexture
   ): void {
     const gl = this.gl
     gl.useProgram(this.mainProgram)
@@ -386,7 +452,7 @@ export class EditorRenderer {
     gl.viewport(0, 0, w, h)
 
     gl.activeTexture(gl.TEXTURE0)
-    gl.bindTexture(gl.TEXTURE_2D, this.sourceTex)
+    gl.bindTexture(gl.TEXTURE_2D, sourceTex)
     gl.uniform1i(this.loc("u_tex"), 0)
     gl.activeTexture(gl.TEXTURE1)
     gl.bindTexture(gl.TEXTURE_2D, this.fboB!.tex)
@@ -538,7 +604,7 @@ export class EditorRenderer {
     if (this.disposed) return
     const gl = this.gl
     this.destroyFbos()
-    for (const f of [this.accumA, this.accumB]) {
+    for (const f of [this.accumA, this.accumB, this.healedFbo]) {
       if (f) {
         gl.deleteFramebuffer(f.fbo)
         gl.deleteTexture(f.tex)
@@ -554,6 +620,7 @@ export class EditorRenderer {
     gl.deleteProgram(this.mainProgram)
     gl.deleteProgram(this.maskProgram)
     gl.deleteProgram(this.copyProgram)
+    gl.deleteProgram(this.spotProgram)
     this.disposed = true
   }
 }

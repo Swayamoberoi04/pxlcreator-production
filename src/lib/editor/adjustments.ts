@@ -387,6 +387,34 @@ export function createMask(type: MaskType): Mask {
   return base
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 3B — Healing / Spot Removal (retouch)
+   A spot copies pixels from a SOURCE location over a TARGET blemish.
+   "Heal" transfers only the source texture and keeps the target's own
+   colour (gradient-domain style); "Clone" copies pixels verbatim.
+   Applied as a pre-pass on the source image, so later adjustments and
+   masks operate on the already-retouched pixels. Non-destructive.
+═══════════════════════════════════════════════════════════════ */
+
+/** Maximum spots the shader loop handles in one pass. */
+export const MAX_SPOTS = 32
+
+export interface Spot {
+  id: string
+  /** Target (blemish) centre, normalised display coords (y down, 0 = top). */
+  tx: number
+  ty: number
+  /** Source (sample) centre, same coordinate space. */
+  sx: number
+  sy: number
+  /** Radius as a fraction of the image's smaller edge. */
+  radius: number
+  /** 0..1 edge softness. */
+  feather: number
+  /** true = heal (match target colour), false = clone (copy verbatim). */
+  heal: boolean
+}
+
 /* ── The complete render state the shader consumes ── */
 export interface RenderSettings {
   adjustments: Adjustments
@@ -397,6 +425,7 @@ export interface RenderSettings {
   grain: Grain
   noise: NoiseReduction
   masks: Mask[]
+  spots: Spot[]
 }
 
 export const DEFAULT_RENDER_SETTINGS: RenderSettings = {
@@ -415,6 +444,19 @@ export const DEFAULT_RENDER_SETTINGS: RenderSettings = {
   grain: { ...DEFAULT_GRAIN },
   noise: { ...DEFAULT_NOISE },
   masks: [],
+  spots: [],
+}
+
+let spotCounter = 0
+/** Create a spot at a target point, auto-picking a nearby source location. */
+export function createSpot(tx: number, ty: number, radius: number, feather: number, heal: boolean): Spot {
+  spotCounter += 1
+  // Offset the source horizontally toward the image centre, clamped in-frame.
+  const dir = tx > 0.5 ? -1 : 1
+  const off = radius * 2.6
+  const sx = Math.min(0.98, Math.max(0.02, tx + dir * off))
+  const sy = Math.min(0.98, Math.max(0.02, ty))
+  return { id: `spot_${Date.now()}_${spotCounter}`, tx, ty, sx, sy, radius, feather, heal }
 }
 
 /* Vignette / Grain / Noise slider metadata (hand-built sections). */
