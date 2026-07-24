@@ -52,6 +52,9 @@ import {
   createMask,
   createSpot,
 } from "./adjustments"
+import type { AiPatch } from "./ai/patch"
+import { clampAdjustment } from "./ai/patch"
+import type { ImageAnalysis } from "./ai/analyze"
 
 /** A full editor snapshot — everything undo/redo and sessions persist. */
 export interface Snapshot {
@@ -87,6 +90,15 @@ interface EditorStore extends Snapshot {
   /** Whether the canvas is in spot-placement mode. */
   healMode: boolean
   setHeal: (partial: Partial<{ healRadius: number; healFeather: number; healClone: boolean; healMode: boolean }>) => void
+  /** AI analysis of the original image (UI state, computed on load). */
+  analysis: ImageAnalysis | null
+  setAnalysis: (analysis: ImageAnalysis | null) => void
+  /** Before/after split-compare view state. */
+  compareMode: boolean
+  comparePos: number
+  setCompare: (partial: Partial<{ compareMode: boolean; comparePos: number }>) => void
+  /** Apply an AI edit patch — additive (add to current) or replace (looks). */
+  applyAiPatch: (patch: AiPatch, additive: boolean) => void
   /** Bumped whenever the live state changes so the canvas re-renders. */
   revision: number
 
@@ -214,7 +226,56 @@ export const useEditorStore = create<EditorStore>((set, get) => {
     healClone: false,
     healMode: false,
     setHeal: (partial) => set(partial),
+    analysis: null,
+    setAnalysis: (analysis) => set({ analysis }),
+    compareMode: false,
+    comparePos: 0.5,
+    setCompare: (partial) => set(partial),
     revision: 0,
+
+    // ── AI patch application (one path for looks / recommendations / prompt / style) ──
+    applyAiPatch: (patch, additive) => {
+      const s = get()
+      // Additive edits add onto the current state; a one-click look replaces the
+      // colour/tone groups it may touch (geometry, masks, spots, curves are kept).
+      const adjustments = { ...(additive ? s.adjustments : DEFAULT_ADJUSTMENTS) }
+      const hsl = (additive ? s.hsl : DEFAULT_HSL).map((b) => ({ ...b }))
+      const grading = deepClone(additive ? s.grading : DEFAULT_GRADING)
+      const grain = { ...(additive ? s.grain : DEFAULT_GRAIN) }
+      const noise = { ...(additive ? s.noise : DEFAULT_NOISE) }
+      const vignette = { ...(additive ? s.vignette : DEFAULT_VIGNETTE) }
+
+      if (patch.adjustments) {
+        for (const [k, v] of Object.entries(patch.adjustments)) {
+          const key = k as AdjustmentKey
+          adjustments[key] = clampAdjustment(key, adjustments[key] + (v as number))
+        }
+      }
+      if (patch.hsl) {
+        const clampB = (v: number) => Math.round(Math.min(100, Math.max(-100, v)))
+        for (const d of patch.hsl) {
+          const b = hsl[d.band]
+          if (!b) continue
+          b.h = clampB(b.h + (d.h ?? 0))
+          b.s = clampB(b.s + (d.s ?? 0))
+          b.l = clampB(b.l + (d.l ?? 0))
+        }
+      }
+      if (patch.grading) {
+        const g = patch.grading
+        if (g.shadows) grading.shadows = { ...grading.shadows, ...g.shadows }
+        if (g.midtones) grading.midtones = { ...grading.midtones, ...g.midtones }
+        if (g.highlights) grading.highlights = { ...grading.highlights, ...g.highlights }
+        if (g.global) grading.global = { ...grading.global, ...g.global }
+        if (g.blending != null) grading.blending = g.blending
+        if (g.balance != null) grading.balance = g.balance
+      }
+      if (patch.grain) Object.assign(grain, patch.grain)
+      if (patch.noise) Object.assign(noise, patch.noise)
+      if (patch.vignette) Object.assign(vignette, patch.vignette)
+
+      checkpoint({ adjustments, hsl, grading, grain, noise, vignette })
+    },
 
     // ── live edits ──
     setAdjustment: (key, value) =>
@@ -367,6 +428,9 @@ export const useEditorStore = create<EditorStore>((set, get) => {
         showBefore: false,
         activeMaskId: null,
         healMode: false,
+        analysis: null,
+        compareMode: false,
+        comparePos: 0.5,
         revision: 0,
       }),
   }
