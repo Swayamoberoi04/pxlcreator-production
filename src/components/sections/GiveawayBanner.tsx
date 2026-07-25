@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/components/sections/GiveawayBanner.tsx
  *
  * Homepage giveaway CTA strip — sits between PhilosophyStrip and CTABanner.
@@ -43,7 +43,7 @@ export function GiveawayBanner() {
               Win a{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -54,7 +54,7 @@ export function GiveawayBanner() {
               {" "}— free.
             </h2>
 
-            <p className="text-[0.9375rem] text-muted/70 max-w-md leading-relaxed">
+            <p className="text-[0.9375rem] text-muted/92 max-w-md leading-relaxed">
               Preset pack, masterclass, and a live 1-on-1 edit session.
               Three simple steps to enter.
             </p>
@@ -69,7 +69,7 @@ export function GiveawayBanner() {
               Enter the Giveaway
               <span aria-hidden="true">→</span>
             </Link>
-            <p className="text-[0.78rem] text-muted/40">
+            <p className="text-[0.78rem] text-muted/70">
               No purchase necessary · Closes June 27
             </p>
           </div>

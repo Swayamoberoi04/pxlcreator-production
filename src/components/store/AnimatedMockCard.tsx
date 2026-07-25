@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/components/store/AnimatedMockCard.tsx
  *
  * Client Component — the AI Studio "before/after" demo card.
@@ -80,7 +80,7 @@ export function AnimatedMockCard() {
           <div className="absolute inset-0 bg-[#0a0e14]/30 mix-blend-multiply" />
           {/* Label */}
           <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 px-2.5 py-1 z-10">
-            <span className="text-[0.7rem] font-semibold text-white/50 tracking-widest uppercase">Before</span>
+            <span className="text-[0.7rem] font-semibold text-white/85 tracking-widest uppercase">Before</span>
           </div>
         </div>
 
@@ -164,7 +164,7 @@ export function AnimatedMockCard() {
           <div className="absolute bottom-3 left-3 right-3 rounded-lg bg-black/70 backdrop-blur-sm border border-white/10 px-3 py-2 flex items-center justify-between gap-3 z-10">
             <div className="flex flex-col gap-0.5">
               <span className="text-[0.7rem] font-bold text-gold tracking-wide">Film Rich Pack</span>
-              <span className="text-[0.65rem] text-white/50">Warm analog cinematic grade</span>
+              <span className="text-[0.65rem] text-white/85">Warm analog cinematic grade</span>
             </div>
             <div className="flex items-center gap-1 shrink-0 rounded-full bg-gold/15 border border-gold/25 px-2 py-0.5">
               <span className="text-[0.65rem] font-bold text-gold">97%</span>
@@ -182,11 +182,11 @@ export function AnimatedMockCard() {
         >
           ✦
         </span>
-        <span className="text-[0.72rem] font-semibold text-foreground/80">GPT-4o Vision</span>
+        <span className="text-[0.72rem] font-semibold text-foreground/92">GPT-4o Vision</span>
       </div>
       <div className="absolute -bottom-3 -left-3 rounded-full bg-surface border border-border px-3 py-1.5 flex items-center gap-1.5 shadow-lg" style={{ zIndex: 2 }}>
-        <span className="text-[0.72rem] font-semibold text-foreground/80">~8s</span>
-        <span className="text-muted/50 text-[0.72rem]">avg. processing</span>
+        <span className="text-[0.72rem] font-semibold text-foreground/92">~8s</span>
+        <span className="text-muted/85 text-[0.72rem]">avg. processing</span>
       </div>
 
       <style>{`

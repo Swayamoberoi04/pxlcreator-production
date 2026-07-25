@@ -1,4 +1,4 @@
-﻿import Link                                      from "next/link"
+import Link                                      from "next/link"
 import { Container }                             from "@/components/layout/Container"
 import { CinematicBackground }                   from "@/components/ui/CinematicBackground"
 import { GrainOverlay }                          from "@/components/ui/GrainOverlay"
@@ -80,7 +80,7 @@ export function AIStudioBanner() {
                   </span>
                   New Feature
                 </span>
-                <span className="text-[0.75rem] text-muted/50 font-medium">Powered by GPT-4o Vision</span>
+                <span className="text-[0.75rem] text-muted/85 font-medium">Powered by GPT-4o Vision</span>
               </div>
             </CinematicReveal>
 
@@ -97,7 +97,7 @@ export function AIStudioBanner() {
                   AI does{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #C9A84C 100%)",
+                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #FFD60A 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -127,14 +127,14 @@ export function AIStudioBanner() {
                       <span className="text-gold text-[0.8125rem] font-bold w-4 text-center leading-none" aria-hidden="true">
                         {step.icon}
                       </span>
-                      <span className="text-[0.8125rem] font-medium text-foreground/80 whitespace-nowrap">
+                      <span className="text-[0.8125rem] font-medium text-foreground/92 whitespace-nowrap">
                         {step.label}
                       </span>
                     </div>
                     {i < STEPS.length - 1 && (
                       <div className="flex items-center px-1.5" aria-hidden="true">
                         <div className="h-px w-5 border-t border-dashed border-muted/30" />
-                        <svg width="6" height="6" viewBox="0 0 6 6" className="text-muted/30 shrink-0 -ml-px">
+                        <svg width="6" height="6" viewBox="0 0 6 6" className="text-muted/70 shrink-0 -ml-px">
                           <path d="M0 3h5M3 0l3 3-3 3" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       </div>
@@ -157,7 +157,7 @@ export function AIStudioBanner() {
                   </span>
                 </Link>
 
-                <div className="flex items-center gap-4 text-[0.8125rem] text-muted/50">
+                <div className="flex items-center gap-4 text-[0.8125rem] text-muted/85">
                   {["Free to try", "~10 seconds", "No account needed"].map((item, i) => (
                     <span key={item} className="flex items-center gap-1.5">
                       {i > 0 && <span className="h-3 w-px bg-border" aria-hidden="true" />}

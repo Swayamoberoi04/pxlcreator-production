@@ -195,10 +195,10 @@ export default function AdminPricingPage() {
         <h1 className="font-display font-black text-[1.75rem] text-white/90">
           Set Prices by Category
         </h1>
-        <p className="text-[0.875rem] text-white/30 max-w-lg">
+        <p className="text-[0.875rem] text-white/70 max-w-lg">
           Set a price for each category — every preset in that category updates at once.
           Toggle <span className="text-emerald-400/70">Free</span> for free downloads,
-          or enter a price with <span className="text-white/50">Paid</span> selected.
+          or enter a price with <span className="text-white/85">Paid</span> selected.
         </p>
       </div>
 
@@ -213,20 +213,20 @@ export default function AdminPricingPage() {
           {/* ── Apply all shortcut ── */}
           <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 flex items-center gap-4">
             <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-              <span className="text-[0.875rem] font-semibold text-white/70">Set same price for all categories</span>
-              <span className="text-[0.75rem] text-white/30">
+              <span className="text-[0.875rem] font-semibold text-white/92">Set same price for all categories</span>
+              <span className="text-[0.75rem] text-white/70">
                 Fills every row at once — toggle individual rows to Free afterwards if needed
               </span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <span className="text-white/30 text-[0.875rem]">$</span>
+              <span className="text-white/70 text-[0.875rem]">$</span>
               <input
                 type="number"
                 min="0.01"
                 step="0.01"
                 placeholder="e.g. 9.99"
                 onChange={(e) => applyToAll(e.target.value)}
-                className="w-28 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors text-right"
+                className="w-28 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/92 placeholder:text-white/70 focus:outline-none focus:border-gold/40 transition-colors text-right"
               />
             </div>
           </div>
@@ -246,9 +246,9 @@ export default function AdminPricingPage() {
                 >
                   {/* Category info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-[0.875rem] font-semibold text-white/80">{entry.name}</p>
+                    <p className="text-[0.875rem] font-semibold text-white/92">{entry.name}</p>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-[0.75rem] text-white/30">
+                      <span className="text-[0.75rem] text-white/70">
                         {entry.count} preset{entry.count !== 1 ? "s" : ""}
                         {entry.count === 0 && " — nothing to update"}
                       </span>
@@ -258,11 +258,11 @@ export default function AdminPricingPage() {
                           currently Free
                         </span>
                       ) : entry._origPrice > 0 ? (
-                        <span className="text-[0.65rem] text-white/25 bg-white/[0.04] rounded-full px-2 py-px">
+                        <span className="text-[0.65rem] text-white/70 bg-white/[0.04] rounded-full px-2 py-px">
                           currently ${entry._origPrice}
                         </span>
                       ) : (
-                        <span className="text-[0.65rem] text-white/20 bg-white/[0.03] rounded-full px-2 py-px">
+                        <span className="text-[0.65rem] text-white/70 bg-white/[0.03] rounded-full px-2 py-px">
                           price not set
                         </span>
                       )}
@@ -279,7 +279,7 @@ export default function AdminPricingPage() {
                       "shrink-0 h-7 px-3 rounded-full text-[0.7rem] font-medium transition-all border",
                       entry.is_free
                         ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/20"
-                        : "bg-white/[0.04] text-white/40 border-white/10 hover:border-white/20 hover:text-white/60"
+                        : "bg-white/[0.04] text-white/70 border-white/10 hover:border-white/20 hover:text-white/85"
                     )}
                   >
                     {entry.is_free ? "Free" : "Paid"}
@@ -287,7 +287,7 @@ export default function AdminPricingPage() {
 
                   {/* Price input */}
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <span className={cn("text-[0.875rem]", entry.is_free || entry.count === 0 ? "text-white/15" : "text-white/30")}>$</span>
+                    <span className={cn("text-[0.875rem]", entry.is_free || entry.count === 0 ? "text-white/70" : "text-white/70")}>$</span>
                     <input
                       type="number"
                       min="0.01"
@@ -299,10 +299,10 @@ export default function AdminPricingPage() {
                       className={cn(
                         "w-24 rounded-xl border px-3 py-2 text-[0.875rem] text-right transition-colors focus:outline-none",
                         entry.is_free || entry.count === 0
-                          ? "border-white/[0.04] bg-white/[0.02] text-white/15 cursor-not-allowed"
+                          ? "border-white/[0.04] bg-white/[0.02] text-white/70 cursor-not-allowed"
                           : missingPrice
                           ? "border-amber-500/30 bg-amber-500/[0.04] text-amber-400/70 placeholder:text-amber-500/20 focus:border-amber-400/50"
-                          : "border-white/10 bg-white/[0.04] text-white/80 placeholder:text-white/20 focus:border-gold/40"
+                          : "border-white/10 bg-white/[0.04] text-white/92 placeholder:text-white/70 focus:border-gold/40"
                       )}
                     />
                   </div>
@@ -334,7 +334,7 @@ export default function AdminPricingPage() {
                   {result.skipped} categor{result.skipped !== 1 ? "ies" : "y"} skipped (no price entered).
                 </span>
               )}
-              <Link href="/store" target="_blank" className="ml-auto text-white/30 hover:text-gold transition-colors text-[0.75rem]">
+              <Link href="/store" target="_blank" className="ml-auto text-white/70 hover:text-gold transition-colors text-[0.75rem]">
                 View store →
               </Link>
             </div>
@@ -342,7 +342,7 @@ export default function AdminPricingPage() {
 
           {/* ── Save button ── */}
           <div className="flex items-center justify-between gap-4">
-            <p className="text-[0.8125rem] text-white/25">
+            <p className="text-[0.8125rem] text-white/70">
               {totalPresets} presets · {entries.filter((e) => e.count > 0).length} categories
             </p>
             <button
@@ -352,7 +352,7 @@ export default function AdminPricingPage() {
               className={cn(
                 "inline-flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-[0.875rem] font-semibold transition-all",
                 saving || !hasValidUpdate
-                  ? "bg-white/[0.06] text-white/25 cursor-not-allowed"
+                  ? "bg-white/[0.06] text-white/70 cursor-not-allowed"
                   : "bg-gold text-black hover:bg-gold/90 active:scale-[0.98]"
               )}
             >

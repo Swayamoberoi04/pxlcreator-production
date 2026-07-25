@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { motion } from "framer-motion"
 import { cn }     from "@/lib/utils"
@@ -21,7 +21,7 @@ export function StepAesthetics({ selected, onToggle }: Props) {
   return (
     <div className="flex flex-col gap-5">
       <div className="text-center">
-        <p className="text-[0.8125rem] text-muted/50">Select up to 3 aesthetics</p>
+        <p className="text-[0.8125rem] text-muted/85">Select up to 3 aesthetics</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[420px] overflow-y-auto pr-1

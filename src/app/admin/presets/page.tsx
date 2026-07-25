@@ -22,7 +22,7 @@ export default function AdminPresetsPage() {
           <h1 className="font-display font-black text-[1.75rem] text-white/90">
             Presets
           </h1>
-          <p className="text-[0.875rem] text-white/30">
+          <p className="text-[0.875rem] text-white/70">
             Edit, publish, and manage your preset library.
           </p>
         </div>

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/components/sections/AestheticShowcaseSection.tsx
  *
  * Visual-heavy "see what's possible" editorial moment.
@@ -93,7 +93,7 @@ export function AestheticShowcaseSection() {
               Before meets{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -124,7 +124,7 @@ export function AestheticShowcaseSection() {
           <div className="flex justify-center mt-12">
             <Link
               href="/store"
-              className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-7 py-3 text-[0.9375rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all duration-200"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-7 py-3 text-[0.9375rem] font-semibold text-muted/92 hover:border-gold/30 hover:text-foreground transition-all duration-200"
             >
               Explore all aesthetics
               <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>
@@ -161,7 +161,7 @@ function AestheticCard({ preset }: { preset: AestheticPreset }) {
         <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 100%)" }} />
         {/* Before label */}
         <div className="absolute top-3 left-3 z-10">
-          <span className="text-[0.65rem] font-semibold tracking-widest uppercase text-white/40 bg-black/50 backdrop-blur-sm border border-white/10 rounded-full px-2.5 py-1">
+          <span className="text-[0.65rem] font-semibold tracking-widest uppercase text-white/70 bg-black/50 backdrop-blur-sm border border-white/10 rounded-full px-2.5 py-1">
             Before
           </span>
         </div>
@@ -220,7 +220,7 @@ function AestheticCard({ preset }: { preset: AestheticPreset }) {
         <div className="flex items-end justify-between gap-3">
           <div className="flex flex-col gap-1">
             <h3 className="font-display font-bold text-[1rem] text-white leading-none">{preset.name}</h3>
-            <span className="text-[0.72rem] text-white/50">{preset.mood}</span>
+            <span className="text-[0.72rem] text-white/85">{preset.mood}</span>
           </div>
           <span
             className="text-[0.65rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-1 border shrink-0"

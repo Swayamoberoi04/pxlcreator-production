@@ -28,7 +28,7 @@ export default function RouteError({
       className="flex min-h-[60vh] flex-col items-center justify-center gap-6 px-6 text-center"
     >
       <div className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-surface">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="text-muted/60" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="text-muted/85" aria-hidden="true">
           <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
           <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
         </svg>
@@ -36,11 +36,11 @@ export default function RouteError({
 
       <div className="flex flex-col gap-2">
         <h1 className="font-display text-[1.5rem] font-bold text-foreground">Something went wrong</h1>
-        <p className="max-w-md text-[0.9375rem] leading-relaxed text-muted/70">
+        <p className="max-w-md text-[0.9375rem] leading-relaxed text-muted/92">
           An unexpected error interrupted this page. Your work and account are safe — try again, or head back home.
         </p>
         {error.digest && (
-          <p className="mt-1 text-[0.75rem] text-muted/40">
+          <p className="mt-1 text-[0.75rem] text-muted/70">
             Reference: <span className="font-mono">{error.digest}</span>
           </p>
         )}

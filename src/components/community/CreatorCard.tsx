@@ -15,12 +15,12 @@ const AVAILABILITY_CONFIG: Record<Availability, { label: string; className: stri
   open_for_work:   { label: "Open for Work",  className: "bg-green-500/15 text-green-400 border-green-500/30" },
   open_for_collab: { label: "Open to Collab", className: "bg-blue-500/15 text-blue-400 border-blue-500/30" },
   hiring:          { label: "Hiring",          className: "bg-gold/15 text-gold border-gold/30" },
-  unavailable:     { label: "Unavailable",     className: "bg-muted/10 text-muted/60 border-border" },
+  unavailable:     { label: "Unavailable",     className: "bg-muted/10 text-muted/85 border-border" },
 }
 
 const SKILL_CONFIG: Record<SkillLevel, { label: string; className: string }> = {
-  beginner:     { label: "Beginner",     className: "bg-surface-2 text-muted/70" },
-  intermediate: { label: "Intermediate", className: "bg-surface-2 text-muted/80" },
+  beginner:     { label: "Beginner",     className: "bg-surface-2 text-muted/92" },
+  intermediate: { label: "Intermediate", className: "bg-surface-2 text-muted/92" },
   advanced:     { label: "Advanced",     className: "bg-gold/10 text-gold/90" },
   professional: { label: "Pro",          className: "bg-gold/20 text-gold font-bold" },
 }
@@ -52,7 +52,7 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
 
         <div className="min-w-0 flex-1">
           <p className="font-semibold text-sm text-foreground truncate">{profile.display_name}</p>
-          <p className="text-xs text-muted/60 truncate">@{profile.username}</p>
+          <p className="text-xs text-muted/85 truncate">@{profile.username}</p>
         </div>
 
         {/* Availability dot */}
@@ -90,7 +90,7 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
                 <span className="text-gold text-xs" title="Verified">✓</span>
               )}
             </div>
-            <p className="text-sm text-muted/60">@{profile.username}</p>
+            <p className="text-sm text-muted/85">@{profile.username}</p>
 
             {/* Skill level */}
             <span className={`mt-1 inline-block text-[11px] px-2 py-0.5 rounded-full ${skill.className}`}>
@@ -105,13 +105,13 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
             {profile.roles.slice(0, 2).map((role) => (
               <span
                 key={role}
-                className="text-[11px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/70"
+                className="text-[11px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/92"
               >
                 {role.replace(/-/g, " ")}
               </span>
             ))}
             {profile.roles.length > 2 && (
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/50">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">
                 +{profile.roles.length - 2}
               </span>
             )}
@@ -120,7 +120,7 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
 
         {/* Location */}
         {(profile.location_city || profile.location_country) && (
-          <p className="text-xs text-muted/50 flex items-center gap-1">
+          <p className="text-xs text-muted/85 flex items-center gap-1">
             <span>📍</span>
             {[profile.location_city, profile.location_country].filter(Boolean).join(", ")}
           </p>
@@ -132,7 +132,7 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
         </span>
 
         {/* Stats */}
-        <div className="flex items-center gap-4 text-xs text-muted/60 border-t border-border pt-3 mt-auto">
+        <div className="flex items-center gap-4 text-xs text-muted/85 border-t border-border pt-3 mt-auto">
           <span><strong className="text-foreground">{profile.follower_count.toLocaleString()}</strong> followers</span>
           <span><strong className="text-foreground">{profile.reputation_score}</strong> rep</span>
         </div>

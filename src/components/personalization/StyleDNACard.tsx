@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * StyleDNACard.tsx
@@ -98,7 +98,7 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
           <h3 className="font-display font-black text-[1.25rem] leading-tight text-white">
             {dna.title}
           </h3>
-          <p className="mt-1.5 text-[0.8125rem] text-white/55 leading-relaxed">
+          <p className="mt-1.5 text-[0.8125rem] text-white/85 leading-relaxed">
             {dna.tagline}
           </p>
         </div>
@@ -108,7 +108,7 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
           {dna.archetypes.map((arch) => (
             <span
               key={arch}
-              className="rounded-full px-2.5 py-0.5 text-[0.7rem] font-medium text-white/45 border border-white/10"
+              className="rounded-full px-2.5 py-0.5 text-[0.7rem] font-medium text-white/85 border border-white/10"
             >
               {arch}
             </span>

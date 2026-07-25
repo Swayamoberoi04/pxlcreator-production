@@ -65,7 +65,7 @@ export function Price({ usd, original, className, size = "md", free = false }: P
       </span>
       {original && original > usd && (
         <>
-          <span className={cn("text-muted/40 line-through", sizeMap[size === "xl" ? "lg" : "sm"])}>
+          <span className={cn("text-muted/70 line-through", sizeMap[size === "xl" ? "lg" : "sm"])}>
             {formatPrice(original, currency)}
           </span>
           {discount && (

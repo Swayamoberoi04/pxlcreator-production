@@ -78,7 +78,7 @@ export function AIAssistant({ onClose }: { onClose: () => void }) {
             onClick={() => setTab(t.id)}
             className={cn(
               "flex-1 py-2.5 text-[0.6875rem] uppercase tracking-wide transition-colors",
-              tab === t.id ? "text-gold border-b-2 border-gold" : "text-muted/50 hover:text-foreground"
+              tab === t.id ? "text-gold border-b-2 border-gold" : "text-muted/85 hover:text-foreground"
             )}
           >
             {t.label}
@@ -98,11 +98,11 @@ export function AIAssistant({ onClose }: { onClose: () => void }) {
       {lastApplied && (
         <div className="border-t border-gold/15 bg-gold/5 px-4 py-3">
           <p className="text-[0.6875rem] uppercase tracking-wider text-gold/70">Applied · {lastApplied.title}</p>
-          <p className="mt-1 text-[0.75rem] leading-snug text-foreground/75">{lastApplied.why}</p>
+          <p className="mt-1 text-[0.75rem] leading-snug text-foreground/92">{lastApplied.why}</p>
           {lastApplied.changes.length > 0 && (
             <div className="mt-1.5 flex flex-wrap gap-1">
               {lastApplied.changes.map((c, i) => (
-                <span key={i} className="rounded bg-surface-2 px-1.5 py-0.5 text-[0.625rem] text-muted/80">{c}</span>
+                <span key={i} className="rounded bg-surface-2 px-1.5 py-0.5 text-[0.625rem] text-muted/92">{c}</span>
               ))}
             </div>
           )}
@@ -118,7 +118,7 @@ function AnalyzeTab({ apply }: { apply: (e: AiEdit) => void }) {
   const recommendations = useMemo(() => (analysis ? recommend(analysis) : []), [analysis])
 
   if (!analysis) {
-    return <div className="p-4 text-[0.8125rem] text-muted/50">Analyzing image…</div>
+    return <div className="p-4 text-[0.8125rem] text-muted/85">Analyzing image…</div>
   }
   const s = analysis.stats
 
@@ -128,11 +128,11 @@ function AnalyzeTab({ apply }: { apply: (e: AiEdit) => void }) {
       <div className="rounded-xl border border-border bg-surface-2/50 p-3">
         <div className="flex items-center justify-between">
           <span className="text-[0.9375rem] font-semibold text-foreground">{analysis.sceneLabel}</span>
-          <span className="text-[0.6875rem] text-muted/50">{Math.round(analysis.sceneConfidence * 100)}% match</span>
+          <span className="text-[0.6875rem] text-muted/85">{Math.round(analysis.sceneConfidence * 100)}% match</span>
         </div>
-        <p className="mt-1 text-[0.75rem] leading-snug text-muted/70">{analysis.summary}</p>
+        <p className="mt-1 text-[0.75rem] leading-snug text-muted/92">{analysis.summary}</p>
         <Histogram hist={s.histLuma} />
-        <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[0.6875rem] text-muted/60">
+        <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[0.6875rem] text-muted/85">
           <Stat label="Exposure" value={`${Math.round(s.meanLuma * 100)}%`} />
           <Stat label="White balance" value={s.temperatureCast > 0.1 ? "Warm" : s.temperatureCast < -0.1 ? "Cool" : "Neutral"} />
           <Stat label="Dynamic range" value={s.dynamicRange > 0.7 ? "High" : s.dynamicRange < 0.45 ? "Low" : "Medium"} />
@@ -146,7 +146,7 @@ function AnalyzeTab({ apply }: { apply: (e: AiEdit) => void }) {
       {analysis.warnings.length > 0 && (
         <div className="flex flex-col gap-1.5">
           {analysis.warnings.map((w) => (
-            <div key={w.id} className={cn("flex items-start gap-2 rounded-lg border px-2.5 py-2 text-[0.75rem] leading-snug", w.level === "warn" ? "border-amber-500/30 bg-amber-500/5 text-amber-300/90" : "border-border bg-surface-2/40 text-muted/80")}>
+            <div key={w.id} className={cn("flex items-start gap-2 rounded-lg border px-2.5 py-2 text-[0.75rem] leading-snug", w.level === "warn" ? "border-amber-500/30 bg-amber-500/5 text-amber-300/90" : "border-border bg-surface-2/40 text-muted/92")}>
               <span className="mt-0.5 shrink-0">{w.level === "warn" ? "⚠" : "ℹ"}</span>
               {w.message}
             </div>
@@ -164,7 +164,7 @@ function AnalyzeTab({ apply }: { apply: (e: AiEdit) => void }) {
             </button>
           )}
         </div>
-        {recommendations.length === 0 && <p className="text-[0.75rem] text-muted/50">This image already looks well-balanced.</p>}
+        {recommendations.length === 0 && <p className="text-[0.75rem] text-muted/85">This image already looks well-balanced.</p>}
         {recommendations.map((r) => (
           <EditCard key={r.id} edit={r} onApply={() => apply(r)} />
         ))}
@@ -182,11 +182,11 @@ function EditCard({ edit, onApply }: { edit: AiEdit; onApply: () => void }) {
           Apply
         </button>
       </div>
-      <p className="mt-1 text-[0.75rem] leading-snug text-muted/70">{edit.why}</p>
+      <p className="mt-1 text-[0.75rem] leading-snug text-muted/92">{edit.why}</p>
       {edit.changes.length > 0 && (
         <div className="mt-1.5 flex flex-wrap gap-1">
           {edit.changes.map((c, i) => (
-            <span key={i} className="rounded bg-surface-3/60 px-1.5 py-0.5 text-[0.625rem] text-muted/80">{c}</span>
+            <span key={i} className="rounded bg-surface-3/60 px-1.5 py-0.5 text-[0.625rem] text-muted/92">{c}</span>
           ))}
         </div>
       )}
@@ -232,7 +232,7 @@ function PromptTab({ apply }: { apply: (e: AiEdit) => void }) {
 
   return (
     <div className="flex flex-col gap-3 p-4">
-      <p className="text-[0.75rem] leading-snug text-muted/60">Describe the look you want in plain English.</p>
+      <p className="text-[0.75rem] leading-snug text-muted/85">Describe the look you want in plain English.</p>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -249,7 +249,7 @@ function PromptTab({ apply }: { apply: (e: AiEdit) => void }) {
       {error && <p className="text-[0.75rem] text-amber-300/80">{error}</p>}
       <div className="flex flex-wrap gap-1.5">
         {examples.map((ex) => (
-          <button key={ex} type="button" onClick={() => setText(ex)} className="rounded-full border border-border px-2.5 py-1 text-[0.6875rem] text-muted/70 transition-colors hover:border-gold/40 hover:text-foreground">
+          <button key={ex} type="button" onClick={() => setText(ex)} className="rounded-full border border-border px-2.5 py-1 text-[0.6875rem] text-muted/92 transition-colors hover:border-gold/40 hover:text-foreground">
             {ex}
           </button>
         ))}
@@ -287,7 +287,7 @@ function MatchTab({ apply }: { apply: (e: AiEdit) => void }) {
 
   return (
     <div className="flex flex-col gap-3 p-4">
-      <p className="text-[0.75rem] leading-snug text-muted/60">Upload a reference photo — the assistant matches its white balance, exposure, contrast and colour.</p>
+      <p className="text-[0.75rem] leading-snug text-muted/85">Upload a reference photo — the assistant matches its white balance, exposure, contrast and colour.</p>
       <button type="button" onClick={() => fileRef.current?.click()} className="rounded-xl border border-dashed border-gold/40 bg-gold/5 py-6 text-[0.8125rem] font-medium text-gold transition-colors hover:bg-gold/10">
         {refUrl ? "Choose a different reference" : "Upload reference image"}
       </button>
@@ -296,7 +296,7 @@ function MatchTab({ apply }: { apply: (e: AiEdit) => void }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={refUrl} alt="reference" className="max-h-40 w-full rounded-lg border border-border object-contain" />
       )}
-      {status && <p className="text-[0.75rem] leading-snug text-foreground/70">{status}</p>}
+      {status && <p className="text-[0.75rem] leading-snug text-foreground/92">{status}</p>}
     </div>
   )
 }
@@ -365,16 +365,16 @@ function RecipesTab() {
 
       {/* List */}
       {recipes.length === 0 ? (
-        <p className="py-2 text-[0.8125rem] text-muted/50">No saved recipes yet.</p>
+        <p className="py-2 text-[0.8125rem] text-muted/85">No saved recipes yet.</p>
       ) : (
         <div className="flex flex-col gap-1.5">
           {recipes.map((r) => (
             <div key={r.id} className="rounded-lg border border-border p-2.5">
               <div className="flex items-center justify-between gap-2">
-                <button type="button" onClick={() => loadSnapshot(r.snapshot as Snapshot)} className="flex-1 truncate text-left text-[0.8125rem] text-foreground/85" title="Apply this recipe">
+                <button type="button" onClick={() => loadSnapshot(r.snapshot as Snapshot)} className="flex-1 truncate text-left text-[0.8125rem] text-foreground/92" title="Apply this recipe">
                   {r.name}
                 </button>
-                <div className="flex shrink-0 items-center gap-1.5 text-muted/50">
+                <div className="flex shrink-0 items-center gap-1.5 text-muted/85">
                   <button type="button" onClick={() => share(r)} title="Copy share code" className="hover:text-gold">🔗</button>
                   <button type="button" onClick={() => exportRecipeFile(r)} title="Download JSON" className="hover:text-gold">⬇</button>
                   <button type="button" onClick={() => { deleteRecipe(r.id); refresh() }} title="Delete" className="hover:text-red-400">✕</button>
@@ -384,7 +384,7 @@ function RecipesTab() {
           ))}
         </div>
       )}
-      <p className="text-[0.6875rem] leading-snug text-muted/40">Recipes are the shareable, portable form of an edit. Publishing to a public community feed is coming next.</p>
+      <p className="text-[0.6875rem] leading-snug text-muted/70">Recipes are the shareable, portable form of an edit. Publishing to a public community feed is coming next.</p>
     </div>
   )
 }
@@ -397,7 +397,7 @@ function Histogram({ hist }: { hist: number[] }) {
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="mt-2 h-11 w-full rounded bg-[#0d0d0d]" preserveAspectRatio="none">
       {hist.map((v, i) => (
-        <rect key={i} x={i * bw} y={H - v * H} width={bw + 0.5} height={v * H} fill="rgba(201,168,76,0.55)" />
+        <rect key={i} x={i * bw} y={H - v * H} width={bw + 0.5} height={v * H} fill="rgba(255,214,10,0.55)" />
       ))}
     </svg>
   )
@@ -406,15 +406,15 @@ function Histogram({ hist }: { hist: number[] }) {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-muted/45">{label}</span>
-      <span className="text-foreground/75">{value}</span>
+      <span className="text-muted/85">{label}</span>
+      <span className="text-foreground/92">{value}</span>
     </div>
   )
 }
 
 function SparkIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 3l1.9 4.8L18.8 9.6l-4.9 1.8L12 16.2l-1.9-4.8L5.2 9.6l4.9-1.8z" />
       <path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" />
     </svg>

@@ -78,12 +78,12 @@ function ResourceCard({ resource }: ResourceCardProps) {
               </span>
             )}
           </div>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/40">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">
             {CATEGORIES.find((c) => c.id === resource.category)?.label ?? resource.category}
           </span>
         </div>
       </div>
-      <p className="text-xs text-muted/60 leading-relaxed flex-1">{resource.description}</p>
+      <p className="text-xs text-muted/85 leading-relaxed flex-1">{resource.description}</p>
       <a href={resource.url} target="_blank" rel="noopener noreferrer"
         className="self-start text-xs font-semibold text-gold hover:text-gold/80 transition-colors flex items-center gap-1">
         Visit <span className="text-[10px]">→</span>
@@ -131,7 +131,7 @@ export default function ResourcesPage() {
       {/* Hero */}
       <div>
         <h1 className="font-display font-black text-3xl text-foreground">Creator Resources</h1>
-        <p className="text-sm text-muted/60 mt-1">
+        <p className="text-sm text-muted/85 mt-1">
           Curated tools, communities, and learning platforms for creators — hand-picked by the PXL team
         </p>
       </div>
@@ -147,7 +147,7 @@ export default function ResourcesPage() {
             <span className="text-3xl">{s.icon}</span>
             <p className="font-display font-black text-2xl text-gold mt-2">{s.count}+</p>
             <p className="font-display font-black text-xs text-foreground">{s.title}</p>
-            <p className="text-[10px] text-muted/50">{s.desc}</p>
+            <p className="text-[10px] text-muted/85">{s.desc}</p>
           </div>
         ))}
       </div>
@@ -155,7 +155,7 @@ export default function ResourcesPage() {
       {/* Disclaimer */}
       <div className="rounded-2xl border border-border bg-surface/50 px-5 py-3 flex items-start gap-3">
         <span className="text-lg shrink-0">💡</span>
-        <p className="text-xs text-muted/60 leading-relaxed">
+        <p className="text-xs text-muted/85 leading-relaxed">
           These are external communities and tools. Everything you need to showcase your work and connect with other creators is right here on PXL Creator.
         </p>
       </div>
@@ -164,7 +164,7 @@ export default function ResourcesPage() {
       <div className="flex flex-wrap gap-1.5">
         {CATEGORIES.map((cat) => (
           <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
-            className={["rounded-full px-4 py-1.5 text-xs font-medium transition-colors", activeCategory === cat.id ? "bg-gold/15 text-gold border border-gold/30" : "bg-surface border border-border text-muted/60 hover:border-gold/20 hover:text-foreground"].join(" ")}>
+            className={["rounded-full px-4 py-1.5 text-xs font-medium transition-colors", activeCategory === cat.id ? "bg-gold/15 text-gold border border-gold/30" : "bg-surface border border-border text-muted/85 hover:border-gold/20 hover:text-foreground"].join(" ")}>
             {cat.label}
           </button>
         ))}
@@ -199,7 +199,7 @@ export default function ResourcesPage() {
             <div className="flex flex-col items-center gap-3 py-20 text-center">
               <span className="text-4xl">📚</span>
               <p className="font-semibold text-foreground">No resources in this category</p>
-              <p className="text-sm text-muted/50">Try a different category</p>
+              <p className="text-sm text-muted/85">Try a different category</p>
             </div>
           )}
         </div>

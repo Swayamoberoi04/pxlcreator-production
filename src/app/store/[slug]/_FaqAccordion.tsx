@@ -21,7 +21,7 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
             aria-expanded={open === i}
             className="flex w-full items-center justify-between gap-4 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 rounded"
           >
-            <span className="text-[0.9375rem] font-medium text-foreground/85 leading-snug">
+            <span className="text-[0.9375rem] font-medium text-foreground/92 leading-snug">
               {item.q}
             </span>
             <ChevronIcon open={open === i} />
@@ -36,7 +36,7 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
                 exit={{ height: 0, opacity: 0, transition: { duration: 0.20, ease: [0.25, 0.46, 0.45, 0.94] } }}
                 className="overflow-hidden"
               >
-                <p className="pb-5 text-[0.875rem] text-muted/65 leading-[1.75]">
+                <p className="pb-5 text-[0.875rem] text-muted/85 leading-[1.75]">
                   {item.a}
                 </p>
               </motion.div>
@@ -55,7 +55,7 @@ function ChevronIcon({ open }: { open: boolean }) {
       transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
       width="16" height="16" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-      className="shrink-0 text-muted/40"
+      className="shrink-0 text-muted/70"
       aria-hidden
     >
       <polyline points="6 9 12 15 18 9" />

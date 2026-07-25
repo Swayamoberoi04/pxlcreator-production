@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useMemo } from "react"
 import Link                  from "next/link"
@@ -88,7 +88,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
                 <p className="text-[0.8125rem] font-bold text-foreground">
                   {freeCount} free presets — no credit card, no catch
                 </p>
-                <p className="text-[0.75rem] text-muted/55 mt-0.5">
+                <p className="text-[0.75rem] text-muted/85 mt-0.5">
                   Start here. Download instantly after creating a free account.
                 </p>
               </div>
@@ -116,7 +116,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
                   <p className="text-[0.8125rem] font-semibold text-foreground group-hover:text-gold transition-colors truncate">
                     {preset.name}
                   </p>
-                  <p className="text-[0.72rem] text-muted/50 truncate">
+                  <p className="text-[0.72rem] text-muted/85 truncate">
                     {preset.includeCount} presets · {preset.category}
                   </p>
                 </div>
@@ -129,7 +129,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
 
       {/* ── Search ─────────────────────────────────────────────── */}
       <div className="relative max-w-lg">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted/40" aria-hidden="true">
+        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted/70" aria-hidden="true">
           <SearchIcon />
         </span>
         <input
@@ -138,14 +138,14 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search presets…"
           suppressHydrationWarning
-          className="w-full rounded-2xl border border-border bg-surface pl-11 pr-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/35 focus:outline-none focus:border-gold/40 focus:shadow-[0_0_0_3px_rgba(201,168,76,0.10),0_0_16px_rgba(201,168,76,0.08)] transition-all duration-200"
+          className="w-full rounded-2xl border border-border bg-surface pl-11 pr-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40 focus:shadow-[0_0_0_3px_rgba(255,214,10,0.10),0_0_16px_rgba(255,214,10,0.08)] transition-all duration-200"
         />
         {search && (
           <button
             type="button"
             onClick={() => setSearch("")}
             suppressHydrationWarning
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted/40 hover:text-muted transition-colors focus-visible:outline-none"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted/70 hover:text-muted transition-colors focus-visible:outline-none"
           >
             <CloseIcon />
           </button>
@@ -170,7 +170,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
                   ? cat === "Free"
                     ? "bg-emerald-500/15 border border-emerald-500/30 text-emerald-400"
                     : "bg-gold/12 border border-gold/40 text-gold"
-                  : "border border-border text-muted/60 hover:border-border/80 hover:text-foreground"
+                  : "border border-border text-muted/85 hover:border-border/80 hover:text-foreground"
               )}
             >
               ( {cat} )
@@ -202,7 +202,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
               <option key={o.value} value={o.value}>{o.label}</option>
             ))}
           </select>
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted/40" aria-hidden="true">
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted/70" aria-hidden="true">
             <ChevronIcon />
           </span>
         </div>
@@ -212,14 +212,14 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
       {/* ── Results count ─────────────────────────────────────── */}
       <div className="flex items-center gap-3 -mt-5">
         <span className="h-px flex-1 bg-border max-w-[40px]" aria-hidden="true" />
-        <span className="text-[0.75rem] text-muted/50 font-medium">
+        <span className="text-[0.75rem] text-muted/85 font-medium">
           ( {visible.length} {visible.length === 1 ? "preset" : "presets"} )
         </span>
         {category === "Free" && (
           <span className="text-[0.72rem] text-emerald-400/70 font-medium">· all free</span>
         )}
         {search && (
-          <span className="text-[0.75rem] text-muted/40">
+          <span className="text-[0.75rem] text-muted/70">
             matching &ldquo;{search}&rdquo;
           </span>
         )}
@@ -248,7 +248,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
           <span className="text-4xl opacity-20" aria-hidden="true">( · )</span>
           <div className="flex flex-col gap-1">
             <p className="font-semibold text-foreground">No presets found</p>
-            <p className="text-[0.875rem] text-muted/50">
+            <p className="text-[0.875rem] text-muted/85">
               Try a different search or filter
             </p>
           </div>
@@ -273,7 +273,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
                 <p className="text-[0.8125rem] font-bold text-foreground">
                   Want everything at once? Browse our preset bundles.
                 </p>
-                <p className="text-[0.75rem] text-muted/55 mt-0.5">
+                <p className="text-[0.75rem] text-muted/85 mt-0.5">
                   Save 30–39% vs. buying individually — curated packs for every style.
                 </p>
               </div>
@@ -309,7 +309,7 @@ function DownloadMiniIcon() {
   return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
 }
 function BundlesIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
 }
 
 

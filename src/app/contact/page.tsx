@@ -141,7 +141,7 @@ export default function ContactPage() {
           <div className="flex flex-col gap-7">
 
             <div>
-              <p className="text-label text-muted/60 tracking-widest mb-3">Email Us</p>
+              <p className="text-label text-muted/85 tracking-widest mb-3">Email Us</p>
               <a
                 href={siteConfig.socials.email}
                 className="text-[0.9375rem] font-medium text-foreground hover:text-gold transition-colors break-all"
@@ -153,7 +153,7 @@ export default function ContactPage() {
             <div className="h-px bg-border" />
 
             <div>
-              <p className="text-label text-muted/60 tracking-widest mb-3">Follow Along</p>
+              <p className="text-label text-muted/85 tracking-widest mb-3">Follow Along</p>
               <div className="flex flex-col gap-2">
                 <a
                   href={siteConfig.socials.youtube}
@@ -177,7 +177,7 @@ export default function ContactPage() {
             <div className="h-px bg-border" />
 
             <div>
-              <p className="text-label text-muted/60 tracking-widest mb-2">Response Time</p>
+              <p className="text-label text-muted/85 tracking-widest mb-2">Response Time</p>
               <p className="text-[0.9375rem] text-muted leading-relaxed">
                 We typically reply within{" "}
                 <span className="text-foreground font-medium">24–48 hours</span>{" "}
@@ -219,7 +219,7 @@ export default function ContactPage() {
                 {/* Name + Email row */}
                 <div className="grid sm:grid-cols-2 gap-5">
                   <label className="flex flex-col gap-2">
-                    <span className="text-label text-muted/70">
+                    <span className="text-label text-muted/92">
                       Name <RequiredStar />
                     </span>
                     <input
@@ -232,11 +232,11 @@ export default function ContactPage() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       disabled={status === "loading"}
-                      className="rounded-lg border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
+                      className="rounded-lg border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
                     />
                   </label>
                   <label className="flex flex-col gap-2">
-                    <span className="text-label text-muted/70">
+                    <span className="text-label text-muted/92">
                       Email <RequiredStar />
                     </span>
                     <input
@@ -247,14 +247,14 @@ export default function ContactPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       disabled={status === "loading"}
-                      className="rounded-lg border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
+                      className="rounded-lg border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
                     />
                   </label>
                 </div>
 
                 {/* Subject select */}
                 <label className="flex flex-col gap-2">
-                  <span className="text-label text-muted/70">Subject</span>
+                  <span className="text-label text-muted/92">Subject</span>
                   <select
                     name="subject"
                     value={subject}
@@ -270,9 +270,9 @@ export default function ContactPage() {
 
                 {/* Message */}
                 <label className="flex flex-col gap-2">
-                  <span className="flex items-center justify-between text-label text-muted/70">
+                  <span className="flex items-center justify-between text-label text-muted/92">
                     <span>Message <RequiredStar /></span>
-                    <span className={`tabular-nums transition-colors ${message.length > 4500 ? "text-yellow-400" : "text-muted/30"}`}>
+                    <span className={`tabular-nums transition-colors ${message.length > 4500 ? "text-yellow-400" : "text-muted/70"}`}>
                       {message.length}/5000
                     </span>
                   </span>
@@ -285,10 +285,10 @@ export default function ContactPage() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     disabled={status === "loading"}
-                    className="rounded-lg border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 transition-colors resize-none disabled:opacity-50"
+                    className="rounded-lg border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 transition-colors resize-none disabled:opacity-50"
                   />
                   {message.length > 0 && message.trim().length < 20 && (
-                    <p className="text-[0.8125rem] text-muted/50">
+                    <p className="text-[0.8125rem] text-muted/85">
                       {20 - message.trim().length} more character{20 - message.trim().length !== 1 ? "s" : ""} needed
                     </p>
                   )}
@@ -296,7 +296,7 @@ export default function ContactPage() {
 
                 {/* Signed-in indicator */}
                 {user && (
-                  <p className="text-[0.8125rem] text-muted/40 -mt-2">
+                  <p className="text-[0.8125rem] text-muted/70 -mt-2">
                     Sending as <span className="text-gold/60">{user.email}</span>
                   </p>
                 )}

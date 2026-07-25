@@ -44,7 +44,7 @@ export function PresetProductGallery({
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 viewMode === mode
                   ? "bg-gold/12 border border-gold/40 text-gold"
-                  : "border border-border text-muted/60 hover:text-foreground"
+                  : "border border-border text-muted/85 hover:text-foreground"
               )}
             >
               ( {mode === "gallery" ? "Gallery" : "Before / After"} )
@@ -62,7 +62,7 @@ export function PresetProductGallery({
             className="rounded-2xl"
           />
           {beforeAfterExplanation && (
-            <p className="text-[0.78rem] text-muted/50 leading-relaxed border-l-2 border-gold/30 pl-3 italic">
+            <p className="text-[0.78rem] text-muted/85 leading-relaxed border-l-2 border-gold/30 pl-3 italic">
               {beforeAfterExplanation}
             </p>
           )}
@@ -82,13 +82,13 @@ export function PresetProductGallery({
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-muted/30 text-label tracking-widest">( No preview )</span>
+                <span className="text-muted/70 text-label tracking-widest">( No preview )</span>
               </div>
             )}
 
             {/* Image counter */}
             {images.length > 1 && (
-              <div className="absolute bottom-3 right-3 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 px-2.5 py-1 text-[0.7rem] font-medium text-white/60">
+              <div className="absolute bottom-3 right-3 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 px-2.5 py-1 text-[0.7rem] font-medium text-white/85">
                 ( {active + 1} / {images.length} )
               </div>
             )}
@@ -126,7 +126,7 @@ export function PresetProductGallery({
       )}
 
       {/* ── Sample count note ── */}
-      <p className="text-[0.75rem] text-muted/40 text-center">
+      <p className="text-[0.75rem] text-muted/70 text-center">
         ( Sample images — actual preset results vary by photo )
       </p>
 

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import Link         from "next/link"
 import Image        from "next/image"
@@ -68,7 +68,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         "bg-surface border border-border",
         "transition-all duration-300",
         "hover:border-gold/40",
-        "hover:shadow-[0_8px_48px_rgba(201,168,76,0.16),0_0_0_1px_rgba(201,168,76,0.07)]",
+        "hover:shadow-[0_8px_48px_rgba(255,214,10,0.16),0_0_0_1px_rgba(255,214,10,0.07)]",
       )}
     >
       {/* ── Thumbnail ── */}
@@ -111,7 +111,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
 
         {/* Category label */}
         <div className="absolute bottom-2.5 left-2.5 z-10">
-          <span className="text-[0.65rem] font-semibold tracking-widest uppercase text-white/70 bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1 border border-white/10">
+          <span className="text-[0.65rem] font-semibold tracking-widest uppercase text-white/92 bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1 border border-white/10">
             ( {preset.category} )
           </span>
         </div>
@@ -157,7 +157,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         </Link>
 
         {/* Tagline */}
-        <p className="text-[0.8125rem] text-muted/65 leading-[1.55] tracking-[-0.005em] line-clamp-2 flex-1">
+        <p className="text-[0.8125rem] text-muted/85 leading-[1.55] tracking-[-0.005em] line-clamp-2 flex-1">
           {preset.tagline}
         </p>
 
@@ -166,17 +166,17 @@ export function PresetCard({ preset, className }: PresetCardProps) {
           {/* Social proof — rating (if real reviews) + download count (if any).
               Each shown only when it has genuine data, matching the premium
               "no empty/zero values" convention. */}
-          <div className="flex items-center gap-3 text-[0.75rem] text-muted/50 min-h-[16px]">
+          <div className="flex items-center gap-3 text-[0.75rem] text-muted/85 min-h-[16px]">
             {preset.reviewCount && preset.reviewCount > 0 && (
               <span className="flex items-center gap-1">
                 <StarIcon />
-                <span className="text-foreground/70 font-medium">{preset.rating?.toFixed(1)}</span>
+                <span className="text-foreground/92 font-medium">{preset.rating?.toFixed(1)}</span>
               </span>
             )}
             {preset.downloadCount && preset.downloadCount > 0 && (
               <span className="flex items-center gap-1" title={`${preset.downloadCount.toLocaleString()} downloads`}>
                 <DownloadCountIcon />
-                <span className="text-foreground/70 font-medium">{formatCount(preset.downloadCount)}</span>
+                <span className="text-foreground/92 font-medium">{formatCount(preset.downloadCount)}</span>
               </span>
             )}
           </div>
@@ -191,7 +191,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
               <>
                 {/* Strikethrough original if on sale */}
                 {preset.originalPrice && (
-                  <span className="text-[0.7rem] text-muted/35 line-through leading-none">
+                  <span className="text-[0.7rem] text-muted/70 line-through leading-none">
                     {formatPrice(preset.originalPrice, displayCurrency)}
                   </span>
                 )}
@@ -204,7 +204,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
                 </span>
                 {/* Alt currency — secondary, smaller */}
                 <span
-                  className="text-[0.68rem] text-muted/35 leading-none"
+                  className="text-[0.68rem] text-muted/70 leading-none"
                   suppressHydrationWarning
                 >
                   {formatPrice(preset.price, altCurrency)}
@@ -273,10 +273,10 @@ function formatCount(n: number): string {
 
 /* ── Icons ── */
 function StarIcon() {
-  return <svg width="11" height="11" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+  return <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFD60A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 }
 function DownloadCountIcon() {
-  return <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-muted/45" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  return <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-muted/85" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
 }
 function DownloadIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>

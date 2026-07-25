@@ -32,7 +32,7 @@ function StatPill({ label, value, delay }: { label: string; value: number; delay
       className="rounded-full border border-gold/20 bg-gold/5 px-5 py-2 text-sm"
     >
       <span className="font-black text-gold">{(value ?? 0).toLocaleString()}</span>
-      <span className="text-muted/60 ml-1.5">{label}</span>
+      <span className="text-muted/85 ml-1.5">{label}</span>
     </motion.div>
   )
 }
@@ -158,7 +158,7 @@ export default function CommunityHubPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-          className="text-muted/70 text-lg tracking-widest font-light"
+          className="text-muted/92 text-lg tracking-widest font-light"
         >
           Connect · Create · Collaborate
         </motion.p>
@@ -193,7 +193,7 @@ export default function CommunityHubPage() {
               <h2 className="font-display font-black text-xl text-foreground">
                 Recommended For You
               </h2>
-              <p className="text-[0.8rem] text-muted/50 mt-0.5">Based on your creative profile</p>
+              <p className="text-[0.8rem] text-muted/85 mt-0.5">Based on your creative profile</p>
             </div>
             <Link href="/account#preferences" className="text-sm text-gold hover:underline">
               Edit profile →
@@ -260,7 +260,7 @@ export default function CommunityHubPage() {
             {channels.map((ch) => <ChannelCard key={ch.id} channel={ch} />)}
           </div>
         ) : (
-          <p className="text-muted/50 text-sm">No featured channels yet.</p>
+          <p className="text-muted/85 text-sm">No featured channels yet.</p>
         )}
       </section>
 
@@ -294,7 +294,7 @@ export default function CommunityHubPage() {
             ))}
           </div>
         ) : (
-          <p className="text-muted/50 text-sm">No creators found.</p>
+          <p className="text-muted/85 text-sm">No creators found.</p>
         )}
       </section>
 
@@ -322,7 +322,7 @@ export default function CommunityHubPage() {
             {projects.map((p) => <ProjectCard key={p.id} project={p} />)}
           </div>
         ) : (
-          <p className="text-muted/50 text-sm">No open projects right now.</p>
+          <p className="text-muted/85 text-sm">No open projects right now.</p>
         )}
       </section>
 
@@ -366,7 +366,7 @@ export default function CommunityHubPage() {
                 <h3 className="font-display font-black text-base text-foreground group-hover:text-gold transition-colors">
                   {card.title}
                 </h3>
-                <p className="text-xs text-muted/60 mt-1">{card.desc}</p>
+                <p className="text-xs text-muted/85 mt-1">{card.desc}</p>
               </div>
               <span className="text-gold text-sm font-semibold">{card.cta}</span>
             </Link>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * ReviewList
@@ -54,7 +54,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
 
   if (count === 0) {
     return (
-      <p className="text-[0.875rem] text-muted/45 italic">
+      <p className="text-[0.875rem] text-muted/85 italic">
         No reviews yet — be the first to share your experience.
       </p>
     )
@@ -75,7 +75,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
           </div>
         </div>
         <div className="h-10 w-px bg-border shrink-0" />
-        <p className="text-[0.875rem] text-muted/60">
+        <p className="text-[0.875rem] text-muted/85">
           <span className="font-semibold text-foreground">{count}</span>{" "}
           {count === 1 ? "review" : "reviews"}
         </p>
@@ -98,7 +98,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
                 )}
               </div>
               <div className="flex flex-col items-end gap-1 shrink-0">
-                <span className="text-[0.7rem] text-muted/40">
+                <span className="text-[0.7rem] text-muted/70">
                   {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                 </span>
                 {r.is_verified_purchase && (
@@ -111,11 +111,11 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
 
             {/* Body */}
             {r.review_text && (
-              <p className="text-[0.8125rem] text-muted/70 leading-relaxed">{r.review_text}</p>
+              <p className="text-[0.8125rem] text-muted/92 leading-relaxed">{r.review_text}</p>
             )}
 
             {/* Author */}
-            <p className="text-[0.72rem] text-muted/35">
+            <p className="text-[0.72rem] text-muted/70">
               {anonymiseEmail(r.email)}
             </p>
           </div>
@@ -137,8 +137,8 @@ function StarIcon({ filled, small }: { filled: boolean; small?: boolean }) {
   const size = small ? 12 : 16
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true"
-      fill={filled ? "#C9A84C" : "none"}
-      stroke={filled ? "#C9A84C" : "#555"}
+      fill={filled ? "#FFD60A" : "none"}
+      stroke={filled ? "#FFD60A" : "#555"}
       strokeWidth="1.5"
     >
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useEffect } from "react"
 import Link                     from "next/link"
@@ -111,7 +111,7 @@ export default function SignupPage() {
           </Link>
           <div className="flex flex-col items-center gap-1 text-center">
             <h1 className="font-display font-bold text-[1.5rem] text-foreground tracking-tight">Create your account</h1>
-            <p className="text-[0.875rem] text-muted/60">Join the PXL Creator ecosystem</p>
+            <p className="text-[0.875rem] text-muted/85">Join the PXL Creator ecosystem</p>
           </div>
         </div>
 
@@ -121,7 +121,7 @@ export default function SignupPage() {
         {/* ── OR divider ── */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-border" />
-          <span className="text-[0.75rem] text-muted/40 font-medium tracking-wider">OR</span>
+          <span className="text-[0.75rem] text-muted/70 font-medium tracking-wider">OR</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
@@ -165,7 +165,7 @@ export default function SignupPage() {
 
           {/* Password */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="password" className="text-[0.8125rem] font-medium text-muted/70">
+            <label htmlFor="password" className="text-[0.8125rem] font-medium text-muted/92">
               Password
             </label>
             <PasswordInput
@@ -180,7 +180,7 @@ export default function SignupPage() {
 
           {/* Confirm password */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="confirm" className="text-[0.8125rem] font-medium text-muted/70">
+            <label htmlFor="confirm" className="text-[0.8125rem] font-medium text-muted/92">
               Confirm password
             </label>
             <PasswordInput
@@ -212,7 +212,7 @@ export default function SignupPage() {
 
         </form>
 
-        <p className="mt-6 text-center text-[0.8125rem] text-muted/50">
+        <p className="mt-6 text-center text-[0.8125rem] text-muted/85">
           Already have an account?{" "}
           <Link href="/login" className="font-medium text-gold hover:text-gold-dim transition-colors">
             Sign in
@@ -233,7 +233,7 @@ function FormField({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[0.8125rem] font-medium text-muted/70">{label}</label>
+      <label htmlFor={id} className="text-[0.8125rem] font-medium text-muted/92">{label}</label>
       <input
         id={id} type={type} value={value} placeholder={placeholder}
         autoComplete={autoComplete}
@@ -241,7 +241,7 @@ function FormField({
         suppressHydrationWarning
         className={cn(
           "w-full rounded-xl border bg-background px-4 py-3 text-[0.9375rem] text-foreground",
-          "placeholder:text-muted/35 transition-colors duration-150",
+          "placeholder:text-muted/70 transition-colors duration-150",
           "focus:outline-none focus:border-gold/50",
           error ? "border-red-500/50 bg-red-500/[0.03]" : "border-border"
         )}
@@ -269,14 +269,14 @@ function PasswordInput({
           suppressHydrationWarning
           className={cn(
             "w-full rounded-xl border bg-background px-4 py-3 pr-11 text-[0.9375rem] text-foreground",
-            "placeholder:text-muted/35 transition-colors duration-150",
+            "placeholder:text-muted/70 transition-colors duration-150",
             "focus:outline-none focus:border-gold/50",
             error ? "border-red-500/50 bg-red-500/[0.03]" : "border-border"
           )}
         />
         <button
           type="button" onClick={onToggle} suppressHydrationWarning
-          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted/40 hover:text-muted transition-colors focus-visible:outline-none"
+          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted/70 hover:text-muted transition-colors focus-visible:outline-none"
         >
           {show ? <EyeOffIcon /> : <EyeIcon />}
         </button>

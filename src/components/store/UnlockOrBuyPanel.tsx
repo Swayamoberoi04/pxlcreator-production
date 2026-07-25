@@ -129,7 +129,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
   if (!user) {
     return (
       <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface/60 p-5">
-        <p className="text-[0.875rem] text-muted/70 leading-relaxed">
+        <p className="text-[0.875rem] text-muted/92 leading-relaxed">
           {preset.isFree
             ? "Create a free account to download this preset instantly."
             : "Sign in to buy or unlock this preset with a YouTube password."}
@@ -158,7 +158,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
     return (
       <div className="flex items-center justify-center gap-3 rounded-2xl border border-border/50 bg-surface/40 py-5">
         <div className="h-4 w-4 rounded-full border-2 border-gold/30 border-t-gold animate-spin" />
-        <span className="text-[0.8125rem] text-muted/50">Checking access…</span>
+        <span className="text-[0.8125rem] text-muted/85">Checking access…</span>
       </div>
     )
   }
@@ -213,7 +213,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
           <p className="text-[0.9375rem] font-semibold text-foreground leading-tight">
             Two Ways to Access This Preset
           </p>
-          <p className="text-[0.8rem] text-muted/55 leading-relaxed">
+          <p className="text-[0.8rem] text-muted/85 leading-relaxed">
             Choose the option that best fits your workflow.
           </p>
         </div>
@@ -230,7 +230,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
                 </span>
                 <p className="text-[0.8125rem] font-bold text-gold/90 leading-none">Buy Instantly</p>
               </div>
-              <p className="text-[0.72rem] text-muted/50 leading-snug">
+              <p className="text-[0.72rem] text-muted/85 leading-snug">
                 One-time purchase. Permanent access.
               </p>
             </div>
@@ -245,7 +245,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
               ].map((f) => (
                 <li key={f} className="flex items-center gap-2">
                   <span className="shrink-0 text-gold"><MiniCheckIcon /></span>
-                  <span className="text-[0.75rem] text-foreground/70 leading-snug">{f}</span>
+                  <span className="text-[0.75rem] text-foreground/92 leading-snug">{f}</span>
                 </li>
               ))}
             </ul>
@@ -272,7 +272,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
                 </span>
                 <p className="text-[0.8125rem] font-bold text-emerald-400/90 leading-none">Unlock for Free</p>
               </div>
-              <p className="text-[0.72rem] text-muted/50 leading-snug">
+              <p className="text-[0.72rem] text-muted/85 leading-snug">
                 Watch the tutorial. Enter the password.
               </p>
             </div>
@@ -287,7 +287,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
               ].map((f) => (
                 <li key={f} className="flex items-center gap-2">
                   <span className="shrink-0 text-emerald-400"><MiniCheckIcon /></span>
-                  <span className="text-[0.75rem] text-foreground/70 leading-snug">{f}</span>
+                  <span className="text-[0.75rem] text-foreground/92 leading-snug">{f}</span>
                 </li>
               ))}
             </ul>
@@ -310,9 +310,9 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
         </div>
 
         {preset.youtubeVideoTitle && (
-          <p className="text-[0.7rem] text-muted/35 leading-snug px-0.5">
+          <p className="text-[0.7rem] text-muted/70 leading-snug px-0.5">
             Password found in:{" "}
-            <span className="text-muted/55 font-medium">{preset.youtubeVideoTitle}</span>
+            <span className="text-muted/85 font-medium">{preset.youtubeVideoTitle}</span>
           </p>
         )}
       </div>

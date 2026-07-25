@@ -10,7 +10,7 @@ interface ProjectCardProps {
 const STATUS_CONFIG: Record<ProjectStatus, { label: string; className: string }> = {
   open:        { label: "Open",        className: "bg-green-500/15 text-green-400 border-green-500/30" },
   in_progress: { label: "In Progress", className: "bg-gold/15 text-gold border-gold/30" },
-  closed:      { label: "Closed",      className: "bg-muted/10 text-muted/50 border-border" },
+  closed:      { label: "Closed",      className: "bg-muted/10 text-muted/85 border-border" },
 }
 
 const WORK_TYPE_CONFIG: Record<WorkType, { label: string; className: string }> = {
@@ -71,7 +71,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {/* Title + description */}
       <div>
         <h3 className="font-display font-black text-base text-foreground line-clamp-1">{project.title}</h3>
-        <p className="mt-1 text-xs text-muted/60 line-clamp-2">{project.description}</p>
+        <p className="mt-1 text-xs text-muted/85 line-clamp-2">{project.description}</p>
       </div>
 
       {/* Skills needed */}
@@ -80,13 +80,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.skills_needed.slice(0, 3).map((skill) => (
             <span
               key={skill}
-              className="text-[11px] px-2 py-0.5 rounded-full bg-surface-3 border border-border text-muted/70"
+              className="text-[11px] px-2 py-0.5 rounded-full bg-surface-3 border border-border text-muted/92"
             >
               {skill}
             </span>
           ))}
           {project.skills_needed.length > 3 && (
-            <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-3 border border-border text-muted/50">
+            <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-3 border border-border text-muted/85">
               +{project.skills_needed.length - 3}
             </span>
           )}
@@ -94,10 +94,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Budget + deadline */}
-      <div className="flex items-center justify-between text-xs text-muted/60">
+      <div className="flex items-center justify-between text-xs text-muted/85">
         <span className="text-gold font-semibold">{formatBudget(project)}</span>
         {project.deadline && (
-          <span className="text-muted/50">{formatDeadline(project.deadline)}</span>
+          <span className="text-muted/85">{formatDeadline(project.deadline)}</span>
         )}
       </div>
 
@@ -115,13 +115,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
               {initial}
             </span>
           )}
-          <span className="text-xs text-muted/60 truncate max-w-[100px]">
+          <span className="text-xs text-muted/85 truncate max-w-[100px]">
             {project.poster?.display_name || "Creator"}
           </span>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs text-muted/50">
+          <span className="text-xs text-muted/85">
             {project.applicant_count} applicant{project.applicant_count !== 1 ? "s" : ""}
           </span>
           {project.status === "open" && (

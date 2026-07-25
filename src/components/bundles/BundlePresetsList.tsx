@@ -21,7 +21,7 @@ const CATEGORY_STYLES: Record<string, { bg: string; text: string }> = {
 }
 
 function getCategoryStyle(category: string) {
-  return CATEGORY_STYLES[category] ?? { bg: "bg-white/5", text: "text-white/40" }
+  return CATEGORY_STYLES[category] ?? { bg: "bg-white/5", text: "text-white/70" }
 }
 
 /* ── Props ─────────────────────────────────────────────── */
@@ -78,7 +78,7 @@ export function BundlePresetsList({ packs, className }: BundlePresetsListProps) 
                   </span>
                 )}
               </div>
-              <p className="text-[0.8rem] text-muted/45 mt-0.5 leading-relaxed">
+              <p className="text-[0.8rem] text-muted/85 mt-0.5 leading-relaxed">
                 {pack.description}
               </p>
             </div>
@@ -88,13 +88,13 @@ export function BundlePresetsList({ packs, className }: BundlePresetsListProps) 
               <p className="text-[1.1rem] font-black text-gold leading-none">
                 {pack.presetCount}
               </p>
-              <p className="text-[0.6rem] font-medium text-muted/35 mt-0.5 tracking-wide">
+              <p className="text-[0.6rem] font-medium text-muted/70 mt-0.5 tracking-wide">
                 presets
               </p>
               {pack.priceUsd !== undefined && (
                 <p className={cn(
                   "text-[0.75rem] font-semibold mt-1.5",
-                  isFreeBonus ? "text-emerald-400/70" : "text-muted/50"
+                  isFreeBonus ? "text-emerald-400/70" : "text-muted/85"
                 )}>
                   {isFreeBonus ? "Free" : `$${pack.priceUsd.toFixed(2)}`}
                 </p>
@@ -115,10 +115,10 @@ export function BundlePresetsList({ packs, className }: BundlePresetsListProps) 
       {/* Total individual value row */}
       {totalIndividual > 0 && (
         <div className="flex items-center justify-between px-4 py-2.5 rounded-xl border border-border/30 bg-surface/30 mt-1">
-          <span className="text-[0.8rem] text-muted/45 font-medium">
+          <span className="text-[0.8rem] text-muted/85 font-medium">
             Total if bought separately
           </span>
-          <span className="text-[0.875rem] font-bold text-muted/60 line-through">
+          <span className="text-[0.875rem] font-bold text-muted/85 line-through">
             ${totalIndividual.toFixed(2)}
           </span>
         </div>

@@ -86,7 +86,7 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
       <div className="w-full max-w-lg rounded-2xl border border-border bg-surface flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
           <h2 className="font-display font-black text-lg">Send Collab Request</h2>
-          <button onClick={onClose} className="text-muted/50 hover:text-foreground text-xl">✕</button>
+          <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
 
         <div className="overflow-y-auto flex-1">
@@ -102,7 +102,7 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
               )}
               <div className="min-w-0">
                 <p className="font-semibold text-sm text-foreground truncate">{recipient.display_name}</p>
-                <p className="text-xs text-muted/50">@{recipient.username}</p>
+                <p className="text-xs text-muted/85">@{recipient.username}</p>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
 
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-muted/70">Collab Type *</label>
+                <label className="text-xs font-semibold text-muted/92">Collab Type *</label>
                 <select
                   value={collabType} onChange={(e) => setCollabType(e.target.value)}
                   className="rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-gold/50"
@@ -121,7 +121,7 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
                 </select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-muted/70">Role Needed *</label>
+                <label className="text-xs font-semibold text-muted/92">Role Needed *</label>
                 <select
                   value={roleNeeded} onChange={(e) => setRoleNeeded(e.target.value)}
                   className="rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-gold/50"
@@ -132,27 +132,27 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-muted/70">Message * (10–1000 chars)</label>
+              <label className="text-xs font-semibold text-muted/92">Message * (10–1000 chars)</label>
               <textarea
                 value={message} onChange={(e) => setMessage(e.target.value.slice(0, 1000))}
                 placeholder="Describe your project and what you're looking for…"
                 rows={4}
-                className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 resize-none"
+                className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 resize-none"
               />
-              <p className="text-[10px] text-muted/30 text-right">{message.length}/1000</p>
+              <p className="text-[10px] text-muted/70 text-right">{message.length}/1000</p>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-muted/70">Budget (optional)</label>
+              <label className="text-xs font-semibold text-muted/92">Budget (optional)</label>
               <input
                 value={budget} onChange={(e) => setBudget(e.target.value)}
                 placeholder="e.g. $500, negotiable, rev-share"
-                className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50"
+                className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50"
               />
             </div>
 
             <div className="flex gap-3 pt-1">
-              <button type="button" onClick={onClose} className="flex-1 rounded-xl py-2.5 text-sm font-semibold border border-border text-muted/60 hover:text-foreground transition-colors">
+              <button type="button" onClick={onClose} className="flex-1 rounded-xl py-2.5 text-sm font-semibold border border-border text-muted/85 hover:text-foreground transition-colors">
                 Cancel
               </button>
               <button type="submit" disabled={submitting || message.trim().length < 10} className="flex-1 rounded-xl py-2.5 text-sm font-bold bg-gold text-black hover:bg-gold/90 transition-colors disabled:opacity-50">
@@ -281,14 +281,14 @@ function DiscoverPageInner() {
       <div className="flex gap-1 rounded-xl bg-surface border border-border p-1 w-fit">
         <button
           onClick={() => setPageTab("discover")}
-          className={["rounded-lg px-5 py-2 text-sm font-medium transition-colors", pageTab === "discover" ? "bg-gold/15 text-gold" : "text-muted/60 hover:text-foreground"].join(" ")}
+          className={["rounded-lg px-5 py-2 text-sm font-medium transition-colors", pageTab === "discover" ? "bg-gold/15 text-gold" : "text-muted/85 hover:text-foreground"].join(" ")}
         >
           Discover
         </button>
         <button
           onClick={() => { if (!user) return; setPageTab("requests") }}
           disabled={!user}
-          className={["rounded-lg px-5 py-2 text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed", pageTab === "requests" ? "bg-gold/15 text-gold" : "text-muted/60 hover:text-foreground"].join(" ")}
+          className={["rounded-lg px-5 py-2 text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed", pageTab === "requests" ? "bg-gold/15 text-gold" : "text-muted/85 hover:text-foreground"].join(" ")}
         >
           My Requests
         </button>
@@ -304,7 +304,7 @@ function DiscoverPageInner() {
               <button
                 key={t}
                 onClick={() => setRequestsTab(t)}
-                className={["rounded-lg px-4 py-2 text-sm font-medium capitalize transition-colors", requestsTab === t ? "bg-gold/15 text-gold" : "text-muted/60 hover:text-foreground"].join(" ")}
+                className={["rounded-lg px-4 py-2 text-sm font-medium capitalize transition-colors", requestsTab === t ? "bg-gold/15 text-gold" : "text-muted/85 hover:text-foreground"].join(" ")}
               >
                 {t}
               </button>
@@ -319,7 +319,7 @@ function DiscoverPageInner() {
             <div className="flex flex-col items-center gap-3 py-16 text-center">
               <span className="text-4xl">🤝</span>
               <p className="font-semibold text-foreground">No {requestsTab} requests</p>
-              <p className="text-sm text-muted/50">
+              <p className="text-sm text-muted/85">
                 {requestsTab === "received" ? "When someone sends you a collab request it will appear here" : "Requests you send to other creators will appear here"}
               </p>
             </div>
@@ -344,7 +344,7 @@ function DiscoverPageInner() {
           <div>
             <h1 className="font-display font-black text-3xl text-foreground">Discover Creators</h1>
             {total !== null && (
-              <p className="text-sm text-muted/60 mt-1">
+              <p className="text-sm text-muted/85 mt-1">
                 {total.toLocaleString()} result{total !== 1 ? "s" : ""}
                 {query ? ` for "${query}"` : ""}
               </p>
@@ -353,27 +353,27 @@ function DiscoverPageInner() {
 
           {/* Search bar */}
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted/40 text-lg">🔍</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted/70 text-lg">🔍</span>
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search creators by name, role, or location…"
-              className="w-full rounded-xl border border-border bg-surface px-11 py-3 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 focus:bg-surface-2 transition-colors"
+              className="w-full rounded-xl border border-border bg-surface px-11 py-3 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 focus:bg-surface-2 transition-colors"
             />
             {query && (
-              <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted/40 hover:text-foreground transition-colors">✕</button>
+              <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted/70 hover:text-foreground transition-colors">✕</button>
             )}
           </div>
 
           {/* Filters */}
           <div className="flex flex-col gap-5 rounded-2xl border border-border bg-surface p-5">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-muted/50">Filters</h2>
+            <h2 className="text-xs font-bold uppercase tracking-widest text-muted/85">Filters</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Skill Level */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-muted/70">Skill Level</label>
+                <label className="text-xs font-semibold text-muted/92">Skill Level</label>
                 <select
                   value={skillLevel}
                   onChange={(e) => setSkillLevel(e.target.value as SkillLevel | "")}
@@ -386,7 +386,7 @@ function DiscoverPageInner() {
 
               {/* Availability */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-muted/70">Availability</label>
+                <label className="text-xs font-semibold text-muted/92">Availability</label>
                 <select
                   value={availability}
                   onChange={(e) => setAvailability(e.target.value as Availability | "")}
@@ -399,19 +399,19 @@ function DiscoverPageInner() {
 
               {/* Location */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-muted/70">Location</label>
+                <label className="text-xs font-semibold text-muted/92">Location</label>
                 <input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="City or country…"
-                  className="rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50"
+                  className="rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50"
                 />
               </div>
 
               {/* Need Role */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-muted/70">I Need</label>
+                <label className="text-xs font-semibold text-muted/92">I Need</label>
                 <select
                   value={needRole}
                   onChange={(e) => setNeedRole(e.target.value)}
@@ -425,7 +425,7 @@ function DiscoverPageInner() {
 
             {/* Available For */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold text-muted/70">Available For</label>
+              <label className="text-xs font-semibold text-muted/92">Available For</label>
               <div className="flex flex-wrap gap-2">
                 {AVAILABLE_FOR_OPTIONS.map((opt) => (
                   <button
@@ -435,7 +435,7 @@ function DiscoverPageInner() {
                       "rounded-full px-3 py-1 text-xs font-medium transition-colors border",
                       availableFor.includes(opt.id)
                         ? "border-gold/40 bg-gold/10 text-gold"
-                        : "border-border bg-surface-2 text-muted/60 hover:border-gold/30 hover:text-foreground",
+                        : "border-border bg-surface-2 text-muted/85 hover:border-gold/30 hover:text-foreground",
                     ].join(" ")}
                   >
                     {opt.label}
@@ -446,7 +446,7 @@ function DiscoverPageInner() {
 
             {/* Roles */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold text-muted/70">Roles</label>
+              <label className="text-xs font-semibold text-muted/92">Roles</label>
               <div className="flex flex-wrap gap-2">
                 {CREATOR_ROLES.map((role) => (
                   <button
@@ -456,7 +456,7 @@ function DiscoverPageInner() {
                       "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors border",
                       roles.includes(role.id)
                         ? "border-gold/40 bg-gold/10 text-gold"
-                        : "border-border bg-surface-2 text-muted/60 hover:border-gold/30 hover:text-foreground",
+                        : "border-border bg-surface-2 text-muted/85 hover:border-gold/30 hover:text-foreground",
                     ].join(" ")}
                   >
                     <span>{role.icon}</span>
@@ -470,7 +470,7 @@ function DiscoverPageInner() {
             {hasFilters && (
               <button
                 onClick={() => { setRoles([]); setSkillLevel(""); setAvailability(""); setLocation(""); setAvailableFor([]); setNeedRole("") }}
-                className="self-start text-xs text-muted/50 hover:text-gold transition-colors underline underline-offset-2"
+                className="self-start text-xs text-muted/85 hover:text-gold transition-colors underline underline-offset-2"
               >
                 Clear all filters
               </button>
@@ -502,7 +502,7 @@ function DiscoverPageInner() {
             <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
               <span className="text-4xl">🔍</span>
               <p className="text-foreground font-semibold">No creators found</p>
-              <p className="text-sm text-muted/50">Try different keywords or clear some filters</p>
+              <p className="text-sm text-muted/85">Try different keywords or clear some filters</p>
             </div>
           )}
         </>

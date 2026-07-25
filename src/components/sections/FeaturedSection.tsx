@@ -79,7 +79,7 @@ export async function FeaturedSection() {
           <div className="flex justify-center mt-12">
             <Link
               href="/store"
-              className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface-2 px-7 py-3 text-[0.9375rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all duration-200"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface-2 px-7 py-3 text-[0.9375rem] font-semibold text-muted/92 hover:border-gold/30 hover:text-foreground transition-all duration-200"
             >
               Browse all presets
               <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useRef, useEffect } from "react"
 import { cn }                           from "@/lib/utils"
@@ -98,7 +98,7 @@ export function PasswordModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 flex h-7 w-7 items-center justify-center rounded-full border border-border/50 text-muted/50 hover:text-foreground hover:border-border transition-colors"
+          className="absolute top-4 right-4 flex h-7 w-7 items-center justify-center rounded-full border border-border/50 text-muted/85 hover:text-foreground hover:border-border transition-colors"
         >
           <CloseIcon />
         </button>
@@ -113,18 +113,18 @@ export function PasswordModal({
               <p id="modal-title" className="text-[0.9375rem] font-semibold text-foreground leading-tight">
                 Unlock from YouTube
               </p>
-              <p className="text-[0.75rem] text-muted/60">{presetName}</p>
+              <p className="text-[0.75rem] text-muted/85">{presetName}</p>
             </div>
           </div>
 
           {youtubeVideoTitle && (
             <div className="rounded-xl border border-gold/20 bg-gold/[0.05] px-3.5 py-2.5 mt-1">
-              <p className="text-[0.75rem] text-muted/50 leading-none mb-1">Find the password in:</p>
+              <p className="text-[0.75rem] text-muted/85 leading-none mb-1">Find the password in:</p>
               <p className="text-[0.8125rem] font-medium text-gold/90 leading-snug">{youtubeVideoTitle}</p>
             </div>
           )}
 
-          <p className="text-[0.8125rem] text-muted/60 leading-relaxed">
+          <p className="text-[0.8125rem] text-muted/85 leading-relaxed">
             Watch the YouTube video to find the unlock password, then enter it below.
           </p>
         </div>
@@ -132,7 +132,7 @@ export function PasswordModal({
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="unlock-password" className="text-[0.75rem] font-medium text-muted/60 tracking-wide">
+            <label htmlFor="unlock-password" className="text-[0.75rem] font-medium text-muted/85 tracking-wide">
               Unlock Password
             </label>
             <input
@@ -146,7 +146,7 @@ export function PasswordModal({
               spellCheck={false}
               className={cn(
                 "w-full rounded-xl border bg-surface px-4 py-3 text-[0.9375rem] font-mono tracking-wider text-foreground",
-                "placeholder:text-muted/30 placeholder:font-sans placeholder:tracking-normal",
+                "placeholder:text-muted/70 placeholder:font-sans placeholder:tracking-normal",
                 "outline-none transition-colors",
                 "focus:border-gold/50 focus:ring-1 focus:ring-gold/20",
                 error ? "border-red-500/60" : "border-border"
@@ -177,7 +177,7 @@ export function PasswordModal({
           </button>
         </form>
 
-        <p className="text-center text-[0.75rem] text-muted/35">
+        <p className="text-center text-[0.75rem] text-muted/70">
           Password is case-sensitive. Check the video description for hints.
         </p>
       </div>

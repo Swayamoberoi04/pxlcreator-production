@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
             </div>
             <div className="flex flex-col gap-2">
               <h2 className="font-display font-bold text-[1.25rem] text-foreground">Check your inbox</h2>
-              <p className="text-[0.875rem] text-muted/60 leading-relaxed max-w-xs">
+              <p className="text-[0.875rem] text-muted/85 leading-relaxed max-w-xs">
                 We sent a reset link to <span className="text-foreground font-medium">{email}</span>.
                 It expires in 1 hour.
               </p>
@@ -89,7 +89,7 @@ export default function ForgotPasswordPage() {
           <>
             <div className="flex flex-col gap-1 mb-6">
               <h1 className="font-display font-bold text-[1.5rem] text-foreground tracking-tight">Reset password</h1>
-              <p className="text-[0.875rem] text-muted/60">
+              <p className="text-[0.875rem] text-muted/85">
                 Enter your email and we&apos;ll send a reset link.
               </p>
             </div>
@@ -113,13 +113,13 @@ export default function ForgotPasswordPage() {
               </AnimatePresence>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="email" className="text-[0.8125rem] font-medium text-muted/70">Email address</label>
+                <label htmlFor="email" className="text-[0.8125rem] font-medium text-muted/92">Email address</label>
                 <input
                   id="email" type="email" autoComplete="email"
                   value={email} onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   suppressHydrationWarning
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/35 transition-colors focus:outline-none focus:border-gold/50"
+                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-[0.9375rem] text-foreground placeholder:text-muted/70 transition-colors focus:outline-none focus:border-gold/50"
                 />
               </div>
 
@@ -140,7 +140,7 @@ export default function ForgotPasswordPage() {
 
             </form>
 
-            <p className="mt-6 text-center text-[0.8125rem] text-muted/50">
+            <p className="mt-6 text-center text-[0.8125rem] text-muted/85">
               Remembered it?{" "}
               <Link href="/login" className="font-medium text-gold hover:text-gold-dim transition-colors">
                 Sign in

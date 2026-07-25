@@ -126,7 +126,7 @@ function ColorWheel({
 
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <span className="text-[0.6875rem] uppercase tracking-wider text-muted/60">{label}</span>
+      <span className="text-[0.6875rem] uppercase tracking-wider text-muted/85">{label}</span>
       <div
         ref={ref}
         onPointerDown={onDown}

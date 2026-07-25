@@ -80,10 +80,10 @@ function SampleTeamCard({ team }: { team: typeof SAMPLE_TEAMS[0] }) {
         </div>
         <div>
           <p className="font-display font-black text-sm text-foreground">{team.name}</p>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/40 mt-0.5">{team.category}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/70 mt-0.5">{team.category}</p>
         </div>
       </div>
-      <p className="text-xs text-muted/60 leading-relaxed line-clamp-2">{team.description}</p>
+      <p className="text-xs text-muted/85 leading-relaxed line-clamp-2">{team.description}</p>
       {team.is_hiring && team.roles_needed.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {team.roles_needed.map((r) => (
@@ -94,7 +94,7 @@ function SampleTeamCard({ team }: { team: typeof SAMPLE_TEAMS[0] }) {
         </div>
       )}
       <div className="flex items-center justify-between">
-        <span className="text-xs text-muted/50">👥 {team.member_count} members</span>
+        <span className="text-xs text-muted/85">👥 {team.member_count} members</span>
         {team.is_hiring && (
           <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
             Hiring
@@ -148,30 +148,30 @@ function CreateTeamModal({ onClose, onCreate }: CreateTeamModalProps) {
       <div className="w-full max-w-lg rounded-2xl border border-border bg-surface flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
           <h2 className="font-display font-black text-lg">Create Team</h2>
-          <button onClick={onClose} className="text-muted/50 hover:text-foreground text-xl">✕</button>
+          <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
         <form onSubmit={submit} className="flex flex-col gap-4 p-6 overflow-y-auto">
           {err && <p className="text-sm text-red-400 rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-2">{err}</p>}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Team Name *</label>
+            <label className="text-xs font-semibold text-muted/92">Team Name *</label>
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Cinema Collective"
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50" />
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50" />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Description</label>
+            <label className="text-xs font-semibold text-muted/92">Description</label>
             <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="What is your team about?" rows={3}
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 resize-none" />
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 resize-none" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-muted/70">Category</label>
+              <label className="text-xs font-semibold text-muted/92">Category</label>
               <select value={category} onChange={(e) => setCategory(e.target.value)}
                 className="rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-gold/50">
                 {TEAM_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-muted/70">Visibility</label>
+              <label className="text-xs font-semibold text-muted/92">Visibility</label>
               <select value={visibility} onChange={(e) => setVisibility(e.target.value as "public" | "private")}
                 className="rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-gold/50">
                 <option value="public">Public</option>
@@ -185,11 +185,11 @@ function CreateTeamModal({ onClose, onCreate }: CreateTeamModalProps) {
           </label>
           {isHiring && (
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold text-muted/70">Roles Needed</label>
+              <label className="text-xs font-semibold text-muted/92">Roles Needed</label>
               <div className="flex flex-wrap gap-2">
                 {HIRING_ROLES.map((r) => (
                   <button key={r} type="button" onClick={() => toggleRole(r)}
-                    className={["text-xs px-3 py-1 rounded-full border transition-colors", roles.includes(r) ? "border-gold/40 bg-gold/10 text-gold" : "border-border bg-surface-2 text-muted/60 hover:border-gold/30"].join(" ")}>
+                    className={["text-xs px-3 py-1 rounded-full border transition-colors", roles.includes(r) ? "border-gold/40 bg-gold/10 text-gold" : "border-border bg-surface-2 text-muted/85 hover:border-gold/30"].join(" ")}>
                     {r}
                   </button>
                 ))}
@@ -197,13 +197,13 @@ function CreateTeamModal({ onClose, onCreate }: CreateTeamModalProps) {
             </div>
           )}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Tags (comma separated)</label>
+            <label className="text-xs font-semibold text-muted/92">Tags (comma separated)</label>
             <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="e.g. wedding, documentary, corporate"
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50" />
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50" />
           </div>
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 rounded-xl py-2.5 text-sm font-semibold border border-border text-muted/60 hover:text-foreground hover:border-border/70 transition-colors">
+              className="flex-1 rounded-xl py-2.5 text-sm font-semibold border border-border text-muted/85 hover:text-foreground hover:border-border/70 transition-colors">
               Cancel
             </button>
             <button type="submit" disabled={submitting}
@@ -262,7 +262,7 @@ export default function TeamsPage() {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="font-display font-black text-3xl text-foreground">Creator Teams</h1>
-          <p className="text-sm text-muted/60 mt-1">Find your creative crew or build one from scratch</p>
+          <p className="text-sm text-muted/85 mt-1">Find your creative crew or build one from scratch</p>
         </div>
         {user && (
           <button onClick={() => setShowCreate(true)}
@@ -277,7 +277,7 @@ export default function TeamsPage() {
         {tabs.map((t) => (
           <button key={t.id} onClick={() => { if (t.id === "mine" && !user) return; setActiveTab(t.id) }}
             disabled={t.id === "mine" && !user}
-            className={["rounded-lg px-4 py-2 text-sm font-medium transition-colors", activeTab === t.id ? "bg-gold/15 text-gold" : "text-muted/60 hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"].join(" ")}>
+            className={["rounded-lg px-4 py-2 text-sm font-medium transition-colors", activeTab === t.id ? "bg-gold/15 text-gold" : "text-muted/85 hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"].join(" ")}>
             {t.label}
           </button>
         ))}
@@ -285,10 +285,10 @@ export default function TeamsPage() {
 
       {/* Roles quick-reference */}
       <div className="rounded-2xl border border-border bg-surface p-5">
-        <p className="text-xs font-bold uppercase tracking-widest text-muted/50 mb-3">Roles Joining Teams</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-muted/85 mb-3">Roles Joining Teams</p>
         <div className="flex flex-wrap gap-2">
           {["Director", "Editor", "Colorist", "Cinematographer", "Photographer", "Drone Operator", "Vlogger", "Writer", "Marketer"].map((r) => (
-            <span key={r} className="text-xs px-3 py-1.5 rounded-full border border-border bg-surface-2 text-muted/70 font-semibold">{r}</span>
+            <span key={r} className="text-xs px-3 py-1.5 rounded-full border border-border bg-surface-2 text-muted/92 font-semibold">{r}</span>
           ))}
         </div>
       </div>
@@ -308,7 +308,7 @@ export default function TeamsPage() {
             <span className="text-2xl">💡</span>
             <div>
               <p className="font-display font-black text-sm text-foreground">Team collaboration tools are in development</p>
-              <p className="text-xs text-muted/60 mt-0.5">Preview what teams will look like in the PXL Creator ecosystem</p>
+              <p className="text-xs text-muted/85 mt-0.5">Preview what teams will look like in the PXL Creator ecosystem</p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

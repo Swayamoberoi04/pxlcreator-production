@@ -30,7 +30,7 @@ export function OnboardingSetupCTA() {
       >
         <Link
           href="/account"
-          className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-[0.72rem] font-semibold text-muted/60 transition-all hover:text-foreground hover:border-gold/30 hover:bg-gold/5"
+          className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-[0.72rem] font-semibold text-muted/85 transition-all hover:text-foreground hover:border-gold/30 hover:bg-gold/5"
           title="Manage your creative preferences"
         >
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

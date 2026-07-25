@@ -84,14 +84,14 @@ export function HealOverlay({ width, height }: HealOverlayProps) {
         return (
           <g key={sp.id}>
             {/* Link line */}
-            <line x1={sx} y1={sy} x2={tx} y2={ty} stroke="rgba(201,168,76,0.5)" strokeWidth={1} strokeDasharray="3 3" />
+            <line x1={sx} y1={sy} x2={tx} y2={ty} stroke="rgba(255,214,10,0.5)" strokeWidth={1} strokeDasharray="3 3" />
             {/* Source (sample) ring — dashed */}
             <circle
               cx={sx}
               cy={sy}
               r={r}
               fill="none"
-              stroke="#C9A84C"
+              stroke="#FFD60A"
               strokeWidth={1.5}
               strokeDasharray="5 4"
               style={{ cursor: "grab" }}
@@ -102,7 +102,7 @@ export function HealOverlay({ width, height }: HealOverlayProps) {
               cx={tx}
               cy={ty}
               r={r}
-              fill="rgba(201,168,76,0.10)"
+              fill="rgba(255,214,10,0.10)"
               stroke="#fff"
               strokeWidth={1.5}
               style={{ cursor: "grab" }}

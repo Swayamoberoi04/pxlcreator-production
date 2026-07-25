@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useEffect, useRef }              from "react"
 import Link                                          from "next/link"
@@ -271,7 +271,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 sm:mt-10 text-[0.9375rem] sm:text-[1.0625rem] text-white/65 max-w-[440px] leading-relaxed font-normal"
+          className="mt-8 sm:mt-10 text-[0.9375rem] sm:text-[1.0625rem] text-white/85 max-w-[440px] leading-relaxed font-normal"
         >
           Handcrafted cinematic presets.<br />
           Your creative identity starts here.
@@ -298,7 +298,7 @@ export function HeroSection() {
           <MagneticButton>
             <Link
               href="/bundles"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-7 py-3.5 text-[0.9375rem] font-semibold text-white/80 hover:border-white/40 hover:bg-white/12 hover:text-white active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-7 py-3.5 text-[0.9375rem] font-semibold text-white/92 hover:border-white/40 hover:bg-white/12 hover:text-white active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             >
               Browse Bundles
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -313,10 +313,10 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.0, delay: 0.8 }}
-          className="mt-5 text-[0.8125rem] text-white/45"
+          className="mt-5 text-[0.8125rem] text-white/85"
         >
           Trusted by{" "}
-          <span className="text-white/55 font-medium">10,000+</span>{" "}
+          <span className="text-white/85 font-medium">10,000+</span>{" "}
           creators worldwide
         </motion.p>
 
@@ -340,7 +340,7 @@ export function HeroSection() {
               className={cn(
                 "block rounded-full transition-all duration-300 ease-out group-focus-visible/dot:ring-2 group-focus-visible/dot:ring-ring",
                 i === active
-                  ? "w-6 h-1.5 bg-gold shadow-[0_0_8px_rgba(201,168,76,0.6)]"
+                  ? "w-6 h-1.5 bg-gold shadow-[0_0_8px_rgba(255,214,10,0.6)]"
                   : "w-1.5 h-1.5 bg-white/25 group-hover/dot:bg-white/50"
               )}
             />

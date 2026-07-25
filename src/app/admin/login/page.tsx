@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
             <h1 className="font-display font-black text-[1.375rem] text-white/90 tracking-tight">
               Admin Access
             </h1>
-            <p className="text-[0.8125rem] text-white/30">PXL Creator dashboard</p>
+            <p className="text-[0.8125rem] text-white/70">PXL Creator dashboard</p>
           </div>
         </div>
 
@@ -88,7 +88,7 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.7rem] text-white/35 tracking-[0.18em] uppercase">
+              <label className="text-[0.7rem] text-white/70 tracking-[0.18em] uppercase">
                 Password
               </label>
               <input
@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setPw(e.target.value)}
                 placeholder="Enter admin password"
                 autoFocus
-                className="rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/20 focus:outline-none focus:border-gold/35 focus:bg-white/[0.06] transition-all duration-200"
+                className="rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/70 focus:outline-none focus:border-gold/35 focus:bg-white/[0.06] transition-all duration-200"
               />
             </div>
 
@@ -118,8 +118,8 @@ export default function AdminLoginPage() {
           </form>
         </div>
 
-        <p className="text-center text-[0.7rem] text-white/15 mt-5 tracking-wide">
-          Set <code className="text-white/25">ADMIN_PASSWORD</code> in .env.local
+        <p className="text-center text-[0.7rem] text-white/70 mt-5 tracking-wide">
+          Set <code className="text-white/70">ADMIN_PASSWORD</code> in .env.local
         </p>
 
       </div>

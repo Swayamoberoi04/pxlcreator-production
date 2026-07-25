@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useState, use } from "react"
 import Link                          from "next/link"
@@ -102,7 +102,7 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
                 <h1 className="font-display font-black text-[1.25rem] text-foreground">{channel.name}</h1>
                 {channel.is_verified && <span className="text-gold">✓</span>}
               </div>
-              <p className="text-[0.8125rem] text-muted/60">
+              <p className="text-[0.8125rem] text-muted/85">
                 {channel.member_count.toLocaleString()} members · {channel.post_count} posts
               </p>
             </div>
@@ -125,7 +125,7 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
         {(["posts","about"] as const).map(t => (
           <button key={t} type="button" onClick={() => setTab(t)}
             className={`px-4 py-2 text-[0.875rem] font-medium capitalize border-b-2 -mb-px transition-colors ${
-              tab === t ? "border-gold text-gold" : "border-transparent text-muted/60 hover:text-foreground"
+              tab === t ? "border-gold text-gold" : "border-transparent text-muted/85 hover:text-foreground"
             }`}>{t}
           </button>
         ))}
@@ -142,7 +142,7 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
                 placeholder={`Share something in ${channel.name}…`}
                 rows={3}
                 maxLength={5000}
-                className="w-full bg-transparent text-[0.9375rem] text-foreground placeholder:text-muted/40 focus:outline-none resize-none"
+                className="w-full bg-transparent text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none resize-none"
               />
               <div className="flex justify-end">
                 <button type="submit" disabled={posting || !newPost.trim()}
@@ -157,7 +157,7 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
           {!channel.is_member && channel.visibility === "private" ? (
             <div className="rounded-2xl border border-border bg-surface px-6 py-12 text-center">
               <p className="font-bold text-foreground mb-2">🔒 Private Channel</p>
-              <p className="text-[0.875rem] text-muted/60 mb-4">Join to see discussions.</p>
+              <p className="text-[0.875rem] text-muted/85 mb-4">Join to see discussions.</p>
               {user && (
                 <button onClick={toggleJoin} disabled={joining}
                   className="rounded-full bg-gold px-6 py-2 font-semibold text-background hover:bg-gold/90 disabled:opacity-50 transition-colors">
@@ -167,7 +167,7 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
             </div>
           ) : posts.length === 0 ? (
             <div className="rounded-2xl border border-border bg-surface px-6 py-12 text-center">
-              <p className="text-muted/50">No posts yet — start the conversation!</p>
+              <p className="text-muted/85">No posts yet — start the conversation!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
@@ -177,17 +177,17 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
         </div>
       ) : (
         <div className="rounded-2xl border border-border bg-surface p-5 flex flex-col gap-4">
-          <p className="text-foreground/80 leading-relaxed">{channel.long_description ?? channel.description}</p>
+          <p className="text-foreground/92 leading-relaxed">{channel.long_description ?? channel.description}</p>
           {channel.rules && (
             <div>
-              <p className="text-[0.8125rem] font-bold text-muted/50 uppercase tracking-wider mb-2">Rules</p>
-              <p className="text-[0.875rem] text-muted/70 whitespace-pre-wrap">{channel.rules}</p>
+              <p className="text-[0.8125rem] font-bold text-muted/85 uppercase tracking-wider mb-2">Rules</p>
+              <p className="text-[0.875rem] text-muted/92 whitespace-pre-wrap">{channel.rules}</p>
             </div>
           )}
           {channel.tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {channel.tags.map(tag => (
-                <span key={tag} className="text-[0.75rem] text-muted/60 bg-surface-2 border border-border rounded-full px-2.5 py-0.5">
+                <span key={tag} className="text-[0.75rem] text-muted/85 bg-surface-2 border border-border rounded-full px-2.5 py-0.5">
                   #{tag}
                 </span>
               ))}

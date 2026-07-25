@@ -289,7 +289,7 @@ export default function GiveawayPage() {
       <div className="border-t border-border">
         <Container className="py-8 sm:py-10">
           <div className="flex flex-col items-center gap-5 max-w-2xl mx-auto text-center">
-            <p className="text-[0.8125rem] text-muted/50 leading-relaxed">
+            <p className="text-[0.8125rem] text-muted/85 leading-relaxed">
               Winner selected at random from qualifying entries. Open to all residents 18+.
               One winner announced on Instagram Stories within 7 days of the closing date.
               PXL Creator reserves the right to modify or cancel the giveaway at any time.
@@ -297,7 +297,7 @@ export default function GiveawayPage() {
             </p>
             <Link
               href="/contact"
-              className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors underline underline-offset-4"
+              className="text-[0.8125rem] text-muted/85 hover:text-gold transition-colors underline underline-offset-4"
             >
               Questions? Contact us
             </Link>
@@ -367,7 +367,7 @@ function Countdown({ endDate }: { endDate: Date }) {
                 {String(value).padStart(2, "0")}
               </span>
             </div>
-            <span className="text-[0.6875rem] text-muted/60 tracking-wider uppercase">{label}</span>
+            <span className="text-[0.6875rem] text-muted/85 tracking-wider uppercase">{label}</span>
           </div>
           {i < units.length - 1 && (
             <span className="text-gold/40 text-[1.5rem] font-thin mb-7 select-none" aria-hidden="true">:</span>

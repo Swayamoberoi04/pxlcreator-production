@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { cn } from "@/lib/utils"
 import type { AestheticChip } from "@/types/studio"
@@ -64,7 +64,7 @@ interface AestheticChipsProps {
 export function AestheticChips({ selected, onToggle }: AestheticChipsProps) {
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-label text-muted/60 tracking-widest">Quick vibes</p>
+      <p className="text-label text-muted/85 tracking-widest">Quick vibes</p>
       <div className="flex flex-wrap gap-2">
         {AESTHETIC_CHIPS.map((chip) => {
           const isActive = selected.includes(chip.id)

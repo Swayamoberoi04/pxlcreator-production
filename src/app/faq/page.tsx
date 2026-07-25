@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState } from "react"
 import Link         from "next/link"
@@ -183,7 +183,7 @@ export default function FAQPage() {
                 Frequently Asked{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -195,12 +195,12 @@ export default function FAQPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="rise" delay={0.13}>
-              <p className="text-[1.0625rem] text-muted/65 max-w-md leading-relaxed">
+              <p className="text-[1.0625rem] text-muted/85 max-w-md leading-relaxed">
                 Everything you need to know about PXL Creator presets, AI Studio, downloads, and licensing.
               </p>
             </CinematicReveal>
 
-            <p className="text-[0.875rem] text-muted/50">
+            <p className="text-[0.875rem] text-muted/85">
               Can&apos;t find your answer?{" "}
               <Link href="/contact" className="text-gold hover:underline underline-offset-4 transition-colors">
                 Contact us →
@@ -224,7 +224,7 @@ export default function FAQPage() {
                 className={cn(
                   "rounded-full px-4 py-1.5 text-[0.8125rem] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   activeCategory === cat
-                    ? "bg-gold text-background shadow-[0_0_16px_rgba(201,168,76,0.25)]"
+                    ? "bg-gold text-background shadow-[0_0_16px_rgba(255,214,10,0.25)]"
                     : "border border-border text-muted hover:text-foreground hover:border-gold/30"
                 )}
               >
@@ -249,19 +249,19 @@ export default function FAQPage() {
           <div className="mt-16 rounded-2xl border border-border bg-surface p-8 text-center">
             <div className="flex flex-col items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/25 bg-gold/[0.07]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
               </div>
               <div>
                 <p className="font-display font-bold text-foreground mb-1">Still have a question?</p>
-                <p className="text-[0.875rem] text-muted/60">
+                <p className="text-[0.875rem] text-muted/85">
                   Our team typically replies within 24 hours on business days.
                 </p>
               </div>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-[0.875rem] font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_24px_rgba(201,168,76,0.15)]"
+                className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-[0.875rem] font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_24px_rgba(255,214,10,0.15)]"
               >
                 Contact Support →
               </Link>
@@ -310,7 +310,7 @@ function AccordionItem({
       </button>
 
       {isOpen && (
-        <p className="mt-3.5 text-[0.875rem] text-muted/70 leading-relaxed pr-8">
+        <p className="mt-3.5 text-[0.875rem] text-muted/92 leading-relaxed pr-8">
           {faq.a}
         </p>
       )}

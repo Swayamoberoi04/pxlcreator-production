@@ -170,7 +170,7 @@ export function StudioShell() {
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-display font-bold text-foreground text-[1rem]">Something went wrong</p>
-          <p className="text-[0.875rem] text-muted/70 max-w-sm leading-relaxed">
+          <p className="text-[0.875rem] text-muted/92 max-w-sm leading-relaxed">
             {state.errorMessage ?? "An unexpected error occurred."}
           </p>
         </div>

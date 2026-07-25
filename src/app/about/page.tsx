@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Container } from "@/components/layout/Container"
 import Link from "next/link"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
@@ -87,7 +87,7 @@ export default function AboutPage() {
               <div key={stat.label} className="flex items-center">
                 <div className="flex flex-col items-center px-8 sm:px-14">
                   <span className="font-display text-2xl sm:text-3xl font-black text-foreground">{stat.value}</span>
-                  <span className="text-label text-muted/60 mt-0.5">{stat.label}</span>
+                  <span className="text-label text-muted/85 mt-0.5">{stat.label}</span>
                 </div>
                 {i < STATS.length - 1 && (
                   <span className="h-7 w-px bg-border shrink-0" aria-hidden="true" />

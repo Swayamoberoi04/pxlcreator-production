@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Container }    from "@/components/layout/Container"
 import { StoreShell }          from "@/components/store/StoreShell"
 import { UnlockMethodBanner }  from "@/components/store/UnlockMethodBanner"
@@ -81,7 +81,7 @@ export default async function StorePage({
                 Presets that earn their place<br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 45%, #A8852A 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 45%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -94,7 +94,7 @@ export default async function StorePage({
 
             {/* Subtitle */}
             <CinematicReveal variant="rise" delay={0.16}>
-              <p className="text-[1rem] sm:text-[1.0625rem] text-muted/65 max-w-xl leading-relaxed">
+              <p className="text-[1rem] sm:text-[1.0625rem] text-muted/85 max-w-xl leading-relaxed">
                 Start with{" "}
                 <span className="text-emerald-400 font-semibold">12 free preset packs</span>
                 {" "}— no credit card. Buy any paid preset instantly,
@@ -115,7 +115,7 @@ export default async function StorePage({
                   <span key={label} className={`text-[0.75rem] font-medium rounded-full border px-3 py-1.5 backdrop-blur-sm ${
                     accent
                       ? "text-emerald-400/90 border-emerald-500/25 bg-emerald-500/[0.06]"
-                      : "text-muted/60 border-white/8 bg-white/[0.03]"
+                      : "text-muted/85 border-white/8 bg-white/[0.03]"
                   }`}>
                     {label}
                   </span>

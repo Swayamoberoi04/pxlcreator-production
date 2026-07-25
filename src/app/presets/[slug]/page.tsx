@@ -154,12 +154,12 @@ export default async function PresetDetailPage({ params }: PageProps) {
 
           {/* ── Breadcrumb ── */}
           <CinematicReveal variant="rise">
-            <nav className="flex items-center gap-2 text-[0.75rem] text-muted/50 mb-8 pt-4" aria-label="Breadcrumb">
+            <nav className="flex items-center gap-2 text-[0.75rem] text-muted/85 mb-8 pt-4" aria-label="Breadcrumb">
               <Link href="/store" className="hover:text-gold transition-colors">( Store )</Link>
-              <span aria-hidden="true" className="text-muted/25">/</span>
+              <span aria-hidden="true" className="text-muted/70">/</span>
               <Link href="/store" className="hover:text-gold transition-colors">( {preset.category} )</Link>
-              <span aria-hidden="true" className="text-muted/25">/</span>
-              <span className="text-muted/70">( {preset.name} )</span>
+              <span aria-hidden="true" className="text-muted/70">/</span>
+              <span className="text-muted/92">( {preset.name} )</span>
             </nav>
           </CinematicReveal>
 
@@ -190,11 +190,11 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   <h1 className="font-display font-black text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05] tracking-tight text-foreground">
                     {preset.name}
                   </h1>
-                  <p className="text-[1rem] text-muted/70 leading-relaxed">{preset.tagline}</p>
+                  <p className="text-[1rem] text-muted/92 leading-relaxed">{preset.tagline}</p>
 
                   {/* Hook */}
                   {preset.hook && (
-                    <p className="text-[0.9rem] font-semibold text-foreground/85 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
+                    <p className="text-[0.9rem] font-semibold text-foreground/92 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
                       {preset.hook}
                     </p>
                   )}
@@ -209,7 +209,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                       ))}
                     </div>
                     <span className="text-[0.875rem] font-medium text-foreground">{preset.rating?.toFixed(1)}</span>
-                    <span className="text-[0.8125rem] text-muted/50">
+                    <span className="text-[0.8125rem] text-muted/85">
                       ( {preset.reviewCount.toLocaleString()} reviews )
                     </span>
                   </div>
@@ -225,7 +225,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   </span>
                   {preset.originalPrice && (
                     <>
-                      <span className="text-[1.125rem] text-muted/50 line-through">${preset.originalPrice}</span>
+                      <span className="text-[1.125rem] text-muted/85 line-through">${preset.originalPrice}</span>
                       <span className="text-[0.75rem] font-bold text-red-400 bg-red-500/10 rounded-full px-2.5 py-1">
                         Save {discount}%
                       </span>
@@ -236,7 +236,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {/* Pack size chip */}
                 {preset.includeCount && (
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full border border-border bg-surface text-[0.75rem] font-medium text-muted/70 px-3 py-1.5">
+                    <span className="rounded-full border border-border bg-surface text-[0.75rem] font-medium text-muted/92 px-3 py-1.5">
                       ( {preset.includeCount} presets included )
                     </span>
                   </div>
@@ -245,12 +245,12 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {/* Features */}
                 {preset.features && preset.features.length > 0 && (
                   <div className="flex flex-col gap-2.5">
-                    <p className="text-label text-muted/50 tracking-widest">( What&apos;s included )</p>
+                    <p className="text-label text-muted/85 tracking-widest">( What&apos;s included )</p>
                     <ul className="flex flex-col gap-2" role="list">
                       {preset.features.map((feat) => (
                         <li key={feat} className="flex items-start gap-2.5">
                           <span className="mt-0.5 shrink-0 text-gold"><CheckIcon /></span>
-                          <span className="text-[0.875rem] text-foreground/80 leading-snug">{feat}</span>
+                          <span className="text-[0.875rem] text-foreground/92 leading-snug">{feat}</span>
                         </li>
                       ))}
                     </ul>
@@ -260,10 +260,10 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {/* Compatibility chips */}
                 {preset.compatibility && preset.compatibility.length > 0 && (
                   <div className="flex flex-col gap-2">
-                    <p className="text-label text-muted/50 tracking-widest">( Compatible with )</p>
+                    <p className="text-label text-muted/85 tracking-widest">( Compatible with )</p>
                     <div className="flex flex-wrap gap-2">
                       {preset.compatibility.map((app) => (
-                        <span key={app} className="text-[0.75rem] text-muted/60 bg-surface border border-border rounded-full px-3 py-1">
+                        <span key={app} className="text-[0.75rem] text-muted/85 bg-surface border border-border rounded-full px-3 py-1">
                           {app}
                         </span>
                       ))}
@@ -276,14 +276,14 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   <div className="flex flex-col gap-2 rounded-xl border border-border/60 bg-surface-2/40 px-4 py-3">
                     {preset.bestUseCase && (
                       <div className="flex gap-2.5 text-[0.8rem]">
-                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Best for</span>
-                        <span className="text-foreground/70 leading-snug">{preset.bestUseCase}</span>
+                        <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Best for</span>
+                        <span className="text-foreground/92 leading-snug">{preset.bestUseCase}</span>
                       </div>
                     )}
                     {preset.idealLighting && (
                       <div className="flex gap-2.5 text-[0.8rem]">
-                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Lighting</span>
-                        <span className="text-foreground/70 leading-snug">{preset.idealLighting}</span>
+                        <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Lighting</span>
+                        <span className="text-foreground/92 leading-snug">{preset.idealLighting}</span>
                       </div>
                     )}
                   </div>
@@ -294,7 +294,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                   <div className="flex flex-col gap-2 rounded-xl border border-border/60 bg-surface-2/40 px-4 py-3">
                     {preset.difficultyLevel && (
                       <div className="flex gap-2.5 text-[0.8rem]">
-                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Difficulty</span>
+                        <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Difficulty</span>
                         <span className={`font-semibold ${
                           preset.difficultyLevel === "Beginner"     ? "text-emerald-400" :
                           preset.difficultyLevel === "Intermediate" ? "text-gold/80" :
@@ -304,10 +304,10 @@ export default async function PresetDetailPage({ params }: PageProps) {
                     )}
                     {preset.includedFiles && preset.includedFiles.length > 0 && (
                       <div className="flex gap-2.5 text-[0.8rem]">
-                        <span className="shrink-0 text-muted/40 font-medium min-w-[5rem]">Files</span>
+                        <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Files</span>
                         <div className="flex flex-col gap-0.5">
                           {preset.includedFiles.map((f) => (
-                            <span key={f} className="text-foreground/70 leading-snug">{f}</span>
+                            <span key={f} className="text-foreground/92 leading-snug">{f}</span>
                           ))}
                         </div>
                       </div>
@@ -318,10 +318,10 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {/* Camera types */}
                 {preset.cameraTypes && preset.cameraTypes.length > 0 && (
                   <div className="flex flex-col gap-2">
-                    <p className="text-label text-muted/50 tracking-widest">( Recommended cameras )</p>
+                    <p className="text-label text-muted/85 tracking-widest">( Recommended cameras )</p>
                     <div className="flex flex-wrap gap-2">
                       {preset.cameraTypes.map((cam) => (
-                        <span key={cam} className="text-[0.72rem] text-muted/60 bg-surface border border-border rounded-full px-3 py-1">
+                        <span key={cam} className="text-[0.72rem] text-muted/85 bg-surface border border-border rounded-full px-3 py-1">
                           {cam}
                         </span>
                       ))}
@@ -342,7 +342,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                     "( .xmp + .dng )",
                     ...(!preset.isFree ? ["( Free YouTube unlock )"] : []),
                   ].map((t) => (
-                    <span key={t} className="text-[0.7rem] font-medium text-muted/40 rounded-full border border-border/50 px-2.5 py-1">
+                    <span key={t} className="text-[0.7rem] font-medium text-muted/70 rounded-full border border-border/50 px-2.5 py-1">
                       {t}
                     </span>
                   ))}
@@ -371,7 +371,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 })
                   .split("\n\n")
                   .map((para, i) => (
-                    <p key={i} className="text-[0.9375rem] text-muted/65 leading-[1.85]">{para}</p>
+                    <p key={i} className="text-[0.9375rem] text-muted/85 leading-[1.85]">{para}</p>
                   ))}
               </div>
             </div>
@@ -391,7 +391,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 </div>
                 <div className="flex flex-col gap-3 pl-11">
                   {HOW_TO_UNLOCK_COPY.body.map((para, i) => (
-                    <p key={i} className="text-[0.875rem] text-muted/60 leading-relaxed">{para}</p>
+                    <p key={i} className="text-[0.875rem] text-muted/85 leading-relaxed">{para}</p>
                   ))}
                 </div>
               </div>
@@ -418,7 +418,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface/60 px-5 py-5">
                   <div className="flex flex-col gap-1">
                     <p className="text-[0.875rem] font-semibold text-foreground">Leave a review</p>
-                    <p className="text-[0.8rem] text-muted/55 leading-relaxed">
+                    <p className="text-[0.8rem] text-muted/85 leading-relaxed">
                       Purchased or unlocked this preset? Share your experience — reviews go live after moderation.
                     </p>
                   </div>
@@ -439,7 +439,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                       ( You might also like )
                     </span>
                   </div>
-                  <Link href="/store" className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors">
+                  <Link href="/store" className="text-[0.8125rem] text-muted/85 hover:text-gold transition-colors">
                     View all →
                   </Link>
                 </div>
@@ -463,7 +463,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
 /* ── Icons ── */
 function StarIcon({ filled }: { filled: boolean }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "#C9A84C" : "none"} stroke={filled ? "none" : "#444"} strokeWidth="1.5" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "#FFD60A" : "none"} stroke={filled ? "none" : "#444"} strokeWidth="1.5" aria-hidden="true">
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
     </svg>
   )

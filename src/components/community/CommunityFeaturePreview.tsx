@@ -125,10 +125,10 @@ export function CommunityFeaturePreview({
           <span className="text-6xl">{v.icon}</span>
           <div>
             <h2 className={`font-display font-black text-2xl md:text-3xl ${colors.text}`}>{v.headline}</h2>
-            <p className="text-sm text-muted/70 mt-2 max-w-xl mx-auto leading-relaxed">{v.sub}</p>
+            <p className="text-sm text-muted/92 mt-2 max-w-xl mx-auto leading-relaxed">{v.sub}</p>
           </div>
           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${colors.border} ${colors.bg}`}>
-            <span className="text-xs font-bold uppercase tracking-widest text-muted/60">Expected Launch</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-muted/85">Expected Launch</span>
             <span className={`text-xs font-black uppercase tracking-widest ${colors.text}`}>{launch}</span>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function CommunityFeaturePreview({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Roadmap */}
         <div className="rounded-2xl border border-border bg-surface p-6 flex flex-col gap-4">
-          <h3 className="font-display font-black text-sm uppercase tracking-widest text-muted/50">Roadmap Preview</h3>
+          <h3 className="font-display font-black text-sm uppercase tracking-widest text-muted/85">Roadmap Preview</h3>
           <div className="flex flex-col gap-3">
             {roadmap.map((item, i) => (
               <div key={i} className="flex items-center gap-3">
@@ -149,12 +149,12 @@ export function CommunityFeaturePreview({
                   {item.done && <span className={`text-[10px] ${colors.text}`}>✓</span>}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className={`text-xs font-black ${item.done ? colors.text : "text-muted/40"}`}>{item.quarter}</span>
-                  <span className="mx-2 text-muted/30">·</span>
-                  <span className={`text-xs ${item.done ? "text-foreground" : "text-muted/50"}`}>{item.label}</span>
+                  <span className={`text-xs font-black ${item.done ? colors.text : "text-muted/70"}`}>{item.quarter}</span>
+                  <span className="mx-2 text-muted/70">·</span>
+                  <span className={`text-xs ${item.done ? "text-foreground" : "text-muted/85"}`}>{item.label}</span>
                 </div>
                 {!item.done && (
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-muted/30 shrink-0">Soon</span>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-muted/70 shrink-0">Soon</span>
                 )}
               </div>
             ))}
@@ -163,12 +163,12 @@ export function CommunityFeaturePreview({
 
         {/* Community Benefits */}
         <div className="rounded-2xl border border-border bg-surface p-6 flex flex-col gap-4">
-          <h3 className="font-display font-black text-sm uppercase tracking-widest text-muted/50">Why Join Early</h3>
+          <h3 className="font-display font-black text-sm uppercase tracking-widest text-muted/85">Why Join Early</h3>
           <div className="flex flex-col gap-3">
             {benefits.map((b, i) => (
               <div key={i} className="flex items-start gap-3">
                 <span className={`text-sm mt-0.5 shrink-0 ${colors.text}`}>★</span>
-                <span className="text-sm text-foreground/80">{b}</span>
+                <span className="text-sm text-foreground/92">{b}</span>
               </div>
             ))}
           </div>
@@ -180,7 +180,7 @@ export function CommunityFeaturePreview({
         <div className="max-w-lg mx-auto flex flex-col gap-5">
           <div className="text-center">
             <h3 className="font-display font-black text-lg text-foreground">Get Notified at Launch</h3>
-            <p className="text-sm text-muted/60 mt-1">Join the waitlist and we&#39;ll notify you the moment this goes live.</p>
+            <p className="text-sm text-muted/85 mt-1">Join the waitlist and we&#39;ll notify you the moment this goes live.</p>
           </div>
 
           {submitted ? (
@@ -191,7 +191,7 @@ export function CommunityFeaturePreview({
             >
               <span className="text-3xl">🎉</span>
               <p className={`font-display font-black text-base mt-2 ${colors.text}`}>You&#39;re on the list!</p>
-              <p className="text-sm text-muted/60 mt-1">We&#39;ll email you when this feature launches.</p>
+              <p className="text-sm text-muted/85 mt-1">We&#39;ll email you when this feature launches.</p>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -201,7 +201,7 @@ export function CommunityFeaturePreview({
                   placeholder="Your name (optional)"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50"
+                  className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50"
                 />
                 <input
                   type="email"
@@ -209,7 +209,7 @@ export function CommunityFeaturePreview({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50"
+                  className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50"
                 />
               </div>
               {err && <p className="text-xs text-red-400">{err}</p>}

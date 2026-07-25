@@ -56,15 +56,15 @@ export function SpaceCard({ space, onJoin }: SpaceCardProps) {
             </h3>
           </Link>
           {space.category && (
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/50">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/85">
               {space.category}
             </span>
           )}
-          <p className="text-xs text-muted/60 mt-1 line-clamp-2">{space.description}</p>
+          <p className="text-xs text-muted/85 mt-1 line-clamp-2">{space.description}</p>
         </div>
 
         {/* Stats */}
-        <div className="flex items-center gap-3 text-[11px] text-muted/50">
+        <div className="flex items-center gap-3 text-[11px] text-muted/85">
           <span>👥 {space.member_count.toLocaleString()} members</span>
           <span>💬 {space.message_count.toLocaleString()}</span>
         </div>
@@ -75,7 +75,7 @@ export function SpaceCard({ space, onJoin }: SpaceCardProps) {
           className={[
             "mt-auto w-full rounded-xl py-2 text-xs font-bold transition-colors",
             space.is_member
-              ? "bg-surface-2 border border-border text-muted/60 hover:border-red-500/40 hover:text-red-400"
+              ? "bg-surface-2 border border-border text-muted/85 hover:border-red-500/40 hover:text-red-400"
               : "text-black font-bold",
           ].join(" ")}
           style={space.is_member ? undefined : { backgroundColor: space.color }}

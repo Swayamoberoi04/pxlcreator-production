@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * OnboardingModal.tsx — v2
@@ -164,7 +164,7 @@ export function OnboardingModal() {
         {/* Atmospheric gold glow */}
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] pointer-events-none opacity-20"
-          style={{ background: "radial-gradient(ellipse at 50% 0%, #C9A84C60, transparent 70%)" }}
+          style={{ background: "radial-gradient(ellipse at 50% 0%, #FFD60A60, transparent 70%)" }}
         />
 
         {/* ── Outer wrapper: modal + preview side-by-side on lg+ ── */}
@@ -178,7 +178,7 @@ export function OnboardingModal() {
             transition={{ duration: 0.5, ease: EASE }}
             className="relative flex-1 w-full max-w-[640px] h-full flex flex-col
               rounded-2xl border border-border/60 bg-black/90 backdrop-blur-2xl
-              shadow-[0_32px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(201,168,76,0.06)]
+              shadow-[0_32px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,214,10,0.06)]
               overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
@@ -198,7 +198,7 @@ export function OnboardingModal() {
                       }`}
                     />
                   ))}
-                  <span className="text-[0.75rem] text-muted/50 ml-1 shrink-0">{step}/5</span>
+                  <span className="text-[0.75rem] text-muted/85 ml-1 shrink-0">{step}/5</span>
                 </div>
               )}
 
@@ -212,7 +212,7 @@ export function OnboardingModal() {
                   <h2 className="font-display font-black text-[1.25rem] sm:text-[1.375rem] text-foreground leading-tight">
                     {stepMeta.headline}
                   </h2>
-                  <p className="text-[0.875rem] text-muted/70">
+                  <p className="text-[0.875rem] text-muted/92">
                     {stepMeta.sub}
                   </p>
                 </div>
@@ -222,7 +222,7 @@ export function OnboardingModal() {
                     type="button"
                     onClick={close}
                     aria-label="Skip onboarding"
-                    className="ml-4 shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-muted/40 hover:text-muted hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="ml-4 shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-muted/70 hover:text-muted hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -293,7 +293,7 @@ export function OnboardingModal() {
                   <button
                     type="button"
                     onClick={close}
-                    className="text-[0.875rem] text-muted/40 hover:text-muted transition-colors px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+                    className="text-[0.875rem] text-muted/70 hover:text-muted transition-colors px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
                   >
                     Skip for now
                   </button>
@@ -336,10 +336,10 @@ export function OnboardingModal() {
             >
               {/* Panel header */}
               <div className="mb-3">
-                <p className="text-[0.65rem] font-semibold tracking-[0.15em] uppercase text-muted/40">
+                <p className="text-[0.65rem] font-semibold tracking-[0.15em] uppercase text-muted/70">
                   Live Preview
                 </p>
-                <p className="text-[0.8125rem] font-bold text-foreground/80 mt-0.5">
+                <p className="text-[0.8125rem] font-bold text-foreground/92 mt-0.5">
                   Your Creative Universe
                 </p>
               </div>
@@ -357,7 +357,7 @@ export function OnboardingModal() {
                     <div className="h-2 w-3/4 rounded-full bg-surface-2 animate-pulse" />
                     <div className="h-2 w-1/2 rounded-full bg-surface-2 animate-pulse [animation-delay:100ms]" />
                     <div className="h-2 w-2/3 rounded-full bg-surface-2 animate-pulse [animation-delay:200ms]" />
-                    <p className="text-[0.7rem] text-muted/30 mt-2">
+                    <p className="text-[0.7rem] text-muted/70 mt-2">
                       Select your profession to see personalised picks…
                     </p>
                   </motion.div>

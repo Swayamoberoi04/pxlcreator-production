@@ -96,7 +96,7 @@ export function AdminSidebar() {
           </div>
           <div className="flex flex-col">
             <span className="text-[0.8125rem] font-bold text-white/90 leading-none">PXL Creator</span>
-            <span className="text-[0.625rem] text-white/30 tracking-widest mt-0.5">( Admin )</span>
+            <span className="text-[0.625rem] text-white/70 tracking-widest mt-0.5">( Admin )</span>
           </div>
         </div>
       </div>
@@ -118,10 +118,10 @@ export function AdminSidebar() {
                 "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/40",
                 isActive
                   ? "bg-gold/10 text-gold border border-gold/20"
-                  : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
+                  : "text-white/70 hover:text-white/92 hover:bg-white/[0.04]"
               )}
             >
-              <span className={cn("shrink-0", isActive ? "text-gold" : "text-white/30")}>
+              <span className={cn("shrink-0", isActive ? "text-gold" : "text-white/70")}>
                 {item.icon}
               </span>
               <span>{item.label}</span>
@@ -143,7 +143,7 @@ export function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[0.8125rem] text-white/30 hover:text-white/70 transition-colors"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[0.8125rem] text-white/70 hover:text-white/92 transition-colors"
         >
           <ExternalIcon />
           View Site
@@ -155,7 +155,7 @@ export function AdminSidebar() {
           onClick={handleLogout}
           disabled={loggingOut}
           suppressHydrationWarning
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[0.8125rem] text-white/30 hover:text-red-400 transition-colors text-left focus-visible:outline-none"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[0.8125rem] text-white/70 hover:text-red-400 transition-colors text-left focus-visible:outline-none"
         >
           <LogoutIcon />
           {loggingOut ? "Signing out…" : "Sign out"}

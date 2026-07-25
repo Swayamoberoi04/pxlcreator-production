@@ -18,7 +18,7 @@ export function BeforeAfterSlider({
   afterSrc,
   alt,
   label,
-  accentColor = "#C9A84C",
+  accentColor = "#FFD60A",
   className   = "",
   height      = 420,
 }: BeforeAfterSliderProps) {
@@ -118,7 +118,7 @@ export function BeforeAfterSlider({
 
       {/* Corner labels */}
       <div className="absolute top-3 left-3 z-20 pointer-events-none">
-        <span className="text-[0.6rem] font-semibold tracking-widest uppercase text-white/50 bg-black/55 backdrop-blur-sm border border-white/10 rounded-full px-2.5 py-1">
+        <span className="text-[0.6rem] font-semibold tracking-widest uppercase text-white/85 bg-black/55 backdrop-blur-sm border border-white/10 rounded-full px-2.5 py-1">
           Before
         </span>
       </div>
@@ -171,7 +171,7 @@ export function BeforeAfterSlider({
       {/* Hint */}
       {!hinted && (
         <div className="absolute bottom-14 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
-          <span className="text-[0.7rem] font-medium tracking-wide text-white/60 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/10 whitespace-nowrap">
+          <span className="text-[0.7rem] font-medium tracking-wide text-white/85 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/10 whitespace-nowrap">
             Drag to compare
           </span>
         </div>

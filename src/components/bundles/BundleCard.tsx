@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * src/components/bundles/BundleCard.tsx
@@ -35,7 +35,7 @@ const BADGE_STYLES: Record<string, string> = {
   "TRENDING":         "bg-sky-500/20   text-sky-300   border border-sky-500/30",
   "BEST VALUE":       "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30",
   "LIMITED":          "bg-red-500/20   text-red-300   border border-red-500/30",
-  "NEW":              "bg-white/5 text-white/60 border border-white/10",
+  "NEW":              "bg-white/5 text-white/85 border border-white/10",
 }
 
 /* ── Props ─────────────────────────────────────────────── */
@@ -137,7 +137,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
 
         {/* Preset count — bottom-right */}
         <div className="absolute bottom-3 right-3 z-10">
-          <span className="text-[0.65rem] font-semibold text-white/65 bg-black/55 backdrop-blur-sm rounded-full px-2.5 py-1 border border-white/[0.08]">
+          <span className="text-[0.65rem] font-semibold text-white/85 bg-black/55 backdrop-blur-sm rounded-full px-2.5 py-1 border border-white/[0.08]">
             {totalPresets} presets
           </span>
         </div>
@@ -159,7 +159,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
         </Link>
 
         {/* Tagline */}
-        <p className="text-[0.8rem] text-muted/50 leading-relaxed line-clamp-1 -mt-1">
+        <p className="text-[0.8rem] text-muted/85 leading-relaxed line-clamp-1 -mt-1">
           {bundle.tagline}
         </p>
 
@@ -171,7 +171,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
               title={`${pack.name} — ${pack.presetCount} presets`}
               className={cn(
                 "flex items-center gap-1.5 text-[0.68rem] font-medium",
-                "text-muted/45 bg-surface-2/60 rounded-lg px-2 py-1.5 border border-border/40"
+                "text-muted/85 bg-surface-2/60 rounded-lg px-2 py-1.5 border border-border/40"
               )}
             >
               <span className="text-[0.85em]">{pack.icon}</span>
@@ -181,7 +181,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
             </span>
           ))}
           {bundle.includedPacks.length > 4 && (
-            <span className="flex items-center self-center text-[0.7rem] text-muted/35 px-1">
+            <span className="flex items-center self-center text-[0.7rem] text-muted/70 px-1">
               +{bundle.includedPacks.length - 4}
             </span>
           )}
@@ -194,7 +194,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
             {/* Price stack */}
             <div>
               {/* Strikethrough individual value */}
-              <p className="text-[0.7rem] text-muted/35 mb-1 leading-none">
+              <p className="text-[0.7rem] text-muted/70 mb-1 leading-none">
                 Individually:{" "}
                 <span
                   className="line-through"
@@ -253,7 +253,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
             aria-label={`View ${bundle.name} details`}
             className={cn(
               "flex items-center justify-center rounded-xl px-3.5",
-              "border border-border/60 text-muted/50",
+              "border border-border/60 text-muted/85",
               "hover:text-foreground hover:border-gold/25",
               "transition-all duration-200"
             )}

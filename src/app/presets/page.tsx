@@ -1,4 +1,4 @@
-﻿import type { Metadata }   from "next"
+import type { Metadata }   from "next"
 import Link               from "next/link"
 import { Container }      from "@/components/layout/Container"
 import { PresetCard }     from "@/components/store/PresetCard"
@@ -68,7 +68,7 @@ export default async function PresetsPage() {
                 Our most-loved<br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -80,7 +80,7 @@ export default async function PresetsPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="rise" delay={0.13}>
-              <p className="text-lead max-w-md text-muted/60 leading-relaxed">
+              <p className="text-lead max-w-md text-muted/85 leading-relaxed">
                 Hand-picked packs that creators reach for again and again.
                 Browse the full catalogue inside the Store.
               </p>
@@ -97,7 +97,7 @@ export default async function PresetsPage() {
                 </Link>
                 <Link
                   href="/bundles"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-2.5 text-[0.875rem] font-medium text-muted/70 hover:text-foreground hover:border-gold/30 transition-all"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-2.5 text-[0.875rem] font-medium text-muted/92 hover:text-foreground hover:border-gold/30 transition-all"
                 >
                   View Bundles
                 </Link>
@@ -123,7 +123,7 @@ export default async function PresetsPage() {
               </div>
               <Link
                 href="/bundles"
-                className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors flex items-center gap-1.5"
+                className="text-[0.8125rem] text-muted/85 hover:text-gold transition-colors flex items-center gap-1.5"
               >
                 All bundles <ArrowRightSmIcon />
               </Link>
@@ -159,7 +159,7 @@ export default async function PresetsPage() {
               </div>
               <Link
                 href="/store"
-                className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors flex items-center gap-1.5"
+                className="text-[0.8125rem] text-muted/85 hover:text-gold transition-colors flex items-center gap-1.5"
               >
                 View all {showcasePresets.length > 0 ? "in Store" : ""} <ArrowRightSmIcon />
               </Link>
@@ -232,7 +232,7 @@ function CreatorVaultSection() {
               <span
                 className="block"
                 style={{
-                  background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 40%, #A8852A 75%, #c8841a 100%)",
+                  background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 40%, #E0A800 75%, #c8841a 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -245,7 +245,7 @@ function CreatorVaultSection() {
 
           {/* Value props */}
           <CinematicReveal variant="rise" delay={0.15}>
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 text-[0.9375rem] text-muted/40">
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 text-[0.9375rem] text-muted/70">
               {[
                 "100+ Premium Presets",
                 "Exclusive Creator Bundles",
@@ -254,7 +254,7 @@ function CreatorVaultSection() {
               ].map((v, i, arr) => (
                 <span key={v} className="flex items-center gap-5">
                   {v}
-                  {i < arr.length - 1 && <span aria-hidden="true" className="text-muted/20">·</span>}
+                  {i < arr.length - 1 && <span aria-hidden="true" className="text-muted/70">·</span>}
                 </span>
               ))}
             </div>
@@ -263,14 +263,14 @@ function CreatorVaultSection() {
           {/* Category browse chips */}
           <CinematicReveal variant="rise" delay={0.22}>
             <div className="flex flex-wrap justify-center gap-2.5 mt-10">
-              <span className="text-[0.75rem] font-medium text-muted/30 self-center mr-1">
+              <span className="text-[0.75rem] font-medium text-muted/70 self-center mr-1">
                 Search by:
               </span>
               {VAULT_CATEGORIES.map(({ label, href }) => (
                 <Link
                   key={label}
                   href={href}
-                  className="group rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[0.8125rem] font-medium text-muted/55 transition-all duration-200 hover:border-gold/35 hover:bg-gold/[0.07] hover:text-gold/90"
+                  className="group rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[0.8125rem] font-medium text-muted/85 transition-all duration-200 hover:border-gold/35 hover:bg-gold/[0.07] hover:text-gold/90"
                 >
                   {label}
                 </Link>
@@ -289,7 +289,7 @@ function CreatorVaultSection() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/25 bg-gold/[0.08]">
                   <span className="font-display font-black text-[0.875rem] text-gold">①</span>
                 </div>
-                <p className="text-[0.875rem] text-muted/60 leading-relaxed max-w-[180px]">
+                <p className="text-[0.875rem] text-muted/85 leading-relaxed max-w-[180px]">
                   Enter the password hidden inside creator videos
                 </p>
               </div>
@@ -297,7 +297,7 @@ function CreatorVaultSection() {
               {/* "or" divider */}
               <div className="flex sm:flex-col items-center gap-3 shrink-0">
                 <div className="h-px w-8 sm:w-px sm:h-8 bg-white/[0.07]" aria-hidden="true" />
-                <span className="text-[0.75rem] font-medium text-muted/25">or</span>
+                <span className="text-[0.75rem] font-medium text-muted/70">or</span>
                 <div className="h-px w-8 sm:w-px sm:h-8 bg-white/[0.07]" aria-hidden="true" />
               </div>
 
@@ -306,7 +306,7 @@ function CreatorVaultSection() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/[0.08]">
                   <span className="font-display font-black text-[0.875rem] text-emerald-400">②</span>
                 </div>
-                <p className="text-[0.875rem] text-muted/60 leading-relaxed max-w-[180px]">
+                <p className="text-[0.875rem] text-muted/85 leading-relaxed max-w-[180px]">
                   Purchase instantly and skip the hunt
                 </p>
               </div>
@@ -315,9 +315,9 @@ function CreatorVaultSection() {
 
           {/* Tagline */}
           <CinematicReveal variant="rise" delay={0.34}>
-            <p className="mt-12 text-[0.9375rem] sm:text-[1rem] text-muted/30 leading-[1.9] tracking-wide">
+            <p className="mt-12 text-[0.9375rem] sm:text-[1rem] text-muted/70 leading-[1.9] tracking-wide">
               Every preset lives inside the Store.<br />
-              <span className="text-muted/50">Search.&nbsp;&nbsp;Preview.&nbsp;&nbsp;Unlock.&nbsp;&nbsp;Download.</span>
+              <span className="text-muted/85">Search.&nbsp;&nbsp;Preview.&nbsp;&nbsp;Unlock.&nbsp;&nbsp;Download.</span>
             </p>
           </CinematicReveal>
 

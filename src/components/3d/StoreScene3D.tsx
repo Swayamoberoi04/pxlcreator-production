@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 /* eslint-disable react-hooks/immutability, react-hooks/rules-of-hooks */
 
 /**
@@ -22,9 +22,9 @@ import * as THREE                      from "three"
 
 /* -- Panel definitions -- */
 const PANELS = [
-  { pos: [-3.5,  0.8, -2.0] as [number,number,number], rot: [ 0.06,  0.28, -0.04] as [number,number,number], w: 2.0, h: 2.8, color: "#C9A84C", em: 0.5  },
+  { pos: [-3.5,  0.8, -2.0] as [number,number,number], rot: [ 0.06,  0.28, -0.04] as [number,number,number], w: 2.0, h: 2.8, color: "#FFD60A", em: 0.5  },
   { pos: [ 3.2, -0.6, -3.2] as [number,number,number], rot: [-0.04, -0.24,  0.06] as [number,number,number], w: 2.8, h: 1.8, color: "#818cf8", em: 0.4  },
-  { pos: [ 0.2,  1.8, -5.5] as [number,number,number], rot: [ 0.02,  0.08,  0.02] as [number,number,number], w: 3.6, h: 2.2, color: "#C9A84C", em: 0.35 },
+  { pos: [ 0.2,  1.8, -5.5] as [number,number,number], rot: [ 0.02,  0.08,  0.02] as [number,number,number], w: 3.6, h: 2.2, color: "#FFD60A", em: 0.35 },
   { pos: [-2.2, -1.5, -3.8] as [number,number,number], rot: [-0.08,  0.18,  0.05] as [number,number,number], w: 1.8, h: 2.4, color: "#34d399", em: 0.4  },
   { pos: [ 2.8,  1.4, -4.5] as [number,number,number], rot: [ 0.05, -0.15, -0.03] as [number,number,number], w: 1.6, h: 2.0, color: "#f97316", em: 0.4  },
   { pos: [-1.0, -0.2, -1.4] as [number,number,number], rot: [ 0.02,  0.12,  0.01] as [number,number,number], w: 1.4, h: 1.8, color: "#a78bfa", em: 0.45 },
@@ -131,7 +131,7 @@ function StoreOrb({ pos, color, size, speed, off }: OrbDef) {
 }
 
 const ORB_DEFS: OrbDef[] = [
-  { pos: [-5,  2,  -8], color: "#C9A84C", size: 3.8, speed: 0.16, off: 0   },
+  { pos: [-5,  2,  -8], color: "#FFD60A", size: 3.8, speed: 0.16, off: 0   },
   { pos: [ 6, -3, -10], color: "#4433cc", size: 4.8, speed: 0.12, off: 2.4 },
   { pos: [ 0,  4, -14], color: "#115544", size: 6.2, speed: 0.09, off: 4.8 },
 ]
@@ -173,7 +173,7 @@ function StoreScene() {
     <>
       <fog attach="fog" args={["#08090f", 5, 22]} />
       <ambientLight intensity={0.08} />
-      <directionalLight position={[3, 4, 3]}  color="#C9A84C" intensity={0.6}  />
+      <directionalLight position={[3, 4, 3]}  color="#FFD60A" intensity={0.6}  />
       <directionalLight position={[-4, -2, 2]} color="#4433cc" intensity={0.15} />
 
       {PANELS.map((p, i) => <FloatingPanel key={i} {...p} index={i} />)}

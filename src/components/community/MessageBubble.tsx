@@ -64,7 +64,7 @@ export function MessageBubble({ message, onReact, onReply }: MessageBubbleProps)
             {author?.display_name ?? "Unknown"}
             {author?.is_verified && <span className="ml-1 text-gold text-xs">✓</span>}
           </span>
-          <span className="text-[11px] text-muted/40">{timeAgo(message.created_at)}</span>
+          <span className="text-[11px] text-muted/70">{timeAgo(message.created_at)}</span>
           {message.is_pinned && (
             <span className="text-[10px] text-gold/70 flex items-center gap-0.5">📌 pinned</span>
           )}
@@ -72,7 +72,7 @@ export function MessageBubble({ message, onReact, onReply }: MessageBubbleProps)
 
         {/* Reply preview */}
         {message.reply_preview && (
-          <div className="mt-1 mb-1.5 px-2 py-1 rounded-md bg-surface-2 border-l-2 border-gold/40 text-xs text-muted/60 line-clamp-1">
+          <div className="mt-1 mb-1.5 px-2 py-1 rounded-md bg-surface-2 border-l-2 border-gold/40 text-xs text-muted/85 line-clamp-1">
             {message.reply_preview}
           </div>
         )}
@@ -86,14 +86,14 @@ export function MessageBubble({ message, onReact, onReply }: MessageBubbleProps)
         <div className="flex items-center gap-3 mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => onReact(message.id, "👍")}
-            className="flex items-center gap-1 text-[11px] text-muted/50 hover:text-gold transition-colors"
+            className="flex items-center gap-1 text-[11px] text-muted/85 hover:text-gold transition-colors"
           >
             <span>👍</span>
             {message.reaction_count > 0 && <span>{message.reaction_count}</span>}
           </button>
           <button
             onClick={() => onReply(message)}
-            className="text-[11px] text-muted/50 hover:text-foreground transition-colors"
+            className="text-[11px] text-muted/85 hover:text-foreground transition-colors"
           >
             Reply
           </button>

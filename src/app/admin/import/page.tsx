@@ -20,7 +20,7 @@ export default function AdminImportPage() {
         <h1 className="font-display font-black text-[1.75rem] text-white/90">
           Import from YouTube
         </h1>
-        <p className="text-[0.875rem] text-white/30 max-w-lg">
+        <p className="text-[0.875rem] text-white/70 max-w-lg">
           Paste a YouTube video URL. The system will automatically fetch the title, thumbnail,
           description, detect the preset category, extract download links, and pre-fill all fields.
           You review and save.
@@ -35,9 +35,9 @@ export default function AdminImportPage() {
           { step: "03", label: "Review & Save",   desc: "Edit fields, publish instantly"    },
         ].map(({ step, label, desc }) => (
           <div key={step} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 flex flex-col gap-1.5">
-            <span className="font-display font-black text-[1.5rem] text-white/10">{step}</span>
-            <span className="text-[0.875rem] font-semibold text-white/70">{label}</span>
-            <span className="text-[0.75rem] text-white/30">{desc}</span>
+            <span className="font-display font-black text-[1.5rem] text-white/70">{step}</span>
+            <span className="text-[0.875rem] font-semibold text-white/92">{label}</span>
+            <span className="text-[0.75rem] text-white/70">{desc}</span>
           </div>
         ))}
       </div>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
@@ -121,7 +121,7 @@ export function NavLinks() {
                 "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 isActive
                   ? "text-gold text-glow-gold"
-                  : "text-muted/70 hover:text-foreground"
+                  : "text-muted/92 hover:text-foreground"
               )}
             >
               {item.label}
@@ -157,7 +157,7 @@ export function NavLinks() {
                 "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 isActive || isOpen
                   ? "text-gold text-glow-gold"
-                  : "text-muted/70 hover:text-foreground"
+                  : "text-muted/92 hover:text-foreground"
               )}
             >
               {item.label}

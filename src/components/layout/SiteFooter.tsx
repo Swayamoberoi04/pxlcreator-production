@@ -123,9 +123,9 @@ export function SiteFooter() {
             </div>
 
             {/* Trust signal */}
-            <p className="text-[0.8rem] text-muted/50 leading-snug max-w-[240px]">
+            <p className="text-[0.8rem] text-muted/85 leading-snug max-w-[240px]">
               Trusted by{" "}
-              <span className="text-muted/80 font-medium">10,000+</span>{" "}
+              <span className="text-muted/92 font-medium">10,000+</span>{" "}
               creators worldwide.
             </p>
 
@@ -173,9 +173,9 @@ export function SiteFooter() {
         <Container>
           <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
 
-            <p className="text-small text-muted/60 text-center sm:text-left">
+            <p className="text-small text-muted/85 text-center sm:text-left">
               © {currentYear}{" "}
-              <span className="text-muted/80">{siteConfig.name}</span>
+              <span className="text-muted/92">{siteConfig.name}</span>
               . All rights reserved.
             </p>
 
@@ -185,14 +185,14 @@ export function SiteFooter() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-[0.78rem] text-muted/50 hover:text-muted transition-colors duration-150"
+                  className="text-[0.78rem] text-muted/85 hover:text-muted transition-colors duration-150"
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
 
-            <p className="text-small text-muted/50 text-center sm:text-right hidden sm:block">
+            <p className="text-small text-muted/85 text-center sm:text-right hidden sm:block">
               Handcrafted for creators.
             </p>
 
@@ -234,7 +234,7 @@ function FooterLink({
   return (
     <Link
       href={href}
-      className="text-small text-muted/70 hover:text-foreground transition-colors duration-150 w-fit"
+      className="text-small text-muted/92 hover:text-foreground transition-colors duration-150 w-fit"
     >
       {children}
     </Link>

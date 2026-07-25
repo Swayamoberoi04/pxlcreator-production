@@ -127,13 +127,13 @@ export default async function BundleDetailPage(
       <div className="relative z-10 border-b border-border/30 px-4 py-3">
         <nav
           aria-label="Breadcrumb"
-          className="mx-auto max-w-7xl flex items-center gap-1.5 text-[0.75rem] text-muted/35"
+          className="mx-auto max-w-7xl flex items-center gap-1.5 text-[0.75rem] text-muted/70"
         >
-          <Link href="/"       className="hover:text-muted/60 transition-colors">Home</Link>
+          <Link href="/"       className="hover:text-muted/85 transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/bundles" className="hover:text-muted/60 transition-colors">Bundles</Link>
+          <Link href="/bundles" className="hover:text-muted/85 transition-colors">Bundles</Link>
           <span>/</span>
-          <span className="text-muted/55">{bundle.name}</span>
+          <span className="text-muted/85">{bundle.name}</span>
         </nav>
       </div>
 
@@ -178,7 +178,7 @@ export default async function BundleDetailPage(
                 <h1 className="font-display text-[1.75rem] sm:text-[2.5rem] font-black text-foreground leading-[1.1]">
                   {bundle.name}
                 </h1>
-                <p className="mt-1.5 text-[0.9375rem] text-muted/55 max-w-lg">
+                <p className="mt-1.5 text-[0.9375rem] text-muted/85 max-w-lg">
                   {bundle.tagline}
                 </p>
               </div>
@@ -187,17 +187,17 @@ export default async function BundleDetailPage(
               <div className="hidden md:flex items-center gap-6 pb-1 flex-shrink-0">
                 <div className="text-center">
                   <p className="text-[1.5rem] font-black text-gold leading-none">{totalPresets}</p>
-                  <p className="text-[0.6rem] text-muted/35 mt-0.5 uppercase tracking-wide">Presets</p>
+                  <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">Presets</p>
                 </div>
                 {savingsPercent > 0 && (
                   <div className="text-center">
                     <p className="text-[1.5rem] font-black text-emerald-400 leading-none">{savingsPercent}%</p>
-                    <p className="text-[0.6rem] text-muted/35 mt-0.5 uppercase tracking-wide">Savings</p>
+                    <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">Savings</p>
                   </div>
                 )}
                 <div className="text-center">
-                  <p className="text-[1.5rem] font-black text-foreground/80 leading-none">{bundle.includedPacks.length}</p>
-                  <p className="text-[0.6rem] text-muted/35 mt-0.5 uppercase tracking-wide">Packs</p>
+                  <p className="text-[1.5rem] font-black text-foreground/92 leading-none">{bundle.includedPacks.length}</p>
+                  <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">Packs</p>
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ export default async function BundleDetailPage(
               ].map(({ value, label }) => (
                 <div key={label} className="text-center">
                   <p className="text-[1.2rem] font-black text-gold leading-none">{value}</p>
-                  <p className="text-[0.6rem] text-muted/35 mt-0.5 uppercase tracking-wide">{label}</p>
+                  <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">{label}</p>
                 </div>
               ))}
             </div>
@@ -239,7 +239,7 @@ export default async function BundleDetailPage(
             {bundle.description && (
               <div>
                 <SectionLabel>About This Bundle</SectionLabel>
-                <p className="text-[0.9375rem] text-muted/60 leading-[1.8] whitespace-pre-line">
+                <p className="text-[0.9375rem] text-muted/85 leading-[1.8] whitespace-pre-line">
                   {bundle.description}
                 </p>
               </div>
@@ -249,7 +249,7 @@ export default async function BundleDetailPage(
             {bundle.whyCreatorsLoveIt && (
               <div className="rounded-2xl bg-gold/[0.05] border border-gold/15 p-6">
                 <SectionLabel>Why Creators Love It</SectionLabel>
-                <p className="text-[0.9375rem] text-muted/65 leading-[1.8]">
+                <p className="text-[0.9375rem] text-muted/85 leading-[1.8]">
                   {bundle.whyCreatorsLoveIt}
                 </p>
               </div>
@@ -265,7 +265,7 @@ export default async function BundleDetailPage(
                       <span className="mt-[3px] flex-shrink-0 text-gold/60">
                         <SmallCheckIcon />
                       </span>
-                      <span className="text-[0.9rem] text-muted/60 leading-relaxed">{f}</span>
+                      <span className="text-[0.9rem] text-muted/85 leading-relaxed">{f}</span>
                     </li>
                   ))}
                 </ul>
@@ -280,7 +280,7 @@ export default async function BundleDetailPage(
                   {bundle.targetAudience.map((audience) => (
                     <span
                       key={audience}
-                      className="text-[0.775rem] font-medium text-muted/55 bg-surface-2/60 border border-border/50 rounded-full px-3 py-1.5"
+                      className="text-[0.775rem] font-medium text-muted/85 bg-surface-2/60 border border-border/50 rounded-full px-3 py-1.5"
                     >
                       {audience}
                     </span>
@@ -314,7 +314,7 @@ export default async function BundleDetailPage(
                   {bundle.compatibility.map((app) => (
                     <span
                       key={app}
-                      className="flex items-center gap-1.5 text-[0.775rem] font-medium text-muted/55 bg-surface-2/50 border border-border/40 rounded-lg px-3 py-1.5"
+                      className="flex items-center gap-1.5 text-[0.775rem] font-medium text-muted/85 bg-surface-2/50 border border-border/40 rounded-lg px-3 py-1.5"
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-gold/50 flex-shrink-0" />
                       {app}
@@ -344,7 +344,7 @@ export default async function BundleDetailPage(
       {/* ── Related bundles nudge ───────────────────── */}
       <div className="border-t border-border/30 py-10 px-4">
         <div className="mx-auto max-w-7xl text-center">
-          <p className="text-[0.8125rem] text-muted/35 mb-2">
+          <p className="text-[0.8125rem] text-muted/70 mb-2">
             Looking for more?
           </p>
           <Link

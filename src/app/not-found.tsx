@@ -12,7 +12,7 @@ export default function NotFound() {
       <p className="font-display text-[4rem] font-black leading-none text-gold/80">404</p>
       <div className="flex flex-col gap-2">
         <h1 className="font-display text-[1.5rem] font-bold text-foreground">This page doesn&apos;t exist</h1>
-        <p className="max-w-md text-[0.9375rem] leading-relaxed text-muted/70">
+        <p className="max-w-md text-[0.9375rem] leading-relaxed text-muted/92">
           The page you&apos;re looking for may have moved or never existed. Explore our presets instead.
         </p>
       </div>

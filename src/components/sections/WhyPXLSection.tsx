@@ -1,4 +1,4 @@
-﻿import Link                                         from "next/link"
+import Link                                         from "next/link"
 import { Container }                                from "@/components/layout/Container"
 import { CinematicBackground }                      from "@/components/ui/CinematicBackground"
 import { GrainOverlay }                             from "@/components/ui/GrainOverlay"
@@ -40,7 +40,7 @@ export function WhyPXLSection() {
                   The creator economy{" "}
                   <span className="text-gold-gradient">is exploding.</span>
                 </h2>
-                <p className="text-[1.125rem] text-muted/70 leading-relaxed">
+                <p className="text-[1.125rem] text-muted/92 leading-relaxed">
                   But most creators are quietly drowning inside it.
                   Technically they have more tools than ever.
                   Emotionally? They&apos;ve never felt more lost.
@@ -70,8 +70,8 @@ export function WhyPXLSection() {
 
             <CinematicReveal variant="rise" delay={0.15} className="w-full max-w-2xl">
               <div className="rounded-2xl border border-border bg-background/70 backdrop-blur-sm px-6 py-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-                <span className="font-display font-black text-[2rem] text-muted/20 shrink-0 select-none">8×</span>
-                <p className="text-[0.9375rem] text-muted/70 leading-relaxed text-left">
+                <span className="font-display font-black text-[2rem] text-muted/70 shrink-0 select-none">8×</span>
+                <p className="text-[0.9375rem] text-muted/92 leading-relaxed text-left">
                   Eight distinct pain points. One root cause:{" "}
                   <span className="text-foreground font-semibold">
                     creators have access to tools, but not to taste, identity, or systems.
@@ -102,13 +102,13 @@ export function WhyPXLSection() {
 
                 {/* Left — technical side */}
                 <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8 flex flex-col gap-4">
-                  <span className="text-label text-muted/40 tracking-widest">What exists</span>
-                  <h3 className="font-display font-bold text-[1.25rem] text-muted/50 leading-snug">
+                  <span className="text-label text-muted/70 tracking-widest">What exists</span>
+                  <h3 className="font-display font-bold text-[1.25rem] text-muted/85 leading-snug">
                     Technically powerful tools.
                   </h3>
                   <ul className="flex flex-col gap-2">
                     {WHAT_EXISTS.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-[0.875rem] text-muted/40">
+                      <li key={item} className="flex items-center gap-2.5 text-[0.875rem] text-muted/70">
                         <span className="h-px w-3 bg-muted/25 shrink-0" aria-hidden="true" />
                         {item}
                       </li>
@@ -119,7 +119,7 @@ export function WhyPXLSection() {
                 {/* Centre — gap indicator */}
                 <div className="hidden sm:flex flex-col items-center justify-center px-4 gap-2">
                   <div className="h-full w-px bg-border" aria-hidden="true" />
-                  <span className="font-display font-black text-[0.65rem] tracking-[0.2em] text-muted/30 uppercase rotate-90 whitespace-nowrap">
+                  <span className="font-display font-black text-[0.65rem] tracking-[0.2em] text-muted/70 uppercase rotate-90 whitespace-nowrap">
                     no bridge
                   </span>
                   <div className="h-full w-px bg-border" aria-hidden="true" />
@@ -134,7 +134,7 @@ export function WhyPXLSection() {
                   </h3>
                   <ul className="flex flex-col gap-2">
                     {WHAT_MISSING.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-[0.875rem] text-foreground/70">
+                      <li key={item} className="flex items-center gap-2.5 text-[0.875rem] text-foreground/92">
                         <span className="h-1 w-1 rounded-full bg-gold/70 shrink-0" aria-hidden="true" />
                         {item}
                       </li>
@@ -191,11 +191,11 @@ export function WhyPXLSection() {
             <CinematicStagger stagger={0.12} baseDelay={0.1} itemVariant="depth" className="grid sm:grid-cols-2 gap-4 max-w-2xl w-full text-left">
               <CinematicItem variant="depth">
                 <div className="rounded-2xl border border-border bg-background/70 backdrop-blur-sm p-6 flex flex-col gap-4">
-                  <span className="text-label text-muted/40 tracking-widest">Not everyone has</span>
+                  <span className="text-label text-muted/70 tracking-widest">Not everyone has</span>
                   <ul className="flex flex-col gap-2">
                     {NOT_EVERYONE.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-muted/50">
-                        <span className="text-muted/25 text-lg leading-none">×</span>
+                      <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-muted/85">
+                        <span className="text-muted/70 text-lg leading-none">×</span>
                         {item}
                       </li>
                     ))}
@@ -207,7 +207,7 @@ export function WhyPXLSection() {
                   <span className="text-label text-gold/60 tracking-widest">But everyone has</span>
                   <ul className="flex flex-col gap-2">
                     {EVERYONE_HAS.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-foreground/80">
+                      <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-foreground/92">
                         <span className="text-gold text-base leading-none">✦</span>
                         {item}
                       </li>
@@ -220,7 +220,7 @@ export function WhyPXLSection() {
             {/* Philosophy quote */}
             <CinematicReveal variant="rise" delay={0.12} className="max-w-xl mx-auto">
               <div className="border-l-2 border-gold/40 pl-6 text-left">
-                <p className="text-[1rem] sm:text-[1.0625rem] text-muted/70 leading-relaxed italic">
+                <p className="text-[1rem] sm:text-[1.0625rem] text-muted/92 leading-relaxed italic">
                   &ldquo;The future belongs to creators who think visually, build identity,
                   understand aesthetics, and create work that moves people.
                   PXL Creator exists to make that future accessible to everyone.&rdquo;
@@ -244,7 +244,7 @@ export function WhyPXLSection() {
               <div className="flex flex-col items-center gap-4">
                 <BeatCounter number="04" label="The PXL Moats" />
                 <p className="font-display font-bold text-foreground text-[1.125rem]">Why this brand compounds.</p>
-                <p className="text-[0.875rem] text-muted/50 max-w-xs leading-relaxed">
+                <p className="text-[0.875rem] text-muted/85 max-w-xs leading-relaxed">
                   Five structural advantages that make PXL Creator impossible to simply replicate.
                 </p>
               </div>
@@ -270,7 +270,7 @@ export function WhyPXLSection() {
                         className="text-[0.65rem] font-bold tracking-[0.2em] uppercase px-2.5 py-1 rounded-full border mt-1"
                         style={{
                           borderColor: moat.featured ? "rgba(255,214,10,0.3)" : "rgba(255,255,255,0.08)",
-                          color:       moat.featured ? "#C9A84C" : "#666",
+                          color:       moat.featured ? "#FFD60A" : "#666",
                         }}
                       >
                         {moat.tag}
@@ -280,7 +280,7 @@ export function WhyPXLSection() {
                       <h3 className={`font-display font-bold text-[1.0625rem] leading-snug ${moat.featured ? "text-foreground" : "text-foreground/90"}`}>
                         {moat.title}
                       </h3>
-                      <p className="text-[0.875rem] text-muted/60 leading-relaxed">{moat.body}</p>
+                      <p className="text-[0.875rem] text-muted/85 leading-relaxed">{moat.body}</p>
                     </div>
                     {moat.featured && (
                       <p className="text-[0.78rem] text-gold/70 font-semibold mt-auto">
@@ -364,13 +364,13 @@ export function WhyPXLSection() {
             {/* Vision headline */}
             <CinematicReveal variant="depth">
               <div className="flex flex-col gap-4 items-center">
-                <p className="text-[0.75rem] font-bold tracking-[0.25em] uppercase text-muted/40">
+                <p className="text-[0.75rem] font-bold tracking-[0.25em] uppercase text-muted/70">
                   Where we&apos;re going
                 </p>
                 <h2
                   className="font-display font-black text-[clamp(1.875rem,5.5vw,3.5rem)] leading-[1.05] tracking-tight"
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 50%, #A8852A 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 50%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -385,12 +385,12 @@ export function WhyPXLSection() {
 
             {/* Vision body */}
             <CinematicReveal variant="rise" delay={0.12}>
-              <p className="text-[1rem] sm:text-[1.0625rem] text-muted/60 leading-relaxed max-w-2xl">
+              <p className="text-[1rem] sm:text-[1.0625rem] text-muted/85 leading-relaxed max-w-2xl">
                 In a world flooded with generic content, AI-generated sameness, and disposable trends —
                 PXL Creator stands for{" "}
-                <span className="text-foreground/80 font-medium">intentional creativity</span>,{" "}
-                <span className="text-foreground/80 font-medium">cinematic storytelling</span>, and{" "}
-                <span className="text-foreground/80 font-medium">visually intelligent expression</span>.
+                <span className="text-foreground/92 font-medium">intentional creativity</span>,{" "}
+                <span className="text-foreground/92 font-medium">cinematic storytelling</span>, and{" "}
+                <span className="text-foreground/92 font-medium">visually intelligent expression</span>.
               </p>
             </CinematicReveal>
 
@@ -458,7 +458,7 @@ function BeatCounter({ number, label }: { number: string; label: string }) {
       {/* Label */}
       <div className="flex items-center gap-3">
         <span className="h-px w-8 bg-gold/30" aria-hidden="true" />
-        <span className="text-label text-muted/50 tracking-[0.2em]">{label}</span>
+        <span className="text-label text-muted/85 tracking-[0.2em]">{label}</span>
         <span className="h-px w-8 bg-gold/30" aria-hidden="true" />
       </div>
     </div>

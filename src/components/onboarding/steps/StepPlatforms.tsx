@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { motion } from "framer-motion"
 import { cn }     from "@/lib/utils"
@@ -21,7 +21,7 @@ export function StepPlatforms({ selected, onToggle }: Props) {
   return (
     <div className="flex flex-col gap-5">
       <div className="text-center">
-        <p className="text-[0.8125rem] text-muted/50">Select all that apply</p>
+        <p className="text-[0.8125rem] text-muted/85">Select all that apply</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -57,11 +57,11 @@ export function StepPlatforms({ selected, onToggle }: Props) {
               <div className="text-center">
                 <p className={cn(
                   "font-medium text-[0.9375rem] leading-tight",
-                  isSelected ? "text-foreground" : "text-muted/80"
+                  isSelected ? "text-foreground" : "text-muted/92"
                 )}>
                   {platform.label}
                 </p>
-                <p className="text-[0.75rem] text-muted/50 mt-0.5">
+                <p className="text-[0.75rem] text-muted/85 mt-0.5">
                   {platform.desc}
                 </p>
               </div>

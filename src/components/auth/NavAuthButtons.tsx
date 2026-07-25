@@ -101,7 +101,7 @@ export function NavAuthButtons() {
     <div className="flex items-center gap-2">
       <Link
         href="/login"
-        className="hidden sm:inline-flex items-center px-3.5 py-1.5 text-[0.8rem] font-medium text-muted/70 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
+        className="hidden sm:inline-flex items-center px-3.5 py-1.5 text-[0.8rem] font-medium text-muted/92 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
       >
         Log in
       </Link>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 /* eslint-disable react-hooks/immutability, react-hooks/purity */
 
 /**
@@ -67,8 +67,8 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
   /* Shared gold emissive material — picked up by Bloom */
   const mat = useMemo(
     () => new THREE.MeshStandardMaterial({
-      color:             "#C9A84C",
-      emissive:          "#C9A84C",
+      color:             "#FFD60A",
+      emissive:          "#FFD60A",
       emissiveIntensity: 0.55,
       transparent:       true,
       opacity:           0.6,
@@ -79,8 +79,8 @@ function GoldBorder({ w, h }: { w: number; h: number }) {
   /* Corner accent material — brighter emissive → stronger bloom halo */
   const cornerMat = useMemo(
     () => new THREE.MeshStandardMaterial({
-      color:             "#C9A84C",
-      emissive:          "#C9A84C",
+      color:             "#FFD60A",
+      emissive:          "#FFD60A",
       emissiveIntensity: 1.8,
       transparent:       true,
       opacity:           0.9,
@@ -131,7 +131,7 @@ function GlassFrame({ pos, rot, w, h, index }: FrameDef & { index: number }) {
   const glassMat = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color:       "#C9A84C",
+        color:       "#FFD60A",
         emissive:    "#443300",
         emissiveIntensity: 0.08,
         transparent: true,
@@ -192,7 +192,7 @@ function GoldDust() {
     <points geometry={geometry}>
       <pointsMaterial
         ref={matRef}
-        color="#C9A84C"
+        color="#FFD60A"
         size={0.022}
         transparent
         opacity={0.25}
@@ -246,7 +246,7 @@ function Scene() {
       {/* Lighting */}
       <ambientLight intensity={0.12} />
       {/* Warm gold key — emissive surfaces bloom from this */}
-      <directionalLight position={[ 4,  3, 4]} color="#C9A84C" intensity={0.9} />
+      <directionalLight position={[ 4,  3, 4]} color="#FFD60A" intensity={0.9} />
       {/* Cool indigo fill */}
       <directionalLight position={[-3, -2, 2]} color="#3322cc" intensity={0.18} />
 
@@ -261,7 +261,7 @@ function Scene() {
         scale={[18, 10, 7]}
         size={1.4}
         speed={0.10}
-        color="#C9A84C"
+        color="#FFD60A"
         opacity={0.55}
       />
 

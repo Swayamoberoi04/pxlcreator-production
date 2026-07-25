@@ -47,7 +47,7 @@ export function HSLPanel({ hsl, setHSLBand, commit }: HSLPanelProps) {
         ))}
       </div>
 
-      <p className="text-[0.75rem] text-muted/60">{HSL_BANDS[band].name}</p>
+      <p className="text-[0.75rem] text-muted/85">{HSL_BANDS[band].name}</p>
 
       <AdjustmentSlider
         label="Hue"

@@ -158,7 +158,7 @@ export function BeforeAfterSlider({ beforeUrl, afterUrl, className }: BeforeAfte
         className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 px-2.5 py-1 pointer-events-none transition-opacity duration-200"
         style={{ opacity: position < 85 ? 1 : 0 }}
       >
-        <span className="text-[0.7rem] font-semibold text-white/50 tracking-widest uppercase">Before</span>
+        <span className="text-[0.7rem] font-semibold text-white/85 tracking-widest uppercase">Before</span>
       </div>
 
       {/* ── Drag hint — fades out after first interaction ── */}
@@ -184,10 +184,10 @@ function DragHint({ position }: { position: number }) {
       aria-hidden="true"
       className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-black/70 backdrop-blur-sm border border-white/15 px-3.5 py-2 pointer-events-none"
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/50">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/85">
         <polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(12 0)"/>
       </svg>
-      <span className="text-[0.72rem] font-medium text-white/60">Drag to compare</span>
+      <span className="text-[0.72rem] font-medium text-white/85">Drag to compare</span>
     </div>
   )
 }

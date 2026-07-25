@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * /store/for-you — Personalized preset store.
@@ -87,18 +87,18 @@ function PresetCard({ preset, accentColor }: { preset: PersonalizedPreset; accen
 
         <div className="p-4 flex flex-col gap-1.5">
           <p className="font-display font-black text-sm text-foreground line-clamp-1">{preset.name}</p>
-          <p className="text-[0.75rem] text-muted/60 line-clamp-1">{preset.tagline}</p>
+          <p className="text-[0.75rem] text-muted/85 line-clamp-1">{preset.tagline}</p>
           <div className="flex items-center justify-between mt-1">
             <div className="flex items-center gap-2">
               <span className="font-display font-black text-sm text-foreground">
                 {preset.is_free ? "Free" : `$${preset.price}`}
               </span>
               {preset.original_price && preset.original_price > preset.price && !preset.is_free && (
-                <span className="text-[0.7rem] text-muted/40 line-through">${preset.original_price}</span>
+                <span className="text-[0.7rem] text-muted/70 line-through">${preset.original_price}</span>
               )}
             </div>
             {preset.rating > 0 && (
-              <span className="text-[0.7rem] text-muted/50">â­ {preset.rating.toFixed(1)}</span>
+              <span className="text-[0.7rem] text-muted/85">â­ {preset.rating.toFixed(1)}</span>
             )}
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function PersonalizedStorePage() {
   const [loading,      setLoading]          = useState(true)
   const [personalized, setPersonalized]     = useState(false)
   const [topAffinities, setTopAffinities]   = useState<string[]>([])
-  const [accentColor,  setAccentColor]      = useState("#C9A84C")
+  const [accentColor,  setAccentColor]      = useState("#FFD60A")
 
   useEffect(() => {
     async function load() {
@@ -161,7 +161,7 @@ export default function PersonalizedStorePage() {
       {/* Hero */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2">
-          <span className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40">
+          <span className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70">
             {personalized ? "Personalized For You" : "Full Collection"}
           </span>
           {personalized && (
@@ -172,12 +172,12 @@ export default function PersonalizedStorePage() {
           {headline}
         </h1>
         {personalized && topAffinities.length > 0 && (
-          <p className="text-[0.9375rem] text-muted/60">
+          <p className="text-[0.9375rem] text-muted/85">
             Ranked by your affinity for {topAffinities.slice(0, 3).map(capitalise).join(", ")} aesthetics.
           </p>
         )}
         {!personalized && (
-          <p className="text-[0.9375rem] text-muted/60">
+          <p className="text-[0.9375rem] text-muted/85">
             <Link href="/onboarding" className="text-gold hover:underline">Complete your profile</Link> to see presets ranked specifically for your style.
           </p>
         )}
@@ -204,7 +204,7 @@ export default function PersonalizedStorePage() {
 
       {/* Browse all CTA */}
       <div className="flex items-center justify-center gap-4 pt-4 border-t border-border/40">
-        <Link href="/store" className="rounded-full border border-border bg-surface px-6 py-2.5 text-sm font-medium text-muted/70 hover:border-gold/30 hover:text-foreground transition-all">
+        <Link href="/store" className="rounded-full border border-border bg-surface px-6 py-2.5 text-sm font-medium text-muted/92 hover:border-gold/30 hover:text-foreground transition-all">
           Browse Full Collection
         </Link>
         <Link href="/bundles" className="rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-background hover:bg-gold/90 transition-all">

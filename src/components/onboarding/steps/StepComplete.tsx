@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { motion }  from "framer-motion"
 import Link        from "next/link"
@@ -67,7 +67,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
               <h3 className="font-display font-black text-[1.375rem] leading-tight text-white">
                 {dna.title}
               </h3>
-              <p className="mt-2 text-[0.875rem] text-white/60 leading-relaxed">
+              <p className="mt-2 text-[0.875rem] text-white/85 leading-relaxed">
                 {dna.tagline}
               </p>
             </motion.div>
@@ -82,7 +82,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
               {dna.archetypes.map((arch) => (
                 <span
                   key={arch}
-                  className="rounded-full px-2.5 py-1 text-[0.7rem] font-medium text-white/50 border border-white/10"
+                  className="rounded-full px-2.5 py-1 text-[0.7rem] font-medium text-white/85 border border-white/10"
                 >
                   {arch}
                 </span>
@@ -109,7 +109,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
           transition={{ delay: 0.5, duration: 0.6 }}
           className="w-full"
         >
-          <p className="text-center text-[0.8125rem] text-muted/50 mb-4">
+          <p className="text-center text-[0.8125rem] text-muted/85 mb-4">
             Your personalised recommendations are ready
           </p>
           <div className="flex flex-col gap-2">

@@ -66,7 +66,7 @@ function MockLeaderboardRow({ creator, rank, type }: {
   return (
     <motion.div initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: rank * 0.04 }}
       className={["flex items-center gap-4 rounded-2xl border bg-surface p-4 transition-colors", style?.wrapper ?? "border-border"].join(" ")}>
-      <span className={["w-8 text-center shrink-0", style?.rank ?? "text-muted/50 font-bold"].join(" ")}>
+      <span className={["w-8 text-center shrink-0", style?.rank ?? "text-muted/85 font-bold"].join(" ")}>
         {rank <= 3 ? ["🥇","🥈","🥉"][rank - 1] : rank}
       </span>
       <span className="size-11 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-base shrink-0">
@@ -79,17 +79,17 @@ function MockLeaderboardRow({ creator, rank, type }: {
             {creator.badge} {creator.badgeLabel}
           </span>
         </div>
-        <p className="text-xs text-muted/50">@{creator.username}</p>
+        <p className="text-xs text-muted/85">@{creator.username}</p>
         <div className="flex gap-1 mt-1 flex-wrap">
           {creator.roles.slice(0, 2).map((r) => (
-            <span key={r} className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/60">
+            <span key={r} className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">
               {r.replace(/-/g, " ")}
             </span>
           ))}
         </div>
       </div>
       <span className="text-sm font-bold text-gold shrink-0 hidden sm:block">{scoreStr}</span>
-      <span className="text-[9px] font-bold uppercase tracking-widest text-muted/30 shrink-0 hidden md:block">Preview</span>
+      <span className="text-[9px] font-bold uppercase tracking-widest text-muted/70 shrink-0 hidden md:block">Preview</span>
     </motion.div>
   )
 }
@@ -148,7 +148,7 @@ export default function LeaderboardPage() {
       {/* Hero */}
       <div>
         <h1 className="font-display font-black text-3xl text-foreground">Creator Leaderboard</h1>
-        <p className="text-sm text-muted/60 mt-1">The top creators in the PXL ecosystem — ranked and celebrated</p>
+        <p className="text-sm text-muted/85 mt-1">The top creators in the PXL ecosystem — ranked and celebrated</p>
       </div>
 
       {/* Badge legend */}
@@ -156,7 +156,7 @@ export default function LeaderboardPage() {
         {[["🏆", "Elite Creator"], ["⭐", "Rising Talent"], ["🔥", "Top Contributor"]].map(([icon, label]) => (
           <div key={label} className="flex items-center gap-2 px-3 py-2 rounded-full border border-border bg-surface">
             <span>{icon}</span>
-            <span className="text-xs font-semibold text-muted/70">{label}</span>
+            <span className="text-xs font-semibold text-muted/92">{label}</span>
           </div>
         ))}
       </div>
@@ -165,7 +165,7 @@ export default function LeaderboardPage() {
       <div className="flex flex-wrap gap-1 rounded-xl bg-surface border border-border p-1 w-fit">
         {TABS.map((t) => (
           <button key={t.id} onClick={() => setActiveTab(t.id)}
-            className={["flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors", activeTab === t.id ? "bg-gold/15 text-gold" : "text-muted/60 hover:text-foreground"].join(" ")}>
+            className={["flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors", activeTab === t.id ? "bg-gold/15 text-gold" : "text-muted/85 hover:text-foreground"].join(" ")}>
             <span>{t.icon}</span><span>{t.label}</span>
           </button>
         ))}
@@ -182,7 +182,7 @@ export default function LeaderboardPage() {
             const initial = (entry.display_name || entry.username || "?")[0].toUpperCase()
             return (
               <div key={entry.id} className={["flex items-center gap-4 rounded-2xl border bg-surface p-4 transition-colors hover:border-gold/20", style?.wrapper ?? "border-border"].join(" ")}>
-                <span className={["w-8 text-center shrink-0", style?.rank ?? "text-muted/50 font-bold"].join(" ")}>
+                <span className={["w-8 text-center shrink-0", style?.rank ?? "text-muted/85 font-bold"].join(" ")}>
                   {rank <= 3 ? ["🥇","🥈","🥉"][rank - 1] : rank}
                 </span>
                 <Link href={`/community/${entry.username}`} className="shrink-0">
@@ -198,11 +198,11 @@ export default function LeaderboardPage() {
                     <Link href={`/community/${entry.username}`} className="font-display font-black text-sm text-foreground hover:text-gold transition-colors truncate">{entry.display_name}</Link>
                     {entry.is_verified && <span className="text-gold text-xs">✓</span>}
                   </div>
-                  <p className="text-xs text-muted/50">@{entry.username}</p>
+                  <p className="text-xs text-muted/85">@{entry.username}</p>
                   {entry.roles.length > 0 && (
                     <div className="flex gap-1 mt-1 flex-wrap">
                       {entry.roles.slice(0, 2).map((r) => (
-                        <span key={r} className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/60">{r.replace(/-/g, " ")}</span>
+                        <span key={r} className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">{r.replace(/-/g, " ")}</span>
                       ))}
                     </div>
                   )}
@@ -226,7 +226,7 @@ export default function LeaderboardPage() {
               <span className="text-2xl">💡</span>
               <div>
                 <p className="font-display font-black text-sm text-foreground">Official rankings launch soon</p>
-                <p className="text-xs text-muted/60 mt-0.5">A preview of what the leaderboard will look like at launch</p>
+                <p className="text-xs text-muted/85 mt-0.5">A preview of what the leaderboard will look like at launch</p>
               </div>
             </div>
             {MOCK_CREATORS.map((creator, idx) => (

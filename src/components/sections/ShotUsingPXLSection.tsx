@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/components/sections/ShotUsingPXLSection.tsx
  *
  * "Shot Using PXL" — cinematic creator gallery.
@@ -54,7 +54,7 @@ const GALLERY: GalleryImage[] = [
     alt:      "Magical cinematic sunset",
     preset:   "Film Rich",
     category: "Landscape",
-    accent:   "#C9A84C",
+    accent:   "#FFD60A",
     tall:     true,
   },
   {
@@ -150,7 +150,7 @@ export function ShotUsingPXLSection() {
               Real results.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -159,7 +159,7 @@ export function ShotUsingPXLSection() {
                 Real creators.
               </span>
             </h2>
-            <p className="text-[0.9375rem] text-muted/50 max-w-sm leading-relaxed">
+            <p className="text-[0.9375rem] text-muted/85 max-w-sm leading-relaxed">
               Every image shot and graded by PXL Creator users worldwide.
             </p>
           </div>
@@ -195,7 +195,7 @@ export function ShotUsingPXLSection() {
             </Link>
             <Link
               href="/store"
-              className="group inline-flex items-center gap-2 text-[0.9rem] text-muted/50 hover:text-foreground transition-colors"
+              className="group inline-flex items-center gap-2 text-[0.9rem] text-muted/85 hover:text-foreground transition-colors"
             >
               Browse all presets
               <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>

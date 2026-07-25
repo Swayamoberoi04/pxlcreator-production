@@ -432,8 +432,8 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /><polyline points="9 18 15 12 9 6" transform="translate(6 0)" /></svg>
               </div>
             </div>
-            <span className="pointer-events-none absolute left-2 top-2 rounded bg-black/60 px-1.5 py-0.5 text-[0.625rem] uppercase tracking-wider text-white/80">Before</span>
-            <span className="pointer-events-none absolute right-2 top-2 rounded bg-black/60 px-1.5 py-0.5 text-[0.625rem] uppercase tracking-wider text-white/80">After</span>
+            <span className="pointer-events-none absolute left-2 top-2 rounded bg-black/60 px-1.5 py-0.5 text-[0.625rem] uppercase tracking-wider text-white/92">Before</span>
+            <span className="pointer-events-none absolute right-2 top-2 rounded bg-black/60 px-1.5 py-0.5 text-[0.625rem] uppercase tracking-wider text-white/92">After</span>
           </>
         )}
       </div>

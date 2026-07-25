@@ -61,7 +61,7 @@ export function DownloadGate({ preset }: DownloadGateProps) {
           </span>
           <div>
             <p className="text-[0.875rem] font-semibold text-foreground">This preset is free</p>
-            <p className="text-[0.75rem] text-muted/60">Create an account to download instantly</p>
+            <p className="text-[0.75rem] text-muted/85">Create an account to download instantly</p>
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-2.5">
@@ -107,8 +107,8 @@ export function DownloadGate({ preset }: DownloadGateProps) {
           {!downloading && (done ? <CheckIcon /> : <DownloadIcon />)}
           {downloading ? "Preparing download…" : done ? "Download started!" : "Download Free Pack"}
         </button>
-        <p className="text-center text-[0.75rem] text-muted/40">
-          Logged in as <span className="text-muted/60">{user.email}</span>
+        <p className="text-center text-[0.75rem] text-muted/70">
+          Logged in as <span className="text-muted/85">{user.email}</span>
         </p>
       </div>
     )
@@ -118,7 +118,7 @@ export function DownloadGate({ preset }: DownloadGateProps) {
   if (!user) {
     return (
       <div className="rounded-2xl border border-border bg-surface/60 p-4 flex items-center justify-between gap-4">
-        <p className="text-[0.8125rem] text-muted/60 leading-snug">
+        <p className="text-[0.8125rem] text-muted/85 leading-snug">
           <span className="text-foreground font-medium">Sign in</span> to purchase and access your downloads
         </p>
         <Link

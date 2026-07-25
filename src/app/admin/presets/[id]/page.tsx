@@ -157,7 +157,7 @@ export default function PresetEditorPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-white/30 text-[0.875rem]">Loading…</p>
+        <p className="text-white/70 text-[0.875rem]">Loading…</p>
       </div>
     )
   }
@@ -165,7 +165,7 @@ export default function PresetEditorPage() {
   if (!preset) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-3">
-        <p className="text-white/30">{error ?? "Preset not found."}</p>
+        <p className="text-white/70">{error ?? "Preset not found."}</p>
         <Link href="/admin/presets" className="text-gold text-[0.875rem] hover:underline">← Back to presets</Link>
       </div>
     )
@@ -177,20 +177,20 @@ export default function PresetEditorPage() {
       {/* Header */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-col gap-0.5">
-          <Link href="/admin/presets" className="text-[0.75rem] text-white/30 hover:text-white/60 transition-colors">
+          <Link href="/admin/presets" className="text-[0.75rem] text-white/70 hover:text-white/85 transition-colors">
             ← Back to presets
           </Link>
           <h1 className="font-display font-black text-[1.5rem] text-white/90">
             Edit Preset
           </h1>
-          <p className="text-[0.8125rem] text-white/30">/presets/{preset.slug}</p>
+          <p className="text-[0.8125rem] text-white/70">/presets/{preset.slug}</p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
           {saved && <span className="text-[0.8125rem] text-emerald-400">✓ Saved</span>}
           <Link
             href={`/presets/${preset.slug}`}
             target="_blank"
-            className="rounded-xl border border-white/10 text-white/50 text-[0.8125rem] font-medium px-4 py-2 hover:text-white/80 transition-colors"
+            className="rounded-xl border border-white/10 text-white/85 text-[0.8125rem] font-medium px-4 py-2 hover:text-white/92 transition-colors"
           >
             View →
           </Link>
@@ -296,7 +296,7 @@ export default function PresetEditorPage() {
               <div onClick={() => set(!value)} className={cn("h-5 w-9 rounded-full transition-colors cursor-pointer relative", value ? "bg-gold/80" : "bg-white/10")}>
                 <div className={cn("absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all", value ? "left-[18px]" : "left-0.5")} />
               </div>
-              <span className="text-[0.8125rem] text-white/50">{label}</span>
+              <span className="text-[0.8125rem] text-white/85">{label}</span>
             </label>
           ))}
         </div>
@@ -309,7 +309,7 @@ export default function PresetEditorPage() {
 function Field({ label, children, span }: { label: string; children: React.ReactNode; span?: number }) {
   return (
     <div className={cn("flex flex-col gap-1.5", span === 2 && "md:col-span-2")}>
-      <label className="text-[0.75rem] text-white/40 tracking-widest">( {label} )</label>
+      <label className="text-[0.75rem] text-white/70 tracking-widest">( {label} )</label>
       {children}
     </div>
   )

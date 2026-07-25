@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -20,7 +20,7 @@
   /* Cinematic Black — the brand's primary background. Pure neutral,
      not blue-tinted, so gold and teal glows read as genuinely luminous. */
   --color-background: #0A0A0A;
-  --color-foreground: #F5F5F5;
+  --color-foreground: #FFFFFF;   /* primary text — pure white */
 
   /* Surfaces (dark layering — graphite neutrals from brand bible) */
   --color-surface:   #161616;
@@ -28,16 +28,16 @@
   --color-surface-3: #3A3A3A;
 
   /* Brand Gold — cinematic warm amber. Primary CTAs, highlights, logo accent. */
-  --color-gold:        #C9A84C;   /* canonical brand gold (Brand Bible v1.0) */
-  --color-gold-dim:    #A8852A;   /* pressed / gradient anchor */
-  --color-gold-bright: #E2C97E;   /* inner bloom / text highlight */
-  --color-gold-muted:  rgba(201, 168, 76, 0.12);
+  --color-gold:        #FFD60A;   /* canonical brand gold (Brand Bible v1.0) */
+  --color-gold-dim:    #E0A800;   /* pressed / gradient anchor */
+  --color-gold-bright: #FFE970;   /* inner bloom / text highlight */
+  --color-gold-muted:  rgba(255,214,10, 0.12);
 
   /* Gold RGB — for composable rgba() shadows */
-  --pxl-glow-rgb:  201, 168, 76;
+  --pxl-glow-rgb:  255,214,10;
 
   /* Neutral Silver — body text, secondary elements */
-  --color-muted: #D4D4D4;
+  --color-muted: #E6E6E6;
 
   /* Borders */
   --color-border: #222222;
@@ -54,36 +54,36 @@
 
   /* ── Shadcn Required Tokens (mapped to brand) ── */
   --color-card:                 #161616;
-  --color-card-foreground:      #F5F5F5;
+  --color-card-foreground:      #FFFFFF;
   --color-popover:              #161616;
-  --color-popover-foreground:   #F5F5F5;
-  --color-primary:              #C9A84C;
+  --color-popover-foreground:   #FFFFFF;
+  --color-primary:              #FFD60A;
   --color-primary-foreground:   #000000;
   --color-secondary:            #2A2A2A;
-  --color-secondary-foreground: #F5F5F5;
-  --color-muted-foreground:     #D4D4D4;
+  --color-secondary-foreground: #FFFFFF;
+  --color-muted-foreground:     #E6E6E6;
   --color-accent:               #2A2A2A;
-  --color-accent-foreground:    #F5F5F5;
+  --color-accent-foreground:    #FFFFFF;
   --color-destructive:          #ef4444;
   --color-input:                #222222;
-  --color-ring:                 #C9A84C;
+  --color-ring:                 #FFD60A;
 
   /* ── Chart Tokens (required by shadcn chart components) ── */
-  --color-chart-1: #C9A84C;
-  --color-chart-2: #A8852A;
-  --color-chart-3: #D4D4D4;
+  --color-chart-1: #FFD60A;
+  --color-chart-2: #E0A800;
+  --color-chart-3: #E6E6E6;
   --color-chart-4: #555555;
   --color-chart-5: #333333;
 
   /* ── Sidebar Tokens (required by shadcn sidebar component) ── */
   --color-sidebar:                    #161616;
-  --color-sidebar-foreground:         #F5F5F5;
-  --color-sidebar-primary:            #C9A84C;
+  --color-sidebar-foreground:         #FFFFFF;
+  --color-sidebar-primary:            #FFD60A;
   --color-sidebar-primary-foreground: #000000;
   --color-sidebar-accent:             #2A2A2A;
-  --color-sidebar-accent-foreground:  #F5F5F5;
+  --color-sidebar-accent-foreground:  #FFFFFF;
   --color-sidebar-border:             #222222;
-  --color-sidebar-ring:               #C9A84C;
+  --color-sidebar-ring:               #FFD60A;
 
 }
 
@@ -209,7 +209,7 @@ body {
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255, 214, 10, 0.75);
+    color: rgba(255,214,10, 0.75);
   }
 
   .eyebrow::before,
@@ -218,7 +218,7 @@ body {
     display: block;
     height: 1px;
     width: 2rem;
-    background: rgba(255, 214, 10, 0.5);
+    background: rgba(255,214,10, 0.5);
     flex-shrink: 0;
   }
 
@@ -233,15 +233,15 @@ body {
   /* ── Glow utilities — used by navbar and logo ── */
   .text-glow-gold {
     text-shadow:
-      0 0 10px rgba(255, 214, 10, 0.80),
-      0 0 24px rgba(255, 214, 10, 0.40),
-      0 0 48px rgba(255, 214, 10, 0.15);
+      0 0 10px rgba(255,214,10, 0.80),
+      0 0 24px rgba(255,214,10, 0.40),
+      0 0 48px rgba(255,214,10, 0.15);
   }
 
   .logo-glow {
     text-shadow:
-      0 0 14px rgba(255, 214, 10, 0.60),
-      0 0 32px rgba(255, 214, 10, 0.25);
+      0 0 14px rgba(255,214,10, 0.60),
+      0 0 32px rgba(255,214,10, 0.25);
   }
 
   /* ─────────────────────────────────────────
@@ -262,11 +262,11 @@ body {
 
   /* Gold glass — warm tinted, used for premium cards / CTAs */
   .glass-gold {
-    background:    rgba(255, 214, 10, 0.05);
-    border:        1px solid rgba(255, 214, 10, 0.14);
+    background:    rgba(255,214,10, 0.05);
+    border:        1px solid rgba(255,214,10, 0.14);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    box-shadow:    0 0 32px rgba(255, 214, 10, 0.06), inset 0 1px 0 rgba(255, 214, 10, 0.12);
+    box-shadow:    0 0 32px rgba(255,214,10, 0.06), inset 0 1px 0 rgba(255,214,10, 0.12);
   }
 
   /* Dark glass — nearly opaque, for nav / drawers */
@@ -289,10 +289,10 @@ body {
     padding: 1px;
     background: linear-gradient(
       135deg,
-      rgba(255, 214, 10, 0.4) 0%,
+      rgba(255,214,10, 0.4) 0%,
       rgba(255, 255, 255, 0.1) 40%,
       rgba(61, 122, 138, 0.3) 70%,
-      rgba(255, 214, 10, 0.4) 100%
+      rgba(255,214,10, 0.4) 100%
     );
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
@@ -344,7 +344,7 @@ body {
     inset: 0;
     background: radial-gradient(
       ellipse 80% 40% at 50% 110%,
-      rgba(255, 214, 10, 0.06) 0%,
+      rgba(255,214,10, 0.06) 0%,
       transparent 65%
     );
     pointer-events: none;
@@ -357,9 +357,9 @@ body {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 214, 10, 0.4) 30%,
-      rgba(255, 214, 10, 0.6) 50%,
-      rgba(255, 214, 10, 0.4) 70%,
+      rgba(255,214,10, 0.4) 30%,
+      rgba(255,214,10, 0.6) 50%,
+      rgba(255,214,10, 0.4) 70%,
       transparent 100%
     );
   }
@@ -386,7 +386,7 @@ body {
   .depth-card:hover {
     transform:  translateY(-8px) scale(1.006);
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.50),
-                0  0   40px rgba(255, 214, 10, 0.07),
+                0  0   40px rgba(255,214,10, 0.07),
                 0  1px 0   rgba(255, 255, 255, 0.06) inset;
   }
 
@@ -821,8 +821,8 @@ header.header-glass[data-scrolled="true"] {
   background-color: rgba(0, 0, 0, 0.82);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border-bottom-color: rgba(255, 214, 10, 0.12);
-  box-shadow: 0 1px 0 rgba(255, 214, 10, 0.06),
+  border-bottom-color: rgba(255,214,10, 0.12);
+  box-shadow: 0 1px 0 rgba(255,214,10, 0.06),
               0 8px 40px rgba(0, 0, 0, 0.5);
 }
 
@@ -851,7 +851,7 @@ header.header-glass[data-scrolled="true"] {
   pointer-events: none;
   z-index: 9999;
   will-change: transform;
-  box-shadow: 0 0 8px rgba(255, 214, 10, 0.7), 0 0 16px rgba(255, 214, 10, 0.3);
+  box-shadow: 0 0 8px rgba(255,214,10, 0.7), 0 0 16px rgba(255,214,10, 0.3);
   transition: opacity 0.2s;
 }
 
@@ -863,7 +863,7 @@ header.header-glass[data-scrolled="true"] {
   width:  36px;
   height: 36px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 214, 10, 0.45);
+  border: 1.5px solid rgba(255,214,10, 0.45);
   pointer-events: none;
   z-index: 9998;
   will-change: transform;
@@ -879,17 +879,17 @@ header.header-glass[data-scrolled="true"] {
 .cinematic-cursor-ring.hovering {
   width:  64px;
   height: 64px;
-  border-color: rgba(255, 214, 10, 0.75);
-  background-color: rgba(255, 214, 10, 0.06);
-  box-shadow: 0 0 20px rgba(255, 214, 10, 0.15), inset 0 0 12px rgba(255, 214, 10, 0.05);
+  border-color: rgba(255,214,10, 0.75);
+  background-color: rgba(255,214,10, 0.06);
+  box-shadow: 0 0 20px rgba(255,214,10, 0.15), inset 0 0 12px rgba(255,214,10, 0.05);
 }
 
 /* Click state — compress for tactile feel */
 .cinematic-cursor-ring.clicking {
   width:  22px;
   height: 22px;
-  border-color: rgba(255, 214, 10, 1);
-  background-color: rgba(255, 214, 10, 0.12);
+  border-color: rgba(255,214,10, 1);
+  background-color: rgba(255,214,10, 0.12);
   transition:
     width        0.1s cubic-bezier(0.16, 1, 0.3, 1),
     height       0.1s cubic-bezier(0.16, 1, 0.3, 1),
@@ -903,12 +903,12 @@ header.header-glass[data-scrolled="true"] {
 ::-webkit-scrollbar        { width: 5px; }
 ::-webkit-scrollbar-track  { background: #0A0A0A; }
 ::-webkit-scrollbar-thumb  {
-  background: rgba(255, 214, 10, 0.18);
+  background: rgba(255,214,10, 0.18);
   border-radius: 3px;
   transition: background 0.2s;
 }
-::-webkit-scrollbar-thumb:hover  { background: rgba(255, 214, 10, 0.38); }
-::-webkit-scrollbar-thumb:active { background: rgba(255, 214, 10, 0.55); }
+::-webkit-scrollbar-thumb:hover  { background: rgba(255,214,10, 0.38); }
+::-webkit-scrollbar-thumb:active { background: rgba(255,214,10, 0.55); }
 
 /* ─────────────────────────────────────────
    ADMIN COMPONENTS
@@ -933,7 +933,7 @@ header.header-glass[data-scrolled="true"] {
 }
 
 .admin-input:focus {
-  border-color: rgba(255, 214, 10, 0.4);
+  border-color: rgba(255,214,10, 0.4);
 }
 
 .admin-input option {

@@ -46,19 +46,19 @@ export function TeamCard({ team }: TeamCardProps) {
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="font-display font-black text-sm text-foreground truncate">{team.name}</h3>
             {team.visibility === "private" && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-2 border border-border text-muted/50">🔒 Private</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">🔒 Private</span>
             )}
           </div>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/40">{team.category}</span>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">{team.category}</span>
         </div>
       </div>
 
       {/* Description */}
-      <p className="text-xs text-muted/60 line-clamp-2">{team.description}</p>
+      <p className="text-xs text-muted/85 line-clamp-2">{team.description}</p>
 
       {/* Stats + hiring */}
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-[11px] text-muted/50">👥 {team.member_count} members</span>
+        <span className="text-[11px] text-muted/85">👥 {team.member_count} members</span>
         {team.is_hiring && (
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 border border-green-500/30">
             Hiring
@@ -78,7 +78,7 @@ export function TeamCard({ team }: TeamCardProps) {
             </span>
           ))}
           {team.roles_needed.length > 2 && (
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/50">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">
               +{team.roles_needed.length - 2}
             </span>
           )}

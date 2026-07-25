@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/components/bundles/BundlesSection.tsx
  *
  * Homepage section — "Creator Bundles".
@@ -44,7 +44,7 @@ export async function BundlesSection() {
               Save more.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -55,7 +55,7 @@ export async function BundlesSection() {
             </h2>
 
             {/* Sub-heading */}
-            <p className="text-[0.9375rem] text-muted/60 max-w-md leading-relaxed">
+            <p className="text-[0.9375rem] text-muted/85 max-w-md leading-relaxed">
               Curated collections at 60–74% off individual pack prices.
             </p>
           </div>
@@ -63,7 +63,7 @@ export async function BundlesSection() {
           {/* "View all" CTA — desktop only (repeated below on mobile) */}
           <Link
             href="/bundles"
-            className="hidden sm:inline-flex items-center gap-2 text-[0.8125rem] font-semibold text-muted/50 hover:text-gold transition-colors whitespace-nowrap"
+            className="hidden sm:inline-flex items-center gap-2 text-[0.8125rem] font-semibold text-muted/85 hover:text-gold transition-colors whitespace-nowrap"
           >
             View all bundles
             <ArrowRightIcon />
@@ -77,7 +77,7 @@ export async function BundlesSection() {
         <div className="mt-10 flex justify-center sm:hidden">
           <Link
             href="/bundles"
-            className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface-2 px-7 py-3 text-[0.9375rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all duration-200"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface-2 px-7 py-3 text-[0.9375rem] font-semibold text-muted/92 hover:border-gold/30 hover:text-foreground transition-all duration-200"
           >
             View all bundles
             <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>

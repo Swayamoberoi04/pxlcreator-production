@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import Link  from "next/link"
 import Image from "next/image"
 import { Container } from "@/components/layout/Container"
@@ -301,7 +301,7 @@ function CourseStat({ icon, label, gold }: { icon: React.ReactNode; label: strin
 function PlayIcon({ small }: { small?: boolean }) {
   const s = small ? 12 : 14
   return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor" className="text-white/80 translate-x-0.5" aria-hidden="true">
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor" className="text-white/92 translate-x-0.5" aria-hidden="true">
       <polygon points="5 3 19 12 5 21 5 3" />
     </svg>
   )
