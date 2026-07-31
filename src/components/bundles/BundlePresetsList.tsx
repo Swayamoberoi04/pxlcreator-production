@@ -66,29 +66,29 @@ export function BundlePresetsList({ packs, className }: BundlePresetsListProps) 
                 </span>
                 {/* Category chip */}
                 <span className={cn(
-                  "text-[0.6rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 border border-current/20",
+                  "text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 border border-current/20",
                   style.bg,
                   style.text
                 )}>
                   {pack.category}
                 </span>
                 {isFreeBonus && (
-                  <span className="text-[0.6rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 bg-emerald-500/10 text-emerald-400/80 border border-emerald-500/20">
+                  <span className="text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 bg-emerald-500/10 text-emerald-400/80 border border-emerald-500/20">
                     FREE BONUS
                   </span>
                 )}
               </div>
-              <p className="text-[0.8rem] text-muted/85 mt-0.5 leading-relaxed">
+              <p className="text-[0.8125rem] text-muted/85 mt-0.5 leading-relaxed">
                 {pack.description}
               </p>
             </div>
 
             {/* Right: count + price */}
             <div className="flex-shrink-0 text-right">
-              <p className="text-[1.1rem] font-black text-gold leading-none">
+              <p className="text-[1.125rem] font-bold text-gold leading-none">
                 {pack.presetCount}
               </p>
-              <p className="text-[0.6rem] font-medium text-muted/70 mt-0.5 tracking-wide">
+              <p className="text-[0.625rem] font-medium text-muted/70 mt-0.5 tracking-wide">
                 presets
               </p>
               {pack.priceUsd !== undefined && (
@@ -115,7 +115,7 @@ export function BundlePresetsList({ packs, className }: BundlePresetsListProps) 
       {/* Total individual value row */}
       {totalIndividual > 0 && (
         <div className="flex items-center justify-between px-4 py-2.5 rounded-xl border border-border/30 bg-surface/30 mt-1">
-          <span className="text-[0.8rem] text-muted/85 font-medium">
+          <span className="text-[0.8125rem] text-muted/85 font-medium">
             Total if bought separately
           </span>
           <span className="text-[0.875rem] font-bold text-muted/85 line-through">

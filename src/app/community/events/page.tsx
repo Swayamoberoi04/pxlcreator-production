@@ -84,7 +84,7 @@ function SampleEventCard({ event, i }: { event: typeof SAMPLE_EVENTS[0]; i: numb
       <div className="flex items-start gap-3 pr-16">
         <span className="text-[1.75rem]">{EVENT_ICONS[event.event_type] ?? "✦"}</span>
         <div>
-          <h3 className="font-display font-black text-[1rem] text-foreground leading-tight">{event.title}</h3>
+          <h3 className="font-display font-bold text-[1rem] text-foreground leading-tight">{event.title}</h3>
           <p className="text-[0.75rem] text-muted/85 capitalize mt-0.5">
             {event.event_type} · {event.is_online ? "Online" : event.location ?? "In-person"}
           </p>
@@ -137,7 +137,7 @@ export default function EventsPage() {
     <div className="flex flex-col gap-8">
       {/* Hero */}
       <div>
-        <h1 className="font-display font-black text-[1.75rem] text-foreground">Community Events</h1>
+        <h1 className="font-display font-bold text-[1.75rem] text-foreground">Community Events</h1>
         <p className="text-[0.9375rem] text-muted/85 mt-1">Challenges, contests, workshops and meetups for creators.</p>
       </div>
 
@@ -171,7 +171,7 @@ export default function EventsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-[1.75rem]">{EVENT_ICONS[event.event_type] ?? "✦"}</span>
                   <div>
-                    <h3 className="font-display font-black text-[1rem] text-foreground leading-tight">{event.title}</h3>
+                    <h3 className="font-display font-bold text-[1rem] text-foreground leading-tight">{event.title}</h3>
                     <p className="text-[0.75rem] text-muted/85 capitalize mt-0.5">
                       {event.event_type} · {event.is_online ? "Online" : event.location ?? "In-person"}
                     </p>
@@ -201,7 +201,7 @@ export default function EventsPage() {
           <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
             <span className="text-2xl">💡</span>
             <div>
-              <p className="font-display font-black text-sm text-foreground">Community events launching soon</p>
+              <p className="font-display font-bold text-sm text-foreground">Community events launching soon</p>
               <p className="text-xs text-muted/85 mt-0.5">Preview the contests and challenges coming to PXL Creator</p>
             </div>
           </div>

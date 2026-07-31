@@ -41,7 +41,7 @@ export function PresetRecommendCard({ recommendation }: PresetRecommendCardProps
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1">
           <p className="text-label text-muted/85 tracking-widest">Recommended preset</p>
-          <h3 className="font-display font-bold text-foreground text-[1.0625rem] leading-snug">
+          <h3 className="font-display font-bold text-foreground text-[1rem] leading-snug">
             {recommendation.presetName}
           </h3>
           <p className="text-[0.8125rem] text-muted leading-snug">{recommendation.tagline}</p>
@@ -49,7 +49,7 @@ export function PresetRecommendCard({ recommendation }: PresetRecommendCardProps
 
         {/* Price badge */}
         <div className="shrink-0 rounded-xl border border-border bg-background px-3.5 py-2 text-center">
-          <span className="font-display font-black text-foreground text-[1.1rem] leading-none">
+          <span className="font-display font-bold text-foreground text-[1.125rem] leading-none">
             {recommendation.price === 0 ? "Free" : `$${recommendation.price}`}
           </span>
         </div>

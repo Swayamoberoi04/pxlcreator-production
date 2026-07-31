@@ -65,13 +65,13 @@ function PresetCard({ preset, accentColor }: { preset: PersonalizedPreset; accen
           {/* Badges */}
           <div className="absolute top-2 left-2 flex flex-col gap-1">
             {preset.is_free && (
-              <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500 text-white">FREE</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500 text-white">FREE</span>
             )}
             {preset.badge && (
-              <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-gold text-background">{preset.badge}</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-gold text-background">{preset.badge}</span>
             )}
             {discount && !preset.is_free && (
-              <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-red-500 text-white">-{discount}%</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-red-500 text-white">-{discount}%</span>
             )}
           </div>
           {/* Match score */}
@@ -79,18 +79,18 @@ function PresetCard({ preset, accentColor }: { preset: PersonalizedPreset; accen
             <div className="absolute top-2 right-2">
               <div className="flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-sm px-2 py-0.5">
                 <span className="h-1.5 w-1.5 rounded-full" style={{ background: accentColor }} />
-                <span className="text-[9px] font-black text-white">{preset.affinityScore}% match</span>
+                <span className="text-[9px] font-bold text-white">{preset.affinityScore}% match</span>
               </div>
             </div>
           )}
         </div>
 
         <div className="p-4 flex flex-col gap-1.5">
-          <p className="font-display font-black text-sm text-foreground line-clamp-1">{preset.name}</p>
+          <p className="font-display font-bold text-sm text-foreground line-clamp-1">{preset.name}</p>
           <p className="text-[0.75rem] text-muted/85 line-clamp-1">{preset.tagline}</p>
           <div className="flex items-center justify-between mt-1">
             <div className="flex items-center gap-2">
-              <span className="font-display font-black text-sm text-foreground">
+              <span className="font-display font-bold text-sm text-foreground">
                 {preset.is_free ? "Free" : `$${preset.price}`}
               </span>
               {preset.original_price && preset.original_price > preset.price && !preset.is_free && (
@@ -168,7 +168,7 @@ export default function PersonalizedStorePage() {
             <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: accentColor }} />
           )}
         </div>
-        <h1 className="font-display font-black text-[2rem] sm:text-[2.5rem] text-foreground leading-tight">
+        <h1 className="font-display font-bold text-[2rem] sm:text-[2.5rem] text-foreground leading-tight">
           {headline}
         </h1>
         {personalized && topAffinities.length > 0 && (
@@ -197,7 +197,7 @@ export default function PersonalizedStorePage() {
       ) : (
         <div className="flex flex-col items-center gap-4 py-20 text-center">
           <span className="text-4xl">◈</span>
-          <p className="font-display font-black text-lg text-foreground">No presets found</p>
+          <p className="font-display font-bold text-lg text-foreground">No presets found</p>
           <Link href="/store" className="text-gold hover:underline text-sm">Browse the full store →</Link>
         </div>
       )}

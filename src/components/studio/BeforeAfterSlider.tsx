@@ -187,7 +187,7 @@ function DragHint({ position }: { position: number }) {
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/85">
         <polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(12 0)"/>
       </svg>
-      <span className="text-[0.72rem] font-medium text-white/85">Drag to compare</span>
+      <span className="text-[0.75rem] font-medium text-white/85">Drag to compare</span>
     </div>
   )
 }

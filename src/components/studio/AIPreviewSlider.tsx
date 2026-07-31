@@ -190,7 +190,7 @@ export function AIPreviewSlider({
 
       {/* Truth-in-preview footnote — persistent while the AI preview shows */}
       {isReady && (
-        <p className="text-[0.72rem] text-muted/85 leading-relaxed px-1">
+        <p className="text-[0.75rem] text-muted/85 leading-relaxed px-1">
           AI-visualized preview of this preset&apos;s style — the exact output in
           Lightroom may differ slightly.
         </p>

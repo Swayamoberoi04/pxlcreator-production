@@ -59,7 +59,7 @@ export function ChannelCard({ channel }: ChannelCardProps) {
           <span className="text-2xl leading-none">{channel.icon || "💬"}</span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-display font-black text-sm text-foreground group-hover:text-gold transition-colors truncate">
+              <h3 className="font-display font-bold text-sm text-foreground group-hover:text-gold transition-colors truncate">
                 {channel.name}
               </h3>
               {channel.is_featured && (

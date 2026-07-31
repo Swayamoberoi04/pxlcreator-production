@@ -65,7 +65,7 @@ export default async function BundlesPage() {
 
           {/* Title */}
           <CinematicReveal variant="depth" delay={0.07}>
-            <h1 className="font-display text-[2.5rem] sm:text-[3.25rem] font-black leading-[1.05] text-foreground mb-5">
+            <h1 className="font-display text-[2.5rem] sm:text-[3.25rem] font-bold leading-[1.05] text-foreground mb-5">
               Buy less.{" "}
               <br className="sm:hidden" />
               <span
@@ -83,7 +83,7 @@ export default async function BundlesPage() {
 
           {/* Subtitle */}
           <CinematicReveal variant="rise" delay={0.13}>
-            <p className="text-[1rem] sm:text-[1.0625rem] text-muted/85 leading-relaxed max-w-xl mx-auto mb-10">
+            <p className="text-[1rem] sm:text-[1rem] text-muted/85 leading-relaxed max-w-xl mx-auto mb-10">
               {bundles.length} hand-curated bundles. {totalPresets}+ presets total.
               Each collection saves you 60–68% vs buying individual packs.
             </p>
@@ -99,8 +99,8 @@ export default async function BundlesPage() {
             ].map(({ value, label }) => (
               <CinematicItem key={label} variant="rise">
                 <div>
-                  <p className="text-[1.35rem] font-black text-gold leading-none">{value}</p>
-                  <p className="text-[0.68rem] font-medium text-muted/70 mt-1 tracking-wide uppercase">
+                  <p className="text-[1.375rem] font-bold text-gold leading-none">{value}</p>
+                  <p className="text-[0.6875rem] font-medium text-muted/70 mt-1 tracking-wide uppercase">
                     {label}
                   </p>
                 </div>
@@ -118,7 +118,7 @@ export default async function BundlesPage() {
           {/* Section label */}
           <CinematicReveal variant="rise">
             <div className="flex items-center justify-between mb-8">
-              <p className="text-[0.8rem] font-medium text-muted/70">
+              <p className="text-[0.8125rem] font-medium text-muted/70">
                 {bundles.length} bundle{bundles.length !== 1 ? "s" : ""} available
               </p>
 
@@ -141,10 +141,10 @@ export default async function BundlesPage() {
         <div className="relative z-10 mx-auto max-w-2xl text-center">
           <CinematicReveal variant="depth">
             <div className="rounded-2xl border border-gold/15 bg-surface/60 backdrop-blur-sm px-8 py-10 shadow-[0_0_60px_rgba(255,214,10,0.05)]">
-              <p className="text-[0.8rem] font-bold tracking-widest uppercase text-gold/55 mb-3">
+              <p className="text-[0.8125rem] font-bold tracking-widest uppercase text-gold/55 mb-3">
                 Need individual presets instead?
               </p>
-              <h3 className="font-display text-[1.4rem] font-bold text-foreground mb-3">
+              <h3 className="font-display text-[1.375rem] font-bold text-foreground mb-3">
                 Browse the full preset store
               </h3>
               <p className="text-[0.875rem] text-muted/85 mb-6 leading-relaxed">

@@ -57,7 +57,7 @@ export default function OnboardingPage() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="font-display font-black text-[1.125rem] text-foreground">
+          <p className="font-display font-bold text-[1.125rem] text-foreground">
             Preparing your creative universe…
           </p>
           <p className="text-[0.875rem] text-muted/85">

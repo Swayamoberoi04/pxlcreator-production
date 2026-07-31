@@ -76,7 +76,7 @@ export function NewsletterForm({
         {submitting ? "..." : ctaLabel}
       </button>
       {error && (
-        <p className="text-[0.78rem] text-red-400 sm:col-span-2">{error}</p>
+        <p className="text-[0.8125rem] text-red-400 sm:col-span-2">{error}</p>
       )}
     </form>
   )

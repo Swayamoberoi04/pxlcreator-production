@@ -138,7 +138,7 @@ export function PresetTable() {
                   <Image src={preset.thumbnail_url} alt={preset.title} fill sizes="64px" className="object-cover" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white/70 text-[0.6rem]">No img</span>
+                    <span className="text-white/70 text-[0.625rem]">No img</span>
                   </div>
                 )}
               </div>

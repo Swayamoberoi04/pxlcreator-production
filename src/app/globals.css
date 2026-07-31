@@ -118,6 +118,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /*
+   * Never let the browser fake a font weight. Bebas Neue ships a single 400
+   * weight, so any bold class on a heading would otherwise be synthesised into
+   * a smeared faux-bold. DM Sans loads real 300–700, so true weights are used.
+   */
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  /*
    * Prevent accidental horizontal scroll on mobile from off-screen elements
    * without creating a new stacking context on html (which breaks fixed pos).
    */

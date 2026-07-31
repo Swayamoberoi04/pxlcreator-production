@@ -66,7 +66,7 @@ function DayBubble({
   accentColor: string
   onClick:     () => void
 }) {
-  const base = "relative flex items-center justify-center rounded-full text-[0.7rem] font-black transition-all duration-200 cursor-pointer select-none"
+  const base = "relative flex items-center justify-center rounded-full text-[0.7rem] font-bold transition-all duration-200 cursor-pointer select-none"
   const size = "size-9 sm:size-10"
 
   let style: React.CSSProperties = {}
@@ -123,14 +123,14 @@ function DayDetail({
       {/* Day header */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border" style={{ borderLeftColor: accentColor, borderLeftWidth: 3 }}>
         <div
-          className="shrink-0 size-9 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-black"
+          className="shrink-0 size-9 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-bold"
           style={{ borderColor: isCompleted ? accentColor : "rgba(255,255,255,0.15)", background: isCompleted ? `${accentColor}20` : "transparent", color: isCompleted ? accentColor : "rgba(255,255,255,0.4)" }}
         >
           {isCompleted ? "✓" : dayData.day}
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70 mb-0.5">Day {dayData.day}</p>
-          <p className="font-display font-black text-[1rem] text-foreground leading-tight">{dayData.title}</p>
+          <p className="font-display font-bold text-[1rem] text-foreground leading-tight">{dayData.title}</p>
         </div>
         <span className="shrink-0 text-xs text-muted/70">⏱ {dayData.estimatedMinutes} min</span>
       </div>
@@ -443,7 +443,7 @@ export default function ChallengePage() {
                       {totalDays} days
                     </span>
                   </div>
-                  <h1 className="font-display font-black text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
+                  <h1 className="font-display font-bold text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
                     {challenge.title}
                   </h1>
                   <p className="text-[0.8125rem] text-muted/85 mt-1">{challenge.tagline}</p>
@@ -499,7 +499,7 @@ export default function ChallengePage() {
           {/* ── Day grid ── */}
           <section className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">
+              <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">
                 All Days
               </h2>
               {doneCount > 0 && (

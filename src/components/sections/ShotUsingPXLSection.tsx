@@ -146,7 +146,7 @@ export function ShotUsingPXLSection() {
               <span className="text-label text-gold/70 tracking-[0.2em] animate-gold-flicker">Shot Using PXL</span>
               <span className="h-px w-8 bg-gold/50 animate-gold-flicker" aria-hidden="true" />
             </div>
-            <h2 className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
+            <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
               Real results.{" "}
               <span
                 style={{
@@ -195,7 +195,7 @@ export function ShotUsingPXLSection() {
             </Link>
             <Link
               href="/store"
-              className="group inline-flex items-center gap-2 text-[0.9rem] text-muted/85 hover:text-foreground transition-colors"
+              className="group inline-flex items-center gap-2 text-[0.875rem] text-muted/85 hover:text-foreground transition-colors"
             >
               Browse all presets
               <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>
@@ -233,7 +233,7 @@ function GalleryCard({ img }: { img: GalleryImage }) {
         <div className="px-3 pb-3 flex items-end justify-between gap-2">
           <p className="font-display font-bold text-[0.8125rem] text-white leading-none truncate">{img.preset}</p>
           <span
-            className="text-[0.6rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 border shrink-0 backdrop-blur-sm"
+            className="text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 border shrink-0 backdrop-blur-sm"
             style={{
               color:           img.accent,
               borderColor:     `${img.accent}45`,

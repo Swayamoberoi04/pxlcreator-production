@@ -84,7 +84,7 @@ export function BeforeAfterSection() {
               <span className="text-label text-gold/70 tracking-[0.2em] animate-gold-flicker">See The Difference</span>
               <span className="h-px w-8 bg-gold/50 animate-gold-flicker" aria-hidden="true" />
             </div>
-            <h2 className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
+            <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
               Every mood.{" "}
               <span
                 style={{

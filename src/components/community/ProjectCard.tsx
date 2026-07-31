@@ -70,7 +70,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Title + description */}
       <div>
-        <h3 className="font-display font-black text-base text-foreground line-clamp-1">{project.title}</h3>
+        <h3 className="font-display font-bold text-base text-foreground line-clamp-1">{project.title}</h3>
         <p className="mt-1 text-xs text-muted/85 line-clamp-2">{project.description}</p>
       </div>
 

@@ -42,7 +42,7 @@ export default async function AdminDashboardPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( PXL CREATOR ADMIN )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Dashboard
         </h1>
         <p className="text-[0.875rem] text-white/70">
@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
             key={label}
             className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 flex flex-col gap-2"
           >
-            <span className={`font-display font-black text-[2rem] leading-none ${color}`}>
+            <span className={`font-display font-bold text-[2rem] leading-none ${color}`}>
               {value}
             </span>
             <span className="text-[0.75rem] text-white/70 font-medium">

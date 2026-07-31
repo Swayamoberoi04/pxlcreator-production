@@ -54,8 +54,8 @@ export default function ForgotPasswordPage() {
         {/* Brand */}
         <div className="flex flex-col items-center gap-6 mb-8">
           <Link href="/" className="flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
-            <span className="font-display text-[1.1rem] font-bold tracking-widest text-foreground/90 uppercase">PXL</span>
-            <span className="font-display text-[1.1rem] font-bold tracking-widest text-gold logo-glow uppercase">&nbsp;CREATOR</span>
+            <span className="font-display text-[1.125rem] font-bold tracking-widest text-foreground/90 uppercase">PXL</span>
+            <span className="font-display text-[1.125rem] font-bold tracking-widest text-gold logo-glow uppercase">&nbsp;CREATOR</span>
           </Link>
         </div>
 

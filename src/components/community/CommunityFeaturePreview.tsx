@@ -124,12 +124,12 @@ export function CommunityFeaturePreview({
         <div className="relative z-10 flex flex-col items-center gap-4">
           <span className="text-6xl">{v.icon}</span>
           <div>
-            <h2 className={`font-display font-black text-2xl md:text-3xl ${colors.text}`}>{v.headline}</h2>
+            <h2 className={`font-display font-bold text-2xl md:text-3xl ${colors.text}`}>{v.headline}</h2>
             <p className="text-sm text-muted/92 mt-2 max-w-xl mx-auto leading-relaxed">{v.sub}</p>
           </div>
           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${colors.border} ${colors.bg}`}>
             <span className="text-xs font-bold uppercase tracking-widest text-muted/85">Expected Launch</span>
-            <span className={`text-xs font-black uppercase tracking-widest ${colors.text}`}>{launch}</span>
+            <span className={`text-xs font-bold uppercase tracking-widest ${colors.text}`}>{launch}</span>
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@ export function CommunityFeaturePreview({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Roadmap */}
         <div className="rounded-2xl border border-border bg-surface p-6 flex flex-col gap-4">
-          <h3 className="font-display font-black text-sm uppercase tracking-widest text-muted/85">Roadmap Preview</h3>
+          <h3 className="font-display font-bold text-sm uppercase tracking-widest text-muted/85">Roadmap Preview</h3>
           <div className="flex flex-col gap-3">
             {roadmap.map((item, i) => (
               <div key={i} className="flex items-center gap-3">
@@ -149,7 +149,7 @@ export function CommunityFeaturePreview({
                   {item.done && <span className={`text-[10px] ${colors.text}`}>✓</span>}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className={`text-xs font-black ${item.done ? colors.text : "text-muted/70"}`}>{item.quarter}</span>
+                  <span className={`text-xs font-bold ${item.done ? colors.text : "text-muted/70"}`}>{item.quarter}</span>
                   <span className="mx-2 text-muted/70">·</span>
                   <span className={`text-xs ${item.done ? "text-foreground" : "text-muted/85"}`}>{item.label}</span>
                 </div>
@@ -163,7 +163,7 @@ export function CommunityFeaturePreview({
 
         {/* Community Benefits */}
         <div className="rounded-2xl border border-border bg-surface p-6 flex flex-col gap-4">
-          <h3 className="font-display font-black text-sm uppercase tracking-widest text-muted/85">Why Join Early</h3>
+          <h3 className="font-display font-bold text-sm uppercase tracking-widest text-muted/85">Why Join Early</h3>
           <div className="flex flex-col gap-3">
             {benefits.map((b, i) => (
               <div key={i} className="flex items-start gap-3">
@@ -179,7 +179,7 @@ export function CommunityFeaturePreview({
       <div className="rounded-2xl border border-border bg-surface p-6 md:p-8">
         <div className="max-w-lg mx-auto flex flex-col gap-5">
           <div className="text-center">
-            <h3 className="font-display font-black text-lg text-foreground">Get Notified at Launch</h3>
+            <h3 className="font-display font-bold text-lg text-foreground">Get Notified at Launch</h3>
             <p className="text-sm text-muted/85 mt-1">Join the waitlist and we&#39;ll notify you the moment this goes live.</p>
           </div>
 
@@ -190,7 +190,7 @@ export function CommunityFeaturePreview({
               className={`rounded-2xl border ${colors.border} ${colors.bg} p-6 text-center`}
             >
               <span className="text-3xl">🎉</span>
-              <p className={`font-display font-black text-base mt-2 ${colors.text}`}>You&#39;re on the list!</p>
+              <p className={`font-display font-bold text-base mt-2 ${colors.text}`}>You&#39;re on the list!</p>
               <p className="text-sm text-muted/85 mt-1">We&#39;ll email you when this feature launches.</p>
             </motion.div>
           ) : (
@@ -216,7 +216,7 @@ export function CommunityFeaturePreview({
               <button
                 type="submit"
                 disabled={submitting}
-                className={`w-full rounded-xl px-6 py-3 text-sm font-black transition-all duration-150 disabled:opacity-60 ${colors.btn}`}
+                className={`w-full rounded-xl px-6 py-3 text-sm font-bold transition-all duration-150 disabled:opacity-60 ${colors.btn}`}
               >
                 {submitting ? "Joining…" : "Notify Me When It Launches"}
               </button>

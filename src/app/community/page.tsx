@@ -31,7 +31,7 @@ function StatPill({ label, value, delay }: { label: string; value: number; delay
       transition={{ duration: 0.6, ease: EASE, delay }}
       className="rounded-full border border-gold/20 bg-gold/5 px-5 py-2 text-sm"
     >
-      <span className="font-black text-gold">{(value ?? 0).toLocaleString()}</span>
+      <span className="font-bold text-gold">{(value ?? 0).toLocaleString()}</span>
       <span className="text-muted/85 ml-1.5">{label}</span>
     </motion.div>
   )
@@ -148,7 +148,7 @@ export default function CommunityHubPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="font-display font-black text-4xl md:text-5xl text-foreground"
+          className="font-display font-bold text-4xl md:text-5xl text-foreground"
         >
           PXL Creator{" "}
           <span className="text-gold">Community</span>
@@ -190,10 +190,10 @@ export default function CommunityHubPage() {
             variants={SECTION_HEADER_VARIANTS}
           >
             <div>
-              <h2 className="font-display font-black text-xl text-foreground">
+              <h2 className="font-display font-bold text-xl text-foreground">
                 Recommended For You
               </h2>
-              <p className="text-[0.8rem] text-muted/85 mt-0.5">Based on your creative profile</p>
+              <p className="text-[0.8125rem] text-muted/85 mt-0.5">Based on your creative profile</p>
             </div>
             <Link href="/account#preferences" className="text-sm text-gold hover:underline">
               Edit profile →
@@ -215,7 +215,7 @@ export default function CommunityHubPage() {
                     <div key={profile.id} className="shrink-0 w-64 relative">
                       <CreatorCard profile={profile} compact showFollowButton />
                       {profile.matchPct > 0 && (
-                        <span className="absolute top-2 right-2 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.6rem] font-bold text-gold/90">
+                        <span className="absolute top-2 right-2 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.625rem] font-bold text-gold/90">
                           {profile.matchPct}% match
                         </span>
                       )}
@@ -245,7 +245,7 @@ export default function CommunityHubPage() {
           viewport={{ once: true, margin: "-20px" }}
           variants={SECTION_HEADER_VARIANTS}
         >
-          <h2 className="font-display font-black text-xl text-foreground">Featured Channels</h2>
+          <h2 className="font-display font-bold text-xl text-foreground">Featured Channels</h2>
           <Link href="/community/channels" className="text-sm text-gold hover:underline">
             Browse all →
           </Link>
@@ -273,7 +273,7 @@ export default function CommunityHubPage() {
           viewport={{ once: true, margin: "-20px" }}
           variants={SECTION_HEADER_VARIANTS}
         >
-          <h2 className="font-display font-black text-xl text-foreground">Discover Creators</h2>
+          <h2 className="font-display font-bold text-xl text-foreground">Discover Creators</h2>
           <Link href="/community/discover" className="text-sm text-gold hover:underline">
             See all →
           </Link>
@@ -307,7 +307,7 @@ export default function CommunityHubPage() {
           viewport={{ once: true, margin: "-20px" }}
           variants={SECTION_HEADER_VARIANTS}
         >
-          <h2 className="font-display font-black text-xl text-foreground">Open Projects</h2>
+          <h2 className="font-display font-bold text-xl text-foreground">Open Projects</h2>
           <Link href="/community/projects" className="text-sm text-gold hover:underline">
             Browse all →
           </Link>
@@ -363,7 +363,7 @@ export default function CommunityHubPage() {
               className="group flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 hover:border-gold/40 hover:bg-surface-2 transition-colors h-full"
             >
               <div>
-                <h3 className="font-display font-black text-base text-foreground group-hover:text-gold transition-colors">
+                <h3 className="font-display font-bold text-base text-foreground group-hover:text-gold transition-colors">
                   {card.title}
                 </h3>
                 <p className="text-xs text-muted/85 mt-1">{card.desc}</p>

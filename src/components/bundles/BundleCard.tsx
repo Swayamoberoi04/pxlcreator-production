@@ -28,7 +28,7 @@ import { cn }                 from "@/lib/utils"
 /* ── Badge colour map ──────────────────────────────────── */
 
 const BADGE_STYLES: Record<string, string> = {
-  "BESTSELLER":       "bg-gold text-[#0a0800] font-black",
+  "BESTSELLER":       "bg-gold text-[#0a0800] font-bold",
   "MOST POPULAR":     "bg-amber-400/20 text-amber-300 border border-amber-400/30",
   "CREATOR FAVORITE": "bg-pink-500/20  text-pink-300  border border-pink-500/30",
   "PRO LEVEL":        "bg-violet-500/20 text-violet-300 border border-violet-500/30",
@@ -128,7 +128,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
         {/* Bundle badge — top-left */}
         <div className="absolute top-3 left-3 z-10">
           <span className={cn(
-            "inline-block text-[0.6rem] font-black tracking-widest uppercase rounded-full px-2.5 py-[5px]",
+            "inline-block text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-[5px]",
             badgeStyle
           )}>
             {bundle.bundleBadge}
@@ -159,7 +159,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
         </Link>
 
         {/* Tagline */}
-        <p className="text-[0.8rem] text-muted/85 leading-relaxed line-clamp-1 -mt-1">
+        <p className="text-[0.8125rem] text-muted/85 leading-relaxed line-clamp-1 -mt-1">
           {bundle.tagline}
         </p>
 
@@ -170,7 +170,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
               key={pack.name}
               title={`${pack.name} — ${pack.presetCount} presets`}
               className={cn(
-                "flex items-center gap-1.5 text-[0.68rem] font-medium",
+                "flex items-center gap-1.5 text-[0.6875rem] font-medium",
                 "text-muted/85 bg-surface-2/60 rounded-lg px-2 py-1.5 border border-border/40"
               )}
             >
@@ -205,7 +205,7 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
               </p>
               {/* Bundle price — big and gold */}
               <p
-                className="font-display font-black text-[1.4rem] leading-none text-gold"
+                className="font-display font-bold text-[1.375rem] leading-none text-gold"
                 suppressHydrationWarning
               >
                 {formatPrice(bundle.price, displayCurrency)}
@@ -215,10 +215,10 @@ export function BundleCard({ bundle, className }: BundleCardProps) {
             {/* Savings badge */}
             {savingsPercent > 0 && (
               <div className="flex-shrink-0 text-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 min-w-[58px]">
-                <p className="text-[0.58rem] font-bold text-emerald-400/60 leading-none mb-0.5 tracking-wider uppercase">
+                <p className="text-[0.625rem] font-bold text-emerald-400/60 leading-none mb-0.5 tracking-wider uppercase">
                   Save
                 </p>
-                <p className="text-[1.05rem] font-black text-emerald-400 leading-none">
+                <p className="text-[1rem] font-bold text-emerald-400 leading-none">
                   {savingsPercent}%
                 </p>
               </div>

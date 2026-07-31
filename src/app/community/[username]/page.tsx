@@ -87,7 +87,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
 
   if (notFound || !data) return (
     <div className="text-center py-20">
-      <p className="font-display font-black text-[1.5rem] text-foreground">Creator not found</p>
+      <p className="font-display font-bold text-[1.5rem] text-foreground">Creator not found</p>
       <Link href="/community/discover" className="text-gold mt-4 inline-block hover:underline">
         ← Discover Creators
       </Link>
@@ -112,7 +112,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
       <div className="flex items-end justify-between gap-4 -mt-14 px-2">
         <div className="flex items-end gap-4">
           {/* Avatar */}
-          <div className="w-20 h-20 shrink-0 rounded-full border-4 border-black bg-gold/20 flex items-center justify-center text-[1.75rem] font-black text-gold overflow-hidden">
+          <div className="w-20 h-20 shrink-0 rounded-full border-4 border-black bg-gold/20 flex items-center justify-center text-[1.75rem] font-bold text-gold overflow-hidden">
             {profile.avatar_url ? (
               <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
             ) : (
@@ -121,7 +121,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
           </div>
           <div className="pb-1">
             <div className="flex items-center gap-2">
-              <h1 className="font-display font-black text-[1.375rem] text-foreground">{profile.display_name}</h1>
+              <h1 className="font-display font-bold text-[1.375rem] text-foreground">{profile.display_name}</h1>
               {profile.is_verified && (
                 <span className="text-gold text-[0.875rem]" title="Verified">✓</span>
               )}
@@ -201,7 +201,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
             { label: "Rep Score",  value: profile.reputation_score },
           ].map(s => (
             <div key={s.label} className="flex flex-col">
-              <span className="font-display font-black text-[1.25rem] text-foreground">{s.value.toLocaleString()}</span>
+              <span className="font-display font-bold text-[1.25rem] text-foreground">{s.value.toLocaleString()}</span>
               <span className="text-[0.75rem] text-muted/85">{s.label}</span>
             </div>
           ))}
@@ -358,7 +358,7 @@ function EditProfileModal({
         className="relative z-10 w-full max-w-lg rounded-2xl border border-border bg-black/90 p-6 flex flex-col gap-4 my-8"
       >
         <div className="flex items-center justify-between">
-          <h2 className="font-display font-black text-[1.125rem]">Edit Profile</h2>
+          <h2 className="font-display font-bold text-[1.125rem]">Edit Profile</h2>
           <button type="button" onClick={onClose} className="text-muted/70 hover:text-muted text-[1.5rem] leading-none">×</button>
         </div>
 

@@ -78,14 +78,14 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
               className="size-14 rounded-full object-cover shrink-0"
             />
           ) : (
-            <span className="size-14 rounded-full bg-gold/20 flex items-center justify-center text-gold font-black text-xl shrink-0">
+            <span className="size-14 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-xl shrink-0">
               {initial}
             </span>
           )}
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <h3 className="font-display font-black text-base text-foreground truncate">{profile.display_name}</h3>
+              <h3 className="font-display font-bold text-base text-foreground truncate">{profile.display_name}</h3>
               {profile.is_verified && (
                 <span className="text-gold text-xs" title="Verified">✓</span>
               )}

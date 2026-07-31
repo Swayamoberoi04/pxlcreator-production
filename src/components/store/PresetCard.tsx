@@ -141,7 +141,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
         {/* Conversion tag chip */}
         {preset.conversionTag && convTagStyle && (
           <span className={cn(
-            "self-start text-[0.6rem] font-black tracking-widest uppercase rounded-full px-2.5 py-[4px] border",
+            "self-start text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-[4px] border",
             convTagStyle
           )}>
             {preset.conversionTag}
@@ -204,7 +204,7 @@ export function PresetCard({ preset, className }: PresetCardProps) {
                 </span>
                 {/* Alt currency — secondary, smaller */}
                 <span
-                  className="text-[0.68rem] text-muted/70 leading-none"
+                  className="text-[0.6875rem] text-muted/70 leading-none"
                   suppressHydrationWarning
                 >
                   {formatPrice(preset.price, altCurrency)}

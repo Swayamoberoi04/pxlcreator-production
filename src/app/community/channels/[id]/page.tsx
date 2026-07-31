@@ -82,7 +82,7 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
 
   if (!channel) return (
     <div className="text-center py-20">
-      <p className="font-display font-black text-[1.5rem] text-foreground">Channel not found</p>
+      <p className="font-display font-bold text-[1.5rem] text-foreground">Channel not found</p>
       <Link href="/community/channels" className="text-gold mt-4 inline-block hover:underline">← Back to Channels</Link>
     </div>
   )
@@ -99,7 +99,7 @@ export default function ChannelDetailPage({ params }: { params: Promise<{ id: st
             </span>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-display font-black text-[1.25rem] text-foreground">{channel.name}</h1>
+                <h1 className="font-display font-bold text-[1.25rem] text-foreground">{channel.name}</h1>
                 {channel.is_verified && <span className="text-gold">✓</span>}
               </div>
               <p className="text-[0.8125rem] text-muted/85">

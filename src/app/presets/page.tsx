@@ -64,7 +64,7 @@ export default async function PresetsPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="depth" delay={0.07}>
-              <h1 className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.04] tracking-tight text-foreground">
+              <h1 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.04] tracking-tight text-foreground">
                 Our most-loved<br />
                 <span
                   style={{
@@ -117,7 +117,7 @@ export default async function PresetsPage() {
             <div className="flex items-center justify-between gap-4 mb-8">
               <div className="flex items-center gap-3">
                 <span className="h-px w-6 bg-gold/60" aria-hidden="true" />
-                <h2 className="font-display font-black text-[1.125rem] text-foreground tracking-tight">
+                <h2 className="font-display font-bold text-[1.125rem] text-foreground tracking-tight">
                   ( Creator Bundles )
                 </h2>
               </div>
@@ -153,7 +153,7 @@ export default async function PresetsPage() {
             <div className="flex items-center justify-between gap-4 mb-8">
               <div className="flex items-center gap-3">
                 <span className="h-px w-6 bg-gold/60" aria-hidden="true" />
-                <h2 className="font-display font-black text-[1.125rem] text-foreground tracking-tight">
+                <h2 className="font-display font-bold text-[1.125rem] text-foreground tracking-tight">
                   ( Featured Packs )
                 </h2>
               </div>
@@ -227,7 +227,7 @@ function CreatorVaultSection() {
 
           {/* Main headline */}
           <CinematicReveal variant="depth" delay={0.08}>
-            <h2 className="font-display font-black text-[clamp(2.8rem,8vw,6rem)] leading-[0.96] tracking-[-0.02em] mb-0">
+            <h2 className="font-display font-bold text-[clamp(2.8rem,8vw,6rem)] leading-[0.96] tracking-[-0.02em] mb-0">
               <span className="block text-white/90">Discover the</span>
               <span
                 className="block"
@@ -287,7 +287,7 @@ function CreatorVaultSection() {
               {/* Method 1 */}
               <div className="flex flex-col items-center sm:items-start gap-3 text-center sm:text-left">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/25 bg-gold/[0.08]">
-                  <span className="font-display font-black text-[0.875rem] text-gold">①</span>
+                  <span className="font-display font-bold text-[0.875rem] text-gold">①</span>
                 </div>
                 <p className="text-[0.875rem] text-muted/85 leading-relaxed max-w-[180px]">
                   Enter the password hidden inside creator videos
@@ -304,7 +304,7 @@ function CreatorVaultSection() {
               {/* Method 2 */}
               <div className="flex flex-col items-center sm:items-start gap-3 text-center sm:text-left">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/[0.08]">
-                  <span className="font-display font-black text-[0.875rem] text-emerald-400">②</span>
+                  <span className="font-display font-bold text-[0.875rem] text-emerald-400">②</span>
                 </div>
                 <p className="text-[0.875rem] text-muted/85 leading-relaxed max-w-[180px]">
                   Purchase instantly and skip the hunt

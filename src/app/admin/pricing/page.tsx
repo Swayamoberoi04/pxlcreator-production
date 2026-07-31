@@ -192,7 +192,7 @@ export default function AdminPricingPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( BULK PRICING )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Set Prices by Category
         </h1>
         <p className="text-[0.875rem] text-white/70 max-w-lg">
@@ -313,7 +313,7 @@ export default function AdminPricingPage() {
 
           {/* ── Validation hint ── */}
           {entries.some((e) => !e.is_free && e.count > 0 && (!e.price.trim() || parseFloat(e.price) <= 0)) && (
-            <p className="text-[0.8rem] text-amber-400/60 bg-amber-500/[0.04] border border-amber-500/15 rounded-xl px-4 py-3">
+            <p className="text-[0.8125rem] text-amber-400/60 bg-amber-500/[0.04] border border-amber-500/15 rounded-xl px-4 py-3">
               Rows with an amber price field will be <strong>skipped</strong> — enter a price or toggle to Free to include them.
             </p>
           )}

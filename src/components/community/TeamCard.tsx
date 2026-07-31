@@ -37,14 +37,14 @@ export function TeamCard({ team }: TeamCardProps) {
             className="size-12 rounded-xl object-cover shrink-0"
           />
         ) : (
-          <span className="size-12 rounded-xl bg-gold/20 flex items-center justify-center text-gold font-black text-lg shrink-0">
+          <span className="size-12 rounded-xl bg-gold/20 flex items-center justify-center text-gold font-bold text-lg shrink-0">
             {initial}
           </span>
         )}
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="font-display font-black text-sm text-foreground truncate">{team.name}</h3>
+            <h3 className="font-display font-bold text-sm text-foreground truncate">{team.name}</h3>
             {team.visibility === "private" && (
               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">🔒 Private</span>
             )}

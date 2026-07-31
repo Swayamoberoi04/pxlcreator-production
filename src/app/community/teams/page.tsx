@@ -79,7 +79,7 @@ function SampleTeamCard({ team }: { team: typeof SAMPLE_TEAMS[0] }) {
           👥
         </div>
         <div>
-          <p className="font-display font-black text-sm text-foreground">{team.name}</p>
+          <p className="font-display font-bold text-sm text-foreground">{team.name}</p>
           <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/70 mt-0.5">{team.category}</p>
         </div>
       </div>
@@ -147,7 +147,7 @@ function CreateTeamModal({ onClose, onCreate }: CreateTeamModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-border bg-surface flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
-          <h2 className="font-display font-black text-lg">Create Team</h2>
+          <h2 className="font-display font-bold text-lg">Create Team</h2>
           <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
         <form onSubmit={submit} className="flex flex-col gap-4 p-6 overflow-y-auto">
@@ -261,7 +261,7 @@ export default function TeamsPage() {
       {/* Hero */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="font-display font-black text-3xl text-foreground">Creator Teams</h1>
+          <h1 className="font-display font-bold text-3xl text-foreground">Creator Teams</h1>
           <p className="text-sm text-muted/85 mt-1">Find your creative crew or build one from scratch</p>
         </div>
         {user && (
@@ -307,7 +307,7 @@ export default function TeamsPage() {
           <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
             <span className="text-2xl">💡</span>
             <div>
-              <p className="font-display font-black text-sm text-foreground">Team collaboration tools are in development</p>
+              <p className="font-display font-bold text-sm text-foreground">Team collaboration tools are in development</p>
               <p className="text-xs text-muted/85 mt-0.5">Preview what teams will look like in the PXL Creator ecosystem</p>
             </div>
           </div>

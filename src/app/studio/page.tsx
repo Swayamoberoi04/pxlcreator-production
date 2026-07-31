@@ -47,7 +47,7 @@ export default function StudioPage() {
 
             {/* Headline */}
             <CinematicReveal variant="depth" delay={0.07}>
-              <h1 className="font-display font-black text-foreground text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight">
+              <h1 className="font-display font-bold text-foreground text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight">
                 Describe the look.{" "}
                 <br className="hidden sm:block" />
                 <span

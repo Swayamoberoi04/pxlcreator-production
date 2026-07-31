@@ -208,11 +208,11 @@ export default function BillingPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-2.5">
-                        <h2 className="font-display font-black text-xl text-foreground">
+                        <h2 className="font-display font-bold text-xl text-foreground">
                           {planInfo?.name ?? subscription.plan_id} Plan
                         </h2>
                         <span className={cn(
-                          "text-[0.65rem] font-black tracking-widest uppercase rounded-full px-2.5 py-0.5",
+                          "text-[0.65rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-0.5",
                           isActive   ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
                           : isCancelled ? "bg-amber-500/15 text-amber-400 border border-amber-500/20"
                           : "bg-surface-2 text-muted border border-border"

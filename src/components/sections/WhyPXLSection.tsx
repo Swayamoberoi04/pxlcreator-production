@@ -36,7 +36,7 @@ export function WhyPXLSection() {
 
             <CinematicReveal variant="rise" delay={0.08} className="max-w-2xl mx-auto">
               <div className="flex flex-col gap-5 items-center text-center">
-                <h2 className="font-display font-black text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight text-foreground">
+                <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight text-foreground">
                   The creator economy{" "}
                   <span className="text-gold-gradient">is exploding.</span>
                 </h2>
@@ -70,7 +70,7 @@ export function WhyPXLSection() {
 
             <CinematicReveal variant="rise" delay={0.15} className="w-full max-w-2xl">
               <div className="rounded-2xl border border-border bg-background/70 backdrop-blur-sm px-6 py-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-                <span className="font-display font-black text-[2rem] text-muted/70 shrink-0 select-none">8×</span>
+                <span className="font-display font-bold text-[2rem] text-muted/70 shrink-0 select-none">8×</span>
                 <p className="text-[0.9375rem] text-muted/92 leading-relaxed text-left">
                   Eight distinct pain points. One root cause:{" "}
                   <span className="text-foreground font-semibold">
@@ -119,7 +119,7 @@ export function WhyPXLSection() {
                 {/* Centre — gap indicator */}
                 <div className="hidden sm:flex flex-col items-center justify-center px-4 gap-2">
                   <div className="h-full w-px bg-border" aria-hidden="true" />
-                  <span className="font-display font-black text-[0.65rem] tracking-[0.2em] text-muted/70 uppercase rotate-90 whitespace-nowrap">
+                  <span className="font-display font-bold text-[0.65rem] tracking-[0.2em] text-muted/70 uppercase rotate-90 whitespace-nowrap">
                     no bridge
                   </span>
                   <div className="h-full w-px bg-border" aria-hidden="true" />
@@ -149,7 +149,7 @@ export function WhyPXLSection() {
             <CinematicReveal variant="rise" delay={0.15}>
               <div className="flex items-center gap-3">
                 <span className="h-px w-12 bg-gold/40" aria-hidden="true" />
-                <span className="font-display font-black text-[1.375rem] sm:text-[1.75rem] text-foreground text-center">
+                <span className="font-display font-bold text-[1.375rem] sm:text-[1.75rem] text-foreground text-center">
                   That space?{" "}
                   <span className="text-gold-gradient">That&apos;s where PXL Creator lives.</span>
                 </span>
@@ -180,7 +180,7 @@ export function WhyPXLSection() {
             <CinematicReveal variant="depth" delay={0.08} className="max-w-3xl mx-auto">
               <div className="flex flex-col gap-5 items-center">
                 <p className="text-[0.75rem] font-bold tracking-[0.25em] uppercase text-gold/60">Mission</p>
-                <blockquote className="font-display font-black text-[clamp(1.5rem,4vw,2.5rem)] leading-[1.1] tracking-tight text-foreground text-center">
+                <blockquote className="font-display font-bold text-[clamp(1.5rem,4vw,2.5rem)] leading-[1.1] tracking-tight text-foreground text-center">
                   Empower creators to build visually powerful identities — through cinematic editing,{" "}
                   <span className="text-gold-gradient">creative systems, education, and technology.</span>
                 </blockquote>
@@ -194,7 +194,7 @@ export function WhyPXLSection() {
                   <span className="text-label text-muted/70 tracking-widest">Not everyone has</span>
                   <ul className="flex flex-col gap-2">
                     {NOT_EVERYONE.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-muted/85">
+                      <li key={item} className="flex items-center gap-2.5 text-[0.875rem] text-muted/85">
                         <span className="text-muted/70 text-lg leading-none">×</span>
                         {item}
                       </li>
@@ -207,7 +207,7 @@ export function WhyPXLSection() {
                   <span className="text-label text-gold/60 tracking-widest">But everyone has</span>
                   <ul className="flex flex-col gap-2">
                     {EVERYONE_HAS.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-[0.9rem] text-foreground/92">
+                      <li key={item} className="flex items-center gap-2.5 text-[0.875rem] text-foreground/92">
                         <span className="text-gold text-base leading-none">✦</span>
                         {item}
                       </li>
@@ -220,7 +220,7 @@ export function WhyPXLSection() {
             {/* Philosophy quote */}
             <CinematicReveal variant="rise" delay={0.12} className="max-w-xl mx-auto">
               <div className="border-l-2 border-gold/40 pl-6 text-left">
-                <p className="text-[1rem] sm:text-[1.0625rem] text-muted/92 leading-relaxed italic">
+                <p className="text-[1rem] sm:text-[1rem] text-muted/92 leading-relaxed italic">
                   &ldquo;The future belongs to creators who think visually, build identity,
                   understand aesthetics, and create work that moves people.
                   PXL Creator exists to make that future accessible to everyone.&rdquo;
@@ -263,7 +263,7 @@ export function WhyPXLSection() {
                       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
                     )}
                     <div className="flex items-start justify-between gap-3">
-                      <span className="font-display font-black text-[2.5rem] leading-none select-none" style={{ color: `rgba(255,214,10,${0.08 + i * 0.04})` }}>
+                      <span className="font-display font-bold text-[2.5rem] leading-none select-none" style={{ color: `rgba(255,214,10,${0.08 + i * 0.04})` }}>
                         0{i + 1}
                       </span>
                       <span
@@ -277,13 +277,13 @@ export function WhyPXLSection() {
                       </span>
                     </div>
                     <div className="flex flex-col gap-2">
-                      <h3 className={`font-display font-bold text-[1.0625rem] leading-snug ${moat.featured ? "text-foreground" : "text-foreground/90"}`}>
+                      <h3 className={`font-display font-bold text-[1rem] leading-snug ${moat.featured ? "text-foreground" : "text-foreground/90"}`}>
                         {moat.title}
                       </h3>
                       <p className="text-[0.875rem] text-muted/85 leading-relaxed">{moat.body}</p>
                     </div>
                     {moat.featured && (
-                      <p className="text-[0.78rem] text-gold/70 font-semibold mt-auto">
+                      <p className="text-[0.8125rem] text-gold/70 font-semibold mt-auto">
                         AI automates the edit. It cannot replicate taste. →
                       </p>
                     )}
@@ -319,7 +319,7 @@ export function WhyPXLSection() {
             <div className="flex flex-col items-center gap-5">
               {/* Large decorative number */}
               <div
-                className="font-display font-black select-none leading-none text-center"
+                className="font-display font-bold select-none leading-none text-center"
                 style={{
                   fontSize:   "clamp(6rem, 20vw, 14rem)",
                   background: "linear-gradient(180deg, rgba(255,214,10,0.22) 0%, rgba(255,214,10,0.04) 100%)",
@@ -368,7 +368,7 @@ export function WhyPXLSection() {
                   Where we&apos;re going
                 </p>
                 <h2
-                  className="font-display font-black text-[clamp(1.875rem,5.5vw,3.5rem)] leading-[1.05] tracking-tight"
+                  className="font-display font-bold text-[clamp(1.875rem,5.5vw,3.5rem)] leading-[1.05] tracking-tight"
                   style={{
                     background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 50%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
@@ -385,7 +385,7 @@ export function WhyPXLSection() {
 
             {/* Vision body */}
             <CinematicReveal variant="rise" delay={0.12}>
-              <p className="text-[1rem] sm:text-[1.0625rem] text-muted/85 leading-relaxed max-w-2xl">
+              <p className="text-[1rem] sm:text-[1rem] text-muted/85 leading-relaxed max-w-2xl">
                 In a world flooded with generic content, AI-generated sameness, and disposable trends —
                 PXL Creator stands for{" "}
                 <span className="text-foreground/92 font-medium">intentional creativity</span>,{" "}
@@ -443,7 +443,7 @@ function BeatCounter({ number, label }: { number: string; label: string }) {
     <div className="flex flex-col items-center gap-3">
       {/* Large visible number */}
       <span
-        className="font-display font-black leading-none select-none"
+        className="font-display font-bold leading-none select-none"
         style={{
           fontSize:   "clamp(3.5rem, 8vw, 6rem)",
           background: "linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.06) 100%)",

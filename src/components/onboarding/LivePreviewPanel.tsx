@@ -157,7 +157,7 @@ function PreviewItem({ item, index }: { item: RecommendationItem; index: number 
       }}
       className="flex items-center gap-3 rounded-lg border border-border/60 bg-surface/60 px-3 py-2.5"
     >
-      <span className="shrink-0 text-[0.9rem] text-muted/85">
+      <span className="shrink-0 text-[0.875rem] text-muted/85">
         {TYPE_ICON[item.type] ?? "●"}
       </span>
       <div className="flex-1 min-w-0">

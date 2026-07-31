@@ -37,7 +37,7 @@ export default function AdminBundlePricingPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( BUNDLE PRICING )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Bundle Prices
         </h1>
         <p className="text-[0.875rem] text-white/70 max-w-xl">
@@ -88,7 +88,7 @@ export default function AdminBundlePricingPage() {
                 <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-white/[0.05]">
                   <div className="flex items-center gap-3 min-w-0">
                     <span className={cn(
-                      "text-[0.6rem] font-black tracking-widest uppercase rounded-full px-2.5 py-[5px] flex-shrink-0",
+                      "text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-[5px] flex-shrink-0",
                       "bg-gold/15 text-gold border border-gold/25"
                     )}>
                       {bundle.bundleBadge}
@@ -191,7 +191,7 @@ export default function AdminBundlePricingPage() {
       {/* Note about preset pricing */}
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-5 py-4">
         <p className="text-[0.8125rem] font-semibold text-white/85 mb-2">Per-Preset Pricing</p>
-        <p className="text-[0.775rem] text-white/70 leading-relaxed mb-3">
+        <p className="text-[0.8125rem] text-white/70 leading-relaxed mb-3">
           Each preset has its own <strong className="text-white/85">Price</strong> (current/sale price) and{" "}
           <strong className="text-white/85">Original Price</strong> (shown struck-through).
           Edit individual preset prices from the preset editor.

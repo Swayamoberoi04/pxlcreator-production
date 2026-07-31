@@ -67,7 +67,7 @@ export default function AdminSyncPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( YOUTUBE CHANNEL SYNC )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Sync Channel
         </h1>
         <p className="text-[0.875rem] text-white/70 max-w-lg">
@@ -85,7 +85,7 @@ export default function AdminSyncPage() {
           { step: "03", label: "Live Instantly",  desc: "Set price in Presets when ready"      },
         ].map(({ step, label, desc }) => (
           <div key={step} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 flex flex-col gap-1.5">
-            <span className="font-display font-black text-[1.5rem] text-white/70">{step}</span>
+            <span className="font-display font-bold text-[1.5rem] text-white/70">{step}</span>
             <span className="text-[0.875rem] font-semibold text-white/92">{label}</span>
             <span className="text-[0.75rem] text-white/70">{desc}</span>
           </div>
@@ -247,7 +247,7 @@ YOUTUBE_CHANNEL_ID=UC…`}
 function ResultCard({ value, label, color }: { value: number; label: string; color: string }) {
   return (
     <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 flex flex-col gap-1">
-      <span className={cn("font-display font-black text-[2rem] leading-none", color)}>
+      <span className={cn("font-display font-bold text-[2rem] leading-none", color)}>
         {value}
       </span>
       <span className="text-[0.75rem] text-white/70">( {label} )</span>

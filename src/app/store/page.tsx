@@ -77,7 +77,7 @@ export default async function StorePage({
 
             {/* Headline */}
             <CinematicReveal variant="depth" delay={0.08}>
-              <h1 className="font-display font-black text-[clamp(2.2rem,5.5vw,3.75rem)] leading-[1.02] tracking-tight text-foreground">
+              <h1 className="font-display font-bold text-[clamp(2.2rem,5.5vw,3.75rem)] leading-[1.02] tracking-tight text-foreground">
                 Presets that earn their place<br />
                 <span
                   style={{
@@ -94,7 +94,7 @@ export default async function StorePage({
 
             {/* Subtitle */}
             <CinematicReveal variant="rise" delay={0.16}>
-              <p className="text-[1rem] sm:text-[1.0625rem] text-muted/85 max-w-xl leading-relaxed">
+              <p className="text-[1rem] sm:text-[1rem] text-muted/85 max-w-xl leading-relaxed">
                 Start with{" "}
                 <span className="text-emerald-400 font-semibold">12 free preset packs</span>
                 {" "}— no credit card. Buy any paid preset instantly,

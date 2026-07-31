@@ -213,7 +213,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
           <p className="text-[0.9375rem] font-semibold text-foreground leading-tight">
             Two Ways to Access This Preset
           </p>
-          <p className="text-[0.8rem] text-muted/85 leading-relaxed">
+          <p className="text-[0.8125rem] text-muted/85 leading-relaxed">
             Choose the option that best fits your workflow.
           </p>
         </div>
@@ -230,7 +230,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
                 </span>
                 <p className="text-[0.8125rem] font-bold text-gold/90 leading-none">Buy Instantly</p>
               </div>
-              <p className="text-[0.72rem] text-muted/85 leading-snug">
+              <p className="text-[0.75rem] text-muted/85 leading-snug">
                 One-time purchase. Permanent access.
               </p>
             </div>
@@ -272,7 +272,7 @@ export function UnlockOrBuyPanel({ preset }: UnlockOrBuyPanelProps) {
                 </span>
                 <p className="text-[0.8125rem] font-bold text-emerald-400/90 leading-none">Unlock for Free</p>
               </div>
-              <p className="text-[0.72rem] text-muted/85 leading-snug">
+              <p className="text-[0.75rem] text-muted/85 leading-snug">
                 Watch the tutorial. Enter the password.
               </p>
             </div>

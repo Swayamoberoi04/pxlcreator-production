@@ -51,7 +51,7 @@ export function SpaceCard({ space, onJoin }: SpaceCardProps) {
       <div className="flex flex-col flex-1 gap-3 p-4">
         <div>
           <Link href={`/community/spaces/${space.id}`}>
-            <h3 className="font-display font-black text-base text-foreground hover:text-gold transition-colors truncate">
+            <h3 className="font-display font-bold text-base text-foreground hover:text-gold transition-colors truncate">
               {space.name}
             </h3>
           </Link>

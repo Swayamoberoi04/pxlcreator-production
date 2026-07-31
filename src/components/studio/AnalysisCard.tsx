@@ -47,7 +47,7 @@ export function AnalysisCard({
       <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-border/60 bg-gradient-to-r from-surface to-surface-2">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-gold/15 border border-[#6366f1]/20 shrink-0">
-            <span className="font-display text-[1.05rem] leading-none text-gold/90">{profileName.charAt(0)}</span>
+            <span className="font-display text-[1rem] leading-none text-gold/90">{profileName.charAt(0)}</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -64,7 +64,7 @@ export function AnalysisCard({
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <div className="flex flex-col items-end">
-            <span className="font-display font-black text-gold text-[1.1rem] leading-none tabular-nums">
+            <span className="font-display font-bold text-gold text-[1.125rem] leading-none tabular-nums">
               {confidencePct}%
             </span>
             <span className="text-[0.65rem] text-muted/70 tracking-widest uppercase">Match</span>
@@ -257,7 +257,7 @@ function AdjBar({ label, value, base, min, max, color }: {
       </div>
       <span
         className={cn(
-          "text-[0.72rem] w-10 text-right tabular-nums shrink-0",
+          "text-[0.75rem] w-10 text-right tabular-nums shrink-0",
           isUp   ? "text-emerald-400" :
           isDown ? "text-amber-400"   :
                    "text-muted/70"
@@ -277,7 +277,7 @@ function HueRow({ hue }: { hue: number }) {
       <div className="flex-1 h-1.5 rounded-full overflow-hidden"
         style={{ background: "linear-gradient(to right, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #a855f7, #ec4899, #ef4444)" }}
       />
-      <span className={cn("text-[0.72rem] w-10 text-right tabular-nums shrink-0", isPos ? "text-emerald-400" : "text-amber-400")}>
+      <span className={cn("text-[0.75rem] w-10 text-right tabular-nums shrink-0", isPos ? "text-emerald-400" : "text-amber-400")}>
         {isPos ? "+" : ""}{Math.round(hue)}°
       </span>
     </div>
@@ -294,7 +294,7 @@ function TintRow({ tintR, tintG, tintB }: { tintR: number; tintG: number; tintB:
         <ChannelBar value={tintG} color="#22c55e" label="G" />
         <ChannelBar value={tintB} color="#3b82f6" label="B" />
       </div>
-      <span className={cn("text-[0.72rem] w-10 text-right shrink-0", isWarm ? "text-amber-400" : "text-blue-400")}>
+      <span className={cn("text-[0.75rem] w-10 text-right shrink-0", isWarm ? "text-amber-400" : "text-blue-400")}>
         {isWarm ? "Warm" : "Cool"}
       </span>
     </div>
@@ -315,7 +315,7 @@ function ChannelBar({ value, color, label }: { value: number; color: string; lab
           style={{ backgroundColor: color, opacity: value > 0 ? 0.7 : 0.4 }}
         />
       </div>
-      <span className="text-[0.6rem] text-muted/70">{label}</span>
+      <span className="text-[0.625rem] text-muted/70">{label}</span>
     </div>
   )
 }
@@ -356,8 +356,8 @@ function QualityBadge({ quality }: { quality: ImageAnalysisResult["quality"] }) 
           className="h-full rounded-full bg-gradient-to-r from-emerald-500/60 to-emerald-400"
         />
       </div>
-      <span className="text-[0.72rem] text-muted/85 tabular-nums">{pct}%</span>
-      <span className="text-[0.72rem] text-muted/70">
+      <span className="text-[0.75rem] text-muted/85 tabular-nums">{pct}%</span>
+      <span className="text-[0.75rem] text-muted/70">
         {capitalise(quality.exposure)}
       </span>
     </div>

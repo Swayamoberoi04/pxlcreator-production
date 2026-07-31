@@ -118,13 +118,13 @@ export function BeforeAfterSlider({
 
       {/* Corner labels */}
       <div className="absolute top-3 left-3 z-20 pointer-events-none">
-        <span className="text-[0.6rem] font-semibold tracking-widest uppercase text-white/85 bg-black/55 backdrop-blur-sm border border-white/10 rounded-full px-2.5 py-1">
+        <span className="text-[0.625rem] font-semibold tracking-widest uppercase text-white/85 bg-black/55 backdrop-blur-sm border border-white/10 rounded-full px-2.5 py-1">
           Before
         </span>
       </div>
       <div className="absolute top-3 right-3 z-20 pointer-events-none">
         <span
-          className="text-[0.6rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-1 border backdrop-blur-sm"
+          className="text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-1 border backdrop-blur-sm"
           style={{
             color:           accentColor,
             borderColor:     `${accentColor}50`,

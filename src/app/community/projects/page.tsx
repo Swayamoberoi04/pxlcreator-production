@@ -71,7 +71,7 @@ function SampleProjectCard({ p }: { p: typeof SAMPLE_PROJECTS[0] }) {
       </div>
       <div className="flex items-start gap-3 pr-16">
         <div>
-          <p className="font-display font-black text-sm text-foreground">{p.title}</p>
+          <p className="font-display font-bold text-sm text-foreground">{p.title}</p>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
             <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">{p.category.replace("_", " ")}</span>
             <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">·</span>
@@ -87,7 +87,7 @@ function SampleProjectCard({ p }: { p: typeof SAMPLE_PROJECTS[0] }) {
       </div>
       <div className="flex items-center justify-between gap-2 pt-1 border-t border-border">
         <div className="flex items-center gap-3 text-xs text-muted/85">
-          <span className="font-black text-gold">{budgetStr}</span>
+          <span className="font-bold text-gold">{budgetStr}</span>
           {p.deadline && <span>Due {new Date(p.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>}
           <span>👥 {p.applicant_count} applicants</span>
         </div>
@@ -131,7 +131,7 @@ export default function ProjectsPage() {
       {/* Hero */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-display font-black text-[1.75rem] text-foreground">Project Marketplace</h1>
+          <h1 className="font-display font-bold text-[1.75rem] text-foreground">Project Marketplace</h1>
           <p className="text-[0.9375rem] text-muted/85 mt-1">Find creative work or hire a creator for your project.</p>
         </div>
         {user && (
@@ -180,7 +180,7 @@ export default function ProjectsPage() {
           <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
             <span className="text-2xl">💡</span>
             <div>
-              <p className="font-display font-black text-sm text-foreground">Project marketplace launching soon</p>
+              <p className="font-display font-bold text-sm text-foreground">Project marketplace launching soon</p>
               <p className="text-xs text-muted/85 mt-0.5">Preview the kinds of projects you&apos;ll find and post</p>
             </div>
           </div>
@@ -266,7 +266,7 @@ function PostProjectModal({ onClose, onPosted }: { onClose: () => void; onPosted
         className="relative z-10 w-full max-w-lg rounded-2xl border border-border bg-black/90 backdrop-blur-2xl p-6 flex flex-col gap-4 my-8"
       >
         <div className="flex items-center justify-between">
-          <h2 className="font-display font-black text-[1.125rem]">Post a Project</h2>
+          <h2 className="font-display font-bold text-[1.125rem]">Post a Project</h2>
           <button type="button" onClick={onClose} className="text-muted/70 hover:text-muted text-[1.5rem] leading-none">×</button>
         </div>
         {error && <p className="text-[0.875rem] text-red-400 bg-red-400/10 rounded-lg px-3 py-2">{error}</p>}

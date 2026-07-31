@@ -48,7 +48,7 @@ export function Price({ usd, original, className, size = "md", free = false }: P
 
   if (free) {
     return (
-      <span className={cn("font-display font-black text-emerald-400", sizeMap[size], className)}>
+      <span className={cn("font-display font-bold text-emerald-400", sizeMap[size], className)}>
         Free
       </span>
     )
@@ -60,7 +60,7 @@ export function Price({ usd, original, className, size = "md", free = false }: P
 
   return (
     <span className={cn("inline-flex items-baseline gap-2 flex-wrap", className)}>
-      <span className={cn("font-display font-black text-gold", sizeMap[size])}>
+      <span className={cn("font-display font-bold text-gold", sizeMap[size])}>
         {formatPrice(usd, currency)}
       </span>
       {original && original > usd && (

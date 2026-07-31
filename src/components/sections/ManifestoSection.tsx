@@ -116,7 +116,7 @@ function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRo
       {/* Left — muted / wrong side */}
       <motion.span
         style={{ opacity: leftOpacity, x: leftX }}
-        className="text-[1.0625rem] sm:text-[1.25rem] text-muted/70 line-through font-medium leading-none shrink-0"
+        className="text-[1rem] sm:text-[1.25rem] text-muted/70 line-through font-medium leading-none shrink-0"
       >
         {item.faded}
       </motion.span>
@@ -133,7 +133,7 @@ function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRo
       {/* Right — bold / definitive */}
       <motion.span
         style={{ opacity: rightOpacity, x: rightX, scale: rightScale }}
-        className="text-[1.25rem] sm:text-[1.5rem] font-display font-black text-foreground leading-none"
+        className="text-[1.25rem] sm:text-[1.5rem] font-display font-bold text-foreground leading-none"
       >
         {item.bold}
       </motion.span>
@@ -230,9 +230,9 @@ export function ManifestoSection() {
               /* Static layout for reduced-motion users */
               ? CONTRASTS.map(({ faded, bold }) => (
                   <div key={bold} className="flex items-center justify-between gap-8 py-7 border-b border-border/40">
-                    <span className="text-[1.0625rem] sm:text-[1.25rem] text-muted/70 line-through font-medium leading-none">{faded}</span>
+                    <span className="text-[1rem] sm:text-[1.25rem] text-muted/70 line-through font-medium leading-none">{faded}</span>
                     <span className="text-gold/30 text-[0.75rem] shrink-0" aria-hidden="true">→</span>
-                    <span className="text-[1.25rem] sm:text-[1.5rem] font-display font-black text-foreground leading-none">{bold}</span>
+                    <span className="text-[1.25rem] sm:text-[1.5rem] font-display font-bold text-foreground leading-none">{bold}</span>
                   </div>
                 ))
               /* Scroll-animated rows */
@@ -250,7 +250,7 @@ export function ManifestoSection() {
 
           {/* ── Power headline ── */}
           <motion.h2
-            className="font-display font-black leading-[1.05] tracking-tight text-[clamp(2rem,5.5vw,3.5rem)]"
+            className="font-display font-bold leading-[1.05] tracking-tight text-[clamp(2rem,5.5vw,3.5rem)]"
             style={{
               ...GRADIENT_STYLE,
               ...(reduced ? {} : {

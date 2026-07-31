@@ -46,7 +46,7 @@ export default function DownloadAnalyticsPage() {
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( ANALYTICS )</span>
         </div>
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <h1 className="font-display font-black text-[1.75rem] text-white/90">Download Analytics</h1>
+          <h1 className="font-display font-bold text-[1.75rem] text-white/90">Download Analytics</h1>
           <a
             href="/api/admin/downloads?format=csv"
             className="rounded-full border border-border bg-surface px-4 py-2 text-[0.8125rem] font-medium text-white/92 hover:border-gold/40 hover:text-gold transition-colors"
@@ -142,7 +142,7 @@ function Kpi({ label, value, accent = "text-white/92", money, suffix }: {
 }) {
   return (
     <div className="rounded-xl border border-border bg-surface p-4 flex flex-col gap-1">
-      <p className={`font-display font-black text-[1.5rem] leading-none ${accent}`}>
+      <p className={`font-display font-bold text-[1.5rem] leading-none ${accent}`}>
         {money ? "$" : ""}{value.toLocaleString()}{suffix ?? ""}
       </p>
       <p className="text-[0.7rem] text-white/70 uppercase tracking-wider font-semibold">{label}</p>

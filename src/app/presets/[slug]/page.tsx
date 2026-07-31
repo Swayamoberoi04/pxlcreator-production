@@ -187,14 +187,14 @@ export default async function PresetDetailPage({ params }: PageProps) {
                     <span className="h-px w-5 bg-gold/60" aria-hidden="true" />
                     <span className="text-label text-gold/80 tracking-widest animate-gold-flicker">( {preset.category} )</span>
                   </div>
-                  <h1 className="font-display font-black text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05] tracking-tight text-foreground">
+                  <h1 className="font-display font-bold text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05] tracking-tight text-foreground">
                     {preset.name}
                   </h1>
                   <p className="text-[1rem] text-muted/92 leading-relaxed">{preset.tagline}</p>
 
                   {/* Hook */}
                   {preset.hook && (
-                    <p className="text-[0.9rem] font-semibold text-foreground/92 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
+                    <p className="text-[0.875rem] font-semibold text-foreground/92 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
                       {preset.hook}
                     </p>
                   )}
@@ -218,7 +218,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {/* Price block */}
                 <div className="flex items-baseline gap-3 py-4 border-y border-border">
                   <span className={cn(
-                    "font-display font-black text-[2.5rem] leading-none",
+                    "font-display font-bold text-[2.5rem] leading-none",
                     preset.isFree ? "text-emerald-400" : "text-gold"
                   )}>
                     {preset.isFree ? "Free" : `$${preset.price}`}
@@ -275,13 +275,13 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {(preset.bestUseCase || preset.idealLighting) && (
                   <div className="flex flex-col gap-2 rounded-xl border border-border/60 bg-surface-2/40 px-4 py-3">
                     {preset.bestUseCase && (
-                      <div className="flex gap-2.5 text-[0.8rem]">
+                      <div className="flex gap-2.5 text-[0.8125rem]">
                         <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Best for</span>
                         <span className="text-foreground/92 leading-snug">{preset.bestUseCase}</span>
                       </div>
                     )}
                     {preset.idealLighting && (
-                      <div className="flex gap-2.5 text-[0.8rem]">
+                      <div className="flex gap-2.5 text-[0.8125rem]">
                         <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Lighting</span>
                         <span className="text-foreground/92 leading-snug">{preset.idealLighting}</span>
                       </div>
@@ -293,7 +293,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 {(preset.difficultyLevel || preset.includedFiles) && (
                   <div className="flex flex-col gap-2 rounded-xl border border-border/60 bg-surface-2/40 px-4 py-3">
                     {preset.difficultyLevel && (
-                      <div className="flex gap-2.5 text-[0.8rem]">
+                      <div className="flex gap-2.5 text-[0.8125rem]">
                         <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Difficulty</span>
                         <span className={`font-semibold ${
                           preset.difficultyLevel === "Beginner"     ? "text-emerald-400" :
@@ -303,7 +303,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                       </div>
                     )}
                     {preset.includedFiles && preset.includedFiles.length > 0 && (
-                      <div className="flex gap-2.5 text-[0.8rem]">
+                      <div className="flex gap-2.5 text-[0.8125rem]">
                         <span className="shrink-0 text-muted/70 font-medium min-w-[5rem]">Files</span>
                         <div className="flex flex-col gap-0.5">
                           {preset.includedFiles.map((f) => (
@@ -321,7 +321,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                     <p className="text-label text-muted/85 tracking-widest">( Recommended cameras )</p>
                     <div className="flex flex-wrap gap-2">
                       {preset.cameraTypes.map((cam) => (
-                        <span key={cam} className="text-[0.72rem] text-muted/85 bg-surface border border-border rounded-full px-3 py-1">
+                        <span key={cam} className="text-[0.75rem] text-muted/85 bg-surface border border-border rounded-full px-3 py-1">
                           {cam}
                         </span>
                       ))}
@@ -418,7 +418,7 @@ export default async function PresetDetailPage({ params }: PageProps) {
                 <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface/60 px-5 py-5">
                   <div className="flex flex-col gap-1">
                     <p className="text-[0.875rem] font-semibold text-foreground">Leave a review</p>
-                    <p className="text-[0.8rem] text-muted/85 leading-relaxed">
+                    <p className="text-[0.8125rem] text-muted/85 leading-relaxed">
                       Purchased or unlocked this preset? Share your experience — reviews go live after moderation.
                     </p>
                   </div>

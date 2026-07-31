@@ -256,13 +256,13 @@ export default async function StorePresetPage({ params }: PageProps) {
                     {preset.category}
                   </span>
                   {isMobile && (
-                    <span className="text-[0.6rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-gold/10 border border-gold/20 text-gold/80">
+                    <span className="text-[0.625rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-gold/10 border border-gold/20 text-gold/80">
                       Shot on Phone · No DSLR
                     </span>
                   )}
                   {preset.badge && (
                     <span className={cn(
-                      "text-[0.6rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-0.5",
+                      "text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-0.5",
                       badgeStyles[preset.badge] ?? "bg-surface-2 text-muted border border-border"
                     )}>
                       {preset.badge === "Sale" && discount ? `−${discount}%` : preset.badge}
@@ -272,12 +272,12 @@ export default async function StorePresetPage({ params }: PageProps) {
 
                 {/* Name + tagline */}
                 <div className="flex flex-col gap-2">
-                  <h1 className="font-display font-black text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05] tracking-tight text-foreground">
+                  <h1 className="font-display font-bold text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05] tracking-tight text-foreground">
                     {preset.name}
                   </h1>
                   <p className="text-[1rem] text-muted/92 leading-relaxed">{preset.tagline}</p>
                   {preset.hook && (
-                    <p className="text-[0.9rem] font-semibold text-foreground/92 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
+                    <p className="text-[0.875rem] font-semibold text-foreground/92 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
                       {preset.hook}
                     </p>
                   )}
@@ -303,7 +303,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                 {/* Price */}
                 <div className="flex items-baseline gap-3 py-4 border-y border-border">
                   <span className={cn(
-                    "font-display font-black text-[2.5rem] leading-none",
+                    "font-display font-bold text-[2.5rem] leading-none",
                     preset.isFree ? "text-emerald-400" : "text-gold"
                   )}>
                     {preset.isFree ? "Free" : `$${preset.price}`}
@@ -364,7 +364,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                         preset.difficultyLevel? (["Level",     preset.difficultyLevel] as [string, string]) : null,
                       ] as ([string, string] | null)[]
                     ).filter((x): x is [string, string] => x !== null).map(([label, val]) => (
-                      <div key={label} className="flex gap-2.5 text-[0.8rem]">
+                      <div key={label} className="flex gap-2.5 text-[0.8125rem]">
                         <span className="shrink-0 text-muted/70 font-medium min-w-[4.5rem]">{label}</span>
                         <span className={cn(
                           "leading-snug",
@@ -396,7 +396,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                     ...(!preset.isFree ? ["Free YouTube unlock"] : []),
                   ].map((t) => (
                     <span key={t}
-                      className="text-[0.68rem] font-medium text-muted/70 rounded-full border border-border/50 px-2.5 py-1">
+                      className="text-[0.6875rem] font-medium text-muted/70 rounded-full border border-border/50 px-2.5 py-1">
                       ✓ {t}
                     </span>
                   ))}
@@ -468,7 +468,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                 <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface/60 px-5 py-5">
                   <div className="flex flex-col gap-1">
                     <p className="text-[0.875rem] font-semibold text-foreground">Leave a review</p>
-                    <p className="text-[0.8rem] text-muted/85 leading-relaxed">
+                    <p className="text-[0.8125rem] text-muted/85 leading-relaxed">
                       Purchased or unlocked this preset? Share your experience.
                     </p>
                   </div>
@@ -530,13 +530,13 @@ function OrderBump({ presetName, presetSlug }: { presetName: string; presetSlug:
         <p className="text-[0.75rem] font-bold text-gold/90 uppercase tracking-wide">
           Add to Cinematic Bundle — Save 40%
         </p>
-        <p className="text-[0.78rem] text-muted/85 leading-snug">
+        <p className="text-[0.8125rem] text-muted/85 leading-snug">
           Get {presetName} + 4 more cinematic packs in one download.
           Normally ${Math.round(5 * 19)} — yours for $47.
         </p>
         <Link
           href={`/bundles?highlight=${presetSlug}`}
-          className="mt-1.5 self-start text-[0.72rem] font-semibold text-gold hover:text-gold-bright transition-colors underline underline-offset-2"
+          className="mt-1.5 self-start text-[0.75rem] font-semibold text-gold hover:text-gold-bright transition-colors underline underline-offset-2"
         >
           See the bundle →
         </Link>

@@ -63,10 +63,10 @@ export default function AdminLoginPage() {
         {/* Logo mark */}
         <div className="flex flex-col items-center gap-3 mb-8">
           <div className="h-14 w-14 rounded-2xl bg-gold/10 border border-gold/25 flex items-center justify-center shadow-[0_0_40px_rgba(255,214,10,0.12)]">
-            <span className="text-gold text-[0.95rem] font-black tracking-wider">PXL</span>
+            <span className="text-gold text-[0.9375rem] font-bold tracking-wider">PXL</span>
           </div>
           <div className="flex flex-col items-center gap-1 text-center">
-            <h1 className="font-display font-black text-[1.375rem] text-white/90 tracking-tight">
+            <h1 className="font-display font-bold text-[1.375rem] text-white/90 tracking-tight">
               Admin Access
             </h1>
             <p className="text-[0.8125rem] text-white/70">PXL Creator dashboard</p>

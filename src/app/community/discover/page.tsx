@@ -85,7 +85,7 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-border bg-surface flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
-          <h2 className="font-display font-black text-lg">Send Collab Request</h2>
+          <h2 className="font-display font-bold text-lg">Send Collab Request</h2>
           <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
 
@@ -297,7 +297,7 @@ function DiscoverPageInner() {
       {/* ── REQUESTS TAB ── */}
       {pageTab === "requests" && (
         <div className="flex flex-col gap-6">
-          <h1 className="font-display font-black text-3xl text-foreground">Collab Requests</h1>
+          <h1 className="font-display font-bold text-3xl text-foreground">Collab Requests</h1>
 
           <div className="flex gap-1 rounded-xl bg-surface border border-border p-1 w-fit">
             {(["received", "sent"] as RequestsTab[]).map((t) => (
@@ -342,7 +342,7 @@ function DiscoverPageInner() {
       {pageTab === "discover" && (
         <>
           <div>
-            <h1 className="font-display font-black text-3xl text-foreground">Discover Creators</h1>
+            <h1 className="font-display font-bold text-3xl text-foreground">Discover Creators</h1>
             {total !== null && (
               <p className="text-sm text-muted/85 mt-1">
                 {total.toLocaleString()} result{total !== 1 ? "s" : ""}

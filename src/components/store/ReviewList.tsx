@@ -65,7 +65,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
       {/* Summary row */}
       <div className="flex items-center gap-4">
         <div className="flex flex-col items-center gap-0.5">
-          <span className="font-display font-black text-[2rem] text-gold leading-none">
+          <span className="font-display font-bold text-[2rem] text-gold leading-none">
             {avgRating?.toFixed(1)}
           </span>
           <div className="flex gap-0.5">
@@ -102,7 +102,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
                   {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                 </span>
                 {r.is_verified_purchase && (
-                  <span className="text-[0.62rem] font-semibold text-emerald-400/80 border border-emerald-500/20 bg-emerald-500/[0.06] rounded-full px-2 py-0.5">
+                  <span className="text-[0.625rem] font-semibold text-emerald-400/80 border border-emerald-500/20 bg-emerald-500/[0.06] rounded-full px-2 py-0.5">
                     Verified Purchase
                   </span>
                 )}
@@ -115,7 +115,7 @@ export function ReviewList({ presetSlug, refreshKey = 0 }: ReviewListProps) {
             )}
 
             {/* Author */}
-            <p className="text-[0.72rem] text-muted/70">
+            <p className="text-[0.75rem] text-muted/70">
               {anonymiseEmail(r.email)}
             </p>
           </div>

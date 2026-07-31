@@ -214,7 +214,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               {/* Category badge */}
               <span className={cn(
                 "inline-flex items-center gap-1.5 rounded-full border px-3 py-1",
-                "text-[0.62rem] font-black tracking-[0.14em] uppercase",
+                "text-[0.625rem] font-bold tracking-[0.14em] uppercase",
                 config.badgeStyle,
               )}>
                 <span
@@ -227,7 +227,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
 
               {/* Highlight pill */}
               <span
-                className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.62rem] font-black tracking-[0.12em] uppercase text-background"
+                className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.625rem] font-bold tracking-[0.12em] uppercase text-background"
                 style={{
                   background:  "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   boxShadow:   "0 0 12px rgba(255,214,10,0.45), 0 2px 8px rgba(0,0,0,0.40)",
@@ -239,7 +239,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
 
             {/* ── Headline ── */}
             <h2
-              className="font-display font-black tracking-tight text-foreground mb-2 leading-[1.05]"
+              className="font-display font-bold tracking-tight text-foreground mb-2 leading-[1.05]"
               style={{ fontSize: "clamp(1.5rem, 5vw, 1.9rem)" }}
             >
               {config.headline}
@@ -270,7 +270,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               className={cn(
                 "flex w-full items-center justify-center gap-2.5",
                 "rounded-xl py-3.5 px-5",
-                "text-[0.9375rem] font-black tracking-wide text-background",
+                "text-[0.9375rem] font-bold tracking-wide text-background",
                 "transition-all duration-200 active:scale-[0.97]",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gold focus-visible:ring-offset-background",
               )}
@@ -302,7 +302,7 @@ export function PromoPopup({ config, onClose }: PromoPopupProps) {
               onClick={handleClose}
               className={cn(
                 "mt-3.5 flex w-full items-center justify-center",
-                "text-[0.78rem] text-muted/70 transition-colors duration-200",
+                "text-[0.8125rem] text-muted/70 transition-colors duration-200",
                 "hover:text-muted/85",
                 "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-muted/30 rounded-sm",
               )}

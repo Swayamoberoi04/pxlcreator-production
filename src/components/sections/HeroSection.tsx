@@ -258,7 +258,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display font-black text-white uppercase leading-[0.88] tracking-[-0.025em]"
+            className="font-display font-bold text-white uppercase leading-[0.88] tracking-[-0.025em]"
             style={{ fontSize: "clamp(3.5rem, 11.5vw, 15rem)" }}
           >
             PXL{" "}
@@ -271,7 +271,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 sm:mt-10 text-[0.9375rem] sm:text-[1.0625rem] text-white/85 max-w-[440px] leading-relaxed font-normal"
+          className="mt-8 sm:mt-10 text-[0.9375rem] sm:text-[1rem] text-white/85 max-w-[440px] leading-relaxed font-normal"
         >
           Handcrafted cinematic presets.<br />
           Your creative identity starts here.

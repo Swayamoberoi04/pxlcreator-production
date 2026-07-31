@@ -64,7 +64,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              <h3 className="font-display font-black text-[1.375rem] leading-tight text-white">
+              <h3 className="font-display font-bold text-[1.375rem] leading-tight text-white">
                 {dna.title}
               </h3>
               <p className="mt-2 text-[0.875rem] text-white/85 leading-relaxed">

@@ -40,7 +40,7 @@ export async function BundlesSection() {
             </div>
 
             {/* Heading */}
-            <h2 className="font-display text-[clamp(2rem,4.5vw,2.75rem)] font-black leading-[1.08] tracking-tight text-foreground">
+            <h2 className="font-display text-[clamp(2rem,4.5vw,2.75rem)] font-bold leading-[1.08] tracking-tight text-foreground">
               Save more.{" "}
               <span
                 style={{

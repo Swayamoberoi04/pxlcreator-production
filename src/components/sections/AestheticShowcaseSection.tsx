@@ -88,7 +88,7 @@ export function AestheticShowcaseSection() {
               <span className="h-px w-8 bg-gold/50 animate-gold-flicker" aria-hidden="true" />
             </div>
             <h2
-              className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground"
+              className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground"
             >
               Before meets{" "}
               <span
@@ -220,7 +220,7 @@ function AestheticCard({ preset }: { preset: AestheticPreset }) {
         <div className="flex items-end justify-between gap-3">
           <div className="flex flex-col gap-1">
             <h3 className="font-display font-bold text-[1rem] text-white leading-none">{preset.name}</h3>
-            <span className="text-[0.72rem] text-white/85">{preset.mood}</span>
+            <span className="text-[0.75rem] text-white/85">{preset.mood}</span>
           </div>
           <span
             className="text-[0.65rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-1 border shrink-0"

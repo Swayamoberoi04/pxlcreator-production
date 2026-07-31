@@ -39,7 +39,7 @@ export function GiveawayBanner() {
               <span className="text-label text-gold/80 tracking-widest">Giveaway Live</span>
             </div>
 
-            <h2 className="font-display font-black text-[1.25rem] sm:text-[1.5rem] leading-tight text-foreground">
+            <h2 className="font-display font-bold text-[1.25rem] sm:text-[1.5rem] leading-tight text-foreground">
               Win a{" "}
               <span
                 style={{
@@ -69,7 +69,7 @@ export function GiveawayBanner() {
               Enter the Giveaway
               <span aria-hidden="true">→</span>
             </Link>
-            <p className="text-[0.78rem] text-muted/70">
+            <p className="text-[0.8125rem] text-muted/70">
               No purchase necessary · Closes June 27
             </p>
           </div>

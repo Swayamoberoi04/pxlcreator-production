@@ -261,7 +261,7 @@ export default function PremiumPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="depth" delay={0.07}>
-              <h1 className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] text-foreground tracking-tight">
+              <h1 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] text-foreground tracking-tight">
                 One Membership.{" "}
                 <span
                   style={{
@@ -277,7 +277,7 @@ export default function PremiumPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="rise" delay={0.14}>
-              <p className="text-[1.0625rem] text-muted/85 max-w-lg leading-relaxed">
+              <p className="text-[1rem] text-muted/85 max-w-lg leading-relaxed">
                 Every preset pack. Every course. Early access to new drops.
                 All for less than the price of one individual pack per month.
               </p>
@@ -352,7 +352,7 @@ export default function PremiumPage() {
               <span className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-gold/70">Pricing</span>
               <span className="h-px w-6 bg-gold/60" />
             </div>
-            <h2 className="font-display font-black text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
+            <h2 className="font-display font-bold text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
               Simple, Honest Pricing
             </h2>
             <p className="text-[1rem] text-muted/85 max-w-md">
@@ -376,7 +376,7 @@ export default function PremiumPage() {
                   {c === "monthly" ? "Monthly" : "Yearly"}
                   {c === "yearly" && (
                     <span className={cn(
-                      "absolute -top-2.5 -right-1 text-[0.6rem] font-black px-1.5 py-0.5 rounded-full",
+                      "absolute -top-2.5 -right-1 text-[0.625rem] font-bold px-1.5 py-0.5 rounded-full",
                       cycle === "yearly"
                         ? "bg-emerald-500 text-white"
                         : "bg-emerald-500/20 text-emerald-400"
@@ -491,7 +491,7 @@ export default function PremiumPage() {
               <span className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-gold/70">FAQ</span>
               <span className="h-px w-6 bg-gold/60" />
             </div>
-            <h2 className="font-display font-black text-[clamp(1.5rem,3vw,2.25rem)] text-foreground">
+            <h2 className="font-display font-bold text-[clamp(1.5rem,3vw,2.25rem)] text-foreground">
               Common Questions
             </h2>
           </div>
@@ -515,7 +515,7 @@ export default function PremiumPage() {
         <Container className="relative z-10 text-center">
           <CinematicReveal variant="depth">
             <div className="flex flex-col items-center gap-6 max-w-xl mx-auto">
-              <h2 className="font-display font-black text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
+              <h2 className="font-display font-bold text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
                 Start Creating at a{" "}
                 <span
                   style={{
@@ -561,7 +561,7 @@ function FreePlanCard() {
         <div className="flex flex-col gap-1.5">
           <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/85">Free</p>
           <div className="flex items-baseline gap-1">
-            <span className="font-display font-black text-[2.5rem] leading-none text-foreground">Free</span>
+            <span className="font-display font-bold text-[2.5rem] leading-none text-foreground">Free</span>
           </div>
           <p className="text-[0.8125rem] text-muted/85 mt-0.5">Explore PXL Creator at no cost.</p>
         </div>
@@ -632,14 +632,14 @@ function PaidPlanCard({
       {/* Badge */}
       {plan.badge && (
         <div className="flex justify-center pt-4">
-          <span className="text-[0.65rem] font-black tracking-widest uppercase bg-gold text-background rounded-full px-3 py-1">
+          <span className="text-[0.65rem] font-bold tracking-widest uppercase bg-gold text-background rounded-full px-3 py-1">
             {plan.badge}
           </span>
         </div>
       )}
       {isCurrentPlan && (
         <div className="flex justify-center pt-4">
-          <span className="text-[0.65rem] font-black tracking-widest uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 rounded-full px-3 py-1">
+          <span className="text-[0.65rem] font-bold tracking-widest uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 rounded-full px-3 py-1">
             Active Plan
           </span>
         </div>
@@ -652,7 +652,7 @@ function PaidPlanCard({
           <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/85">{plan.name}</p>
           <div className="flex items-end gap-1.5">
             <span className={cn(
-              "font-display font-black text-[2.5rem] leading-none",
+              "font-display font-bold text-[2.5rem] leading-none",
               plan.featured ? "text-gold" : "text-foreground"
             )}>
               ${pricing.usd}
@@ -781,10 +781,10 @@ function FeatureComparisonTable() {
     <section className="w-full border-t border-border py-16 sm:py-20">
       <Container>
         <div className="flex flex-col items-center text-center gap-4 mb-10">
-          <h2 className="font-display font-black text-[1.5rem] text-foreground">
+          <h2 className="font-display font-bold text-[1.5rem] text-foreground">
             Compare Plans
           </h2>
-          <p className="text-[0.9rem] text-muted/85">
+          <p className="text-[0.875rem] text-muted/85">
             Everything side by side.
           </p>
         </div>

@@ -60,7 +60,7 @@ function CreateChannelModal({ onClose, onCreated }: { onClose: () => void; onCre
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-border bg-surface p-6 flex flex-col gap-5 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between">
-          <h2 className="font-display font-black text-xl text-foreground">Create Channel</h2>
+          <h2 className="font-display font-bold text-xl text-foreground">Create Channel</h2>
           <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -136,7 +136,7 @@ function SampleChannelCard({ ch }: { ch: typeof SAMPLE_CHANNELS[0] }) {
           {ch.icon}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-display font-black text-sm text-foreground truncate">{ch.name}</p>
+          <p className="font-display font-bold text-sm text-foreground truncate">{ch.name}</p>
           <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/70 mt-0.5">
             {CHANNEL_CATEGORIES.find((c) => c.id === ch.category)?.label ?? ch.category}
           </p>
@@ -220,7 +220,7 @@ export default function ChannelsPage() {
       {/* Hero */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="font-display font-black text-3xl text-foreground">Channels</h1>
+          <h1 className="font-display font-bold text-3xl text-foreground">Channels</h1>
           <p className="text-sm text-muted/85 mt-1">Focused communities for every creative discipline</p>
         </div>
         <button onClick={handleCreateClick}
@@ -290,7 +290,7 @@ export default function ChannelsPage() {
           <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
             <span className="text-2xl">💡</span>
             <div>
-              <p className="font-display font-black text-sm text-foreground">Channel discussions are coming soon</p>
+              <p className="font-display font-bold text-sm text-foreground">Channel discussions are coming soon</p>
               <p className="text-xs text-muted/85 mt-0.5">Here&apos;s a preview of what the community will look like at launch</p>
             </div>
           </div>

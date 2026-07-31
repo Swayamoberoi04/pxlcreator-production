@@ -19,7 +19,7 @@ export default function AdminPresetsPage() {
             <span className="h-px w-5 bg-gold/50" />
             <span className="text-[0.7rem] text-gold/60 tracking-widest">( PRESET LIBRARY )</span>
           </div>
-          <h1 className="font-display font-black text-[1.75rem] text-white/90">
+          <h1 className="font-display font-bold text-[1.75rem] text-white/90">
             Presets
           </h1>
           <p className="text-[0.875rem] text-white/70">

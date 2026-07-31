@@ -61,7 +61,7 @@ function InviteModal({ teamId, onClose, onInvite }: InviteModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-2xl border border-border bg-surface">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <h2 className="font-display font-black text-base">Invite Member</h2>
+          <h2 className="font-display font-bold text-base">Invite Member</h2>
           <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
         <form onSubmit={submit} className="flex flex-col gap-4 p-6">
@@ -236,13 +236,13 @@ export default function TeamDetailPage() {
         {team.avatar_url ? (
           <img src={team.avatar_url} alt={team.name} className="size-20 rounded-2xl object-cover shrink-0" />
         ) : (
-          <span className="size-20 rounded-2xl bg-gold/20 flex items-center justify-center text-gold font-black text-3xl shrink-0">
+          <span className="size-20 rounded-2xl bg-gold/20 flex items-center justify-center text-gold font-bold text-3xl shrink-0">
             {initial}
           </span>
         )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="font-display font-black text-2xl text-foreground">{team.name}</h1>
+            <h1 className="font-display font-bold text-2xl text-foreground">{team.name}</h1>
             {team.visibility === "private" && (
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">🔒 Private</span>
             )}
@@ -291,7 +291,7 @@ export default function TeamDetailPage() {
 
       {/* Members */}
       <div>
-        <h2 className="font-display font-black text-lg text-foreground mb-4">
+        <h2 className="font-display font-bold text-lg text-foreground mb-4">
           Members ({members.length})
         </h2>
         {members.length === 0 ? (

@@ -48,7 +48,7 @@ export function LeadMagnetSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1], delay: 0.07 }}
-          className="font-display font-black text-[2rem] sm:text-[2.5rem] leading-[1.05] text-foreground"
+          className="font-display font-bold text-[2rem] sm:text-[2.5rem] leading-[1.05] text-foreground"
         >
           Try It Before You Buy.
           <br />
@@ -85,7 +85,7 @@ export function LeadMagnetSection() {
           className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6"
         >
           {BENEFITS.map((b) => (
-            <li key={b} className="flex items-center gap-2 text-[0.8rem] text-muted/85">
+            <li key={b} className="flex items-center gap-2 text-[0.8125rem] text-muted/85">
               <span className="h-1 w-1 rounded-full bg-gold/60 shrink-0" aria-hidden />
               {b}
             </li>
@@ -113,7 +113,7 @@ export function LeadMagnetSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.28 }}
-          className="text-[0.72rem] text-muted/70"
+          className="text-[0.75rem] text-muted/70"
         >
           No spam. Unsubscribe anytime. We send presets — not newsletters.
         </motion.p>

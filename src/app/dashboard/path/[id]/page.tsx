@@ -114,7 +114,7 @@ function TaskRow({
       >
         {/* Status indicator */}
         <div
-          className="shrink-0 size-6 rounded-full border-2 flex items-center justify-center text-[0.6rem] font-black transition-all"
+          className="shrink-0 size-6 rounded-full border-2 flex items-center justify-center text-[0.625rem] font-bold transition-all"
           style={{
             borderColor: status === "done" ? accentColor : status === "current" ? accentColor : "rgba(255,255,255,0.12)",
             background:  status === "done" ? `${accentColor}20` : "transparent",
@@ -247,7 +247,7 @@ function StageCard({
       >
         {/* Stage number / status */}
         <div
-          className="shrink-0 size-10 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-black"
+          className="shrink-0 size-10 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-bold"
           style={{
             borderColor: stageStatus === "completed"
               ? accentColor
@@ -271,7 +271,7 @@ function StageCard({
           <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70 mb-0.5">
             Stage {stage.index + 1} {stageStatus === "completed" ? "· Complete" : stageStatus === "locked" ? "· Locked" : `· ${completedTasksInStage}/${stage.tasks.length} tasks`}
           </p>
-          <p className="font-display font-black text-[0.9375rem] text-foreground leading-tight">{stage.title}</p>
+          <p className="font-display font-bold text-[0.9375rem] text-foreground leading-tight">{stage.title}</p>
           {stage.badge && stageStatus === "completed" && (
             <p className="text-[0.7rem] text-gold/70 mt-0.5">🏅 {stage.badge} badge earned</p>
           )}
@@ -279,7 +279,7 @@ function StageCard({
 
         <div className="flex items-center gap-3 shrink-0">
           <ProgressRing progress={stagePct} size={40} stroke={3} color={accentColor}>
-            <span className="text-[0.55rem] font-black text-foreground">{stagePct}%</span>
+            <span className="text-[0.625rem] font-bold text-foreground">{stagePct}%</span>
           </ProgressRing>
           {stageStatus !== "locked" && (
             <span className="text-muted/70 text-sm transition-transform duration-200" style={{ transform: open ? "rotate(90deg)" : undefined }}>
@@ -536,7 +536,7 @@ export default function PathPage() {
                       </span>
                     )}
                   </div>
-                  <h1 className="font-display font-black text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
+                  <h1 className="font-display font-bold text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
                     {path.title}
                   </h1>
                   <p className="text-[0.8125rem] text-muted/85 mt-1">{path.tagline}</p>
@@ -611,7 +611,7 @@ export default function PathPage() {
 
           {/* ── Stages ── */}
           <section className="flex flex-col gap-4">
-            <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">
+            <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">
               Your Journey — {path.totalStages} Stages
             </h2>
 

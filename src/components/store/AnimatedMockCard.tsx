@@ -182,11 +182,11 @@ export function AnimatedMockCard() {
         >
           ✦
         </span>
-        <span className="text-[0.72rem] font-semibold text-foreground/92">GPT-4o Vision</span>
+        <span className="text-[0.75rem] font-semibold text-foreground/92">GPT-4o Vision</span>
       </div>
       <div className="absolute -bottom-3 -left-3 rounded-full bg-surface border border-border px-3 py-1.5 flex items-center gap-1.5 shadow-lg" style={{ zIndex: 2 }}>
-        <span className="text-[0.72rem] font-semibold text-foreground/92">~8s</span>
-        <span className="text-muted/85 text-[0.72rem]">avg. processing</span>
+        <span className="text-[0.75rem] font-semibold text-foreground/92">~8s</span>
+        <span className="text-muted/85 text-[0.75rem]">avg. processing</span>
       </div>
 
       <style>{`

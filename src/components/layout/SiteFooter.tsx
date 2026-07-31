@@ -103,7 +103,7 @@ export function SiteFooter() {
               href="/"
               className="w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
             >
-              <span className="font-display text-[1.15rem] font-bold tracking-widest text-foreground/90 uppercase">
+              <span className="font-display text-[1.125rem] font-bold tracking-widest text-foreground/90 uppercase">
                 PXL{" "}
                 <span className="text-gold logo-glow">CREATOR</span>
               </span>
@@ -123,7 +123,7 @@ export function SiteFooter() {
             </div>
 
             {/* Trust signal */}
-            <p className="text-[0.8rem] text-muted/85 leading-snug max-w-[240px]">
+            <p className="text-[0.8125rem] text-muted/85 leading-snug max-w-[240px]">
               Trusted by{" "}
               <span className="text-muted/92 font-medium">10,000+</span>{" "}
               creators worldwide.
@@ -185,7 +185,7 @@ export function SiteFooter() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-[0.78rem] text-muted/85 hover:text-muted transition-colors duration-150"
+                  className="text-[0.8125rem] text-muted/85 hover:text-muted transition-colors duration-150"
                 >
                   {item.label}
                 </Link>

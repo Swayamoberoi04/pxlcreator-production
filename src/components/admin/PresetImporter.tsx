@@ -217,7 +217,7 @@ export function PresetImporter() {
       {/* ── Step 1: URL input ── */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-black flex items-center justify-center shrink-0">1</span>
+          <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-bold flex items-center justify-center shrink-0">1</span>
           <p className="text-[0.9375rem] font-semibold text-white/92">Paste your YouTube video URL</p>
         </div>
         <div className="flex gap-3">
@@ -267,7 +267,7 @@ export function PresetImporter() {
           <div className="h-px bg-white/[0.06]" />
 
           <div className="flex items-center gap-3">
-            <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-black flex items-center justify-center shrink-0">2</span>
+            <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-bold flex items-center justify-center shrink-0">2</span>
             <p className="text-[0.9375rem] font-semibold text-white/92">Review & edit preset details</p>
           </div>
 

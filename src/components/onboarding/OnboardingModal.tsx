@@ -209,7 +209,7 @@ export function OnboardingModal() {
                       Customize Your Creative Universe
                     </p>
                   )}
-                  <h2 className="font-display font-black text-[1.25rem] sm:text-[1.375rem] text-foreground leading-tight">
+                  <h2 className="font-display font-bold text-[1.25rem] sm:text-[1.375rem] text-foreground leading-tight">
                     {stepMeta.headline}
                   </h2>
                   <p className="text-[0.875rem] text-muted/92">

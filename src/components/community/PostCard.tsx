@@ -136,7 +136,7 @@ export function PostCard({ post, channelId, onReact }: PostCardProps) {
       {/* Content */}
       <div>
         {post.title && (
-          <h3 className="font-display font-black text-base text-foreground mb-2">{post.title}</h3>
+          <h3 className="font-display font-bold text-base text-foreground mb-2">{post.title}</h3>
         )}
         <p className="text-sm text-muted/92 leading-relaxed whitespace-pre-wrap">
           {bodyTruncated ? post.body.slice(0, BODY_LIMIT) + "…" : post.body}

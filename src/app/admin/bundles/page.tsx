@@ -84,8 +84,8 @@ export default function AdminBundlesPage() {
             key={label}
             className="rounded-xl border border-border/50 bg-surface px-4 py-4"
           >
-            <p className="text-[1.5rem] font-black text-foreground leading-none">{value}</p>
-            <p className="text-[0.72rem] text-muted/70 mt-1 tracking-wide uppercase">{label}</p>
+            <p className="text-[1.5rem] font-bold text-foreground leading-none">{value}</p>
+            <p className="text-[0.75rem] text-muted/70 mt-1 tracking-wide uppercase">{label}</p>
           </div>
         ))}
       </div>
@@ -136,7 +136,7 @@ export default function AdminBundlesPage() {
                     {/* Badge */}
                     <div className="w-[140px] flex-shrink-0">
                       <span className={cn(
-                        "text-[0.6rem] font-black tracking-widest uppercase rounded-full px-2.5 py-1",
+                        "text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-1",
                         badgeStyle
                       )}>
                         {bundle.bundleBadge}
@@ -155,13 +155,13 @@ export default function AdminBundlesPage() {
 
                     {/* Preset count */}
                     <div className="w-[80px] flex-shrink-0 text-center hidden sm:block">
-                      <p className="text-[0.9rem] font-bold text-foreground/92">{totalCount}</p>
-                      <p className="text-[0.6rem] text-muted/70 uppercase tracking-wide">presets</p>
+                      <p className="text-[0.875rem] font-bold text-foreground/92">{totalCount}</p>
+                      <p className="text-[0.625rem] text-muted/70 uppercase tracking-wide">presets</p>
                     </div>
 
                     {/* Pricing */}
                     <div className="w-[120px] flex-shrink-0 text-right hidden md:block">
-                      <p className="text-[0.9rem] font-bold text-gold">${bundle.price}</p>
+                      <p className="text-[0.875rem] font-bold text-gold">${bundle.price}</p>
                       <p className="text-[0.7rem] text-muted/70 line-through">${bundle.individualValueUsd}</p>
                     </div>
 
@@ -217,7 +217,7 @@ export default function AdminBundlesPage() {
         <p className="text-[0.8125rem] font-semibold text-foreground/85 mb-1">
           Bundle management
         </p>
-        <p className="text-[0.775rem] text-muted/70 leading-relaxed">
+        <p className="text-[0.8125rem] text-muted/70 leading-relaxed">
           Bundles are currently served from{" "}
           <code className="text-gold/60 bg-gold/5 rounded px-1">src/data/bundles.ts</code>{" "}
           (static fallback). To manage bundles from the database, populate the{" "}

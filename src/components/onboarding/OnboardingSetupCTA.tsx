@@ -30,7 +30,7 @@ export function OnboardingSetupCTA() {
       >
         <Link
           href="/account"
-          className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-[0.72rem] font-semibold text-muted/85 transition-all hover:text-foreground hover:border-gold/30 hover:bg-gold/5"
+          className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-[0.75rem] font-semibold text-muted/85 transition-all hover:text-foreground hover:border-gold/30 hover:bg-gold/5"
           title="Manage your creative preferences"
         >
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -53,7 +53,7 @@ export function OnboardingSetupCTA() {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 1.2, duration: 0.4, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-      className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/8 px-3 py-1 text-[0.72rem] font-semibold text-gold/90 transition-all hover:bg-gold/15 hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/8 px-3 py-1 text-[0.75rem] font-semibold text-gold/90 transition-all hover:bg-gold/15 hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       title="Complete your creator setup"
     >
       <span className="relative flex h-1.5 w-1.5 shrink-0">

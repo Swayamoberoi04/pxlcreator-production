@@ -92,7 +92,7 @@ export function AdminSidebar() {
       <div className="px-5 py-5 border-b border-white/[0.06]">
         <div className="flex items-center gap-2.5">
           <div className="h-7 w-7 rounded-lg bg-gold/20 border border-gold/30 flex items-center justify-center">
-            <span className="text-gold text-[0.65rem] font-black">PXL</span>
+            <span className="text-gold text-[0.65rem] font-bold">PXL</span>
           </div>
           <div className="flex flex-col">
             <span className="text-[0.8125rem] font-bold text-white/90 leading-none">PXL Creator</span>

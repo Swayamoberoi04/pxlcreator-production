@@ -180,7 +180,7 @@ export default function PresetEditorPage() {
           <Link href="/admin/presets" className="text-[0.75rem] text-white/70 hover:text-white/85 transition-colors">
             ← Back to presets
           </Link>
-          <h1 className="font-display font-black text-[1.5rem] text-white/90">
+          <h1 className="font-display font-bold text-[1.5rem] text-white/90">
             Edit Preset
           </h1>
           <p className="text-[0.8125rem] text-white/70">/presets/{preset.slug}</p>

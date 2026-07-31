@@ -88,7 +88,7 @@ export function AIStudioBanner() {
             <CinematicReveal variant="depth" delay={0.08}>
               <div className="flex flex-col gap-3">
                 <h2
-                  className="font-display font-black text-foreground uppercase leading-[0.92] tracking-[-0.02em]"
+                  className="font-display font-bold text-foreground uppercase leading-[0.92] tracking-[-0.02em]"
                   style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)" }}
                 >
                   Describe{" "}
@@ -111,7 +111,7 @@ export function AIStudioBanner() {
 
             {/* Subtitle */}
             <CinematicReveal variant="rise" delay={0.14}>
-              <p className="text-[1rem] sm:text-[1.0625rem] text-muted leading-relaxed max-w-lg">
+              <p className="text-[1rem] sm:text-[1rem] text-muted leading-relaxed max-w-lg">
                 Upload any photo, type the vibe you&apos;re going for, and PXL&apos;s AI
                 applies a cinematic grade — then recommends the exact preset that
                 nails that look permanently.

@@ -135,7 +135,7 @@ function FeedSection({
       {/* Section header */}
       <div className="flex items-end justify-between gap-3">
         <div>
-          <h2 className="font-display font-black text-[1.0625rem] text-foreground leading-tight">
+          <h2 className="font-display font-bold text-[1rem] text-foreground leading-tight">
             {section.headline}
           </h2>
           <p className="mt-0.5 text-[0.8125rem] text-muted/85">

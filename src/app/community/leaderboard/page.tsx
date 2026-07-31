@@ -31,9 +31,9 @@ function SkeletonRow() {
 }
 
 const RANK_STYLES: Record<number, { wrapper: string; rank: string }> = {
-  1: { wrapper: "border-gold/40 bg-gold/5",           rank: "text-gold font-black text-xl" },
-  2: { wrapper: "border-slate-400/30 bg-slate-400/5", rank: "text-slate-400 font-black text-lg" },
-  3: { wrapper: "border-amber-700/30 bg-amber-700/5", rank: "text-amber-600 font-black text-lg" },
+  1: { wrapper: "border-gold/40 bg-gold/5",           rank: "text-gold font-bold text-xl" },
+  2: { wrapper: "border-slate-400/30 bg-slate-400/5", rank: "text-slate-400 font-bold text-lg" },
+  3: { wrapper: "border-amber-700/30 bg-amber-700/5", rank: "text-amber-600 font-bold text-lg" },
 }
 
 // ── Mock leaderboard data shown when API returns empty ────────────
@@ -74,7 +74,7 @@ function MockLeaderboardRow({ creator, rank, type }: {
       </span>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="font-display font-black text-sm text-foreground truncate">{creator.name}</span>
+          <span className="font-display font-bold text-sm text-foreground truncate">{creator.name}</span>
           <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20">
             {creator.badge} {creator.badgeLabel}
           </span>
@@ -147,7 +147,7 @@ export default function LeaderboardPage() {
     <div className="flex flex-col gap-8">
       {/* Hero */}
       <div>
-        <h1 className="font-display font-black text-3xl text-foreground">Creator Leaderboard</h1>
+        <h1 className="font-display font-bold text-3xl text-foreground">Creator Leaderboard</h1>
         <p className="text-sm text-muted/85 mt-1">The top creators in the PXL ecosystem — ranked and celebrated</p>
       </div>
 
@@ -195,7 +195,7 @@ export default function LeaderboardPage() {
                 </Link>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <Link href={`/community/${entry.username}`} className="font-display font-black text-sm text-foreground hover:text-gold transition-colors truncate">{entry.display_name}</Link>
+                    <Link href={`/community/${entry.username}`} className="font-display font-bold text-sm text-foreground hover:text-gold transition-colors truncate">{entry.display_name}</Link>
                     {entry.is_verified && <span className="text-gold text-xs">✓</span>}
                   </div>
                   <p className="text-xs text-muted/85">@{entry.username}</p>
@@ -225,7 +225,7 @@ export default function LeaderboardPage() {
             <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4 mb-2">
               <span className="text-2xl">💡</span>
               <div>
-                <p className="font-display font-black text-sm text-foreground">Official rankings launch soon</p>
+                <p className="font-display font-bold text-sm text-foreground">Official rankings launch soon</p>
                 <p className="text-xs text-muted/85 mt-0.5">A preview of what the leaderboard will look like at launch</p>
               </div>
             </div>

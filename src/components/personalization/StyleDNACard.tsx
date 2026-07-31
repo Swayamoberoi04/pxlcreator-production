@@ -95,7 +95,7 @@ export function StyleDNACard({ dna, variant = "full", className }: StyleDNACardP
 
         {/* Title + tagline */}
         <div>
-          <h3 className="font-display font-black text-[1.25rem] leading-tight text-white">
+          <h3 className="font-display font-bold text-[1.25rem] leading-tight text-white">
             {dna.title}
           </h3>
           <p className="mt-1.5 text-[0.8125rem] text-white/85 leading-relaxed">

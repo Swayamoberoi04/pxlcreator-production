@@ -179,7 +179,7 @@ export default function FAQPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="depth" delay={0.07}>
-              <h1 className="font-display font-black text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight text-foreground">
+              <h1 className="font-display font-bold text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight text-foreground">
                 Frequently Asked{" "}
                 <span
                   style={{
@@ -195,7 +195,7 @@ export default function FAQPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="rise" delay={0.13}>
-              <p className="text-[1.0625rem] text-muted/85 max-w-md leading-relaxed">
+              <p className="text-[1rem] text-muted/85 max-w-md leading-relaxed">
                 Everything you need to know about PXL Creator presets, AI Studio, downloads, and licensing.
               </p>
             </CinematicReveal>

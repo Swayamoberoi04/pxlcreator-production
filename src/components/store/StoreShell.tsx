@@ -116,11 +116,11 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
                   <p className="text-[0.8125rem] font-semibold text-foreground group-hover:text-gold transition-colors truncate">
                     {preset.name}
                   </p>
-                  <p className="text-[0.72rem] text-muted/85 truncate">
+                  <p className="text-[0.75rem] text-muted/85 truncate">
                     {preset.includeCount} presets · {preset.category}
                   </p>
                 </div>
-                <span className="ml-auto shrink-0 text-[0.65rem] font-black text-emerald-400">FREE</span>
+                <span className="ml-auto shrink-0 text-[0.65rem] font-bold text-emerald-400">FREE</span>
               </Link>
             ))}
           </div>
@@ -178,7 +178,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
               {cat === "Free" && (
                 <span className={cn(
                   "absolute -top-1.5 -right-1.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1",
-                  "text-[0.55rem] font-black",
+                  "text-[0.625rem] font-bold",
                   category === "Free"
                     ? "bg-emerald-400 text-background"
                     : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
@@ -216,7 +216,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
           ( {visible.length} {visible.length === 1 ? "preset" : "presets"} )
         </span>
         {category === "Free" && (
-          <span className="text-[0.72rem] text-emerald-400/70 font-medium">· all free</span>
+          <span className="text-[0.75rem] text-emerald-400/70 font-medium">· all free</span>
         )}
         {search && (
           <span className="text-[0.75rem] text-muted/70">

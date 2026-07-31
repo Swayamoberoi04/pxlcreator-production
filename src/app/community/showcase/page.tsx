@@ -83,7 +83,7 @@ function SampleShowcaseCard({ item }: { item: typeof SAMPLE_SHOWCASES[0] }) {
         <img src={item.thumbnail_url} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
       </div>
       <div className="p-4 flex flex-col gap-2">
-        <p className="font-display font-black text-sm text-foreground line-clamp-1">{item.title}</p>
+        <p className="font-display font-bold text-sm text-foreground line-clamp-1">{item.title}</p>
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted/85">@{item.creator.username}</span>
           <div className="flex items-center gap-3 text-xs text-muted/85">
@@ -133,7 +133,7 @@ export default function ShowcasePage() {
       {/* Hero */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-display font-black text-[1.75rem] text-foreground">Creator Showcase</h1>
+          <h1 className="font-display font-bold text-[1.75rem] text-foreground">Creator Showcase</h1>
           <p className="text-[0.9375rem] text-muted/85 mt-1">Inspiring work from the PXL Creator community.</p>
         </div>
         {user && (
@@ -182,7 +182,7 @@ export default function ShowcasePage() {
           <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
             <span className="text-2xl">💡</span>
             <div>
-              <p className="font-display font-black text-sm text-foreground">Public portfolio publishing coming soon</p>
+              <p className="font-display font-bold text-sm text-foreground">Public portfolio publishing coming soon</p>
               <p className="text-xs text-muted/85 mt-0.5">Here&apos;s a preview of the stunning work our community will showcase</p>
             </div>
           </div>
@@ -196,7 +196,7 @@ export default function ShowcasePage() {
                 <img src={FEATURED_CREATOR.avatar} alt={FEATURED_CREATOR.name} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display font-black text-base text-foreground">{FEATURED_CREATOR.name}</p>
+                <p className="font-display font-bold text-base text-foreground">{FEATURED_CREATOR.name}</p>
                 <p className="text-xs text-muted/85">@{FEATURED_CREATOR.username} · {FEATURED_CREATOR.role}</p>
                 <p className="text-xs text-muted/85 mt-1.5 line-clamp-2">{FEATURED_CREATOR.bio}</p>
               </div>
@@ -207,7 +207,7 @@ export default function ShowcasePage() {
                   { label: "Total Likes", value: FEATURED_CREATOR.likes.toLocaleString() },
                 ].map((s) => (
                   <div key={s.label} className="text-center">
-                    <p className="font-display font-black text-base text-gold">{s.value}</p>
+                    <p className="font-display font-bold text-base text-gold">{s.value}</p>
                     <p className="text-[10px] text-muted/85">{s.label}</p>
                   </div>
                 ))}
@@ -289,7 +289,7 @@ function UploadModal({ onClose, onUploaded }: { onClose: () => void; onUploaded:
         onClick={(e) => e.stopPropagation()}
         className="relative z-10 w-full max-w-lg rounded-2xl border border-border bg-black/90 backdrop-blur-2xl p-6 flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-display font-black text-[1.125rem]">Share Your Work</h2>
+          <h2 className="font-display font-bold text-[1.125rem]">Share Your Work</h2>
           <button type="button" onClick={onClose} className="text-muted/70 hover:text-muted text-[1.25rem] leading-none">×</button>
         </div>
         {error && <p className="text-[0.875rem] text-red-400 bg-red-400/10 rounded-lg px-3 py-2">{error}</p>}

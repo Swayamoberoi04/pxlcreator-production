@@ -31,7 +31,7 @@ export function UnlockMethodBanner({ variant = "store" }: UnlockMethodBannerProp
               ? "Two ways to access this preset"
               : "Two ways to access every preset"}
           </p>
-          <p className="text-[0.8rem] text-muted/85 leading-relaxed max-w-2xl">
+          <p className="text-[0.8125rem] text-muted/85 leading-relaxed max-w-2xl">
             <span className="text-foreground/92 font-medium">Buy instantly</span> for permanent access and to support PXL Creator
             {" "}—{" "}
             or{" "}
@@ -66,7 +66,7 @@ export function UnlockMethodBanner({ variant = "store" }: UnlockMethodBannerProp
         ].map(({ icon, label }) => (
           <div key={label} className="flex items-center gap-1.5">
             <span className="text-emerald-400/80">{icon}</span>
-            <span className="text-[0.72rem] text-muted/85">{label}</span>
+            <span className="text-[0.75rem] text-muted/85">{label}</span>
           </div>
         ))}
       </div>

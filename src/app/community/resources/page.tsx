@@ -71,7 +71,7 @@ function ResourceCard({ resource }: ResourceCardProps) {
         <span className="text-2xl shrink-0">{resource.icon}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="font-display font-black text-sm text-foreground">{resource.title}</h3>
+            <h3 className="font-display font-bold text-sm text-foreground">{resource.title}</h3>
             {resource.is_featured && (
               <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30">
                 Featured
@@ -130,7 +130,7 @@ export default function ResourcesPage() {
     <div className="flex flex-col gap-8">
       {/* Hero */}
       <div>
-        <h1 className="font-display font-black text-3xl text-foreground">Creator Resources</h1>
+        <h1 className="font-display font-bold text-3xl text-foreground">Creator Resources</h1>
         <p className="text-sm text-muted/85 mt-1">
           Curated tools, communities, and learning platforms for creators — hand-picked by the PXL team
         </p>
@@ -145,8 +145,8 @@ export default function ResourcesPage() {
         ].map((s) => (
           <div key={s.title} className="rounded-2xl border border-border bg-surface p-5 text-center">
             <span className="text-3xl">{s.icon}</span>
-            <p className="font-display font-black text-2xl text-gold mt-2">{s.count}+</p>
-            <p className="font-display font-black text-xs text-foreground">{s.title}</p>
+            <p className="font-display font-bold text-2xl text-gold mt-2">{s.count}+</p>
+            <p className="font-display font-bold text-xs text-foreground">{s.title}</p>
             <p className="text-[10px] text-muted/85">{s.desc}</p>
           </div>
         ))}
@@ -179,7 +179,7 @@ export default function ResourcesPage() {
         <div className="flex flex-col gap-6">
           {featured.length > 0 && (
             <div>
-              <h2 className="font-display font-black text-base text-foreground mb-3 flex items-center gap-2">
+              <h2 className="font-display font-bold text-base text-foreground mb-3 flex items-center gap-2">
                 <span className="text-gold">⭐</span> Featured Picks
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -189,7 +189,7 @@ export default function ResourcesPage() {
           )}
           {regular.length > 0 && (
             <div>
-              {featured.length > 0 && <h2 className="font-display font-black text-base text-foreground mb-3">All Resources</h2>}
+              {featured.length > 0 && <h2 className="font-display font-bold text-base text-foreground mb-3">All Resources</h2>}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {regular.map((r) => <ResourceCard key={r.id} resource={r} />)}
               </div>

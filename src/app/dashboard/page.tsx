@@ -100,7 +100,7 @@ function EmptyDashboard({ onStart }: { onStart: () => void }) {
         </div>
       </div>
       <div className="flex flex-col gap-3 max-w-md">
-        <h2 className="font-display font-black text-[1.5rem] text-foreground">Your creative universe awaits</h2>
+        <h2 className="font-display font-bold text-[1.5rem] text-foreground">Your creative universe awaits</h2>
         <p className="text-[0.9375rem] text-muted/92 leading-relaxed">
           Complete the 5-minute onboarding to unlock your personalised Style DNA, growth path, curated challenges, and a dashboard built entirely around you.
         </p>
@@ -125,7 +125,7 @@ function AnalyticsStrip({ analytics, accentColor }: { analytics: CreatorAnalytic
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {stats.map((s) => (
         <div key={s.label} className="rounded-xl border border-border bg-surface p-3.5 flex flex-col gap-1">
-          <p className="font-display font-black text-[1.25rem] text-foreground" style={{ color: s.value > 0 ? accentColor : undefined }}>
+          <p className="font-display font-bold text-[1.25rem] text-foreground" style={{ color: s.value > 0 ? accentColor : undefined }}>
             {s.value.toLocaleString()}
           </p>
           <p className="text-[0.7rem] text-muted/85 uppercase tracking-wider font-semibold">{s.label}</p>
@@ -156,11 +156,11 @@ function GrowthPathCard({ path, onCompleteTask, accentColor }: {
       {/* Header bar */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
         <div className="flex-1 min-w-0">
-          <p className="font-display font-black text-sm text-foreground truncate">{path.title}</p>
+          <p className="font-display font-bold text-sm text-foreground truncate">{path.title}</p>
           <p className="text-xs text-muted/85 mt-0.5">Stage {stageIndex + 1} of {path.stages.length}: {stage?.title}</p>
         </div>
         <ProgressRing progress={progressPct} size={44} stroke={3} color={accentColor}>
-          <span className="text-[0.6rem] font-black text-foreground">{progressPct}%</span>
+          <span className="text-[0.625rem] font-bold text-foreground">{progressPct}%</span>
         </ProgressRing>
       </div>
 
@@ -169,7 +169,7 @@ function GrowthPathCard({ path, onCompleteTask, accentColor }: {
         <div className="p-5 flex flex-col gap-3">
           <div>
             <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70 mb-1">Next Task</p>
-            <p className="font-display font-black text-[0.9375rem] text-foreground">{nextTask.title}</p>
+            <p className="font-display font-bold text-[0.9375rem] text-foreground">{nextTask.title}</p>
             <p className="text-xs text-muted/85 mt-1 leading-relaxed line-clamp-2">{nextTask.description}</p>
           </div>
           <div className="flex items-center gap-3">
@@ -220,30 +220,30 @@ function ChallengeCard({ challenge, onCompleteDay, accentColor }: {
     <div className="rounded-2xl border border-border bg-surface overflow-hidden">
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
         <div className="flex-1 min-w-0">
-          <p className="font-display font-black text-sm text-foreground truncate">{challenge.title}</p>
+          <p className="font-display font-bold text-sm text-foreground truncate">{challenge.title}</p>
           <p className="text-xs text-muted/85 mt-0.5">{completedSet.size} / {challenge.totalDays} days complete</p>
         </div>
         <ProgressRing progress={progressPct} size={44} stroke={3} color={accentColor}>
-          <span className="text-[0.6rem] font-black text-foreground">{progressPct}%</span>
+          <span className="text-[0.625rem] font-bold text-foreground">{progressPct}%</span>
         </ProgressRing>
       </div>
 
       {todayData && (
         <div className="p-5 flex flex-col gap-3">
           <div className="flex items-start gap-3">
-            <div className="shrink-0 size-7 rounded-full border-2 flex items-center justify-center text-[0.65rem] font-black"
+            <div className="shrink-0 size-7 rounded-full border-2 flex items-center justify-center text-[0.65rem] font-bold"
               style={{ borderColor: done ? accentColor : undefined, background: done ? `${accentColor}20` : undefined, color: done ? accentColor : "var(--muted)" }}>
               {done ? "✓" : todayDay}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-display font-black text-[0.9375rem] text-foreground">{todayData.title}</p>
+              <p className="font-display font-bold text-[0.9375rem] text-foreground">{todayData.title}</p>
               <p className="text-xs text-muted/85 mt-1 leading-relaxed line-clamp-3">{todayData.prompt}</p>
             </div>
           </div>
 
           {/* Tip */}
           <div className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 flex items-start gap-2.5">
-            <span className="text-gold text-[0.6rem] font-bold uppercase tracking-widest shrink-0 mt-0.5">Tip</span>
+            <span className="text-gold text-[0.625rem] font-bold uppercase tracking-widest shrink-0 mt-0.5">Tip</span>
             <p className="text-xs text-muted/92 leading-relaxed">{todayData.tip}</p>
           </div>
 
@@ -304,11 +304,11 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
     <div className="rounded-2xl border border-border bg-surface overflow-hidden">
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
         <div className="flex-1 min-w-0">
-          <p className="font-display font-black text-sm text-foreground truncate">{course.title}</p>
+          <p className="font-display font-bold text-sm text-foreground truncate">{course.title}</p>
           <p className="text-xs text-muted/85 mt-0.5">{completedSet.size} / {course.totalLessons} lessons · {course.estimatedHours}h total</p>
         </div>
         <ProgressRing progress={progressPct} size={44} stroke={3} color={accentColor}>
-          <span className="text-[0.6rem] font-black text-foreground">{progressPct}%</span>
+          <span className="text-[0.625rem] font-bold text-foreground">{progressPct}%</span>
         </ProgressRing>
       </div>
 
@@ -318,7 +318,7 @@ function CourseCard({ course, onCompleteLesson, accentColor }: {
             <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70 mb-1">
               {lessonTypeLabel(next.lessonType ?? "read")} · {next.moduleTitle}
             </p>
-            <p className="font-display font-black text-[0.9375rem] text-foreground">{next.lessonTitle}</p>
+            <p className="font-display font-bold text-[0.9375rem] text-foreground">{next.lessonTitle}</p>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-muted/70">â± {next.duration}</span>
@@ -474,7 +474,7 @@ export default function DashboardPage() {
             className="flex flex-col gap-2">
             <p className="text-[0.8125rem] font-semibold tracking-widest uppercase text-gold/60">{getGreeting()}</p>
             <div className="flex items-center gap-4 flex-wrap">
-              <h1 className="font-display font-black text-[1.75rem] sm:text-[2rem] text-foreground leading-tight">{displayName}</h1>
+              <h1 className="font-display font-bold text-[1.75rem] sm:text-[2rem] text-foreground leading-tight">{displayName}</h1>
               {dna && <StyleDNACard dna={dna} variant="compact" />}
               {(dashboard?.profile.consistency_streak ?? 0) > 0 && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-[0.75rem] font-bold text-orange-400">
@@ -490,7 +490,7 @@ export default function DashboardPage() {
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.5 }}
               className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Your Style DNA</h2>
+                <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Your Style DNA</h2>
                 <button type="button" onClick={openOnboarding} className="text-[0.75rem] text-muted/70 hover:text-gold transition-colors rounded">
                   Retake →
                 </button>
@@ -504,7 +504,7 @@ export default function DashboardPage() {
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14, duration: 0.5 }}
               className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Your Progress</h2>
+                <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Your Progress</h2>
                 <Link href="/community" className="text-[0.75rem] text-muted/70 hover:text-gold transition-colors">View Community →</Link>
               </div>
               <AnalyticsStrip analytics={analytics} accentColor={accentColor} />
@@ -516,7 +516,7 @@ export default function DashboardPage() {
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18, duration: 0.5 }}
               className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Your Growth Path</h2>
+                <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Your Growth Path</h2>
                 <Link href={`/dashboard/path/${activePath.id}`} className="text-[0.75rem] text-muted/70 hover:text-gold transition-colors">Full Path →</Link>
               </div>
               <GrowthPathCard
@@ -552,7 +552,7 @@ export default function DashboardPage() {
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22, duration: 0.5 }}
               className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Active Learning</h2>
+                <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Active Learning</h2>
                 {activeChallenge && (
                   <Link href={`/dashboard/challenge/${activeChallenge.id}`} className="text-[0.75rem] text-muted/70 hover:text-gold transition-colors">
                     Full Challenge →
@@ -582,7 +582,7 @@ export default function DashboardPage() {
           <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28, duration: 0.5 }}
             className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Made for You</h2>
+              <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Made for You</h2>
               {dna && <span className="text-[0.75rem] text-muted/70">Based on your {dna.badge} profile</span>}
             </div>
             <PersonalizedFeed dna={dna} maxSections={4} />
@@ -591,7 +591,7 @@ export default function DashboardPage() {
           {/* ── Quick Actions ── */}
           <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.34, duration: 0.5 }}
             className="flex flex-col gap-3">
-            <h2 className="font-display font-black text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Quick Actions</h2>
+            <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">Quick Actions</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 { icon: "◈", label: "Presets For You",   sub: "Sorted by your style",    href: "/store/for-you",  color: "#FFD60A" },

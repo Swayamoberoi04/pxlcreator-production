@@ -62,7 +62,7 @@ export function PresetProductGallery({
             className="rounded-2xl"
           />
           {beforeAfterExplanation && (
-            <p className="text-[0.78rem] text-muted/85 leading-relaxed border-l-2 border-gold/30 pl-3 italic">
+            <p className="text-[0.8125rem] text-muted/85 leading-relaxed border-l-2 border-gold/30 pl-3 italic">
               {beforeAfterExplanation}
             </p>
           )}

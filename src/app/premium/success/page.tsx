@@ -67,7 +67,7 @@ function SuccessContent() {
 
         {/* Heading */}
         <CinematicReveal variant="depth" delay={0.08}>
-          <h1 className="font-display font-black text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight mb-3">
+          <h1 className="font-display font-bold text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight mb-3">
             You&apos;re a{" "}
             <span className="text-gold">{planName}</span>
             {" "}member!

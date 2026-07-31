@@ -170,12 +170,12 @@ export default async function BundleDetailPage(
               <div>
                 {/* Bundle badge */}
                 <span className={cn(
-                  "inline-block text-[0.6rem] font-black tracking-widest uppercase rounded-full px-2.5 py-[5px] mb-3",
+                  "inline-block text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-[5px] mb-3",
                   "bg-gold/15 text-gold border border-gold/25"
                 )}>
                   {bundle.bundleBadge}
                 </span>
-                <h1 className="font-display text-[1.75rem] sm:text-[2.5rem] font-black text-foreground leading-[1.1]">
+                <h1 className="font-display text-[1.75rem] sm:text-[2.5rem] font-bold text-foreground leading-[1.1]">
                   {bundle.name}
                 </h1>
                 <p className="mt-1.5 text-[0.9375rem] text-muted/85 max-w-lg">
@@ -186,18 +186,18 @@ export default async function BundleDetailPage(
               {/* Stats — desktop only */}
               <div className="hidden md:flex items-center gap-6 pb-1 flex-shrink-0">
                 <div className="text-center">
-                  <p className="text-[1.5rem] font-black text-gold leading-none">{totalPresets}</p>
-                  <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">Presets</p>
+                  <p className="text-[1.5rem] font-bold text-gold leading-none">{totalPresets}</p>
+                  <p className="text-[0.625rem] text-muted/70 mt-0.5 uppercase tracking-wide">Presets</p>
                 </div>
                 {savingsPercent > 0 && (
                   <div className="text-center">
-                    <p className="text-[1.5rem] font-black text-emerald-400 leading-none">{savingsPercent}%</p>
-                    <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">Savings</p>
+                    <p className="text-[1.5rem] font-bold text-emerald-400 leading-none">{savingsPercent}%</p>
+                    <p className="text-[0.625rem] text-muted/70 mt-0.5 uppercase tracking-wide">Savings</p>
                   </div>
                 )}
                 <div className="text-center">
-                  <p className="text-[1.5rem] font-black text-foreground/92 leading-none">{bundle.includedPacks.length}</p>
-                  <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">Packs</p>
+                  <p className="text-[1.5rem] font-bold text-foreground/92 leading-none">{bundle.includedPacks.length}</p>
+                  <p className="text-[0.625rem] text-muted/70 mt-0.5 uppercase tracking-wide">Packs</p>
                 </div>
               </div>
             </div>
@@ -220,8 +220,8 @@ export default async function BundleDetailPage(
                 { value: bundle.includedPacks.length, label: "Packs" },
               ].map(({ value, label }) => (
                 <div key={label} className="text-center">
-                  <p className="text-[1.2rem] font-black text-gold leading-none">{value}</p>
-                  <p className="text-[0.6rem] text-muted/70 mt-0.5 uppercase tracking-wide">{label}</p>
+                  <p className="text-[1.25rem] font-bold text-gold leading-none">{value}</p>
+                  <p className="text-[0.625rem] text-muted/70 mt-0.5 uppercase tracking-wide">{label}</p>
                 </div>
               ))}
             </div>
@@ -265,7 +265,7 @@ export default async function BundleDetailPage(
                       <span className="mt-[3px] flex-shrink-0 text-gold/60">
                         <SmallCheckIcon />
                       </span>
-                      <span className="text-[0.9rem] text-muted/85 leading-relaxed">{f}</span>
+                      <span className="text-[0.875rem] text-muted/85 leading-relaxed">{f}</span>
                     </li>
                   ))}
                 </ul>
@@ -280,7 +280,7 @@ export default async function BundleDetailPage(
                   {bundle.targetAudience.map((audience) => (
                     <span
                       key={audience}
-                      className="text-[0.775rem] font-medium text-muted/85 bg-surface-2/60 border border-border/50 rounded-full px-3 py-1.5"
+                      className="text-[0.8125rem] font-medium text-muted/85 bg-surface-2/60 border border-border/50 rounded-full px-3 py-1.5"
                     >
                       {audience}
                     </span>
@@ -314,7 +314,7 @@ export default async function BundleDetailPage(
                   {bundle.compatibility.map((app) => (
                     <span
                       key={app}
-                      className="flex items-center gap-1.5 text-[0.775rem] font-medium text-muted/85 bg-surface-2/50 border border-border/40 rounded-lg px-3 py-1.5"
+                      className="flex items-center gap-1.5 text-[0.8125rem] font-medium text-muted/85 bg-surface-2/50 border border-border/40 rounded-lg px-3 py-1.5"
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-gold/50 flex-shrink-0" />
                       {app}
@@ -366,7 +366,7 @@ export default async function BundleDetailPage(
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[0.68rem] font-bold tracking-[0.2em] uppercase text-gold/50 mb-2">
+    <p className="text-[0.6875rem] font-bold tracking-[0.2em] uppercase text-gold/50 mb-2">
       {children}
     </p>
   )
