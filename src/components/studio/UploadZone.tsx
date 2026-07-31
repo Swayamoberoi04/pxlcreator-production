@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useRef, useState } from "react"
 import { cn } from "@/lib/utils"
@@ -101,7 +101,7 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
           </div>
           {/* BEFORE label */}
           <div className="absolute top-3 left-3 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 px-2.5 py-1">
-            <span className="text-[0.7rem] font-semibold text-white/60 tracking-widest uppercase">
+            <span className="text-[0.7rem] font-semibold text-white/85 tracking-widest uppercase">
               Original
             </span>
           </div>
@@ -110,10 +110,10 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
         {/* File meta */}
         <div className="flex items-center justify-between gap-3 px-1">
           <div className="flex items-center gap-2 min-w-0">
-            <ImageIcon className="text-muted/50 shrink-0" />
+            <ImageIcon className="text-muted/85 shrink-0" />
             <span className="text-[0.8125rem] text-muted truncate">{file.name}</span>
           </div>
-          <span className="text-[0.8125rem] text-muted/50 shrink-0">
+          <span className="text-[0.8125rem] text-muted/85 shrink-0">
             {(file.size / 1024 / 1024).toFixed(1)} MB
           </span>
         </div>
@@ -154,15 +154,15 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
         )}>
           {isPreparing
             ? <SpinnerIcon className="text-gold animate-spin" />
-            : <UploadIcon className={isDragOver ? "text-gold" : "text-muted/50"} />
+            : <UploadIcon className={isDragOver ? "text-gold" : "text-muted/85"} />
           }
         </div>
 
         <div className="flex flex-col items-center gap-1.5 text-center px-8">
-          <p className="text-[0.9375rem] font-medium text-foreground/80">
+          <p className="text-[0.9375rem] font-medium text-foreground/92">
             {isPreparing ? "Optimizing photo…" : isDragOver ? "Drop your photo here" : "Upload your photo"}
           </p>
-          <p className="text-[0.8125rem] text-muted/60">
+          <p className="text-[0.8125rem] text-muted/85">
             {isPreparing ? (
               "Resizing and preparing for upload"
             ) : (
@@ -173,7 +173,7 @@ export function UploadZone({ file, previewUrl, onFileSelect, onClear }: UploadZo
             )}
           </p>
           {!isPreparing && (
-            <p className="text-[0.75rem] text-muted/40 mt-1">
+            <p className="text-[0.75rem] text-muted/70 mt-1">
               JPEG · PNG · WebP · up to {MAX_SIZE_MB} MB
             </p>
           )}

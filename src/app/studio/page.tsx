@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Container }    from "@/components/layout/Container"
 import { StudioShell }  from "@/components/studio/StudioShell"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
@@ -47,13 +47,13 @@ export default function StudioPage() {
 
             {/* Headline */}
             <CinematicReveal variant="depth" delay={0.07}>
-              <h1 className="font-display font-black text-foreground text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight">
+              <h1 className="font-display font-bold text-foreground text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight">
                 Describe the look.{" "}
                 <br className="hidden sm:block" />
                 <span
                   className="bg-clip-text text-transparent"
                   style={{
-                    backgroundImage: "linear-gradient(90deg, #6366f1 0%, #C9A84C 100%)",
+                    backgroundImage: "linear-gradient(90deg, #6366f1 0%, #FFD60A 100%)",
                   }}
                 >
                   AI does the edit.
@@ -78,10 +78,10 @@ export default function StudioPage() {
                       <span className="flex items-center justify-center w-5 h-5 rounded-full border border-[#6366f1]/40 bg-[#6366f1]/10 text-[0.65rem] font-bold text-[#a5b4fc]">
                         {i + 1}
                       </span>
-                      <span className="text-[0.8125rem] text-muted/60 font-medium">{step}</span>
+                      <span className="text-[0.8125rem] text-muted/85 font-medium">{step}</span>
                     </div>
                     {i < STEPS.length - 1 && (
-                      <span className="text-muted/25 text-[0.75rem]" aria-hidden="true">→</span>
+                      <span className="text-muted/70 text-[0.75rem]" aria-hidden="true">→</span>
                     )}
                   </div>
                 </CinematicItem>
@@ -107,7 +107,7 @@ export default function StudioPage() {
       ──────────────────────────────────────────────────────── */}
       <div className="border-t border-border">
         <Container className="py-6">
-          <p className="text-center text-[0.75rem] text-muted/35 leading-relaxed max-w-lg mx-auto">
+          <p className="text-center text-[0.75rem] text-muted/70 leading-relaxed max-w-lg mx-auto">
             PXL Vision AI · Images are processed in-memory and never stored ·
             5 edits / hour per session · Results are approximate — real Lightroom presets
             give the full look.

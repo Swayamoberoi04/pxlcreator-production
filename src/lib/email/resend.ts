@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/lib/email/resend.ts
  *
  * Thin wrapper around the Resend SDK.
@@ -103,7 +103,7 @@ function buildContactHtml(p: ContactEmailPayload): string {
     <!-- Header -->
     <tr>
       <td style="background:linear-gradient(135deg,#1a1a0a,#111);padding:28px 32px;border-bottom:1px solid #2a2a2a">
-        <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C9A84C;font-weight:600">PXL Creator</p>
+        <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#FFD60A;font-weight:600">PXL Creator</p>
         <h1 style="margin:8px 0 0;font-size:20px;font-weight:700;color:#f5f0e8">New Contact Message</h1>
       </td>
     </tr>
@@ -118,7 +118,7 @@ function buildContactHtml(p: ContactEmailPayload): string {
           </tr>
           <tr>
             <td style="padding:8px 0;color:#888;font-size:13px">Email</td>
-            <td style="padding:8px 0;font-size:13px"><a href="mailto:${esc(p.senderEmail)}" style="color:#C9A84C;text-decoration:none">${esc(p.senderEmail)}</a></td>
+            <td style="padding:8px 0;font-size:13px"><a href="mailto:${esc(p.senderEmail)}" style="color:#FFD60A;text-decoration:none">${esc(p.senderEmail)}</a></td>
           </tr>
           <tr>
             <td style="padding:8px 0;color:#888;font-size:13px">Subject</td>

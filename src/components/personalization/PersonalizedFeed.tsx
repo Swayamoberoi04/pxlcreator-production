@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * PersonalizedFeed.tsx
@@ -52,7 +52,7 @@ function RecommendCard({
         className={cn(
           "group flex items-start gap-4 rounded-xl border border-border bg-surface",
           "px-4 py-3.5 transition-all duration-200",
-          "hover:border-gold/30 hover:bg-surface-2 hover:shadow-[0_0_20px_rgba(201,168,76,0.06)]",
+          "hover:border-gold/30 hover:bg-surface-2 hover:shadow-[0_0_20px_rgba(255,214,10,0.06)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         )}
       >
@@ -76,7 +76,7 @@ function RecommendCard({
               </span>
             )}
           </div>
-          <p className="mt-0.5 text-[0.8125rem] text-muted/70 leading-snug line-clamp-2">
+          <p className="mt-0.5 text-[0.8125rem] text-muted/92 leading-snug line-clamp-2">
             {item.description}
           </p>
 
@@ -86,7 +86,7 @@ function RecommendCard({
               {item.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-surface-2 px-2 py-0.5 text-[0.65rem] text-muted/50 border border-border"
+                  className="rounded-full bg-surface-2 px-2 py-0.5 text-[0.65rem] text-muted/85 border border-border"
                 >
                   {tag}
                 </span>
@@ -97,7 +97,7 @@ function RecommendCard({
 
         {/* Score bar */}
         <div className="shrink-0 flex flex-col items-end gap-1 mt-0.5">
-          <span className="text-[0.65rem] font-medium text-muted/40">
+          <span className="text-[0.65rem] font-medium text-muted/70">
             {Math.round(item.score)}%
           </span>
           <div className="w-12 h-1 rounded-full bg-border overflow-hidden">
@@ -135,10 +135,10 @@ function FeedSection({
       {/* Section header */}
       <div className="flex items-end justify-between gap-3">
         <div>
-          <h2 className="font-display font-black text-[1.0625rem] text-foreground leading-tight">
+          <h2 className="font-display font-bold text-[1rem] text-foreground leading-tight">
             {section.headline}
           </h2>
-          <p className="mt-0.5 text-[0.8125rem] text-muted/60">
+          <p className="mt-0.5 text-[0.8125rem] text-muted/85">
             {section.subheadline}
           </p>
         </div>
@@ -287,7 +287,7 @@ export function PersonalizedFeed({
   /* ── No recommendations yet ── */
   if (sections.length === 0) return null
 
-  const accentColor = localDna?.primaryColor ?? "#C9A84C"
+  const accentColor = localDna?.primaryColor ?? "#FFD60A"
   const visibleSections = sections.slice(0, maxSections)
 
   return (
@@ -304,7 +304,7 @@ export function PersonalizedFeed({
       </AnimatePresence>
 
       {fromCache && (
-        <p className="text-center text-[0.75rem] text-muted/30">
+        <p className="text-center text-[0.75rem] text-muted/70">
           Personalised for you · Updated today
         </p>
       )}

@@ -154,7 +154,7 @@ export default function GiveawayPage() {
             <CinematicReveal variant="gentle" delay={0.05}>
               <div className="flex items-center gap-3 rounded-full border border-gold/20 bg-gold/5 px-6 py-3">
                 <span className="text-[0.875rem] text-muted">Total prize value:</span>
-                <span className="font-display font-black text-[1.125rem] text-gold">$256+</span>
+                <span className="font-display font-bold text-[1.125rem] text-gold">$256+</span>
               </div>
             </CinematicReveal>
 
@@ -188,7 +188,7 @@ export default function GiveawayPage() {
                 <div className="group flex gap-5 rounded-2xl border border-border bg-surface p-6 sm:p-8 transition-all duration-300 hover:border-gold/20">
                   {/* Step number */}
                   <div className="shrink-0 flex flex-col items-center gap-2">
-                    <span className="font-display text-[2.25rem] font-black text-gold/15 leading-none select-none group-hover:text-gold/25 transition-colors duration-300">
+                    <span className="font-display text-[2.5rem] font-bold text-gold/15 leading-none select-none group-hover:text-gold/25 transition-colors duration-300">
                       {step.number}
                     </span>
                   </div>
@@ -289,7 +289,7 @@ export default function GiveawayPage() {
       <div className="border-t border-border">
         <Container className="py-8 sm:py-10">
           <div className="flex flex-col items-center gap-5 max-w-2xl mx-auto text-center">
-            <p className="text-[0.8125rem] text-muted/50 leading-relaxed">
+            <p className="text-[0.8125rem] text-muted/85 leading-relaxed">
               Winner selected at random from qualifying entries. Open to all residents 18+.
               One winner announced on Instagram Stories within 7 days of the closing date.
               PXL Creator reserves the right to modify or cancel the giveaway at any time.
@@ -297,7 +297,7 @@ export default function GiveawayPage() {
             </p>
             <Link
               href="/contact"
-              className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors underline underline-offset-4"
+              className="text-[0.8125rem] text-muted/85 hover:text-gold transition-colors underline underline-offset-4"
             >
               Questions? Contact us
             </Link>
@@ -363,11 +363,11 @@ function Countdown({ endDate }: { endDate: Date }) {
         <div key={label} className="flex items-end gap-3 sm:gap-5">
           <div className="flex flex-col items-center gap-1">
             <div className="min-w-[52px] sm:min-w-[64px] rounded-xl border border-border bg-surface/80 px-3 py-2.5 text-center">
-              <span className="font-display font-black text-[1.625rem] sm:text-[2rem] text-foreground leading-none tabular-nums">
+              <span className="font-display font-bold text-[1.75rem] sm:text-[2rem] text-foreground leading-none tabular-nums">
                 {String(value).padStart(2, "0")}
               </span>
             </div>
-            <span className="text-[0.6875rem] text-muted/60 tracking-wider uppercase">{label}</span>
+            <span className="text-[0.6875rem] text-muted/85 tracking-wider uppercase">{label}</span>
           </div>
           {i < units.length - 1 && (
             <span className="text-gold/40 text-[1.5rem] font-thin mb-7 select-none" aria-hidden="true">:</span>

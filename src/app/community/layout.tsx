@@ -14,7 +14,7 @@ export default function CommunityLayout({ children }: { children: React.ReactNod
         <div className="w-full bg-gold/10 border-b border-gold/20 px-4 py-2.5 text-center">
           <p className="text-sm text-gold/90">
             <span className="font-semibold">Join the Community</span>
-            <span className="text-muted/70 mx-2">—</span>
+            <span className="text-muted/92 mx-2">—</span>
             connect with creators, find collaborators, and showcase your work.
             <Link
               href="/signup"

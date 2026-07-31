@@ -60,12 +60,12 @@ function CreateChannelModal({ onClose, onCreated }: { onClose: () => void; onCre
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-border bg-surface p-6 flex flex-col gap-5 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between">
-          <h2 className="font-display font-black text-xl text-foreground">Create Channel</h2>
-          <button onClick={onClose} className="text-muted/50 hover:text-foreground text-xl">✕</button>
+          <h2 className="font-display font-bold text-xl text-foreground">Create Channel</h2>
+          <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-muted/70">Icon</label>
+            <label className="text-xs font-semibold text-muted/92">Icon</label>
             <div className="flex gap-2 flex-wrap">
               {ICON_OPTIONS.map((icon) => (
                 <button key={icon} type="button" onClick={() => set("icon", icon)}
@@ -76,25 +76,25 @@ function CreateChannelModal({ onClose, onCreated }: { onClose: () => void; onCre
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Channel Name *</label>
+            <label className="text-xs font-semibold text-muted/92">Channel Name *</label>
             <input required value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="e.g. Travel Photographers"
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50" />
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50" />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Description *</label>
+            <label className="text-xs font-semibold text-muted/92">Description *</label>
             <textarea required rows={3} value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="What is this channel about?"
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 resize-none" />
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 resize-none" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-muted/70">Category</label>
+              <label className="text-xs font-semibold text-muted/92">Category</label>
               <select value={form.category} onChange={(e) => set("category", e.target.value)}
                 className="rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-gold/50">
                 {CHANNEL_CATEGORIES.map((c) => <option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}
               </select>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-muted/70">Visibility</label>
+              <label className="text-xs font-semibold text-muted/92">Visibility</label>
               <select value={form.visibility} onChange={(e) => set("visibility", e.target.value as "public" | "private")}
                 className="rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-gold/50">
                 <option value="public">Public</option>
@@ -103,14 +103,14 @@ function CreateChannelModal({ onClose, onCreated }: { onClose: () => void; onCre
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Tags (comma-separated)</label>
+            <label className="text-xs font-semibold text-muted/92">Tags (comma-separated)</label>
             <input value={form.tags} onChange={(e) => set("tags", e.target.value)} placeholder="e.g. landscape, portrait, travel"
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50" />
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50" />
           </div>
           {error && <p className="text-sm text-red-400">{error}</p>}
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 rounded-xl border border-border py-2.5 text-sm text-muted/70 hover:text-foreground hover:bg-surface-2 transition-colors">
+              className="flex-1 rounded-xl border border-border py-2.5 text-sm text-muted/92 hover:text-foreground hover:bg-surface-2 transition-colors">
               Cancel
             </button>
             <button type="submit" disabled={submitting}
@@ -136,18 +136,18 @@ function SampleChannelCard({ ch }: { ch: typeof SAMPLE_CHANNELS[0] }) {
           {ch.icon}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-display font-black text-sm text-foreground truncate">{ch.name}</p>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/40 mt-0.5">
+          <p className="font-display font-bold text-sm text-foreground truncate">{ch.name}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/70 mt-0.5">
             {CHANNEL_CATEGORIES.find((c) => c.id === ch.category)?.label ?? ch.category}
           </p>
         </div>
       </div>
-      <p className="text-xs text-muted/60 leading-relaxed line-clamp-2">{ch.description}</p>
-      <div className="flex items-center gap-3 text-xs text-muted/50">
+      <p className="text-xs text-muted/85 leading-relaxed line-clamp-2">{ch.description}</p>
+      <div className="flex items-center gap-3 text-xs text-muted/85">
         <span>👥 {ch.member_count.toLocaleString()}</span>
         <span>💬 {ch.post_count.toLocaleString()} posts</span>
       </div>
-      <div className="pt-1 rounded-xl border border-border/50 bg-surface-2 py-2 px-4 text-center text-xs text-muted/40 font-semibold">
+      <div className="pt-1 rounded-xl border border-border/50 bg-surface-2 py-2 px-4 text-center text-xs text-muted/70 font-semibold">
         Real-time discussions launching soon
       </div>
     </div>
@@ -220,8 +220,8 @@ export default function ChannelsPage() {
       {/* Hero */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="font-display font-black text-3xl text-foreground">Channels</h1>
-          <p className="text-sm text-muted/60 mt-1">Focused communities for every creative discipline</p>
+          <h1 className="font-display font-bold text-3xl text-foreground">Channels</h1>
+          <p className="text-sm text-muted/85 mt-1">Focused communities for every creative discipline</p>
         </div>
         <button onClick={handleCreateClick}
           className="rounded-full bg-gold px-4 py-2 text-sm font-bold text-black hover:bg-gold/80 transition-colors">
@@ -230,7 +230,7 @@ export default function ChannelsPage() {
       </div>
 
       {showSignInCTA && (
-        <div className="rounded-xl border border-gold/30 bg-gold/5 px-5 py-3 text-sm text-muted/80">
+        <div className="rounded-xl border border-gold/30 bg-gold/5 px-5 py-3 text-sm text-muted/92">
           <a href="/login" className="text-gold hover:underline font-semibold">Sign in</a> to create a channel.
         </div>
       )}
@@ -241,7 +241,7 @@ export default function ChannelsPage() {
           {[{ id: "all", icon: "🌐", label: "All" }, ...CHANNEL_CATEGORIES].map((c) => (
             <button key={c.id} onClick={() => setCategory(c.id)}
               className={["flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                category === c.id ? "bg-gold text-black" : "border border-border text-muted/60 hover:border-gold/30 hover:text-foreground"].join(" ")}>
+                category === c.id ? "bg-gold text-black" : "border border-border text-muted/85 hover:border-gold/30 hover:text-foreground"].join(" ")}>
               <span>{c.icon}</span><span>{c.label}</span>
             </button>
           ))}
@@ -251,14 +251,14 @@ export default function ChannelsPage() {
       {/* Search + view toggle */}
       <div className="flex items-center gap-3">
         <div className="relative flex-1">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted/40">🔍</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted/70">🔍</span>
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search channels…"
-            className="w-full rounded-xl border border-border bg-surface px-10 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50" />
+            className="w-full rounded-xl border border-border bg-surface px-10 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50" />
         </div>
         <div className="flex gap-1 border border-border rounded-xl overflow-hidden shrink-0">
           {(["grid", "list"] as const).map((m) => (
             <button key={m} onClick={() => setViewMode(m)}
-              className={["px-3 py-2 text-sm transition-colors", viewMode === m ? "bg-gold/15 text-gold" : "text-muted/50 hover:text-foreground"].join(" ")}>
+              className={["px-3 py-2 text-sm transition-colors", viewMode === m ? "bg-gold/15 text-gold" : "text-muted/85 hover:text-foreground"].join(" ")}>
               {m === "grid" ? "▦" : "≡"}
             </button>
           ))}
@@ -278,7 +278,7 @@ export default function ChannelsPage() {
           {hasMore && (
             <div className="flex justify-center pt-4">
               <button onClick={() => loadChannels()} disabled={loadingMore}
-                className="rounded-full border border-border px-6 py-2 text-sm text-muted/70 hover:border-gold/30 hover:text-foreground transition-colors disabled:opacity-50">
+                className="rounded-full border border-border px-6 py-2 text-sm text-muted/92 hover:border-gold/30 hover:text-foreground transition-colors disabled:opacity-50">
                 {loadingMore ? "Loading…" : "Load more"}
               </button>
             </div>
@@ -290,8 +290,8 @@ export default function ChannelsPage() {
           <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
             <span className="text-2xl">💡</span>
             <div>
-              <p className="font-display font-black text-sm text-foreground">Channel discussions are coming soon</p>
-              <p className="text-xs text-muted/60 mt-0.5">Here&apos;s a preview of what the community will look like at launch</p>
+              <p className="font-display font-bold text-sm text-foreground">Channel discussions are coming soon</p>
+              <p className="text-xs text-muted/85 mt-0.5">Here&apos;s a preview of what the community will look like at launch</p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

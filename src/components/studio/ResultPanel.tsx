@@ -52,7 +52,7 @@ export function ResultPanel({ originalUrl, result, onReset, userPrompt = "", sou
         </div>
         <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 shrink-0">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-          <span className="text-[0.75rem] text-muted/70">
+          <span className="text-[0.75rem] text-muted/92">
             Done in {(processingMs / 1000).toFixed(1)}s
           </span>
         </div>
@@ -94,8 +94,8 @@ export function ResultPanel({ originalUrl, result, onReset, userPrompt = "", sou
           {/* AI description */}
           {analysis.description && (
             <div className="rounded-xl border border-border bg-surface px-5 py-4 flex flex-col gap-2">
-              <p className="text-label text-muted/50 tracking-widest">Applied grade</p>
-              <p className="text-[0.9375rem] text-foreground/80 leading-relaxed">
+              <p className="text-label text-muted/85 tracking-widest">Applied grade</p>
+              <p className="text-[0.9375rem] text-foreground/92 leading-relaxed">
                 {analysis.description}
               </p>
             </div>
@@ -105,7 +105,7 @@ export function ResultPanel({ originalUrl, result, onReset, userPrompt = "", sou
         {/* Right — Download + Reset actions */}
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-5">
-            <p className="text-label text-muted/50 tracking-widest">Your edit</p>
+            <p className="text-label text-muted/85 tracking-widest">Your edit</p>
             {/* Two choices: fine-tune in the pro editor, or download as-is.
                 "Continue editing" is the primary path (the flagship workspace). */}
             <PhotoEditorLauncher imageUrl={processedImage} className="w-full" />

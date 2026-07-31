@@ -24,8 +24,8 @@ export function LeftSidebar({ zoomPercent }: { zoomPercent: number }) {
     <div className="flex h-full flex-col">
       {/* Navigator strip */}
       <div className="border-b border-border px-4 py-3">
-        <p className="text-label tracking-widest text-muted/50">Navigator</p>
-        <p className="mt-1 text-[0.8125rem] text-foreground/80">Zoom {zoomPercent}%</p>
+        <p className="text-label tracking-widest text-muted/85">Navigator</p>
+        <p className="mt-1 text-[0.8125rem] text-foreground/92">Zoom {zoomPercent}%</p>
       </div>
 
       {/* Tabs */}
@@ -37,7 +37,7 @@ export function LeftSidebar({ zoomPercent }: { zoomPercent: number }) {
             onClick={() => setTab(t)}
             className={cn(
               "flex-1 py-2.5 text-[0.6875rem] uppercase tracking-wide transition-colors",
-              tab === t ? "text-gold border-b-2 border-gold" : "text-muted/50 hover:text-foreground"
+              tab === t ? "text-gold border-b-2 border-gold" : "text-muted/85 hover:text-foreground"
             )}
           >
             {t}
@@ -59,16 +59,16 @@ function PresetsTab() {
   const applyAdjustments = useEditorStore((s) => s.applyAdjustments)
   return (
     <div className="flex flex-col gap-1.5 p-3">
-      <p className="mb-1 text-[0.6875rem] uppercase tracking-wider text-muted/40">Quick looks</p>
+      <p className="mb-1 text-[0.6875rem] uppercase tracking-wider text-muted/70">Quick looks</p>
       {QUICK_PRESETS.map((p) => (
         <button
           key={p.id}
           type="button"
           onClick={() => applyAdjustments(p.adjustments)}
-          className="flex items-center justify-between rounded-lg border border-border px-3 py-2.5 text-left text-[0.8125rem] text-foreground/85 transition-colors hover:border-gold/40 hover:bg-surface-2"
+          className="flex items-center justify-between rounded-lg border border-border px-3 py-2.5 text-left text-[0.8125rem] text-foreground/92 transition-colors hover:border-gold/40 hover:bg-surface-2"
         >
           {p.name}
-          <span className="text-[0.6875rem] text-muted/40">Apply</span>
+          <span className="text-[0.6875rem] text-muted/70">Apply</span>
         </button>
       ))}
     </div>
@@ -89,7 +89,7 @@ function HistoryTab() {
           onClick={() => jumpTo(i)}
           className={cn(
             "rounded-md px-3 py-2 text-left text-[0.8125rem] transition-colors",
-            i === index ? "bg-gold/10 text-gold" : "text-muted/70 hover:bg-surface-2 hover:text-foreground",
+            i === index ? "bg-gold/10 text-gold" : "text-muted/92 hover:bg-surface-2 hover:text-foreground",
             i > index ? "opacity-40" : ""
           )}
         >
@@ -113,8 +113,8 @@ function SessionsTab() {
 
   if (sessions.length === 0) {
     return (
-      <div className="p-4 text-[0.8125rem] leading-relaxed text-muted/50">
-        No saved sessions yet. Use <span className="text-foreground/80">Save</span> in the top bar to
+      <div className="p-4 text-[0.8125rem] leading-relaxed text-muted/85">
+        No saved sessions yet. Use <span className="text-foreground/92">Save</span> in the top bar to
         store the current edit recipe and resume it later.
       </div>
     )
@@ -133,8 +133,8 @@ function SessionsTab() {
             className="flex-1 text-left"
             title="Load this session onto the current image"
           >
-            <p className="truncate text-[0.8125rem] text-foreground/85">{s.name}</p>
-            <p className="text-[0.6875rem] text-muted/40">{new Date(s.createdAt).toLocaleDateString()}</p>
+            <p className="truncate text-[0.8125rem] text-foreground/92">{s.name}</p>
+            <p className="text-[0.6875rem] text-muted/70">{new Date(s.createdAt).toLocaleDateString()}</p>
           </button>
           <button
             type="button"
@@ -142,7 +142,7 @@ function SessionsTab() {
               deleteSession(s.id)
               refresh()
             }}
-            className="text-muted/40 transition-colors hover:text-red-400"
+            className="text-muted/70 transition-colors hover:text-red-400"
             aria-label="Delete session"
             title="Delete"
           >
@@ -188,7 +188,7 @@ function MasksTab() {
                 addMask(m.type as MaskType)
                 setAdding(false)
               }}
-              className="flex items-center justify-between rounded-md px-2.5 py-2 text-left text-[0.8125rem] text-foreground/80 transition-colors hover:bg-surface-2"
+              className="flex items-center justify-between rounded-md px-2.5 py-2 text-left text-[0.8125rem] text-foreground/92 transition-colors hover:bg-surface-2"
             >
               <span>{m.label}</span>
               {m.beta && <span className="text-[0.625rem] uppercase tracking-wider text-gold/70">Beta</span>}
@@ -198,7 +198,7 @@ function MasksTab() {
       )}
 
       {masks.length === 0 && !adding && (
-        <p className="px-1 py-2 text-[0.8125rem] leading-relaxed text-muted/50">
+        <p className="px-1 py-2 text-[0.8125rem] leading-relaxed text-muted/85">
           No masks yet. Add one to apply adjustments to just part of the image.
         </p>
       )}
@@ -218,7 +218,7 @@ function MasksTab() {
               updateMask(m.id, { enabled: !m.enabled })
               commit()
             }}
-            className={cn("shrink-0 transition-colors", m.enabled ? "text-gold" : "text-muted/30")}
+            className={cn("shrink-0 transition-colors", m.enabled ? "text-gold" : "text-muted/70")}
             title={m.enabled ? "Disable" : "Enable"}
             aria-label="Toggle mask visibility"
           >
@@ -227,7 +227,7 @@ function MasksTab() {
           <button
             type="button"
             onClick={() => selectMask(activeMaskId === m.id ? null : m.id)}
-            className="flex-1 truncate text-left text-[0.8125rem] text-foreground/85"
+            className="flex-1 truncate text-left text-[0.8125rem] text-foreground/92"
           >
             {m.name}
           </button>

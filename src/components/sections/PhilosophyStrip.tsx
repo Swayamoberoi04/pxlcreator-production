@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * PhilosophyStrip.tsx — Why PXL Creator + Vision Closer
@@ -69,11 +69,11 @@ export function PhilosophyStrip() {
                   <span className="text-label text-gold/70 tracking-[0.2em]">Why PXL Creator</span>
                   <span className="h-px w-8 bg-gold/50" aria-hidden="true" />
                 </div>
-                <h2 className="font-display font-black text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.05] tracking-tight text-foreground">
+                <h2 className="font-display font-bold text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.05] tracking-tight text-foreground">
                   Not tools.{" "}
                   <span
                     style={{
-                      background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                      background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -125,12 +125,12 @@ export function PhilosophyStrip() {
                     </span>
 
                     {/* Title */}
-                    <h3 className="font-display font-bold text-[1.0625rem] text-foreground leading-snug">
+                    <h3 className="font-display font-bold text-[1rem] text-foreground leading-snug">
                       {p.title}
                     </h3>
 
                     {/* One-line description */}
-                    <p className="text-[0.9rem] text-muted/65 leading-relaxed">
+                    <p className="text-[0.875rem] text-muted/85 leading-relaxed">
                       {p.line}
                     </p>
                   </div>
@@ -142,7 +142,7 @@ export function PhilosophyStrip() {
             <CinematicReveal variant="rise" delay={0.2}>
               <Link
                 href="/about"
-                className="text-[0.8125rem] text-muted/40 hover:text-gold/70 transition-colors duration-200 tracking-wide"
+                className="text-[0.8125rem] text-muted/70 hover:text-gold/70 transition-colors duration-200 tracking-wide"
               >
                 Our full story & philosophy →
               </Link>
@@ -174,13 +174,13 @@ export function PhilosophyStrip() {
             {/* Vision headline */}
             <CinematicReveal variant="depth">
               <div className="flex flex-col gap-3">
-                <p className="text-[0.72rem] font-bold tracking-[0.28em] uppercase text-muted/40">
+                <p className="text-[0.75rem] font-bold tracking-[0.28em] uppercase text-muted/70">
                   Where we&apos;re going
                 </p>
                 <h2
-                  className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[1.02] tracking-tight"
+                  className="font-display font-bold text-[clamp(2rem,6vw,4rem)] leading-[1.02] tracking-tight"
                   style={{
-                    background: "linear-gradient(135deg, #ffffff 0%, #C9A84C 50%, #A8852A 100%)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #FFD60A 50%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -202,7 +202,7 @@ export function PhilosophyStrip() {
             >
               {VISION_PILLARS.map((p) => (
                 <CinematicItem key={p} variant="rise">
-                  <div className="rounded-full border border-gold/15 bg-gold/[0.06] px-5 py-2 text-[0.8rem] font-semibold text-gold/80 hover:border-gold/28 hover:bg-gold/[0.10] transition-colors cursor-default">
+                  <div className="rounded-full border border-gold/15 bg-gold/[0.06] px-5 py-2 text-[0.8125rem] font-semibold text-gold/80 hover:border-gold/28 hover:bg-gold/[0.10] transition-colors cursor-default">
                     {p}
                   </div>
                 </CinematicItem>

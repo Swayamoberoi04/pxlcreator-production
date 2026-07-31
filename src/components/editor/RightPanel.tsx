@@ -101,7 +101,7 @@ function Collapsible({
           <button
             type="button"
             onClick={onReset}
-            className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold transition-colors"
+            className="text-[0.6875rem] uppercase tracking-wider text-muted/85 hover:text-gold transition-colors"
           >
             Reset
           </button>
@@ -302,7 +302,7 @@ function HealSection() {
       </button>
 
       {healMode && (
-        <p className="text-[0.75rem] leading-relaxed text-muted/60">
+        <p className="text-[0.75rem] leading-relaxed text-muted/85">
           Click a blemish to remove it. Drag the white ring to move the fix, the dashed ring to
           change where it samples from.
         </p>
@@ -314,7 +314,7 @@ function HealSection() {
           onClick={() => setHeal({ healClone: false })}
           className={cn(
             "flex-1 rounded-lg border py-2 text-[0.75rem] transition-colors",
-            !healClone ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/60 hover:text-foreground"
+            !healClone ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/85 hover:text-foreground"
           )}
         >
           Heal
@@ -324,26 +324,26 @@ function HealSection() {
           onClick={() => setHeal({ healClone: true })}
           className={cn(
             "flex-1 rounded-lg border py-2 text-[0.75rem] transition-colors",
-            healClone ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/60 hover:text-foreground"
+            healClone ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/85 hover:text-foreground"
           )}
         >
           Clone
         </button>
       </div>
 
-      <label className="flex flex-col gap-1 text-[0.75rem] text-muted/70">
+      <label className="flex flex-col gap-1 text-[0.75rem] text-muted/92">
         Size
         <input type="range" min={0.01} max={0.25} step={0.005} value={healRadius}
           onChange={(e) => setHeal({ healRadius: Number(e.target.value) })} className="accent-gold" />
       </label>
-      <label className="flex flex-col gap-1 text-[0.75rem] text-muted/70">
+      <label className="flex flex-col gap-1 text-[0.75rem] text-muted/92">
         Softness
         <input type="range" min={0} max={1} step={0.05} value={healFeather}
           onChange={(e) => setHeal({ healFeather: Number(e.target.value) })} className="accent-gold" />
       </label>
 
       {spots.length > 0 && (
-        <p className="text-[0.6875rem] text-muted/40">{spots.length} spot{spots.length === 1 ? "" : "s"} removed</p>
+        <p className="text-[0.6875rem] text-muted/70">{spots.length} spot{spots.length === 1 ? "" : "s"} removed</p>
       )}
     </Collapsible>
   )
@@ -411,7 +411,7 @@ function CropSection({ cropMode, setCropMode, cropAspect, setCropAspect }: Right
               "rounded-md border py-1.5 text-[0.75rem] transition-colors",
               cropAspect === a.value
                 ? "border-gold/50 bg-gold/10 text-gold"
-                : "border-border text-muted/70 hover:border-gold/30 hover:text-foreground"
+                : "border-border text-muted/92 hover:border-gold/30 hover:text-foreground"
             )}
           >
             {a.label}
@@ -457,7 +457,7 @@ function CropSection({ cropMode, setCropMode, cropAspect, setCropAspect }: Right
             setCropAspect(null)
             commit()
           }}
-          className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold transition-colors"
+          className="text-[0.6875rem] uppercase tracking-wider text-muted/85 hover:text-gold transition-colors"
         >
           Reset geometry
         </button>
@@ -475,7 +475,7 @@ function GeoButton({ label, active, onClick }: { label: string; active?: boolean
         "rounded-md border py-1.5 text-[0.75rem] transition-colors",
         active
           ? "border-gold/50 bg-gold/10 text-gold"
-          : "border-border text-muted/70 hover:border-gold/30 hover:text-foreground"
+          : "border-border text-muted/92 hover:border-gold/30 hover:text-foreground"
       )}
     >
       {label}

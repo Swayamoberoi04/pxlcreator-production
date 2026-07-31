@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
@@ -106,7 +106,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
             {activeIndex >= 0 ? STEPS[activeIndex].label : "Starting…"}
           </p>
           {prompt && (
-            <p className="text-[0.8125rem] text-muted/60 italic line-clamp-2 max-w-[260px]">
+            <p className="text-[0.8125rem] text-muted/85 italic line-clamp-2 max-w-[260px]">
               &ldquo;{prompt}&rdquo;
             </p>
           )}
@@ -134,7 +134,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
                   "flex items-center justify-center w-7 h-7 rounded-full text-[0.75rem] font-bold shrink-0 transition-all duration-300",
                   isDone    && "bg-gold/20 text-gold",
                   isActive  && "bg-gold text-background animate-pulse",
-                  isPending && "bg-surface-2 text-muted/30"
+                  isPending && "bg-surface-2 text-muted/70"
                 )}>
                   {isDone ? <CheckMiniIcon /> : step.icon}
                 </div>
@@ -143,7 +143,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
                   "text-[0.875rem] font-medium transition-colors duration-300",
                   isDone    && "text-gold/70",
                   isActive  && "text-foreground",
-                  isPending && "text-muted/35"
+                  isPending && "text-muted/70"
                 )}>
                   {step.label}
                 </span>
@@ -166,7 +166,7 @@ export function ProcessingOverlay({ prompt }: ProcessingOverlayProps) {
         </div>
 
         {/* Fine print */}
-        <p className="text-[0.75rem] text-muted/35 text-center">
+        <p className="text-[0.75rem] text-muted/70 text-center">
           Hang tight — great things take ~8 seconds
         </p>
 

@@ -69,8 +69,8 @@ export default function AdminCategoriesPage() {
             <span className="h-px w-5 bg-gold/50" />
             <span className="text-[0.7rem] text-gold/60 tracking-widest">( CATEGORIES )</span>
           </div>
-          <h1 className="font-display font-black text-[1.75rem] text-white/90">Categories</h1>
-          <p className="text-[0.875rem] text-white/30">
+          <h1 className="font-display font-bold text-[1.75rem] text-white/90">Categories</h1>
+          <p className="text-[0.875rem] text-white/70">
             Manage preset categories. Presets are assigned to categories during import.
           </p>
         </div>
@@ -86,19 +86,19 @@ export default function AdminCategoriesPage() {
       {/* Create form */}
       {creating && (
         <div className="rounded-2xl border border-gold/20 bg-gold/[0.03] p-6">
-          <h2 className="text-[0.875rem] font-semibold text-white/70 mb-4">( New Category )</h2>
+          <h2 className="text-[0.875rem] font-semibold text-white/92 mb-4">( New Category )</h2>
           <form onSubmit={handleCreate} className="flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[0.75rem] text-white/40 tracking-widest">( Name )</label>
+                <label className="text-[0.75rem] text-white/70 tracking-widest">( Name )</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Moody" required className="admin-input" />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[0.75rem] text-white/40 tracking-widest">( Icon emoji )</label>
+                <label className="text-[0.75rem] text-white/70 tracking-widest">( Icon emoji )</label>
                 <input type="text" value={icon} onChange={(e) => setIcon(e.target.value)} placeholder="🎞️" className="admin-input" />
               </div>
               <div className="flex flex-col gap-1.5 col-span-2">
-                <label className="text-[0.75rem] text-white/40 tracking-widest">( Description )</label>
+                <label className="text-[0.75rem] text-white/70 tracking-widest">( Description )</label>
                 <input type="text" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Short description shown on the presets page…" className="admin-input" />
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function AdminCategoriesPage() {
               <button type="submit" disabled={saving} className="rounded-xl bg-gold text-background font-semibold px-5 py-2 text-[0.875rem] disabled:opacity-40 hover:bg-gold-dim">
                 {saving ? "Creating…" : "( Create )"}
               </button>
-              <button type="button" onClick={() => setCreating(false)} className="rounded-xl border border-white/10 text-white/40 px-5 py-2 text-[0.875rem] hover:text-white/70">
+              <button type="button" onClick={() => setCreating(false)} className="rounded-xl border border-white/10 text-white/70 px-5 py-2 text-[0.875rem] hover:text-white/92">
                 Cancel
               </button>
             </div>
@@ -139,14 +139,14 @@ export default function AdminCategoriesPage() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className="text-[0.9375rem] font-semibold text-white/80">{cat.name}</p>
-                <p className="text-[0.75rem] text-white/30 truncate">
+                <p className="text-[0.9375rem] font-semibold text-white/92">{cat.name}</p>
+                <p className="text-[0.75rem] text-white/70 truncate">
                   {cat.description ?? "No description"}
                 </p>
               </div>
 
               {/* Slug */}
-              <code className="text-[0.7rem] text-white/20 bg-white/[0.04] rounded-lg px-2.5 py-1 font-mono shrink-0">
+              <code className="text-[0.7rem] text-white/70 bg-white/[0.04] rounded-lg px-2.5 py-1 font-mono shrink-0">
                 /{cat.slug}
               </code>
             </div>

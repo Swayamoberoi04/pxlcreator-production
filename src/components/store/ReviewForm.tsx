@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * ReviewForm
@@ -65,7 +65,7 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
     return (
       <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] px-5 py-4">
         <p className="text-[0.875rem] font-semibold text-emerald-400">Review submitted</p>
-        <p className="text-[0.8125rem] text-muted/60 mt-1">
+        <p className="text-[0.8125rem] text-muted/85 mt-1">
           Thanks — it will appear here after moderation.
         </p>
       </div>
@@ -75,7 +75,7 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <p className="text-[0.8125rem] font-medium text-foreground/80">Your rating</p>
+        <p className="text-[0.8125rem] font-medium text-foreground/92">Your rating</p>
         <div className="flex gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -94,8 +94,8 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="review-title" className="text-[0.8125rem] font-medium text-foreground/80">
-          Title <span className="text-muted/40 font-normal">(optional)</span>
+        <label htmlFor="review-title" className="text-[0.8125rem] font-medium text-foreground/92">
+          Title <span className="text-muted/70 font-normal">(optional)</span>
         </label>
         <input
           id="review-title"
@@ -104,13 +104,13 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="One-line summary of your experience"
-          className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/35 focus:outline-none focus:ring-1 focus:ring-gold/40"
+          className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:ring-1 focus:ring-gold/40"
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="review-text" className="text-[0.8125rem] font-medium text-foreground/80">
-          Review <span className="text-muted/40 font-normal">(optional)</span>
+        <label htmlFor="review-text" className="text-[0.8125rem] font-medium text-foreground/92">
+          Review <span className="text-muted/70 font-normal">(optional)</span>
         </label>
         <textarea
           id="review-text"
@@ -119,9 +119,9 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
           placeholder="How did this preset change your editing workflow?"
-          className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/35 resize-none focus:outline-none focus:ring-1 focus:ring-gold/40"
+          className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/70 resize-none focus:outline-none focus:ring-1 focus:ring-gold/40"
         />
-        <span className="text-[0.7rem] text-muted/35 self-end">{reviewText.length}/2000</span>
+        <span className="text-[0.7rem] text-muted/70 self-end">{reviewText.length}/2000</span>
       </div>
 
       {error && (
@@ -144,10 +144,10 @@ export function ReviewForm({ presetSlug, onSuccess }: ReviewFormProps) {
 function StarIcon({ filled }: { filled: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"
-      fill={filled ? "#C9A84C" : "none"}
-      stroke={filled ? "#C9A84C" : "currentColor"}
+      fill={filled ? "#FFD60A" : "none"}
+      stroke={filled ? "#FFD60A" : "currentColor"}
       strokeWidth="1.5"
-      className={filled ? "" : "text-muted/30"}
+      className={filled ? "" : "text-muted/70"}
     >
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
     </svg>

@@ -87,7 +87,7 @@ export function PresetTable() {
       {/* Search */}
       <div className="flex items-center gap-3">
         <div className="relative flex-1 max-w-sm">
-          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" aria-hidden="true">
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/70" aria-hidden="true">
             <SearchIcon />
           </span>
           <input
@@ -95,10 +95,10 @@ export function PresetTable() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search presets…"
-            className="w-full rounded-xl border border-white/10 bg-white/[0.04] pl-10 pr-4 py-2.5 text-[0.875rem] text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors"
+            className="w-full rounded-xl border border-white/10 bg-white/[0.04] pl-10 pr-4 py-2.5 text-[0.875rem] text-white placeholder:text-white/70 focus:outline-none focus:border-gold/40 transition-colors"
           />
         </div>
-        <span className="text-[0.75rem] text-white/30">
+        <span className="text-[0.75rem] text-white/70">
           ( {presets.length} preset{presets.length !== 1 ? "s" : ""} )
         </span>
       </div>
@@ -118,7 +118,7 @@ export function PresetTable() {
         </div>
       ) : presets.length === 0 ? (
         <div className="py-16 text-center rounded-2xl border border-white/[0.06] bg-white/[0.02]">
-          <p className="text-white/30 text-[0.9375rem]">
+          <p className="text-white/70 text-[0.9375rem]">
             {search ? "No presets match your search." : "No presets yet. Import from YouTube!"}
           </p>
         </div>
@@ -138,7 +138,7 @@ export function PresetTable() {
                   <Image src={preset.thumbnail_url} alt={preset.title} fill sizes="64px" className="object-cover" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white/20 text-[0.6rem]">No img</span>
+                    <span className="text-white/70 text-[0.625rem]">No img</span>
                   </div>
                 )}
               </div>
@@ -148,7 +148,7 @@ export function PresetTable() {
                 <p className="text-[0.875rem] font-medium text-white/90 truncate">{preset.title}</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   {preset.category && (
-                    <span className="text-[0.65rem] text-white/30 bg-white/[0.04] rounded-full px-2 py-0.5">
+                    <span className="text-[0.65rem] text-white/70 bg-white/[0.04] rounded-full px-2 py-0.5">
                       {preset.category.name}
                     </span>
                   )}
@@ -156,14 +156,14 @@ export function PresetTable() {
                     <span className={cn(
                       "text-[0.65rem] rounded-full px-2 py-0.5",
                       preset.badge === "Best Seller" && "bg-gold/15 text-gold",
-                      preset.badge === "New"         && "bg-white/10 text-white/60",
+                      preset.badge === "New"         && "bg-white/10 text-white/85",
                       preset.badge === "Sale"        && "bg-red-500/15 text-red-400",
                       preset.badge === "Free"        && "bg-emerald-500/15 text-emerald-400",
                     )}>
                       {preset.badge}
                     </span>
                   )}
-                  <span className="text-[0.65rem] text-white/25">
+                  <span className="text-[0.65rem] text-white/70">
                     ${preset.price} · ★{preset.rating}{preset.view_count != null ? ` · ${preset.view_count.toLocaleString()} views` : ""}
                   </span>
                 </div>
@@ -180,7 +180,7 @@ export function PresetTable() {
                     "h-6 px-2.5 rounded-full text-[0.65rem] font-medium transition-all",
                     preset.is_published
                       ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
-                      : "bg-white/[0.04] text-white/30 border border-white/10"
+                      : "bg-white/[0.04] text-white/70 border border-white/10"
                   )}
                 >
                   {preset.is_published ? "Live" : "Draft"}
@@ -194,7 +194,7 @@ export function PresetTable() {
                     "h-6 px-2.5 rounded-full text-[0.65rem] font-medium transition-all",
                     preset.is_featured
                       ? "bg-gold/15 text-gold border border-gold/20"
-                      : "bg-white/[0.04] text-white/30 border border-white/10"
+                      : "bg-white/[0.04] text-white/70 border border-white/10"
                   )}
                 >
                   ★
@@ -205,7 +205,7 @@ export function PresetTable() {
               <div className="flex items-center gap-1 shrink-0">
                 <Link
                   href={`/admin/presets/${preset.id}`}
-                  className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/40 hover:text-white/80 hover:border-white/20 transition-all"
+                  className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/70 hover:text-white/92 hover:border-white/20 transition-all"
                   title="Edit preset"
                 >
                   <EditIcon />
@@ -213,7 +213,7 @@ export function PresetTable() {
                 <Link
                   href={`/presets/${preset.slug}`}
                   target="_blank"
-                  className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/40 hover:text-white/80 hover:border-white/20 transition-all"
+                  className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/70 hover:text-white/92 hover:border-white/20 transition-all"
                   title="View on site"
                 >
                   <ExternalIcon />
@@ -222,7 +222,7 @@ export function PresetTable() {
                   type="button"
                   onClick={() => handleDelete(preset.id, preset.title)}
                   disabled={deleting === preset.id}
-                  className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/30 hover:text-red-400 hover:border-red-500/30 transition-all"
+                  className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/70 hover:text-red-400 hover:border-red-500/30 transition-all"
                   title="Delete preset"
                 >
                   {deleting === preset.id ? <SpinIcon /> : <TrashIcon />}

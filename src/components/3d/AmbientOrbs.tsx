@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 /* eslint-disable react-hooks/immutability, react-hooks/purity */
 
 /**
@@ -96,7 +96,7 @@ function Dust() {
     <points geometry={geometry}>
       <pointsMaterial
         ref={matRef}
-        color="#C9A84C"
+        color="#FFD60A"
         size={0.018}
         transparent
         opacity={0.18}
@@ -111,7 +111,7 @@ function Scene() {
   return (
     <>
       <fog attach="fog" args={["#000000", 5, 20]} />
-      <Orb position={[-4,  1.5, -4]} color="#C9A84C" size={3.5} speed={0.28} offset={0} />
+      <Orb position={[-4,  1.5, -4]} color="#FFD60A" size={3.5} speed={0.28} offset={0} />
       <Orb position={[ 5, -1.0, -6]} color="#4433cc" size={4.0} speed={0.22} offset={2.1} />
       <Orb position={[ 0,  3.0, -8]} color="#115544" size={5.0} speed={0.18} offset={4.5} />
       <Dust />

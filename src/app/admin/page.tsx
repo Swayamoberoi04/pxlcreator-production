@@ -21,7 +21,7 @@ export default async function AdminDashboardPage() {
     { label: "Total Presets",    value: stats.totalPresets,    color: "text-gold"         },
     { label: "Free Presets",     value: stats.freePresets,     color: "text-emerald-400"  },
     { label: "Featured",         value: stats.featuredPresets, color: "text-indigo-400"   },
-    { label: "Categories",       value: stats.totalCategories, color: "text-white/80"     },
+    { label: "Categories",       value: stats.totalCategories, color: "text-white/92"     },
   ]
 
   const QUICK_ACTIONS = [
@@ -42,10 +42,10 @@ export default async function AdminDashboardPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( PXL CREATOR ADMIN )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Dashboard
         </h1>
-        <p className="text-[0.875rem] text-white/30">
+        <p className="text-[0.875rem] text-white/70">
           Manage your preset library and YouTube imports.
         </p>
       </div>
@@ -57,10 +57,10 @@ export default async function AdminDashboardPage() {
             key={label}
             className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 flex flex-col gap-2"
           >
-            <span className={`font-display font-black text-[2rem] leading-none ${color}`}>
+            <span className={`font-display font-bold text-[2rem] leading-none ${color}`}>
               {value}
             </span>
-            <span className="text-[0.75rem] text-white/30 font-medium">
+            <span className="text-[0.75rem] text-white/70 font-medium">
               ( {label} )
             </span>
           </div>
@@ -69,7 +69,7 @@ export default async function AdminDashboardPage() {
 
       {/* ── Quick actions ── */}
       <div className="flex flex-col gap-3">
-        <h2 className="text-[0.8125rem] text-white/40 tracking-widest">( Quick Actions )</h2>
+        <h2 className="text-[0.8125rem] text-white/70 tracking-widest">( Quick Actions )</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {QUICK_ACTIONS.map(({ label, href, desc }) => (
             <Link
@@ -78,12 +78,12 @@ export default async function AdminDashboardPage() {
               className="group flex items-center gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-gold/20 transition-all p-5"
             >
               <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                <span className="text-[0.9375rem] font-semibold text-white/80 group-hover:text-gold transition-colors">
+                <span className="text-[0.9375rem] font-semibold text-white/92 group-hover:text-gold transition-colors">
                   {label}
                 </span>
-                <span className="text-[0.8125rem] text-white/30">{desc}</span>
+                <span className="text-[0.8125rem] text-white/70">{desc}</span>
               </div>
-              <span className="text-white/20 group-hover:text-gold/50 transition-colors shrink-0">→</span>
+              <span className="text-white/70 group-hover:text-gold/50 transition-colors shrink-0">→</span>
             </Link>
           ))}
         </div>
@@ -93,8 +93,8 @@ export default async function AdminDashboardPage() {
       {recent.length > 0 && (
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-[0.8125rem] text-white/40 tracking-widest">( Recent Presets )</h2>
-            <Link href="/admin/presets" className="text-[0.8125rem] text-white/30 hover:text-gold transition-colors">
+            <h2 className="text-[0.8125rem] text-white/70 tracking-widest">( Recent Presets )</h2>
+            <Link href="/admin/presets" className="text-[0.8125rem] text-white/70 hover:text-gold transition-colors">
               View all →
             </Link>
           </div>
@@ -105,8 +105,8 @@ export default async function AdminDashboardPage() {
                 className={`flex items-center gap-4 px-4 py-3 hover:bg-white/[0.02] transition-colors ${i > 0 ? "border-t border-white/[0.06]" : ""}`}
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-[0.875rem] text-white/80 truncate">{preset.name}</p>
-                  <p className="text-[0.75rem] text-white/30">{preset.category} · ${preset.price}</p>
+                  <p className="text-[0.875rem] text-white/92 truncate">{preset.name}</p>
+                  <p className="text-[0.75rem] text-white/70">{preset.category} · ${preset.price}</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   {preset.isFeatured && (
@@ -114,7 +114,7 @@ export default async function AdminDashboardPage() {
                   )}
                   <Link
                     href={`/admin/presets/${preset.id}`}
-                    className="text-[0.75rem] text-white/30 hover:text-gold transition-colors"
+                    className="text-[0.75rem] text-white/70 hover:text-gold transition-colors"
                   >
                     Edit →
                   </Link>
@@ -127,7 +127,7 @@ export default async function AdminDashboardPage() {
 
       {/* ── Setup status ── */}
       <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
-        <h2 className="text-[0.8125rem] text-white/40 tracking-widest mb-4">( System Status )</h2>
+        <h2 className="text-[0.8125rem] text-white/70 tracking-widest mb-4">( System Status )</h2>
         <div className="flex flex-col gap-2.5">
           {[
             { label: "Supabase URL",       configured: !!process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== "https://your-project.supabase.co" },
@@ -140,8 +140,8 @@ export default async function AdminDashboardPage() {
               <span className={configured ? "text-emerald-400" : "text-red-400/70"}>
                 {configured ? "✓" : "○"}
               </span>
-              <span className="text-[0.8125rem] text-white/50">{label}</span>
-              <span className={`text-[0.75rem] ml-auto ${configured ? "text-emerald-400/70" : "text-white/20"}`}>
+              <span className="text-[0.8125rem] text-white/85">{label}</span>
+              <span className={`text-[0.75rem] ml-auto ${configured ? "text-emerald-400/70" : "text-white/70"}`}>
                 {configured ? "configured" : "not set"}
               </span>
             </div>

@@ -84,7 +84,7 @@ export function RecommendationsV2({ imageAnalysis, fallbackRecommendation }: Rec
           <span className="h-px w-6 bg-gold opacity-70" aria-hidden="true" />
           <span className="text-label text-gold tracking-widest">Preset Intelligence</span>
         </div>
-        <span className="text-[0.7rem] text-muted/40">
+        <span className="text-[0.7rem] text-muted/70">
           {meta.presetsEvaluated} presets scored in {meta.processingMs}ms
         </span>
       </div>
@@ -126,7 +126,7 @@ function HeroCard({ rec, cartPreset }: {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: EASE }}
-      className="rounded-2xl border border-gold/25 bg-surface overflow-hidden shadow-[0_0_40px_rgba(201,168,76,0.06)]"
+      className="rounded-2xl border border-gold/25 bg-surface overflow-hidden shadow-[0_0_40px_rgba(255,214,10,0.06)]"
     >
       <div className="grid sm:grid-cols-[220px_1fr] gap-0">
 
@@ -153,26 +153,26 @@ function HeroCard({ rec, cartPreset }: {
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <Stars confidence={rec.confidence} />
-              <span className="font-display font-black text-gold text-[1.35rem] leading-none tabular-nums">{pct}%</span>
-              <span className="text-[0.7rem] text-muted/40 tracking-widest uppercase mt-1">Match</span>
+              <span className="font-display font-bold text-gold text-[1.375rem] leading-none tabular-nums">{pct}%</span>
+              <span className="text-[0.7rem] text-muted/70 tracking-widest uppercase mt-1">Match</span>
             </div>
-            <span className="shrink-0 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] text-muted/70">
+            <span className="shrink-0 rounded-full border border-border bg-background px-3 py-1 text-[0.75rem] text-muted/92">
               {rec.category}
             </span>
           </div>
 
           <div>
             <h3 className="font-display font-bold text-foreground text-[1.25rem] leading-snug">{rec.name}</h3>
-            <p className="text-[0.85rem] text-muted leading-snug mt-0.5">{rec.tagline}</p>
+            <p className="text-[0.875rem] text-muted leading-snug mt-0.5">{rec.tagline}</p>
           </div>
 
           {/* Reasons */}
           {rec.reasons.length > 0 && (
             <div className="flex flex-col gap-1.5">
-              <span className="text-[0.68rem] font-bold tracking-widest uppercase text-muted/40">Recommended because</span>
+              <span className="text-[0.6875rem] font-bold tracking-widest uppercase text-muted/70">Recommended because</span>
               <div className="flex flex-wrap gap-1.5">
                 {rec.reasons.slice(0, 5).map((reason) => (
-                  <span key={reason} className="inline-flex items-center gap-1 rounded-full border border-gold/20 bg-gold/5 px-2.5 py-1 text-[0.72rem] text-gold/90">
+                  <span key={reason} className="inline-flex items-center gap-1 rounded-full border border-gold/20 bg-gold/5 px-2.5 py-1 text-[0.75rem] text-gold/90">
                     <CheckDot />
                     {reason}
                   </span>
@@ -188,7 +188,7 @@ function HeroCard({ rec, cartPreset }: {
           <div className="flex flex-col sm:flex-row gap-2.5 mt-auto pt-1">
             <Link
               href={`/presets/${rec.slug}`}
-              className="flex flex-1 items-center justify-center rounded-xl border border-border py-3 text-[0.875rem] font-medium text-foreground/85 transition-colors hover:border-gold/40 hover:text-gold"
+              className="flex flex-1 items-center justify-center rounded-xl border border-border py-3 text-[0.875rem] font-medium text-foreground/92 transition-colors hover:border-gold/40 hover:text-gold"
             >
               View Preset →
             </Link>
@@ -242,16 +242,16 @@ function CompactCard({ rec, delay }: { rec: ScoredRecommendation; delay: number 
         {/* Body */}
         <div className="flex flex-col min-w-0 flex-1 gap-1">
           <div className="flex items-center justify-between gap-2">
-            <span className="font-display font-bold text-foreground text-[0.9rem] truncate">{rec.name}</span>
-            <span className="shrink-0 font-bold text-gold text-[0.85rem] tabular-nums">{pct}%</span>
+            <span className="font-display font-bold text-foreground text-[0.875rem] truncate">{rec.name}</span>
+            <span className="shrink-0 font-bold text-gold text-[0.875rem] tabular-nums">{pct}%</span>
           </div>
           <Stars confidence={rec.confidence} size={10} />
           {rec.reasons[0] && (
-            <span className="text-[0.72rem] text-muted/55 truncate">{rec.reasons[0]}</span>
+            <span className="text-[0.75rem] text-muted/85 truncate">{rec.reasons[0]}</span>
           )}
           <div className="flex flex-wrap gap-1 mt-0.5">
             {[...rec.chips.mood.slice(0, 1), ...rec.chips.color.slice(0, 1), ...rec.chips.scene.slice(0, 1)].map((chip) => (
-              <span key={chip} className="rounded-full bg-surface-2 border border-border px-1.5 py-0.5 text-[0.62rem] text-muted/60">
+              <span key={chip} className="rounded-full bg-surface-2 border border-border px-1.5 py-0.5 text-[0.625rem] text-muted/85">
                 {chip}
               </span>
             ))}
@@ -280,9 +280,9 @@ function ChipGroups({ chips }: { chips: ScoredRecommendation["chips"] }) {
     <div className="flex flex-wrap gap-x-4 gap-y-2">
       {visible.map(({ label, items, tone }) => (
         <div key={label} className="flex items-center gap-1.5">
-          <span className="text-[0.62rem] font-bold tracking-widest uppercase text-muted/35">{label}</span>
+          <span className="text-[0.625rem] font-bold tracking-widest uppercase text-muted/70">{label}</span>
           {items.map((item) => (
-            <span key={item} className={cn("rounded-full border px-2 py-0.5 text-[0.68rem]", tone)}>
+            <span key={item} className={cn("rounded-full border px-2 py-0.5 text-[0.6875rem]", tone)}>
               {item}
             </span>
           ))}
@@ -300,10 +300,10 @@ function Stars({ confidence, size = 13 }: { confidence: number; size?: number })
         <svg
           key={i}
           width={size} height={size} viewBox="0 0 24 24"
-          fill={i <= filled ? "#C9A84C" : "none"}
-          stroke={i <= filled ? "#C9A84C" : "currentColor"}
+          fill={i <= filled ? "#FFD60A" : "none"}
+          stroke={i <= filled ? "#FFD60A" : "currentColor"}
           strokeWidth="2"
-          className={i <= filled ? "" : "text-muted/25"}
+          className={i <= filled ? "" : "text-muted/70"}
           aria-hidden="true"
         >
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />

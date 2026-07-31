@@ -40,8 +40,8 @@ export function PresetRecommendCard({ recommendation }: PresetRecommendCardProps
       {/* ── Header ── */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <p className="text-label text-muted/50 tracking-widest">Recommended preset</p>
-          <h3 className="font-display font-bold text-foreground text-[1.0625rem] leading-snug">
+          <p className="text-label text-muted/85 tracking-widest">Recommended preset</p>
+          <h3 className="font-display font-bold text-foreground text-[1rem] leading-snug">
             {recommendation.presetName}
           </h3>
           <p className="text-[0.8125rem] text-muted leading-snug">{recommendation.tagline}</p>
@@ -49,7 +49,7 @@ export function PresetRecommendCard({ recommendation }: PresetRecommendCardProps
 
         {/* Price badge */}
         <div className="shrink-0 rounded-xl border border-border bg-background px-3.5 py-2 text-center">
-          <span className="font-display font-black text-foreground text-[1.1rem] leading-none">
+          <span className="font-display font-bold text-foreground text-[1.125rem] leading-none">
             {recommendation.price === 0 ? "Free" : `$${recommendation.price}`}
           </span>
         </div>
@@ -58,7 +58,7 @@ export function PresetRecommendCard({ recommendation }: PresetRecommendCardProps
       {/* ── Match confidence bar ── */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <span className="text-[0.75rem] text-muted/60">Match confidence</span>
+          <span className="text-[0.75rem] text-muted/85">Match confidence</span>
           <span className="text-[0.75rem] font-bold text-gold">{confidencePct}%</span>
         </div>
         <div className="h-1.5 w-full rounded-full bg-surface-2 overflow-hidden">
@@ -67,17 +67,17 @@ export function PresetRecommendCard({ recommendation }: PresetRecommendCardProps
             style={{ width: `${barWidth}%` }}
           />
         </div>
-        <p className="text-[0.75rem] text-muted/50 italic">{recommendation.reason}</p>
+        <p className="text-[0.75rem] text-muted/85 italic">{recommendation.reason}</p>
       </div>
 
       {/* ── Category + view link ── */}
       <div className="flex items-center justify-between">
-        <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-[0.75rem] text-muted/70">
+        <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-[0.75rem] text-muted/92">
           {recommendation.category}
         </span>
         <Link
           href={`/presets/${recommendation.slug}`}
-          className="text-[0.8125rem] font-medium text-muted/60 hover:text-gold transition-colors"
+          className="text-[0.8125rem] font-medium text-muted/85 hover:text-gold transition-colors"
         >
           View details →
         </Link>

@@ -46,15 +46,15 @@ export default function DownloadAnalyticsPage() {
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( ANALYTICS )</span>
         </div>
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <h1 className="font-display font-black text-[1.75rem] text-white/90">Download Analytics</h1>
+          <h1 className="font-display font-bold text-[1.75rem] text-white/90">Download Analytics</h1>
           <a
             href="/api/admin/downloads?format=csv"
-            className="rounded-full border border-border bg-surface px-4 py-2 text-[0.8125rem] font-medium text-white/70 hover:border-gold/40 hover:text-gold transition-colors"
+            className="rounded-full border border-border bg-surface px-4 py-2 text-[0.8125rem] font-medium text-white/92 hover:border-gold/40 hover:text-gold transition-colors"
           >
             Export CSV / Excel
           </a>
         </div>
-        <p className="text-[0.875rem] text-white/30">Genuine successful downloads only — never views, clicks, or failed attempts.</p>
+        <p className="text-[0.875rem] text-white/70">Genuine successful downloads only — never views, clicks, or failed attempts.</p>
       </div>
 
       {error && (
@@ -94,7 +94,7 @@ export default function DownloadAnalyticsPage() {
             <Panel title="Least Downloaded (with ≥1)">
               {data.least.length > 0
                 ? <BarList rows={data.least} />
-                : <p className="text-[0.8125rem] text-white/30 py-6 text-center">No downloads recorded yet.</p>}
+                : <p className="text-[0.8125rem] text-white/70 py-6 text-center">No downloads recorded yet.</p>}
             </Panel>
           </div>
 
@@ -103,7 +103,7 @@ export default function DownloadAnalyticsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-[0.8125rem]">
                 <thead>
-                  <tr className="text-left text-white/40 border-b border-border">
+                  <tr className="text-left text-white/70 border-b border-border">
                     <th className="py-2 pr-3 font-semibold">Preset</th>
                     <th className="py-2 px-3 font-semibold text-right">Total</th>
                     <th className="py-2 px-3 font-semibold text-right">Free</th>
@@ -116,13 +116,13 @@ export default function DownloadAnalyticsPage() {
                 <tbody>
                   {data.presets.map((r) => (
                     <tr key={r.presetId} className="border-b border-border/40 hover:bg-surface-2/40">
-                      <td className="py-2 pr-3 text-white/80 truncate max-w-[220px]">{r.name || r.slug}</td>
+                      <td className="py-2 pr-3 text-white/92 truncate max-w-[220px]">{r.name || r.slug}</td>
                       <td className="py-2 px-3 text-right text-white/90 font-medium tabular-nums">{r.total.toLocaleString()}</td>
                       <td className="py-2 px-3 text-right text-emerald-400/80 tabular-nums">{r.free.toLocaleString()}</td>
                       <td className="py-2 px-3 text-right text-gold/80 tabular-nums">{r.paid.toLocaleString()}</td>
-                      <td className="py-2 px-3 text-right text-white/50 tabular-nums">{r.month.toLocaleString()}</td>
-                      <td className="py-2 px-3 text-right text-white/60 tabular-nums">{r.revenue ? `$${r.revenue.toLocaleString()}` : "—"}</td>
-                      <td className="py-2 pl-3 text-right text-white/40 tabular-nums">{Math.round(r.paidShare * 100)}%</td>
+                      <td className="py-2 px-3 text-right text-white/85 tabular-nums">{r.month.toLocaleString()}</td>
+                      <td className="py-2 px-3 text-right text-white/85 tabular-nums">{r.revenue ? `$${r.revenue.toLocaleString()}` : "—"}</td>
+                      <td className="py-2 pl-3 text-right text-white/70 tabular-nums">{Math.round(r.paidShare * 100)}%</td>
                     </tr>
                   ))}
                 </tbody>
@@ -137,15 +137,15 @@ export default function DownloadAnalyticsPage() {
 
 /* ── Pieces ── */
 
-function Kpi({ label, value, accent = "text-white/80", money, suffix }: {
+function Kpi({ label, value, accent = "text-white/92", money, suffix }: {
   label: string; value: number; accent?: string; money?: boolean; suffix?: string
 }) {
   return (
     <div className="rounded-xl border border-border bg-surface p-4 flex flex-col gap-1">
-      <p className={`font-display font-black text-[1.5rem] leading-none ${accent}`}>
+      <p className={`font-display font-bold text-[1.5rem] leading-none ${accent}`}>
         {money ? "$" : ""}{value.toLocaleString()}{suffix ?? ""}
       </p>
-      <p className="text-[0.7rem] text-white/40 uppercase tracking-wider font-semibold">{label}</p>
+      <p className="text-[0.7rem] text-white/70 uppercase tracking-wider font-semibold">{label}</p>
     </div>
   )
 }
@@ -153,14 +153,14 @@ function Kpi({ label, value, accent = "text-white/80", money, suffix }: {
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="rounded-2xl border border-border bg-surface p-5 flex flex-col gap-4">
-      <h2 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40">{title}</h2>
+      <h2 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/70">{title}</h2>
       {children}
     </div>
   )
 }
 
 function TrendChart({ trend }: { trend: TrendPoint[] }) {
-  if (trend.length === 0) return <p className="text-[0.8125rem] text-white/30 py-6 text-center">No data yet.</p>
+  if (trend.length === 0) return <p className="text-[0.8125rem] text-white/70 py-6 text-center">No data yet.</p>
   const W = 720, H = 160, P = 4
   const max = Math.max(1, ...trend.map((t) => t.total))
   const x = (i: number) => P + (i / Math.max(1, trend.length - 1)) * (W - 2 * P)
@@ -174,14 +174,14 @@ function TrendChart({ trend }: { trend: TrendPoint[] }) {
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" preserveAspectRatio="none" role="img" aria-label="Daily downloads trend">
         <defs>
           <linearGradient id="dlgrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
+            <stop offset="0%" stopColor="#FFD60A" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#FFD60A" stopOpacity="0" />
           </linearGradient>
         </defs>
         <path d={area} fill="url(#dlgrad)" />
-        <path d={line} fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={line} fill="none" stroke="#FFD60A" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
       </svg>
-      <div className="flex items-center justify-between text-[0.7rem] text-white/35">
+      <div className="flex items-center justify-between text-[0.7rem] text-white/70">
         <span>{trend[0]?.day}</span>
         <span>Peak {peak.total.toLocaleString()} on {peak.day}</span>
         <span>{trend[trend.length - 1]?.day}</span>
@@ -196,7 +196,7 @@ function BarList({ rows }: { rows: PresetRow[] }) {
     <div className="flex flex-col gap-2">
       {rows.map((r) => (
         <div key={r.presetId} className="flex items-center gap-3">
-          <span className="text-[0.8125rem] text-white/70 truncate w-40 shrink-0">{r.name || r.slug}</span>
+          <span className="text-[0.8125rem] text-white/92 truncate w-40 shrink-0">{r.name || r.slug}</span>
           <div className="flex-1 h-2 rounded-full bg-surface-2 overflow-hidden">
             <div className="h-full rounded-full bg-gradient-to-r from-gold/70 to-gold" style={{ width: `${(r.total / max) * 100}%` }} />
           </div>

@@ -126,7 +126,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
               onClick={() => setChannel(c.key)}
               className={cn(
                 "h-6 w-8 rounded text-[0.6875rem] font-semibold transition-colors",
-                channel === c.key ? "bg-surface-3 text-foreground" : "text-muted/50 hover:text-foreground"
+                channel === c.key ? "bg-surface-3 text-foreground" : "text-muted/85 hover:text-foreground"
               )}
               style={channel === c.key ? { color: c.color } : undefined}
             >
@@ -136,7 +136,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
         </div>
         <div className="flex items-center gap-2">
           {readout && (
-            <span className="rounded bg-surface-3/70 px-1.5 py-0.5 text-[0.625rem] tabular-nums text-foreground/80">
+            <span className="rounded bg-surface-3/70 px-1.5 py-0.5 text-[0.625rem] tabular-nums text-foreground/92">
               {readout.x} → {readout.y}
             </span>
           )}
@@ -147,7 +147,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
                 setCurve(channel, DEFAULT_CURVE.map((p) => ({ ...p })))
                 commit()
               }}
-              className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold"
+              className="text-[0.6875rem] uppercase tracking-wider text-muted/85 hover:text-gold"
             >
               Reset
             </button>
@@ -203,7 +203,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
           )
         })}
       </svg>
-      <p className="text-[0.6875rem] text-muted/40">Click to add · drag to shape · double-click a point to remove</p>
+      <p className="text-[0.6875rem] text-muted/70">Click to add · drag to shape · double-click a point to remove</p>
     </div>
   )
 }

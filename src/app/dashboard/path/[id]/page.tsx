@@ -114,7 +114,7 @@ function TaskRow({
       >
         {/* Status indicator */}
         <div
-          className="shrink-0 size-6 rounded-full border-2 flex items-center justify-center text-[0.6rem] font-black transition-all"
+          className="shrink-0 size-6 rounded-full border-2 flex items-center justify-center text-[0.625rem] font-bold transition-all"
           style={{
             borderColor: status === "done" ? accentColor : status === "current" ? accentColor : "rgba(255,255,255,0.12)",
             background:  status === "done" ? `${accentColor}20` : "transparent",
@@ -127,17 +127,17 @@ function TaskRow({
         <div className="flex-1 min-w-0">
           <p className={[
             "text-[0.875rem] font-semibold leading-tight",
-            status === "done" ? "text-muted/50 line-through" : "text-foreground",
+            status === "done" ? "text-muted/85 line-through" : "text-foreground",
           ].join(" ")}>
             {task.title}
           </p>
-          <p className="text-[0.7rem] text-muted/35 mt-0.5">
+          <p className="text-[0.7rem] text-muted/70 mt-0.5">
             {taskTypeLabel(task.type)} · {task.estimatedMinutes} min
           </p>
         </div>
 
         {status !== "upcoming" && (
-          <span className="shrink-0 text-muted/30 text-sm transition-transform duration-200" style={{ transform: expanded ? "rotate(90deg)" : undefined }}>
+          <span className="shrink-0 text-muted/70 text-sm transition-transform duration-200" style={{ transform: expanded ? "rotate(90deg)" : undefined }}>
             ›
           </span>
         )}
@@ -155,13 +155,13 @@ function TaskRow({
           >
             <div className="px-4 pb-4 flex flex-col gap-3 border-t border-border/50 pt-3">
               {/* Description */}
-              <p className="text-[0.8125rem] text-muted/65 leading-relaxed">{task.description}</p>
+              <p className="text-[0.8125rem] text-muted/85 leading-relaxed">{task.description}</p>
 
               {/* Resource link */}
               {task.resource && (
                 <Link
                   href={task.resource.url}
-                  className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-muted/50 hover:text-gold transition-colors"
+                  className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-muted/85 hover:text-gold transition-colors"
                 >
                   <span>↗</span>
                   {task.resource.title}
@@ -247,7 +247,7 @@ function StageCard({
       >
         {/* Stage number / status */}
         <div
-          className="shrink-0 size-10 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-black"
+          className="shrink-0 size-10 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-bold"
           style={{
             borderColor: stageStatus === "completed"
               ? accentColor
@@ -268,10 +268,10 @@ function StageCard({
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/35 mb-0.5">
+          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70 mb-0.5">
             Stage {stage.index + 1} {stageStatus === "completed" ? "· Complete" : stageStatus === "locked" ? "· Locked" : `· ${completedTasksInStage}/${stage.tasks.length} tasks`}
           </p>
-          <p className="font-display font-black text-[0.9375rem] text-foreground leading-tight">{stage.title}</p>
+          <p className="font-display font-bold text-[0.9375rem] text-foreground leading-tight">{stage.title}</p>
           {stage.badge && stageStatus === "completed" && (
             <p className="text-[0.7rem] text-gold/70 mt-0.5">🏅 {stage.badge} badge earned</p>
           )}
@@ -279,10 +279,10 @@ function StageCard({
 
         <div className="flex items-center gap-3 shrink-0">
           <ProgressRing progress={stagePct} size={40} stroke={3} color={accentColor}>
-            <span className="text-[0.55rem] font-black text-foreground">{stagePct}%</span>
+            <span className="text-[0.625rem] font-bold text-foreground">{stagePct}%</span>
           </ProgressRing>
           {stageStatus !== "locked" && (
-            <span className="text-muted/30 text-sm transition-transform duration-200" style={{ transform: open ? "rotate(90deg)" : undefined }}>
+            <span className="text-muted/70 text-sm transition-transform duration-200" style={{ transform: open ? "rotate(90deg)" : undefined }}>
               ›
             </span>
           )}
@@ -301,12 +301,12 @@ function StageCard({
           >
             <div className="px-5 pb-5 flex flex-col gap-3 border-t border-border/50 pt-4">
               {/* Stage description */}
-              <p className="text-[0.8125rem] text-muted/55 leading-relaxed">{stage.description}</p>
+              <p className="text-[0.8125rem] text-muted/85 leading-relaxed">{stage.description}</p>
 
               {/* Skills gained */}
               <div className="flex flex-wrap gap-1.5">
                 {stage.skillsGained.map((skill) => (
-                  <span key={skill} className="inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-0.5 text-[0.65rem] font-medium text-muted/50">
+                  <span key={skill} className="inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-0.5 text-[0.65rem] font-medium text-muted/85">
                     {skill}
                   </span>
                 ))}
@@ -494,7 +494,7 @@ export default function PathPage() {
     <div className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
 
       {/* Back link */}
-      <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-[0.8125rem] text-muted/40 hover:text-foreground transition-colors mb-8">
+      <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-[0.8125rem] text-muted/70 hover:text-foreground transition-colors mb-8">
         ← Dashboard
       </Link>
 
@@ -527,7 +527,7 @@ export default function PathPage() {
                     <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider ${difficultyColor(path.difficulty)}`}>
                       {path.difficulty}
                     </span>
-                    <span className="inline-flex items-center rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-[0.65rem] font-medium text-muted/50">
+                    <span className="inline-flex items-center rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-[0.65rem] font-medium text-muted/85">
                       {path.estimatedWeeks}w · {totalTasks} tasks
                     </span>
                     {isActivePath && (
@@ -536,15 +536,15 @@ export default function PathPage() {
                       </span>
                     )}
                   </div>
-                  <h1 className="font-display font-black text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
+                  <h1 className="font-display font-bold text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
                     {path.title}
                   </h1>
-                  <p className="text-[0.8125rem] text-muted/55 mt-1">{path.tagline}</p>
+                  <p className="text-[0.8125rem] text-muted/85 mt-1">{path.tagline}</p>
                 </div>
               </div>
 
               {/* Description */}
-              <p className="text-[0.875rem] text-muted/65 leading-relaxed">{path.description}</p>
+              <p className="text-[0.875rem] text-muted/85 leading-relaxed">{path.description}</p>
 
               {/* Progress strip */}
               {hasStarted && (
@@ -564,8 +564,8 @@ export default function PathPage() {
               {/* Badge */}
               <div className="rounded-xl border border-border bg-surface-2 px-4 py-3 flex items-center gap-2.5">
                 <span className="text-gold">🏅</span>
-                <p className="text-[0.8125rem] text-muted/65">
-                  <span className="font-semibold text-foreground/80">Badge: </span>
+                <p className="text-[0.8125rem] text-muted/85">
+                  <span className="font-semibold text-foreground/92">Badge: </span>
                   {path.badge} — earned on full completion
                 </p>
               </div>
@@ -594,7 +594,7 @@ export default function PathPage() {
                   <button
                     type="button"
                     onClick={handleSetActive}
-                    className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-2.5 text-[0.875rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all"
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-2.5 text-[0.875rem] font-semibold text-muted/92 hover:border-gold/30 hover:text-foreground transition-all"
                   >
                     Set as Active Path
                   </button>
@@ -611,7 +611,7 @@ export default function PathPage() {
 
           {/* ── Stages ── */}
           <section className="flex flex-col gap-4">
-            <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">
+            <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">
               Your Journey — {path.totalStages} Stages
             </h2>
 
@@ -658,7 +658,7 @@ export default function PathPage() {
               transition={{ delay: 0.3 }}
               className="rounded-2xl border border-border bg-surface p-6 text-center flex flex-col items-center gap-4"
             >
-              <p className="text-[0.9375rem] text-muted/60 max-w-sm leading-relaxed">
+              <p className="text-[0.9375rem] text-muted/85 max-w-sm leading-relaxed">
                 Start this path to unlock your first stage and begin tracking progress.
               </p>
               <button

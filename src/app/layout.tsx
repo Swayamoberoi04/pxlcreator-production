@@ -36,10 +36,15 @@ const bebasNeue = Bebas_Neue({
   display: "swap",
 })
 
-/* ── Body font — paragraphs, buttons, nav, labels ── */
+/* ── Body font — paragraphs, buttons, nav, labels ──
+   Weights loaded match every weight class used in the UI so the browser
+   never has to synthesise a faux weight:
+     300 light · 400 regular · 500 medium · 600 semibold · 700 bold
+   (font-bold / font-bold are normalised to font-bold app-wide — a
+   700 cap reads more editorial/premium than a synthetic 900.) */
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-dm-sans",
   display: "swap",
 })

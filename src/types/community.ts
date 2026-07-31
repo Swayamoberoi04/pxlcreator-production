@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/types/community.ts
  *
  * Complete TypeScript type system for the PXL Creator Community Ecosystem.
@@ -7,7 +7,7 @@
 
 /* ── Creator role catalogue ──────────────────────────────────────────────────── */
 export const CREATOR_ROLES = [
-  { id: "photographer",        label: "Photographer",         icon: "📷", color: "#C9A84C" },
+  { id: "photographer",        label: "Photographer",         icon: "📷", color: "#FFD60A" },
   { id: "lightroom-editor",    label: "Lightroom Editor",     icon: "🎨", color: "#f59e0b" },
   { id: "color-grader",        label: "Color Grader",         icon: "🎬", color: "#8b5cf6" },
   { id: "cinematographer",     label: "Cinematographer",      icon: "🎥", color: "#06b6d4" },
@@ -19,7 +19,7 @@ export const CREATOR_ROLES = [
   { id: "retoucher",           label: "Retoucher",            icon: "âœï¸",  color: "#a78bfa" },
   { id: "content-creator",     label: "Content Creator",      icon: "✨", color: "#fb7185" },
   { id: "thumbnail-designer",  label: "Thumbnail Designer",   icon: "🖼", color: "#4ade80" },
-  { id: "preset-creator",      label: "Preset Creator",       icon: "⚡", color: "#C9A84C" },
+  { id: "preset-creator",      label: "Preset Creator",       icon: "⚡", color: "#FFD60A" },
 ] as const
 
 export type CreatorRoleId = (typeof CREATOR_ROLES)[number]["id"]
@@ -515,7 +515,7 @@ export interface EventSubmission {
 
 /* ── Available For / Looking For constants ───────────────────────────────────── */
 export const AVAILABLE_FOR = [
-  { id: "paid_work",       label: "Paid Work",       color: "#C9A84C" },
+  { id: "paid_work",       label: "Paid Work",       color: "#FFD60A" },
   { id: "collaboration",   label: "Collaboration",   color: "#06b6d4" },
   { id: "internship",      label: "Internship",      color: "#10b981" },
   { id: "team_building",   label: "Team Building",   color: "#8b5cf6" },

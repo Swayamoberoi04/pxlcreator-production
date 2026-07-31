@@ -163,7 +163,7 @@ export function AIPreviewSlider({
                 className="flex items-center gap-2 rounded-full bg-black/65 backdrop-blur-sm border border-white/15 px-3 py-1.5"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" aria-hidden="true" />
-                <span className="text-[0.7rem] font-medium text-white/85 tracking-wide">
+                <span className="text-[0.7rem] font-medium text-white/92 tracking-wide">
                   {state.phase === "processing"  && "Processing"}
                   {state.phase === "generating"  && "Generating AI Preview"}
                   {state.phase === "verifying"   && "Verifying Quality"}
@@ -190,7 +190,7 @@ export function AIPreviewSlider({
 
       {/* Truth-in-preview footnote — persistent while the AI preview shows */}
       {isReady && (
-        <p className="text-[0.72rem] text-muted/45 leading-relaxed px-1">
+        <p className="text-[0.75rem] text-muted/85 leading-relaxed px-1">
           AI-visualized preview of this preset&apos;s style — the exact output in
           Lightroom may differ slightly.
         </p>

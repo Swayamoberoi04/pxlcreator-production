@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { motion } from "framer-motion"
 import { cn }     from "@/lib/utils"
@@ -61,7 +61,7 @@ export function StepSkillLevel({ selected, onSelect }: Props) {
             <div className="flex-1 min-w-0">
               <p className={cn(
                 "font-display font-bold text-[1rem] leading-tight",
-                isSelected ? "text-foreground" : "text-foreground/80"
+                isSelected ? "text-foreground" : "text-foreground/92"
               )}>
                 {level.label}
               </p>

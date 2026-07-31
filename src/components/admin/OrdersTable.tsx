@@ -33,7 +33,7 @@ export function MetricsBar({ metrics }: { metrics: CommerceMetrics }) {
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       {cards.map((c) => (
         <div key={c.label} className="rounded-2xl border border-border bg-surface p-5">
-          <p className="text-label text-muted/60 tracking-widest mb-2">{c.label}</p>
+          <p className="text-label text-muted/85 tracking-widest mb-2">{c.label}</p>
           <p className="font-display font-bold text-2xl text-foreground">{c.value}</p>
           <p className="text-small text-muted mt-0.5">{c.sub}</p>
         </div>
@@ -78,12 +78,12 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-surface">
-              <th className="px-5 py-3.5 text-left text-label text-muted/60 tracking-widest font-medium">Customer</th>
-              <th className="px-5 py-3.5 text-left text-label text-muted/60 tracking-widest font-medium">Items</th>
-              <th className="px-5 py-3.5 text-left text-label text-muted/60 tracking-widest font-medium">Amount</th>
-              <th className="px-5 py-3.5 text-left text-label text-muted/60 tracking-widest font-medium">Status</th>
-              <th className="px-5 py-3.5 text-left text-label text-muted/60 tracking-widest font-medium">Date</th>
-              <th className="px-5 py-3.5 text-left text-label text-muted/60 tracking-widest font-medium">Payment ID</th>
+              <th className="px-5 py-3.5 text-left text-label text-muted/85 tracking-widest font-medium">Customer</th>
+              <th className="px-5 py-3.5 text-left text-label text-muted/85 tracking-widest font-medium">Items</th>
+              <th className="px-5 py-3.5 text-left text-label text-muted/85 tracking-widest font-medium">Amount</th>
+              <th className="px-5 py-3.5 text-left text-label text-muted/85 tracking-widest font-medium">Status</th>
+              <th className="px-5 py-3.5 text-left text-label text-muted/85 tracking-widest font-medium">Date</th>
+              <th className="px-5 py-3.5 text-left text-label text-muted/85 tracking-widest font-medium">Payment ID</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -114,11 +114,11 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                 </td>
                 <td className="px-5 py-4">
                   {order.razorpay_payment_id ? (
-                    <span className="text-xs font-mono text-muted/60 truncate block max-w-[120px]">
+                    <span className="text-xs font-mono text-muted/85 truncate block max-w-[120px]">
                       {order.razorpay_payment_id}
                     </span>
                   ) : (
-                    <span className="text-xs text-muted/40">—</span>
+                    <span className="text-xs text-muted/70">—</span>
                   )}
                 </td>
               </tr>

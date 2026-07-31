@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useRouter }   from "next/navigation"
 import { useAuth }     from "@/contexts/AuthContext"
@@ -87,7 +87,7 @@ export default function AccountPage() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={user.photoURL} alt="Avatar" width={56} height={56} className="rounded-full object-cover border-2 border-gold/20" />
               ) : (
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gold/15 border-2 border-gold/20 font-display font-black text-[1.25rem] text-gold">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gold/15 border-2 border-gold/20 font-display font-bold text-[1.25rem] text-gold">
                   {initials}
                 </div>
               )}
@@ -95,7 +95,7 @@ export default function AccountPage() {
                 <h1 className="font-display font-bold text-[1.375rem] text-foreground leading-tight">
                   {user.displayName ?? "Creator"}
                 </h1>
-                <p className="text-[0.875rem] text-muted/60 mt-0.5">{user.email}</p>
+                <p className="text-[0.875rem] text-muted/85 mt-0.5">{user.email}</p>
               </div>
             </div>
 
@@ -129,8 +129,8 @@ export default function AccountPage() {
             <div className={`sm:col-span-2 lg:col-span-3 rounded-2xl border p-6 flex items-center justify-between gap-4 ${isPremium ? "border-emerald-500/20 bg-emerald-500/[0.04]" : "border-gold/15 bg-gold/[0.04]"}`}>
               <div className="flex flex-col gap-1">
                 <p className={`text-label tracking-widest ${isPremium ? "text-emerald-400/70" : "text-gold/70"}`}>Subscription</p>
-                <p className="font-display font-bold text-foreground text-[1.0625rem]">{planLabel}</p>
-                <p className="text-[0.8125rem] text-muted/60">
+                <p className="font-display font-bold text-foreground text-[1rem]">{planLabel}</p>
+                <p className="text-[0.8125rem] text-muted/85">
                   {isPremium && renewsDate
                     ? `Active until ${renewsDate} · renew anytime from Plans`
                     : "Upgrade to unlock all preset packs, courses, and early access drops."
@@ -409,7 +409,7 @@ function CreativePreferences() {
           style={{ borderColor: `${dnaColor}25`, background: `${dnaColor}08` }}
         >
           <div
-            className="shrink-0 size-12 rounded-full flex items-center justify-center font-display font-black text-[1.1rem]"
+            className="shrink-0 size-12 rounded-full flex items-center justify-center font-display font-bold text-[1.125rem]"
             style={{ background: `${dnaColor}20`, color: dnaColor }}
           >
             ◈
@@ -423,9 +423,9 @@ function CreativePreferences() {
                 {dnaBadge}
               </span>
             </div>
-            <p className="font-display font-black text-[1rem] text-foreground leading-tight">{dnaTitle}</p>
+            <p className="font-display font-bold text-[1rem] text-foreground leading-tight">{dnaTitle}</p>
             {profile.style_dna_tagline && (
-              <p className="text-[0.8rem] text-muted/60 mt-0.5 leading-snug">{profile.style_dna_tagline}</p>
+              <p className="text-[0.8125rem] text-muted/85 mt-0.5 leading-snug">{profile.style_dna_tagline}</p>
             )}
           </div>
         </div>
@@ -439,7 +439,7 @@ function CreativePreferences() {
               {profile.professions.map((id) => {
                 const p = PROFESSIONS.find((x) => x.id === id)
                 return p ? (
-                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.72rem] font-medium text-foreground/80">
+                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.75rem] font-medium text-foreground/92">
                     {p.label}
                   </span>
                 ) : null
@@ -451,7 +451,7 @@ function CreativePreferences() {
               {profile.goals.map((id) => {
                 const g = GOALS.find((x) => x.id === id)
                 return g ? (
-                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.72rem] font-medium text-foreground/80">
+                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.75rem] font-medium text-foreground/92">
                     {g.label}
                   </span>
                 ) : null
@@ -463,7 +463,7 @@ function CreativePreferences() {
               {profile.aesthetics.map((id) => {
                 const a = AESTHETICS.find((x) => x.id === id)
                 return a ? (
-                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.72rem] font-medium text-foreground/80">
+                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.75rem] font-medium text-foreground/92">
                     {a.label}
                   </span>
                 ) : null
@@ -472,7 +472,7 @@ function CreativePreferences() {
           )}
           {profile.skill_level && (
             <PrefRow label="Skill Level">
-              <span className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.72rem] font-medium text-foreground/80 capitalize">
+              <span className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.75rem] font-medium text-foreground/92 capitalize">
                 {profile.skill_level}
               </span>
             </PrefRow>
@@ -482,7 +482,7 @@ function CreativePreferences() {
               {profile.platforms.map((id) => {
                 const pl = PLATFORMS.find((x) => x.id === id)
                 return pl ? (
-                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.72rem] font-medium text-foreground/80">
+                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[0.75rem] font-medium text-foreground/92">
                     {pl.label}
                   </span>
                 ) : null
@@ -508,7 +508,7 @@ function CreativePreferences() {
                     "rounded-full border px-3 py-1.5 text-[0.75rem] font-medium transition-all",
                     profs.includes(p.id as ProfessionId)
                       ? "border-gold/60 bg-gold/10 text-gold"
-                      : "border-border bg-surface-2 text-muted/70 hover:border-border/80 hover:text-foreground",
+                      : "border-border bg-surface-2 text-muted/92 hover:border-border/80 hover:text-foreground",
                   ].join(" ")}
                 >
                   {p.label}
@@ -529,7 +529,7 @@ function CreativePreferences() {
                     "rounded-full border px-3 py-1.5 text-[0.75rem] font-medium transition-all",
                     goals.includes(g.id as GoalId)
                       ? "border-gold/60 bg-gold/10 text-gold"
-                      : "border-border bg-surface-2 text-muted/70 hover:border-border/80 hover:text-foreground",
+                      : "border-border bg-surface-2 text-muted/92 hover:border-border/80 hover:text-foreground",
                   ].join(" ")}
                 >
                   {g.label}
@@ -550,7 +550,7 @@ function CreativePreferences() {
                     "rounded-full border px-3 py-1.5 text-[0.75rem] font-medium transition-all",
                     aesth.includes(a.id as AestheticId)
                       ? "border-gold/60 bg-gold/10 text-gold"
-                      : "border-border bg-surface-2 text-muted/70 hover:border-border/80 hover:text-foreground",
+                      : "border-border bg-surface-2 text-muted/92 hover:border-border/80 hover:text-foreground",
                   ].join(" ")}
                 >
                   {a.label}
@@ -571,7 +571,7 @@ function CreativePreferences() {
                     "rounded-full border px-3 py-1.5 text-[0.75rem] font-medium transition-all",
                     skill === s.id
                       ? "border-gold/60 bg-gold/10 text-gold"
-                      : "border-border bg-surface-2 text-muted/70 hover:border-border/80 hover:text-foreground",
+                      : "border-border bg-surface-2 text-muted/92 hover:border-border/80 hover:text-foreground",
                   ].join(" ")}
                 >
                   {s.label}
@@ -592,7 +592,7 @@ function CreativePreferences() {
                     "rounded-full border px-3 py-1.5 text-[0.75rem] font-medium transition-all",
                     plats.includes(pl.id as PlatformId)
                       ? "border-gold/60 bg-gold/10 text-gold"
-                      : "border-border bg-surface-2 text-muted/70 hover:border-border/80 hover:text-foreground",
+                      : "border-border bg-surface-2 text-muted/92 hover:border-border/80 hover:text-foreground",
                   ].join(" ")}
                 >
                   {pl.label}
@@ -624,7 +624,7 @@ function CreativePreferences() {
             <button
               type="button"
               onClick={() => { setEditing(false); setError(null) }}
-              className="text-[0.875rem] font-medium text-muted/60 hover:text-foreground transition-colors"
+              className="text-[0.875rem] font-medium text-muted/85 hover:text-foreground transition-colors"
             >
               Cancel
             </button>
@@ -647,7 +647,7 @@ function CreativePreferences() {
 function PrefRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40">{label}</p>
+      <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70">{label}</p>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   )
@@ -658,7 +658,7 @@ function EditSection({ label, hint, children }: { label: string; hint?: string; 
     <div className="flex flex-col gap-2.5">
       <div className="flex items-baseline gap-2">
         <p className="text-[0.8125rem] font-semibold text-foreground">{label}</p>
-        {hint && <p className="text-[0.7rem] text-muted/40">{hint}</p>}
+        {hint && <p className="text-[0.7rem] text-muted/70">{hint}</p>}
       </div>
       {children}
     </div>
@@ -671,7 +671,7 @@ function EditSection({ label, hint, children }: { label: string; hint?: string; 
 function InfoCard({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
   return (
     <div className="rounded-2xl border border-border bg-surface p-5 flex flex-col gap-3">
-      <div className="flex items-center gap-2 text-muted/50">{icon}<span className="text-label tracking-widest">{label}</span></div>
+      <div className="flex items-center gap-2 text-muted/85">{icon}<span className="text-label tracking-widest">{label}</span></div>
       <p className="text-[0.9375rem] font-medium text-foreground leading-snug truncate">{value}</p>
     </div>
   )

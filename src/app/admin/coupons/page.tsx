@@ -139,10 +139,10 @@ export default function AdminCouponsPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( PROMOTIONS )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Coupon Codes
         </h1>
-        <p className="text-[0.875rem] text-white/30 max-w-lg">
+        <p className="text-[0.875rem] text-white/70 max-w-lg">
           Create discount codes for your store. Customers enter them at checkout.
         </p>
       </div>
@@ -152,29 +152,29 @@ export default function AdminCouponsPage() {
         onSubmit={handleCreate}
         className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col gap-5"
       >
-        <h2 className="text-[0.9375rem] font-semibold text-white/70">New coupon</h2>
+        <h2 className="text-[0.9375rem] font-semibold text-white/92">New coupon</h2>
 
         <div className="grid sm:grid-cols-2 gap-4">
 
           {/* Code */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[0.75rem] text-white/40">Code</label>
+            <label className="text-[0.75rem] text-white/70">Code</label>
             <input
               type="text"
               placeholder="e.g. SUMMER20"
               value={form.code}
               onChange={(e) => setForm((f) => ({ ...f, code: e.target.value.toUpperCase() }))}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors font-mono tracking-widest"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/92 placeholder:text-white/70 focus:outline-none focus:border-gold/40 transition-colors font-mono tracking-widest"
             />
           </div>
 
           {/* Discount type */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[0.75rem] text-white/40">Discount type</label>
+            <label className="text-[0.75rem] text-white/70">Discount type</label>
             <select
               value={form.discount_type}
               onChange={(e) => setForm((f) => ({ ...f, discount_type: e.target.value as DiscountType }))}
-              className="rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-[0.875rem] text-white/80 focus:outline-none focus:border-gold/40 transition-colors"
+              className="rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-[0.875rem] text-white/92 focus:outline-none focus:border-gold/40 transition-colors"
             >
               <option value="percentage">Percentage (%)</option>
               <option value="fixed_inr">Fixed amount (₹ INR)</option>
@@ -184,7 +184,7 @@ export default function AdminCouponsPage() {
 
           {/* Discount value */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[0.75rem] text-white/40">
+            <label className="text-[0.75rem] text-white/70">
               {form.discount_type === "percentage" ? "Percentage off" :
                form.discount_type === "fixed_inr"  ? "Amount off (₹)" : "Amount off ($)"}
             </label>
@@ -195,44 +195,44 @@ export default function AdminCouponsPage() {
               placeholder={form.discount_type === "percentage" ? "e.g. 20" : "e.g. 500"}
               value={form.discount_value}
               onChange={(e) => setForm((f) => ({ ...f, discount_value: e.target.value }))}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/92 placeholder:text-white/70 focus:outline-none focus:border-gold/40 transition-colors"
             />
           </div>
 
           {/* Min order */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[0.75rem] text-white/40">Min order (₹) <span className="text-white/20">— optional</span></label>
+            <label className="text-[0.75rem] text-white/70">Min order (₹) <span className="text-white/70">— optional</span></label>
             <input
               type="number"
               min="0"
               placeholder="e.g. 999"
               value={form.min_order_inr}
               onChange={(e) => setForm((f) => ({ ...f, min_order_inr: e.target.value }))}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/92 placeholder:text-white/70 focus:outline-none focus:border-gold/40 transition-colors"
             />
           </div>
 
           {/* Max uses */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[0.75rem] text-white/40">Max uses <span className="text-white/20">— optional</span></label>
+            <label className="text-[0.75rem] text-white/70">Max uses <span className="text-white/70">— optional</span></label>
             <input
               type="number"
               min="1"
               placeholder="Unlimited"
               value={form.max_uses}
               onChange={(e) => setForm((f) => ({ ...f, max_uses: e.target.value }))}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/92 placeholder:text-white/70 focus:outline-none focus:border-gold/40 transition-colors"
             />
           </div>
 
           {/* Expiry */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[0.75rem] text-white/40">Expires on <span className="text-white/20">— optional</span></label>
+            <label className="text-[0.75rem] text-white/70">Expires on <span className="text-white/70">— optional</span></label>
             <input
               type="date"
               value={form.expires_at}
               onChange={(e) => setForm((f) => ({ ...f, expires_at: e.target.value }))}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/60 focus:outline-none focus:border-gold/40 transition-colors"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.875rem] text-white/85 focus:outline-none focus:border-gold/40 transition-colors"
             />
           </div>
 
@@ -269,12 +269,12 @@ export default function AdminCouponsPage() {
         </div>
       ) : coupons.length === 0 ? (
         <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] px-6 py-10 text-center">
-          <p className="text-[0.875rem] text-white/30">No coupons yet. Create one above.</p>
+          <p className="text-[0.875rem] text-white/70">No coupons yet. Create one above.</p>
         </div>
       ) : (
         <div className="rounded-2xl border border-white/[0.06] overflow-hidden">
           {/* Table header */}
-          <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 px-5 py-3 border-b border-white/[0.06] text-[0.7rem] text-white/30 tracking-widest">
+          <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 px-5 py-3 border-b border-white/[0.06] text-[0.7rem] text-white/70 tracking-widest">
             <span>CODE</span>
             <span className="text-right">DISCOUNT</span>
             <span className="text-right">USES</span>
@@ -297,7 +297,7 @@ export default function AdminCouponsPage() {
               >
                 {/* Code + badges */}
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="font-mono text-[0.875rem] font-semibold text-white/80 tracking-widest">
+                  <span className="font-mono text-[0.875rem] font-semibold text-white/92 tracking-widest">
                     {coupon.code}
                   </span>
                   {coupon.is_active && !isExpired && !isExhausted && (
@@ -306,17 +306,17 @@ export default function AdminCouponsPage() {
                     </span>
                   )}
                   {(isExpired || isExhausted) && (
-                    <span className="text-[0.65rem] text-white/25 bg-white/[0.04] rounded-full px-2 py-px">
+                    <span className="text-[0.65rem] text-white/70 bg-white/[0.04] rounded-full px-2 py-px">
                       {isExpired ? "Expired" : "Exhausted"}
                     </span>
                   )}
                   {!coupon.is_active && !isExpired && !isExhausted && (
-                    <span className="text-[0.65rem] text-white/25 bg-white/[0.04] rounded-full px-2 py-px">
+                    <span className="text-[0.65rem] text-white/70 bg-white/[0.04] rounded-full px-2 py-px">
                       Paused
                     </span>
                   )}
                   {coupon.min_order_inr && (
-                    <span className="text-[0.65rem] text-white/20">min ₹{coupon.min_order_inr}</span>
+                    <span className="text-[0.65rem] text-white/70">min ₹{coupon.min_order_inr}</span>
                   )}
                 </div>
 
@@ -326,12 +326,12 @@ export default function AdminCouponsPage() {
                 </span>
 
                 {/* Uses */}
-                <span className="text-[0.8125rem] text-white/40 text-right whitespace-nowrap">
+                <span className="text-[0.8125rem] text-white/70 text-right whitespace-nowrap">
                   {coupon.used_count}{coupon.max_uses !== null ? `/${coupon.max_uses}` : ""}
                 </span>
 
                 {/* Expires */}
-                <span className="text-[0.8125rem] text-white/30 text-right whitespace-nowrap">
+                <span className="text-[0.8125rem] text-white/70 text-right whitespace-nowrap">
                   {coupon.expires_at
                     ? new Date(coupon.expires_at).toLocaleDateString()
                     : "—"}
@@ -348,7 +348,7 @@ export default function AdminCouponsPage() {
                       "h-7 w-7 rounded-lg flex items-center justify-center transition-colors",
                       coupon.is_active
                         ? "text-emerald-400/60 hover:bg-emerald-500/10 hover:text-emerald-400"
-                        : "text-white/25 hover:bg-white/[0.06] hover:text-white/60"
+                        : "text-white/70 hover:bg-white/[0.06] hover:text-white/85"
                     )}
                   >
                     {acting === coupon.id ? <SpinIcon /> : coupon.is_active ? <PauseIcon /> : <PlayIcon />}
@@ -359,7 +359,7 @@ export default function AdminCouponsPage() {
                     onClick={() => handleDelete(coupon.id, coupon.code)}
                     disabled={acting === coupon.id}
                     title="Delete coupon"
-                    className="h-7 w-7 rounded-lg flex items-center justify-center text-white/20 hover:bg-red-500/10 hover:text-red-400 transition-colors"
+                    className="h-7 w-7 rounded-lg flex items-center justify-center text-white/70 hover:bg-red-500/10 hover:text-red-400 transition-colors"
                   >
                     <TrashIcon />
                   </button>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { motion } from "framer-motion"
 import { cn }     from "@/lib/utils"
@@ -21,7 +21,7 @@ export function StepGoals({ selected, onToggle }: Props) {
   return (
     <div className="flex flex-col gap-5">
       <div className="text-center">
-        <p className="text-[0.8125rem] text-muted/50">Choose up to 3 goals</p>
+        <p className="text-[0.8125rem] text-muted/85">Choose up to 3 goals</p>
       </div>
 
       <div className="flex flex-col gap-2.5 max-h-[420px] overflow-y-auto pr-1

@@ -85,10 +85,10 @@ export default function AdminReviewsPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( MODERATION )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Review Moderation
         </h1>
-        <p className="text-[0.875rem] text-white/30 max-w-lg">
+        <p className="text-[0.875rem] text-white/70 max-w-lg">
           Approve reviews to make them public. Rejected reviews are permanently deleted.
           Approved reviews automatically update the preset&apos;s star rating.
         </p>
@@ -103,8 +103,8 @@ export default function AdminReviewsPage() {
             className={cn(
               "px-4 py-1.5 rounded-lg text-[0.8125rem] font-medium transition-all capitalize",
               filter === s
-                ? "bg-white/[0.08] text-white/80"
-                : "text-white/35 hover:text-white/55"
+                ? "bg-white/[0.08] text-white/92"
+                : "text-white/70 hover:text-white/85"
             )}
           >
             {s}
@@ -122,7 +122,7 @@ export default function AdminReviewsPage() {
       {/* ── Empty states ── */}
       {!loading && reviews.length === 0 && (
         <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] px-6 py-12 text-center">
-          <p className="text-[0.875rem] text-white/40">
+          <p className="text-[0.875rem] text-white/70">
             {filter === "pending" ? "No pending reviews — you&apos;re all caught up." : "No reviews found."}
           </p>
         </div>
@@ -140,7 +140,7 @@ export default function AdminReviewsPage() {
       {/* ── Review cards ── */}
       {!loading && reviews.length > 0 && (
         <>
-          <p className="text-[0.8125rem] text-white/25">
+          <p className="text-[0.8125rem] text-white/70">
             {total} review{total !== 1 ? "s" : ""}
           </p>
 
@@ -153,17 +153,17 @@ export default function AdminReviewsPage() {
                 {/* ── Top row: preset + meta ── */}
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex flex-col gap-0.5">
-                    <p className="text-[0.875rem] font-semibold text-white/70">
+                    <p className="text-[0.875rem] font-semibold text-white/92">
                       {review.presets?.title ?? review.preset_id}
                     </p>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[0.75rem] text-white/35">{review.email}</span>
+                      <span className="text-[0.75rem] text-white/70">{review.email}</span>
                       {review.is_verified_purchase && (
                         <span className="text-[0.65rem] text-emerald-400/70 bg-emerald-500/[0.06] border border-emerald-500/15 rounded-full px-2 py-px">
                           Verified purchase
                         </span>
                       )}
-                      <span className="text-[0.75rem] text-white/25">
+                      <span className="text-[0.75rem] text-white/70">
                         {new Date(review.created_at).toLocaleDateString()}
                       </span>
                     </div>
@@ -177,7 +177,7 @@ export default function AdminReviewsPage() {
                         width="12" height="12" viewBox="0 0 24 24"
                         fill={n <= review.rating ? "currentColor" : "none"}
                         stroke="currentColor" strokeWidth="2"
-                        className={n <= review.rating ? "text-gold" : "text-white/20"}
+                        className={n <= review.rating ? "text-gold" : "text-white/70"}
                       >
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                       </svg>
@@ -187,12 +187,12 @@ export default function AdminReviewsPage() {
 
                 {/* ── Review text ── */}
                 {review.review_text && (
-                  <p className="text-[0.875rem] text-white/55 leading-relaxed">
+                  <p className="text-[0.875rem] text-white/85 leading-relaxed">
                     &ldquo;{review.review_text}&rdquo;
                   </p>
                 )}
                 {!review.review_text && (
-                  <p className="text-[0.8125rem] text-white/20 italic">No written review</p>
+                  <p className="text-[0.8125rem] text-white/70 italic">No written review</p>
                 )}
 
                 {/* ── Actions ── */}

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * CTABanner.tsx — Stop Spending Hours Editing. Start Creating.
@@ -125,7 +125,7 @@ function CheckIcon() {
       height="14"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#C9A84C"
+      stroke="#FFD60A"
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"

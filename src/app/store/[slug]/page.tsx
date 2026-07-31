@@ -188,13 +188,13 @@ export default async function StorePresetPage({ params }: PageProps) {
           {/* Breadcrumb */}
           <CinematicReveal variant="rise">
             <nav aria-label="Breadcrumb"
-              className="flex items-center gap-2 text-[0.75rem] text-muted/50 mb-8 pt-6">
+              className="flex items-center gap-2 text-[0.75rem] text-muted/85 mb-8 pt-6">
               <Link href="/store" className="hover:text-gold transition-colors">Store</Link>
-              <span aria-hidden className="text-muted/25">/</span>
+              <span aria-hidden className="text-muted/70">/</span>
               <Link href={`/store?category=${preset.category}`}
                 className="hover:text-gold transition-colors">{preset.category}</Link>
-              <span aria-hidden className="text-muted/25">/</span>
-              <span className="text-muted/70 truncate max-w-[160px]">{preset.name}</span>
+              <span aria-hidden className="text-muted/70">/</span>
+              <span className="text-muted/92 truncate max-w-[160px]">{preset.name}</span>
             </nav>
           </CinematicReveal>
 
@@ -247,7 +247,7 @@ export default async function StorePresetPage({ params }: PageProps) {
               <div className={cn(
                 "flex flex-col gap-6 lg:sticky lg:top-24",
                 "rounded-2xl border border-border/60 bg-surface/60 backdrop-blur-sm p-6",
-                "shadow-[0_0_60px_rgba(201,168,76,0.08)]",
+                "shadow-[0_0_60px_rgba(255,214,10,0.08)]",
               )}>
 
                 {/* Category + badges row */}
@@ -256,13 +256,13 @@ export default async function StorePresetPage({ params }: PageProps) {
                     {preset.category}
                   </span>
                   {isMobile && (
-                    <span className="text-[0.6rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-gold/10 border border-gold/20 text-gold/80">
+                    <span className="text-[0.625rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-gold/10 border border-gold/20 text-gold/80">
                       Shot on Phone · No DSLR
                     </span>
                   )}
                   {preset.badge && (
                     <span className={cn(
-                      "text-[0.6rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-0.5",
+                      "text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-0.5",
                       badgeStyles[preset.badge] ?? "bg-surface-2 text-muted border border-border"
                     )}>
                       {preset.badge === "Sale" && discount ? `−${discount}%` : preset.badge}
@@ -272,12 +272,12 @@ export default async function StorePresetPage({ params }: PageProps) {
 
                 {/* Name + tagline */}
                 <div className="flex flex-col gap-2">
-                  <h1 className="font-display font-black text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05] tracking-tight text-foreground">
+                  <h1 className="font-display font-bold text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05] tracking-tight text-foreground">
                     {preset.name}
                   </h1>
-                  <p className="text-[1rem] text-muted/70 leading-relaxed">{preset.tagline}</p>
+                  <p className="text-[1rem] text-muted/92 leading-relaxed">{preset.tagline}</p>
                   {preset.hook && (
-                    <p className="text-[0.9rem] font-semibold text-foreground/85 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
+                    <p className="text-[0.875rem] font-semibold text-foreground/92 leading-snug border-l-2 border-gold/50 pl-3 mt-1">
                       {preset.hook}
                     </p>
                   )}
@@ -294,7 +294,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                     <span className="text-[0.875rem] font-medium text-foreground">
                       {preset.rating?.toFixed(1)}
                     </span>
-                    <span className="text-[0.8125rem] text-muted/50">
+                    <span className="text-[0.8125rem] text-muted/85">
                       ({preset.reviewCount.toLocaleString()} reviews)
                     </span>
                   </div>
@@ -303,14 +303,14 @@ export default async function StorePresetPage({ params }: PageProps) {
                 {/* Price */}
                 <div className="flex items-baseline gap-3 py-4 border-y border-border">
                   <span className={cn(
-                    "font-display font-black text-[2.5rem] leading-none",
+                    "font-display font-bold text-[2.5rem] leading-none",
                     preset.isFree ? "text-emerald-400" : "text-gold"
                   )}>
                     {preset.isFree ? "Free" : `$${preset.price}`}
                   </span>
                   {preset.originalPrice && (
                     <>
-                      <span className="text-[1.125rem] text-muted/50 line-through">
+                      <span className="text-[1.125rem] text-muted/85 line-through">
                         ${preset.originalPrice}
                       </span>
                       <span className="text-[0.75rem] font-bold text-red-400 bg-red-500/10 rounded-full px-2.5 py-1">
@@ -323,14 +323,14 @@ export default async function StorePresetPage({ params }: PageProps) {
                 {/* What's included */}
                 {preset.features && preset.features.length > 0 && (
                   <div className="flex flex-col gap-2.5">
-                    <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40">
+                    <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70">
                       What&apos;s included
                     </p>
                     <ul className="flex flex-col gap-2" role="list">
                       {preset.features.map((feat) => (
                         <li key={feat} className="flex items-start gap-2.5">
                           <span className="mt-0.5 shrink-0 text-gold"><CheckIcon /></span>
-                          <span className="text-[0.875rem] text-foreground/80 leading-snug">{feat}</span>
+                          <span className="text-[0.875rem] text-foreground/92 leading-snug">{feat}</span>
                         </li>
                       ))}
                     </ul>
@@ -340,13 +340,13 @@ export default async function StorePresetPage({ params }: PageProps) {
                 {/* Compatibility */}
                 {preset.compatibility && preset.compatibility.length > 0 && (
                   <div className="flex flex-col gap-2">
-                    <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40">
+                    <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70">
                       Compatible with
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {preset.compatibility.map((app) => (
                         <span key={app}
-                          className="text-[0.75rem] text-muted/60 bg-surface border border-border rounded-full px-3 py-1">
+                          className="text-[0.75rem] text-muted/85 bg-surface border border-border rounded-full px-3 py-1">
                           {app}
                         </span>
                       ))}
@@ -364,15 +364,15 @@ export default async function StorePresetPage({ params }: PageProps) {
                         preset.difficultyLevel? (["Level",     preset.difficultyLevel] as [string, string]) : null,
                       ] as ([string, string] | null)[]
                     ).filter((x): x is [string, string] => x !== null).map(([label, val]) => (
-                      <div key={label} className="flex gap-2.5 text-[0.8rem]">
-                        <span className="shrink-0 text-muted/40 font-medium min-w-[4.5rem]">{label}</span>
+                      <div key={label} className="flex gap-2.5 text-[0.8125rem]">
+                        <span className="shrink-0 text-muted/70 font-medium min-w-[4.5rem]">{label}</span>
                         <span className={cn(
                           "leading-snug",
                           label === "Level"
                             ? val === "Beginner"     ? "text-emerald-400 font-semibold"
                             : val === "Intermediate" ? "text-gold/80 font-semibold"
                             :                          "text-rose-400 font-semibold"
-                            : "text-foreground/70"
+                            : "text-foreground/92"
                         )}>{val}</span>
                       </div>
                     ))}
@@ -396,7 +396,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                     ...(!preset.isFree ? ["Free YouTube unlock"] : []),
                   ].map((t) => (
                     <span key={t}
-                      className="text-[0.68rem] font-medium text-muted/40 rounded-full border border-border/50 px-2.5 py-1">
+                      className="text-[0.6875rem] font-medium text-muted/70 rounded-full border border-border/50 px-2.5 py-1">
                       ✓ {t}
                     </span>
                   ))}
@@ -420,7 +420,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                   bestUseCase:  preset.bestUseCase,
                   isFree:       preset.isFree,
                 }).split("\n\n").map((para, i) => (
-                  <p key={i} className="text-[0.9375rem] text-muted/65 leading-[1.85]">{para}</p>
+                  <p key={i} className="text-[0.9375rem] text-muted/85 leading-[1.85]">{para}</p>
                 ))}
               </div>
             </div>
@@ -440,7 +440,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                 </div>
                 <div className="flex flex-col gap-3 pl-11">
                   {HOW_TO_UNLOCK_COPY.body.map((para, i) => (
-                    <p key={i} className="text-[0.875rem] text-muted/60 leading-relaxed">{para}</p>
+                    <p key={i} className="text-[0.875rem] text-muted/85 leading-relaxed">{para}</p>
                   ))}
                 </div>
               </div>
@@ -468,7 +468,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                 <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface/60 px-5 py-5">
                   <div className="flex flex-col gap-1">
                     <p className="text-[0.875rem] font-semibold text-foreground">Leave a review</p>
-                    <p className="text-[0.8rem] text-muted/55 leading-relaxed">
+                    <p className="text-[0.8125rem] text-muted/85 leading-relaxed">
                       Purchased or unlocked this preset? Share your experience.
                     </p>
                   </div>
@@ -485,7 +485,7 @@ export default async function StorePresetPage({ params }: PageProps) {
                 <div className="flex items-center justify-between gap-4 mb-8">
                   <SectionLabel>You might also like</SectionLabel>
                   <Link href="/store"
-                    className="text-[0.8125rem] text-muted/50 hover:text-gold transition-colors">
+                    className="text-[0.8125rem] text-muted/85 hover:text-gold transition-colors">
                     View all →
                   </Link>
                 </div>
@@ -530,13 +530,13 @@ function OrderBump({ presetName, presetSlug }: { presetName: string; presetSlug:
         <p className="text-[0.75rem] font-bold text-gold/90 uppercase tracking-wide">
           Add to Cinematic Bundle — Save 40%
         </p>
-        <p className="text-[0.78rem] text-muted/60 leading-snug">
+        <p className="text-[0.8125rem] text-muted/85 leading-snug">
           Get {presetName} + 4 more cinematic packs in one download.
           Normally ${Math.round(5 * 19)} — yours for $47.
         </p>
         <Link
           href={`/bundles?highlight=${presetSlug}`}
-          className="mt-1.5 self-start text-[0.72rem] font-semibold text-gold hover:text-gold-bright transition-colors underline underline-offset-2"
+          className="mt-1.5 self-start text-[0.75rem] font-semibold text-gold hover:text-gold-bright transition-colors underline underline-offset-2"
         >
           See the bundle →
         </Link>
@@ -554,7 +554,7 @@ import FaqAccordion from "./_FaqAccordion"
 function StarIcon({ filled }: { filled: boolean }) {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24"
-      fill={filled ? "#C9A84C" : "none"}
+      fill={filled ? "#FFD60A" : "none"}
       stroke={filled ? "none" : "#444"} strokeWidth="1.5" aria-hidden>
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
     </svg>

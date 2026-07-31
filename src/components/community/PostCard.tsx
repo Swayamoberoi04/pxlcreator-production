@@ -129,16 +129,16 @@ export function PostCard({ post, channelId, onReact }: PostCardProps) {
               <span className="text-gold text-xs shrink-0" title="Verified">✓</span>
             )}
           </div>
-          <p className="text-xs text-muted/50">{timeAgo(post.created_at)}</p>
+          <p className="text-xs text-muted/85">{timeAgo(post.created_at)}</p>
         </div>
       </div>
 
       {/* Content */}
       <div>
         {post.title && (
-          <h3 className="font-display font-black text-base text-foreground mb-2">{post.title}</h3>
+          <h3 className="font-display font-bold text-base text-foreground mb-2">{post.title}</h3>
         )}
-        <p className="text-sm text-muted/80 leading-relaxed whitespace-pre-wrap">
+        <p className="text-sm text-muted/92 leading-relaxed whitespace-pre-wrap">
           {bodyTruncated ? post.body.slice(0, BODY_LIMIT) + "…" : post.body}
         </p>
         {post.body.length > BODY_LIMIT && (
@@ -176,7 +176,7 @@ export function PostCard({ post, channelId, onReact }: PostCardProps) {
                 "disabled:opacity-50",
                 activeReaction === key
                   ? "bg-gold/20 text-gold"
-                  : "bg-surface-2 text-muted/60 hover:bg-surface-3 hover:text-foreground",
+                  : "bg-surface-2 text-muted/85 hover:bg-surface-3 hover:text-foreground",
               ].join(" ")}
             >
               <span>{emoji}</span>
@@ -189,7 +189,7 @@ export function PostCard({ post, channelId, onReact }: PostCardProps) {
 
         <Link
           href={`/community/channels/${channelId}?post=${post.id}`}
-          className="flex items-center gap-1.5 text-xs text-muted/50 hover:text-gold transition-colors"
+          className="flex items-center gap-1.5 text-xs text-muted/85 hover:text-gold transition-colors"
         >
           <span>💬</span>
           <span>{post.comment_count} comment{post.comment_count !== 1 ? "s" : ""}</span>

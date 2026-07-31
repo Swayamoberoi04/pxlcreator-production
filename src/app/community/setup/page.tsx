@@ -81,8 +81,8 @@ export default function CommunitySetupPage() {
           className="flex flex-col items-center gap-4"
         >
           <p className="text-[2rem]">🎉</p>
-          <h2 className="font-display font-black text-[1.5rem] text-foreground">You&apos;re all set!</h2>
-          <p className="text-muted/60">Redirecting you to the community…</p>
+          <h2 className="font-display font-bold text-[1.5rem] text-foreground">You&apos;re all set!</h2>
+          <p className="text-muted/85">Redirecting you to the community…</p>
           <div className="h-1 w-48 rounded-full bg-surface overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
@@ -95,10 +95,10 @@ export default function CommunitySetupPage() {
       ) : (
         <>
           <div>
-            <h1 className="font-display font-black text-[2rem] text-foreground">
+            <h1 className="font-display font-bold text-[2rem] text-foreground">
               Join the Community
             </h1>
-            <p className="text-muted/60 mt-2 text-[0.9375rem] leading-relaxed">
+            <p className="text-muted/85 mt-2 text-[0.9375rem] leading-relaxed">
               Get started with a single click. We&apos;ll set up your community presence
               and get you into the right spaces.
             </p>
@@ -112,7 +112,7 @@ export default function CommunitySetupPage() {
                 <span className="text-[1.5rem] shrink-0">{step.icon}</span>
                 <div>
                   <p className="font-semibold text-[0.9375rem] text-foreground">{step.label}</p>
-                  <p className="text-[0.8125rem] text-muted/60">{step.desc}</p>
+                  <p className="text-[0.8125rem] text-muted/85">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -140,7 +140,7 @@ export default function CommunitySetupPage() {
             ) : "Set Up My Community Profile →"}
           </button>
 
-          <Link href="/community" className="text-[0.875rem] text-muted/40 hover:text-muted transition-colors">
+          <Link href="/community" className="text-[0.875rem] text-muted/70 hover:text-muted transition-colors">
             Skip for now
           </Link>
         </>

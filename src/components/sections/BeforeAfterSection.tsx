@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/components/sections/BeforeAfterSection.tsx
  *
  * "See The Difference" interactive section — real before/after image pairs
@@ -29,7 +29,7 @@ const HERO_PAIR = {
   afterSrc:    "/assets/fr_after.webp",
   alt:         "Film Rich preset",
   label:       "Film Rich — Warm Analog Grade",
-  accentColor: "#C9A84C",
+  accentColor: "#FFD60A",
 }
 
 const GRID_PAIRS = [
@@ -84,11 +84,11 @@ export function BeforeAfterSection() {
               <span className="text-label text-gold/70 tracking-[0.2em] animate-gold-flicker">See The Difference</span>
               <span className="h-px w-8 bg-gold/50 animate-gold-flicker" aria-hidden="true" />
             </div>
-            <h2 className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
+            <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
               Every mood.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -97,7 +97,7 @@ export function BeforeAfterSection() {
                 One click.
               </span>
             </h2>
-            <p className="text-[0.9375rem] text-muted/55 max-w-md leading-relaxed">
+            <p className="text-[0.9375rem] text-muted/85 max-w-md leading-relaxed">
               Drag the handle on any card to reveal the cinematic grade.
             </p>
           </div>
@@ -135,7 +135,7 @@ export function BeforeAfterSection() {
           <div className="flex justify-center mt-12">
             <Link
               href="/store"
-              className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-7 py-3 text-[0.9375rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all duration-200"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-7 py-3 text-[0.9375rem] font-semibold text-muted/92 hover:border-gold/30 hover:text-foreground transition-all duration-200"
             >
               Browse all presets
               <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">→</span>

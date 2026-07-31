@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * src/components/bundles/BundleSidebarCTA.tsx
@@ -69,9 +69,9 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
         <div>
           {/* Individual value — strikethrough */}
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[0.75rem] text-muted/40">Individual value:</span>
+            <span className="text-[0.75rem] text-muted/70">Individual value:</span>
             <span
-              className="text-[0.75rem] text-muted/40 line-through"
+              className="text-[0.75rem] text-muted/70 line-through"
               suppressHydrationWarning
             >
               {formatPrice(bundle.individualValueUsd, displayCurrency)}
@@ -80,7 +80,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
 
           {/* Bundle price — large */}
           <p
-            className="font-display font-black text-[2.2rem] leading-none text-gold"
+            className="font-display font-bold text-[2rem] leading-none text-gold"
             suppressHydrationWarning
           >
             {formatPrice(bundle.price, displayCurrency)}
@@ -88,7 +88,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
 
           {/* Secondary currency */}
           {mounted && (
-            <p className="text-[0.75rem] text-muted/35 mt-1" suppressHydrationWarning>
+            <p className="text-[0.75rem] text-muted/70 mt-1" suppressHydrationWarning>
               ≈{" "}
               {displayCurrency === "INR"
                 ? `$${bundle.price.toFixed(2)}`
@@ -108,7 +108,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
                 You save {savingsPercent}%
               </p>
               <p
-                className="text-[0.72rem] text-emerald-400/60"
+                className="text-[0.75rem] text-emerald-400/60"
                 suppressHydrationWarning
               >
                 {savingsAmount} off individual pack prices
@@ -120,18 +120,18 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
         {/* Pack + preset count */}
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl bg-surface-2/50 border border-border/40 px-3 py-2.5 text-center">
-            <p className="text-[1.2rem] font-black text-foreground/90 leading-none">
+            <p className="text-[1.25rem] font-bold text-foreground/90 leading-none">
               {totalPresets}
             </p>
-            <p className="text-[0.65rem] text-muted/40 mt-0.5 tracking-wide">
+            <p className="text-[0.65rem] text-muted/70 mt-0.5 tracking-wide">
               PRESETS
             </p>
           </div>
           <div className="rounded-xl bg-surface-2/50 border border-border/40 px-3 py-2.5 text-center">
-            <p className="text-[1.2rem] font-black text-foreground/90 leading-none">
+            <p className="text-[1.25rem] font-bold text-foreground/90 leading-none">
               {bundle.includedPacks.length}
             </p>
-            <p className="text-[0.65rem] text-muted/40 mt-0.5 tracking-wide">
+            <p className="text-[0.65rem] text-muted/70 mt-0.5 tracking-wide">
               PACKS
             </p>
           </div>
@@ -140,7 +140,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
         {/* Pricing breakdown table */}
         {bundle.includedPacks.some((p) => p.priceUsd !== undefined) && (
           <div className="rounded-xl border border-border/40 bg-surface-2/30 overflow-hidden">
-            <p className="text-[0.62rem] font-bold tracking-[0.18em] uppercase text-muted/40 px-4 pt-3 pb-2">
+            <p className="text-[0.625rem] font-bold tracking-[0.18em] uppercase text-muted/70 px-4 pt-3 pb-2">
               Pack Breakdown
             </p>
             <div className="divide-y divide-border/30">
@@ -148,11 +148,11 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
                 <div key={pack.name} className="flex items-center justify-between px-4 py-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-base leading-none flex-shrink-0">{pack.icon}</span>
-                    <span className="text-[0.775rem] text-muted/60 truncate">{pack.name}</span>
+                    <span className="text-[0.8125rem] text-muted/85 truncate">{pack.name}</span>
                   </div>
                   <span className={cn(
-                    "text-[0.775rem] font-semibold flex-shrink-0 ml-2",
-                    pack.priceUsd === 0 ? "text-emerald-400/70" : "text-muted/50"
+                    "text-[0.8125rem] font-semibold flex-shrink-0 ml-2",
+                    pack.priceUsd === 0 ? "text-emerald-400/70" : "text-muted/85"
                   )}>
                     {pack.priceUsd === 0 ? "Free" : `$${pack.priceUsd!.toFixed(2)}`}
                   </span>
@@ -160,14 +160,14 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
               ))}
             </div>
             <div className="border-t border-border/50 px-4 py-2.5 flex items-center justify-between">
-              <span className="text-[0.75rem] text-muted/40">Individual total</span>
-              <span className="text-[0.75rem] font-bold text-muted/50 line-through">
+              <span className="text-[0.75rem] text-muted/70">Individual total</span>
+              <span className="text-[0.75rem] font-bold text-muted/85 line-through">
                 ${bundle.individualValueUsd.toFixed(2)}
               </span>
             </div>
             <div className="border-t border-gold/10 px-4 py-2.5 flex items-center justify-between bg-gold/[0.03]">
-              <span className="text-[0.75rem] font-semibold text-foreground/70">Bundle price</span>
-              <span className="text-[0.875rem] font-black text-gold">${bundle.price.toFixed(2)}</span>
+              <span className="text-[0.75rem] font-semibold text-foreground/92">Bundle price</span>
+              <span className="text-[0.875rem] font-bold text-gold">${bundle.price.toFixed(2)}</span>
             </div>
             <div className="border-t border-emerald-500/10 px-4 py-2.5 flex items-center justify-between bg-emerald-500/[0.03]">
               <span className="text-[0.75rem] font-semibold text-emerald-400/70">You save</span>
@@ -214,7 +214,7 @@ export function BundleSidebarCTA({ bundle }: BundleSidebarCTAProps) {
               <span className="text-gold/60">
                 <SmallCheckIcon />
               </span>
-              <span className="text-[0.76rem] text-muted/45">{line}</span>
+              <span className="text-[0.75rem] text-muted/85">{line}</span>
             </div>
           ))}
         </div>

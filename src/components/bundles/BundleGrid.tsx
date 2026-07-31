@@ -20,7 +20,7 @@ export function BundleGrid({ bundles, className, variant = "default" }: BundleGr
   if (bundles.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <p className="text-muted/40 text-sm">No bundles available yet.</p>
+        <p className="text-muted/70 text-sm">No bundles available yet.</p>
       </div>
     )
   }

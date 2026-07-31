@@ -31,8 +31,8 @@ export function UnlockMethodBanner({ variant = "store" }: UnlockMethodBannerProp
               ? "Two ways to access this preset"
               : "Two ways to access every preset"}
           </p>
-          <p className="text-[0.8rem] text-muted/65 leading-relaxed max-w-2xl">
-            <span className="text-foreground/80 font-medium">Buy instantly</span> for permanent access and to support PXL Creator
+          <p className="text-[0.8125rem] text-muted/85 leading-relaxed max-w-2xl">
+            <span className="text-foreground/92 font-medium">Buy instantly</span> for permanent access and to support PXL Creator
             {" "}—{" "}
             or{" "}
             <span className="text-gold/90 font-medium">unlock free</span> using the password hidden inside our YouTube tutorials.
@@ -46,7 +46,7 @@ export function UnlockMethodBanner({ variant = "store" }: UnlockMethodBannerProp
             <CartMiniIcon />
             <span className="text-[0.65rem] font-bold tracking-wide text-gold/80 uppercase text-center leading-tight whitespace-nowrap">Buy Now</span>
           </div>
-          <div className="flex items-center self-center text-muted/30 text-[0.7rem] font-medium">or</div>
+          <div className="flex items-center self-center text-muted/70 text-[0.7rem] font-medium">or</div>
           <div className="flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.05]">
             <YoutubeMiniIcon />
             <span className="text-[0.65rem] font-bold tracking-wide text-emerald-400/80 uppercase text-center leading-tight whitespace-nowrap">YouTube</span>
@@ -66,7 +66,7 @@ export function UnlockMethodBanner({ variant = "store" }: UnlockMethodBannerProp
         ].map(({ icon, label }) => (
           <div key={label} className="flex items-center gap-1.5">
             <span className="text-emerald-400/80">{icon}</span>
-            <span className="text-[0.72rem] text-muted/55">{label}</span>
+            <span className="text-[0.75rem] text-muted/85">{label}</span>
           </div>
         ))}
       </div>

@@ -33,7 +33,7 @@ export function PhotoEditorLauncher({ imageUrl, className }: PhotoEditorLauncher
         type="button"
         onClick={() => setOpen(true)}
         className={cn(
-          "flex items-center justify-center gap-2.5 rounded-xl bg-gold py-3.5 text-[0.9375rem] font-semibold text-black transition-all duration-200 hover:bg-gold-bright hover:shadow-[0_0_28px_rgba(201,168,76,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "flex items-center justify-center gap-2.5 rounded-xl bg-gold py-3.5 text-[0.9375rem] font-semibold text-black transition-all duration-200 hover:bg-gold-bright hover:shadow-[0_0_28px_rgba(255,214,10,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           className
         )}
       >

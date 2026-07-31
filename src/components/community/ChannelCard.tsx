@@ -59,7 +59,7 @@ export function ChannelCard({ channel }: ChannelCardProps) {
           <span className="text-2xl leading-none">{channel.icon || "💬"}</span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-display font-black text-sm text-foreground group-hover:text-gold transition-colors truncate">
+              <h3 className="font-display font-bold text-sm text-foreground group-hover:text-gold transition-colors truncate">
                 {channel.name}
               </h3>
               {channel.is_featured && (
@@ -68,7 +68,7 @@ export function ChannelCard({ channel }: ChannelCardProps) {
                 </span>
               )}
             </div>
-            <span className="text-[11px] px-1.5 py-0.5 rounded bg-surface-3 text-muted/60 capitalize">
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-surface-3 text-muted/85 capitalize">
               {channel.category}
             </span>
           </div>
@@ -94,15 +94,15 @@ export function ChannelCard({ channel }: ChannelCardProps) {
       </div>
 
       {/* Description */}
-      <p className="text-xs text-muted/60 line-clamp-2">{channel.description}</p>
+      <p className="text-xs text-muted/85 line-clamp-2">{channel.description}</p>
 
       {/* Stats */}
-      <div className="flex items-center gap-4 text-xs text-muted/50 pt-1 border-t border-border/50">
+      <div className="flex items-center gap-4 text-xs text-muted/85 pt-1 border-t border-border/50">
         <span>
-          <strong className="text-foreground/70">{memberCount.toLocaleString()}</strong> members
+          <strong className="text-foreground/92">{memberCount.toLocaleString()}</strong> members
         </span>
         <span>
-          <strong className="text-foreground/70">{channel.post_count.toLocaleString()}</strong> posts
+          <strong className="text-foreground/92">{channel.post_count.toLocaleString()}</strong> posts
         </span>
       </div>
     </Link>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState }          from "react"
 import Link                  from "next/link"
@@ -93,13 +93,13 @@ export function ShowcaseCard({ item, compact = false }: Props) {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[2rem] text-muted/30">
+          <div className="w-full h-full flex items-center justify-center text-[2rem] text-muted/70">
             {TYPE_ICON[item.item_type] ?? "🖼"}
           </div>
         )}
 
         {/* Type badge */}
-        <span className="absolute top-2 left-2 text-[0.65rem] font-bold tracking-wide uppercase bg-black/70 text-white/80 rounded-full px-2 py-0.5 backdrop-blur-sm">
+        <span className="absolute top-2 left-2 text-[0.65rem] font-bold tracking-wide uppercase bg-black/70 text-white/92 rounded-full px-2 py-0.5 backdrop-blur-sm">
           {TYPE_LABEL[item.item_type] ?? item.item_type}
         </span>
 
@@ -131,7 +131,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
                 item.author.display_name[0]?.toUpperCase()
               )}
             </div>
-            <span className="text-[0.8125rem] text-muted/70 group-hover/author:text-foreground transition-colors">
+            <span className="text-[0.8125rem] text-muted/92 group-hover/author:text-foreground transition-colors">
               {item.author.display_name}
             </span>
           </Link>
@@ -141,7 +141,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
         {item.software_used.length > 0 && !compact && (
           <div className="flex flex-wrap gap-1">
             {item.software_used.slice(0, 3).map((sw) => (
-              <span key={sw} className="text-[0.65rem] text-muted/50 bg-surface-2 rounded px-1.5 py-0.5 border border-border">
+              <span key={sw} className="text-[0.65rem] text-muted/85 bg-surface-2 rounded px-1.5 py-0.5 border border-border">
                 {sw}
               </span>
             ))}
@@ -158,7 +158,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
               disabled={!user}
               className={cn(
                 "flex items-center gap-1 text-[0.8125rem] transition-colors",
-                liked ? "text-gold" : "text-muted/50 hover:text-foreground",
+                liked ? "text-gold" : "text-muted/85 hover:text-foreground",
                 !user && "cursor-default"
               )}
             >
@@ -172,7 +172,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
               disabled={!user}
               className={cn(
                 "flex items-center gap-1 text-[0.8125rem] transition-colors",
-                bookmarked ? "text-gold" : "text-muted/50 hover:text-foreground",
+                bookmarked ? "text-gold" : "text-muted/85 hover:text-foreground",
                 !user && "cursor-default"
               )}
             >
@@ -180,7 +180,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
             </button>
           </div>
 
-          <span className="text-[0.75rem] text-muted/35">
+          <span className="text-[0.75rem] text-muted/70">
             {item.comment_count} comments
           </span>
         </div>

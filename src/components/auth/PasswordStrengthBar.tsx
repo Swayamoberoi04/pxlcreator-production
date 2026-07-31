@@ -50,7 +50,7 @@ export function PasswordStrengthBar({ password }: PasswordStrengthBarProps) {
               "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[0.7rem] font-medium transition-all duration-200",
               checks[key as keyof typeof checks]
                 ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
-                : "bg-surface-2 border border-border text-muted/50"
+                : "bg-surface-2 border border-border text-muted/85"
             )}
           >
             <span aria-hidden="true">

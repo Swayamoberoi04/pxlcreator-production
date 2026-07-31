@@ -16,7 +16,7 @@ const EVENT_ICONS: Record<string, string> = {
 const STATUS_STYLES: Record<string, string> = {
   upcoming: "text-gold bg-gold/10 border-gold/20",
   active:   "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
-  ended:    "text-muted/50 bg-surface border-border",
+  ended:    "text-muted/85 bg-surface border-border",
 }
 
 function timeUntil(dateStr: string): string {
@@ -84,13 +84,13 @@ function SampleEventCard({ event, i }: { event: typeof SAMPLE_EVENTS[0]; i: numb
       <div className="flex items-start gap-3 pr-16">
         <span className="text-[1.75rem]">{EVENT_ICONS[event.event_type] ?? "✦"}</span>
         <div>
-          <h3 className="font-display font-black text-[1rem] text-foreground leading-tight">{event.title}</h3>
-          <p className="text-[0.75rem] text-muted/50 capitalize mt-0.5">
+          <h3 className="font-display font-bold text-[1rem] text-foreground leading-tight">{event.title}</h3>
+          <p className="text-[0.75rem] text-muted/85 capitalize mt-0.5">
             {event.event_type} · {event.is_online ? "Online" : event.location ?? "In-person"}
           </p>
         </div>
       </div>
-      <p className="text-[0.875rem] text-muted/70 line-clamp-2">{event.description}</p>
+      <p className="text-[0.875rem] text-muted/92 line-clamp-2">{event.description}</p>
       {event.prizes.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {event.prizes.slice(0, 3).map((p) => (
@@ -101,7 +101,7 @@ function SampleEventCard({ event, i }: { event: typeof SAMPLE_EVENTS[0]; i: numb
         </div>
       )}
       <div className="flex items-center justify-between text-[0.8125rem] pt-1">
-        <span className="text-muted/50">
+        <span className="text-muted/85">
           Up to {event.max_participants} participants
         </span>
         <span className={`text-[0.65rem] font-bold tracking-wide uppercase rounded-full px-2.5 py-1 border ${STATUS_STYLES[event.status]}`}>
@@ -137,15 +137,15 @@ export default function EventsPage() {
     <div className="flex flex-col gap-8">
       {/* Hero */}
       <div>
-        <h1 className="font-display font-black text-[1.75rem] text-foreground">Community Events</h1>
-        <p className="text-[0.9375rem] text-muted/60 mt-1">Challenges, contests, workshops and meetups for creators.</p>
+        <h1 className="font-display font-bold text-[1.75rem] text-foreground">Community Events</h1>
+        <p className="text-[0.9375rem] text-muted/85 mt-1">Challenges, contests, workshops and meetups for creators.</p>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2">
         {(["upcoming","active","ended"] as const).map((t) => (
           <button key={t} type="button" onClick={() => setTab(t)}
-            className={`rounded-full px-4 py-1.5 text-[0.8125rem] font-medium capitalize transition-all ${tab === t ? "bg-gold text-background" : "border border-border text-muted/60 hover:border-gold/30 hover:text-foreground"}`}>
+            className={`rounded-full px-4 py-1.5 text-[0.8125rem] font-medium capitalize transition-all ${tab === t ? "bg-gold text-background" : "border border-border text-muted/85 hover:border-gold/30 hover:text-foreground"}`}>
             {t}
           </button>
         ))}
@@ -171,15 +171,15 @@ export default function EventsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-[1.75rem]">{EVENT_ICONS[event.event_type] ?? "✦"}</span>
                   <div>
-                    <h3 className="font-display font-black text-[1rem] text-foreground leading-tight">{event.title}</h3>
-                    <p className="text-[0.75rem] text-muted/50 capitalize mt-0.5">
+                    <h3 className="font-display font-bold text-[1rem] text-foreground leading-tight">{event.title}</h3>
+                    <p className="text-[0.75rem] text-muted/85 capitalize mt-0.5">
                       {event.event_type} · {event.is_online ? "Online" : event.location ?? "In-person"}
                     </p>
                   </div>
                 </div>
                 <span className={`shrink-0 text-[0.65rem] font-bold tracking-wide uppercase rounded-full px-2 py-0.5 border ${STATUS_STYLES[event.status]}`}>{event.status}</span>
               </div>
-              <p className="relative text-[0.875rem] text-muted/70 line-clamp-2">{event.description}</p>
+              <p className="relative text-[0.875rem] text-muted/92 line-clamp-2">{event.description}</p>
               {event.prizes && event.prizes.length > 0 && (
                 <div className="relative flex flex-wrap gap-2">
                   {event.prizes.slice(0, 3).map((p) => (
@@ -190,7 +190,7 @@ export default function EventsPage() {
                 </div>
               )}
               <div className="relative flex items-center justify-between text-[0.8125rem]">
-                <span className="text-muted/50">{event.participant_count.toLocaleString()} participants</span>
+                <span className="text-muted/85">{event.participant_count.toLocaleString()} participants</span>
                 {event.status !== "ended" && <span className="text-gold/70 font-medium">{timeUntil(event.end_date ?? event.start_date)}</span>}
               </div>
             </motion.article>
@@ -201,8 +201,8 @@ export default function EventsPage() {
           <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
             <span className="text-2xl">💡</span>
             <div>
-              <p className="font-display font-black text-sm text-foreground">Community events launching soon</p>
-              <p className="text-xs text-muted/60 mt-0.5">Preview the contests and challenges coming to PXL Creator</p>
+              <p className="font-display font-bold text-sm text-foreground">Community events launching soon</p>
+              <p className="text-xs text-muted/85 mt-0.5">Preview the contests and challenges coming to PXL Creator</p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

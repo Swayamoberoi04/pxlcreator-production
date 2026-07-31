@@ -40,11 +40,11 @@ export function SiteHeader() {
               focus-visible:outline-none focus-visible:ring-2
               focus-visible:ring-ring rounded-sm"
           >
-            <span className="font-display text-[1.1rem] font-bold tracking-widest text-foreground/90 uppercase
+            <span className="font-display text-[1.125rem] font-bold tracking-widest text-foreground/90 uppercase
               transition-colors duration-300 group-hover:text-foreground">
               PXL
             </span>
-            <span className="font-display text-[1.1rem] font-bold tracking-widest text-gold logo-glow uppercase
+            <span className="font-display text-[1.125rem] font-bold tracking-widest text-gold logo-glow uppercase
               transition-all duration-300
               group-hover:text-shadow-[0_0_20px_rgba(255,214,10,1)]">
               &nbsp;CREATOR
