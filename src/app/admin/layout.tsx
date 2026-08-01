@@ -21,7 +21,8 @@ import type { Metadata }  from "next"
 import { headers }        from "next/headers"
 import { redirect }       from "next/navigation"
 import { cookies }        from "next/headers"
-import { AdminSidebar }   from "@/components/admin/AdminSidebar"
+import { AdminSidebar }    from "@/components/admin/AdminSidebar"
+import { AdminScrollArea } from "@/components/admin/AdminScrollArea"
 import { ADMIN_COOKIE_NAME, verifySessionToken } from "@/lib/admin/auth"
 import { isSessionActive, audit } from "@/lib/admin/audit"
 import "@/app/globals.css"
@@ -69,10 +70,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* ── Sidebar — desktop only ── */}
       <AdminSidebar />
 
-      {/* ── Main content area — independently scrollable ── */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-y-auto">
+      {/* ── Main content area — the single scroll container.
+             Native scroll (Lenis is disabled on /admin) + URL-keyed scroll
+             restoration so Back returns to the exact position. ── */}
+      <AdminScrollArea>
         {children}
-      </div>
+      </AdminScrollArea>
 
     </div>
   )

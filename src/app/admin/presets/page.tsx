@@ -4,6 +4,7 @@
 
 import type { Metadata } from "next"
 import Link              from "next/link"
+import { Suspense }      from "react"
 import { PresetTable }   from "@/components/admin/PresetTable"
 
 export const metadata: Metadata = { title: "Presets" }
@@ -37,7 +38,15 @@ export default function AdminPresetsPage() {
       </div>
 
       {/* ── Table ── */}
-      <PresetTable />
+      <Suspense fallback={
+        <div className="space-y-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-[68px] rounded-xl bg-white/[0.03] animate-pulse" />
+          ))}
+        </div>
+      }>
+        <PresetTable />
+      </Suspense>
 
     </div>
   )
