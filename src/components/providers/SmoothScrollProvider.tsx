@@ -23,6 +23,7 @@
  */
 
 import ReactLenis, { useLenis } from "lenis/react"
+import { usePathname } from "next/navigation"
 import { useState, useEffect, useLayoutEffect } from "react"
 
 /*
@@ -90,6 +91,7 @@ export function SmoothScrollProvider({
    * or a lazy initialiser keeps it to one render on the client.
    */
   const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const pathname = usePathname()
 
   useIsomorphicLayoutEffect(() => {
     const isTouch =
@@ -98,8 +100,16 @@ export function SmoothScrollProvider({
     if (isTouch) setIsTouchDevice(true)
   }, [])
 
-  /* On touch/mobile — skip Lenis and GSAP entirely, use native scroll */
-  if (isTouchDevice) {
+  /*
+   * Skip Lenis entirely when:
+   *   • touch/mobile — native GPU momentum scroll is faster, and
+   *   • /admin — the admin shell is a fixed overlay whose content scrolls in
+   *     its own container. Lenis (a window-level wheel hijacker) would eat
+   *     those wheel events and the container would never scroll — the "admin
+   *     captures scrolling" bug. Native scroll makes the dashboard feel like
+   *     Notion/Linear and lets the browser restore scroll on Back.
+   */
+  if (isTouchDevice || pathname.startsWith("/admin")) {
     return <>{children}</>
   }
 

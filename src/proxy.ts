@@ -1,67 +1,91 @@
 /**
  * src/proxy.ts
  *
- * Next.js Proxy (formerly "middleware") — runs before every matched request.
+ * Next.js Proxy (formerly "middleware") — the first gate for the admin
+ * surface. Runs before any admin page or API handler.
  *
  * Responsibilities:
- *  1. Protect all /admin/* page routes (except /admin/login)
- *     — checks the pxl_admin_session HMAC cookie
- *  2. Protect all /api/admin/* API routes
- *     — same HMAC cookie check; returns 401 JSON instead of redirect
- *  3. Redirect unauthenticated admin page requests to /admin/login
+ *  1. /admin/*      → require a valid admin session, else redirect to
+ *                     /admin/login (login page itself is exempt).
+ *  2. /api/admin/*  → require a valid admin session, else 401 JSON
+ *                     (the /api/admin/auth login/logout endpoint is exempt).
+ *  3. CSRF          → reject cross-origin unsafe methods on any admin API,
+ *                     centrally (covers every admin API without per-route code).
+ *  4. Publish `x-pathname` / `x-http-method` so the admin layout can do a
+ *     second server-side check (incl. revocation) without a redirect loop.
+ *  5. Stamp hardened no-cache / DENY-frame / noindex headers on the admin
+ *     surface.
  *
- * Defence-in-depth note:
- *   Each /api/admin/* route handler also calls requireAdmin() from
- *   src/lib/admin/guard.ts. This proxy is a first-line filter
- *   that short-circuits the request before it even reaches the handler,
- *   but the per-handler guard ensures protection even if this
- *   proxy is ever misconfigured or the matcher is changed.
+ * This is the STATELESS layer (signature + expiry + email allowlist) so it
+ * stays Edge-safe — it imports only auth.ts / config.ts / csrf.ts (no Node
+ * built-ins, no Supabase). DB-backed session REVOCATION is enforced in the
+ * Node-runtime guard (guard.ts) and the admin layout.
+ *
+ * Defence in depth: every /api/admin/* handler also calls requireAdmin().
  */
 
 import { type NextRequest, NextResponse } from "next/server"
 import { ADMIN_COOKIE_NAME, verifySessionToken } from "@/lib/admin/auth"
+import { sameOrigin } from "@/lib/api/csrf"
 
 export const config = {
   matcher: [
-    // Admin page routes
     "/admin/:path*",
-    // Admin API routes — catches /api/admin and all sub-paths
     "/api/admin/:path*",
   ],
+}
+
+const LOGIN_PAGE = "/admin/login"
+const AUTH_API   = "/api/admin/auth"
+
+function harden(res: NextResponse): NextResponse {
+  res.headers.set("X-Frame-Options", "DENY")
+  res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, private")
+  res.headers.set("Pragma", "no-cache")
+  res.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive")
+  return res
 }
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl
   const isApiRoute   = pathname.startsWith("/api/admin")
 
-  /* ── Always allow the login page and the auth endpoint ──
-     /api/admin/auth is the endpoint that CREATES the session.
-     It cannot require a session to exist — that's circular.
-     The endpoint is self-protecting: it validates the password
-     and applies its own rate-limiter. ── */
-  if (pathname === "/admin/login" || pathname === "/api/admin/auth") {
-    return NextResponse.next()
+  // Expose path + method to server components (layout re-check, guard audit).
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set("x-pathname", pathname)
+  requestHeaders.set("x-http-method", request.method)
+  const pass = () => NextResponse.next({ request: { headers: requestHeaders } })
+
+  // ── CSRF: unsafe methods on any admin API must be same-origin ──
+  if (isApiRoute && !sameOrigin(request)) {
+    return harden(
+      NextResponse.json({ error: "Cross-origin request rejected." }, { status: 403 }),
+    )
   }
 
-  /* ── Check session cookie ── */
-  const sessionCookie = request.cookies.get(ADMIN_COOKIE_NAME)
-  const token         = sessionCookie?.value ?? ""
-  const isValid       = token ? await verifySessionToken(token) : false
+  // ── Exemptions: the login page and the session-creating auth endpoint ──
+  if (pathname === LOGIN_PAGE || pathname === AUTH_API) {
+    return harden(pass())
+  }
 
-  if (!isValid) {
+  // ── Verify the session (stateless layer) ──
+  const token  = request.cookies.get(ADMIN_COOKIE_NAME)?.value
+  const claims = token ? await verifySessionToken(token) : null
+
+  if (!claims) {
     if (isApiRoute) {
-      /* API callers expect JSON — never redirect them to a login page */
-      return NextResponse.json(
-        { error: "Unauthorized. Admin session required." },
-        { status: 401 }
+      return harden(
+        NextResponse.json(
+          { error: "Unauthorized. Admin session required." },
+          { status: 401 },
+        ),
       )
     }
-
-    /* Page routes — redirect to login, clearing any stale cookie */
-    const response = NextResponse.redirect(new URL("/admin/login", request.url))
+    // Page route — redirect to login, clearing any stale cookie.
+    const response = NextResponse.redirect(new URL(LOGIN_PAGE, request.url))
     if (token) response.cookies.delete(ADMIN_COOKIE_NAME)
-    return response
+    return harden(response)
   }
 
-  return NextResponse.next()
+  return harden(pass())
 }

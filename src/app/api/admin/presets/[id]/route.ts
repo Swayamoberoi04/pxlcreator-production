@@ -7,7 +7,8 @@
 
 import type { NextRequest }  from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { requireAdmin }      from "@/lib/admin/guard"
+import { requireAdmin, getAdminSession } from "@/lib/admin/guard"
+import { audit }             from "@/lib/admin/audit"
 import type { Database }     from "@/types/database"
 
 type PresetUpdate     = Database["public"]["Tables"]["presets"]["Update"]
@@ -125,6 +126,8 @@ export async function PUT(request: NextRequest, { params }: RouteContext): Promi
     }
   }
 
+  const s = await getAdminSession()
+  await audit({ event: "preset.update", email: s?.email, targetId: id, meta: { fields: Object.keys(update) } })
   return Response.json({ success: true, data })
 }
 
@@ -138,7 +141,21 @@ export async function PATCH(request: NextRequest, { params }: RouteContext): Pro
   const body    = await request.json()
   const supabase = createAdminClient()
 
-  const patch: PresetUpdate = body as PresetUpdate
+  // Allowlist patchable columns — prevents over-posting arbitrary fields.
+  const PATCHABLE = new Set<keyof PresetUpdate>([
+    "title", "tagline", "description", "category_id", "thumbnail_url",
+    "before_url", "after_url", "youtube_video_id", "youtube_url",
+    "download_url", "download_file_name", "price", "original_price",
+    "is_free", "is_featured", "is_published", "badge", "include_count",
+    "preset_type", "mood", "tone", "features", "compatibility", "ai_tags",
+    "rating", "review_count", "order_index",
+  ])
+  const patch: PresetUpdate = {}
+  for (const [k, v] of Object.entries(body ?? {})) {
+    if (PATCHABLE.has(k as keyof PresetUpdate)) {
+      (patch as Record<string, unknown>)[k] = v
+    }
+  }
 
   const { data, error } = await supabase
     .from("presets")
@@ -151,6 +168,8 @@ export async function PATCH(request: NextRequest, { params }: RouteContext): Pro
     return Response.json({ success: false, error: error.message }, { status: 500 })
   }
 
+  const s = await getAdminSession()
+  await audit({ event: "preset.patch", email: s?.email, targetId: id, meta: { fields: Object.keys(patch) } })
   return Response.json({ success: true, data })
 }
 
@@ -169,5 +188,7 @@ export async function DELETE(_req: NextRequest, { params }: RouteContext): Promi
     return Response.json({ success: false, error: error.message }, { status: 500 })
   }
 
+  const s = await getAdminSession()
+  await audit({ event: "preset.delete", outcome: "success", email: s?.email, targetId: id })
   return Response.json({ success: true })
 }

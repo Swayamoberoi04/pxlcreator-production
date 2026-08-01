@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -26,22 +27,56 @@ interface AdminPreset {
   category:      { id: string; name: string; slug: string } | null
 }
 
+/*
+ * Last successful response, cached at module scope. Returning to the list
+ * (e.g. after editing a preset) seeds the table from this instantly so there
+ * is no skeleton flicker or reload — the data then revalidates in the
+ * background. Survives client navigation; cleared on a full page refresh.
+ */
+let presetCache: { key: string; data: AdminPreset[] } | null = null
+
 export function PresetTable() {
-  const [presets,    setPresets]   = useState<AdminPreset[]>([])
-  const [loading,    setLoading]   = useState(true)
-  const [search,     setSearch]    = useState("")
-  const [deleting,   setDeleting]  = useState<string | null>(null)
-  const [toggling,   setToggling]  = useState<string | null>(null)
-  const [error,      setError]     = useState<string | null>(null)
+  const router       = useRouter()
+  const pathname     = usePathname()
+  const searchParams = useSearchParams()
+
+  /* Search lives in the URL (?q=…) so it is remembered across Back navigation
+     and full refreshes — router state, not a local-only value. */
+  const urlSearch = searchParams.get("q") ?? ""
+
+  const [search,   setSearch]   = useState(urlSearch)
+  const [presets,  setPresets]  = useState<AdminPreset[]>(
+    () => (presetCache?.key === urlSearch ? presetCache.data : [])
+  )
+  const [loading,  setLoading]  = useState(() => presetCache?.key !== urlSearch)
+  const [deleting, setDeleting] = useState<string | null>(null)
+  const [toggling, setToggling] = useState<string | null>(null)
+  const [error,    setError]    = useState<string | null>(null)
+
+  /* ── Reflect the search box into the URL (debounced, no history spam, no
+     scroll jump). Back/refresh then restore the exact filtered view. ── */
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const next = search ? `${pathname}?q=${encodeURIComponent(search)}` : pathname
+      router.replace(next, { scroll: false })
+    }, 300)
+    return () => clearTimeout(t)
+  }, [search, pathname, router])
 
   const fetchPresets = useCallback(async () => {
-    setLoading(true)
+    /* Only show the skeleton when we have nothing cached to display. */
+    if (presetCache?.key !== search) setLoading(true)
     try {
       const params = search ? `?search=${encodeURIComponent(search)}` : ""
       const res  = await fetch(`/api/admin/presets${params}`)
       const json = await res.json()
-      if (json.success) setPresets(json.data)
-      else setError(json.error)
+      if (json.success) {
+        setPresets(json.data)
+        presetCache = { key: search, data: json.data }
+        setError(null)
+      } else {
+        setError(json.error)
+      }
     } catch {
       setError("Failed to load presets.")
     } finally {

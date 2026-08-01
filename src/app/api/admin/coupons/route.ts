@@ -9,26 +9,18 @@
 
 import { NextRequest, NextResponse }  from "next/server"
 import { createAdminClient }          from "@/lib/supabase/admin"
-import { verifySessionToken,
-         ADMIN_COOKIE_NAME }          from "@/lib/admin/auth"
-import { cookies }                    from "next/headers"
+import { requireAdmin, getAdminSession } from "@/lib/admin/guard"
+import { audit }                      from "@/lib/admin/audit"
 import type { Database }              from "@/types/database"
 
 type CouponUpdate = Database["public"]["Tables"]["coupon_codes"]["Update"]
 
 export const runtime = "nodejs"
 
-async function checkAdmin() {
-  const cookieStore  = await cookies()
-  const sessionToken = cookieStore.get(ADMIN_COOKIE_NAME)?.value ?? ""
-  return verifySessionToken(sessionToken)
-}
-
 /* ── GET ─────────────────────────────────────────────────── */
 export async function GET() {
-  if (!(await checkAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const deny = await requireAdmin()
+  if (deny) return deny
 
   const supabase = createAdminClient()
   const { data, error } = await supabase
@@ -46,9 +38,8 @@ export async function GET() {
 
 /* ── POST ────────────────────────────────────────────────── */
 export async function POST(req: NextRequest) {
-  if (!(await checkAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const deny = await requireAdmin()
+  if (deny) return deny
 
   let body: {
     code?:           string
@@ -130,14 +121,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Failed to create coupon" }, { status: 500 })
   }
 
+  const s = await getAdminSession()
+  await audit({ event: "coupon.create", email: s?.email, targetId: data?.id, meta: { code: data?.code } })
   return NextResponse.json({ coupon: data }, { status: 201 })
 }
 
 /* ── PATCH ───────────────────────────────────────────────── */
 export async function PATCH(req: NextRequest) {
-  if (!(await checkAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const deny = await requireAdmin()
+  if (deny) return deny
 
   let body: { id?: string; [key: string]: unknown }
   try {
@@ -172,14 +164,15 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "Failed to update coupon" }, { status: 500 })
   }
 
+  const s = await getAdminSession()
+  await audit({ event: "coupon.update", email: s?.email, targetId: String(id), meta: { fields: Object.keys(safeUpdates) } })
   return NextResponse.json({ coupon: data })
 }
 
 /* ── DELETE ──────────────────────────────────────────────── */
 export async function DELETE(req: NextRequest) {
-  if (!(await checkAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const deny = await requireAdmin()
+  if (deny) return deny
 
   const id = req.nextUrl.searchParams.get("id")
   if (!id) return NextResponse.json({ error: "id is required" }, { status: 400 })
@@ -195,5 +188,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "Failed to delete coupon" }, { status: 500 })
   }
 
+  const s = await getAdminSession()
+  await audit({ event: "coupon.delete", outcome: "success", email: s?.email, targetId: id })
   return NextResponse.json({ success: true })
 }

@@ -7,20 +7,13 @@
 
 import { NextRequest, NextResponse }  from "next/server"
 import { createAdminClient }           from "@/lib/supabase/admin"
-import { verifySessionToken,
-         ADMIN_COOKIE_NAME }           from "@/lib/admin/auth"
-import { cookies }                     from "next/headers"
+import { requireAdmin }                from "@/lib/admin/guard"
 
 export const runtime = "nodejs"
 
 export async function GET(req: NextRequest) {
-  /* Verify admin session cookie */
-  const cookieStore  = await cookies()
-  const sessionToken = cookieStore.get(ADMIN_COOKIE_NAME)?.value ?? ""
-  const isAdmin      = await verifySessionToken(sessionToken)
-  if (!isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const deny = await requireAdmin()
+  if (deny) return deny
 
   try {
     const supabase = createAdminClient()
