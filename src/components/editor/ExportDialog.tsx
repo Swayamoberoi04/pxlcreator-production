@@ -71,13 +71,13 @@ export function ExportDialog({
     <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/60 p-4">
       <div className="w-full max-w-sm rounded-2xl border border-border bg-surface p-6 shadow-2xl">
         <h3 className="font-display text-[1.125rem] font-bold text-foreground">Export image</h3>
-        <p className="mt-1 text-[0.8125rem] text-muted/60">
+        <p className="mt-1 text-[0.8125rem] text-muted/85">
           {outDims.w} × {outDims.h} px
         </p>
 
         {/* Format */}
         <div className="mt-5">
-          <p className="mb-2 text-label tracking-widest text-muted/50">Format</p>
+          <p className="mb-2 text-label tracking-widest text-muted/85">Format</p>
           <div className="grid grid-cols-3 gap-1.5">
             {FORMATS.map((f) => (
               <button
@@ -88,7 +88,7 @@ export function ExportDialog({
                   "rounded-lg border py-2 text-[0.8125rem] transition-colors",
                   format === f.id
                     ? "border-gold/50 bg-gold/10 text-gold"
-                    : "border-border text-muted/70 hover:border-gold/30 hover:text-foreground"
+                    : "border-border text-muted/92 hover:border-gold/30 hover:text-foreground"
                 )}
               >
                 {f.label}
@@ -101,7 +101,7 @@ export function ExportDialog({
         {lossy && (
           <div className="mt-5">
             <div className="mb-2 flex items-center justify-between">
-              <p className="text-label tracking-widest text-muted/50">Quality</p>
+              <p className="text-label tracking-widest text-muted/85">Quality</p>
               <span className="text-[0.8125rem] tabular-nums text-gold">{quality}</span>
             </div>
             <input
@@ -117,7 +117,7 @@ export function ExportDialog({
 
         {/* Resolution */}
         <div className="mt-5">
-          <p className="mb-2 text-label tracking-widest text-muted/50">Resolution</p>
+          <p className="mb-2 text-label tracking-widest text-muted/85">Resolution</p>
           <div className="grid grid-cols-2 gap-1.5">
             {RESOLUTIONS.map((r) => (
               <button
@@ -128,7 +128,7 @@ export function ExportDialog({
                   "rounded-lg border py-2 text-[0.8125rem] transition-colors",
                   maxEdge === r.maxEdge
                     ? "border-gold/50 bg-gold/10 text-gold"
-                    : "border-border text-muted/70 hover:border-gold/30 hover:text-foreground"
+                    : "border-border text-muted/92 hover:border-gold/30 hover:text-foreground"
                 )}
               >
                 {r.label}

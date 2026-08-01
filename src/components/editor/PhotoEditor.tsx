@@ -25,6 +25,7 @@ import { LeftSidebar } from "./LeftSidebar"
 import { RightPanel } from "./RightPanel"
 import { EditorCanvas, type EditorCanvasHandle } from "./EditorCanvas"
 import { ExportDialog } from "./ExportDialog"
+import { AIAssistant } from "./AIAssistant"
 
 interface PhotoEditorProps {
   imageUrl: string
@@ -38,6 +39,7 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
   const [zoomPercent, setZoomPercent] = useState(100)
   const [exportOpen, setExportOpen] = useState(false)
   const [exporting, setExporting] = useState(false)
+  const [aiOpen, setAiOpen] = useState(false)
   const [saveOpen, setSaveOpen] = useState(false)
   const [saveName, setSaveName] = useState("")
   const [savedMsg, setSavedMsg] = useState(false)
@@ -119,6 +121,8 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
       <TopBar
         canvasRef={canvasRef}
         zoomPercent={zoomPercent}
+        assistantOpen={aiOpen}
+        onAssistantClick={() => setAiOpen((o) => !o)}
         onExportClick={() => setExportOpen(true)}
         onSaveClick={() => setSaveOpen(true)}
         onClose={onClose}
@@ -142,7 +146,7 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
           />
           {cropMode && (
             <div className="pointer-events-none absolute inset-x-0 top-3 flex justify-center">
-              <span className="rounded-full bg-black/70 px-3 py-1 text-[0.75rem] text-white/80">
+              <span className="rounded-full bg-black/70 px-3 py-1 text-[0.75rem] text-white/92">
                 Drag to crop · press Esc or “Done cropping” to finish
               </span>
             </div>
@@ -155,6 +159,7 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
             onCancel={() => setExportOpen(false)}
             onExport={handleExport}
           />
+          {aiOpen && <AIAssistant onClose={() => setAiOpen(false)} />}
         </main>
 
         {/* Right controls — desktop */}
@@ -183,7 +188,7 @@ export function PhotoEditor({ imageUrl, onClose }: PhotoEditorProps) {
         <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-sm rounded-2xl border border-border bg-surface p-6 shadow-2xl">
             <h3 className="font-display text-[1.125rem] font-bold text-foreground">Save session</h3>
-            <p className="mt-1 text-[0.8125rem] text-muted/60">
+            <p className="mt-1 text-[0.8125rem] text-muted/85">
               Stores this edit recipe so you can resume it later.
             </p>
             <input

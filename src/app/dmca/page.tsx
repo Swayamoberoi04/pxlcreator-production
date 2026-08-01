@@ -26,7 +26,7 @@ export default function DmcaPage() {
               <span className="h-px w-8 bg-gold/60" aria-hidden="true" />
             </div>
             <h1 className="heading-2 text-foreground">Copyright &amp; DMCA Policy</h1>
-            <p className="text-small text-muted/60">Last updated: {LAST_UPDATED}</p>
+            <p className="text-small text-muted/85">Last updated: {LAST_UPDATED}</p>
           </div>
         </Container>
       </div>
@@ -169,7 +169,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section className="flex flex-col gap-4">
       <h2 className="font-display font-bold text-foreground text-[1rem] tracking-wide">{title}</h2>
-      <div className="flex flex-col gap-3 text-[0.9375rem] text-muted leading-relaxed [&_strong]:text-foreground/80 [&_strong]:font-medium [&_a]:text-gold [&_a]:hover:underline [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5 [&_li]:list-disc [&_li]:marker:text-gold/50">
+      <div className="flex flex-col gap-3 text-[0.9375rem] text-muted leading-relaxed [&_strong]:text-foreground/92 [&_strong]:font-medium [&_a]:text-gold [&_a]:hover:underline [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5 [&_li]:list-disc [&_li]:marker:text-gold/50">
         {children}
       </div>
     </section>

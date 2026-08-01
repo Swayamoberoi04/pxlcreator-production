@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { Suspense, useState, useEffect } from "react"
 import Link                      from "next/link"
@@ -97,12 +97,12 @@ function LoginForm() {
         {/* ── Brand mark ── */}
         <div className="flex flex-col items-center gap-6 mb-8">
           <Link href="/" className="flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
-            <span className="font-display text-[1.1rem] font-bold tracking-widest text-foreground/90 uppercase">PXL</span>
-            <span className="font-display text-[1.1rem] font-bold tracking-widest text-gold logo-glow uppercase">&nbsp;CREATOR</span>
+            <span className="font-display text-[1.125rem] font-bold tracking-widest text-foreground/90 uppercase">PXL</span>
+            <span className="font-display text-[1.125rem] font-bold tracking-widest text-gold logo-glow uppercase">&nbsp;CREATOR</span>
           </Link>
           <div className="flex flex-col items-center gap-1 text-center">
             <h1 className="font-display font-bold text-[1.5rem] text-foreground tracking-tight">Welcome back</h1>
-            <p className="text-[0.875rem] text-muted/60">Sign in to your creator account</p>
+            <p className="text-[0.875rem] text-muted/85">Sign in to your creator account</p>
           </div>
         </div>
 
@@ -112,7 +112,7 @@ function LoginForm() {
         {/* ── Divider ── */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-border" />
-          <span className="text-[0.75rem] text-muted/40 font-medium tracking-wider">OR</span>
+          <span className="text-[0.75rem] text-muted/70 font-medium tracking-wider">OR</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
@@ -140,7 +140,7 @@ function LoginForm() {
 
           {/* Email */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="email" className="text-[0.8125rem] font-medium text-muted/70">Email address</label>
+            <label htmlFor="email" className="text-[0.8125rem] font-medium text-muted/92">Email address</label>
             <input
               id="email"
               type="email"
@@ -151,7 +151,7 @@ function LoginForm() {
               suppressHydrationWarning
               className={cn(
                 "w-full rounded-xl border bg-background px-4 py-3 text-[0.9375rem] text-foreground",
-                "placeholder:text-muted/35 transition-colors duration-150",
+                "placeholder:text-muted/70 transition-colors duration-150",
                 "focus:outline-none focus:border-gold/50",
                 "border-border"
               )}
@@ -161,8 +161,8 @@ function LoginForm() {
           {/* Password */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="text-[0.8125rem] font-medium text-muted/70">Password</label>
-              <Link href="/forgot-password" className="text-[0.75rem] text-muted/50 hover:text-gold transition-colors">
+              <label htmlFor="password" className="text-[0.8125rem] font-medium text-muted/92">Password</label>
+              <Link href="/forgot-password" className="text-[0.75rem] text-muted/85 hover:text-gold transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -177,7 +177,7 @@ function LoginForm() {
                 suppressHydrationWarning
                 className={cn(
                   "w-full rounded-xl border bg-background px-4 py-3 pr-11 text-[0.9375rem] text-foreground",
-                  "placeholder:text-muted/35 transition-colors duration-150",
+                  "placeholder:text-muted/70 transition-colors duration-150",
                   "focus:outline-none focus:border-gold/50",
                   "border-border"
                 )}
@@ -186,7 +186,7 @@ function LoginForm() {
                 type="button"
                 onClick={() => setShowPass((v) => !v)}
                 suppressHydrationWarning
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted/40 hover:text-muted transition-colors focus-visible:outline-none"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted/70 hover:text-muted transition-colors focus-visible:outline-none"
               >
                 {showPass ? <EyeOffIcon /> : <EyeIcon />}
               </button>
@@ -214,7 +214,7 @@ function LoginForm() {
         </form>
 
         {/* ── Footer link ── */}
-        <p className="mt-6 text-center text-[0.8125rem] text-muted/50">
+        <p className="mt-6 text-center text-[0.8125rem] text-muted/85">
           Don&apos;t have an account?{" "}
           <Link href="/signup" className="font-medium text-gold hover:text-gold-dim transition-colors">
             Create one

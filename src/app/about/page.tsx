@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Container } from "@/components/layout/Container"
 import Link from "next/link"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
@@ -86,8 +86,8 @@ export default function AboutPage() {
             {STATS.map((stat, i) => (
               <div key={stat.label} className="flex items-center">
                 <div className="flex flex-col items-center px-8 sm:px-14">
-                  <span className="font-display text-2xl sm:text-3xl font-black text-foreground">{stat.value}</span>
-                  <span className="text-label text-muted/60 mt-0.5">{stat.label}</span>
+                  <span className="font-display text-2xl sm:text-3xl font-bold text-foreground">{stat.value}</span>
+                  <span className="text-label text-muted/85 mt-0.5">{stat.label}</span>
                 </div>
                 {i < STATS.length - 1 && (
                   <span className="h-7 w-px bg-border shrink-0" aria-hidden="true" />
@@ -144,7 +144,7 @@ export default function AboutPage() {
               <CinematicItem key={v.title} variant="depth">
                 <div className="depth-card rounded-2xl border border-border/60 bg-background/80 backdrop-blur-sm p-6 sm:p-8 flex flex-col gap-3 h-full">
                   <span className="h-px w-6 bg-gold/50" aria-hidden="true" />
-                  <h3 className="font-display font-bold text-foreground text-[1.0625rem]">{v.title}</h3>
+                  <h3 className="font-display font-bold text-foreground text-[1rem]">{v.title}</h3>
                   <p className="text-[0.9375rem] text-muted leading-relaxed">{v.body}</p>
                 </div>
               </CinematicItem>

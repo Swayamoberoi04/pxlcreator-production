@@ -64,7 +64,7 @@ export function NewsletterForm({
         placeholder={placeholder}
         aria-label="Email address"
         disabled={submitting}
-        className="flex-1 sm:w-56 rounded-lg border border-border bg-background px-4 py-2.5 text-[0.875rem] text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
+        className="flex-1 sm:w-56 rounded-lg border border-border bg-background px-4 py-2.5 text-[0.875rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 transition-colors disabled:opacity-50"
         suppressHydrationWarning
       />
       <button
@@ -76,7 +76,7 @@ export function NewsletterForm({
         {submitting ? "..." : ctaLabel}
       </button>
       {error && (
-        <p className="text-[0.78rem] text-red-400 sm:col-span-2">{error}</p>
+        <p className="text-[0.8125rem] text-red-400 sm:col-span-2">{error}</p>
       )}
     </form>
   )

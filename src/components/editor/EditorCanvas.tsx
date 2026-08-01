@@ -29,6 +29,7 @@ import { drawGeometry, orientedDims } from "@/lib/editor/geometry"
 import { exportImage, type ExportOptions } from "@/lib/editor/export"
 import { useEditorStore, renderSettingsFrom } from "@/lib/editor/store"
 import type { CropRect } from "@/lib/editor/adjustments"
+import { analyzeImage } from "@/lib/editor/ai/analyze"
 import { CropOverlay } from "./CropOverlay"
 import { MaskOverlay } from "./MaskOverlay"
 import { HealOverlay } from "./HealOverlay"
@@ -180,6 +181,16 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
         rendererRef.current.setImage(img)
         readyRef.current = true
         scheduleRender()
+        // Run AI analysis on the original image, deferred so it never blocks the
+        // first paint. A plain timeout is used (not requestIdleCallback, which is
+        // throttled on hidden/background tabs and could stall the assistant).
+        setTimeout(() => {
+          try {
+            useEditorStore.getState().setAnalysis(analyzeImage(img, img.naturalWidth || img.width, img.naturalHeight || img.height))
+          } catch {
+            /* analysis is best-effort */
+          }
+        }, 50)
       } catch (err) {
         onError(err instanceof Error ? err.message : "Failed to load the image into the editor.")
       }
@@ -279,6 +290,7 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
   )
 
   /* ── Drag to pan when zoomed in (disabled in crop mode) ── */
+  const compareDrag = useRef(false)
   const panDrag = useRef<{ x: number; y: number; startPan: { x: number; y: number } } | null>(null)
   const onPointerDown = (e: React.PointerEvent) => {
     if (cropMode || activeMaskId || healMode || zoom <= 1) return
@@ -308,6 +320,36 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
   const brushErase = useEditorStore((s) => s.brushErase)
   const maskEditable = activeMask && (activeMask.type === "radial" || activeMask.type === "linear" || activeMask.type === "brush")
   const healMode = useEditorStore((s) => s.healMode)
+  const compareMode = useEditorStore((s) => s.compareMode)
+  const comparePos = useEditorStore((s) => s.comparePos)
+  const setCompare = useEditorStore((s) => s.setCompare)
+  const [beforeUrl, setBeforeUrl] = useState<string | null>(null)
+
+  // Generate the "before" (original) composite for the split-compare overlay.
+  // Only regenerates on compare toggle / geometry / fit change — not on edits.
+  useEffect(() => {
+    if (!compareMode) {
+      setBeforeUrl(null)
+      return
+    }
+    const renderer = rendererRef.current
+    const gl = glCanvasRef.current
+    if (!renderer || !renderer.ok || !gl || !readyRef.current || fitDims.w === 0) return
+    const state = useEditorStore.getState()
+    const srcW = renderer.imageWidth
+    const srcH = renderer.imageHeight
+    renderer.render(renderSettingsFrom(state), true) // before → gl scratch
+    const dpr = Math.min(2, window.devicePixelRatio || 1)
+    const bw = Math.max(1, Math.round(fitDims.w * dpr))
+    const bh = Math.max(1, Math.round(fitDims.h * dpr))
+    const tmp = document.createElement("canvas")
+    tmp.width = bw
+    tmp.height = bh
+    const tctx = tmp.getContext("2d")
+    if (tctx) drawGeometry(tctx, gl, srcW, srcH, state.geometry, bw, bh, !cropMode)
+    setBeforeUrl(tmp.toDataURL("image/png"))
+    scheduleRender() // restore "after" into gl + display
+  }, [compareMode, fitDims.w, fitDims.h, geometry, cropMode, scheduleRender])
 
   return (
     <div
@@ -357,6 +399,42 @@ export const EditorCanvas = forwardRef<EditorCanvasHandle, EditorCanvasProps>(fu
         )}
         {!cropMode && healMode && fitDims.w > 0 && (
           <HealOverlay width={fitDims.w} height={fitDims.h} />
+        )}
+        {compareMode && beforeUrl && fitDims.w > 0 && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={beforeUrl}
+              alt="before"
+              className="pointer-events-none absolute inset-0 select-none rounded-sm"
+              style={{ width: fitDims.w, height: fitDims.h, clipPath: `inset(0 ${(1 - comparePos) * 100}% 0 0)` }}
+            />
+            <div
+              className="absolute inset-y-0 z-10 flex w-6 -translate-x-1/2 cursor-ew-resize items-center justify-center touch-none"
+              style={{ left: comparePos * fitDims.w }}
+              onPointerDown={(e) => {
+                e.stopPropagation()
+                ;(e.target as Element).setPointerCapture(e.pointerId)
+                compareDrag.current = true
+              }}
+              onPointerMove={(e) => {
+                if (!compareDrag.current) return
+                const rect = displayCanvasRef.current!.getBoundingClientRect()
+                setCompare({ comparePos: Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width)) })
+              }}
+              onPointerUp={(e) => {
+                compareDrag.current = false
+                ;(e.target as Element).releasePointerCapture?.(e.pointerId)
+              }}
+            >
+              <div className="h-full w-px bg-gold/90" />
+              <div className="absolute flex h-7 w-7 items-center justify-center rounded-full border border-gold/70 bg-black/70 text-gold shadow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /><polyline points="9 18 15 12 9 6" transform="translate(6 0)" /></svg>
+              </div>
+            </div>
+            <span className="pointer-events-none absolute left-2 top-2 rounded bg-black/60 px-1.5 py-0.5 text-[0.625rem] uppercase tracking-wider text-white/92">Before</span>
+            <span className="pointer-events-none absolute right-2 top-2 rounded bg-black/60 px-1.5 py-0.5 text-[0.625rem] uppercase tracking-wider text-white/92">After</span>
+          </>
         )}
       </div>
     </div>

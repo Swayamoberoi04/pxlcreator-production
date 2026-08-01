@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils"
 import { evalCurve } from "@/lib/editor/curves"
 import type { CurveChannel, CurvePoint, Curves } from "@/lib/editor/adjustments"
 import { DEFAULT_CURVE } from "@/lib/editor/adjustments"
+import { useEditorStore } from "@/lib/editor/store"
 
 interface CurveEditorProps {
   curves: Curves
@@ -32,8 +33,14 @@ const SIZE = 220
 
 export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
   const [channel, setChannel] = useState<CurveChannel>("rgb")
+  const [readout, setReadout] = useState<{ x: number; y: number } | null>(null)
   const svgRef = useRef<SVGSVGElement>(null)
   const dragIndex = useRef<number | null>(null)
+
+  const analysis = useEditorStore((s) => s.analysis)
+  // Channel-appropriate histogram to draw behind the curve.
+  const hist =
+    channel === "r" ? analysis?.stats.histR : channel === "g" ? analysis?.stats.histG : channel === "b" ? analysis?.stats.histB : analysis?.stats.histLuma
 
   const points = [...curves[channel]].sort((a, b) => a.x - b.x)
   const active = channel === "rgb" ? "#f5f5f5" : CHANNELS.find((c) => c.key === channel)!.color
@@ -69,6 +76,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
       const hi = pts[i + 1].x - 0.02
       pts[i] = { x: Math.min(Math.max(p.x, lo), hi), y: p.y }
     }
+    setReadout({ x: Math.round(pts[i].x * 255), y: Math.round(pts[i].y * 255) })
     commitPoints(pts)
   }
 
@@ -76,6 +84,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
     if (dragIndex.current == null) return
     dragIndex.current = null
     ;(e.target as Element).releasePointerCapture?.(e.pointerId)
+    setReadout(null)
     commit()
   }
 
@@ -117,7 +126,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
               onClick={() => setChannel(c.key)}
               className={cn(
                 "h-6 w-8 rounded text-[0.6875rem] font-semibold transition-colors",
-                channel === c.key ? "bg-surface-3 text-foreground" : "text-muted/50 hover:text-foreground"
+                channel === c.key ? "bg-surface-3 text-foreground" : "text-muted/85 hover:text-foreground"
               )}
               style={channel === c.key ? { color: c.color } : undefined}
             >
@@ -125,18 +134,25 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
             </button>
           ))}
         </div>
-        {isEdited && (
-          <button
-            type="button"
-            onClick={() => {
-              setCurve(channel, DEFAULT_CURVE.map((p) => ({ ...p })))
-              commit()
-            }}
-            className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold"
-          >
-            Reset
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {readout && (
+            <span className="rounded bg-surface-3/70 px-1.5 py-0.5 text-[0.625rem] tabular-nums text-foreground/92">
+              {readout.x} → {readout.y}
+            </span>
+          )}
+          {isEdited && (
+            <button
+              type="button"
+              onClick={() => {
+                setCurve(channel, DEFAULT_CURVE.map((p) => ({ ...p })))
+                commit()
+              }}
+              className="text-[0.6875rem] uppercase tracking-wider text-muted/85 hover:text-gold"
+            >
+              Reset
+            </button>
+          )}
+        </div>
       </div>
 
       <svg
@@ -148,14 +164,24 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
         onPointerUp={onUp}
         onClick={onBackgroundClick}
       >
-        {/* Grid */}
-        {[0.25, 0.5, 0.75].map((g) => (
-          <g key={g} stroke="#ffffff14" strokeWidth={0.5}>
-            <line x1={g * SIZE} y1={0} x2={g * SIZE} y2={SIZE} />
-            <line x1={0} y1={g * SIZE} x2={SIZE} y2={g * SIZE} />
-          </g>
-        ))}
-        <line x1={0} y1={SIZE} x2={SIZE} y2={0} stroke="#ffffff10" strokeWidth={0.5} />
+        {/* Histogram behind the curve (from AI analysis) */}
+        {hist &&
+          hist.map((v, i) => {
+            const bw = SIZE / hist.length
+            return <rect key={`h${i}`} x={i * bw} y={SIZE - v * SIZE} width={bw + 0.5} height={v * SIZE} fill="rgba(255,255,255,0.07)" />
+          })}
+        {/* Fine 8×8 grid for precise handling */}
+        {[1, 2, 3, 4, 5, 6, 7].map((n) => {
+          const g = n / 8
+          const major = n % 2 === 0
+          return (
+            <g key={g} stroke={major ? "#ffffff18" : "#ffffff0c"} strokeWidth={0.5}>
+              <line x1={g * SIZE} y1={0} x2={g * SIZE} y2={SIZE} />
+              <line x1={0} y1={g * SIZE} x2={SIZE} y2={g * SIZE} />
+            </g>
+          )
+        })}
+        <line x1={0} y1={SIZE} x2={SIZE} y2={0} stroke="#ffffff12" strokeWidth={0.5} strokeDasharray="3 3" />
         {/* Curve */}
         <path d={path} fill="none" stroke={active} strokeWidth={1.5} />
         {/* Handles */}
@@ -177,7 +203,7 @@ export function CurveEditor({ curves, setCurve, commit }: CurveEditorProps) {
           )
         })}
       </svg>
-      <p className="text-[0.6875rem] text-muted/40">Click to add · drag to shape · double-click a point to remove</p>
+      <p className="text-[0.6875rem] text-muted/70">Click to add · drag to shape · double-click a point to remove</p>
     </div>
   )
 }

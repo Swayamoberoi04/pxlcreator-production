@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/lib/recommendations/style-dna.ts
  *
  * Generates a creator's "Style DNA" — a unique identity string
@@ -67,7 +67,7 @@ const DNA_TEMPLATES: DNATemplate[] = [
     title:   "Dark Editorial Auteur",
     tagline: "Luxury and darkness collide in your work. Every frame is a fashion statement.",
     badge:   "Editorial",
-    color:   "#C9A84C",
+    color:   "#FFD60A",
   },
   {
     primary:   "editorial",
@@ -156,7 +156,7 @@ const FALLBACK_DNA: Omit<DNATemplate, "primary" | "secondary"> = {
   title:   "Creative Visual Storyteller",
   tagline: "You are just getting started — and the best creators start exactly here.",
   badge:   "Creator",
-  color:   "#C9A84C",
+  color:   "#FFD60A",
 }
 
 /* ── Generator ──────────────────────────────────────────────── */

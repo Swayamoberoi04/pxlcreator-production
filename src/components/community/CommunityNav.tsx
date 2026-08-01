@@ -61,7 +61,7 @@ export function CommunitySidebar() {
 
   return (
     <nav className="hidden md:flex flex-col gap-1 w-60 shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto py-6">
-      <p className="px-4 pb-3 text-[10px] font-bold uppercase tracking-widest text-muted/40">
+      <p className="px-4 pb-3 text-[10px] font-bold uppercase tracking-widest text-muted/70">
         Community
       </p>
 
@@ -73,7 +73,7 @@ export function CommunitySidebar() {
             "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
             isActive(item.href)
               ? "bg-gold/10 text-gold"
-              : "text-muted/70 hover:bg-surface-2 hover:text-foreground",
+              : "text-muted/92 hover:bg-surface-2 hover:text-foreground",
           ].join(" ")}
         >
           <span>{item.label}</span>
@@ -88,7 +88,7 @@ export function CommunitySidebar() {
       {user && (
         <>
           <div className="my-3 h-px bg-border" />
-          <p className="px-4 pb-2 text-[10px] font-bold uppercase tracking-widest text-muted/40">
+          <p className="px-4 pb-2 text-[10px] font-bold uppercase tracking-widest text-muted/70">
             You
           </p>
           <Link
@@ -97,7 +97,7 @@ export function CommunitySidebar() {
               "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
               pathname === "/community/me"
                 ? "bg-gold/10 text-gold"
-                : "text-muted/70 hover:bg-surface-2 hover:text-foreground",
+                : "text-muted/92 hover:bg-surface-2 hover:text-foreground",
             ].join(" ")}
           >
             <span>My Profile</span>
@@ -130,7 +130,7 @@ export function CommunityMobileTabs() {
               "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors",
               isActive(item.href)
                 ? "bg-gold/15 text-gold"
-                : "text-muted/60 hover:bg-surface-2 hover:text-foreground",
+                : "text-muted/85 hover:bg-surface-2 hover:text-foreground",
             ].join(" ")}
           >
             <span>{item.label}</span>
@@ -148,7 +148,7 @@ export function CommunityMobileTabs() {
               "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors",
               pathname === "/community/me"
                 ? "bg-gold/15 text-gold"
-                : "text-muted/60 hover:bg-surface-2 hover:text-foreground",
+                : "text-muted/85 hover:bg-surface-2 hover:text-foreground",
             ].join(" ")}
           >
             <span>My Profile</span>

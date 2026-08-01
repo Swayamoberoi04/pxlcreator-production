@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/lib/presets/repository.ts
  *
  * Data access layer for presets.
@@ -219,7 +219,7 @@ export async function getCategories(): Promise<CategoryRow[]> {
   if (!isSupabaseConfigured()) {
     // Return static category list
     return [
-      { id: "1", name: "Bundle",         slug: "bundle",         description: null, icon: "📦", color: "#C9A84C", order_index: 1, created_at: "" },
+      { id: "1", name: "Bundle",         slug: "bundle",         description: null, icon: "📦", color: "#FFD60A", order_index: 1, created_at: "" },
       { id: "2", name: "Cinematic",      slug: "cinematic",      description: null, icon: "🎬", color: "#f59e0b", order_index: 2, created_at: "" },
       { id: "3", name: "Film Emulation", slug: "film-emulation", description: null, icon: "🎞ï¸", color: "#d97706", order_index: 3, created_at: "" },
       { id: "4", name: "Portrait",       slug: "portrait",       description: null, icon: "🪞", color: "#ec4899", order_index: 4, created_at: "" },

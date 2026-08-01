@@ -74,9 +74,9 @@ export const pageVariants: Variants = {
 export const glowPulse = {
   animate: {
     boxShadow: [
-      "0 0 12px rgba(201,168,76,0.35)",
-      "0 0 28px rgba(201,168,76,0.60)",
-      "0 0 12px rgba(201,168,76,0.35)",
+      "0 0 12px rgba(255,214,10,0.35)",
+      "0 0 28px rgba(255,214,10,0.60)",
+      "0 0 12px rgba(255,214,10,0.35)",
     ],
     transition: { duration: 2.4, ease: "easeInOut", repeat: Infinity },
   },

@@ -35,8 +35,8 @@ export const ENGINE_VERSION = "3.0.0"
 const COLOR_VOCAB: Record<string, { family: string; hex: string }> = {
   orange:   { family: "orange", hex: "#E8853C" },
   amber:    { family: "orange", hex: "#D9962E" },
-  gold:     { family: "orange", hex: "#C9A84C" },
-  golden:   { family: "orange", hex: "#C9A84C" },
+  gold:     { family: "orange", hex: "#FFD60A" },
+  golden:   { family: "orange", hex: "#FFD60A" },
   yellow:   { family: "orange", hex: "#E3C44B" },
   warm:     { family: "orange", hex: "#D98E4A" },
   red:      { family: "red",    hex: "#C24B3A" },

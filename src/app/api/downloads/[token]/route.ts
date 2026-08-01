@@ -225,11 +225,11 @@ function htmlError(message: string, status: number) {
     }
     .card{max-width:480px;width:100%}
     .icon{font-size:2.5rem;margin-bottom:1rem}
-    h1{font-size:1.25rem;font-weight:700;color:#C9A84C;margin-bottom:0.75rem}
+    h1{font-size:1.25rem;font-weight:700;color:#FFD60A;margin-bottom:0.75rem}
     p{color:#888;line-height:1.6;margin-bottom:1rem}
     a{
       display:inline-block;margin-top:1rem;
-      color:#000;background:#C9A84C;
+      color:#000;background:#FFD60A;
       text-decoration:none;border-radius:9999px;
       padding:0.6rem 1.5rem;font-weight:600;font-size:0.875rem;
     }

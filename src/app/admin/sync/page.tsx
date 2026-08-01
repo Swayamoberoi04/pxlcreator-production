@@ -67,10 +67,10 @@ export default function AdminSyncPage() {
           <span className="h-px w-5 bg-gold/50" />
           <span className="text-[0.7rem] text-gold/60 tracking-widest">( YOUTUBE CHANNEL SYNC )</span>
         </div>
-        <h1 className="font-display font-black text-[1.75rem] text-white/90">
+        <h1 className="font-display font-bold text-[1.75rem] text-white/90">
           Sync Channel
         </h1>
-        <p className="text-[0.875rem] text-white/30 max-w-lg">
+        <p className="text-[0.875rem] text-white/70 max-w-lg">
           Scan every video on your YouTube channel and automatically create a preset
           for any video not yet in the store. New presets go live immediately — set prices
           in the Presets table afterwards.
@@ -85,16 +85,16 @@ export default function AdminSyncPage() {
           { step: "03", label: "Live Instantly",  desc: "Set price in Presets when ready"      },
         ].map(({ step, label, desc }) => (
           <div key={step} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 flex flex-col gap-1.5">
-            <span className="font-display font-black text-[1.5rem] text-white/10">{step}</span>
-            <span className="text-[0.875rem] font-semibold text-white/70">{label}</span>
-            <span className="text-[0.75rem] text-white/30">{desc}</span>
+            <span className="font-display font-bold text-[1.5rem] text-white/70">{step}</span>
+            <span className="text-[0.875rem] font-semibold text-white/92">{label}</span>
+            <span className="text-[0.75rem] text-white/70">{desc}</span>
           </div>
         ))}
       </div>
 
       {/* ── Channel status ── */}
       <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col gap-4">
-        <h2 className="text-[0.8125rem] text-white/40 tracking-widest">( Channel Status )</h2>
+        <h2 className="text-[0.8125rem] text-white/70 tracking-widest">( Channel Status )</h2>
 
         {status === null ? (
           <div className="space-y-2">
@@ -128,8 +128,8 @@ export default function AdminSyncPage() {
                 <span className={ok ? "text-emerald-400" : "text-red-400/70"}>
                   {ok ? "✓" : "○"}
                 </span>
-                <span className="text-[0.8125rem] text-white/50 w-40 shrink-0">{label}</span>
-                <span className={cn("text-[0.8125rem] font-mono", ok ? "text-white/60" : "text-white/25")}>
+                <span className="text-[0.8125rem] text-white/85 w-40 shrink-0">{label}</span>
+                <span className={cn("text-[0.8125rem] font-mono", ok ? "text-white/85" : "text-white/70")}>
                   {value}
                 </span>
                 {!ok && missing && (
@@ -145,8 +145,8 @@ export default function AdminSyncPage() {
       <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col gap-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-1">
-            <h2 className="text-[0.9375rem] font-semibold text-white/80">Run Sync Now</h2>
-            <p className="text-[0.8125rem] text-white/30">
+            <h2 className="text-[0.9375rem] font-semibold text-white/92">Run Sync Now</h2>
+            <p className="text-[0.8125rem] text-white/70">
               Fetches your full channel, inserts only new videos. Safe to re-run — duplicates are skipped.
             </p>
           </div>
@@ -158,7 +158,7 @@ export default function AdminSyncPage() {
               "shrink-0 inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-[0.875rem] font-semibold transition-all",
               canSync
                 ? "bg-gold text-black hover:bg-gold/90 active:scale-[0.98]"
-                : "bg-white/[0.06] text-white/25 cursor-not-allowed"
+                : "bg-white/[0.06] text-white/70 cursor-not-allowed"
             )}
           >
             {running ? <SpinIcon /> : <SyncIcon />}
@@ -185,7 +185,7 @@ export default function AdminSyncPage() {
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-3 gap-3">
               <ResultCard value={result.inserted} label="New presets" color="text-emerald-400" />
-              <ResultCard value={result.skipped}  label="Already in store" color="text-white/40" />
+              <ResultCard value={result.skipped}  label="Already in store" color="text-white/70" />
               <ResultCard value={result.total}    label="Total on channel" color="text-gold" />
             </div>
 
@@ -199,7 +199,7 @@ export default function AdminSyncPage() {
             )}
 
             {result.inserted === 0 && !result.errors?.length && (
-              <div className="rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-[0.8125rem] text-white/40">
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-[0.8125rem] text-white/70">
                 All channel videos are already in the store.
               </div>
             )}
@@ -223,15 +223,15 @@ export default function AdminSyncPage() {
       {/* ── Env setup hint ── */}
       {status && (!status.channelId || !status.apiKeySet) && (
         <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col gap-3">
-          <h2 className="text-[0.8125rem] text-white/40 tracking-widest">( Setup Required )</h2>
-          <p className="text-[0.8125rem] text-white/40">
-            Add these to your <span className="font-mono text-white/60">.env.local</span> file, then restart the dev server:
+          <h2 className="text-[0.8125rem] text-white/70 tracking-widest">( Setup Required )</h2>
+          <p className="text-[0.8125rem] text-white/70">
+            Add these to your <span className="font-mono text-white/85">.env.local</span> file, then restart the dev server:
           </p>
-          <pre className="rounded-xl bg-black/40 border border-white/[0.06] px-4 py-3 text-[0.8125rem] font-mono text-white/50 overflow-x-auto">
+          <pre className="rounded-xl bg-black/40 border border-white/[0.06] px-4 py-3 text-[0.8125rem] font-mono text-white/85 overflow-x-auto">
 {`YOUTUBE_API_KEY=AIza…
 YOUTUBE_CHANNEL_ID=UC…`}
           </pre>
-          <p className="text-[0.75rem] text-white/25">
+          <p className="text-[0.75rem] text-white/70">
             Get an API key at console.cloud.google.com → YouTube Data API v3.
             Find your Channel ID on your YouTube Studio › Settings › Channel page.
           </p>
@@ -247,10 +247,10 @@ YOUTUBE_CHANNEL_ID=UC…`}
 function ResultCard({ value, label, color }: { value: number; label: string; color: string }) {
   return (
     <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 flex flex-col gap-1">
-      <span className={cn("font-display font-black text-[2rem] leading-none", color)}>
+      <span className={cn("font-display font-bold text-[2rem] leading-none", color)}>
         {value}
       </span>
-      <span className="text-[0.75rem] text-white/30">( {label} )</span>
+      <span className="text-[0.75rem] text-white/70">( {label} )</span>
     </div>
   )
 }

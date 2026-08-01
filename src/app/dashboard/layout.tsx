@@ -35,7 +35,7 @@ export default function DashboardLayout({
             <div className="absolute inset-0 rounded-full border-2 border-gold/20" />
             <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-gold animate-spin" />
           </div>
-          <p className="text-[0.875rem] text-muted/40 tracking-wide">
+          <p className="text-[0.875rem] text-muted/70 tracking-wide">
             Loading your creative universe…
           </p>
         </div>

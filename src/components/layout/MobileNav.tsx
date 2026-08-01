@@ -174,7 +174,7 @@ export function MobileNav() {
 
           {/* ── Explore section ── */}
           <div className="mt-3 mb-1 px-3">
-            <span className="text-label text-muted/50 tracking-widest">Explore</span>
+            <span className="text-label text-muted/85 tracking-widest">Explore</span>
           </div>
           {EXPLORE_ITEMS.map((item) => (
             <MobileLink

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useState, use }        from "react"
 import { motion, AnimatePresence }          from "framer-motion"
@@ -23,7 +23,7 @@ const AVAILABILITY_COLORS: Record<Availability, string> = {
   open_for_work:   "text-emerald-400 border-emerald-400/30 bg-emerald-400/10",
   open_for_collab: "text-sky-400 border-sky-400/30 bg-sky-400/10",
   hiring:          "text-gold border-gold/30 bg-gold/10",
-  unavailable:     "text-muted/50 border-border bg-surface",
+  unavailable:     "text-muted/85 border-border bg-surface",
 }
 
 interface ProfileResponse {
@@ -87,7 +87,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
 
   if (notFound || !data) return (
     <div className="text-center py-20">
-      <p className="font-display font-black text-[1.5rem] text-foreground">Creator not found</p>
+      <p className="font-display font-bold text-[1.5rem] text-foreground">Creator not found</p>
       <Link href="/community/discover" className="text-gold mt-4 inline-block hover:underline">
         ← Discover Creators
       </Link>
@@ -112,7 +112,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
       <div className="flex items-end justify-between gap-4 -mt-14 px-2">
         <div className="flex items-end gap-4">
           {/* Avatar */}
-          <div className="w-20 h-20 shrink-0 rounded-full border-4 border-black bg-gold/20 flex items-center justify-center text-[1.75rem] font-black text-gold overflow-hidden">
+          <div className="w-20 h-20 shrink-0 rounded-full border-4 border-black bg-gold/20 flex items-center justify-center text-[1.75rem] font-bold text-gold overflow-hidden">
             {profile.avatar_url ? (
               <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
             ) : (
@@ -121,12 +121,12 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
           </div>
           <div className="pb-1">
             <div className="flex items-center gap-2">
-              <h1 className="font-display font-black text-[1.375rem] text-foreground">{profile.display_name}</h1>
+              <h1 className="font-display font-bold text-[1.375rem] text-foreground">{profile.display_name}</h1>
               {profile.is_verified && (
                 <span className="text-gold text-[0.875rem]" title="Verified">✓</span>
               )}
             </div>
-            <p className="text-[0.875rem] text-muted/60">@{profile.username}</p>
+            <p className="text-[0.875rem] text-muted/85">@{profile.username}</p>
           </div>
         </div>
 
@@ -159,14 +159,14 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
 
         {/* Bio */}
         {profile.bio && (
-          <p className="text-[0.9375rem] text-muted/75 leading-relaxed max-w-xl">{profile.bio}</p>
+          <p className="text-[0.9375rem] text-muted/92 leading-relaxed max-w-xl">{profile.bio}</p>
         )}
 
         {/* Roles */}
         {roleLabels.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {roleLabels.map(r => (
-              <span key={r} className="text-[0.8125rem] text-muted/70 border border-border rounded-full px-3 py-0.5 bg-surface">
+              <span key={r} className="text-[0.8125rem] text-muted/92 border border-border rounded-full px-3 py-0.5 bg-surface">
                 {r}
               </span>
             ))}
@@ -174,7 +174,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
         )}
 
         {/* Location + links */}
-        <div className="flex flex-wrap items-center gap-4 text-[0.875rem] text-muted/50">
+        <div className="flex flex-wrap items-center gap-4 text-[0.875rem] text-muted/85">
           {profile.location_city && (
             <span>📍 {profile.location_city}{profile.location_country ? `, ${profile.location_country}` : ""}</span>
           )}
@@ -201,8 +201,8 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
             { label: "Rep Score",  value: profile.reputation_score },
           ].map(s => (
             <div key={s.label} className="flex flex-col">
-              <span className="font-display font-black text-[1.25rem] text-foreground">{s.value.toLocaleString()}</span>
-              <span className="text-[0.75rem] text-muted/50">{s.label}</span>
+              <span className="font-display font-bold text-[1.25rem] text-foreground">{s.value.toLocaleString()}</span>
+              <span className="text-[0.75rem] text-muted/85">{s.label}</span>
             </div>
           ))}
         </div>
@@ -229,7 +229,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
         {(["showcase","about"] as const).map(t => (
           <button key={t} type="button" onClick={() => setTab(t)}
             className={`px-4 py-2 text-[0.875rem] font-medium capitalize border-b-2 -mb-px transition-colors ${
-              tab === t ? "border-gold text-gold" : "border-transparent text-muted/60 hover:text-foreground"
+              tab === t ? "border-gold text-gold" : "border-transparent text-muted/85 hover:text-foreground"
             }`}>{t}
           </button>
         ))}
@@ -240,7 +240,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
           <motion.div key="showcase" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             {showcase.length === 0 ? (
               <div className="rounded-2xl border border-border bg-surface px-6 py-12 text-center">
-                <p className="text-muted/50">No showcase items yet.</p>
+                <p className="text-muted/85">No showcase items yet.</p>
                 {isOwnProfile && (
                   <Link href="/community/showcase" className="mt-3 inline-block text-gold hover:underline text-[0.875rem]">
                     Share your first work →
@@ -258,22 +258,22 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
             className="rounded-2xl border border-border bg-surface p-5 flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4 text-[0.875rem]">
               <div>
-                <p className="text-muted/50 text-[0.75rem] uppercase tracking-wider mb-1">Skill Level</p>
+                <p className="text-muted/85 text-[0.75rem] uppercase tracking-wider mb-1">Skill Level</p>
                 <p className="text-foreground capitalize">{profile.skill_level}</p>
               </div>
               <div>
-                <p className="text-muted/50 text-[0.75rem] uppercase tracking-wider mb-1">Member Since</p>
+                <p className="text-muted/85 text-[0.75rem] uppercase tracking-wider mb-1">Member Since</p>
                 <p className="text-foreground">{new Date(profile.created_at).toLocaleDateString("en", { month: "long", year: "numeric" })}</p>
               </div>
               {profile.behance_url && (
                 <div>
-                  <p className="text-muted/50 text-[0.75rem] uppercase tracking-wider mb-1">Behance</p>
+                  <p className="text-muted/85 text-[0.75rem] uppercase tracking-wider mb-1">Behance</p>
                   <a href={profile.behance_url} target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">{profile.behance_url}</a>
                 </div>
               )}
               {profile.portfolio_url && (
                 <div>
-                  <p className="text-muted/50 text-[0.75rem] uppercase tracking-wider mb-1">Portfolio</p>
+                  <p className="text-muted/85 text-[0.75rem] uppercase tracking-wider mb-1">Portfolio</p>
                   <a href={profile.portfolio_url} target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">{profile.portfolio_url}</a>
                 </div>
               )}
@@ -358,8 +358,8 @@ function EditProfileModal({
         className="relative z-10 w-full max-w-lg rounded-2xl border border-border bg-black/90 p-6 flex flex-col gap-4 my-8"
       >
         <div className="flex items-center justify-between">
-          <h2 className="font-display font-black text-[1.125rem]">Edit Profile</h2>
-          <button type="button" onClick={onClose} className="text-muted/40 hover:text-muted text-[1.5rem] leading-none">×</button>
+          <h2 className="font-display font-bold text-[1.125rem]">Edit Profile</h2>
+          <button type="button" onClick={onClose} className="text-muted/70 hover:text-muted text-[1.5rem] leading-none">×</button>
         </div>
 
         {error && <p className="text-[0.875rem] text-red-400 bg-red-400/10 rounded-lg px-3 py-2">{error}</p>}
@@ -367,25 +367,25 @@ function EditProfileModal({
         <div className="flex flex-col gap-3">
           <input value={form.display_name} onChange={e => setForm(p=>({...p,display_name:e.target.value}))}
             placeholder="Display name" maxLength={60}
-            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40" />
+            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
           <textarea value={form.bio} onChange={e => setForm(p=>({...p,bio:e.target.value}))}
             placeholder="Bio (max 500 chars)" rows={3} maxLength={500}
-            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40 resize-none" />
+            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40 resize-none" />
           <div className="grid grid-cols-2 gap-3">
             <input value={form.location_city} onChange={e => setForm(p=>({...p,location_city:e.target.value}))} placeholder="City"
-              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40" />
+              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
             <input value={form.location_country} onChange={e => setForm(p=>({...p,location_country:e.target.value}))} placeholder="Country"
-              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40" />
+              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
           </div>
           <input value={form.avatar_url} onChange={e => setForm(p=>({...p,avatar_url:e.target.value}))} placeholder="Avatar URL"
-            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40" />
+            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
           <input value={form.website} onChange={e => setForm(p=>({...p,website:e.target.value}))} placeholder="Website URL"
-            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40" />
+            className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
           <div className="grid grid-cols-2 gap-3">
             <input value={form.instagram_url} onChange={e => setForm(p=>({...p,instagram_url:e.target.value}))} placeholder="Instagram URL"
-              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40" />
+              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
             <input value={form.youtube_url} onChange={e => setForm(p=>({...p,youtube_url:e.target.value}))} placeholder="YouTube URL"
-              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/40" />
+              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <select value={form.skill_level} onChange={e => setForm(p=>({...p,skill_level:e.target.value as never}))}
@@ -403,14 +403,14 @@ function EditProfileModal({
 
           {/* Roles */}
           <div>
-            <p className="text-[0.8125rem] text-muted/60 mb-2">Roles (select all that apply)</p>
+            <p className="text-[0.8125rem] text-muted/85 mb-2">Roles (select all that apply)</p>
             <div className="flex flex-wrap gap-2">
               {CREATOR_ROLES.map(r => (
                 <button key={r.id} type="button" onClick={() => toggleRole(r.id)}
                   className={`text-[0.75rem] rounded-full px-3 py-1 border transition-all ${
                     form.roles.includes(r.id)
                       ? "border-gold/50 bg-gold/10 text-gold"
-                      : "border-border text-muted/60 hover:border-gold/30 hover:text-foreground"
+                      : "border-border text-muted/85 hover:border-gold/30 hover:text-foreground"
                   }`}
                 >{r.label}</button>
               ))}

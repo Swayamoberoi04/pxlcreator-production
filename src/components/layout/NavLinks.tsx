@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
@@ -95,7 +95,7 @@ export function NavLinks() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "relative px-3.5 py-1.5 text-[0.8rem] font-semibold tracking-wide rounded-md",
+                  "relative px-3.5 py-1.5 text-[0.8125rem] font-semibold tracking-wide rounded-md",
                   "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isActive
                     ? "text-gold text-glow-gold"
@@ -117,11 +117,11 @@ export function NavLinks() {
               href={item.href}
               aria-current={isActive ? "page" : undefined}
               className={cn(
-                "relative px-3.5 py-1.5 text-[0.8rem] font-medium tracking-wide rounded-md",
+                "relative px-3.5 py-1.5 text-[0.8125rem] font-medium tracking-wide rounded-md",
                 "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 isActive
                   ? "text-gold text-glow-gold"
-                  : "text-muted/70 hover:text-foreground"
+                  : "text-muted/92 hover:text-foreground"
               )}
             >
               {item.label}
@@ -153,11 +153,11 @@ export function NavLinks() {
               aria-expanded={isOpen}
               suppressHydrationWarning
               className={cn(
-                "relative flex items-center gap-1 px-3.5 py-1.5 text-[0.8rem] font-medium tracking-wide rounded-md",
+                "relative flex items-center gap-1 px-3.5 py-1.5 text-[0.8125rem] font-medium tracking-wide rounded-md",
                 "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 isActive || isOpen
                   ? "text-gold text-glow-gold"
-                  : "text-muted/70 hover:text-foreground"
+                  : "text-muted/92 hover:text-foreground"
               )}
             >
               {item.label}

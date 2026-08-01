@@ -339,7 +339,7 @@ export const STYLE_PROFILES: StyleProfile[] = [
     emoji:       "👑",
     tagline:     "Dark, rich, editorial-grade glamour",
     description: "The look of premium fashion and luxury campaigns. Deep shadows, rich contrast, and a warm gold-shifted grade that elevates anything into editorial territory.",
-    colorPalette: ["#0A0A0A", "#1A1207", "#3D2B0A", "#C9A84C", "#F5D080"],
+    colorPalette: ["#0A0A0A", "#1A1207", "#3D2B0A", "#FFD60A", "#F5D080"],
     lighting:    "Studio-quality, dramatic, high contrast",
     mood:        "Luxurious, powerful, seductive, aspirational",
     colors:      "Deep black, rich brown, gold highlights",
@@ -365,7 +365,7 @@ export const STYLE_PROFILES: StyleProfile[] = [
     },
     analysisTemplate: {
       lighting: { quality: "dramatic", colorTemperature: "warm", kelvin: 4800, intensity: "high" },
-      colors:   { dominant: ["black", "gold", "rich brown"], palette: ["#0A0A0A", "#C9A84C", "#3D2B0A"], grade: "Luxury editorial grade", saturationLevel: "muted", contrastLevel: "dramatic", colorTemperature: "warm" },
+      colors:   { dominant: ["black", "gold", "rich brown"], palette: ["#0A0A0A", "#FFD60A", "#3D2B0A"], grade: "Luxury editorial grade", saturationLevel: "muted", contrastLevel: "dramatic", colorTemperature: "warm" },
       mood:     { primary: "luxurious", secondary: "dramatic", energy: "medium", adjectives: ["rich", "dark", "premium", "gold", "cinematic"] },
       scene:    { timeOfDay: "unknown", weather: "unknown" },
       quality:  { sharpness: "high", noise: "low", exposure: "well-exposed" },

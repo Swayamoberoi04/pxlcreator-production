@@ -109,7 +109,7 @@ export function AdjustmentSlider({
   return (
     <div className="flex flex-col gap-1.5 select-none">
       <div className="flex items-center justify-between">
-        <span className="text-[0.8125rem] text-muted/80">{label}</span>
+        <span className="text-[0.8125rem] text-muted/92">{label}</span>
         <button
           type="button"
           onDoubleClick={reset}
@@ -120,7 +120,7 @@ export function AdjustmentSlider({
           title="Double-click to reset"
           className={cn(
             "min-w-[2.5rem] text-right text-[0.8125rem] tabular-nums transition-colors",
-            edited ? "text-gold font-medium" : "text-muted/50"
+            edited ? "text-gold font-medium" : "text-muted/85"
           )}
         >
           {value > center ? `+${value}` : value}

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 /**
  * src/app/premium/page.tsx
@@ -164,7 +164,7 @@ export default function PremiumPage() {
         name:        "PXL Creator",
         description: `${plan.name} — ${cycle === "yearly" ? "Annual" : "Monthly"} Plan`,
         prefill:     { email: user.email ?? "", name: user.displayName ?? "" },
-        theme:       { color: "#C9A84C" },
+        theme:       { color: "#FFD60A" },
 
         handler: async (response) => {
           /* Step C: Verify payment on our server */
@@ -261,11 +261,11 @@ export default function PremiumPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="depth" delay={0.07}>
-              <h1 className="font-display font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] text-foreground tracking-tight">
+              <h1 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] text-foreground tracking-tight">
                 One Membership.{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -277,7 +277,7 @@ export default function PremiumPage() {
             </CinematicReveal>
 
             <CinematicReveal variant="rise" delay={0.14}>
-              <p className="text-[1.0625rem] text-muted/65 max-w-lg leading-relaxed">
+              <p className="text-[1rem] text-muted/85 max-w-lg leading-relaxed">
                 Every preset pack. Every course. Early access to new drops.
                 All for less than the price of one individual pack per month.
               </p>
@@ -287,7 +287,7 @@ export default function PremiumPage() {
               <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
                 <a
                   href="#plans"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_40px_rgba(201,168,76,0.22)]"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gold px-7 py-3.5 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_40px_rgba(255,214,10,0.22)]"
                 >
                   View Plans
                 </a>
@@ -306,7 +306,7 @@ export default function PremiumPage() {
                 <CinematicItem key={t} variant="rise">
                   <div className="flex items-center gap-1.5">
                     <CheckSmall />
-                    <span className="text-[0.8125rem] text-muted/60">{t}</span>
+                    <span className="text-[0.8125rem] text-muted/85">{t}</span>
                   </div>
                 </CinematicItem>
               ))}
@@ -330,7 +330,7 @@ export default function PremiumPage() {
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <p className="font-display font-bold text-sm text-foreground">{perk.title}</p>
-                    <p className="text-[0.8125rem] text-muted/65 leading-relaxed">{perk.body}</p>
+                    <p className="text-[0.8125rem] text-muted/85 leading-relaxed">{perk.body}</p>
                   </div>
                 </div>
               </CinematicItem>
@@ -352,10 +352,10 @@ export default function PremiumPage() {
               <span className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-gold/70">Pricing</span>
               <span className="h-px w-6 bg-gold/60" />
             </div>
-            <h2 className="font-display font-black text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
+            <h2 className="font-display font-bold text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
               Simple, Honest Pricing
             </h2>
-            <p className="text-[1rem] text-muted/65 max-w-md">
+            <p className="text-[1rem] text-muted/85 max-w-md">
               No hidden fees. Cancel anytime. 30-day money-back guarantee.
             </p>
 
@@ -369,14 +369,14 @@ export default function PremiumPage() {
                   className={cn(
                     "relative px-5 py-2 rounded-full text-[0.8125rem] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     cycle === c
-                      ? "bg-gold text-background shadow-[0_0_16px_rgba(201,168,76,0.25)]"
+                      ? "bg-gold text-background shadow-[0_0_16px_rgba(255,214,10,0.25)]"
                       : "text-muted hover:text-foreground"
                   )}
                 >
                   {c === "monthly" ? "Monthly" : "Yearly"}
                   {c === "yearly" && (
                     <span className={cn(
-                      "absolute -top-2.5 -right-1 text-[0.6rem] font-black px-1.5 py-0.5 rounded-full",
+                      "absolute -top-2.5 -right-1 text-[0.625rem] font-bold px-1.5 py-0.5 rounded-full",
                       cycle === "yearly"
                         ? "bg-emerald-500 text-white"
                         : "bg-emerald-500/20 text-emerald-400"
@@ -406,7 +406,7 @@ export default function PremiumPage() {
                   You&apos;re on the <span className="text-gold capitalize">{subStatus.plan_id}</span> plan
                 </p>
                 {subStatus.current_period_end && (
-                  <p className="text-[0.8125rem] text-muted/70 mt-0.5">
+                  <p className="text-[0.8125rem] text-muted/92 mt-0.5">
                     Active until{" "}
                     {new Date(subStatus.current_period_end).toLocaleDateString("en-US", {
                       month: "long", day: "numeric", year: "numeric",
@@ -467,7 +467,7 @@ export default function PremiumPage() {
 
           {/* Comparison note */}
           {cycle === "yearly" && (
-            <p className="text-center text-[0.8125rem] text-muted/50 mt-8">
+            <p className="text-center text-[0.8125rem] text-muted/85 mt-8">
               Annual plan — charged as a single payment · Access for 365 days
             </p>
           )}
@@ -491,7 +491,7 @@ export default function PremiumPage() {
               <span className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-gold/70">FAQ</span>
               <span className="h-px w-6 bg-gold/60" />
             </div>
-            <h2 className="font-display font-black text-[clamp(1.5rem,3vw,2.25rem)] text-foreground">
+            <h2 className="font-display font-bold text-[clamp(1.5rem,3vw,2.25rem)] text-foreground">
               Common Questions
             </h2>
           </div>
@@ -515,11 +515,11 @@ export default function PremiumPage() {
         <Container className="relative z-10 text-center">
           <CinematicReveal variant="depth">
             <div className="flex flex-col items-center gap-6 max-w-xl mx-auto">
-              <h2 className="font-display font-black text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
+              <h2 className="font-display font-bold text-[clamp(1.75rem,4vw,2.75rem)] text-foreground tracking-tight">
                 Start Creating at a{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #C9A84C 0%, #A8852A 100%)",
+                    background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -528,17 +528,17 @@ export default function PremiumPage() {
                   Higher Level
                 </span>
               </h2>
-              <p className="text-[1rem] text-muted/65 leading-relaxed">
+              <p className="text-[1rem] text-muted/85 leading-relaxed">
                 Upgrade your editing workflow with PXL Premium — every preset,
                 every course, in one plan.
               </p>
               <a
                 href="#plans"
-                className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_48px_rgba(201,168,76,0.28)]"
+                className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-semibold text-background hover:bg-gold-dim transition-colors shadow-[0_0_48px_rgba(255,214,10,0.28)]"
               >
                 Get Premium Access
               </a>
-              <p className="text-[0.8125rem] text-muted/50">
+              <p className="text-[0.8125rem] text-muted/85">
                 30-day money-back guarantee · Cancel anytime · Instant access
               </p>
             </div>
@@ -559,11 +559,11 @@ function FreePlanCard() {
       <div className="flex flex-col gap-5 p-7 flex-1">
 
         <div className="flex flex-col gap-1.5">
-          <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/50">Free</p>
+          <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/85">Free</p>
           <div className="flex items-baseline gap-1">
-            <span className="font-display font-black text-[2.5rem] leading-none text-foreground">Free</span>
+            <span className="font-display font-bold text-[2.5rem] leading-none text-foreground">Free</span>
           </div>
-          <p className="text-[0.8125rem] text-muted/60 mt-0.5">Explore PXL Creator at no cost.</p>
+          <p className="text-[0.8125rem] text-muted/85 mt-0.5">Explore PXL Creator at no cost.</p>
         </div>
 
         <Link
@@ -578,10 +578,10 @@ function FreePlanCard() {
             <li key={f.label} className="flex items-center gap-2.5">
               {f.included
                 ? <span className="shrink-0 text-gold/80"><CheckIcon /></span>
-                : <span className="shrink-0 text-muted/25"><CrossIcon /></span>}
+                : <span className="shrink-0 text-muted/70"><CrossIcon /></span>}
               <span className={cn(
                 "text-[0.8125rem]",
-                f.included ? "text-foreground/80" : "text-muted/35"
+                f.included ? "text-foreground/92" : "text-muted/70"
               )}>
                 {f.label}
               </span>
@@ -620,7 +620,7 @@ function PaidPlanCard({
       className={cn(
         "relative flex flex-col rounded-2xl border overflow-hidden transition-all duration-300",
         plan.featured
-          ? "border-gold/40 bg-surface shadow-[0_0_80px_rgba(201,168,76,0.08)] md:scale-[1.02]"
+          ? "border-gold/40 bg-surface shadow-[0_0_80px_rgba(255,214,10,0.08)] md:scale-[1.02]"
           : "border-border bg-surface hover:border-gold/20"
       )}
     >
@@ -632,14 +632,14 @@ function PaidPlanCard({
       {/* Badge */}
       {plan.badge && (
         <div className="flex justify-center pt-4">
-          <span className="text-[0.65rem] font-black tracking-widest uppercase bg-gold text-background rounded-full px-3 py-1">
+          <span className="text-[0.65rem] font-bold tracking-widest uppercase bg-gold text-background rounded-full px-3 py-1">
             {plan.badge}
           </span>
         </div>
       )}
       {isCurrentPlan && (
         <div className="flex justify-center pt-4">
-          <span className="text-[0.65rem] font-black tracking-widest uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 rounded-full px-3 py-1">
+          <span className="text-[0.65rem] font-bold tracking-widest uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 rounded-full px-3 py-1">
             Active Plan
           </span>
         </div>
@@ -649,15 +649,15 @@ function PaidPlanCard({
 
         {/* Plan + price */}
         <div className="flex flex-col gap-1.5">
-          <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/50">{plan.name}</p>
+          <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/85">{plan.name}</p>
           <div className="flex items-end gap-1.5">
             <span className={cn(
-              "font-display font-black text-[2.5rem] leading-none",
+              "font-display font-bold text-[2.5rem] leading-none",
               plan.featured ? "text-gold" : "text-foreground"
             )}>
               ${pricing.usd}
             </span>
-            <span className="text-[0.8125rem] text-muted/60 mb-1.5">
+            <span className="text-[0.8125rem] text-muted/85 mb-1.5">
               / {cycle === "yearly" ? "year" : "month"}
             </span>
           </div>
@@ -666,11 +666,11 @@ function PaidPlanCard({
               Save ${savings} vs monthly · {savePct}% off
             </p>
           ) : (
-            <p className="text-[0.8125rem] text-muted/50">
+            <p className="text-[0.8125rem] text-muted/85">
               or ₹{pricing.inr.toLocaleString("en-IN")}/{cycle === "monthly" ? "mo" : "yr"}
             </p>
           )}
-          <p className="text-[0.8125rem] text-muted/60 mt-0.5">{plan.tagline}</p>
+          <p className="text-[0.8125rem] text-muted/85 mt-0.5">{plan.tagline}</p>
         </div>
 
         {/* CTA button */}
@@ -686,7 +686,7 @@ function PaidPlanCard({
               : disabled
                 ? "bg-gold/50 text-background/70 cursor-not-allowed"
                 : plan.featured
-                  ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_24px_rgba(201,168,76,0.20)]"
+                  ? "bg-gold text-background hover:bg-gold-dim active:scale-[0.98] shadow-[0_0_24px_rgba(255,214,10,0.20)]"
                   : "border border-border text-foreground hover:border-gold/40 hover:bg-surface-2 active:scale-[0.98]"
           )}
         >
@@ -711,7 +711,7 @@ function PaidPlanCard({
         {!isCurrentPlan && (
           <div className="flex flex-wrap gap-1.5 -mt-1">
             {["UPI", "Card", "Net Banking", "Wallets"].map((m) => (
-              <span key={m} className="rounded-md border border-border/60 bg-surface-2/50 px-2 py-0.5 text-[0.65rem] font-medium text-muted/50">
+              <span key={m} className="rounded-md border border-border/60 bg-surface-2/50 px-2 py-0.5 text-[0.65rem] font-medium text-muted/85">
                 {m}
               </span>
             ))}
@@ -730,13 +730,13 @@ function PaidPlanCard({
                   <CheckIcon />
                 </span>
               ) : (
-                <span className="shrink-0 mt-0.5 text-muted/25"><CrossIcon /></span>
+                <span className="shrink-0 mt-0.5 text-muted/70"><CrossIcon /></span>
               )}
               <span className={cn(
                 "text-[0.8125rem] leading-snug",
                 feat.included
-                  ? feat.highlight ? "text-foreground font-medium" : "text-foreground/80"
-                  : "text-muted/35"
+                  ? feat.highlight ? "text-foreground font-medium" : "text-foreground/92"
+                  : "text-muted/70"
               )}>
                 {feat.label}
               </span>
@@ -781,10 +781,10 @@ function FeatureComparisonTable() {
     <section className="w-full border-t border-border py-16 sm:py-20">
       <Container>
         <div className="flex flex-col items-center text-center gap-4 mb-10">
-          <h2 className="font-display font-black text-[1.5rem] text-foreground">
+          <h2 className="font-display font-bold text-[1.5rem] text-foreground">
             Compare Plans
           </h2>
-          <p className="text-[0.9rem] text-muted/60">
+          <p className="text-[0.875rem] text-muted/85">
             Everything side by side.
           </p>
         </div>
@@ -793,11 +793,11 @@ function FeatureComparisonTable() {
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr>
-                <th className="text-left py-3 px-4 text-muted/60 font-medium text-[0.8125rem] w-[40%]">Feature</th>
+                <th className="text-left py-3 px-4 text-muted/85 font-medium text-[0.8125rem] w-[40%]">Feature</th>
                 {["Free", "Creator", "Pro"].map((p) => (
                   <th key={p} className={cn(
                     "py-3 px-4 text-center font-display font-bold text-sm",
-                    p === "Creator" ? "text-gold" : "text-foreground/80"
+                    p === "Creator" ? "text-gold" : "text-foreground/92"
                   )}>
                     {p}
                   </th>
@@ -807,12 +807,12 @@ function FeatureComparisonTable() {
             <tbody className="divide-y divide-border/50">
               {COMPARISON_ROWS.map((row) => (
                 <tr key={row.feature} className="hover:bg-surface/50 transition-colors">
-                  <td className="py-3 px-4 text-[0.8125rem] text-muted/80">{row.feature}</td>
+                  <td className="py-3 px-4 text-[0.8125rem] text-muted/92">{row.feature}</td>
                   {[row.free, row.creator, row.pro].map((included, i) => (
                     <td key={i} className="py-3 px-4 text-center">
                       {included
                         ? <span className="inline-flex items-center justify-center"><CheckIcon /></span>
-                        : <span className="inline-flex items-center justify-center text-muted/25"><CrossIcon /></span>}
+                        : <span className="inline-flex items-center justify-center text-muted/70"><CrossIcon /></span>}
                     </td>
                   ))}
                 </tr>
@@ -858,7 +858,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="mt-3 text-[0.875rem] text-muted/70 leading-relaxed pr-8">{a}</p>
+            <p className="mt-3 text-[0.875rem] text-muted/92 leading-relaxed pr-8">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>

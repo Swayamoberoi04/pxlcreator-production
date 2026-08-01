@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
@@ -48,8 +48,8 @@ export function NavProgressBar() {
         height:     "2px",
         width:      `${width}%`,
         opacity,
-        background: "#C9A84C",
-        boxShadow:  "0 0 10px rgba(201,168,76,0.75), 0 0 24px rgba(201,168,76,0.35)",
+        background: "#FFD60A",
+        boxShadow:  "0 0 10px rgba(255,214,10,0.75), 0 0 24px rgba(255,214,10,0.35)",
         transition: "width 0.28s ease, opacity 0.22s ease",
         zIndex:     9999,
         pointerEvents: "none",

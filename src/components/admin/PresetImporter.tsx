@@ -183,7 +183,7 @@ export function PresetImporter() {
           <p className="font-display font-bold text-[1.125rem] text-white">
             ( Preset saved! )
           </p>
-          <p className="text-[0.875rem] text-white/40">
+          <p className="text-[0.875rem] text-white/70">
             Your preset is live on the store.
           </p>
         </div>
@@ -202,7 +202,7 @@ export function PresetImporter() {
               setData(null)
               setUrl("")
             }}
-            className="rounded-full border border-white/10 text-white/50 text-[0.8125rem] font-medium px-5 py-2 hover:text-white/80 transition-colors"
+            className="rounded-full border border-white/10 text-white/85 text-[0.8125rem] font-medium px-5 py-2 hover:text-white/92 transition-colors"
           >
             Import Another
           </button>
@@ -217,8 +217,8 @@ export function PresetImporter() {
       {/* ── Step 1: URL input ── */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-black flex items-center justify-center shrink-0">1</span>
-          <p className="text-[0.9375rem] font-semibold text-white/80">Paste your YouTube video URL</p>
+          <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-bold flex items-center justify-center shrink-0">1</span>
+          <p className="text-[0.9375rem] font-semibold text-white/92">Paste your YouTube video URL</p>
         </div>
         <div className="flex gap-3">
           <input
@@ -227,7 +227,7 @@ export function PresetImporter() {
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleFetch()}
             placeholder="https://www.youtube.com/watch?v=..."
-            className="flex-1 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 transition-colors"
+            className="flex-1 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/70 focus:outline-none focus:border-gold/40 transition-colors"
           />
           <button
             type="button"
@@ -267,8 +267,8 @@ export function PresetImporter() {
           <div className="h-px bg-white/[0.06]" />
 
           <div className="flex items-center gap-3">
-            <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-black flex items-center justify-center shrink-0">2</span>
-            <p className="text-[0.9375rem] font-semibold text-white/80">Review & edit preset details</p>
+            <span className="h-6 w-6 rounded-full bg-gold/20 border border-gold/30 text-gold text-[0.65rem] font-bold flex items-center justify-center shrink-0">2</span>
+            <p className="text-[0.9375rem] font-semibold text-white/92">Review & edit preset details</p>
           </div>
 
           {/* Thumbnail + video info */}
@@ -279,8 +279,8 @@ export function PresetImporter() {
               </div>
             )}
             <div className="flex flex-col gap-1 min-w-0">
-              <p className="text-[0.8125rem] font-medium text-white/70 line-clamp-2">{data.rawTitle}</p>
-              <p className="text-[0.75rem] text-white/30">
+              <p className="text-[0.8125rem] font-medium text-white/92 line-clamp-2">{data.rawTitle}</p>
+              <p className="text-[0.75rem] text-white/70">
                 {data.viewCount.toLocaleString()} views · {data.likeCount.toLocaleString()} likes
               </p>
               {data.allLinks.length > 0 && (
@@ -300,7 +300,7 @@ export function PresetImporter() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <div className="flex flex-col gap-1.5 md:col-span-2">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Preset Title )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Preset Title )</label>
               <input
                 type="text"
                 value={title}
@@ -310,7 +310,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5 md:col-span-2">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Tagline )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Tagline )</label>
               <input
                 type="text"
                 value={tagline}
@@ -321,7 +321,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Category )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Category )</label>
               <select
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
@@ -335,7 +335,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Badge )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Badge )</label>
               <select
                 value={badge}
                 onChange={(e) => setBadge(e.target.value)}
@@ -350,7 +350,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Price ($) )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Price ($) )</label>
               <input
                 type="number"
                 min="0"
@@ -362,7 +362,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Download Link )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Download Link )</label>
               <input
                 type="url"
                 value={downloadUrl}
@@ -373,7 +373,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Mood )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Mood )</label>
               <input
                 type="text"
                 value={mood}
@@ -384,7 +384,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Tone )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Tone )</label>
               <input
                 type="text"
                 value={tone}
@@ -395,7 +395,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5 md:col-span-2">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">( Description )</label>
+              <label className="text-[0.75rem] text-white/70 tracking-widest">( Description )</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -405,7 +405,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5 md:col-span-2">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">
+              <label className="text-[0.75rem] text-white/70 tracking-widest">
                 ( Features — one per line )
               </label>
               <textarea
@@ -418,7 +418,7 @@ export function PresetImporter() {
             </div>
 
             <div className="flex flex-col gap-1.5 md:col-span-2">
-              <label className="text-[0.75rem] text-white/40 tracking-widest">
+              <label className="text-[0.75rem] text-white/70 tracking-widest">
                 ( AI Tags — comma separated )
               </label>
               <input
@@ -451,7 +451,7 @@ export function PresetImporter() {
                     value ? "left-[18px]" : "left-0.5"
                   )} />
                 </div>
-                <span className="text-[0.8125rem] text-white/60">{label}</span>
+                <span className="text-[0.8125rem] text-white/85">{label}</span>
               </label>
             ))}
           </div>
@@ -478,7 +478,7 @@ export function PresetImporter() {
                 <span className="flex items-center gap-2"><SpinIcon /> Saving…</span>
               ) : "( Save Preset )"}
             </button>
-            <p className="text-[0.75rem] text-white/30">
+            <p className="text-[0.75rem] text-white/70">
               All fields can be edited later.
             </p>
           </div>

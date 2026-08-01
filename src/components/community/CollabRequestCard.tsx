@@ -26,7 +26,7 @@ const STATUS_CONFIG = {
   pending:   { label: "Pending",   className: "bg-gold/15 text-gold border-gold/30" },
   accepted:  { label: "Accepted",  className: "bg-green-500/15 text-green-400 border-green-500/30" },
   declined:  { label: "Declined",  className: "bg-red-500/15 text-red-400 border-red-500/30" },
-  withdrawn: { label: "Withdrawn", className: "bg-muted/10 text-muted/60 border-border" },
+  withdrawn: { label: "Withdrawn", className: "bg-muted/10 text-muted/85 border-border" },
 }
 
 export function CollabRequestCard({ request, viewType, onStatusChange }: CollabRequestCardProps) {
@@ -67,7 +67,7 @@ export function CollabRequestCard({ request, viewType, onStatusChange }: CollabR
           <p className="font-semibold text-sm text-foreground">
             {counterpart?.display_name ?? "Unknown"}
           </p>
-          <p className="text-xs text-muted/50">@{counterpart?.username ?? "—"}</p>
+          <p className="text-xs text-muted/85">@{counterpart?.username ?? "—"}</p>
         </div>
         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${status.className}`}>
           {status.label}
@@ -76,7 +76,7 @@ export function CollabRequestCard({ request, viewType, onStatusChange }: CollabR
 
       {/* Badges */}
       <div className="flex flex-wrap gap-2">
-        <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/70">
+        <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/92">
           {request.collab_type}
         </span>
         <span className="text-[11px] px-2 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20">
@@ -90,7 +90,7 @@ export function CollabRequestCard({ request, viewType, onStatusChange }: CollabR
       </div>
 
       {/* Message */}
-      <p className="text-xs text-muted/70 line-clamp-3 leading-relaxed">{request.message}</p>
+      <p className="text-xs text-muted/92 line-clamp-3 leading-relaxed">{request.message}</p>
 
       {/* Actions */}
       {request.status === "pending" && (
@@ -117,7 +117,7 @@ export function CollabRequestCard({ request, viewType, onStatusChange }: CollabR
             <button
               disabled={busy}
               onClick={() => act("withdrawn")}
-              className="rounded-xl px-4 py-2 text-xs font-semibold border border-border text-muted/60 hover:border-red-500/40 hover:text-red-400 transition-colors disabled:opacity-50"
+              className="rounded-xl px-4 py-2 text-xs font-semibold border border-border text-muted/85 hover:border-red-500/40 hover:text-red-400 transition-colors disabled:opacity-50"
             >
               Withdraw
             </button>

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/data/popups.ts
  *
  * Promotional popup catalogue — 4 variants shown in round-robin rotation.
@@ -31,7 +31,7 @@ export const POPUP_CONFIGS: PopupConfig[] = [
     highlight:    'SAVE 60%',
     ctaLabel:     'Explore the Bundle',
     ctaHref:      '/bundles',
-    accentGlow:   'rgba(255, 214, 10, 0.18)',
+    accentGlow:   'rgba(255,214,10, 0.18)',
   },
 
   /* ── 2 · Best Selling Presets ─────────────────────────────── */

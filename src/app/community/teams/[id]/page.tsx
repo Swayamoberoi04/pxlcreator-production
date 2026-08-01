@@ -61,42 +61,42 @@ function InviteModal({ teamId, onClose, onInvite }: InviteModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-2xl border border-border bg-surface">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <h2 className="font-display font-black text-base">Invite Member</h2>
-          <button onClick={onClose} className="text-muted/50 hover:text-foreground text-xl">✕</button>
+          <h2 className="font-display font-bold text-base">Invite Member</h2>
+          <button onClick={onClose} className="text-muted/85 hover:text-foreground text-xl">✕</button>
         </div>
         <form onSubmit={submit} className="flex flex-col gap-4 p-6">
           {err && <p className="text-sm text-red-400 rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-2">{err}</p>}
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Username</label>
+            <label className="text-xs font-semibold text-muted/92">Username</label>
             <input
               value={username} onChange={(e) => setUsername(e.target.value)}
               placeholder="@username"
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50"
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Role</label>
+            <label className="text-xs font-semibold text-muted/92">Role</label>
             <input
               value={role} onChange={(e) => setRole(e.target.value)}
               placeholder="e.g. Editor, Director"
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50"
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted/70">Message (optional)</label>
+            <label className="text-xs font-semibold text-muted/92">Message (optional)</label>
             <textarea
               value={message} onChange={(e) => setMessage(e.target.value)}
               placeholder="Why are you inviting them?"
               rows={3}
-              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/40 focus:outline-none focus:border-gold/50 resize-none"
+              className="rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/50 resize-none"
             />
           </div>
 
           <div className="flex gap-3">
-            <button type="button" onClick={onClose} className="flex-1 rounded-xl py-2.5 text-sm font-semibold border border-border text-muted/60 hover:text-foreground transition-colors">
+            <button type="button" onClick={onClose} className="flex-1 rounded-xl py-2.5 text-sm font-semibold border border-border text-muted/85 hover:text-foreground transition-colors">
               Cancel
             </button>
             <button type="submit" disabled={busy || !username.trim()} className="flex-1 rounded-xl py-2.5 text-sm font-bold bg-gold text-black hover:bg-gold/90 transition-colors disabled:opacity-50">
@@ -210,7 +210,7 @@ export default function TeamDetailPage() {
         <div className="flex items-center gap-4 flex-wrap rounded-2xl border border-gold/30 bg-gold/5 p-4">
           <div className="flex-1">
             <p className="font-semibold text-foreground text-sm">You&apos;ve been invited to join <span className="text-gold">{team.name}</span></p>
-            {myInvite.message && <p className="text-xs text-muted/60 mt-0.5">&quot;{myInvite.message}&quot;</p>}
+            {myInvite.message && <p className="text-xs text-muted/85 mt-0.5">&quot;{myInvite.message}&quot;</p>}
           </div>
           <div className="flex gap-2 shrink-0">
             <button
@@ -236,22 +236,22 @@ export default function TeamDetailPage() {
         {team.avatar_url ? (
           <img src={team.avatar_url} alt={team.name} className="size-20 rounded-2xl object-cover shrink-0" />
         ) : (
-          <span className="size-20 rounded-2xl bg-gold/20 flex items-center justify-center text-gold font-black text-3xl shrink-0">
+          <span className="size-20 rounded-2xl bg-gold/20 flex items-center justify-center text-gold font-bold text-3xl shrink-0">
             {initial}
           </span>
         )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="font-display font-black text-2xl text-foreground">{team.name}</h1>
+            <h1 className="font-display font-bold text-2xl text-foreground">{team.name}</h1>
             {team.visibility === "private" && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/50">🔒 Private</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">🔒 Private</span>
             )}
             {team.is_hiring && (
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 border border-green-500/30 font-bold">Hiring</span>
             )}
           </div>
-          <p className="text-sm text-muted/50 mt-0.5">{team.category} · {team.member_count} members</p>
-          {team.description && <p className="text-sm text-muted/70 mt-2">{team.description}</p>}
+          <p className="text-sm text-muted/85 mt-0.5">{team.category} · {team.member_count} members</p>
+          {team.description && <p className="text-sm text-muted/92 mt-2">{team.description}</p>}
 
           <div className="flex gap-2 mt-3 flex-wrap">
             {isOwner && (
@@ -291,13 +291,13 @@ export default function TeamDetailPage() {
 
       {/* Members */}
       <div>
-        <h2 className="font-display font-black text-lg text-foreground mb-4">
+        <h2 className="font-display font-bold text-lg text-foreground mb-4">
           Members ({members.length})
         </h2>
         {members.length === 0 ? (
           <div className="rounded-2xl border border-border bg-surface p-8 text-center">
             <span className="text-3xl">👥</span>
-            <p className="text-sm text-muted/60 mt-2">No members beyond the owner yet</p>
+            <p className="text-sm text-muted/85 mt-2">No members beyond the owner yet</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -315,11 +315,11 @@ export default function TeamDetailPage() {
                   )}
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm text-foreground truncate">{p?.display_name ?? "Unknown"}</p>
-                    {p?.username && <p className="text-xs text-muted/50">@{p.username}</p>}
+                    {p?.username && <p className="text-xs text-muted/85">@{p.username}</p>}
                     <div className="flex gap-1 mt-1 flex-wrap">
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 font-medium">{member.role}</span>
                       {member.custom_title && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/60">{member.custom_title}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted/85">{member.custom_title}</span>
                       )}
                     </div>
                   </div>

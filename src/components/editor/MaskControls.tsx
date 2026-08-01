@@ -51,7 +51,7 @@ export function MaskControls({ mask }: { mask: Mask }) {
         <button
           type="button"
           onClick={() => deleteMask(mask.id)}
-          className="text-muted/50 transition-colors hover:text-red-400"
+          className="text-muted/85 transition-colors hover:text-red-400"
           title="Delete mask"
           aria-label="Delete mask"
         >
@@ -62,9 +62,9 @@ export function MaskControls({ mask }: { mask: Mask }) {
       <div className="flex flex-col gap-4 px-4 py-4">
         <div>
           <p className="text-label tracking-widest text-gold">{mask.name}</p>
-          <p className="mt-0.5 text-[0.75rem] text-muted/50">{meta.hint}</p>
+          <p className="mt-0.5 text-[0.75rem] text-muted/85">{meta.hint}</p>
           {mask.type === "brush" && (
-            <p className="mt-2 text-[0.75rem] text-foreground/70">Paint on the image to build the mask.</p>
+            <p className="mt-2 text-[0.75rem] text-foreground/92">Paint on the image to build the mask.</p>
           )}
           {(mask.type === "sky" || mask.type === "subject") && (
             <p className="mt-2 rounded-md border border-gold/20 bg-gold/5 px-2.5 py-1.5 text-[0.6875rem] text-gold/80">
@@ -117,13 +117,13 @@ export function MaskControls({ mask }: { mask: Mask }) {
         {/* Brush tool settings */}
         {mask.type === "brush" && (
           <div className="flex flex-col gap-3 rounded-lg border border-border p-3">
-            <p className="text-[0.6875rem] uppercase tracking-wider text-muted/40">Brush</p>
-            <label className="flex flex-col gap-1 text-[0.75rem] text-muted/70">
+            <p className="text-[0.6875rem] uppercase tracking-wider text-muted/70">Brush</p>
+            <label className="flex flex-col gap-1 text-[0.75rem] text-muted/92">
               Size
               <input type="range" min={0.01} max={0.3} step={0.005} value={brushRadius}
                 onChange={(e) => setBrush({ brushRadius: Number(e.target.value) })} className="accent-gold" />
             </label>
-            <label className="flex flex-col gap-1 text-[0.75rem] text-muted/70">
+            <label className="flex flex-col gap-1 text-[0.75rem] text-muted/92">
               Softness
               <input type="range" min={0} max={1} step={0.05} value={brushFeather}
                 onChange={(e) => setBrush({ brushFeather: Number(e.target.value) })} className="accent-gold" />
@@ -134,7 +134,7 @@ export function MaskControls({ mask }: { mask: Mask }) {
             </div>
             {(mask.brush?.strokes.length ?? 0) > 0 && (
               <button type="button" onClick={() => { updateMask(mask.id, { brush: { strokes: [] } }); commit() }}
-                className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold">
+                className="text-[0.6875rem] uppercase tracking-wider text-muted/85 hover:text-gold">
                 Clear strokes
               </button>
             )}
@@ -146,7 +146,7 @@ export function MaskControls({ mask }: { mask: Mask }) {
           <p className="text-label tracking-widest text-foreground/90">Local Adjustments</p>
           {adjusted && (
             <button type="button" onClick={() => { updateMask(mask.id, { adjustments: { ...DEFAULT_MASK_ADJUSTMENTS } }); commit() }}
-              className="text-[0.6875rem] uppercase tracking-wider text-muted/50 hover:text-gold">
+              className="text-[0.6875rem] uppercase tracking-wider text-muted/85 hover:text-gold">
               Reset
             </button>
           )}
@@ -177,7 +177,7 @@ function Toggle({ label, active, onClick }: { label: string; active: boolean; on
       onClick={onClick}
       className={cn(
         "flex-1 rounded-lg border py-2 text-[0.75rem] transition-colors",
-        active ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/60 hover:text-foreground"
+        active ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/85 hover:text-foreground"
       )}
     >
       {label}

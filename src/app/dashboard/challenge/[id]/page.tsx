@@ -66,7 +66,7 @@ function DayBubble({
   accentColor: string
   onClick:     () => void
 }) {
-  const base = "relative flex items-center justify-center rounded-full text-[0.7rem] font-black transition-all duration-200 cursor-pointer select-none"
+  const base = "relative flex items-center justify-center rounded-full text-[0.7rem] font-bold transition-all duration-200 cursor-pointer select-none"
   const size = "size-9 sm:size-10"
 
   let style: React.CSSProperties = {}
@@ -123,21 +123,21 @@ function DayDetail({
       {/* Day header */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border" style={{ borderLeftColor: accentColor, borderLeftWidth: 3 }}>
         <div
-          className="shrink-0 size-9 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-black"
+          className="shrink-0 size-9 rounded-full border-2 flex items-center justify-center text-[0.75rem] font-bold"
           style={{ borderColor: isCompleted ? accentColor : "rgba(255,255,255,0.15)", background: isCompleted ? `${accentColor}20` : "transparent", color: isCompleted ? accentColor : "rgba(255,255,255,0.4)" }}
         >
           {isCompleted ? "✓" : dayData.day}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/40 mb-0.5">Day {dayData.day}</p>
-          <p className="font-display font-black text-[1rem] text-foreground leading-tight">{dayData.title}</p>
+          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70 mb-0.5">Day {dayData.day}</p>
+          <p className="font-display font-bold text-[1rem] text-foreground leading-tight">{dayData.title}</p>
         </div>
-        <span className="shrink-0 text-xs text-muted/40">⏱ {dayData.estimatedMinutes} min</span>
+        <span className="shrink-0 text-xs text-muted/70">⏱ {dayData.estimatedMinutes} min</span>
       </div>
 
       {/* Prompt */}
       <div className="px-5 pt-5 pb-4">
-        <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/35 mb-2">Your Prompt</p>
+        <p className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70 mb-2">Your Prompt</p>
         <p className="text-[0.9375rem] text-foreground/90 leading-relaxed">{dayData.prompt}</p>
       </div>
 
@@ -146,7 +146,7 @@ function DayDetail({
         <span className="text-gold text-sm shrink-0 mt-0.5">💡</span>
         <div>
           <p className="text-[0.65rem] font-bold uppercase tracking-widest text-gold/60 mb-1">Pro Tip</p>
-          <p className="text-[0.8125rem] text-muted/70 leading-relaxed">{dayData.tip}</p>
+          <p className="text-[0.8125rem] text-muted/92 leading-relaxed">{dayData.tip}</p>
         </div>
       </div>
 
@@ -154,7 +154,7 @@ function DayDetail({
       {dayData.skills.length > 0 && (
         <div className="px-5 mb-4 flex flex-wrap gap-2">
           {dayData.skills.map((skill) => (
-            <span key={skill} className="inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-1 text-[0.7rem] font-medium text-muted/60">
+            <span key={skill} className="inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-1 text-[0.7rem] font-medium text-muted/85">
               {skill}
             </span>
           ))}
@@ -178,7 +178,7 @@ function DayDetail({
       {!isCompleted && isCurrent && (
         <div className="px-5 pb-5 flex flex-col gap-3 border-t border-border pt-4">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="day-note" className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/35">
+            <label htmlFor="day-note" className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70">
               Add a note (optional)
             </label>
             <textarea
@@ -187,7 +187,7 @@ function DayDetail({
               onChange={(e) => setNote(e.target.value)}
               placeholder="What did you capture? What did you learn?"
               rows={2}
-              className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/30 resize-none focus:outline-none focus:border-gold/40 transition-colors"
+              className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/70 resize-none focus:outline-none focus:border-gold/40 transition-colors"
             />
           </div>
           <button
@@ -219,9 +219,9 @@ function DayDetail({
       {/* Future day: can still mark complete (non-sequential) */}
       {!isCompleted && !isCurrent && (
         <div className="px-5 pb-5 flex flex-col gap-3 border-t border-border pt-4">
-          <p className="text-[0.75rem] text-muted/40">You can mark any day complete at any time.</p>
+          <p className="text-[0.75rem] text-muted/70">You can mark any day complete at any time.</p>
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="day-note-future" className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/35">
+            <label htmlFor="day-note-future" className="text-[0.65rem] font-bold uppercase tracking-widest text-muted/70">
               Add a note (optional)
             </label>
             <textarea
@@ -230,14 +230,14 @@ function DayDetail({
               onChange={(e) => setNote(e.target.value)}
               placeholder="What did you capture? What did you learn?"
               rows={2}
-              className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/30 resize-none focus:outline-none focus:border-gold/40 transition-colors"
+              className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-[0.875rem] text-foreground placeholder:text-muted/70 resize-none focus:outline-none focus:border-gold/40 transition-colors"
             />
           </div>
           <button
             type="button"
             onClick={() => onMarkComplete(note.trim())}
             disabled={saving}
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-2.5 text-[0.875rem] font-semibold text-muted/70 hover:border-gold/30 hover:text-foreground transition-all disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-2.5 text-[0.875rem] font-semibold text-muted/92 hover:border-gold/30 hover:text-foreground transition-all disabled:opacity-50"
           >
             {saving ? "Saving…" : "Mark Complete"}
           </button>
@@ -403,7 +403,7 @@ export default function ChallengePage() {
     <div className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
 
       {/* Back link */}
-      <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-[0.8125rem] text-muted/40 hover:text-foreground transition-colors mb-8">
+      <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-[0.8125rem] text-muted/70 hover:text-foreground transition-colors mb-8">
         ← Dashboard
       </Link>
 
@@ -439,19 +439,19 @@ export default function ChallengePage() {
                     >
                       {challenge.difficulty}
                     </span>
-                    <span className="inline-flex items-center rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-[0.65rem] font-medium text-muted/50">
+                    <span className="inline-flex items-center rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-[0.65rem] font-medium text-muted/85">
                       {totalDays} days
                     </span>
                   </div>
-                  <h1 className="font-display font-black text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
+                  <h1 className="font-display font-bold text-[1.25rem] sm:text-[1.5rem] text-foreground leading-tight">
                     {challenge.title}
                   </h1>
-                  <p className="text-[0.8125rem] text-muted/55 mt-1">{challenge.tagline}</p>
+                  <p className="text-[0.8125rem] text-muted/85 mt-1">{challenge.tagline}</p>
                 </div>
               </div>
 
               {/* Description */}
-              <p className="text-[0.875rem] text-muted/65 leading-relaxed">{challenge.description}</p>
+              <p className="text-[0.875rem] text-muted/85 leading-relaxed">{challenge.description}</p>
 
               {/* Progress strip */}
               <div className="flex items-center gap-3">
@@ -469,8 +469,8 @@ export default function ChallengePage() {
               {/* Reward */}
               <div className="rounded-xl border border-border bg-surface-2 px-4 py-3 flex items-center gap-2.5">
                 <span className="text-gold">🏆</span>
-                <p className="text-[0.8125rem] text-muted/65">
-                  <span className="font-semibold text-foreground/80">Reward: </span>
+                <p className="text-[0.8125rem] text-muted/85">
+                  <span className="font-semibold text-foreground/92">Reward: </span>
                   {challenge.reward}
                 </p>
               </div>
@@ -499,7 +499,7 @@ export default function ChallengePage() {
           {/* ── Day grid ── */}
           <section className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-black text-[0.9375rem] text-foreground/70 uppercase tracking-wider">
+              <h2 className="font-display font-bold text-[0.9375rem] text-foreground/92 uppercase tracking-wider">
                 All Days
               </h2>
               {doneCount > 0 && (
@@ -524,7 +524,7 @@ export default function ChallengePage() {
               ))}
             </div>
 
-            <p className="text-[0.75rem] text-muted/35">
+            <p className="text-[0.75rem] text-muted/70">
               Tap any day to view the prompt. Days can be completed in any order.
             </p>
           </section>

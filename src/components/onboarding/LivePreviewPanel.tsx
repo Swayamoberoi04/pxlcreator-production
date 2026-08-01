@@ -114,7 +114,7 @@ export function LivePreviewPanel({ answers }: Props) {
                 <p className="text-[0.75rem] font-bold text-foreground/90 truncate">
                   {dna.title}
                 </p>
-                <p className="text-[0.7rem] text-muted/55 truncate">
+                <p className="text-[0.7rem] text-muted/85 truncate">
                   {dna.tagline}
                 </p>
               </div>
@@ -130,7 +130,7 @@ export function LivePreviewPanel({ answers }: Props) {
 
         {/* Recommendation items */}
         <div className="flex flex-col gap-1.5">
-          <p className="text-[0.75rem] text-muted/45">You might love…</p>
+          <p className="text-[0.75rem] text-muted/85">You might love…</p>
           <AnimatePresence mode="popLayout">
             {items.map((item, i) => (
               <PreviewItem key={item.id} item={item} index={i} />
@@ -157,14 +157,14 @@ function PreviewItem({ item, index }: { item: RecommendationItem; index: number 
       }}
       className="flex items-center gap-3 rounded-lg border border-border/60 bg-surface/60 px-3 py-2.5"
     >
-      <span className="shrink-0 text-[0.9rem] text-muted/60">
+      <span className="shrink-0 text-[0.875rem] text-muted/85">
         {TYPE_ICON[item.type] ?? "●"}
       </span>
       <div className="flex-1 min-w-0">
         <p className="text-[0.8125rem] font-medium text-foreground/90 leading-tight truncate">
           {item.title}
         </p>
-        <p className="text-[0.7rem] text-muted/50 truncate mt-0.5">
+        <p className="text-[0.7rem] text-muted/85 truncate mt-0.5">
           {item.description}
         </p>
       </div>

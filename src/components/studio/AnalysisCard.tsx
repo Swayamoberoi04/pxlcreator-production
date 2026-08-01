@@ -47,16 +47,16 @@ export function AnalysisCard({
       <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-border/60 bg-gradient-to-r from-surface to-surface-2">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-gold/15 border border-[#6366f1]/20 shrink-0">
-            <span className="font-display text-[1.05rem] leading-none text-gold/90">{profileName.charAt(0)}</span>
+            <span className="font-display text-[1rem] leading-none text-gold/90">{profileName.charAt(0)}</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[0.7rem] font-bold tracking-widest uppercase text-muted/40">Vision Report</span>
-              <span className="text-muted/20" aria-hidden>·</span>
+              <span className="text-[0.7rem] font-bold tracking-widest uppercase text-muted/70">Vision Report</span>
+              <span className="text-muted/70" aria-hidden>·</span>
               <span className="text-[0.7rem] font-semibold tracking-wider text-[#a5b4fc]/70">{profileName}</span>
             </div>
             <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-[0.8125rem] font-medium text-foreground/80">
+              <span className="text-[0.8125rem] font-medium text-foreground/92">
                 {mood.adjectives.slice(0, 2).map((a) => capitalise(a)).join(" · ")}
               </span>
             </div>
@@ -64,10 +64,10 @@ export function AnalysisCard({
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <div className="flex flex-col items-end">
-            <span className="font-display font-black text-gold text-[1.1rem] leading-none tabular-nums">
+            <span className="font-display font-bold text-gold text-[1.125rem] leading-none tabular-nums">
               {confidencePct}%
             </span>
-            <span className="text-[0.65rem] text-muted/40 tracking-widest uppercase">Match</span>
+            <span className="text-[0.65rem] text-muted/70 tracking-widest uppercase">Match</span>
           </div>
           <ConfidenceRing pct={confidencePct} />
         </div>
@@ -110,7 +110,7 @@ export function AnalysisCard({
       {/* ── Color palette ── */}
       <div className="px-5 py-4 border-t border-border/60">
         <div className="flex items-center gap-3 mb-3">
-          <span className="text-[0.7rem] font-bold tracking-widest uppercase text-muted/40">Dominant Palette</span>
+          <span className="text-[0.7rem] font-bold tracking-widest uppercase text-muted/70">Dominant Palette</span>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {colorPalette.map((hex, i) => (
@@ -122,16 +122,16 @@ export function AnalysisCard({
               />
             </div>
           ))}
-          <span className="ml-2 text-[0.75rem] text-muted/50">{colors.dominant.slice(0, 3).map(capitalise).join("  ·  ")}</span>
+          <span className="ml-2 text-[0.75rem] text-muted/85">{colors.dominant.slice(0, 3).map(capitalise).join("  ·  ")}</span>
         </div>
       </div>
 
       {/* ── Grade applied — adjustment bars ── */}
       <div className="px-5 py-4 border-t border-border/60">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-[0.7rem] font-bold tracking-widest uppercase text-muted/40">Grade Applied</span>
-          <span className="text-muted/20" aria-hidden>·</span>
-          <span className="text-[0.7rem] text-muted/35">All values from Sharp pipeline</span>
+          <span className="text-[0.7rem] font-bold tracking-widest uppercase text-muted/70">Grade Applied</span>
+          <span className="text-muted/70" aria-hidden>·</span>
+          <span className="text-[0.7rem] text-muted/70">All values from Sharp pipeline</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <AdjBar label="Brightness"  value={adjustments.brightness}  base={1.0}  min={0.75} max={1.30} color="#fbbf24" />
@@ -150,15 +150,15 @@ export function AnalysisCard({
       {/* ── Quality + composition footer ── */}
       <div className="flex items-center gap-4 px-5 py-3 border-t border-border/60 bg-surface-2/50">
         <QualityBadge quality={quality} />
-        <span className="text-muted/20" aria-hidden>·</span>
-        <span className="text-[0.75rem] text-muted/50">
+        <span className="text-muted/70" aria-hidden>·</span>
+        <span className="text-[0.75rem] text-muted/85">
           {composition.orientation === "portrait" ? "Portrait" : composition.orientation === "square" ? "Square" : "Landscape"} · {composition.aspectRatio}
         </span>
-        <span className="text-muted/20" aria-hidden>·</span>
-        <span className="text-[0.75rem] text-muted/50">{(processingMs / 1000).toFixed(2)}s</span>
+        <span className="text-muted/70" aria-hidden>·</span>
+        <span className="text-[0.75rem] text-muted/85">{(processingMs / 1000).toFixed(2)}s</span>
         <div className="ml-auto flex items-center gap-1.5">
           <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
-          <span className="text-[0.7rem] text-muted/40 tracking-wider">Analysis complete</span>
+          <span className="text-[0.7rem] text-muted/70 tracking-wider">Analysis complete</span>
         </div>
       </div>
     </motion.div>
@@ -184,7 +184,7 @@ function VisionCell({
     <div className="flex flex-col gap-2 px-4 py-4">
       <div className="flex items-center gap-1.5">
         <span style={{ color: accent }} className="opacity-70">{icon}</span>
-        <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted/40">{label}</span>
+        <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted/70">{label}</span>
       </div>
       <p className="text-[0.875rem] font-semibold text-foreground leading-snug">{primary}</p>
       {palette ? (
@@ -192,18 +192,18 @@ function VisionCell({
           {palette.map((hex, i) => (
             <div key={i} className="h-2 w-5 rounded-sm" style={{ backgroundColor: hex }} />
           ))}
-          <span className="text-[0.7rem] text-muted/40 ml-1">{secondary}</span>
+          <span className="text-[0.7rem] text-muted/70 ml-1">{secondary}</span>
         </div>
       ) : tags ? (
         <div className="flex flex-wrap gap-1 mt-0.5">
           {tags.map((t) => (
-            <span key={t} className="rounded-full bg-surface-2 border border-border px-1.5 py-0.5 text-[0.65rem] text-muted/60">
+            <span key={t} className="rounded-full bg-surface-2 border border-border px-1.5 py-0.5 text-[0.65rem] text-muted/85">
               {t}
             </span>
           ))}
         </div>
       ) : (
-        <span className="text-[0.75rem] text-muted/50">{secondary}</span>
+        <span className="text-[0.75rem] text-muted/85">{secondary}</span>
       )}
     </div>
   )
@@ -227,7 +227,7 @@ function AdjBar({ label, value, base, min, max, color }: {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[0.75rem] text-muted/60 w-20 shrink-0">{label}</span>
+      <span className="text-[0.75rem] text-muted/85 w-20 shrink-0">{label}</span>
       <div className="relative h-1.5 flex-1 rounded-full bg-surface-2 overflow-hidden">
         {/* Track fill from baseline to value */}
         <motion.div
@@ -257,10 +257,10 @@ function AdjBar({ label, value, base, min, max, color }: {
       </div>
       <span
         className={cn(
-          "text-[0.72rem] w-10 text-right tabular-nums shrink-0",
+          "text-[0.75rem] w-10 text-right tabular-nums shrink-0",
           isUp   ? "text-emerald-400" :
           isDown ? "text-amber-400"   :
-                   "text-muted/40"
+                   "text-muted/70"
         )}
       >
         {pctLabel}
@@ -273,11 +273,11 @@ function HueRow({ hue }: { hue: number }) {
   const isPos = hue > 0
   return (
     <div className="flex items-center gap-3 col-span-full sm:col-span-1">
-      <span className="text-[0.75rem] text-muted/60 w-20 shrink-0">Hue Shift</span>
+      <span className="text-[0.75rem] text-muted/85 w-20 shrink-0">Hue Shift</span>
       <div className="flex-1 h-1.5 rounded-full overflow-hidden"
         style={{ background: "linear-gradient(to right, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #a855f7, #ec4899, #ef4444)" }}
       />
-      <span className={cn("text-[0.72rem] w-10 text-right tabular-nums shrink-0", isPos ? "text-emerald-400" : "text-amber-400")}>
+      <span className={cn("text-[0.75rem] w-10 text-right tabular-nums shrink-0", isPos ? "text-emerald-400" : "text-amber-400")}>
         {isPos ? "+" : ""}{Math.round(hue)}°
       </span>
     </div>
@@ -288,13 +288,13 @@ function TintRow({ tintR, tintG, tintB }: { tintR: number; tintG: number; tintB:
   const isWarm = tintR > tintB
   return (
     <div className="flex items-center gap-3 col-span-full sm:col-span-1">
-      <span className="text-[0.75rem] text-muted/60 w-20 shrink-0">Colour Tint</span>
+      <span className="text-[0.75rem] text-muted/85 w-20 shrink-0">Colour Tint</span>
       <div className="flex gap-1 flex-1">
         <ChannelBar value={tintR} color="#ef4444" label="R" />
         <ChannelBar value={tintG} color="#22c55e" label="G" />
         <ChannelBar value={tintB} color="#3b82f6" label="B" />
       </div>
-      <span className={cn("text-[0.72rem] w-10 text-right shrink-0", isWarm ? "text-amber-400" : "text-blue-400")}>
+      <span className={cn("text-[0.75rem] w-10 text-right shrink-0", isWarm ? "text-amber-400" : "text-blue-400")}>
         {isWarm ? "Warm" : "Cool"}
       </span>
     </div>
@@ -315,7 +315,7 @@ function ChannelBar({ value, color, label }: { value: number; color: string; lab
           style={{ backgroundColor: color, opacity: value > 0 ? 0.7 : 0.4 }}
         />
       </div>
-      <span className="text-[0.6rem] text-muted/40">{label}</span>
+      <span className="text-[0.625rem] text-muted/70">{label}</span>
     </div>
   )
 }
@@ -331,7 +331,7 @@ function ConfidenceRing({ pct }: { pct: number }) {
       <motion.circle
         cx="22" cy="22" r={r}
         fill="none"
-        stroke="#C9A84C"
+        stroke="#FFD60A"
         strokeWidth="3"
         strokeLinecap="round"
         strokeDasharray={`${circ}`}
@@ -356,8 +356,8 @@ function QualityBadge({ quality }: { quality: ImageAnalysisResult["quality"] }) 
           className="h-full rounded-full bg-gradient-to-r from-emerald-500/60 to-emerald-400"
         />
       </div>
-      <span className="text-[0.72rem] text-muted/50 tabular-nums">{pct}%</span>
-      <span className="text-[0.72rem] text-muted/40">
+      <span className="text-[0.75rem] text-muted/85 tabular-nums">{pct}%</span>
+      <span className="text-[0.75rem] text-muted/70">
         {capitalise(quality.exposure)}
       </span>
     </div>

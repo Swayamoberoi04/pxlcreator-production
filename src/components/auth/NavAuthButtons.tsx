@@ -48,7 +48,7 @@ export function NavAuthButtons() {
           title={user.displayName ?? user.email ?? "Your account"}
           className={cn(
             "flex items-center gap-2 rounded-full border border-border px-2.5 py-1",
-            "text-[0.8rem] font-medium text-muted transition-all duration-200",
+            "text-[0.8125rem] font-medium text-muted transition-all duration-200",
             "hover:border-gold/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           )}
         >
@@ -101,13 +101,13 @@ export function NavAuthButtons() {
     <div className="flex items-center gap-2">
       <Link
         href="/login"
-        className="hidden sm:inline-flex items-center px-3.5 py-1.5 text-[0.8rem] font-medium text-muted/70 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
+        className="hidden sm:inline-flex items-center px-3.5 py-1.5 text-[0.8125rem] font-medium text-muted/92 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
       >
         Log in
       </Link>
       <Link
         href="/signup"
-        className="inline-flex items-center gap-1.5 rounded-full bg-gold px-4 py-1.5 text-[0.8rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="inline-flex items-center gap-1.5 rounded-full bg-gold px-4 py-1.5 text-[0.8125rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         Sign up
       </Link>

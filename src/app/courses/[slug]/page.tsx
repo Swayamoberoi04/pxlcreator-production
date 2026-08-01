@@ -80,7 +80,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 {course.reviewCount && course.reviewCount > 0 && (
                   <div className="flex items-center gap-1.5">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i < Math.round(course.rating ?? 0) ? "#C9A84C" : "none"} stroke={i < Math.round(course.rating ?? 0) ? "none" : "#555"} strokeWidth="1.5" aria-hidden="true">
+                      <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i < Math.round(course.rating ?? 0) ? "#FFD60A" : "none"} stroke={i < Math.round(course.rating ?? 0) ? "none" : "#555"} strokeWidth="1.5" aria-hidden="true">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                       </svg>
                     ))}
@@ -230,7 +230,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                         <span className="mt-0.5 text-gold shrink-0">
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         </span>
-                        <span className="text-small text-foreground/80">{item}</span>
+                        <span className="text-small text-foreground/92">{item}</span>
                       </li>
                     ))}
                   </ul>

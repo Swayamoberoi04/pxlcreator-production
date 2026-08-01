@@ -103,8 +103,8 @@ function RadialLayer({
 
   return (
     <svg className="absolute inset-0 touch-none" width={width} height={height} onPointerMove={onMove} onPointerUp={onUp}>
-      <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="rgba(201,168,76,0.06)" stroke="#C9A84C" strokeWidth={1.5} />
-      <ellipse cx={cx} cy={cy} rx={rx * (1 - r.feather / 100)} ry={ry * (1 - r.feather / 100)} fill="none" stroke="rgba(201,168,76,0.4)" strokeWidth={1} strokeDasharray="4 4" />
+      <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="rgba(255,214,10,0.06)" stroke="#FFD60A" strokeWidth={1.5} />
+      <ellipse cx={cx} cy={cy} rx={rx * (1 - r.feather / 100)} ry={ry * (1 - r.feather / 100)} fill="none" stroke="rgba(255,214,10,0.4)" strokeWidth={1} strokeDasharray="4 4" />
       <Handle x={cx} y={cy} cursor="move" onPointerDown={onDown("move")} />
       <Handle x={cx + rx} y={cy} cursor="ew-resize" onPointerDown={onDown("rx")} />
       <Handle x={cx} y={cy + ry} cursor="ns-resize" onPointerDown={onDown("ry")} />
@@ -163,9 +163,9 @@ function LinearLayer({
 
   return (
     <svg className="absolute inset-0 touch-none" width={width} height={height} onPointerMove={onMove} onPointerUp={onUp}>
-      <line x1={ax} y1={ay} x2={bx} y2={by} stroke="#C9A84C" strokeWidth={1.5} />
-      <line x1={ax - px} y1={ay - py} x2={ax + px} y2={ay + py} stroke="rgba(201,168,76,0.7)" strokeWidth={1} />
-      <line x1={bx - px} y1={by - py} x2={bx + px} y2={by + py} stroke="rgba(201,168,76,0.7)" strokeWidth={1} />
+      <line x1={ax} y1={ay} x2={bx} y2={by} stroke="#FFD60A" strokeWidth={1.5} />
+      <line x1={ax - px} y1={ay - py} x2={ax + px} y2={ay + py} stroke="rgba(255,214,10,0.7)" strokeWidth={1} />
+      <line x1={bx - px} y1={by - py} x2={bx + px} y2={by + py} stroke="rgba(255,214,10,0.7)" strokeWidth={1} />
       <line
         x1={ax}
         y1={ay}
@@ -266,7 +266,7 @@ function BrushLayer({
             cy={cursor.current.y * height}
             r={cursorPx}
             fill="none"
-            stroke={brushErase ? "#e5484d" : "#C9A84C"}
+            stroke={brushErase ? "#e5484d" : "#FFD60A"}
             strokeWidth={1}
           />
         )}
@@ -277,7 +277,7 @@ function BrushLayer({
 
 function Handle({ x, y, cursor, onPointerDown }: { x: number; y: number; cursor: string; onPointerDown: (e: React.PointerEvent) => void }) {
   return (
-    <circle cx={x} cy={y} r={6} fill="#fff" stroke="#C9A84C" strokeWidth={1.5} style={{ cursor }} onPointerDown={onPointerDown} />
+    <circle cx={x} cy={y} r={6} fill="#fff" stroke="#FFD60A" strokeWidth={1.5} style={{ cursor }} onPointerDown={onPointerDown} />
   )
 }
 

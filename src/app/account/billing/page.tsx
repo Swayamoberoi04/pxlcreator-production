@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useEffect, useCallback } from "react"
 import { useRouter }    from "next/navigation"
@@ -135,7 +135,7 @@ export default function BillingPage() {
           <div className="flex items-center gap-4 mb-8">
             <Link
               href="/account"
-              className="text-[0.8125rem] text-muted/60 hover:text-foreground transition-colors"
+              className="text-[0.8125rem] text-muted/85 hover:text-foreground transition-colors"
             >
               â† Account
             </Link>
@@ -154,7 +154,7 @@ export default function BillingPage() {
               <h2 className="font-display font-bold text-lg text-foreground mb-2">
                 No active subscription
               </h2>
-              <p className="text-[0.875rem] text-muted/65 mb-6">
+              <p className="text-[0.875rem] text-muted/85 mb-6">
                 Upgrade to Creator or Pro for unlimited preset downloads, full courses, and more.
               </p>
               <Link
@@ -176,7 +176,7 @@ export default function BillingPage() {
                   <CheckIcon className="text-emerald-400 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold text-foreground">Subscription cancelled</p>
-                    <p className="text-[0.8125rem] text-muted/70 mt-0.5">
+                    <p className="text-[0.8125rem] text-muted/92 mt-0.5">
                       You&apos;ll keep access until{" "}
                       <strong className="text-foreground">
                         {new Date(subscription.current_period_end).toLocaleDateString("en-US", {
@@ -208,11 +208,11 @@ export default function BillingPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-2.5">
-                        <h2 className="font-display font-black text-xl text-foreground">
+                        <h2 className="font-display font-bold text-xl text-foreground">
                           {planInfo?.name ?? subscription.plan_id} Plan
                         </h2>
                         <span className={cn(
-                          "text-[0.65rem] font-black tracking-widest uppercase rounded-full px-2.5 py-0.5",
+                          "text-[0.65rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-0.5",
                           isActive   ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
                           : isCancelled ? "bg-amber-500/15 text-amber-400 border border-amber-500/20"
                           : "bg-surface-2 text-muted border border-border"
@@ -220,7 +220,7 @@ export default function BillingPage() {
                           {isActive ? "Active" : subscription.status.toUpperCase()}
                         </span>
                       </div>
-                      <p className="text-[0.875rem] text-muted/65 capitalize">
+                      <p className="text-[0.875rem] text-muted/85 capitalize">
                         {subscription.billing_cycle} billing ·{" "}
                         ${subscription.amount_usd}/
                         {subscription.billing_cycle === "yearly" ? "yr" : "mo"}
@@ -231,7 +231,7 @@ export default function BillingPage() {
                   {/* Period */}
                   <div className="mt-5 grid grid-cols-2 gap-4">
                     <div className="rounded-xl bg-surface-2/50 border border-border/60 p-4">
-                      <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/50 mb-1">
+                      <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/85 mb-1">
                         Started
                       </p>
                       <p className="text-sm font-semibold text-foreground">
@@ -241,7 +241,7 @@ export default function BillingPage() {
                       </p>
                     </div>
                     <div className="rounded-xl bg-surface-2/50 border border-border/60 p-4">
-                      <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/50 mb-1">
+                      <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-muted/85 mb-1">
                         {isCancelled ? "Access Until" : "Renews / Expires"}
                       </p>
                       <p className="text-sm font-semibold text-foreground">
@@ -274,7 +274,7 @@ export default function BillingPage() {
 
                       {cancelState === "confirming" && (
                         <div className="flex items-center gap-2 rounded-xl border border-red-500/20 bg-red-500/[0.05] px-4 py-2.5">
-                          <p className="text-[0.8125rem] text-foreground/80">Cancel plan?</p>
+                          <p className="text-[0.8125rem] text-foreground/92">Cancel plan?</p>
                           <button
                             type="button"
                             onClick={handleCancel}
@@ -285,7 +285,7 @@ export default function BillingPage() {
                           <button
                             type="button"
                             onClick={() => { setCancelState("idle"); setCancelError(null) }}
-                            className="text-[0.8125rem] text-muted/60 hover:text-foreground transition-colors focus-visible:outline-none"
+                            className="text-[0.8125rem] text-muted/85 hover:text-foreground transition-colors focus-visible:outline-none"
                           >
                             Keep plan
                           </button>
@@ -293,7 +293,7 @@ export default function BillingPage() {
                       )}
 
                       {cancelState === "cancelling" && (
-                        <div className="flex items-center gap-2 text-muted/60 text-[0.8125rem]">
+                        <div className="flex items-center gap-2 text-muted/85 text-[0.8125rem]">
                           <div className="h-3.5 w-3.5 rounded-full border-2 border-muted/30 border-t-muted/70 animate-spin" />
                           Cancelling…
                         </div>
@@ -332,7 +332,7 @@ export default function BillingPage() {
                             <p className="text-sm font-medium text-foreground">
                               {pInfo?.name ?? payment.plan_id} — {payment.billing_cycle}
                             </p>
-                            <p className="text-[0.75rem] text-muted/60">
+                            <p className="text-[0.75rem] text-muted/85">
                               {new Date(payment.created_at).toLocaleDateString("en-US", {
                                 month: "short", day: "numeric", year: "numeric",
                               })}
@@ -345,7 +345,7 @@ export default function BillingPage() {
                             <p className="font-display font-bold text-sm text-gold">
                               ${payment.amount_usd}
                             </p>
-                            <p className="text-[0.7rem] text-muted/50">
+                            <p className="text-[0.7rem] text-muted/85">
                               ₹{payment.amount_inr.toLocaleString("en-IN")}
                             </p>
                           </div>
