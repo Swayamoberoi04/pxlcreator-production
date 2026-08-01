@@ -51,8 +51,14 @@ export async function POST(request: NextRequest): Promise<Response> {
   if (!isAdminConfigured()) {
     const report = validateAdminEnv()
     await audit({ event: "admin.login", outcome: "error", ip, userAgent: ua, meta: { reason: "misconfigured", missing: report.missing } })
+    // In development, name the missing vars so setup is self-diagnosing.
+    // In production, stay generic (never leak configuration details).
+    const detail =
+      process.env.NODE_ENV !== "production" && report.missing.length > 0
+        ? ` Missing: ${report.missing.join(", ")}. Restart the dev server after editing .env.local.`
+        : ""
     return Response.json(
-      { success: false, error: "Admin login is not configured on this server." },
+      { success: false, error: `Admin login is not configured on this server.${detail}` },
       { status: 503 },
     )
   }
