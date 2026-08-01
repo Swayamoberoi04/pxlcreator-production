@@ -12,9 +12,6 @@
  */
 
 import { useEffect, useState } from "react"
-
-import { useState } from "react"
-
 import { useRouter } from "next/navigation"
 import { onAuthStateChanged, type User } from "firebase/auth"
 import { auth } from "@/lib/firebase/config"
@@ -100,10 +97,9 @@ export default function AdminLoginPage() {
         {/* Logo mark */}
         <div className="flex flex-col items-center gap-3 mb-8">
           <div className="h-14 w-14 rounded-2xl bg-gold/10 border border-gold/25 flex items-center justify-center shadow-[0_0_40px_rgba(255,214,10,0.12)]">
-            <span className="text-gold text-[0.9375rem] font-bold tracking-wider">PXL</span>
+            <span className="text-gold text-[0.95rem] font-black tracking-wider">PXL</span>
           </div>
           <div className="flex flex-col items-center gap-1 text-center">
-security/admin-hardening
             <h1 className="font-display font-black text-[1.375rem] text-white/90 tracking-tight">Admin Access</h1>
             <p className="text-[0.8125rem] text-white/30">Two-factor · verified identity + admin key</p>
           </div>
@@ -145,41 +141,6 @@ security/admin-hardening
                   {busy ? "Verifying…" : "Verify identity"}
                 </button>
               </form>
-
-            <h1 className="font-display font-bold text-[1.375rem] text-white/90 tracking-tight">
-              Admin Access
-            </h1>
-            <p className="text-[0.8125rem] text-white/70">PXL Creator dashboard</p>
-          </div>
-        </div>
-
-        {/* Glassmorphism card */}
-        <div className="relative rounded-2xl border border-white/[0.09] bg-white/[0.03] backdrop-blur-xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,214,10,0.04)]">
-
-          {/* Top accent line */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 h-px rounded-full"
-            style={{
-              background: "linear-gradient(90deg, transparent, rgba(255,214,10,0.25), transparent)",
-            }}
-          />
-
-           className="flex flex-col gap-5">
-
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[0.7rem] text-white/70 tracking-[0.18em] uppercase">
-                Password
-              </label>
-              <input
-                type="password"
-                value={pw}
-                onChange={(e) => setPw(e.target.value)}
-                placeholder="Enter admin password"
-                autoFocus
-                className="rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/70 focus:outline-none focus:border-gold/35 focus:bg-white/[0.06] transition-all duration-200"
-              />
- 
             </div>
           )}
 
@@ -216,10 +177,6 @@ security/admin-hardening
 
         <p className="text-center text-[0.7rem] text-white/15 mt-5 tracking-wide">
           Access is restricted to the configured admin identity.
-
-        <p className="text-center text-[0.7rem] text-white/70 mt-5 tracking-wide">
-          Set <code className="text-white/70">ADMIN_PASSWORD</code> in .env.local
- 
         </p>
       </div>
     </div>
