@@ -13,23 +13,15 @@
 
 import { NextRequest, NextResponse }      from "next/server"
 import { createAdminClient }              from "@/lib/supabase/admin"
-import { verifySessionToken,
-         ADMIN_COOKIE_NAME }              from "@/lib/admin/auth"
-import { cookies }                        from "next/headers"
+import { requireAdmin, getAdminSession }  from "@/lib/admin/guard"
+import { audit }                          from "@/lib/admin/audit"
 
 export const runtime = "nodejs"
 
-async function checkAdmin() {
-  const cookieStore  = await cookies()
-  const sessionToken = cookieStore.get(ADMIN_COOKIE_NAME)?.value ?? ""
-  return verifySessionToken(sessionToken)
-}
-
 /* ── GET ─────────────────────────────────────────────────── */
 export async function GET(req: NextRequest) {
-  if (!(await checkAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const deny = await requireAdmin()
+  if (deny) return deny
 
   const sp     = req.nextUrl.searchParams
   const status = sp.get("status") ?? "pending"
@@ -79,9 +71,8 @@ export async function GET(req: NextRequest) {
 
 /* ── PATCH ───────────────────────────────────────────────── */
 export async function PATCH(req: NextRequest) {
-  if (!(await checkAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const deny = await requireAdmin()
+  if (deny) return deny
 
   let body: { id?: string; action?: string }
   try {
@@ -108,6 +99,8 @@ export async function PATCH(req: NextRequest) {
       console.error("[admin/reviews PATCH approve]", error)
       return NextResponse.json({ error: "Failed to approve review" }, { status: 500 })
     }
+    const s = await getAdminSession()
+    await audit({ event: "review.approve", email: s?.email, targetId: id })
     return NextResponse.json({ success: true, action: "approved" })
   }
 
@@ -122,5 +115,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "Failed to reject review" }, { status: 500 })
   }
 
+  const s = await getAdminSession()
+  await audit({ event: "review.reject", outcome: "success", email: s?.email, targetId: id })
   return NextResponse.json({ success: true, action: "rejected" })
 }

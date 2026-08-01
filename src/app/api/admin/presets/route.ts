@@ -7,7 +7,8 @@ import type { NextRequest }  from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { generateUniqueSlug } from "@/lib/presets/repository"
 import { slugify }           from "@/lib/youtube/parser"
-import { requireAdmin }      from "@/lib/admin/guard"
+import { requireAdmin, getAdminSession } from "@/lib/admin/guard"
+import { audit }             from "@/lib/admin/audit"
 import type { Database }     from "@/types/database"
 
 type PresetInsert    = Database["public"]["Tables"]["presets"]["Insert"]
@@ -150,6 +151,8 @@ export async function POST(request: NextRequest): Promise<Response> {
       await supabase.from("preset_images").insert(imageRows)
     }
 
+    const s = await getAdminSession()
+    await audit({ event: "preset.create", email: s?.email, targetId: data?.id, meta: { slug } })
     return Response.json({ success: true, data }, { status: 201 })
   } catch (err) {
     return Response.json({ success: false, error: String(err) }, { status: 500 })

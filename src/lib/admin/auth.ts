@@ -1,115 +1,201 @@
 /**
  * src/lib/admin/auth.ts
  *
- * Admin session management using HMAC-signed cookies.
+ * Admin session tokens — HMAC-signed and bound to the admin's identity.
  *
- * Token format:  {timestamp}.{hmac_hex}
- * HMAC input:    SHA-256(ADMIN_SECRET_KEY + ":" + timestamp)
- * Cookie name:   pxl_admin_session
- * Token TTL:     24 hours
+ * Token format (v2):
+ *     v2.{payloadHex}.{sigHex}
+ *   payload = `${iat}|${jti}|${email}`   (pipe-delimited, email is ASCII)
+ *   sig     = HMAC-SHA256(ADMIN_SECRET_KEY, payloadString)
  *
- * The ADMIN_PASSWORD and ADMIN_SECRET_KEY env vars are set in .env.local.
- * They never leave the server — no exposure to the browser.
+ * WHY v2:
+ *   • Binds every session to a specific admin email (authorization travels
+ *     inside the signed token — a valid token for a non-admin email is
+ *     rejected even if the signature checks out).
+ *   • Carries a unique `jti` so the server-side session store can REVOKE a
+ *     session on logout and refuse replayed tokens.
+ *   • No `Buffer` / Node built-ins → safe to run in Edge middleware.
+ *
+ * FAIL CLOSED: if ADMIN_SECRET_KEY is missing there is NO fallback secret.
+ * Token creation throws and verification returns null.
  */
 
-export const ADMIN_COOKIE_NAME = "pxl_admin_session"
-const TOKEN_TTL_MS = 24 * 60 * 60 * 1000  // 24 hours
+import { ADMIN_COOKIE_NAME, isAdminEmail, TOKEN_TTL_MS } from "@/lib/admin/config"
 
-/* ── HMAC helpers using Web Crypto API ─────────────────── */
+export { ADMIN_COOKIE_NAME, TOKEN_TTL_MS } from "@/lib/admin/config"
 
-async function hmacSign(secret: string, data: string): Promise<string> {
-  const encoder   = new TextEncoder()
-  const keyMat    = await crypto.subtle.importKey(
+/* ── Edge-safe hex helpers ─────────────────────────────────── */
+
+function bytesToHex(bytes: Uint8Array): string {
+  let s = ""
+  for (let i = 0; i < bytes.length; i++) s += bytes[i].toString(16).padStart(2, "0")
+  return s
+}
+
+function hexToBytes(hex: string): Uint8Array {
+  if (hex.length % 2 !== 0 || /[^0-9a-fA-F]/.test(hex)) return new Uint8Array(0)
+  const out = new Uint8Array(hex.length / 2)
+  for (let i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i * 2, 2), 16)
+  return out
+}
+
+/** Constant-time equality for two equal-or-unequal-length byte arrays. */
+function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
+  // Compare into a fixed accumulator; length difference is folded in so a
+  // length mismatch cannot short-circuit the comparison.
+  const len = Math.max(a.length, b.length)
+  let diff = a.length ^ b.length
+  for (let i = 0; i < len; i++) {
+    diff |= (a[i] ?? 0) ^ (b[i] ?? 0)
+  }
+  return diff === 0
+}
+
+/* ── HMAC (Web Crypto — Edge + Node) ───────────────────────── */
+
+async function importKey(secret: string): Promise<CryptoKey> {
+  const enc = new TextEncoder()
+  return crypto.subtle.importKey(
     "raw",
-    encoder.encode(secret),
+    enc.encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
-    ["sign"]
+    ["sign"],
   )
-  const sig = await crypto.subtle.sign("HMAC", keyMat, encoder.encode(data))
-  return Buffer.from(sig).toString("hex")
 }
 
-async function hmacVerify(secret: string, data: string, expectedHex: string): Promise<boolean> {
-  const encoder   = new TextEncoder()
-  const keyMat    = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["verify"]
-  )
-  try {
-    const expectedBytes = Buffer.from(expectedHex, "hex")
-    return await crypto.subtle.verify(
-      "HMAC",
-      keyMat,
-      expectedBytes,
-      encoder.encode(data)
-    )
-  } catch {
-    return false
+async function hmacHex(secret: string, data: string): Promise<string> {
+  const key = await importKey(secret)
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(data))
+  return bytesToHex(new Uint8Array(sig))
+}
+
+function getSecret(): string | null {
+  const secret = process.env.ADMIN_SECRET_KEY
+  // Fail closed: no default. A missing/placeholder secret disables admin.
+  if (!secret || secret === "default-secret-change-me" || secret.length < 32) return null
+  return secret
+}
+
+/* ── Password check — constant time, no length leak ────────── */
+
+/**
+ * Verify the supplied admin password against ADMIN_PASSWORD.
+ *
+ * Both candidate and expected are HMAC'd under an ephemeral random key
+ * (fixed 32-byte digests), so the comparison is constant-time AND does not
+ * leak the password length via an early return.
+ */
+export async function checkAdminPassword(password: string): Promise<boolean> {
+  const expected = process.env.ADMIN_PASSWORD
+  if (!expected) return false
+  if (typeof password !== "string") return false
+
+  const ephemeralKey = bytesToHex(crypto.getRandomValues(new Uint8Array(32)))
+  const a = await hmacHex(ephemeralKey, password)
+  const b = await hmacHex(ephemeralKey, expected)
+  return timingSafeEqual(hexToBytes(a), hexToBytes(b))
+}
+
+/* ── Session token ─────────────────────────────────────────── */
+
+export interface SessionClaims {
+  email: string
+  jti: string
+  iat: number
+}
+
+/**
+ * Create a signed session token bound to `email` with a fresh `jti`.
+ * @returns { token, claims } or throws if the secret is unavailable.
+ */
+export async function createSessionToken(email: string): Promise<{ token: string; claims: SessionClaims }> {
+  const secret = getSecret()
+  if (!secret) throw new Error("ADMIN_SECRET_KEY is not configured — admin sessions are disabled.")
+
+  const claims: SessionClaims = {
+    email: email.trim().toLowerCase(),
+    jti: crypto.randomUUID(),
+    iat: Date.now(),
   }
-}
-
-/* ── Public API ─────────────────────────────────────────── */
-
-/**
- * Verify the admin password against ADMIN_PASSWORD env var.
- */
-export function checkAdminPassword(password: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD
-  if (!adminPassword) return false
-  // Constant-time comparison to prevent timing attacks
-  if (password.length !== adminPassword.length) return false
-  let same = true
-  for (let i = 0; i < password.length; i++) {
-    if (password[i] !== adminPassword[i]) same = false
-  }
-  return same
+  const payload = `${claims.iat}|${claims.jti}|${claims.email}`
+  const payloadHex = bytesToHex(new TextEncoder().encode(payload))
+  const sig = await hmacHex(secret, payload)
+  return { token: `v2.${payloadHex}.${sig}`, claims }
 }
 
 /**
- * Generate a signed session token.
+ * Verify a session token: signature, expiry, and email authorization.
+ *
+ * This is the STATELESS layer (safe for Edge middleware). It does NOT check
+ * the server-side revocation store — callers running in the Node runtime
+ * should additionally consult the session store (see guard.ts).
+ *
+ * @returns the decoded claims when valid, otherwise null.
  */
-export async function createSessionToken(): Promise<string> {
-  const secret    = process.env.ADMIN_SECRET_KEY ?? "default-secret-change-me"
-  const timestamp = String(Date.now())
-  const hmac      = await hmacSign(secret, timestamp)
-  return `${timestamp}.${hmac}`
-}
-
-/**
- * Verify a session token.
- * Returns true if the token is valid and not expired.
- */
-export async function verifySessionToken(token: string): Promise<boolean> {
-  if (!token) return false
+export async function verifySessionToken(token: string | undefined | null): Promise<SessionClaims | null> {
+  if (!token) return null
+  const secret = getSecret()
+  if (!secret) return null
 
   const parts = token.split(".")
-  if (parts.length !== 2) return false
+  if (parts.length !== 3 || parts[0] !== "v2") return null
 
-  const [timestamp, hmac] = parts
-  const ts = parseInt(timestamp, 10)
+  const payloadStr = new TextDecoder().decode(hexToBytes(parts[1]))
+  const fields = payloadStr.split("|")
+  if (fields.length !== 3) return null
 
-  if (isNaN(ts)) return false
+  const [iatStr, jti, email] = fields
+  const iat = parseInt(iatStr, 10)
+  if (!Number.isFinite(iat) || !jti || !email) return null
 
-  // Check expiry
-  if (Date.now() - ts > TOKEN_TTL_MS) return false
+  // Expiry
+  if (Date.now() - iat > TOKEN_TTL_MS) return null
 
-  const secret = process.env.ADMIN_SECRET_KEY ?? "default-secret-change-me"
-  return hmacVerify(secret, timestamp, hmac)
+  // Signature (constant-time via subtle.verify semantics)
+  const expectedSig = await hmacHex(secret, payloadStr)
+  if (!timingSafeEqual(hexToBytes(parts[2]), hexToBytes(expectedSig))) return null
+
+  // Authorization: the email inside the signed token must be a configured admin.
+  if (!isAdminEmail(email)) return null
+
+  return { email, jti, iat }
 }
 
-/**
- * Cookie options for the session cookie.
- */
+/* ── Cookie options ────────────────────────────────────────── */
+
 export function getSessionCookieOptions() {
   return {
     httpOnly: true,
-    secure:   process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    path:     "/",
-    maxAge:   TOKEN_TTL_MS / 1000,  // seconds
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict" as const,
+    path: "/",
+    maxAge: TOKEN_TTL_MS / 1000,
   }
+}
+
+/** Build the Set-Cookie header value for a session token. */
+export function buildSessionCookie(token: string): string {
+  const o = getSessionCookieOptions()
+  return [
+    `${ADMIN_COOKIE_NAME}=${token}`,
+    "HttpOnly",
+    `Path=${o.path}`,
+    `Max-Age=${o.maxAge}`,
+    `SameSite=Strict`,
+    o.secure ? "Secure" : "",
+  ].filter(Boolean).join("; ")
+}
+
+/** Build the Set-Cookie header value that clears the session cookie. */
+export function buildClearCookie(): string {
+  const o = getSessionCookieOptions()
+  return [
+    `${ADMIN_COOKIE_NAME}=`,
+    "HttpOnly",
+    `Path=${o.path}`,
+    "Max-Age=0",
+    "SameSite=Strict",
+    o.secure ? "Secure" : "",
+  ].filter(Boolean).join("; ")
 }

@@ -47,14 +47,19 @@ function getAdminApp() {
  */
 export async function verifyFirebaseToken(
   idToken: string
-): Promise<{ uid: string; email: string | undefined } | null> {
+): Promise<{ uid: string; email: string | undefined; emailVerified: boolean } | null> {
   if (!idToken) return null
 
   try {
     const admin    = getAdminApp()
     const auth     = getAuth(admin)
-    const decoded  = await auth.verifyIdToken(idToken)
-    return { uid: decoded.uid, email: decoded.email }
+    // checkRevoked=true → a disabled account or revoked refresh token fails here.
+    const decoded  = await auth.verifyIdToken(idToken, true)
+    return {
+      uid: decoded.uid,
+      email: decoded.email,
+      emailVerified: decoded.email_verified === true,
+    }
   } catch {
     return null
   }
