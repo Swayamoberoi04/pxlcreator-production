@@ -61,13 +61,48 @@ const BUNDLE_SELECT = `
 
 export async function getBundles(): Promise<BundleWithPresets[]> {
   const supabase = await createServerSupabaseClient()
-  const { data, error } = await supabase
+
+  // Fetch bundles
+  const { data: bundles, error } = await supabase
     .from("bundles")
-    .select(BUNDLE_SELECT)
+    .select("*")
     .eq("is_published", true)
     .order("display_order", { ascending: true })
-  if (error || !data) return []
-  return data.map((r) => mapWithPresets(r as unknown as Record<string, unknown>))
+  if (error || !bundles) return []
+
+  // Fetch preset links separately (avoids RLS join issues)
+  const bundleIds = bundles.map((b) => b.id as string)
+  const { data: bpRows } = await supabase
+    .from("bundle_presets")
+    .select("bundle_id, order_index, preset_id")
+    .in("bundle_id", bundleIds)
+
+  const presetIds = [...new Set((bpRows ?? []).map((r) => r.preset_id as string))]
+  const { data: presetRows } = presetIds.length > 0
+    ? await supabase.from("presets").select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds)
+    : { data: [] }
+
+  return bundles.map((b) => {
+    const row = b as Record<string, unknown>
+    const bundle = mapRow(row)
+    const myBps = (bpRows ?? [])
+      .filter((r) => r.bundle_id === b.id)
+      .sort((a, b) => (a.order_index as number) - (b.order_index as number))
+    const presets = myBps.map((bp) => {
+      const p = (presetRows ?? []).find((pr) => pr.id === bp.preset_id) as Record<string, unknown> | undefined
+      return {
+        presetId:    bp.preset_id as string,
+        orderIndex:  bp.order_index as number,
+        name:        (p?.name as string) ?? "",
+        slug:        (p?.slug as string) ?? "",
+        thumbnailUrl: (p?.thumbnail_url as string | null) ?? null,
+        priceUsd:    (p?.price_usd as number) ?? 0,
+        category:    null,
+      }
+    })
+    const totalValue = presets.reduce((s, p) => s + p.priceUsd, 0)
+    return { ...bundle, presets, presetCount: presets.length, totalValue, savings: Math.max(0, totalValue - bundle.bundlePriceUsd) }
+  })
 }
 
 export async function getFeaturedBundles(limit = 4): Promise<BundleWithPresets[]> {
@@ -85,12 +120,42 @@ export async function getFeaturedBundles(limit = 4): Promise<BundleWithPresets[]
 
 export async function getBundleBySlug(slug: string): Promise<BundleWithPresets | null> {
   const supabase = await createServerSupabaseClient()
+
   const { data, error } = await supabase
     .from("bundles")
-    .select(BUNDLE_SELECT)
+    .select("*")
     .eq("slug", slug)
     .eq("is_published", true)
     .single()
   if (error || !data) return null
-  return mapWithPresets(data as unknown as Record<string, unknown>)
+
+  const bundle = mapRow(data as Record<string, unknown>)
+
+  const { data: bpRows } = await supabase
+    .from("bundle_presets")
+    .select("order_index, preset_id")
+    .eq("bundle_id", bundle.id)
+
+  const presetIds = (bpRows ?? []).map((r) => r.preset_id as string)
+  const { data: presetRows } = presetIds.length > 0
+    ? await supabase.from("presets").select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds)
+    : { data: [] }
+
+  const presets = (bpRows ?? [])
+    .sort((a, b) => (a.order_index as number) - (b.order_index as number))
+    .map((bp) => {
+      const p = (presetRows ?? []).find((pr) => pr.id === bp.preset_id) as Record<string, unknown> | undefined
+      return {
+        presetId:    bp.preset_id as string,
+        orderIndex:  bp.order_index as number,
+        name:        (p?.name as string) ?? "",
+        slug:        (p?.slug as string) ?? "",
+        thumbnailUrl: (p?.thumbnail_url as string | null) ?? null,
+        priceUsd:    (p?.price_usd as number) ?? 0,
+        category:    null,
+      }
+    })
+
+  const totalValue = presets.reduce((s, p) => s + p.priceUsd, 0)
+  return { ...bundle, presets, presetCount: presets.length, totalValue, savings: Math.max(0, totalValue - bundle.bundlePriceUsd) }
 }
