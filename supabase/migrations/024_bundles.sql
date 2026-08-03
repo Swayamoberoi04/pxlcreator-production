@@ -1,8 +1,12 @@
 -- migration 024: bundles + bundle_presets (M2M)
 -- Run this against your Supabase project via the dashboard SQL editor or CLI.
 
+/* ── drop stale tables if they exist with wrong schema ─── */
+drop table if exists public.bundle_presets cascade;
+drop table if exists public.bundles        cascade;
+
 /* ── bundles ───────────────────────────────────────────── */
-create table if not exists public.bundles (
+create table public.bundles (
   id                uuid        primary key default gen_random_uuid(),
   name              text        not null,
   slug              text        not null unique,
@@ -24,7 +28,7 @@ create table if not exists public.bundles (
 );
 
 /* ── bundle_presets (join table) ───────────────────────── */
-create table if not exists public.bundle_presets (
+create table public.bundle_presets (
   id          uuid    primary key default gen_random_uuid(),
   bundle_id   uuid    not null references public.bundles(id) on delete cascade,
   preset_id   uuid    not null references public.presets(id) on delete cascade,
@@ -54,6 +58,9 @@ alter table public.bundles       enable row level security;
 alter table public.bundle_presets enable row level security;
 
 -- public: read published bundles + their preset links
+drop policy if exists "bundles_public_read"        on public.bundles;
+drop policy if exists "bundle_presets_public_read" on public.bundle_presets;
+
 create policy "bundles_public_read" on public.bundles
   for select using (is_published = true);
 
