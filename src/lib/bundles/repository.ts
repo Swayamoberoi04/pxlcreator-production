@@ -81,10 +81,10 @@ export async function getBundles(): Promise<BundleWithPresets[]> {
     .in("bundle_id", bundleIds)
 
   const presetIds = [...new Set((bpRows ?? []).map((r) => r.preset_id as string))]
-  type PresetRow = { id: string; name: string; slug: string; thumbnail_url: string | null; price_usd: number }
+  type PresetRow = { id: string; title: string; slug: string; thumbnail_url: string | null; price: number }
   const { data: presetRows } = presetIds.length > 0
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ? await (supabase.from("presets") as any).select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds) as { data: PresetRow[] | null }
+    ? await (supabase.from("presets") as any).select("id, title, slug, thumbnail_url, price").in("id", presetIds) as { data: PresetRow[] | null }
     : { data: [] as PresetRow[] }
 
   return bundles.map((b) => {
@@ -98,10 +98,10 @@ export async function getBundles(): Promise<BundleWithPresets[]> {
       return {
         presetId:    bp.preset_id as string,
         orderIndex:  bp.order_index as number,
-        name:        p?.name ?? "",
+        name:        p?.title ?? "",
         slug:        p?.slug ?? "",
         thumbnailUrl: p?.thumbnail_url ?? null,
-        priceUsd:    p?.price_usd ?? 0,
+        priceUsd:    p?.price ?? 0,
         category:    null,
       }
     })
@@ -142,10 +142,10 @@ export async function getBundleBySlug(slug: string): Promise<BundleWithPresets |
     .eq("bundle_id", bundle.id)
 
   const presetIds = (bpRows ?? []).map((r) => r.preset_id as string)
-  type PresetRow2 = { id: string; name: string; slug: string; thumbnail_url: string | null; price_usd: number }
+  type PresetRow2 = { id: string; title: string; slug: string; thumbnail_url: string | null; price: number }
   const { data: presetRows } = presetIds.length > 0
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ? await (supabase.from("presets") as any).select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds) as { data: PresetRow2[] | null }
+    ? await (supabase.from("presets") as any).select("id, title, slug, thumbnail_url, price").in("id", presetIds) as { data: PresetRow2[] | null }
     : { data: [] as PresetRow2[] }
 
   const presets = (bpRows ?? [])
@@ -155,10 +155,10 @@ export async function getBundleBySlug(slug: string): Promise<BundleWithPresets |
       return {
         presetId:    bp.preset_id as string,
         orderIndex:  bp.order_index as number,
-        name:        p?.name ?? "",
+        name:        p?.title ?? "",
         slug:        p?.slug ?? "",
         thumbnailUrl: p?.thumbnail_url ?? null,
-        priceUsd:    p?.price_usd ?? 0,
+        priceUsd:    p?.price ?? 0,
         category:    null,
       }
     })
