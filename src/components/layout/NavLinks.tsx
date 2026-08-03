@@ -38,6 +38,7 @@ type NavItemConfig = SimpleItem | DropdownItem
 
 const NAV_ITEMS: NavItemConfig[] = [
   { type: "link",     label: "Presets",   href: "/presets"   },
+  { type: "link",     label: "Bundles",   href: "/bundles"   },
   { type: "link",     label: "Community", href: "/community" },
   { type: "dropdown", label: "Explore",   items: EXPLORE_ITEMS },
   { type: "link",     label: "Premium",   href: "/premium", highlight: true },

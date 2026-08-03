@@ -174,5 +174,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:         0.6,
   }))
 
-  return [...staticPages, ...presetPages, ...blogPages]
+  /* ── Bundle pages ───────────────────────────────────────── */
+  const bundlePage: MetadataRoute.Sitemap = [
+    {
+      url:             `${BASE}/bundles`,
+      lastModified:    now,
+      changeFrequency: "weekly",
+      priority:        0.85,
+    },
+  ]
+
+  return [...staticPages, ...bundlePage, ...presetPages, ...blogPages]
 }

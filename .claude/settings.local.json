@@ -40,7 +40,8 @@
       "PowerShell(New-Item -ItemType Directory -Force \"src/app/api/_diag\")",
       "PowerShell(Remove-Item -Recurse -Force \"src/app/api/_diag\" -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Force \"src/app/api/zdiag\" | Out-Null; Copy-Item \"$env:TEMP\\\\nul\" -ErrorAction SilentlyContinue; Write-Output \"renamed to zdiag\")",
       "PowerShell(node scripts/verify-admin-login.mjs)",
-      "PowerShell(git fetch origin --quiet 2>&1)"
+      "PowerShell(git fetch origin --quiet 2>&1)",
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run build 2>&1 | Out-String | Select-String -Pattern \"bundle\" -AllMatches | ForEach-Object { $_.Matches.Value } | Select-Object -Unique)"
     ]
   }
 }

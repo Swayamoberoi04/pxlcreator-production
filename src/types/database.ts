@@ -1868,6 +1868,88 @@ export interface Database {
         }
         Relationships: []
       }
+
+      /* ── bundles ─────────────────────────────────────── */
+      bundles: {
+        Row: {
+          id:                   string
+          name:                 string
+          slug:                 string
+          tagline:              string | null
+          description:          string | null
+          seo_title:            string | null
+          seo_description:      string | null
+          thumbnail_url:        string | null
+          banner_url:           string | null
+          badge:                string | null
+          display_order:        number
+          bundle_price_usd:     number
+          compare_at_price_usd: number | null
+          download_url:         string | null
+          is_published:         boolean
+          is_featured:          boolean
+          created_at:           string
+          updated_at:           string
+        }
+        Insert: {
+          id?:                   string
+          name:                  string
+          slug:                  string
+          tagline?:              string | null
+          description?:          string | null
+          seo_title?:            string | null
+          seo_description?:      string | null
+          thumbnail_url?:        string | null
+          banner_url?:           string | null
+          badge?:                string | null
+          display_order?:        number
+          bundle_price_usd?:     number
+          compare_at_price_usd?: number | null
+          download_url?:         string | null
+          is_published?:         boolean
+          is_featured?:          boolean
+        }
+        Update: {
+          name?:                 string
+          slug?:                 string
+          tagline?:              string | null
+          description?:          string | null
+          seo_title?:            string | null
+          seo_description?:      string | null
+          thumbnail_url?:        string | null
+          banner_url?:           string | null
+          badge?:                string | null
+          display_order?:        number
+          bundle_price_usd?:     number
+          compare_at_price_usd?: number | null
+          download_url?:         string | null
+          is_published?:         boolean
+          is_featured?:          boolean
+          updated_at?:           string
+        }
+        Relationships: []
+      }
+
+      /* ── bundle_presets ──────────────────────────────── */
+      bundle_presets: {
+        Row: {
+          id:          string
+          bundle_id:   string
+          preset_id:   string
+          order_index: number
+        }
+        Insert: {
+          id?:         string
+          bundle_id:   string
+          preset_id:   string
+          order_index?: number
+        }
+        Update: {
+          order_index?: number
+        }
+        Relationships: []
+      }
+
     }
     Views:          Record<string, never>
     Functions: {
@@ -1916,6 +1998,10 @@ export type FeedbackMessageRow = Database["public"]["Tables"]["feedback_messages
 export type CreatorProfileRow     = Database["public"]["Tables"]["creator_profiles"]["Row"]
 export type RecommendationCacheRow = Database["public"]["Tables"]["recommendation_cache"]["Row"]
 export type UserBehaviorRow       = Database["public"]["Tables"]["user_behavior"]["Row"]
+
+/* ── Bundle row types ───────────────────────────────────── */
+export type BundleRow        = Database["public"]["Tables"]["bundles"]["Row"]
+export type BundlePresetRow  = Database["public"]["Tables"]["bundle_presets"]["Row"]
 
 /* ── Preset with all relations joined ──────────────────── */
 export interface PresetWithRelations extends PresetRow {

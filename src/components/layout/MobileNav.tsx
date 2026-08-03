@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"
 /* Top-level links that appear before the Explore section */
 const TOP_LINKS = [
   { label: "Presets", href: "/presets", highlight: false },
+  { label: "Bundles", href: "/bundles", highlight: false },
   { label: "Premium", href: "/premium", highlight: true  },
 ]
 
