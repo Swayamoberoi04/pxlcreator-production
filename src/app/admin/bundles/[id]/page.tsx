@@ -11,8 +11,14 @@ interface AdminPreset {
   slug:          string
   thumbnail_url: string | null
   price_usd:     number
-  category:      string | null
+  category:      string | { name: string } | null
   is_published:  boolean
+}
+
+function categoryName(cat: AdminPreset["category"]): string {
+  if (!cat) return "—"
+  if (typeof cat === "string") return cat
+  return cat.name ?? "—"
 }
 
 interface PickedPreset extends AdminPreset {
@@ -135,10 +141,10 @@ export default function BundleEditorPage() {
   }
 
   /* ── Preset picker helpers ── */
-  const categories = ["All", ...Array.from(new Set(allPresets.map((p) => p.category ?? "Other")))]
+  const categories = ["All", ...Array.from(new Set(allPresets.map((p) => categoryName(p.category))))]
 
   const visiblePresets = allPresets.filter((p) => {
-    const matchCat = catFilter === "All" || p.category === catFilter
+    const matchCat = catFilter === "All" || categoryName(p.category) === catFilter
     const matchQ   = !search || p.name.toLowerCase().includes(search.toLowerCase())
     return matchCat && matchQ
   })
@@ -409,7 +415,7 @@ export default function BundleEditorPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[0.8125rem] font-medium text-white/90 truncate">{preset.name}</p>
-                      <p className="text-[0.7rem] text-white/40">{preset.category ?? "—"} · ${preset.price_usd}</p>
+                      <p className="text-[0.7rem] text-white/40">{categoryName(preset.category)} · ${preset.price_usd}</p>
                     </div>
                     <div className={cn(
                       "h-5 w-5 shrink-0 rounded border flex items-center justify-center transition-colors",
