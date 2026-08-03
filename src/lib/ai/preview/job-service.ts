@@ -599,7 +599,7 @@ export async function runGenerationJob(
 
     /* ── Resolve grade evidence: preset intelligence + style profile ── */
     const { presets } = await getCachedCatalog()
-    const kb    = getKnowledgeBase(presets.filter((p) => p.category !== "Bundle"))
+    const kb    = getKnowledgeBase(presets)
     const intel = kb.entries.get(presetSlug)
     if (!intel) throw new JobError("PRESET_NOT_FOUND", `No knowledge-base entry for ${presetSlug}`)
 

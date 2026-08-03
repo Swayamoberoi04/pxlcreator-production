@@ -19,7 +19,6 @@ import type { PersonalizedSection, RecommendationItem, StyleDNA } from "@/types/
 
 /* ── Item type icon map ─────────────────────────────────────── */
 const TYPE_ICON: Record<string, string> = {
-  "preset-bundle": "◈",
   "lut-pack":      "◉",
   "tutorial":      "▷",
   "course":        "▶",

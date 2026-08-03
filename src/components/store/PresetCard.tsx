@@ -27,7 +27,6 @@ const categoryGradients: Record<string, string> = {
   "Portrait":       "from-[#2b1a0a] via-[#1a1010] to-[#0a0808]",
   "Landscape":      "from-[#0a1a2b] via-[#081018] to-[#050810]",
   "Street":         "from-[#111111] via-[#1a1a1a] to-[#0a0a0a]",
-  "Bundle":         "from-[#1a1500] via-[#12100a] to-[#080700]",
 }
 
 /* ── Conversion tag colour map ─────────────────────────── */

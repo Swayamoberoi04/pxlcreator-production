@@ -123,8 +123,7 @@ export function StepComplete({ dna, sections, onClose }: Props) {
                   className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3"
                 >
                   <span className="text-[0.875rem]">
-                    {item.type === "preset-bundle" ? "◈" :
-                     item.type === "lut-pack"      ? "◉" :
+                    {item.type === "lut-pack"      ? "◉" :
                      item.type === "tutorial"      ? "▷" :
                      item.type === "challenge"     ? "✦" : "⬡"}
                   </span>

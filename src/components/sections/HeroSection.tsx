@@ -294,18 +294,6 @@ export function HeroSection() {
             </Link>
           </MagneticButton>
 
-          {/* Secondary — magnetic */}
-          <MagneticButton>
-            <Link
-              href="/bundles"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-7 py-3.5 text-[0.9375rem] font-semibold text-white/92 hover:border-white/40 hover:bg-white/12 hover:text-white active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-            >
-              Browse Bundles
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </Link>
-          </MagneticButton>
         </motion.div>
 
         {/* ── Trust line ── */}

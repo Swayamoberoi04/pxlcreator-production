@@ -39,7 +39,6 @@ const CATEGORY_SLUG_MAP: Record<string, string> = {
   "Portrait":       "portrait",
   "Landscape":      "landscape",
   "Street":         "street",
-  "Bundle":         "bundle",
 }
 
 async function seed() {

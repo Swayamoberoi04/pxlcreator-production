@@ -130,7 +130,6 @@ export interface StyleDNA {
 
 /* ── Recommendation item ─────────────────────────────────────── */
 export type RecommendationType =
-  | "preset-bundle"
   | "lut-pack"
   | "tutorial"
   | "course"

@@ -75,7 +75,6 @@ export type PresetCategory =
   | "Portrait"
   | "Landscape"
   | "Street"
-  | "Bundle"
 
 /* ── Badges ─────────────────────────────────────────────── */
 export type PresetBadge =

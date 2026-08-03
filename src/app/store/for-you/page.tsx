@@ -207,9 +207,6 @@ export default function PersonalizedStorePage() {
         <Link href="/store" className="rounded-full border border-border bg-surface px-6 py-2.5 text-sm font-medium text-muted/92 hover:border-gold/30 hover:text-foreground transition-all">
           Browse Full Collection
         </Link>
-        <Link href="/bundles" className="rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-background hover:bg-gold/90 transition-all">
-          Explore Bundles
-        </Link>
       </div>
     </div>
   )

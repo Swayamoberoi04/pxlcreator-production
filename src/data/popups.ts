@@ -4,7 +4,7 @@
  * Promotional popup catalogue — 4 variants shown in round-robin rotation.
  *
  * Rotation strategy:
- *   bundle → bestseller → freebie → mobile → bundle → …
+ *   bestseller → freebie → mobile → bestseller → …
  *   Index tracked in localStorage so each visit sees the next variant.
  *
  * Copy principles (HCI):
@@ -19,22 +19,7 @@ import type { PopupConfig } from '@/types/popup'
 
 export const POPUP_CONFIGS: PopupConfig[] = [
 
-  /* ── 1 · Featured Bundle ─────────────────────────────────── */
-  {
-    id:           'bundle',
-    badge:        'EXCLUSIVE OFFER',
-    badgeStyle:   'bg-gold/15 text-gold border-gold/30',
-    headline:     'The Complete PXL Bundle',
-    subheadline:  'Every preset pack. One price. Yours forever.',
-    valueProp:
-      'Desert Gold, Film Emulation, Urban Noir, and 18 more packs — the entire PXL professional catalogue at 60% off the individual price. The complete toolkit, one decision.',
-    highlight:    'SAVE 60%',
-    ctaLabel:     'Explore the Bundle',
-    ctaHref:      '/bundles',
-    accentGlow:   'rgba(255,214,10, 0.18)',
-  },
-
-  /* ── 2 · Best Selling Presets ─────────────────────────────── */
+  /* ── 1 · Best Selling Presets ─────────────────────────────── */
   {
     id:           'bestseller',
     badge:        "EDITORS' PICKS",

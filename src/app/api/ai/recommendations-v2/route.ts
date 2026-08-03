@@ -106,8 +106,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     return Response.json({ success: false, error: "Could not load preset catalogue." }, { status: 503 })
   }
 
-  /* Bundles are collections, not looks — exclude from look-matching */
-  const gradablePresets = presets.filter((p) => p.category !== "Bundle")
+  const gradablePresets = presets
 
   const kb = getKnowledgeBase(gradablePresets)
 

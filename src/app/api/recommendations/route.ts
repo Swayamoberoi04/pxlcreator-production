@@ -99,7 +99,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
 function getSectionHeadline(id: string, badge: string): string {
   const map: Record<string, string> = {
-    "preset-bundles": `For Your ${badge || "Creative"} Aesthetic`,
     "learning":       "Level Up Your Craft",
     "luts":           "Cinema-Grade Colour",
     "challenges":     "Challenges For You",
@@ -110,7 +109,6 @@ function getSectionHeadline(id: string, badge: string): string {
 
 function getSectionSubheadline(id: string): string {
   const map: Record<string, string> = {
-    "preset-bundles": "Preset bundles matched to your visual style and editing goals",
     "learning":       "Tutorials and courses chosen for your skill level and goals",
     "luts":           "Professional LUTs for your video and film work",
     "challenges":     "Build skills through daily creative prompts",

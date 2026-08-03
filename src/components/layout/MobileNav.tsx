@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils"
 /* Top-level links that appear before the Explore section */
 const TOP_LINKS = [
   { label: "Presets", href: "/presets", highlight: false },
-  { label: "Bundles", href: "/bundles", highlight: false },
   { label: "Premium", href: "/premium", highlight: true  },
 ]
 
@@ -160,7 +159,7 @@ export function MobileNav() {
         {/* ── Nav links ── */}
         <nav className="flex flex-col gap-0.5 p-3 flex-1 overflow-y-auto" aria-label="Mobile navigation">
 
-          {/* Top links: Presets, Bundles, Premium */}
+          {/* Top links: Presets, Premium */}
           {TOP_LINKS.map((item) => (
             <MobileLink
               key={item.href}

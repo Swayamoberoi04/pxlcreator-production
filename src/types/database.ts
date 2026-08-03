@@ -535,124 +535,6 @@ export interface Database {
         Relationships: []
       }
 
-      /* ── bundles ────────────────────────────────────── */
-      bundles: {
-        Row: {
-          id:                   string
-          slug:                 string
-          title:                string
-          tagline:              string | null
-          description:          string | null
-          why_creators_love_it: string | null
-          preset_id:            string | null
-          price_usd:            number
-          sale_price_usd:       number | null
-          compare_at_price_usd: number | null
-          individual_value_usd: number
-          bundle_badge:         "BESTSELLER" | "MOST POPULAR" | "CREATOR FAVORITE" | "PRO LEVEL" | "TRENDING" | "BEST VALUE" | "LIMITED" | "NEW"
-          is_featured:          boolean
-          is_published:         boolean
-          target_audience:      string[]
-          use_cases:            string[]
-          features:             string[]
-          thumbnail_url:        string | null
-          order_index:          number
-          created_at:           string
-          updated_at:           string
-        }
-        Insert: {
-          id?:                  string
-          slug:                 string
-          title:                string
-          tagline?:             string | null
-          description?:         string | null
-          why_creators_love_it?: string | null
-          preset_id?:           string | null
-          price_usd:            number
-          sale_price_usd?:      number | null
-          compare_at_price_usd?: number | null
-          individual_value_usd: number
-          bundle_badge?:        "BESTSELLER" | "MOST POPULAR" | "CREATOR FAVORITE" | "PRO LEVEL" | "TRENDING" | "BEST VALUE" | "LIMITED" | "NEW"
-          is_featured?:         boolean
-          is_published?:        boolean
-          target_audience?:     string[]
-          use_cases?:           string[]
-          features?:            string[]
-          thumbnail_url?:       string | null
-          order_index?:         number
-        }
-        Update: {
-          slug?:                string
-          title?:               string
-          tagline?:             string | null
-          description?:         string | null
-          why_creators_love_it?: string | null
-          preset_id?:           string | null
-          price_usd?:           number
-          sale_price_usd?:      number | null
-          compare_at_price_usd?: number | null
-          individual_value_usd?: number
-          bundle_badge?:        "BESTSELLER" | "MOST POPULAR" | "CREATOR FAVORITE" | "PRO LEVEL" | "TRENDING" | "BEST VALUE" | "LIMITED" | "NEW"
-          is_featured?:         boolean
-          is_published?:        boolean
-          target_audience?:     string[]
-          use_cases?:           string[]
-          features?:            string[]
-          thumbnail_url?:       string | null
-          order_index?:         number
-        }
-        Relationships: []
-      }
-
-      /* ── bundle_included_packs ──────────────────────── */
-      bundle_included_packs: {
-        Row: {
-          id:           string
-          bundle_id:    string
-          name:         string
-          preset_count: number
-          category:     string
-          description:  string | null
-          icon:         string | null
-          order_index:  number
-        }
-        Insert: {
-          id?:          string
-          bundle_id:    string
-          name:         string
-          preset_count?: number
-          category:     string
-          description?: string | null
-          icon?:        string | null
-          order_index?: number
-        }
-        Update: {
-          name?:        string
-          preset_count?: number
-          category?:    string
-          description?: string | null
-          icon?:        string | null
-          order_index?: number
-        }
-        Relationships: []
-      }
-
-      /* ── bundle_presets ─────────────────────────────── */
-      bundle_presets: {
-        Row: {
-          bundle_id:   string
-          preset_id:   string
-          order_index: number
-        }
-        Insert: {
-          bundle_id:    string
-          preset_id:    string
-          order_index?: number
-        }
-        Update: Record<string, never>
-        Relationships: []
-      }
-
       /* ── subscriptions ──────────────────────────────── */
       subscriptions: {
         Row: {
@@ -2029,11 +1911,6 @@ export type UserProfileRow         = Database["public"]["Tables"]["user_profiles
 export type PresetReviewRow    = Database["public"]["Tables"]["preset_reviews"]["Row"]
 export type StorageAssetRow    = Database["public"]["Tables"]["storage_assets"]["Row"]
 export type FeedbackMessageRow = Database["public"]["Tables"]["feedback_messages"]["Row"]
-
-/* ── Bundle row types ───────────────────────────────────── */
-export type BundleRow              = Database["public"]["Tables"]["bundles"]["Row"]
-export type BundleIncludedPackRow  = Database["public"]["Tables"]["bundle_included_packs"]["Row"]
-export type BundlePresetRow        = Database["public"]["Tables"]["bundle_presets"]["Row"]
 
 /* ── Onboarding / personalisation row types ─────────────── */
 export type CreatorProfileRow     = Database["public"]["Tables"]["creator_profiles"]["Row"]

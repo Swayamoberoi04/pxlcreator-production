@@ -29,7 +29,6 @@ const CATEGORY_AFFINITY_MAP: Record<string, Partial<CategoryAffinities>> = {
   "Editorial":      { editorial: 0.9, fashion: 0.7, dark_luxury: 0.5 },
   "Minimal":        { minimal: 0.9, commercial: 0.5 },
   "Dark":           { dark_luxury: 0.9, cinematic: 0.6 },
-  "Bundle":         { cinematic: 0.5, portrait: 0.5, travel: 0.5 },
 }
 
 function dotScore(user: Partial<CategoryAffinities>, cat: Partial<CategoryAffinities>): number {
@@ -73,7 +72,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   if (error || !presets) {
     // Return recommendation catalogue items sorted by affinity as fallback
     const catalogueItems = CATALOGUE
-      .filter((i) => i.type === "preset-bundle")
+      .filter((i) => i.type === "lut-pack")
       .map((item) => {
         const score = affinities ? dotScore(affinities, item.categories) : 0.5
         return { ...item, affinityScore: Math.round(score * 100) }

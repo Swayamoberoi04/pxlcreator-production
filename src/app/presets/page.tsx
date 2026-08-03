@@ -2,9 +2,7 @@ import type { Metadata }   from "next"
 import Link               from "next/link"
 import { Container }      from "@/components/layout/Container"
 import { PresetCard }     from "@/components/store/PresetCard"
-import { BundleCard }     from "@/components/bundles/BundleCard"
 import { getPresets }     from "@/lib/presets/repository"
-import { getFeaturedBundles } from "@/lib/bundles/repository"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
@@ -15,7 +13,7 @@ export const dynamic = "force-dynamic"
 export const metadata: Metadata = {
   title: "Presets — Featured Collections",
   description:
-    "Explore PXL Creator's featured preset collections and bundles. Handcrafted Lightroom presets for cinematic, portrait, film, landscape and street photography — buy instantly or unlock free from YouTube.",
+    "Explore PXL Creator's featured preset collections. Handcrafted Lightroom presets for cinematic, portrait, film, landscape and street photography — buy instantly or unlock free from YouTube.",
 }
 
 /* ── Store categories → /store filter mapping ── */
@@ -25,15 +23,11 @@ const VAULT_CATEGORIES = [
   { label: "Portrait",       href: "/store?category=Portrait"       },
   { label: "Landscape",      href: "/store?category=Landscape"      },
   { label: "Street",         href: "/store?category=Street"         },
-  { label: "Bundles",        href: "/store?category=Bundle"         },
   { label: "Free Packs",     href: "/store?category=Free"           },
 ]
 
 export default async function PresetsPage() {
-  const [featuredBundles, allPresets] = await Promise.all([
-    getFeaturedBundles(4),
-    getPresets({ featured: true, orderBy: "order_index", limit: 8 }),
-  ])
+  const allPresets = await getPresets({ featured: true, orderBy: "order_index", limit: 8 })
 
   /* Fallback: if fewer than 6 featured presets exist, grab top 8 regardless */
   const showcasePresets = allPresets.length >= 4
@@ -74,7 +68,7 @@ export default async function PresetsPage() {
                     backgroundClip: "text",
                   }}
                 >
-                  presets & bundles.
+                  presets.
                 </span>
               </h1>
             </CinematicReveal>
@@ -95,12 +89,6 @@ export default async function PresetsPage() {
                   Browse Full Store
                   <ArrowRightIcon />
                 </Link>
-                <Link
-                  href="/bundles"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-2.5 text-[0.875rem] font-medium text-muted/92 hover:text-foreground hover:border-gold/30 transition-all"
-                >
-                  View Bundles
-                </Link>
               </div>
             </CinematicReveal>
 
@@ -111,38 +99,6 @@ export default async function PresetsPage() {
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           FEATURED BUNDLES
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-      {featuredBundles.length > 0 && (
-        <Container className="pt-16 sm:pt-20 pb-0">
-          <CinematicReveal variant="rise">
-            <div className="flex items-center justify-between gap-4 mb-8">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-6 bg-gold/60" aria-hidden="true" />
-                <h2 className="font-display font-bold text-[1.125rem] text-foreground tracking-tight">
-                  ( Creator Bundles )
-                </h2>
-              </div>
-              <Link
-                href="/bundles"
-                className="text-[0.8125rem] text-muted/85 hover:text-gold transition-colors flex items-center gap-1.5"
-              >
-                All bundles <ArrowRightSmIcon />
-              </Link>
-            </div>
-          </CinematicReveal>
-
-          <CinematicStagger
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5"
-            itemVariant="rise"
-            stagger={0.07}
-          >
-            {featuredBundles.map((bundle) => (
-              <CinematicItem key={bundle.id} variant="rise">
-                <BundleCard bundle={bundle} />
-              </CinematicItem>
-            ))}
-          </CinematicStagger>
-        </Container>
-      )}
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           FEATURED INDIVIDUAL PRESETS
@@ -248,7 +204,6 @@ function CreatorVaultSection() {
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 text-[0.9375rem] text-muted/70">
               {[
                 "100+ Premium Presets",
-                "Exclusive Creator Bundles",
                 "Hidden YouTube Unlocks",
                 "Instant Downloads",
               ].map((v, i, arr) => (

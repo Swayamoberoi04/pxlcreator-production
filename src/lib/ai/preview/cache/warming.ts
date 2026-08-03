@@ -59,7 +59,7 @@ export async function runCacheWarming(
 
   /* ── 1. Pick target presets ── */
   const { presets } = await getCachedCatalog()
-  const gradable = presets.filter((p) => p.category !== "Bundle")
+  const gradable = presets
   const metrics = await getOperationalMetrics(7)
   const byTraffic = metrics.generationFrequencyByPreset.map((e) => e.presetSlug)
   const ranked = [

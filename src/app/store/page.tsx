@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 }
 
 const VALID_CATEGORIES = new Set([
-  "All", "Bundle", "Cinematic", "Film Emulation", "Portrait", "Landscape", "Street", "Free"
+  "All", "Cinematic", "Film Emulation", "Portrait", "Landscape", "Street", "Free"
 ])
 
 export default async function StorePage({

@@ -4,9 +4,8 @@
  * Generates /sitemap.xml via Next.js MetadataRoute.
  *
  * Includes:
- *   - Static pages (home, store, presets, bundles, blog, about, contact)
+ *   - Static pages (home, store, presets, blog, about, contact)
  *   - All preset detail pages  /presets/:slug
- *   - All bundle detail pages  /bundles/:slug
  *   - All blog post pages      /blog/:slug
  *
  * The priority and changeFrequency hints tell crawlers which
@@ -16,7 +15,6 @@
 import type { MetadataRoute } from "next"
 import { siteConfig }         from "@/config/site"
 import { ALL_PRESETS }        from "@/data/presets"
-import { ALL_BUNDLES }        from "@/data/bundles"
 import { ALL_POSTS }          from "@/data/posts"
 
 const BASE = siteConfig.url
@@ -42,12 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url:              `${BASE}/presets`,
       lastModified:     now,
       changeFrequency:  "daily",
-      priority:         0.9,
-    },
-    {
-      url:              `${BASE}/bundles`,
-      lastModified:     now,
-      changeFrequency:  "weekly",
       priority:         0.9,
     },
     {
@@ -174,14 +166,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:         0.8,
   }))
 
-  /* ── Bundle detail pages ────────────────────────────────── */
-  const bundlePages: MetadataRoute.Sitemap = ALL_BUNDLES.map((bundle) => ({
-    url:              `${BASE}/bundles/${bundle.slug}`,
-    lastModified:     now,
-    changeFrequency:  "monthly" as const,
-    priority:         0.8,
-  }))
-
   /* ── Blog post pages ────────────────────────────────────── */
   const blogPages: MetadataRoute.Sitemap = ALL_POSTS.map((post) => ({
     url:              `${BASE}/blog/${post.slug}`,
@@ -190,5 +174,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:         0.6,
   }))
 
-  return [...staticPages, ...presetPages, ...bundlePages, ...blogPages]
+  return [...staticPages, ...presetPages, ...blogPages]
 }

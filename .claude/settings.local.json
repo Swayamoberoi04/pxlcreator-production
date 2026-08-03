@@ -17,7 +17,30 @@
       "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run lint 2>&1 | Where-Object { $_ -match \"idleTimer|prefer-const|UnlockOrBuy\" } | Select-Object -First 10)",
       "PowerShell([System.IO.File]::ReadAllText\\(\"C:\\\\Users\\\\swayam\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\90f3467f-c1d3-4e2a-b029-5ce686c84fb0\\\\tasks\\\\bqhs3em6g.output\"\\))",
       "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\app\\\\api\\\\email\\\\subscribe\")",
-      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\app\\\\api\\\\preset\\\\download\")"
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\\\\src\\\\app\\\\api\\\\preset\\\\download\")",
+      "PowerShell(Get-ChildItem -Recurse -Directory src | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\\(Get-Location\\).Path + '\\\\',''\\) })",
+      "PowerShell(git checkout -b security/admin-hardening)",
+      "PowerShell(npx tsc --noEmit 2>&1)",
+      "PowerShell(npx tsc --noEmit; Write-Output \"EXIT=$LASTEXITCODE\")",
+      "PowerShell(npm run build 2>&1)",
+      "PowerShell(npm run build 2>&1 | Select-String -Pattern 'admin|Proxy|Compiled|error|Failed' | Select-Object -First 40; Write-Output \"EXIT=$LASTEXITCODE\")",
+      "PowerShell(for \\($i=0; $i -lt 30; $i++\\) { try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/api/health\" -UseBasicParsing -TimeoutSec 5; Write-Output \"READY status=$\\($r.StatusCode\\)\"; break } catch { $sc = $_.Exception.Response.StatusCode.value__; if \\($sc\\) { Write-Output \"READY \\(health=$sc\\)\"; break } else { Start-Sleep -Seconds 2 } } })",
+      "PowerShell(npm run lint 2>&1 | Select-Object -Last 40; Write-Output \"LINT_EXIT=$LASTEXITCODE\")",
+      "PowerShell(git add src/app/admin/layout.tsx src/app/admin/login/page.tsx \"src/app/api/admin/auth/route.ts\" \"src/app/api/admin/coupons/route.ts\" \"src/app/api/admin/orders/route.ts\" \"src/app/api/admin/presets/[id]/route.ts\" \"src/app/api/admin/presets/route.ts\" \"src/app/api/admin/reviews/route.ts\" src/lib/admin/auth.ts src/lib/admin/guard.ts src/lib/admin/audit.ts src/lib/admin/config.ts src/lib/api/csrf.ts src/lib/firebase/admin-server.ts src/proxy.ts docs/ADMIN_SECURITY.md supabase/migrations/023_admin_security.sql)",
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npx tsc --noEmit --pretty false 2>&1 | Select-Object -First 20; echo \"TS Exit: $LASTEXITCODE\")",
+      "PowerShell(git fetch origin)",
+      "PowerShell(head -170)",
+      "PowerShell(tail -30)",
+      "PowerShell(git push origin security/admin-hardening)",
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep 2; if \\(Test-Path \".next\"\\) { Remove-Item -Recurse -Force \".next\" -ErrorAction SilentlyContinue }; Start-Sleep 1; $out = npm run build 2>&1; $out | Select-String -Pattern \"Compiled successfully|Type error|error TS|Generating static|EPERM|Failed to|useSearchParams\" | Select-Object -First 12; \"---EXIT $LASTEXITCODE---\")",
+      "PowerShell($p = \"C:\\\\Users\\\\swayam\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\40dcfc50-5015-4bab-8579-ac640a026914\\\\tasks\\\\bk6rp86lz.output\"; $deadline = \\(Get-Date\\).AddSeconds\\(220\\); while \\(\\(Get-Date\\) -lt $deadline\\) { $c = Get-Content $p -Raw -ErrorAction SilentlyContinue; if \\($c -match \"EXIT\"\\) { break }; Start-Sleep 5 }; Get-Content $p)",
+      "PowerShell(\"warmup done\")",
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; \"=== current branch ===\"; git branch --show-current; \"=== changed files \\(mine\\) ===\"; git status --short | Where-Object { $_ -notmatch 'settings.local.json' }; \"=== is bef3912 in origin/main? ===\"; git merge-base --is-ancestor bef3912 origin/main 2>&1; if \\($?\\) { \"YES - bef3912 is in main\" } else { \"NO\" })",
+      "PowerShell(npx tsc --noEmit; Write-Output \"TSC_EXIT=$LASTEXITCODE\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"src/app/api/_diag\")",
+      "PowerShell(Remove-Item -Recurse -Force \"src/app/api/_diag\" -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Force \"src/app/api/zdiag\" | Out-Null; Copy-Item \"$env:TEMP\\\\nul\" -ErrorAction SilentlyContinue; Write-Output \"renamed to zdiag\")",
+      "PowerShell(node scripts/verify-admin-login.mjs)",
+      "PowerShell(git fetch origin --quiet 2>&1)"
     ]
   }
 }

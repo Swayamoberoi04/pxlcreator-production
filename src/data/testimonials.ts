@@ -45,5 +45,4 @@ export const SITE_STATS = [
   { value: "22+",  label: "Preset Packs"   },
   { value: "12",   label: "Free Packs"     },
   { value: "5",    label: "Courses"        },
-  { value: "7",    label: "Bundles"        },
 ] as const

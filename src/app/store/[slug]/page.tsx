@@ -384,9 +384,6 @@ export default async function StorePresetPage({ params }: PageProps) {
                   <UnlockOrBuyPanel preset={preset} />
                 </div>
 
-                {/* ── ORDER BUMP ───────────────────────────────── */}
-                <OrderBump presetName={preset.name} presetSlug={preset.slug} />
-
                 {/* Trust strip */}
                 <div className="flex flex-wrap gap-2 pt-1">
                   {[
@@ -520,30 +517,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function OrderBump({ presetName, presetSlug }: { presetName: string; presetSlug: string }) {
-  return (
-    <div className="flex items-start gap-3 rounded-xl border border-gold/20 bg-gold/5 px-4 py-3">
-      <div className="mt-0.5 shrink-0">
-        <span className="text-base">⚡</span>
-      </div>
-      <div className="flex flex-col gap-1 min-w-0">
-        <p className="text-[0.75rem] font-bold text-gold/90 uppercase tracking-wide">
-          Add to Cinematic Bundle — Save 40%
-        </p>
-        <p className="text-[0.8125rem] text-muted/85 leading-snug">
-          Get {presetName} + 4 more cinematic packs in one download.
-          Normally ${Math.round(5 * 19)} — yours for $47.
-        </p>
-        <Link
-          href={`/bundles?highlight=${presetSlug}`}
-          className="mt-1.5 self-start text-[0.75rem] font-semibold text-gold hover:text-gold-bright transition-colors underline underline-offset-2"
-        >
-          See the bundle →
-        </Link>
-      </div>
-    </div>
-  )
-}
 
 /* ─── FAQ accordion (client) ──────────────────────────────────── */
 

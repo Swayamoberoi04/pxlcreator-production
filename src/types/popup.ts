@@ -10,7 +10,7 @@
  * Designed to be extended (add new variants by adding to the union).
  */
 
-export type PopupVariant = 'bundle' | 'bestseller' | 'freebie' | 'mobile'
+export type PopupVariant = 'bestseller' | 'freebie' | 'mobile'
 
 export interface PopupConfig {
   id:           PopupVariant

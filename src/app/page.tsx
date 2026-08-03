@@ -5,8 +5,7 @@
  *
  *  1. HeroSection          ← ENTRY: real cinematic photos, cycling scenes, parallax
  *  2. FeaturedSection      ← VISUAL: product grid, immediate value proof
- *  3. BundlesSection       ← VISUAL: bundle value
- *  4. ManifestoSection     ← SHORT TEXT: 3 contrast lines + power headline (~20 words)
+ *  3. ManifestoSection     ← SHORT TEXT: 3 contrast lines + power headline (~20 words)
  *  5. BeforeAfterSection   ← INTERACTIVE: drag-to-compare sliders (5 real pairs)
  *  6. AIStudioBanner       ← INTERACTION: AI feature demo
  *  7. ShotUsingPXLSection  ← GALLERY: 12-photo masonry creator gallery
@@ -26,7 +25,6 @@
 import { Suspense }                   from "react"
 import { HeroSection }                from "@/components/sections/HeroSection"
 import { FeaturedSection }            from "@/components/sections/FeaturedSection"
-import { BundlesSection }             from "@/components/bundles/BundlesSection"
 import { ManifestoSection }           from "@/components/sections/ManifestoSection"
 import { BeforeAfterSection }         from "@/components/sections/BeforeAfterSection"
 import { AIStudioBanner }             from "@/components/sections/AIStudioBanner"
@@ -58,12 +56,7 @@ export default function Home() {
         <FeaturedSection />
       </Suspense>
 
-      {/* 3. VISUAL — bundle value */}
-      <Suspense fallback={<SectionSkeleton height="h-[520px]" />}>
-        <BundlesSection />
-      </Suspense>
-
-      {/* 4. SHORT TEXT — 3 punchy contrast lines, headline only */}
+      {/* 3. SHORT TEXT — 3 punchy contrast lines, headline only */}
       <ManifestoSection />
 
       {/* 6. INTERACTIVE — drag-to-compare sliders, 5 real image pairs */}

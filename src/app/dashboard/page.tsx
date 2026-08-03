@@ -597,7 +597,6 @@ export default function DashboardPage() {
                 { icon: "◈", label: "Presets For You",   sub: "Sorted by your style",    href: "/store/for-you",  color: "#FFD60A" },
                 { icon: "▷", label: "Continue Learning", sub: "Pick up where you left off", href: "/courses",      color: "#FF6B35" },
                 { icon: "✦", label: "Enter Giveaway",    sub: "Free presets every month",  href: "/giveaway",     color: "#10B981" },
-                { icon: "◉", label: "Explore Bundles",   sub: "Maximum value packs",       href: "/bundles",      color: "#8B5CF6" },
               ].map((action) => (
                 <Link key={action.href} href={action.href}
                   className="group flex flex-col gap-2.5 rounded-xl border border-border bg-surface p-4 hover:border-gold/25 hover:bg-surface-2 transition-all duration-200">

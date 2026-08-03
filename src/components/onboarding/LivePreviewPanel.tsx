@@ -20,7 +20,6 @@ import type { OnboardingAnswers, RecommendationItem } from "@/types/onboarding"
 
 /* ── Type icon map ─────────────────────────────────────────── */
 const TYPE_ICON: Record<string, string> = {
-  "preset-bundle": "◈",
   "lut-pack":      "◉",
   "tutorial":      "▷",
   "course":        "▶",

@@ -39,10 +39,6 @@ export interface ParsedPresetData {
 /* ── Category keyword map ───────────────────────────────── */
 
 const CATEGORY_KEYWORDS: Record<PresetCategory, string[]> = {
-  "Bundle": [
-    "bundle", "pack", "mega pack", "complete", "collection",
-    "all in one", "combo", "ultimate pack", "full pack",
-  ],
   "Film Emulation": [
     "kodak", "fuji", "fujifilm", "ilford", "film", "analog", "analogue",
     "35mm", "grain", "portra", "ektar", "kodak gold", "film stock",
@@ -147,7 +143,6 @@ function classifyCategory(title: string, description: string, tags: string[]): P
   const searchText = `${title} ${description} ${tags.join(" ")}`.toLowerCase()
 
   const scores: Record<PresetCategory, number> = {
-    "Bundle":         0,
     "Film Emulation": 0,
     "Cinematic":      0,
     "Portrait":       0,
@@ -333,7 +328,6 @@ export function parseYouTubePreset(video: YouTubeVideoData): ParsedPresetData {
   const aiTags       = buildAiTags(video.title, video.description, video.tags, category, mood, tone)
 
   const categorySlugMap: Record<PresetCategory, string> = {
-    "Bundle":         "bundle",
     "Film Emulation": "film-emulation",
     "Cinematic":      "cinematic",
     "Portrait":       "portrait",

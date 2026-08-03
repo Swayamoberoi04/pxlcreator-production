@@ -13,7 +13,6 @@
 
 import { siteConfig }   from "@/config/site"
 import type { Preset }  from "@/types/product"
-import type { Bundle }  from "@/types/bundle"
 import type { BlogPost } from "@/types/blog"
 
 /* ── Organisation ─────────────────────────────────────────── */
@@ -95,49 +94,6 @@ export function productSchema(preset: Preset) {
   return schema
 }
 
-/* ── Product (Bundle detail page) ─────────────────────────── */
-
-export function bundleProductSchema(bundle: Bundle) {
-  const totalPresets =
-    bundle.includeCount ??
-    bundle.includedPacks.reduce((s, p) => s + p.presetCount, 0)
-
-  return {
-    "@context":   "https://schema.org",
-    "@type":      "Product",
-    name:          bundle.name,
-    description:   bundle.tagline,
-    url:           `${siteConfig.url}/bundles/${bundle.slug}`,
-    image:         bundle.thumbnailUrl ?? `${siteConfig.url}${siteConfig.ogImage}`,
-    brand: {
-      "@type": "Brand",
-      name:    siteConfig.name,
-    },
-    offers: {
-      "@type":          "Offer",
-      priceCurrency:    "USD",
-      price:            bundle.price.toFixed(2),
-      availability:     "https://schema.org/InStock",
-      url:              `${siteConfig.url}/bundles/${bundle.slug}`,
-      seller: {
-        "@type": "Organization",
-        name:    siteConfig.name,
-      },
-    },
-    additionalProperty: [
-      {
-        "@type": "PropertyValue",
-        name:    "Total Presets",
-        value:   totalPresets,
-      },
-      {
-        "@type": "PropertyValue",
-        name:    "Included Packs",
-        value:   bundle.includedPacks.length,
-      },
-    ],
-  }
-}
 
 /* ── Article (Blog post page) ─────────────────────────────── */
 

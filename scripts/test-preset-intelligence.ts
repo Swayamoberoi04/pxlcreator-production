@@ -44,7 +44,7 @@ async function makeAnalysis(prompt: string, aesthetics: string[]): Promise<Image
 }
 
 async function run(): Promise<void> {
-  const catalogue = ALL_PRESETS.filter((p) => p.category !== "Bundle")
+  const catalogue = ALL_PRESETS
 
   /* ═══ 1. Metadata generation ═══ */
   console.log("\n━━━ 1. Metadata generation ━━━")

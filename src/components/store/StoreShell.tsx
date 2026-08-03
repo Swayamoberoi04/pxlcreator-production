@@ -36,8 +36,7 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
 
   /* ── Filtered + sorted list ── */
   const visible = useMemo(() => {
-    // Always exclude bundle-category items from the presets grid
-    let list = [...presets].filter((p) => p.category !== "Bundle")
+    let list = [...presets]
 
     if (category === "Free") {
       list = list.filter((p) => p.isFree)
@@ -263,30 +262,6 @@ export function StoreShell({ presets, initialCategory = "All" }: StoreShellProps
         </div>
       )}
 
-      {/* ── Bundles callout ─────────────────────────────────── */}
-      {category === "All" && !search.trim() && (
-        <section className="rounded-2xl border border-gold/10 bg-gold/[0.025] overflow-hidden">
-          <div className="px-5 py-4 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <BundlesIcon />
-              <div>
-                <p className="text-[0.8125rem] font-bold text-foreground">
-                  Want everything at once? Browse our preset bundles.
-                </p>
-                <p className="text-[0.75rem] text-muted/85 mt-0.5">
-                  Save 30–39% vs. buying individually — curated packs for every style.
-                </p>
-              </div>
-            </div>
-            <Link
-              href="/bundles"
-              className="shrink-0 rounded-xl border border-gold/30 bg-gold/10 px-4 py-2 text-[0.75rem] font-semibold text-gold hover:bg-gold/20 transition-colors focus-visible:outline-none"
-            >
-              View bundles →
-            </Link>
-          </div>
-        </section>
-      )}
 
     </div>
   )
@@ -307,9 +282,6 @@ function GiftIcon() {
 }
 function DownloadMiniIcon() {
   return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-}
-function BundlesIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
 }
 
 

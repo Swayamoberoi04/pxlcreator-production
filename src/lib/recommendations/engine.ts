@@ -178,114 +178,6 @@ export function computeAffinities(answers: OnboardingAnswers): CategoryAffinitie
 ──────────────────────────────────────────────────────────── */
 
 const CATALOGUE: RecommendationItem[] = [
-  /* ── Preset Bundles ── */
-  {
-    id: "moody-cinematic-bundle",
-    type: "preset-bundle",
-    title: "Moody Cinematic Bundle",
-    description: "35 presets for cinematic dark narratives. Deep shadows, rich midtones.",
-    tags: ["cinematic", "dark", "storytelling"],
-    score: 0,
-    href: "/store?bundle=moody-cinematic",
-    badge: "BESTSELLER",
-    isPremium: false,
-    categories: { cinematic: 0.9, dark_luxury: 0.7, film: 0.5 },
-  },
-  {
-    id: "golden-travel-pack",
-    type: "preset-bundle",
-    title: "Golden Travel Pack",
-    description: "Warm, airy travel presets for landscapes and adventure photography.",
-    tags: ["travel", "golden", "warm"],
-    score: 0,
-    href: "/store?bundle=golden-travel",
-    categories: { travel: 0.9, nature: 0.8, vintage: 0.3 },
-  },
-  {
-    id: "film-grain-authentic",
-    type: "preset-bundle",
-    title: "Film Grain Authentic",
-    description: "Emulates classic film stocks — Portra, Tri-X, Kodachrome.",
-    tags: ["film", "grain", "vintage", "analog"],
-    score: 0,
-    href: "/store?bundle=film-grain",
-    categories: { film: 0.9, vintage: 0.8, cinematic: 0.4 },
-  },
-  {
-    id: "portrait-skin-luxury",
-    type: "preset-bundle",
-    title: "Portrait Skin Luxury",
-    description: "Flawless skin tones, editorial softness. For portraits that sell.",
-    tags: ["portrait", "skin", "editorial"],
-    score: 0,
-    href: "/store?bundle=portrait-luxury",
-    isPremium: true,
-    categories: { portrait: 0.9, fashion: 0.6, editorial: 0.5, minimal: 0.3 },
-  },
-  {
-    id: "dark-editorial-noir",
-    type: "preset-bundle",
-    title: "Dark Editorial Noir",
-    description: "High-contrast, luxury fashion editorial. For the bold and dramatic.",
-    tags: ["editorial", "dark", "luxury", "fashion"],
-    score: 0,
-    href: "/store?bundle=dark-editorial",
-    badge: "NEW",
-    categories: { dark_luxury: 0.9, editorial: 0.8, fashion: 0.7 },
-  },
-  {
-    id: "minimal-clean-white",
-    type: "preset-bundle",
-    title: "Minimal Clean White",
-    description: "Bright, airy, modern. Perfect for Instagram grids and product shots.",
-    tags: ["minimal", "clean", "bright", "product"],
-    score: 0,
-    href: "/store?bundle=minimal-clean",
-    categories: { minimal: 0.9, commercial: 0.4, fashion: 0.3 },
-  },
-  {
-    id: "street-urban-grit",
-    type: "preset-bundle",
-    title: "Street Urban Grit",
-    description: "Raw, textured street photography looks. Desaturated with lifted blacks.",
-    tags: ["street", "urban", "gritty"],
-    score: 0,
-    href: "/store?bundle=street-urban",
-    categories: { street: 0.9, urban: 0.8, film: 0.4 },
-  },
-  {
-    id: "mobile-creator-pack",
-    type: "preset-bundle",
-    title: "Mobile Creator Pack",
-    description: "Optimised for iPhone & Android. Consistent, social-ready edits.",
-    tags: ["mobile", "social", "quick"],
-    score: 0,
-    href: "/store?bundle=mobile-creator",
-    badge: "TRENDING",
-    categories: { mobile: 0.9, minimal: 0.5, portrait: 0.3 },
-  },
-  {
-    id: "food-lifestyle-warm",
-    type: "preset-bundle",
-    title: "Food & Lifestyle Warm",
-    description: "Mouthwatering warm tones for food, cafe, and lifestyle content.",
-    tags: ["food", "warm", "lifestyle"],
-    score: 0,
-    href: "/store?bundle=food-lifestyle",
-    categories: { food: 0.9, minimal: 0.4, vintage: 0.3 },
-  },
-  {
-    id: "commercial-pro-suite",
-    type: "preset-bundle",
-    title: "Commercial Pro Suite",
-    description: "Professional, consistent colour for brand and ad photography.",
-    tags: ["commercial", "brand", "consistent"],
-    score: 0,
-    href: "/store?bundle=commercial-pro",
-    isPremium: true,
-    categories: { commercial: 0.9, editorial: 0.6, minimal: 0.4 },
-  },
-
   /* ── LUT Packs ── */
   {
     id: "cinema-lut-pack",
@@ -536,18 +428,7 @@ function buildSections(
 
   const top1 = topCategories[0] ?? "cinematic"
 
-  /* Section 1: Top preset bundles */
-  const bundles = (byType["preset-bundle"] ?? []).slice(0, 4)
-  if (bundles.length > 0) {
-    sections.push({
-      id: "preset-bundles",
-      headline:    `For Your ${label(top1)} Aesthetic`,
-      subheadline: "Preset bundles matched to your visual style and editing goals",
-      items: bundles,
-    })
-  }
-
-  /* Section 2: Learning path — tutorials + courses */
+  /* Section 1: Learning path — tutorials + courses */
   const learning = [
     ...(byType["tutorial"] ?? []),
     ...(byType["course"] ?? []),

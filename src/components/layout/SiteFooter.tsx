@@ -12,7 +12,6 @@ import { GrainOverlay } from "@/components/ui/GrainOverlay"
 const SHOP_LINKS = [
   { label: "Preset Store",    href: "/store"    },
   { label: "All Presets",     href: "/presets"  },
-  { label: "Bundles",         href: "/bundles"  },
   { label: "Premium Plans",   href: "/premium"  },
   { label: "Courses",         href: "/courses"  },
 ] as const

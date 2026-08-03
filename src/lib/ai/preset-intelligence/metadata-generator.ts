@@ -171,7 +171,6 @@ const CATEGORY_PRIORS: Record<string, Partial<SceneAffinityScores>> = {
   "Portrait":       { portrait: 0.6, fashion: 0.3, cinematic: 0.15 },
   "Landscape":      { landscape: 0.6, travel: 0.4, cinematic: 0.15 },
   "Street":         { street: 0.6, architecture: 0.3, cinematic: 0.2 },
-  "Bundle":         { cinematic: 0.3, portrait: 0.3, landscape: 0.3, street: 0.3, travel: 0.3 },
 }
 
 /** Film-stock / cinema inspiration: evidence → named inspiration */
