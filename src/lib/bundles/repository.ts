@@ -68,7 +68,10 @@ export async function getBundles(): Promise<BundleWithPresets[]> {
     .select("*")
     .eq("is_published", true)
     .order("display_order", { ascending: true })
-  if (error || !bundles) return []
+  if (error || !bundles) {
+    console.error("[getBundles] bundles query failed:", error)
+    return []
+  }
 
   // Fetch preset links separately (avoids RLS join issues)
   const bundleIds = bundles.map((b) => b.id as string)
