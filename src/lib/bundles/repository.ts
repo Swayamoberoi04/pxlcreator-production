@@ -78,9 +78,11 @@ export async function getBundles(): Promise<BundleWithPresets[]> {
     .in("bundle_id", bundleIds)
 
   const presetIds = [...new Set((bpRows ?? []).map((r) => r.preset_id as string))]
+  type PresetRow = { id: string; name: string; slug: string; thumbnail_url: string | null; price_usd: number }
   const { data: presetRows } = presetIds.length > 0
-    ? await supabase.from("presets").select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds)
-    : { data: [] }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? await (supabase.from("presets") as any).select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds) as { data: PresetRow[] | null }
+    : { data: [] as PresetRow[] }
 
   return bundles.map((b) => {
     const row = b as Record<string, unknown>
@@ -89,14 +91,14 @@ export async function getBundles(): Promise<BundleWithPresets[]> {
       .filter((r) => r.bundle_id === b.id)
       .sort((a, b) => (a.order_index as number) - (b.order_index as number))
     const presets = myBps.map((bp) => {
-      const p = (presetRows ?? []).find((pr) => pr.id === bp.preset_id) as Record<string, unknown> | undefined
+      const p = (presetRows ?? []).find((pr) => pr.id === bp.preset_id)
       return {
         presetId:    bp.preset_id as string,
         orderIndex:  bp.order_index as number,
-        name:        (p?.name as string) ?? "",
-        slug:        (p?.slug as string) ?? "",
-        thumbnailUrl: (p?.thumbnail_url as string | null) ?? null,
-        priceUsd:    (p?.price_usd as number) ?? 0,
+        name:        p?.name ?? "",
+        slug:        p?.slug ?? "",
+        thumbnailUrl: p?.thumbnail_url ?? null,
+        priceUsd:    p?.price_usd ?? 0,
         category:    null,
       }
     })
@@ -137,21 +139,23 @@ export async function getBundleBySlug(slug: string): Promise<BundleWithPresets |
     .eq("bundle_id", bundle.id)
 
   const presetIds = (bpRows ?? []).map((r) => r.preset_id as string)
+  type PresetRow2 = { id: string; name: string; slug: string; thumbnail_url: string | null; price_usd: number }
   const { data: presetRows } = presetIds.length > 0
-    ? await supabase.from("presets").select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds)
-    : { data: [] }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? await (supabase.from("presets") as any).select("id, name, slug, thumbnail_url, price_usd").in("id", presetIds) as { data: PresetRow2[] | null }
+    : { data: [] as PresetRow2[] }
 
   const presets = (bpRows ?? [])
     .sort((a, b) => (a.order_index as number) - (b.order_index as number))
     .map((bp) => {
-      const p = (presetRows ?? []).find((pr) => pr.id === bp.preset_id) as Record<string, unknown> | undefined
+      const p = (presetRows ?? []).find((pr) => pr.id === bp.preset_id)
       return {
         presetId:    bp.preset_id as string,
         orderIndex:  bp.order_index as number,
-        name:        (p?.name as string) ?? "",
-        slug:        (p?.slug as string) ?? "",
-        thumbnailUrl: (p?.thumbnail_url as string | null) ?? null,
-        priceUsd:    (p?.price_usd as number) ?? 0,
+        name:        p?.name ?? "",
+        slug:        p?.slug ?? "",
+        thumbnailUrl: p?.thumbnail_url ?? null,
+        priceUsd:    p?.price_usd ?? 0,
         category:    null,
       }
     })
