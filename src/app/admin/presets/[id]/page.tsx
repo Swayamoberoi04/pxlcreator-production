@@ -5,11 +5,18 @@
  * Full edit form for an existing preset.
  */
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import type { CategoryRow } from "@/types/database"
+
+interface BundleMembership {
+  id:           string
+  title:        string
+  is_published: boolean
+  contains_preset: boolean
+}
 
 interface PresetFull {
   id:               string
@@ -54,6 +61,11 @@ export default function PresetEditorPage() {
   const [saved,      setSaved]      = useState(false)
   const [error,      setError]      = useState<string | null>(null)
 
+  // Bundle membership
+  const [bundles,           setBundles]           = useState<BundleMembership[]>([])
+  const [bundlesSaving,     setBundlesSaving]     = useState<string | null>(null) // id of bundle being toggled
+  const [bundlesSaved,      setBundlesSaved]      = useState<string | null>(null) // id that just saved
+
   // Form state
   const [title,       setTitle]       = useState("")
   const [tagline,     setTagline]     = useState("")
@@ -73,6 +85,13 @@ export default function PresetEditorPage() {
   const [featuresStr, setFeaturesStr] = useState("")
   const [rating,      setRating]      = useState("")
   const [reviewCount, setReviewCount] = useState("")
+
+  // Load bundle membership list once the preset id is known
+  const loadBundles = useCallback(async () => {
+    const res  = await fetch(`/api/admin/bundles?preset_id=${id}`)
+    const json = await res.json()
+    if (json.success) setBundles(json.data ?? [])
+  }, [id])
 
   useEffect(() => {
     async function load() {
@@ -112,7 +131,32 @@ export default function PresetEditorPage() {
       setLoading(false)
     }
     load()
-  }, [id])
+    loadBundles()
+  }, [id, loadBundles])
+
+  async function handleBundleToggle(bundleId: string, currentlyIn: boolean) {
+    setBundlesSaving(bundleId)
+    const action = currentlyIn ? "remove" : "add"
+    try {
+      const res = await fetch(`/api/admin/bundles/${bundleId}/presets`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, preset_id: id }),
+      })
+      const json = await res.json()
+      if (json.success) {
+        setBundles((prev) =>
+          prev.map((b) => b.id === bundleId ? { ...b, contains_preset: !currentlyIn } : b),
+        )
+        setBundlesSaved(bundleId)
+        setTimeout(() => setBundlesSaved(null), 1800)
+      } else {
+        alert(json.error ?? "Failed to update bundle.")
+      }
+    } finally {
+      setBundlesSaving(null)
+    }
+  }
 
   async function handleSave() {
     setSaving(true)
@@ -300,6 +344,51 @@ export default function PresetEditorPage() {
             </label>
           ))}
         </div>
+      </div>
+
+      {/* ── Bundle Assignment ── */}
+      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+        <h2 className="text-[0.75rem] font-semibold text-gold/60 uppercase tracking-widest mb-1">
+          Bundle Assignment
+        </h2>
+        <p className="text-[0.75rem] text-white/40 mb-4">
+          Check which bundles include this preset. Changes apply instantly — no save needed.
+        </p>
+        {bundles.length === 0 ? (
+          <p className="text-[0.8125rem] text-white/30">
+            No bundles exist yet.{" "}
+            <Link href="/admin/bundles/new" className="text-gold/70 hover:text-gold underline">
+              Create a bundle →
+            </Link>
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {bundles.map((b) => {
+              const isSaving = bundlesSaving === b.id
+              const justSaved = bundlesSaved === b.id
+              return (
+                <label
+                  key={b.id}
+                  className="flex items-center gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-4 py-2.5 cursor-pointer hover:border-white/10 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    checked={b.contains_preset}
+                    disabled={isSaving}
+                    onChange={() => handleBundleToggle(b.id, b.contains_preset)}
+                    className="h-4 w-4 accent-[#FFD60A] cursor-pointer disabled:opacity-40"
+                  />
+                  <span className="flex-1 text-[0.875rem] text-white/85">{b.title}</span>
+                  {!b.is_published && (
+                    <span className="text-[0.65rem] text-white/30 bg-white/5 rounded px-1.5 py-0.5">draft</span>
+                  )}
+                  {isSaving  && <span className="text-[0.75rem] text-white/40">…</span>}
+                  {justSaved && <span className="text-[0.75rem] text-emerald-400">✓</span>}
+                </label>
+              )
+            })}
+          </div>
+        )}
       </div>
 
     </div>

@@ -546,6 +546,8 @@ export interface Database {
           why_creators_love_it: string | null
           preset_id:            string | null
           price_usd:            number
+          sale_price_usd:       number | null
+          compare_at_price_usd: number | null
           individual_value_usd: number
           bundle_badge:         "BESTSELLER" | "MOST POPULAR" | "CREATOR FAVORITE" | "PRO LEVEL" | "TRENDING" | "BEST VALUE" | "LIMITED" | "NEW"
           is_featured:          boolean
@@ -567,6 +569,8 @@ export interface Database {
           why_creators_love_it?: string | null
           preset_id?:           string | null
           price_usd:            number
+          sale_price_usd?:      number | null
+          compare_at_price_usd?: number | null
           individual_value_usd: number
           bundle_badge?:        "BESTSELLER" | "MOST POPULAR" | "CREATOR FAVORITE" | "PRO LEVEL" | "TRENDING" | "BEST VALUE" | "LIMITED" | "NEW"
           is_featured?:         boolean
@@ -585,6 +589,8 @@ export interface Database {
           why_creators_love_it?: string | null
           preset_id?:           string | null
           price_usd?:           number
+          sale_price_usd?:      number | null
+          compare_at_price_usd?: number | null
           individual_value_usd?: number
           bundle_badge?:        "BESTSELLER" | "MOST POPULAR" | "CREATOR FAVORITE" | "PRO LEVEL" | "TRENDING" | "BEST VALUE" | "LIMITED" | "NEW"
           is_featured?:         boolean
@@ -634,12 +640,14 @@ export interface Database {
       /* ── bundle_presets ─────────────────────────────── */
       bundle_presets: {
         Row: {
-          bundle_id: string
-          preset_id: string
+          bundle_id:   string
+          preset_id:   string
+          order_index: number
         }
         Insert: {
-          bundle_id: string
-          preset_id: string
+          bundle_id:    string
+          preset_id:    string
+          order_index?: number
         }
         Update: Record<string, never>
         Relationships: []
