@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 
 export default async function BundlesPage() {
   const bundles = await getBundles()
+  console.log("[/bundles page] getBundles returned:", bundles.length, "items", JSON.stringify(bundles.map(b => b.id)))
 
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden">
