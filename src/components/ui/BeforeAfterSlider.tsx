@@ -2,26 +2,21 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 
-const PLACEHOLDER_BEFORE = "/placeholders/before.svg"
-const PLACEHOLDER_AFTER  = "/placeholders/after.svg"
-
 interface BeforeAfterSliderProps {
-  beforeSrc?:      string | null
-  afterSrc?:       string | null
-  beforeFallback?: string | null  // shown if beforeSrc fails (e.g. preset thumbnail)
-  afterFallback?:  string | null  // shown if afterSrc fails
-  alt:             string
-  label?:          string | null
-  accentColor?:    string
-  className?:      string
-  height?:         number
+  /** Primary before image. Pass a guaranteed URL — component won't fetch fallbacks. */
+  beforeSrc:   string
+  /** Primary after image. Pass a guaranteed URL — component won't fetch fallbacks. */
+  afterSrc:    string
+  alt:         string
+  label?:      string | null
+  accentColor?: string
+  className?:  string
+  height?:     number
 }
 
 export function BeforeAfterSlider({
   beforeSrc,
   afterSrc,
-  beforeFallback,
-  afterFallback,
   alt,
   label,
   accentColor = "#FFD60A",
@@ -32,14 +27,8 @@ export function BeforeAfterSlider({
   const isDragging   = useRef(false)
   const animFrame    = useRef<number | null>(null)
 
-  const [position,   setPosition]   = useState(0.5)
-  const [hinted,     setHinted]     = useState(false)
-  const [beforeFail, setBeforeFail] = useState(false)
-  const [afterFail,  setAfterFail]  = useState(false)
-
-  // Resolve effective sources — fallback chain: src → custom fallback → placeholder SVG
-  const resolvedBefore = beforeFail || !beforeSrc ? (beforeFallback ?? PLACEHOLDER_BEFORE) : beforeSrc
-  const resolvedAfter  = afterFail  || !afterSrc  ? (afterFallback  ?? PLACEHOLDER_AFTER)  : afterSrc
+  const [position, setPosition] = useState(0.5)
+  const [hinted,   setHinted]   = useState(false)
 
   const updatePosition = useCallback((clientX: number) => {
     const el = containerRef.current
@@ -121,14 +110,13 @@ export function BeforeAfterSlider({
       <div className="absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={resolvedAfter}
+          src={afterSrc}
           alt={`${alt} — after`}
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
           draggable={false}
           fetchPriority="high"
-          onError={() => { if (!afterFail) setAfterFail(true) }}
         />
-        {/* Warm cinematic tint overlay on the after side */}
+        {/* Warm cinematic tint overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -145,14 +133,13 @@ export function BeforeAfterSlider({
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={resolvedBefore}
+          src={beforeSrc}
           alt={`${alt} — before`}
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
           draggable={false}
           fetchPriority="high"
-          onError={() => { if (!beforeFail) setBeforeFail(true) }}
         />
-        {/* Slight desaturate / cool tint overlay on the before side */}
+        {/* Cool desaturate tint overlay */}
         <div className="absolute inset-0 bg-[#0a0e14]/18 pointer-events-none" style={{ mixBlendMode: "multiply" }} />
       </div>
 

@@ -17,6 +17,7 @@ import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/u
 import { cn }                from "@/lib/utils"
 import Image                 from "next/image"
 import { generatePresetDescription, HOW_TO_UNLOCK_COPY } from "@/lib/presets/description-generator"
+import { getDemoImages } from "@/lib/presets/demo-images"
 
 export const dynamic = "force-dynamic"
 
@@ -123,13 +124,12 @@ export default async function StorePresetPage({ params }: PageProps) {
 
   const related = await getRelatedPresets(preset.category, preset.id, 3)
 
-  // Auto-derive before/after paths — drop images into /public/presets/{slug}/before.webp etc.
-  // Falls back to the preset's own gallery images so the slider is never empty.
-  const beforeSrc      = preset.beforeUrl ?? `/presets/${preset.slug}/before.webp`
-  const afterSrc       = preset.afterUrl  ?? `/presets/${preset.slug}/after.webp`
-  const galleryImages  = preset.images ?? []
-  const afterFallback  = preset.thumbnailUrl ?? galleryImages[0] ?? null
-  const beforeFallback = galleryImages[1] ?? galleryImages[0] ?? preset.thumbnailUrl ?? null
+  // Before/After sources — guaranteed to always resolve to a visible image.
+  // Replace-path: set before_url / after_url on the preset in the database;
+  // getDemoImages is only reached when those fields are absent.
+  const demo      = getDemoImages(preset.slug)
+  const beforeSrc = preset.beforeUrl ?? demo.before
+  const afterSrc  = preset.afterUrl  ?? demo.after
 
   const allImages = [
     ...(preset.thumbnailUrl ? [preset.thumbnailUrl] : []),
@@ -165,8 +165,6 @@ export default async function StorePresetPage({ params }: PageProps) {
         <BeforeAfterSlider
           beforeSrc={beforeSrc}
           afterSrc={afterSrc}
-          beforeFallback={beforeFallback}
-          afterFallback={afterFallback}
           alt={preset.name}
           label={preset.beforeAfterExplanation ?? preset.name}
           className="w-full rounded-none"
