@@ -121,8 +121,14 @@ export default async function StorePresetPage({ params }: PageProps) {
     ? Math.round((1 - preset.price / preset.originalPrice) * 100)
     : null
 
-  const related   = await getRelatedPresets(preset.category, preset.id, 3)
-  const hasSlider = Boolean(preset.beforeUrl && preset.afterUrl)
+  const related = await getRelatedPresets(preset.category, preset.id, 3)
+
+  // Auto-derive before/after paths from the preset slug.
+  // Drop images into /public/presets/{slug}/before.jpg and after.jpg — no code changes needed.
+  // The component falls back to placeholder SVGs automatically if the files don't exist.
+  const beforeSrc = preset.beforeUrl ?? `/presets/${preset.slug}/before.jpg`
+  const afterSrc  = preset.afterUrl  ?? `/presets/${preset.slug}/after.jpg`
+
   const allImages = [
     ...(preset.thumbnailUrl ? [preset.thumbnailUrl] : []),
     ...(preset.images ?? []),
@@ -152,30 +158,16 @@ export default async function StorePresetPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}
 
-      {/* ── HERO: before/after slider or thumbnail ──────────── */}
+      {/* ── HERO: Before/After slider — always shown, falls back to placeholder SVGs ── */}
       <section className="w-full">
-        {hasSlider ? (
-          <BeforeAfterSlider
-            beforeSrc={preset.beforeUrl!}
-            afterSrc={preset.afterUrl!}
-            alt={preset.name}
-            label={preset.beforeAfterExplanation ?? preset.name}
-            className="w-full rounded-none"
-            height={520}
-          />
-        ) : preset.thumbnailUrl ? (
-          <div className="relative w-full h-[45vh] sm:h-[55vh] lg:h-[65vh] overflow-hidden">
-            <Image
-              src={preset.thumbnailUrl}
-              alt={preset.name}
-              fill priority
-              sizes="100vw"
-              className="object-cover"
-            />
-            <div aria-hidden className="absolute inset-x-0 top-0 h-[10%] bg-gradient-to-b from-background to-transparent" />
-            <div aria-hidden className="absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-background via-background/70 to-transparent" />
-          </div>
-        ) : null}
+        <BeforeAfterSlider
+          beforeSrc={beforeSrc}
+          afterSrc={afterSrc}
+          alt={preset.name}
+          label={preset.beforeAfterExplanation ?? preset.name}
+          className="w-full rounded-none"
+          height={520}
+        />
       </section>
 
       {/* ── BODY ─────────────────────────────────────────────── */}
@@ -226,18 +218,6 @@ export default async function StorePresetPage({ params }: PageProps) {
                       </div>
                     ))}
                   </div>
-                  {/* Secondary before/after below gallery if slider was shown as hero */}
-                  {!hasSlider && preset.beforeUrl && preset.afterUrl && (
-                    <div className="mt-2">
-                      <BeforeAfterSlider
-                        beforeSrc={preset.beforeUrl}
-                        afterSrc={preset.afterUrl}
-                        alt={preset.name}
-                        label={preset.beforeAfterExplanation}
-                        height={340}
-                      />
-                    </div>
-                  )}
                 </div>
               </CinematicReveal>
             )}
