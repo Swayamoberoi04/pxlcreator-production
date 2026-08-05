@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+
+const LAST_EDITED_KEY = "pxl_admin_last_edited"
 
 interface AdminPreset {
   id:            string
@@ -44,14 +46,25 @@ export function PresetTable() {
      and full refreshes — router state, not a local-only value. */
   const urlSearch = searchParams.get("q") ?? ""
 
-  const [search,   setSearch]   = useState(urlSearch)
-  const [presets,  setPresets]  = useState<AdminPreset[]>(
+  const [search,          setSearch]          = useState(urlSearch)
+  const [presets,         setPresets]         = useState<AdminPreset[]>(
     () => (presetCache?.key === urlSearch ? presetCache.data : [])
   )
-  const [loading,  setLoading]  = useState(() => presetCache?.key !== urlSearch)
-  const [deleting, setDeleting] = useState<string | null>(null)
-  const [toggling, setToggling] = useState<string | null>(null)
-  const [error,    setError]    = useState<string | null>(null)
+  const [loading,         setLoading]         = useState(() => presetCache?.key !== urlSearch)
+  const [deleting,        setDeleting]        = useState<string | null>(null)
+  const [toggling,        setToggling]        = useState<string | null>(null)
+  const [error,           setError]           = useState<string | null>(null)
+  const [highlightId,     setHighlightId]     = useState<string | null>(null)
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  /* ── On mount: read which preset was last edited ── */
+  useEffect(() => {
+    const id = sessionStorage.getItem(LAST_EDITED_KEY)
+    if (id) {
+      setHighlightId(id)
+      sessionStorage.removeItem(LAST_EDITED_KEY)
+    }
+  }, [])
 
   /* ── Reflect the search box into the URL (debounced, no history spam, no
      scroll jump). Back/refresh then restore the exact filtered view. ── */
@@ -88,6 +101,28 @@ export function PresetTable() {
     const t = setTimeout(fetchPresets, 300)
     return () => clearTimeout(t)
   }, [fetchPresets])
+
+  /* ── After presets populate: scroll to + gold-glow the last-edited row ── */
+  useEffect(() => {
+    if (!highlightId || loading || presets.length === 0) return
+    const el = document.getElementById(`preset-row-${highlightId}`)
+    if (!el) return
+
+    el.scrollIntoView({ behavior: "smooth", block: "center" })
+    el.style.transition = "box-shadow 0.3s ease, background-color 0.3s ease"
+    el.style.boxShadow  = "0 0 0 2px rgba(255, 214, 10, 0.55), 0 0 24px rgba(255, 214, 10, 0.18)"
+    el.style.backgroundColor = "rgba(255, 214, 10, 0.06)"
+
+    highlightTimerRef.current = setTimeout(() => {
+      el.style.boxShadow       = ""
+      el.style.backgroundColor = ""
+      setHighlightId(null)
+    }, 2500)
+  }, [highlightId, loading, presets])
+
+  useEffect(() => () => {
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current)
+  }, [])
 
   async function handleToggle(id: string, field: "is_published" | "is_featured", current: boolean) {
     setToggling(id + field)
@@ -162,6 +197,7 @@ export function PresetTable() {
           {presets.map((preset, i) => (
             <div
               key={preset.id}
+              id={`preset-row-${preset.id}`}
               className={cn(
                 "flex items-center gap-4 px-4 py-3 transition-colors hover:bg-white/[0.02]",
                 i !== 0 && "border-t border-white/[0.06]"
@@ -240,6 +276,7 @@ export function PresetTable() {
               <div className="flex items-center gap-1 shrink-0">
                 <Link
                   href={`/admin/presets/${preset.id}`}
+                  onClick={() => sessionStorage.setItem(LAST_EDITED_KEY, preset.id)}
                   className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/70 hover:text-white/92 hover:border-white/20 transition-all"
                   title="Edit preset"
                 >

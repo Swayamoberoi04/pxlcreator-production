@@ -10,6 +10,7 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import type { CategoryRow } from "@/types/database"
+import { PasswordPanel } from "@/components/admin/PasswordPanel"
 
 interface PresetFull {
   id:               string
@@ -301,6 +302,9 @@ export default function PresetEditorPage() {
           ))}
         </div>
       </div>
+
+      {/* Password management */}
+      <PasswordPanel presetId={id} />
 
     </div>
   )
