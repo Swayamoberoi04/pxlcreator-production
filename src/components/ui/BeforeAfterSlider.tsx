@@ -6,18 +6,22 @@ const PLACEHOLDER_BEFORE = "/placeholders/before.svg"
 const PLACEHOLDER_AFTER  = "/placeholders/after.svg"
 
 interface BeforeAfterSliderProps {
-  beforeSrc?:   string | null
-  afterSrc?:    string | null
-  alt:          string
-  label?:       string | null
-  accentColor?: string
-  className?:   string
-  height?:      number
+  beforeSrc?:      string | null
+  afterSrc?:       string | null
+  beforeFallback?: string | null  // shown if beforeSrc fails (e.g. preset thumbnail)
+  afterFallback?:  string | null  // shown if afterSrc fails
+  alt:             string
+  label?:          string | null
+  accentColor?:    string
+  className?:      string
+  height?:         number
 }
 
 export function BeforeAfterSlider({
   beforeSrc,
   afterSrc,
+  beforeFallback,
+  afterFallback,
   alt,
   label,
   accentColor = "#FFD60A",
@@ -33,9 +37,9 @@ export function BeforeAfterSlider({
   const [beforeFail, setBeforeFail] = useState(false)
   const [afterFail,  setAfterFail]  = useState(false)
 
-  // Resolve effective sources — auto-fallback to placeholder on error or if src is missing
-  const resolvedBefore = beforeFail || !beforeSrc ? PLACEHOLDER_BEFORE : beforeSrc
-  const resolvedAfter  = afterFail  || !afterSrc  ? PLACEHOLDER_AFTER  : afterSrc
+  // Resolve effective sources — fallback chain: src → custom fallback → placeholder SVG
+  const resolvedBefore = beforeFail || !beforeSrc ? (beforeFallback ?? PLACEHOLDER_BEFORE) : beforeSrc
+  const resolvedAfter  = afterFail  || !afterSrc  ? (afterFallback  ?? PLACEHOLDER_AFTER)  : afterSrc
 
   const updatePosition = useCallback((clientX: number) => {
     const el = containerRef.current

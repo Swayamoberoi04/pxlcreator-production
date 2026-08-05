@@ -123,11 +123,13 @@ export default async function StorePresetPage({ params }: PageProps) {
 
   const related = await getRelatedPresets(preset.category, preset.id, 3)
 
-  // Auto-derive before/after paths from the preset slug.
-  // Drop images into /public/presets/{slug}/before.jpg and after.jpg — no code changes needed.
-  // The component falls back to placeholder SVGs automatically if the files don't exist.
-  const beforeSrc = preset.beforeUrl ?? `/presets/${preset.slug}/before.webp`
-  const afterSrc  = preset.afterUrl  ?? `/presets/${preset.slug}/after.webp`
+  // Auto-derive before/after paths — drop images into /public/presets/{slug}/before.webp etc.
+  // Falls back to the preset's own gallery images so the slider is never empty.
+  const beforeSrc      = preset.beforeUrl ?? `/presets/${preset.slug}/before.webp`
+  const afterSrc       = preset.afterUrl  ?? `/presets/${preset.slug}/after.webp`
+  const galleryImages  = preset.images ?? []
+  const afterFallback  = preset.thumbnailUrl ?? galleryImages[0] ?? null
+  const beforeFallback = galleryImages[1] ?? galleryImages[0] ?? preset.thumbnailUrl ?? null
 
   const allImages = [
     ...(preset.thumbnailUrl ? [preset.thumbnailUrl] : []),
@@ -163,6 +165,8 @@ export default async function StorePresetPage({ params }: PageProps) {
         <BeforeAfterSlider
           beforeSrc={beforeSrc}
           afterSrc={afterSrc}
+          beforeFallback={beforeFallback}
+          afterFallback={afterFallback}
           alt={preset.name}
           label={preset.beforeAfterExplanation ?? preset.name}
           className="w-full rounded-none"
