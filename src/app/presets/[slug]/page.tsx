@@ -1,6 +1,5 @@
 import { notFound }          from "next/navigation"
 import type { Metadata }      from "next"
-import Image                  from "next/image"
 import Link                   from "next/link"
 import { Container }          from "@/components/layout/Container"
 import { UnlockOrBuyPanel }   from "@/components/store/UnlockOrBuyPanel"
@@ -17,6 +16,8 @@ import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/u
 import { ReviewList } from "@/components/store/ReviewList"
 import { ReviewForm } from "@/components/store/ReviewForm"
 import { generatePresetDescription, HOW_TO_UNLOCK_COPY } from "@/lib/presets/description-generator"
+import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider"
+import { getDemoImages }     from "@/lib/presets/demo-images"
 
 export const dynamic = "force-dynamic"
 
@@ -96,6 +97,12 @@ export default async function PresetDetailPage({ params }: PageProps) {
     ...(preset.images ?? []),
   ]
 
+  /* Before/After sources — guaranteed to always resolve to a visible image.
+     To swap in real images: set before_url / after_url on the preset in the DB. */
+  const demo      = getDemoImages(preset.slug)
+  const beforeSrc = preset.beforeUrl ?? demo.before
+  const afterSrc  = preset.afterUrl  ?? demo.after
+
   /* ── Structured data ── */
   const jsonLd = [
     productSchema(preset),
@@ -119,31 +126,17 @@ export default async function PresetDetailPage({ params }: PageProps) {
         />
       ))}
 
-      {/* ── Cinematic hero image — full bleed ── */}
-      {preset.thumbnailUrl && (
-        <div className="relative w-full h-[45vh] sm:h-[55vh] lg:h-[65vh] overflow-hidden">
-          <Image
-            src={preset.thumbnailUrl}
-            alt={preset.name}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          {/* Cinematic letterbox */}
-          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[10%] bg-gradient-to-b from-background to-transparent" />
-          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-background via-background/70 to-transparent" />
-
-          {/* Floating badge */}
-          {preset.badge && (
-            <div className="absolute top-6 left-6 z-10">
-              <span className={cn("text-[0.7rem] font-bold tracking-widest uppercase rounded-full px-3 py-1.5", badgeStyles[preset.badge])}>
-                {preset.badge === "Sale" && discount ? `−${discount}%` : preset.badge}
-              </span>
-            </div>
-          )}
-        </div>
-      )}
+      {/* ── HERO: Before/After slider — always shown, falls back to demo images ── */}
+      <section className="w-full">
+        <BeforeAfterSlider
+          beforeSrc={beforeSrc}
+          afterSrc={afterSrc}
+          alt={preset.name}
+          label={preset.beforeAfterExplanation ?? preset.name}
+          className="w-full rounded-none"
+          height={520}
+        />
+      </section>
 
       {/* ── Page atmosphere ── */}
       <div className="relative">
