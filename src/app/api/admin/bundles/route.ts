@@ -73,6 +73,17 @@ export async function POST(req: NextRequest) {
 
   if (error) return Response.json({ success: false, error: error.message }, { status: 500 })
 
+  // Insert bundle_presets if presetIds were provided
+  if (Array.isArray(body.presetIds) && body.presetIds.length > 0) {
+    await supabase.from("bundle_presets").insert(
+      body.presetIds.map((pid: string, i: number) => ({
+        bundle_id:   data.id,
+        preset_id:   pid,
+        order_index: i,
+      }))
+    )
+  }
+
   const session = await getAdminSession()
   await audit({ event: "bundle.created", email: session?.email, targetId: data.id, meta: { name: data.name } })
 

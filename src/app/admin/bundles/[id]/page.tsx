@@ -71,7 +71,18 @@ export default function BundleEditorPage() {
   useEffect(() => {
     fetch("/api/admin/presets")
       .then((r) => r.json())
-      .then((j) => { if (j.success) setAllPresets(j.data) })
+      .then((j) => {
+        if (!j.success) return
+        // API returns `title` and `price` (DB column names); normalize to interface shape
+        setAllPresets(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          j.data.map((p: any) => ({
+            ...p,
+            name:      p.title      ?? p.name      ?? "",
+            price_usd: p.price      ?? p.price_usd ?? 0,
+          }))
+        )
+      })
       .catch(() => {})
   }, [])
 
@@ -145,7 +156,11 @@ export default function BundleEditorPage() {
 
   const visiblePresets = allPresets.filter((p) => {
     const matchCat = catFilter === "All" || categoryName(p.category) === catFilter
-    const matchQ   = !search || p.name.toLowerCase().includes(search.toLowerCase())
+    const q = search.toLowerCase()
+    const matchQ = !q
+      || (p.name  ?? "").toLowerCase().includes(q)
+      || (p.slug  ?? "").toLowerCase().includes(q)
+      || categoryName(p.category).toLowerCase().includes(q)
     return matchCat && matchQ
   })
 
