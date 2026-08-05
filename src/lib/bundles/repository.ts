@@ -72,17 +72,12 @@ function buildPresets(
 
 export async function getBundles(): Promise<BundleWithPresets[]> {
   const supabase = createAdminClient()
-  console.log("[getBundles] starting query")
 
   const { data: bundles, error } = await supabase
     .from("bundles")
     .select("*")
     .eq("is_published", true)
     .order("display_order", { ascending: true })
-
-  console.log("[getBundles] bundles:", JSON.stringify(bundles))
-  console.log("[getBundles] error:", JSON.stringify(error))
-  console.log("[getBundles] count:", bundles?.length)
 
   if (error || !bundles || bundles.length === 0) return []
 

@@ -1,7 +1,6 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import Image from "next/image"
 
 const PLACEHOLDER_BEFORE = "/placeholders/before.svg"
 const PLACEHOLDER_AFTER  = "/placeholders/after.svg"
@@ -37,10 +36,6 @@ export function BeforeAfterSlider({
   // Resolve effective sources — auto-fallback to placeholder on error or if src is missing
   const resolvedBefore = beforeFail || !beforeSrc ? PLACEHOLDER_BEFORE : beforeSrc
   const resolvedAfter  = afterFail  || !afterSrc  ? PLACEHOLDER_AFTER  : afterSrc
-
-  // SVG files must skip Next.js optimisation (Next won't optimise SVGs anyway)
-  const beforeUnopt = resolvedBefore.endsWith(".svg")
-  const afterUnopt  = resolvedAfter.endsWith(".svg")
 
   const updatePosition = useCallback((clientX: number) => {
     const el = containerRef.current
@@ -120,15 +115,13 @@ export function BeforeAfterSlider({
 
       {/* ── AFTER layer (base — always fully visible) ── */}
       <div className="absolute inset-0">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={resolvedAfter}
           alt={`${alt} — after`}
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 100vw"
-          className="object-cover object-center pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
           draggable={false}
-          unoptimized={afterUnopt}
+          fetchPriority="high"
           onError={() => { if (!afterFail) setAfterFail(true) }}
         />
         {/* Warm cinematic tint overlay on the after side */}
@@ -146,15 +139,13 @@ export function BeforeAfterSlider({
         className="absolute inset-0"
         style={{ clipPath: beforeClip }}
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={resolvedBefore}
           alt={`${alt} — before`}
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 100vw"
-          className="object-cover object-center pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
           draggable={false}
-          unoptimized={beforeUnopt}
+          fetchPriority="high"
           onError={() => { if (!beforeFail) setBeforeFail(true) }}
         />
         {/* Slight desaturate / cool tint overlay on the before side */}

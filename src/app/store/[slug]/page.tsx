@@ -126,8 +126,8 @@ export default async function StorePresetPage({ params }: PageProps) {
   // Auto-derive before/after paths from the preset slug.
   // Drop images into /public/presets/{slug}/before.jpg and after.jpg — no code changes needed.
   // The component falls back to placeholder SVGs automatically if the files don't exist.
-  const beforeSrc = preset.beforeUrl ?? `/presets/${preset.slug}/before.jpg`
-  const afterSrc  = preset.afterUrl  ?? `/presets/${preset.slug}/after.jpg`
+  const beforeSrc = preset.beforeUrl ?? `/presets/${preset.slug}/before.webp`
+  const afterSrc  = preset.afterUrl  ?? `/presets/${preset.slug}/after.webp`
 
   const allImages = [
     ...(preset.thumbnailUrl ? [preset.thumbnailUrl] : []),
