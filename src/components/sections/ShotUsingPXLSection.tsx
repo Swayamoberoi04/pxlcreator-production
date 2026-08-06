@@ -1,135 +1,124 @@
+"use client"
+
 /**
  * src/components/sections/ShotUsingPXLSection.tsx
  *
- * "Shot Using PXL" — cinematic creator gallery.
+ * Section 9 — "Real Results. Real Creators."
  *
- * Purpose: social-proof through visual excellence.
- * Visitors see finished work and think "I want my photos to look like that."
+ * A cinematic 3-image showcase triptych:
+ *   left portrait  →  large center feature  →  right portrait
  *
- * Layout (masonry-inspired, pure CSS grid):
- *   Desktop — 3-column asymmetric grid: tall / short / tall alternating
- *   Mobile  — 2-column even grid
+ * ── Architecture (built for future admin / Supabase control) ──────────────
+ * This component is intentionally split into three independent layers so that
+ * ONLY the data source has to change later — the rendering and styling stay
+ * exactly as-is when the images come from the database instead of local files:
  *
- * Each card shows:
- *   - Full-bleed image with cinematic tint overlay
- *   - Bottom hover reveal: preset name + category badge
- *   - Subtle hover scale + glow
+ *   1. DATA      → `SHOWCASE_IMAGES` (the `showcaseImages` config array below).
+ *                  Later, an admin panel will fetch featured creators from
+ *                  Supabase and pass them in via the `images` prop — no UI
+ *                  changes required.
+ *   2. RENDERING → `<ShowcaseCard />` renders a single card from one data item.
+ *   3. STYLING   → all visual styling lives in Tailwind classes on the card /
+ *                  layout; the data carries no styling decisions except an
+ *                  optional accent colour for the hover glow.
+ *
+ * Every card already supports: creatorName, presetName, optional location and
+ * optional profileLink. These may be empty — the UI degrades gracefully.
  */
-import Link                from "next/link"
-import Image               from "next/image"
-import { Container }       from "@/components/layout/Container"
-import { GrainOverlay }    from "@/components/ui/GrainOverlay"
-import { CinematicBackground }  from "@/components/ui/CinematicBackground"
-import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
-import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-/* ── Gallery images ─────────────────────────────────────────── */
-interface GalleryImage {
-  src:      string
-  alt:      string
-  preset:   string
-  category: string
-  accent:   string
-  tall?:    boolean   // if true → taller card in the desktop grid
+import Link                       from "next/link"
+import Image                      from "next/image"
+import { Container }              from "@/components/layout/Container"
+import { GrainOverlay }           from "@/components/ui/GrainOverlay"
+import { CinematicBackground }    from "@/components/ui/CinematicBackground"
+import { LuminousEnvironment }    from "@/components/ui/LuminousEnvironment"
+import { CinematicReveal }        from "@/components/ui/CinematicReveal"
+
+/* ── DATA LAYER ───────────────────────────────────────────────────────────── */
+
+/**
+ * One featured-creator showcase entry.
+ * This is the exact shape a future Supabase row / admin form will map to,
+ * so swapping the data source needs no change to the rendering below.
+ */
+export interface ShowcaseImage {
+  /** Short scene / mood label shown above the creator line. */
+  title:        string
+  /** Public path or remote URL to the image. */
+  image:        string
+  /** Accessible description of the image. */
+  alt:          string
+  /** Name/handle of the creator who shot it (may be empty for now). */
+  creatorName:  string
+  /** Preset / grade used (may be empty for now). */
+  presetName:   string
+  /** Optional shoot location. */
+  location?:    string
+  /** Optional link to the creator's profile. */
+  profileLink?: string
+  /** Optional hover-glow accent colour (falls back to gold). */
+  accent?:      string
 }
 
-const GALLERY: GalleryImage[] = [
+// TEMP DEMO IMAGES
+// Replace with featured creator images later.
+//
+// Hand-picked cinematic frames from /public/assets that match the premium,
+// luxury PXL Creator aesthetic. Order = [ left portrait, center feature,
+// right portrait ]. creatorName / location / profileLink are placeholders
+// until real featured creators are chosen manually.
+const SHOWCASE_IMAGES: ShowcaseImage[] = [
   {
-    src:      "/assets/moody_city.webp",
-    alt:      "Moody city street at night",
-    preset:   "Noir Night",
-    category: "Urban",
-    accent:   "#818cf8",
-    tall:     true,
+    title:       "Golden Hour",
+    image:       "/assets/bg7.webp",
+    alt:         "Portrait of a creator bathed in warm golden-hour light",
+    creatorName: "@demo.creator",
+    presetName:  "Warm Portrait",
+    location:    "",
+    profileLink: "",
+    accent:      "#f59e0b",
   },
   {
-    src:      "/assets/portrait_bw.webp",
-    alt:      "Black and white portrait",
-    preset:   "HDR B&W",
-    category: "Portrait",
-    accent:   "#e2e8f0",
+    title:       "Midnight Transit",
+    image:       "/assets/bg10.webp",
+    alt:         "Teal and orange cinematic night scene through a misted window",
+    creatorName: "@demo.creator",
+    presetName:  "Teal & Orange",
+    location:    "",
+    profileLink: "",
+    accent:      "#38bdf8",
   },
   {
-    src:      "/assets/magical_sunset.webp",
-    alt:      "Magical cinematic sunset",
-    preset:   "Film Rich",
-    category: "Landscape",
-    accent:   "#FFD60A",
-    tall:     true,
-  },
-  {
-    src:      "/assets/dramatic_city.webp",
-    alt:      "Dramatic cityscape",
-    preset:   "Dramatic City",
-    category: "Cinematic",
-    accent:   "#f97316",
-  },
-  {
-    src:      "/assets/campfire.webp",
-    alt:      "Campfire in forest at dusk",
-    preset:   "Timber Warmth",
-    category: "Lifestyle",
-    accent:   "#f59e0b",
-    tall:     true,
-  },
-  {
-    src:      "/assets/film_green.webp",
-    alt:      "Film green analog grade",
-    preset:   "Film Green",
-    category: "Film",
-    accent:   "#10b981",
-  },
-  {
-    src:      "/assets/dark_blue.webp",
-    alt:      "Deep blue cinematic grade",
-    preset:   "Cinematic Blue",
-    category: "Cinematic",
-    accent:   "#60a5fa",
-  },
-  {
-    src:      "/assets/moody_brown.webp",
-    alt:      "Moody warm brown tones",
-    preset:   "Moody Brown",
-    category: "Portrait",
-    accent:   "#b45309",
-    tall:     true,
-  },
-  {
-    src:      "/assets/urban.webp",
-    alt:      "Urban street photography",
-    preset:   "Urban Fade",
-    category: "Street",
-    accent:   "#94a3b8",
-  },
-  {
-    src:      "/assets/motography.webp",
-    alt:      "Motion photography",
-    preset:   "Motion Blur",
-    category: "Creative",
-    accent:   "#a78bfa",
-    tall:     true,
-  },
-  {
-    src:      "/assets/cinematic.webp",
-    alt:      "Cinematic grade landscape",
-    preset:   "Cinematic Gold",
-    category: "Landscape",
-    accent:   "#fbbf24",
-  },
-  {
-    src:      "/assets/ic.webp",
-    alt:      "Iconic cinematic shot",
-    preset:   "Iconic",
-    category: "Cinematic",
-    accent:   "#f43f5e",
+    title:       "Sunset Streets",
+    image:       "/assets/bg9.webp",
+    alt:         "Golden sunset light spilling across a busy street",
+    creatorName: "@demo.creator",
+    presetName:  "Sundown",
+    location:    "",
+    profileLink: "",
+    accent:      "#fbbf24",
   },
 ]
 
-export function ShotUsingPXLSection() {
+/* ── SECTION ──────────────────────────────────────────────────────────────── */
+
+interface ShotUsingPXLSectionProps {
+  /**
+   * Showcase entries to render. Defaults to the temporary demo images.
+   * Future: an admin page passes DB-backed featured creators here — the
+   * rendering and styling below stay untouched.
+   */
+  images?: ShowcaseImage[]
+}
+
+export function ShotUsingPXLSection({ images = SHOWCASE_IMAGES }: ShotUsingPXLSectionProps) {
+  /* Triptych roles: first = left portrait, middle = center feature, last = right portrait. */
+  const [leftImage, centerImage, rightImage] = images
+
   return (
     <section
       className="relative w-full overflow-hidden border-y border-border depth-section"
-      aria-label="Gallery — shot using PXL Creator presets"
+      aria-label="Real results, real creators — shot using PXL Creator presets"
     >
       {/* ── Living luminous atmosphere ── */}
       <LuminousEnvironment variant="teal" intensity={1.1} />
@@ -165,24 +154,35 @@ export function ShotUsingPXLSection() {
           </div>
         </CinematicReveal>
 
-        {/* ── Masonry-inspired grid — each card depth-enters ── */}
-        <CinematicStagger
-          stagger={0.055}
-          baseDelay={0.02}
-          itemVariant="depth"
-          className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
-          style={{ gridAutoRows: "200px" } as React.CSSProperties}
-        >
-          {GALLERY.map((img) => (
-            <CinematicItem
-              key={img.src}
-              variant="depth"
-              className={img.tall ? "row-span-2" : ""}
-            >
-              <GalleryCard img={img} />
-            </CinematicItem>
-          ))}
-        </CinematicStagger>
+        {/* ── Triptych: left portrait · center feature · right portrait ──
+             Desktop: center column is wider (1.35fr) and its card is taller,
+             so it reads as the dominant "feature". `items-center` lets the
+             shorter side portraits float centred against the taller middle,
+             giving the classic cinematic triptych depth.
+             Mobile: stacks into a single column, center feature first. ── */}
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1.35fr_1fr] gap-4 sm:gap-5 md:items-center">
+
+          {/* Left portrait — DOM order maps directly to grid column 1 */}
+          {leftImage && (
+            <CinematicReveal variant="depth" delay={0.05}>
+              <ShowcaseCard item={leftImage} className="aspect-[4/5] md:aspect-[3/4]" />
+            </CinematicReveal>
+          )}
+
+          {/* Center feature — column 2 (wider), larger + emphasised */}
+          {centerImage && (
+            <CinematicReveal variant="rise" delay={0}>
+              <ShowcaseCard item={centerImage} featured className="aspect-[4/5]" />
+            </CinematicReveal>
+          )}
+
+          {/* Right portrait — column 3 */}
+          {rightImage && (
+            <CinematicReveal variant="depth" delay={0.1}>
+              <ShowcaseCard item={rightImage} className="aspect-[4/5] md:aspect-[3/4]" />
+            </CinematicReveal>
+          )}
+        </div>
 
         {/* ── CTA ── */}
         <CinematicReveal variant="rise" delay={0.2}>
@@ -208,53 +208,114 @@ export function ShotUsingPXLSection() {
   )
 }
 
-/* ── Gallery card ───────────────────────────────────────────── */
-function GalleryCard({ img }: { img: GalleryImage }) {
-  return (
-    <div className="relative overflow-hidden rounded-xl h-full group cursor-pointer depth-card">
+/* ── RENDERING LAYER ──────────────────────────────────────────────────────── */
 
-      {/* Image */}
+interface ShowcaseCardProps {
+  item:       ShowcaseImage
+  /** Larger, emphasised center card (gold ring + stronger glow). */
+  featured?:  boolean
+  /** Aspect-ratio / sizing utilities supplied by the layout. */
+  className?: string
+}
+
+/**
+ * Renders a single showcase image with a hover-revealed creator caption.
+ * Purely presentational — it knows nothing about where the data came from.
+ */
+function ShowcaseCard({ item, featured = false, className = "" }: ShowcaseCardProps) {
+  const accent = item.accent ?? "#FFD60A"
+
+  const card = (
+    <div
+      className={[
+        "group relative w-full overflow-hidden rounded-2xl depth-card cursor-pointer",
+        "border transition-all duration-300 ease-out",
+        featured
+          ? "border-gold/30 shadow-[0_0_50px_rgba(255,214,10,0.10)] hover:shadow-[0_0_70px_rgba(255,214,10,0.22)]"
+          : "border-border hover:border-gold/25 shadow-[0_0_0_rgba(0,0,0,0)] hover:shadow-[0_0_45px_rgba(255,214,10,0.14)]",
+        className,
+      ].join(" ")}
+    >
+      {/* Image — fills container, object-cover, lazy-loaded, optimized, never stretched */}
       <Image
-        src={img.src}
-        alt={img.alt}
+        src={item.image}
+        alt={item.alt}
         fill
-        sizes="(max-width: 640px) 50vw, 33vw"
-        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        loading="lazy"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 460px"
+        className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.05]"
       />
 
-      {/* Base tint for cinematic feel */}
+      {/* Cinematic base tint */}
       <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/10" />
 
-      {/* Hover reveal — bottom info */}
-      <div
-        className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.30) 50%, transparent 100%)" }}
-      >
-        <div className="px-3 pb-3 flex items-end justify-between gap-2">
-          <p className="font-display font-bold text-[0.8125rem] text-white leading-none truncate">{img.preset}</p>
-          <span
-            className="text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2 py-0.5 border shrink-0 backdrop-blur-sm"
-            style={{
-              color:           img.accent,
-              borderColor:     `${img.accent}45`,
-              backgroundColor: `${img.accent}18`,
-            }}
-          >
-            {img.category}
-          </span>
-        </div>
-      </div>
-
-      {/* Hover accent glow */}
+      {/* Gold / accent glow on hover */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 70% 60% at 50% 50%, ${img.accent}18 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse 70% 60% at 50% 55%, ${accent}20 0%, transparent 70%)`,
           mixBlendMode: "screen",
         }}
       />
+
+      {/* Caption — creator + preset, revealed on hover */}
+      <div
+        className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.30) 55%, transparent 100%)" }}
+      >
+        <div className="p-4 sm:p-5 flex flex-col gap-1.5">
+          {item.title && (
+            <span className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-gold/90">
+              {item.title}
+            </span>
+          )}
+
+          <div className="flex items-end justify-between gap-2">
+            <div className="flex flex-col gap-0.5 min-w-0">
+              {item.creatorName && (
+                <span className="font-display font-bold text-[0.9375rem] text-white leading-tight truncate">
+                  {item.creatorName}
+                </span>
+              )}
+              {item.location && (
+                <span className="text-[0.75rem] text-white/60 leading-none truncate">
+                  {item.location}
+                </span>
+              )}
+            </div>
+
+            {item.presetName && (
+              <span
+                className="shrink-0 text-[0.625rem] font-bold tracking-widest uppercase rounded-full px-2.5 py-1 border backdrop-blur-sm"
+                style={{
+                  color:           accent,
+                  borderColor:     `${accent}45`,
+                  backgroundColor: `${accent}18`,
+                }}
+              >
+                {item.presetName}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   )
+
+  /* Optional profile link wrapper — only when a link is provided. */
+  if (item.profileLink) {
+    return (
+      <Link
+        href={item.profileLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={item.creatorName ? `View ${item.creatorName}'s profile` : "View creator profile"}
+        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 rounded-2xl"
+      >
+        {card}
+      </Link>
+    )
+  }
+
+  return card
 }
-
-
