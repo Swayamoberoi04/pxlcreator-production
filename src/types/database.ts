@@ -501,6 +501,93 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── blog_posts ──────────────────────────────────── */
+      blog_posts: {
+        Row: {
+          id:                   string
+          title:                string
+          slug:                 string
+          excerpt:              string | null
+          content:              Json
+          category:             "Tutorial" | "Gear" | "Behind the Scenes" | "Tips & Tricks" | "Inspiration"
+          author_name:          string
+          author_role:          string
+          author_initials:      string
+          cover_image_url:      string | null
+          banner_url:           string | null
+          cover_gradient:       string | null
+          tags:                 string[]
+          reading_time_minutes: number
+          is_featured:          boolean
+          is_published:         boolean
+          published_at:         string | null
+          views_count:          number
+          likes_count:          number
+          shares_count:         number
+          seo_title:            string | null
+          seo_description:      string | null
+          seo_keywords:         string | null
+          og_image_url:         string | null
+          canonical_url:        string | null
+          created_at:           string
+          updated_at:           string
+        }
+        Insert: {
+          id?:                   string
+          title:                 string
+          slug:                  string
+          excerpt?:              string | null
+          content?:              Json
+          category?:             "Tutorial" | "Gear" | "Behind the Scenes" | "Tips & Tricks" | "Inspiration"
+          author_name?:          string
+          author_role?:          string
+          author_initials?:      string
+          cover_image_url?:      string | null
+          banner_url?:           string | null
+          cover_gradient?:       string | null
+          tags?:                 string[]
+          reading_time_minutes?: number
+          is_featured?:          boolean
+          is_published?:         boolean
+          published_at?:         string | null
+          views_count?:          number
+          likes_count?:          number
+          shares_count?:         number
+          seo_title?:            string | null
+          seo_description?:      string | null
+          seo_keywords?:         string | null
+          og_image_url?:         string | null
+          canonical_url?:        string | null
+        }
+        Update: {
+          title?:                string
+          slug?:                 string
+          excerpt?:              string | null
+          content?:              Json
+          category?:             "Tutorial" | "Gear" | "Behind the Scenes" | "Tips & Tricks" | "Inspiration"
+          author_name?:          string
+          author_role?:          string
+          author_initials?:      string
+          cover_image_url?:      string | null
+          banner_url?:           string | null
+          cover_gradient?:       string | null
+          tags?:                 string[]
+          reading_time_minutes?: number
+          is_featured?:          boolean
+          is_published?:         boolean
+          published_at?:         string | null
+          views_count?:          number
+          likes_count?:          number
+          shares_count?:         number
+          seo_title?:            string | null
+          seo_description?:      string | null
+          seo_keywords?:         string | null
+          og_image_url?:         string | null
+          canonical_url?:        string | null
+        }
+        Relationships: []
+      }
+
       /* ── courses ─────────────────────────────────────── */
       courses: {
         Row: {

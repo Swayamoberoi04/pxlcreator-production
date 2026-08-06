@@ -2,13 +2,15 @@
 import Link  from "next/link"
 import Image from "next/image"
 import { Container } from "@/components/layout/Container"
-import { ALL_POSTS, FEATURED_POST, RECENT_POSTS } from "@/data/posts"
+import { getPosts } from "@/lib/blog/repository"
 import type { BlogPost, BlogCategory } from "@/types/blog"
 import { cn } from "@/lib/utils"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
+
+export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -33,7 +35,11 @@ function formatDate(iso: string) {
   })
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const ALL_POSTS    = await getPosts()
+  const FEATURED_POST = ALL_POSTS.find((p) => p.featured) ?? ALL_POSTS[0]
+  const RECENT_POSTS  = ALL_POSTS.filter((p) => p.id !== FEATURED_POST?.id)
+
   return (
     <div className="w-full bg-background">
 
@@ -76,17 +82,19 @@ export default function BlogPage() {
       <Container className="py-14 sm:py-20">
 
         {/* ── Featured post ── */}
-        <div className="mb-14">
-          <CinematicReveal variant="gentle">
-            <div className="flex items-center gap-2 mb-6">
-              <span className="h-px w-6 bg-gold" />
-              <span className="text-label text-gold">Featured</span>
-            </div>
-          </CinematicReveal>
-          <CinematicReveal variant="rise" delay={0.06}>
-            <FeaturedCard post={FEATURED_POST} />
-          </CinematicReveal>
-        </div>
+        {FEATURED_POST && (
+          <div className="mb-14">
+            <CinematicReveal variant="gentle">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="h-px w-6 bg-gold" />
+                <span className="text-label text-gold">Featured</span>
+              </div>
+            </CinematicReveal>
+            <CinematicReveal variant="rise" delay={0.06}>
+              <FeaturedCard post={FEATURED_POST} />
+            </CinematicReveal>
+          </div>
+        )}
 
         {/* ── Recent posts ── */}
         <div>

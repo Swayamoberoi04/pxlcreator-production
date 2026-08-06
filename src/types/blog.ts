@@ -23,6 +23,11 @@ export type ContentBlock =
   | { type: "quote";     text: string; attribution?: string }
   | { type: "tip";       label: string; text: string }
   | { type: "divider" }
+  | { type: "image";     url: string; alt?: string; caption?: string }
+  | { type: "video";     url: string; caption?: string }
+  | { type: "code";      code: string; language?: string }
+  | { type: "table";     headers: string[]; rows: string[][] }
+  | { type: "cta";       title: string; buttonText: string; href: string }
 
 export interface BlogPost {
   id: string

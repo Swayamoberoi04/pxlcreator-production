@@ -1,14 +1,17 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 import { Container } from "@/components/layout/Container"
-import { ALL_POSTS } from "@/data/posts"
+import { getPostBySlug, getPosts } from "@/lib/blog/repository"
 import type { BlogPost, ContentBlock, BlogCategory } from "@/types/blog"
 import { cn } from "@/lib/utils"
 import { siteConfig } from "@/config/site"
 import { articleSchema, breadcrumbSchema } from "@/lib/seo/schemas"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
+
+export const dynamic = "force-dynamic"
 
 type PageProps = { params: Promise<{ slug: string }> }
 
@@ -21,15 +24,10 @@ const CATEGORY_STYLES: Record<BlogCategory, string> = {
   "Inspiration":        "text-purple-400  bg-purple-400/10  border-purple-400/20",
 }
 
-/* ── Static params ────────────────────────────────── */
-export async function generateStaticParams() {
-  return ALL_POSTS.map((p) => ({ slug: p.slug }))
-}
-
 /* ── SEO metadata ─────────────────────────────────── */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = ALL_POSTS.find((p) => p.slug === slug)
+  const post = await getPostBySlug(slug)
   if (!post) return {}
 
   const pageUrl = `${siteConfig.url}/blog/${post.slug}`
@@ -69,10 +67,11 @@ function formatDate(iso: string) {
 ───────────────────────────────────────── */
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params
-  const post = ALL_POSTS.find((p) => p.slug === slug)
+  const post = await getPostBySlug(slug)
   if (!post) notFound()
 
-  const relatedPosts = ALL_POSTS
+  const allPosts = await getPosts()
+  const relatedPosts = allPosts
     .filter((p) => p.category === post.category && p.id !== post.id)
     .slice(0, 3)
 
@@ -287,9 +286,104 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
         </div>
       )
 
+    case "image":
+      return (
+        <figure className="flex flex-col gap-2.5">
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border">
+            <Image src={block.url} alt={block.alt ?? ""} fill className="object-cover" sizes="(max-width:768px) 100vw, 720px" />
+          </div>
+          {block.caption && (
+            <figcaption className="text-small text-muted text-center">{block.caption}</figcaption>
+          )}
+        </figure>
+      )
+
+    case "video": {
+      const embedUrl = toEmbeddableVideoUrl(block.url)
+      return (
+        <figure className="flex flex-col gap-2.5">
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border bg-black">
+            {embedUrl ? (
+              <iframe
+                src={embedUrl}
+                className="absolute inset-0 h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video src={block.url} controls className="absolute inset-0 h-full w-full object-contain" />
+            )}
+          </div>
+          {block.caption && (
+            <figcaption className="text-small text-muted text-center">{block.caption}</figcaption>
+          )}
+        </figure>
+      )
+    }
+
+    case "code":
+      return (
+        <div className="flex flex-col rounded-xl border border-border overflow-hidden">
+          {block.language && (
+            <div className="px-4 py-2 border-b border-border bg-surface text-[0.7rem] font-mono text-muted uppercase tracking-wide">
+              {block.language}
+            </div>
+          )}
+          <pre className="overflow-x-auto bg-surface-2 px-4 py-4 text-[0.8125rem] leading-relaxed text-foreground/90 font-mono">
+            <code>{block.code}</code>
+          </pre>
+        </div>
+      )
+
+    case "table":
+      return (
+        <div className="overflow-x-auto rounded-xl border border-border">
+          <table className="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr className="bg-surface border-b border-border">
+                {block.headers.map((h, i) => (
+                  <th key={i} className="px-4 py-2.5 font-semibold text-foreground">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((row, ri) => (
+                <tr key={ri} className="border-b border-border last:border-b-0 odd:bg-surface/40">
+                  {row.map((cell, ci) => (
+                    <td key={ci} className="px-4 py-2.5 text-muted">{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+
+    case "cta":
+      return (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-gold/25 bg-gold/[0.05] px-6 py-6">
+          <p className="text-base font-semibold text-foreground text-center sm:text-left">{block.title}</p>
+          <Link
+            href={block.href}
+            className="shrink-0 inline-flex items-center justify-center rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-background hover:bg-gold-dim active:scale-[0.98] transition-all"
+          >
+            {block.buttonText}
+          </Link>
+        </div>
+      )
+
     default:
       return null
   }
+}
+
+/** Convert a YouTube/Vimeo URL to its embeddable iframe form; returns null for a direct video file (rendered via <video> instead). */
+function toEmbeddableVideoUrl(url: string): string | null {
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]+)/)
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`
+  const vimeo = url.match(/vimeo\.com\/(\d+)/)
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`
+  return null
 }
 
 /* ── Related post row ── */

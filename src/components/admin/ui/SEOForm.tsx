@@ -8,6 +8,7 @@ export interface SEOData {
   seoDescription?: string
   seoKeywords?:    string   // comma-separated
   ogImage?:        string
+  canonicalUrl?:   string
 }
 
 interface SEOFormProps {
@@ -15,6 +16,8 @@ interface SEOFormProps {
   onChange: (next: SEOData) => void
   /** Folder passed to the OG image uploader, e.g. "courses", "blogs". */
   mediaFolder: string
+  /** Shows the Canonical URL field. Off by default — most modules don't need it. */
+  showCanonicalUrl?: boolean
 }
 
 /**
@@ -22,7 +25,7 @@ interface SEOFormProps {
  * Every future module (Courses, Blog, Homepage sections, ...) embeds this
  * instead of re-declaring its own SEO fields.
  */
-export function SEOForm({ value, onChange, mediaFolder }: SEOFormProps) {
+export function SEOForm({ value, onChange, mediaFolder, showCanonicalUrl }: SEOFormProps) {
   const titleLen = (value.seoTitle ?? "").length
   const descLen  = (value.seoDescription ?? "").length
 
@@ -62,6 +65,16 @@ export function SEOForm({ value, onChange, mediaFolder }: SEOFormProps) {
           folder={mediaFolder}
         />
       </FormField>
+
+      {showCanonicalUrl && (
+        <FormField label="Canonical URL" hint="Leave blank to use this page's own URL">
+          <TextInput
+            value={value.canonicalUrl ?? ""}
+            onChange={(e) => onChange({ ...value, canonicalUrl: e.target.value })}
+            placeholder="https://pxlcreator.space/blog/..."
+          />
+        </FormField>
+      )}
     </FormSection>
   )
 }
