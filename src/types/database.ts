@@ -501,6 +501,54 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── homepage_sections ──────────────────────────── */
+      homepage_sections: {
+        Row: {
+          id:          string
+          section_key: string
+          label:       string
+          enabled:     boolean
+          order_index: number
+          title:       string | null
+          subtitle:    string | null
+          cta_label:   string | null
+          cta_href:    string | null
+          image_url:   string | null
+          video_url:   string | null
+          content:     Json
+          created_at:  string
+          updated_at:  string
+        }
+        Insert: {
+          id?:          string
+          section_key:  string
+          label:        string
+          enabled?:     boolean
+          order_index?: number
+          title?:       string | null
+          subtitle?:    string | null
+          cta_label?:   string | null
+          cta_href?:    string | null
+          image_url?:   string | null
+          video_url?:   string | null
+          content?:     Json
+        }
+        Update: {
+          section_key?: string
+          label?:       string
+          enabled?:     boolean
+          order_index?: number
+          title?:       string | null
+          subtitle?:    string | null
+          cta_label?:   string | null
+          cta_href?:    string | null
+          image_url?:   string | null
+          video_url?:   string | null
+          content?:     Json
+        }
+        Relationships: []
+      }
+
       /* ── storage_assets ─────────────────────────────── */
       storage_assets: {
         Row: {

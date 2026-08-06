@@ -38,7 +38,9 @@ export const PERMISSIONS = [
   // Community
   "community:read", "community:write", "community:moderate",
   // Homepage / Editor / AI Studio CMS
-  "homepage:write", "editor:write", "ai_studio:write",
+  "homepage:read", "homepage:write", "homepage:delete",
+  "editor:read", "editor:write", "editor:delete",
+  "ai_studio:read", "ai_studio:write", "ai_studio:delete",
   // Commerce
   "pricing:write", "coupons:write", "orders:read", "orders:refund",
   // Reviews
@@ -67,7 +69,8 @@ const ROLE_PERMISSIONS: Record<Exclude<Role, "super_admin">, readonly Permission
     "courses:read", "courses:write", "courses:publish",
     "blog:read", "blog:write", "blog:publish",
     "media:read", "media:upload",
-    "homepage:write", "editor:write", "ai_studio:write", "seo:write",
+    "homepage:read", "homepage:write", "editor:read", "editor:write",
+    "ai_studio:read", "ai_studio:write", "seo:write",
     "community:read", "community:write",
   ],
 

@@ -31,6 +31,7 @@ export interface ApiEnvelope<T> {
   success: boolean
   data?: T
   error?: string
+  meta?: { page?: number; pageSize?: number; total?: number }
 }
 
 export interface UseAdminResourceOptions<T> {
@@ -48,6 +49,8 @@ export interface UseAdminResourceOptions<T> {
 
 export interface UseAdminResourceResult<T> {
   items:      T[]
+  /** Total row count on the server for the current query (before pagination). */
+  total:      number
   loading:    boolean
   error:      string | null
   refresh:    () => Promise<void>
@@ -75,6 +78,7 @@ export function useAdminResource<T extends Record<string, unknown>>(
   const [items, setItems]     = useState<T[]>([])
   const [loading, setLoading] = useState(autoLoad)
   const [error, setError]     = useState<string | null>(null)
+  const [total, setTotal]     = useState(0)
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
 
   const mounted = useRef(true)
@@ -99,8 +103,10 @@ export function useAdminResource<T extends Record<string, unknown>>(
       if (!res.ok || !json.success) {
         setError(json.error ?? "Failed to load.")
         setItems([])
+        setTotal(0)
       } else {
         setItems(json.data ?? [])
+        setTotal(json.meta?.total ?? (json.data ?? []).length)
       }
     } catch (e) {
       if (!mounted.current) return
@@ -229,7 +235,7 @@ export function useAdminResource<T extends Record<string, unknown>>(
   }, [basePath, markPending])
 
   return {
-    items, loading, error, refresh,
+    items, total, loading, error, refresh,
     create, update, patch, remove, duplicate,
     publish, unpublish, archive,
     pendingIds,

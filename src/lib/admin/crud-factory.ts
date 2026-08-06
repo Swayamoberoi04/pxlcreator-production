@@ -1,0 +1,239 @@
+/**
+ * src/lib/admin/crud-factory.ts
+ *
+ * Generates the standard admin CRUD route handlers (list/create/get/update/
+ * patch/delete) from a small config object, so a new module's entire API
+ * surface is ~20 lines instead of ~150. Every handler still goes through
+ * requirePermission() + audit() exactly like the hand-written presets routes
+ * — this factory just removes the boilerplate around those calls, it does
+ * not change the security model.
+ *
+ * Usage (src/app/api/admin/{module}/route.ts):
+ *   export const { GET, POST } = createAdminCrudRoutes(config)
+ *
+ * Usage (src/app/api/admin/{module}/[id]/route.ts):
+ *   export const { GET, PUT, PATCH, DELETE } = createAdminCrudItemRoutes(config)
+ *
+ * Node runtime only.
+ */
+
+import "server-only"
+import { createClient, type SupabaseClient } from "@supabase/supabase-js"
+import type { NextRequest } from "next/server"
+import { requirePermission } from "@/lib/admin/permissions"
+import { getAdminSession }   from "@/lib/admin/guard"
+import { audit }             from "@/lib/admin/audit"
+import type { Permission }   from "@/lib/admin/roles"
+import { z } from "zod"
+
+/**
+ * Untyped service-role client for dynamic table names.
+ *
+ * The project's typed `createAdminClient()` (src/lib/supabase/admin.ts)
+ * binds to the generated `Database` schema, which requires a compile-time
+ * literal table name — incompatible with a generic factory whose table is
+ * a runtime string. Each module's route file still imports the *typed*
+ * Insert/Update shape from Database for its `TInsert` generic, so field
+ * names are still caught at compile time; only the client itself is
+ * untyped here, same pattern as src/lib/admin/audit.ts's internal client.
+ */
+function dynDb(): SupabaseClient {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) {
+    throw new Error("[crud-factory] Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.")
+  }
+  return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
+}
+
+export interface CrudConfig<TInsert extends Record<string, unknown>> {
+  /** Supabase table name. */
+  table: string
+  /** Permission namespace, e.g. "courses" → uses "courses:read" / "courses:write" / "courses:delete". */
+  permission: string
+  /** Columns writable via POST/PUT/PATCH — prevents over-posting. */
+  writableFields: readonly (keyof TInsert & string)[]
+  /** Optional zod object schema validated against the request body before writing. */
+  schema?: z.ZodObject<z.ZodRawShape>
+  /** Column to order list results by. Defaults to "created_at". */
+  orderBy?: string
+  orderAscending?: boolean
+  /** Columns ILIKE-searched when `?q=` is present. */
+  searchFields?: string[]
+  /** select() string for list/get — defaults to "*". */
+  select?: string
+}
+
+function pick<T extends Record<string, unknown>>(
+  body: Record<string, unknown>,
+  fields: readonly string[]
+): Partial<T> {
+  const out: Record<string, unknown> = {}
+  for (const f of fields) {
+    if (body[f] !== undefined) out[f] = body[f]
+  }
+  return out as Partial<T>
+}
+
+/** GET (list) + POST (create) for /api/admin/{module}. */
+export function createAdminCrudRoutes<TInsert extends Record<string, unknown>>(
+  config: CrudConfig<TInsert>
+) {
+  const readPerm   = `${config.permission}:read` as Permission
+  const writePerm  = `${config.permission}:write` as Permission
+
+  async function GET(request: NextRequest): Promise<Response> {
+    const deny = await requirePermission(readPerm)
+    if (deny) return deny
+
+    const { searchParams } = new URL(request.url)
+    const q        = searchParams.get("q") ?? ""
+    const page     = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1)
+    const pageSize = Math.min(200, Math.max(1, parseInt(searchParams.get("pageSize") ?? "50", 10) || 50))
+
+    const supabase = dynDb()
+    let query = supabase
+      .from(config.table)
+      .select(config.select ?? "*", { count: "exact" })
+      .order(config.orderBy ?? "created_at", { ascending: config.orderAscending ?? false })
+
+    if (q && config.searchFields?.length) {
+      const or = config.searchFields.map((f) => `${f}.ilike.%${q}%`).join(",")
+      query = query.or(or)
+    }
+
+    const from = (page - 1) * pageSize
+    const { data, error, count } = await query.range(from, from + pageSize - 1)
+
+    if (error) {
+      return Response.json({ success: false, error: error.message }, { status: 500 })
+    }
+
+    return Response.json({ success: true, data, meta: { page, pageSize, total: count ?? 0 } })
+  }
+
+  async function POST(request: NextRequest): Promise<Response> {
+    const deny = await requirePermission(writePerm)
+    if (deny) return deny
+
+    let body: Record<string, unknown>
+    try {
+      body = await request.json()
+    } catch {
+      return Response.json({ success: false, error: "Invalid request body." }, { status: 400 })
+    }
+
+    if (config.schema) {
+      const result = config.schema.safeParse(body)
+      if (!result.success) {
+        return Response.json(
+          { success: false, error: result.error.issues[0]?.message ?? "Validation failed." },
+          { status: 400 }
+        )
+      }
+    }
+
+    const insert = pick<TInsert>(body, config.writableFields)
+    const supabase = dynDb()
+    const { data, error } = await supabase.from(config.table).insert(insert as Record<string, unknown>).select().single()
+
+    if (error) {
+      return Response.json({ success: false, error: error.message }, { status: 500 })
+    }
+
+    const session = await getAdminSession()
+    await audit({ event: `${config.permission}.create`, email: session?.email, targetId: (data as { id?: string })?.id })
+    return Response.json({ success: true, data }, { status: 201 })
+  }
+
+  return { GET, POST }
+}
+
+/** GET (single) + PUT/PATCH (update) + DELETE for /api/admin/{module}/[id]. */
+export function createAdminCrudItemRoutes<TInsert extends Record<string, unknown>>(
+  config: CrudConfig<TInsert>
+) {
+  const readPerm   = `${config.permission}:read` as Permission
+  const writePerm  = `${config.permission}:write` as Permission
+  const deletePerm = `${config.permission}:delete` as Permission
+
+  type RouteContext = { params: Promise<{ id: string }> }
+
+  async function GET(_req: NextRequest, { params }: RouteContext): Promise<Response> {
+    const deny = await requirePermission(readPerm)
+    if (deny) return deny
+
+    const { id } = await params
+    const supabase = dynDb()
+    const { data, error } = await supabase.from(config.table).select(config.select ?? "*").eq("id", id).single()
+
+    if (error || !data) {
+      return Response.json({ success: false, error: "Not found." }, { status: 404 })
+    }
+    return Response.json({ success: true, data })
+  }
+
+  async function writeById(request: NextRequest, id: string): Promise<Response> {
+    let body: Record<string, unknown>
+    try {
+      body = await request.json()
+    } catch {
+      return Response.json({ success: false, error: "Invalid request body." }, { status: 400 })
+    }
+
+    if (config.schema) {
+      const result = config.schema.partial().safeParse(body)
+      if (!result.success) {
+        return Response.json(
+          { success: false, error: result.error.issues[0]?.message ?? "Validation failed." },
+          { status: 400 }
+        )
+      }
+    }
+
+    const update = pick<TInsert>(body, config.writableFields)
+    const supabase = dynDb()
+    const { data, error } = await supabase.from(config.table).update(update as Record<string, unknown>).eq("id", id).select().single()
+
+    if (error) {
+      return Response.json({ success: false, error: error.message }, { status: 500 })
+    }
+
+    const session = await getAdminSession()
+    await audit({ event: `${config.permission}.update`, email: session?.email, targetId: id, meta: { fields: Object.keys(update) } })
+    return Response.json({ success: true, data })
+  }
+
+  async function PUT(request: NextRequest, { params }: RouteContext): Promise<Response> {
+    const deny = await requirePermission(writePerm)
+    if (deny) return deny
+    const { id } = await params
+    return writeById(request, id)
+  }
+
+  async function PATCH(request: NextRequest, { params }: RouteContext): Promise<Response> {
+    const deny = await requirePermission(writePerm)
+    if (deny) return deny
+    const { id } = await params
+    return writeById(request, id)
+  }
+
+  async function DELETE(_req: NextRequest, { params }: RouteContext): Promise<Response> {
+    const deny = await requirePermission(deletePerm)
+    if (deny) return deny
+
+    const { id } = await params
+    const supabase = dynDb()
+    const { error } = await supabase.from(config.table).delete().eq("id", id)
+
+    if (error) {
+      return Response.json({ success: false, error: error.message }, { status: 500 })
+    }
+
+    const session = await getAdminSession()
+    await audit({ event: `${config.permission}.delete`, email: session?.email, targetId: id })
+    return Response.json({ success: true })
+  }
+
+  return { GET, PUT, PATCH, DELETE }
+}
