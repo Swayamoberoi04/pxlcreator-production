@@ -501,6 +501,126 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── courses ─────────────────────────────────────── */
+      courses: {
+        Row: {
+          id:                 string
+          title:              string
+          slug:               string
+          subtitle:           string | null
+          description:        string | null
+          category:           string | null
+          difficulty:         "Beginner" | "Intermediate" | "Advanced" | null
+          instructor:         string | null
+          duration_minutes:   number | null
+          lesson_count:       number
+          thumbnail_url:      string | null
+          banner_url:         string | null
+          gallery:            string[]
+          trailer_video_url:  string | null
+          price:              number
+          discount_price:     number | null
+          currency:           "USD" | "INR" | "EUR" | "GBP"
+          badge:              string | null
+          is_bestseller:      boolean
+          is_featured:        boolean
+          is_coming_soon:     boolean
+          is_published:       boolean
+          is_archived:        boolean
+          access_level:       "free" | "premium" | "purchased_only"
+          tags:               string[]
+          curriculum:         Json
+          seo_title:          string | null
+          seo_description:    string | null
+          seo_keywords:       string | null
+          students_count:     number
+          sales_count:        number
+          revenue_cached:     number
+          rating:             number
+          review_count:       number
+          completion_avg_pct: number
+          order_index:        number
+          created_at:         string
+          updated_at:         string
+        }
+        Insert: {
+          id?:                 string
+          title:               string
+          slug:                string
+          subtitle?:           string | null
+          description?:        string | null
+          category?:           string | null
+          difficulty?:         "Beginner" | "Intermediate" | "Advanced" | null
+          instructor?:         string | null
+          duration_minutes?:   number | null
+          lesson_count?:       number
+          thumbnail_url?:      string | null
+          banner_url?:         string | null
+          gallery?:            string[]
+          trailer_video_url?:  string | null
+          price?:              number
+          discount_price?:     number | null
+          currency?:           "USD" | "INR" | "EUR" | "GBP"
+          badge?:              string | null
+          is_bestseller?:      boolean
+          is_featured?:        boolean
+          is_coming_soon?:     boolean
+          is_published?:       boolean
+          is_archived?:        boolean
+          access_level?:       "free" | "premium" | "purchased_only"
+          tags?:               string[]
+          curriculum?:         Json
+          seo_title?:          string | null
+          seo_description?:    string | null
+          seo_keywords?:       string | null
+          students_count?:     number
+          sales_count?:        number
+          revenue_cached?:     number
+          rating?:             number
+          review_count?:       number
+          completion_avg_pct?: number
+          order_index?:        number
+        }
+        Update: {
+          title?:              string
+          slug?:               string
+          subtitle?:           string | null
+          description?:        string | null
+          category?:           string | null
+          difficulty?:         "Beginner" | "Intermediate" | "Advanced" | null
+          instructor?:         string | null
+          duration_minutes?:   number | null
+          lesson_count?:       number
+          thumbnail_url?:      string | null
+          banner_url?:         string | null
+          gallery?:            string[]
+          trailer_video_url?:  string | null
+          price?:              number
+          discount_price?:     number | null
+          currency?:           "USD" | "INR" | "EUR" | "GBP"
+          badge?:              string | null
+          is_bestseller?:      boolean
+          is_featured?:        boolean
+          is_coming_soon?:     boolean
+          is_published?:       boolean
+          is_archived?:        boolean
+          access_level?:       "free" | "premium" | "purchased_only"
+          tags?:               string[]
+          curriculum?:         Json
+          seo_title?:          string | null
+          seo_description?:    string | null
+          seo_keywords?:       string | null
+          students_count?:     number
+          sales_count?:        number
+          revenue_cached?:     number
+          rating?:             number
+          review_count?:       number
+          completion_avg_pct?: number
+          order_index?:        number
+        }
+        Relationships: []
+      }
+
       /* ── homepage_sections ──────────────────────────── */
       homepage_sections: {
         Row: {

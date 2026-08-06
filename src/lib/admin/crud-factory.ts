@@ -60,6 +60,14 @@ export interface CrudConfig<TInsert extends Record<string, unknown>> {
   orderAscending?: boolean
   /** Columns ILIKE-searched when `?q=` is present. */
   searchFields?: string[]
+  /**
+   * Columns that may be exact-match filtered via `?<column>=value` — e.g.
+   * `filterableFields: ["difficulty"]` lets the list page pass
+   * `?difficulty=Beginner`. Values of "all" or "" are ignored (no filter).
+   * Allowlisted so a module can't accidentally expose arbitrary column
+   * filtering just by a client sending extra query params.
+   */
+  filterableFields?: string[]
   /** select() string for list/get — defaults to "*". */
   select?: string
 }
@@ -100,6 +108,13 @@ export function createAdminCrudRoutes<TInsert extends Record<string, unknown>>(
     if (q && config.searchFields?.length) {
       const or = config.searchFields.map((f) => `${f}.ilike.%${q}%`).join(",")
       query = query.or(or)
+    }
+
+    for (const field of config.filterableFields ?? []) {
+      const value = searchParams.get(field)
+      if (value && value !== "all") {
+        query = query.eq(field, value)
+      }
     }
 
     const from = (page - 1) * pageSize
@@ -236,4 +251,71 @@ export function createAdminCrudItemRoutes<TInsert extends Record<string, unknown
   }
 
   return { GET, PUT, PATCH, DELETE }
+}
+
+/* ── Duplicate ─────────────────────────────────────────────────────────── */
+
+export interface DuplicateConfig {
+  table: string
+  permission: string
+  /** Fields copied verbatim from the source row onto the copy. */
+  copyFields: readonly string[]
+  /** Field to suffix with " (Copy)" on the new row, e.g. "title". */
+  titleField?: string
+  /** Field used to derive a unique slug for the copy, e.g. "slug". Appends -1, -2, ... on collision. */
+  slugField?: string
+  /** Fields forced to a fixed value on the copy — e.g. { is_published: false, is_featured: false }. */
+  overrides?: Record<string, unknown>
+}
+
+/** POST /api/admin/{module}/[id]/duplicate for /api/admin/{module}/[id]/duplicate. */
+export function createAdminDuplicateRoute(config: DuplicateConfig) {
+  const writePerm = `${config.permission}:write` as Permission
+  type RouteContext = { params: Promise<{ id: string }> }
+
+  async function uniqueSlug(base: string): Promise<string> {
+    const supabase = dynDb()
+    let slug = base
+    for (let attempt = 0; attempt < 10; attempt++) {
+      const { data } = await supabase.from(config.table).select("id").eq(config.slugField!, slug).maybeSingle()
+      if (!data) return slug
+      slug = `${base}-${attempt + 1}`
+    }
+    return `${base}-${Date.now()}`
+  }
+
+  async function POST(_req: NextRequest, { params }: RouteContext): Promise<Response> {
+    const deny = await requirePermission(writePerm)
+    if (deny) return deny
+
+    const { id } = await params
+    const supabase = dynDb()
+
+    const { data: src, error: srcErr } = await supabase.from(config.table).select("*").eq("id", id).single()
+    if (srcErr || !src) {
+      return Response.json({ success: false, error: "Not found." }, { status: 404 })
+    }
+
+    const insert: Record<string, unknown> = {}
+    for (const f of config.copyFields) insert[f] = (src as Record<string, unknown>)[f]
+    if (config.titleField) {
+      insert[config.titleField] = `${(src as Record<string, unknown>)[config.titleField]} (Copy)`
+    }
+    if (config.slugField) {
+      const baseSlug = String((src as Record<string, unknown>)[config.slugField] ?? "copy")
+      insert[config.slugField] = await uniqueSlug(`${baseSlug}-copy`)
+    }
+    Object.assign(insert, config.overrides ?? {})
+
+    const { data: copy, error: copyErr } = await supabase.from(config.table).insert(insert).select().single()
+    if (copyErr || !copy) {
+      return Response.json({ success: false, error: copyErr?.message ?? "Duplicate failed." }, { status: 500 })
+    }
+
+    const session = await getAdminSession()
+    await audit({ event: `${config.permission}.duplicate`, email: session?.email, targetId: (copy as { id: string }).id, meta: { sourceId: id } })
+    return Response.json({ success: true, data: copy }, { status: 201 })
+  }
+
+  return { POST }
 }
