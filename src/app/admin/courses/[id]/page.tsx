@@ -13,7 +13,7 @@
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { AdminEditShell } from "@/components/admin/AdminEditShell"
-import { FormField, FormSection, TextInput, Select } from "@/components/admin/ui/FormField"
+import { FormField, FormSection, TextInput, TextArea, Select } from "@/components/admin/ui/FormField"
 import { ImageUploader } from "@/components/admin/ui/ImageUploader"
 import { GalleryUploader } from "@/components/admin/ui/GalleryUploader"
 import { ToggleSwitch } from "@/components/admin/ui/ToggleSwitch"
@@ -25,14 +25,16 @@ import type { Database } from "@/types/database"
 
 type Course = Database["public"]["Tables"]["courses"]["Row"]
 
-interface Lesson { title: string; type: "video" | "pdf" | "external" | "attachment"; url: string }
+interface Lesson { title: string; type: "video" | "pdf" | "external" | "attachment"; url: string; duration_min?: number }
 interface CurriculumSection { title: string; lessons: Lesson[] }
 
 const EMPTY_COURSE = {
   title: "", slug: "", subtitle: "", description: "", category: "", difficulty: "Beginner",
-  instructor: "", duration_minutes: 0, lesson_count: 0, thumbnail_url: "", banner_url: "",
+  instructor: "", instructor_role: "", instructor_initials: "",
+  duration_minutes: 0, lesson_count: 0, thumbnail_url: "", banner_url: "", cover_gradient: "",
   gallery: [], trailer_video_url: "", price: 0, discount_price: null, currency: "USD",
-  badge: "", is_bestseller: false, is_featured: false, is_coming_soon: false,
+  badge: "", what_you_learn: [], includes: [],
+  is_bestseller: false, is_featured: false, is_coming_soon: false,
   is_published: false, is_archived: false, access_level: "premium", tags: [], curriculum: [],
   seo_title: "", seo_description: "", seo_keywords: "",
   students_count: 0, sales_count: 0, revenue_cached: 0, rating: 0, review_count: 0, completion_avg_pct: 0,
@@ -127,18 +129,38 @@ export default function CourseEditPage() {
                 </Select>
               </FormField>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <FormField label="Instructor">
                 <TextInput value={d.instructor ?? ""} onChange={(e) => item.setField("instructor", e.target.value)} />
               </FormField>
-              <FormField label="Duration (minutes)">
-                <TextInput type="number" value={d.duration_minutes ?? 0} onChange={(e) => item.setField("duration_minutes", Number(e.target.value))} />
+              <FormField label="Instructor Role" hint="e.g. Lead Educator">
+                <TextInput value={d.instructor_role ?? ""} onChange={(e) => item.setField("instructor_role", e.target.value)} />
+              </FormField>
+              <FormField label="Instructor Initials" hint="Shown in the avatar badge">
+                <TextInput value={d.instructor_initials ?? ""} onChange={(e) => item.setField("instructor_initials", e.target.value)} maxLength={4} />
               </FormField>
             </div>
+            <FormField label="Duration (minutes)">
+              <TextInput type="number" value={d.duration_minutes ?? 0} onChange={(e) => item.setField("duration_minutes", Number(e.target.value))} />
+            </FormField>
             <FormField label="Tags" hint="Comma-separated">
               <TextInput
                 value={(d.tags ?? []).join(", ")}
                 onChange={(e) => item.setField("tags", e.target.value.split(",").map((t) => t.trim()).filter(Boolean))}
+              />
+            </FormField>
+            <FormField label="What You'll Learn" hint="One item per line">
+              <TextArea
+                rows={5}
+                value={(d.what_you_learn ?? []).join("\n")}
+                onChange={(e) => item.setField("what_you_learn", e.target.value.split("\n").map((t) => t.trim()).filter(Boolean))}
+              />
+            </FormField>
+            <FormField label="This Course Includes" hint="One item per line — shown on the purchase card">
+              <TextArea
+                rows={4}
+                value={(d.includes ?? []).join("\n")}
+                onChange={(e) => item.setField("includes", e.target.value.split("\n").map((t) => t.trim()).filter(Boolean))}
               />
             </FormField>
           </FormSection>
@@ -155,6 +177,9 @@ export default function CourseEditPage() {
             </FormField>
             <FormField label="Trailer Video URL">
               <TextInput value={d.trailer_video_url ?? ""} onChange={(e) => item.setField("trailer_video_url", e.target.value)} placeholder="https://..." />
+            </FormField>
+            <FormField label="Cover Gradient" hint="Tailwind gradient classes, used as a fallback when no thumbnail is set — e.g. from-[#1a1000] via-[#2a1800] to-[#0a0800]">
+              <TextInput value={d.cover_gradient ?? ""} onChange={(e) => item.setField("cover_gradient", e.target.value)} className="font-mono text-[0.8125rem]" />
             </FormField>
           </FormSection>
 
@@ -233,7 +258,7 @@ function CurriculumEditor({ value, onChange }: { value: CurriculumSection[]; onC
   }
   function addLesson(sIdx: number) {
     const section = value[sIdx]
-    updateSection(sIdx, { lessons: [...section.lessons, { title: "", type: "video", url: "" }] })
+    updateSection(sIdx, { lessons: [...section.lessons, { title: "", type: "video", url: "", duration_min: 10 }] })
   }
   function updateLesson(sIdx: number, lIdx: number, patch: Partial<Lesson>) {
     const section = value[sIdx]
@@ -283,6 +308,13 @@ function CurriculumEditor({ value, onChange }: { value: CurriculumSection[]; onC
                   onChange={(e) => updateLesson(sIdx, lIdx, { url: e.target.value })}
                   placeholder="URL"
                   className="flex-1"
+                />
+                <TextInput
+                  type="number"
+                  value={lesson.duration_min ?? ""}
+                  onChange={(e) => updateLesson(sIdx, lIdx, { duration_min: e.target.value ? Number(e.target.value) : undefined })}
+                  placeholder="Min"
+                  className="w-16 shrink-0"
                 />
                 <button type="button" onClick={() => removeLesson(sIdx, lIdx)} aria-label="Remove lesson" className="shrink-0 text-white/30 hover:text-red-400 transition-colors">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>

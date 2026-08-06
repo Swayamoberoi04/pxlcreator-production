@@ -12,8 +12,9 @@ export const { POST } = createAdminDuplicateRoute({
   slugField: "slug",
   copyFields: [
     "subtitle", "description", "category", "difficulty", "instructor",
-    "duration_minutes", "lesson_count", "thumbnail_url", "banner_url", "gallery", "trailer_video_url",
-    "price", "discount_price", "currency", "badge", "access_level", "tags", "curriculum",
+    "instructor_role", "instructor_initials",
+    "duration_minutes", "lesson_count", "thumbnail_url", "banner_url", "cover_gradient", "gallery", "trailer_video_url",
+    "price", "discount_price", "currency", "badge", "what_you_learn", "includes", "access_level", "tags", "curriculum",
     "seo_title", "seo_description", "seo_keywords", "order_index",
   ],
   overrides: {

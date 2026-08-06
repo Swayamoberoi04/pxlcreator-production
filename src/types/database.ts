@@ -512,16 +512,21 @@ export interface Database {
           category:           string | null
           difficulty:         "Beginner" | "Intermediate" | "Advanced" | null
           instructor:         string | null
+          instructor_role:     string | null
+          instructor_initials: string | null
           duration_minutes:   number | null
           lesson_count:       number
           thumbnail_url:      string | null
           banner_url:         string | null
+          cover_gradient:      string | null
           gallery:            string[]
           trailer_video_url:  string | null
           price:              number
           discount_price:     number | null
           currency:           "USD" | "INR" | "EUR" | "GBP"
           badge:              string | null
+          what_you_learn:      string[]
+          includes:            string[]
           is_bestseller:      boolean
           is_featured:        boolean
           is_coming_soon:     boolean
@@ -552,16 +557,21 @@ export interface Database {
           category?:           string | null
           difficulty?:         "Beginner" | "Intermediate" | "Advanced" | null
           instructor?:         string | null
+          instructor_role?:     string | null
+          instructor_initials?: string | null
           duration_minutes?:   number | null
           lesson_count?:       number
           thumbnail_url?:      string | null
           banner_url?:         string | null
+          cover_gradient?:      string | null
           gallery?:            string[]
           trailer_video_url?:  string | null
           price?:              number
           discount_price?:     number | null
           currency?:           "USD" | "INR" | "EUR" | "GBP"
           badge?:              string | null
+          what_you_learn?:      string[]
+          includes?:            string[]
           is_bestseller?:      boolean
           is_featured?:        boolean
           is_coming_soon?:     boolean
@@ -589,16 +599,21 @@ export interface Database {
           category?:           string | null
           difficulty?:         "Beginner" | "Intermediate" | "Advanced" | null
           instructor?:         string | null
+          instructor_role?:     string | null
+          instructor_initials?: string | null
           duration_minutes?:   number | null
           lesson_count?:       number
           thumbnail_url?:      string | null
           banner_url?:         string | null
+          cover_gradient?:      string | null
           gallery?:            string[]
           trailer_video_url?:  string | null
           price?:              number
           discount_price?:     number | null
           currency?:           "USD" | "INR" | "EUR" | "GBP"
           badge?:              string | null
+          what_you_learn?:      string[]
+          includes?:            string[]
           is_bestseller?:      boolean
           is_featured?:        boolean
           is_coming_soon?:     boolean

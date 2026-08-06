@@ -2,12 +2,14 @@ import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { Container } from "@/components/layout/Container"
-import { ALL_COURSES } from "@/data/courses"
+import { getCourseBySlug, getCourses } from "@/lib/courses/repository"
 import type { CourseLevel } from "@/types/course"
 import { cn } from "@/lib/utils"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
+
+export const dynamic = "force-dynamic"
 
 type PageProps = { params: Promise<{ slug: string }> }
 
@@ -17,13 +19,9 @@ const LEVEL_STYLES: Record<CourseLevel, string> = {
   Advanced:     "text-gold       bg-gold/10       border-gold/20",
 }
 
-export async function generateStaticParams() {
-  return ALL_COURSES.map((c) => ({ slug: c.slug }))
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const course = ALL_COURSES.find((c) => c.slug === slug)
+  const course = await getCourseBySlug(slug)
   if (!course) return {}
   return { title: course.title, description: course.tagline }
 }
@@ -31,14 +29,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CourseDetailPage({ params }: PageProps) {
   const { slug } = await params
-  const course = ALL_COURSES.find((c) => c.slug === slug)
+  const course = await getCourseBySlug(slug)
   if (!course) notFound()
 
   const discount = course.originalPrice
     ? Math.round((1 - course.price / course.originalPrice) * 100)
     : null
 
-  const related = ALL_COURSES
+  const allCourses = await getCourses()
+  const related = allCourses
     .filter((c) => c.category === course.category && c.id !== course.id)
     .slice(0, 2)
 

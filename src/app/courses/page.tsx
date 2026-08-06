@@ -2,13 +2,15 @@ import type { Metadata } from "next"
 import Link  from "next/link"
 import Image from "next/image"
 import { Container } from "@/components/layout/Container"
-import { ALL_COURSES, FEATURED_COURSE, OTHER_COURSES } from "@/data/courses"
+import { getCourses } from "@/lib/courses/repository"
 import type { Course, CourseLevel } from "@/types/course"
 import { cn } from "@/lib/utils"
 import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
+
+export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: "Courses",
@@ -23,7 +25,11 @@ const LEVEL_STYLES: Record<CourseLevel, string> = {
 }
 
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+  const ALL_COURSES    = await getCourses()
+  const FEATURED_COURSE = ALL_COURSES.find((c) => c.isFeatured) ?? ALL_COURSES[0]
+  const OTHER_COURSES   = ALL_COURSES.filter((c) => c.id !== FEATURED_COURSE?.id)
+
   return (
     <div className="w-full bg-background">
 
@@ -76,17 +82,19 @@ export default function CoursesPage() {
       <Container className="py-14 sm:py-20">
 
         {/* ── Featured course ── */}
-        <div className="mb-14">
-          <CinematicReveal variant="gentle">
-            <div className="flex items-center gap-2 mb-6">
-              <span className="h-px w-6 bg-gold" />
-              <span className="text-label text-gold">Featured Course</span>
-            </div>
-          </CinematicReveal>
-          <CinematicReveal variant="rise" delay={0.06}>
-            <FeaturedCourseCard course={FEATURED_COURSE} />
-          </CinematicReveal>
-        </div>
+        {FEATURED_COURSE && (
+          <div className="mb-14">
+            <CinematicReveal variant="gentle">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="h-px w-6 bg-gold" />
+                <span className="text-label text-gold">Featured Course</span>
+              </div>
+            </CinematicReveal>
+            <CinematicReveal variant="rise" delay={0.06}>
+              <FeaturedCourseCard course={FEATURED_COURSE} />
+            </CinematicReveal>
+          </div>
+        )}
 
         {/* ── All other courses ── */}
         <div>

@@ -21,8 +21,10 @@ const courseSchema = z.object({
 
 const WRITABLE_FIELDS = [
   "title", "slug", "subtitle", "description", "category", "difficulty", "instructor",
-  "duration_minutes", "lesson_count", "thumbnail_url", "banner_url", "gallery", "trailer_video_url",
-  "price", "discount_price", "currency", "badge", "is_bestseller", "is_featured", "is_coming_soon",
+  "instructor_role", "instructor_initials",
+  "duration_minutes", "lesson_count", "thumbnail_url", "banner_url", "cover_gradient", "gallery", "trailer_video_url",
+  "price", "discount_price", "currency", "badge", "what_you_learn", "includes",
+  "is_bestseller", "is_featured", "is_coming_soon",
   "is_published", "is_archived", "access_level", "tags", "curriculum",
   "seo_title", "seo_description", "seo_keywords",
   "students_count", "sales_count", "revenue_cached", "rating", "review_count", "completion_avg_pct",
