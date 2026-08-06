@@ -511,9 +511,15 @@ export interface Database {
           file_name:   string
           file_size:   number | null
           mime_type:   string | null
-          asset_type:  "thumbnail" | "download_file" | "gallery_image" | "before" | "after"
+          asset_type:  "thumbnail" | "download_file" | "gallery_image" | "before" | "after" | "media_image" | "media_video" | "media_document" | "banner" | "og_image"
           uploaded_by: string | null
+          folder:      string
+          alt_text:    string | null
+          width:       number | null
+          height:      number | null
+          public_url:  string | null
           created_at:  string
+          updated_at:  string
         }
         Insert: {
           id?:         string
@@ -523,14 +529,24 @@ export interface Database {
           file_name:   string
           file_size?:  number | null
           mime_type?:  string | null
-          asset_type:  "thumbnail" | "download_file" | "gallery_image" | "before" | "after"
+          asset_type:  "thumbnail" | "download_file" | "gallery_image" | "before" | "after" | "media_image" | "media_video" | "media_document" | "banner" | "og_image"
           uploaded_by?: string | null
+          folder?:     string
+          alt_text?:   string | null
+          width?:      number | null
+          height?:     number | null
+          public_url?: string | null
         }
         Update: {
           preset_id?:  string | null
           file_size?:  number | null
           mime_type?:  string | null
-          asset_type?: "thumbnail" | "download_file" | "gallery_image" | "before" | "after"
+          asset_type?: "thumbnail" | "download_file" | "gallery_image" | "before" | "after" | "media_image" | "media_video" | "media_document" | "banner" | "og_image"
+          folder?:     string
+          alt_text?:   string | null
+          width?:      number | null
+          height?:     number | null
+          public_url?: string | null
         }
         Relationships: []
       }
