@@ -801,6 +801,54 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── site_seo ────────────────────────────────────── */
+      site_seo: {
+        Row: {
+          id:              string
+          page_key:        string
+          label:           string
+          path:            string
+          seo_title:       string | null
+          seo_description: string | null
+          seo_keywords:    string | null
+          og_image_url:    string | null
+          og_type:         string
+          twitter_card:    "summary" | "summary_large_image"
+          canonical_url:   string | null
+          schema_json:     Json | null
+          created_at:      string
+          updated_at:      string
+        }
+        Insert: {
+          id?:              string
+          page_key:         string
+          label:            string
+          path:             string
+          seo_title?:       string | null
+          seo_description?: string | null
+          seo_keywords?:    string | null
+          og_image_url?:    string | null
+          og_type?:         string
+          twitter_card?:    "summary" | "summary_large_image"
+          canonical_url?:   string | null
+          schema_json?:     Json | null
+        }
+        Update: {
+          page_key?:        string
+          label?:           string
+          path?:            string
+          seo_title?:       string | null
+          seo_description?: string | null
+          seo_keywords?:    string | null
+          og_image_url?:    string | null
+          og_type?:         string
+          twitter_card?:    "summary" | "summary_large_image"
+          canonical_url?:   string | null
+          schema_json?:     Json | null
+        }
+        Relationships: []
+      }
+
       /* ── storage_assets ─────────────────────────────── */
       storage_assets: {
         Row: {

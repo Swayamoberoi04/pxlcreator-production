@@ -46,7 +46,7 @@ export const PERMISSIONS = [
   // Reviews
   "reviews:moderate",
   // Platform
-  "seo:write", "settings:write", "analytics:read",
+  "seo:read", "seo:write", "seo:delete", "settings:write", "analytics:read",
   // Admin identity itself
   "admins:manage", "audit:read",
 ] as const
@@ -70,7 +70,7 @@ const ROLE_PERMISSIONS: Record<Exclude<Role, "super_admin">, readonly Permission
     "blog:read", "blog:write", "blog:publish",
     "media:read", "media:upload",
     "homepage:read", "homepage:write", "editor:read", "editor:write",
-    "ai_studio:read", "ai_studio:write", "seo:write",
+    "ai_studio:read", "ai_studio:write", "seo:read", "seo:write",
     "community:read", "community:write",
   ],
 

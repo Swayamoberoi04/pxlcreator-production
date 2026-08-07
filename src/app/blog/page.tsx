@@ -9,13 +9,20 @@ import { LuminousEnvironment }  from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }         from "@/components/ui/GrainOverlay"
 import { CinematicBackground }  from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
+import { getSiteSeo } from "@/lib/seo/site-seo"
 
 export const dynamic = "force-dynamic"
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description:
-    "Photography tutorials, editing tips, gear reviews and behind-the-scenes from the PXL Creator team.",
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSiteSeo("blog")
+  return {
+    title: seo.title ?? undefined,
+    description: seo.description ?? undefined,
+    keywords: seo.keywords ?? undefined,
+    alternates: seo.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
+    openGraph: { images: seo.ogImage ? [{ url: seo.ogImage }] : undefined },
+    twitter: { card: seo.twitterCard },
+  }
 }
 
 /* Category accent colours */

@@ -5,12 +5,21 @@ import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicBackground } from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
+import { getSiteSeo } from "@/lib/seo/site-seo"
+
+export const dynamic = "force-dynamic"
 
 /* ── SEO ── */
-export const metadata: Metadata = {
-  title: "AI Studio — Describe the look. AI does the edit.",
-  description:
-    "Upload any photo and describe the mood in plain English. PXL Vision AI analyses your image, applies a custom colour grade, and recommends the PXL preset that matches it best.",
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSiteSeo("ai_studio")
+  return {
+    title: seo.title ?? undefined,
+    description: seo.description ?? undefined,
+    keywords: seo.keywords ?? undefined,
+    alternates: seo.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
+    openGraph: { images: seo.ogImage ? [{ url: seo.ogImage }] : undefined },
+    twitter: { card: seo.twitterCard },
+  }
 }
 
 export default function StudioPage() {

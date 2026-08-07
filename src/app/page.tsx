@@ -16,6 +16,7 @@
  * 034's comment for why duplicating that UI would be dishonest architecture.
  */
 
+import type { Metadata }              from "next"
 import { Suspense }                   from "react"
 import { HeroSection }                from "@/components/sections/HeroSection"
 import { FeaturedSection }            from "@/components/sections/FeaturedSection"
@@ -35,8 +36,21 @@ import { FeatureCardsSection }        from "@/components/sections/FeatureCardsSe
 import { FeaturedYouTubeVideosSection } from "@/components/sections/FeaturedYouTubeVideosSection"
 import { FooterPromoSection }         from "@/components/sections/FooterPromoSection"
 import { getHomepageSections, getSection } from "@/lib/homepage/repository"
+import { getSiteSeo } from "@/lib/seo/site-seo"
 
 export const dynamic = "force-dynamic"
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSiteSeo("home")
+  return {
+    title: seo.title ?? undefined,
+    description: seo.description ?? undefined,
+    keywords: seo.keywords ?? undefined,
+    alternates: seo.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
+    openGraph: { images: seo.ogImage ? [{ url: seo.ogImage }] : undefined },
+    twitter: { card: seo.twitterCard },
+  }
+}
 
 /* ── Skeleton placeholder — keeps layout stable during async streaming ── */
 function SectionSkeleton({ height = "h-96" }: { height?: string }) {

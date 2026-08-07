@@ -9,13 +9,20 @@ import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }       from "@/components/ui/GrainOverlay"
 /* StoreScene3DWrapper owns its own dynamic(ssr:false) and is "use client" */
 import { StoreScene3DWrapper } from "@/components/3d/StoreScene3DWrapper"
+import { getSiteSeo } from "@/lib/seo/site-seo"
 
 export const dynamic = "force-dynamic"
 
-export const metadata: Metadata = {
-  title: "Store — Preset Packs & Free Downloads",
-  description:
-    "Browse 24 PXL Creator preset packs — 12 free downloads and tiered paid packs from ₹420. Cinematic, film emulation, portrait, landscape and street. Instant download.",
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSiteSeo("store")
+  return {
+    title: seo.title ?? undefined,
+    description: seo.description ?? undefined,
+    keywords: seo.keywords ?? undefined,
+    alternates: seo.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
+    openGraph: { images: seo.ogImage ? [{ url: seo.ogImage }] : undefined },
+    twitter: { card: seo.twitterCard },
+  }
 }
 
 const VALID_CATEGORIES = new Set([

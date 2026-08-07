@@ -7,13 +7,20 @@ import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicBackground } from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 import type { BundleWithPresets } from "@/types/bundle"
+import { getSiteSeo } from "@/lib/seo/site-seo"
 
 export const dynamic = "force-dynamic"
 
-export const metadata: Metadata = {
-  title: "Bundles — PXL Creator",
-  description:
-    "Save more with PXL Creator preset bundles. Hand-curated collections at one discounted price — get the complete look instantly.",
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSiteSeo("bundles")
+  return {
+    title: seo.title ?? undefined,
+    description: seo.description ?? undefined,
+    keywords: seo.keywords ?? undefined,
+    alternates: seo.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
+    openGraph: { images: seo.ogImage ? [{ url: seo.ogImage }] : undefined },
+    twitter: { card: seo.twitterCard },
+  }
 }
 
 export default async function BundlesPage() {
