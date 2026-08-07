@@ -39,13 +39,16 @@ interface RateLimiter {
   /**
    * Check whether the given key has exceeded the limit.
    * Side-effect: increments the counter for this key.
+   * @param maxOverride  Use this limit instead of the one the limiter was
+   *   created with — lets a route read an admin-configurable value (e.g.
+   *   AI Studio's "free edits per hour") without rebuilding the limiter.
    * @returns true  → request should be rejected (429)
    * @returns false → request is within limits
    */
-  check(key: string): boolean
+  check(key: string, maxOverride?: number): boolean
 
   /** Remaining requests for this key in the current window. */
-  remaining(key: string): number
+  remaining(key: string, maxOverride?: number): number
 }
 
 /**
@@ -68,17 +71,19 @@ export function makeRateLimiter({ max, windowMs }: RateLimiterOptions): RateLimi
   }
 
   return {
-    check(key: string): boolean {
+    check(key: string, maxOverride?: number): boolean {
+      const limit = maxOverride ?? max
       const entry = getEntry(key)
-      if (entry.count >= max) return true
+      if (entry.count >= limit) return true
       entry.count++
       return false
     },
 
-    remaining(key: string): number {
+    remaining(key: string, maxOverride?: number): number {
+      const limit = maxOverride ?? max
       const entry = store.get(key)
-      if (!entry || Date.now() > entry.resetAt) return max
-      return Math.max(0, max - entry.count)
+      if (!entry || Date.now() > entry.resetAt) return limit
+      return Math.max(0, limit - entry.count)
     },
   }
 }

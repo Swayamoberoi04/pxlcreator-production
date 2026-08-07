@@ -105,6 +105,7 @@ export type StudioErrorCode =
   | "AI_ERROR"         // OpenAI call failed or returned unparseable JSON
   | "PROCESS_ERROR"    // Sharp threw during image processing
   | "RATE_LIMITED"     // Too many requests from this IP
+  | "SERVICE_DISABLED" // Admin has temporarily disabled AI Studio
 
 export interface StudioErrorResponse {
   success: false

@@ -5,7 +5,10 @@ import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicBackground } from "@/components/ui/CinematicBackground"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
+import { FAQSection }       from "@/components/sections/FAQSection"
+import { TutorialsSection } from "@/components/sections/TutorialsSection"
 import { getSiteSeo } from "@/lib/seo/site-seo"
+import { getAIStudioSettings } from "@/lib/ai-studio/settings"
 
 export const dynamic = "force-dynamic"
 
@@ -22,9 +25,18 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function StudioPage() {
+export default async function StudioPage() {
+  const settings = await getAIStudioSettings()
+
   return (
     <div className="w-full bg-background">
+
+      {/* ── Announcement — optional, admin-managed ── */}
+      {settings.announcement && (
+        <div className="w-full bg-[#6366f1]/[0.08] border-b border-[#6366f1]/20 px-4 py-2 text-center">
+          <p className="text-[0.8125rem] text-[#a5b4fc]">{settings.announcement}</p>
+        </div>
+      )}
 
       {/* ────────────────────────────────────────────────────────
           HERO BAND
@@ -49,7 +61,7 @@ export default function StudioPage() {
               <div className="flex items-center gap-2 rounded-full border border-[#6366f1]/30 bg-[#6366f1]/8 px-4 py-1.5">
                 <SparkIcon />
                 <span className="text-[0.75rem] font-semibold tracking-widest uppercase text-[#a5b4fc]">
-                  AI Studio · Beta
+                  {settings.heroBadgeLabel}
                 </span>
               </div>
             </CinematicReveal>
@@ -57,24 +69,14 @@ export default function StudioPage() {
             {/* Headline */}
             <CinematicReveal variant="depth" delay={0.07}>
               <h1 className="font-display font-bold text-foreground text-[clamp(2rem,5vw,3.25rem)] leading-[1.05] tracking-tight">
-                Describe the look.{" "}
-                <br className="hidden sm:block" />
-                <span
-                  className="bg-clip-text text-transparent"
-                  style={{
-                    backgroundImage: "linear-gradient(90deg, #6366f1 0%, #FFD60A 100%)",
-                  }}
-                >
-                  AI does the edit.
-                </span>
+                {settings.heroTitle}
               </h1>
             </CinematicReveal>
 
             {/* Subheadline */}
             <CinematicReveal variant="rise" delay={0.14}>
               <p className="text-lead max-w-lg">
-                Upload any photo, write what mood you&apos;re after — PXL Vision AI reads your image,
-                applies a custom colour grade, and recommends the preset that matches it best.
+                {settings.heroSubtitle}
               </p>
             </CinematicReveal>
 
@@ -102,12 +104,19 @@ export default function StudioPage() {
       </div>
 
       {/* ────────────────────────────────────────────────────────
-          STUDIO SHELL — the full interactive tool
+          STUDIO SHELL — the full interactive tool (or a disabled
+          notice when the admin kill switch is off)
       ──────────────────────────────────────────────────────── */}
       <div className="relative">
         <LuminousEnvironment variant="indigo" intensity={0.5} />
         <Container className="relative z-10 py-10 sm:py-14">
-          <StudioShell />
+          {settings.isEnabled ? (
+            <StudioShell chips={settings.promptChips} />
+          ) : (
+            <div className="rounded-2xl border border-border bg-surface px-6 py-16 text-center max-w-lg mx-auto">
+              <p className="text-body text-muted">AI Studio is temporarily unavailable. Please check back soon.</p>
+            </div>
+          )}
         </Container>
       </div>
 
@@ -117,12 +126,18 @@ export default function StudioPage() {
       <div className="border-t border-border">
         <Container className="py-6">
           <p className="text-center text-[0.75rem] text-muted/70 leading-relaxed max-w-lg mx-auto">
-            PXL Vision AI · Images are processed in-memory and never stored ·
-            5 edits / hour per session · Results are approximate — real Lightroom presets
-            give the full look.
+            {settings.finePrint}
           </p>
         </Container>
       </div>
+
+      {/* ── Tutorials — renders nothing when empty ── */}
+      <TutorialsSection items={settings.tutorialItems} />
+
+      {/* ── FAQ — renders nothing when empty ── */}
+      {settings.faqItems.length > 0 && (
+        <FAQSection title="AI Studio FAQ" items={settings.faqItems} />
+      )}
 
     </div>
   )

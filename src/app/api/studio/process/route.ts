@@ -28,6 +28,7 @@ import { processImage }       from "@/lib/studio/process"
 import { recommendPreset }    from "@/lib/studio/recommend"
 import { getPresets }         from "@/lib/presets/repository"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
+import { getAIStudioSettings } from "@/lib/ai-studio/settings"
 import type { StudioAPIResponse, StudioErrorCode } from "@/types/studio"
 
 /* ─────────────────────────────────────────────────────────────
@@ -57,7 +58,9 @@ const ALLOWED_TYPES  = new Set(["image/jpeg", "image/png", "image/webp"])
 const MAX_PROMPT_LEN = 500
 
 /* ─────────────────────────────────────────────────────────────
-   Rate limiter — 5 requests / hour per IP
+   Rate limiter — default 5 requests / hour per IP, overridable at
+   runtime via AI Studio Settings (free_edits_per_hour) — see
+   src/lib/ai-studio/settings.ts and /admin/ai-studio.
    Phase 2: swap store for Upstash Redis for distributed limiting
 ───────────────────────────────────────────────────────────── */
 
@@ -79,9 +82,14 @@ function errorResponse(message: string, code: StudioErrorCode, status: number): 
 export async function POST(request: NextRequest): Promise<Response> {
   const startMs = Date.now()
 
-  /* ── 1. Rate limiting ── */
+  /* ── 1. Kill switch + rate limiting (both admin-configurable) ── */
+  const settings = await getAIStudioSettings()
+  if (!settings.isEnabled) {
+    return errorResponse("AI Studio is temporarily unavailable. Please check back soon.", "SERVICE_DISABLED", 503)
+  }
+
   const ip = getClientIp(request)
-  if (studioLimiter.check(ip)) {
+  if (studioLimiter.check(ip, settings.freeEditsPerHour)) {
     return errorResponse("Too many requests. Please wait before trying again.", "RATE_LIMITED", 429)
   }
 

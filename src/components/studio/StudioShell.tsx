@@ -10,7 +10,13 @@ import type {
   StudioState,
   StudioAPIResponse,
   StudioSuccessResponse,
+  AestheticChip,
 } from "@/types/studio"
+
+interface StudioShellProps {
+  /** Overrides the default chip set — admin-managed via /admin/ai-studio. */
+  chips?: AestheticChip[]
+}
 
 /* ─────────────────────────────────────────────────────────────
    State machine
@@ -89,7 +95,7 @@ function reducer(state: StudioState, action: Action): StudioState {
 /* ─────────────────────────────────────────────────────────────
    Component
 ───────────────────────────────────────────────────────────── */
-export function StudioShell() {
+export function StudioShell({ chips = AESTHETIC_CHIPS }: StudioShellProps = {}) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   /* ── File selection ── */
@@ -106,7 +112,7 @@ export function StudioShell() {
 
     /* Build the keyword list from selected chip IDs */
     const aestheticKeywords = state.selectedAesthetics.flatMap(
-      (id) => AESTHETIC_CHIPS.find((c) => c.id === id)?.keywords ?? []
+      (id) => chips.find((c) => c.id === id)?.keywords ?? []
     )
 
     const formData = new FormData()
@@ -133,7 +139,7 @@ export function StudioShell() {
         message: "Network error — please check your connection and try again.",
       })
     }
-  }, [state.file, state.prompt, state.selectedAesthetics])
+  }, [state.file, state.prompt, state.selectedAesthetics, chips])
 
   const { step } = state
 
@@ -208,6 +214,7 @@ export function StudioShell() {
         onPromptChange={(v) => dispatch({ type: "SET_PROMPT", prompt: v })}
         onToggleAesthetic={(id) => dispatch({ type: "TOGGLE_AESTHETIC", id })}
         onSubmit={handleSubmit}
+        chips={chips}
       />
 
     </div>

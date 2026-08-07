@@ -801,6 +801,51 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── ai_studio_settings ──────────────────────────── */
+      ai_studio_settings: {
+        Row: {
+          id:                  string
+          is_enabled:          boolean
+          free_edits_per_hour: number
+          hero_badge_label:    string | null
+          hero_title:          string | null
+          hero_subtitle:       string | null
+          fine_print:          string | null
+          announcement:        string | null
+          prompt_chips:        Json
+          faq_items:           Json
+          tutorial_items:      Json
+          created_at:          string
+          updated_at:          string
+        }
+        Insert: {
+          id?:                  string
+          is_enabled?:          boolean
+          free_edits_per_hour?: number
+          hero_badge_label?:    string | null
+          hero_title?:          string | null
+          hero_subtitle?:       string | null
+          fine_print?:          string | null
+          announcement?:        string | null
+          prompt_chips?:        Json
+          faq_items?:           Json
+          tutorial_items?:      Json
+        }
+        Update: {
+          is_enabled?:          boolean
+          free_edits_per_hour?: number
+          hero_badge_label?:    string | null
+          hero_title?:          string | null
+          hero_subtitle?:       string | null
+          fine_print?:          string | null
+          announcement?:        string | null
+          prompt_chips?:        Json
+          faq_items?:           Json
+          tutorial_items?:      Json
+        }
+        Relationships: []
+      }
+
       /* ── site_seo ────────────────────────────────────── */
       site_seo: {
         Row: {

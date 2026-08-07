@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { AestheticChips } from "./AestheticChips"
+import type { AestheticChip } from "@/types/studio"
 
 interface PromptInputProps {
   prompt:              string
@@ -11,6 +12,8 @@ interface PromptInputProps {
   onPromptChange:      (v: string) => void
   onToggleAesthetic:   (id: string) => void
   onSubmit:            () => void
+  /** Overrides the default chip set — admin-managed via /admin/ai-studio. */
+  chips?:              AestheticChip[]
 }
 
 const MAX_CHARS = 500
@@ -25,6 +28,7 @@ export function PromptInput({
   onPromptChange,
   onToggleAesthetic,
   onSubmit,
+  chips,
 }: PromptInputProps) {
   const remaining  = MAX_CHARS - prompt.length
   const canSubmit  = hasFile && prompt.trim().length > 0 && !isSubmitting
@@ -87,6 +91,7 @@ export function PromptInput({
       <AestheticChips
         selected={selectedAesthetics}
         onToggle={onToggleAesthetic}
+        chips={chips}
       />
 
       {/* ── Submit button ── */}

@@ -59,14 +59,16 @@ export const AESTHETIC_CHIPS: AestheticChip[] = [
 interface AestheticChipsProps {
   selected:  string[]                 // array of chip IDs
   onToggle:  (id: string) => void
+  /** Overrides the default chip set — admin-managed via /admin/ai-studio. */
+  chips?:    AestheticChip[]
 }
 
-export function AestheticChips({ selected, onToggle }: AestheticChipsProps) {
+export function AestheticChips({ selected, onToggle, chips = AESTHETIC_CHIPS }: AestheticChipsProps) {
   return (
     <div className="flex flex-col gap-2">
       <p className="text-label text-muted/85 tracking-widest">Quick vibes</p>
       <div className="flex flex-wrap gap-2">
-        {AESTHETIC_CHIPS.map((chip) => {
+        {chips.map((chip) => {
           const isActive = selected.includes(chip.id)
           return (
             <button
