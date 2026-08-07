@@ -1,25 +1,24 @@
 /**
  * src/app/page.tsx — Homepage
  *
- * Emotional scroll architecture:
+ * Section list, order, and on/off state now come from the database
+ * (src/lib/homepage/repository.ts, managed at /admin/homepage) instead of
+ * being hardcoded here — every section can be enabled/disabled/reordered/
+ * scheduled without a code change. If Supabase isn't configured or the
+ * migration hasn't run, getHomepageSections() falls back to this exact
+ * original 11-section list, in this exact order, all enabled — so the
+ * page never breaks during cutover (same guarantee as presets/courses/blog).
  *
- *  1. HeroSection          ← ENTRY: real cinematic photos, cycling scenes, parallax
- *  2. FeaturedSection      ← VISUAL: product grid, immediate value proof
- *  3. ManifestoSection     ← SHORT TEXT: 3 contrast lines + power headline (~20 words)
- *  5. BeforeAfterSection   ← INTERACTIVE: drag-to-compare sliders (5 real pairs)
- *  6. AIStudioBanner       ← INTERACTION: AI feature demo
- *  7. ShotUsingPXLSection  ← GALLERY: 12-photo masonry creator gallery
- *  8. SocialProofSection   ← TRUST: stats + testimonials
- *  9. PhilosophyStrip      ← PHILOSOPHY: compact 3-pillar + vision closer
- * 10. CTABanner            ← CONVERSION: final CTA
- *
- * Pacing:
- *   Cinematic entry → product value → static transformation →
- *   text punch → interactive proof → AI feature → gallery proof →
- *   trust → brief philosophy → convert.
- *
- * Philosophy: no manifesto dumps. Emotional engagement earns philosophy.
- * Full brand story lives at /about.
+ * Content wiring status (honest, not every section is fully rewired):
+ *   ✅ enabled/disabled + schedule — respected by every section below
+ *   ✅ FAQ, Announcement Banner — 100% DB-driven (title/subtitle/CTA/items)
+ *   ⏳ Hero, Featured, Manifesto, BeforeAfter, AIStudioBanner, ShotUsingPXL,
+ *      SocialProof, PhilosophyStrip, GiveawayBanner, LeadMagnet, CTABanner —
+ *      admin can edit their title/subtitle/CTA/image in the CMS today, but
+ *      these existing components don't yet read those props (follow-up).
+ *   🔜 Featured Bundles, Statistics, Testimonials, Feature Cards, Featured
+ *      YouTube Videos, Footer Promo — schema + admin UI exist, disabled by
+ *      default, no frontend component built yet (follow-up).
  */
 
 import { Suspense }                   from "react"
@@ -34,6 +33,11 @@ import { PhilosophyStrip }            from "@/components/sections/PhilosophyStri
 import { GiveawayBanner }             from "@/components/sections/GiveawayBanner"
 import { LeadMagnetSection }          from "@/components/sections/LeadMagnetSection"
 import { CTABanner }                  from "@/components/sections/CTABanner"
+import { FAQSection }                 from "@/components/sections/FAQSection"
+import { AnnouncementBanner }         from "@/components/sections/AnnouncementBanner"
+import { getHomepageSections, getSection, isSectionEnabled } from "@/lib/homepage/repository"
+
+export const dynamic = "force-dynamic"
 
 /* ── Skeleton placeholder — keeps layout stable during async streaming ── */
 function SectionSkeleton({ height = "h-96" }: { height?: string }) {
@@ -45,43 +49,62 @@ function SectionSkeleton({ height = "h-96" }: { height?: string }) {
   )
 }
 
-export default function Home() {
+export default async function Home() {
+  const sections = await getHomepageSections()
+  const on = (key: string) => isSectionEnabled(sections, key)
+  const announcement = getSection(sections, "announcement_banner")
+  const faq = getSection(sections, "faq")
+
   return (
     <>
+      {announcement && (
+        <AnnouncementBanner
+          title={announcement.title}
+          subtitle={announcement.subtitle}
+          ctaLabel={announcement.ctaLabel}
+          ctaHref={announcement.ctaHref}
+        />
+      )}
+
       {/* 1. ENTRY — real cinematic photos, cycling, parallax */}
-      <HeroSection />
+      {on("hero") && <HeroSection />}
 
       {/* 2. VISUAL — product grid */}
-      <Suspense fallback={<SectionSkeleton height="h-[480px]" />}>
-        <FeaturedSection />
-      </Suspense>
+      {on("featured") && (
+        <Suspense fallback={<SectionSkeleton height="h-[480px]" />}>
+          <FeaturedSection />
+        </Suspense>
+      )}
 
       {/* 3. SHORT TEXT — 3 punchy contrast lines, headline only */}
-      <ManifestoSection />
+      {on("manifesto") && <ManifestoSection />}
 
       {/* 6. INTERACTIVE — drag-to-compare sliders, 5 real image pairs */}
-      <BeforeAfterSection />
+      {on("before_after") && <BeforeAfterSection />}
 
       {/* 7. INTERACTION — AI Studio feature demo */}
-      <AIStudioBanner />
+      {on("ai_studio_banner") && <AIStudioBanner />}
 
-      {/* 8. GALLERY — 12-image masonry creator gallery */}
-      <ShotUsingPXLSection />
+      {/* 8. GALLERY — creator showcase triptych */}
+      {on("shot_using_pxl") && <ShotUsingPXLSection />}
 
       {/* 9. TRUST — social proof, stats, testimonials */}
-      <SocialProofSection />
+      {on("social_proof") && <SocialProofSection />}
+
+      {/* FAQ — fully DB-driven, renders nothing if no items */}
+      {faq && <FAQSection title={faq.title} subtitle={faq.subtitle} items={faq.items} />}
 
       {/* 10. PHILOSOPHY — compact 3-pillar + cinematic vision closer */}
-      <PhilosophyStrip />
+      {on("philosophy_strip") && <PhilosophyStrip />}
 
       {/* 11. GIVEAWAY — live giveaway strip CTA */}
-      <GiveawayBanner />
+      {on("giveaway_banner") && <GiveawayBanner />}
 
       {/* 12. LEAD MAGNET — free preset email capture */}
-      <LeadMagnetSection />
+      {on("lead_magnet") && <LeadMagnetSection />}
 
       {/* 13. CONVERSION — final CTA */}
-      <CTABanner />
+      {on("cta_banner") && <CTABanner />}
     </>
   )
 }

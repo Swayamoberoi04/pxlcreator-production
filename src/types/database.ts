@@ -726,48 +726,78 @@ export interface Database {
       /* ── homepage_sections ──────────────────────────── */
       homepage_sections: {
         Row: {
-          id:          string
-          section_key: string
-          label:       string
-          enabled:     boolean
-          order_index: number
-          title:       string | null
-          subtitle:    string | null
-          cta_label:   string | null
-          cta_href:    string | null
-          image_url:   string | null
-          video_url:   string | null
-          content:     Json
-          created_at:  string
-          updated_at:  string
+          id:            string
+          section_key:   string
+          label:         string
+          enabled:       boolean
+          order_index:   number
+          title:         string | null
+          subtitle:      string | null
+          cta_label:     string | null
+          cta_href:      string | null
+          image_url:     string | null
+          video_url:     string | null
+          content:       Json
+          items:         Json
+          publish_at:    string | null
+          unpublish_at:  string | null
+          created_at:    string
+          updated_at:    string
         }
         Insert: {
-          id?:          string
-          section_key:  string
-          label:        string
-          enabled?:     boolean
-          order_index?: number
-          title?:       string | null
-          subtitle?:    string | null
-          cta_label?:   string | null
-          cta_href?:    string | null
-          image_url?:   string | null
-          video_url?:   string | null
-          content?:     Json
+          id?:            string
+          section_key:    string
+          label:          string
+          enabled?:       boolean
+          order_index?:   number
+          title?:         string | null
+          subtitle?:      string | null
+          cta_label?:     string | null
+          cta_href?:      string | null
+          image_url?:     string | null
+          video_url?:     string | null
+          content?:       Json
+          items?:         Json
+          publish_at?:    string | null
+          unpublish_at?:  string | null
         }
         Update: {
-          section_key?: string
-          label?:       string
-          enabled?:     boolean
-          order_index?: number
-          title?:       string | null
-          subtitle?:    string | null
-          cta_label?:   string | null
-          cta_href?:    string | null
-          image_url?:   string | null
-          video_url?:   string | null
-          content?:     Json
+          section_key?:   string
+          label?:         string
+          enabled?:       boolean
+          order_index?:   number
+          title?:         string | null
+          subtitle?:      string | null
+          cta_label?:     string | null
+          cta_href?:      string | null
+          image_url?:     string | null
+          video_url?:     string | null
+          content?:       Json
+          items?:         Json
+          publish_at?:    string | null
+          unpublish_at?:  string | null
         }
+        Relationships: []
+      }
+
+      /* ── admin_resource_versions ──────────────────────── */
+      admin_resource_versions: {
+        Row: {
+          id:             string
+          resource_table: string
+          resource_id:    string
+          snapshot:       Json
+          created_by:     string | null
+          created_at:     string
+        }
+        Insert: {
+          id?:             string
+          resource_table:  string
+          resource_id:     string
+          snapshot:        Json
+          created_by?:     string | null
+        }
+        Update: Record<string, never>
         Relationships: []
       }
 

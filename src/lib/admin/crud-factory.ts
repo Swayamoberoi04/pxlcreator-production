@@ -70,6 +70,30 @@ export interface CrudConfig<TInsert extends Record<string, unknown>> {
   filterableFields?: string[]
   /** select() string for list/get — defaults to "*". */
   select?: string
+  /**
+   * When true, PUT/PATCH snapshot the row's PRE-update state into the
+   * shared `admin_resource_versions` table before writing — enables
+   * version history + restore for this module via
+   * createAdminVersionsRoutes() with no per-module schema needed.
+   */
+  versioning?: boolean
+}
+
+async function snapshotVersion(table: string, id: string, email: string | null | undefined): Promise<void> {
+  const supabase = dynDb()
+  const { data: current } = await supabase.from(table).select("*").eq("id", id).single()
+  if (!current) return
+  await supabase.from("admin_resource_versions").insert({
+    resource_table: table,
+    resource_id: id,
+    snapshot: current,
+    created_by: email ?? null,
+  })
+  // Best-effort prune — never blocks the write on failure.
+  await supabase.rpc("prune_admin_resource_versions", { p_table: table, p_id: id }).then(
+    () => {},
+    () => {}
+  )
 }
 
 function pick<T extends Record<string, unknown>>(
@@ -207,6 +231,12 @@ export function createAdminCrudItemRoutes<TInsert extends Record<string, unknown
     }
 
     const update = pick<TInsert>(body, config.writableFields)
+    const session = await getAdminSession()
+
+    if (config.versioning) {
+      await snapshotVersion(config.table, id, session?.email)
+    }
+
     const supabase = dynDb()
     const { data, error } = await supabase.from(config.table).update(update as Record<string, unknown>).eq("id", id).select().single()
 
@@ -214,7 +244,6 @@ export function createAdminCrudItemRoutes<TInsert extends Record<string, unknown
       return Response.json({ success: false, error: error.message }, { status: 500 })
     }
 
-    const session = await getAdminSession()
     await audit({ event: `${config.permission}.update`, email: session?.email, targetId: id, meta: { fields: Object.keys(update) } })
     return Response.json({ success: true, data })
   }
@@ -315,6 +344,93 @@ export function createAdminDuplicateRoute(config: DuplicateConfig) {
     const session = await getAdminSession()
     await audit({ event: `${config.permission}.duplicate`, email: session?.email, targetId: (copy as { id: string }).id, meta: { sourceId: id } })
     return Response.json({ success: true, data: copy }, { status: 201 })
+  }
+
+  return { POST }
+}
+
+/* ── Version history ──────────────────────────────────────────────────── */
+
+export interface VersionsConfig {
+  table: string
+  permission: string
+}
+
+/**
+ * GET  /api/admin/{module}/[id]/versions — list snapshots, newest first.
+ * Pair with `versioning: true` on the module's item-route config so
+ * snapshots actually get recorded on every PUT/PATCH.
+ */
+export function createAdminVersionsRoutes(config: VersionsConfig) {
+  const readPerm = `${config.permission}:read` as Permission
+  type RouteContext = { params: Promise<{ id: string }> }
+
+  async function GET(_req: NextRequest, { params }: RouteContext): Promise<Response> {
+    const deny = await requirePermission(readPerm)
+    if (deny) return deny
+
+    const { id } = await params
+    const supabase = dynDb()
+    const { data, error } = await supabase
+      .from("admin_resource_versions")
+      .select("id, snapshot, created_by, created_at")
+      .eq("resource_table", config.table)
+      .eq("resource_id", id)
+      .order("created_at", { ascending: false })
+      .limit(50)
+
+    if (error) {
+      return Response.json({ success: false, error: error.message }, { status: 500 })
+    }
+    return Response.json({ success: true, data })
+  }
+
+  return { GET }
+}
+
+/**
+ * POST /api/admin/{module}/[id]/versions/[versionId]/restore
+ * Restores a prior snapshot onto the live resource (itself snapshotted
+ * first, so "Restore" is never a one-way trip — you can always undo an
+ * undo).
+ */
+export function createAdminVersionRestoreRoute<TInsert extends Record<string, unknown>>(
+  config: CrudConfig<TInsert>
+) {
+  const writePerm = `${config.permission}:write` as Permission
+  type RouteContext = { params: Promise<{ id: string; versionId: string }> }
+
+  async function POST(_req: NextRequest, { params }: RouteContext): Promise<Response> {
+    const deny = await requirePermission(writePerm)
+    if (deny) return deny
+
+    const { id, versionId } = await params
+    const supabase = dynDb()
+
+    const { data: version, error: vErr } = await supabase
+      .from("admin_resource_versions")
+      .select("snapshot")
+      .eq("id", versionId)
+      .eq("resource_table", config.table)
+      .eq("resource_id", id)
+      .single()
+
+    if (vErr || !version) {
+      return Response.json({ success: false, error: "Version not found." }, { status: 404 })
+    }
+
+    const session = await getAdminSession()
+    await snapshotVersion(config.table, id, session?.email) // snapshot current state before overwriting
+
+    const restore = pick<TInsert>(version.snapshot as Record<string, unknown>, config.writableFields)
+    const { data, error } = await supabase.from(config.table).update(restore as Record<string, unknown>).eq("id", id).select().single()
+
+    if (error) {
+      return Response.json({ success: false, error: error.message }, { status: 500 })
+    }
+
+    await audit({ event: `${config.permission}.restore`, email: session?.email, targetId: id, meta: { versionId } })
+    return Response.json({ success: true, data })
   }
 
   return { POST }

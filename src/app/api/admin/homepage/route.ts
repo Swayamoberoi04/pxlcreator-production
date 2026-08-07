@@ -14,5 +14,9 @@ export const { GET, POST } = createAdminCrudRoutes<SectionInsert>({
   permission: "homepage",
   orderBy: "order_index",
   orderAscending: true,
-  writableFields: ["section_key", "label", "enabled", "order_index", "title", "subtitle", "cta_label", "cta_href", "image_url", "video_url", "content"],
+  writableFields: [
+    "section_key", "label", "enabled", "order_index", "title", "subtitle",
+    "cta_label", "cta_href", "image_url", "video_url", "content", "items",
+    "publish_at", "unpublish_at",
+  ],
 })
