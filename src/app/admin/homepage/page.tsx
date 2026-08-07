@@ -42,11 +42,11 @@ type Section = Database["public"]["Tables"]["homepage_sections"]["Row"]
 /** Sections whose content is a repeatable list — SectionItemsEditor field/label config per type. */
 const ITEMS_CONFIG: Record<string, { fields: (keyof SectionItem)[]; labels: Partial<Record<keyof SectionItem, string>> }> = {
   faq:                     { fields: ["title", "subtitle"], labels: { title: "Question", subtitle: "Answer" } },
-  testimonials:            { fields: ["image_url", "title", "subtitle"], labels: { title: "Author Name", subtitle: "Quote" } },
-  statistics:              { fields: ["title", "subtitle"], labels: { title: "Value, e.g. 10,000+", subtitle: "Label, e.g. Presets Sold" } },
+  social_proof:            { fields: ["image_url", "title", "subtitle", "link_label", "link_href"], labels: { title: "Author Name", subtitle: "Quote", link_label: "Role", link_href: "Preset Pack" } },
+  manifesto:               { fields: ["title", "subtitle"], labels: { title: "Faded (wrong)", subtitle: "Bold (right)" } },
+  philosophy_strip:        { fields: ["title", "subtitle"], labels: { title: "Pillar Title", subtitle: "Pillar Description" } },
   feature_cards:           { fields: ["image_url", "title", "subtitle", "link_href"], labels: { link_href: "Link" } },
   featured_youtube_videos: { fields: ["image_url", "title", "link_href"], labels: { title: "Video Title", link_href: "YouTube URL" } },
-  footer_promo:            { fields: ["title", "subtitle", "link_href", "link_label"], labels: {} },
 }
 
 /** ISO string <-> the value a <input type="datetime-local"> understands (no timezone). */

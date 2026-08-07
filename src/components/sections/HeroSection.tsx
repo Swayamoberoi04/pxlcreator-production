@@ -55,7 +55,14 @@ const SCENES = [
   },
 ] as const
 
-export function HeroSection() {
+export interface HeroSectionProps {
+  title?:    string | null
+  subtitle?: string | null
+  ctaLabel?: string | null
+  ctaHref?:  string | null
+}
+
+export function HeroSection({ title, subtitle, ctaLabel, ctaHref }: HeroSectionProps = {}) {
   const [active, setActive] = useState(0)
   const heroRef  = useRef<HTMLElement>(null)
   const reduced  = useReducedMotion()
@@ -261,8 +268,9 @@ export function HeroSection() {
             className="font-display font-bold text-white uppercase leading-[0.88] tracking-[-0.025em]"
             style={{ fontSize: "clamp(3.5rem, 11.5vw, 15rem)" }}
           >
-            PXL{" "}
-            <span className="text-gold text-glow">CREATOR</span>
+            {title ? title : (
+              <>PXL <span className="text-gold text-glow">CREATOR</span></>
+            )}
           </motion.h1>
         </div>
 
@@ -273,8 +281,9 @@ export function HeroSection() {
           transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="mt-8 sm:mt-10 text-[0.9375rem] sm:text-[1rem] text-white/85 max-w-[440px] leading-relaxed font-normal"
         >
-          Handcrafted cinematic presets.<br />
-          Your creative identity starts here.
+          {subtitle ? subtitle : (
+            <>Handcrafted cinematic presets.<br />Your creative identity starts here.</>
+          )}
         </motion.p>
 
         {/* ── CTAs ── */}
@@ -287,10 +296,10 @@ export function HeroSection() {
           {/* Primary — magnetic */}
           <MagneticButton>
             <Link
-              href="/store"
+              href={ctaHref || "/store"}
               className="inline-flex items-center gap-2.5 rounded-full bg-gold px-9 py-3.5 text-[0.9375rem] font-semibold text-background hover:bg-gold-dim active:scale-[0.97] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent animate-cta-glow"
             >
-              Shop Now
+              {ctaLabel || "Shop Now"}
             </Link>
           </MagneticButton>
 

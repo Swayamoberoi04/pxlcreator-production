@@ -1,24 +1,19 @@
 /**
  * src/app/page.tsx — Homepage
  *
- * Section list, order, and on/off state now come from the database
- * (src/lib/homepage/repository.ts, managed at /admin/homepage) instead of
- * being hardcoded here — every section can be enabled/disabled/reordered/
- * scheduled without a code change. If Supabase isn't configured or the
- * migration hasn't run, getHomepageSections() falls back to this exact
- * original 11-section list, in this exact order, all enabled — so the
- * page never breaks during cutover (same guarantee as presets/courses/blog).
+ * Every section's content, order, and on/off state comes from the
+ * database (src/lib/homepage/repository.ts, managed at /admin/homepage).
+ * No section content is hardcoded here — each component receives its
+ * title/subtitle/CTA/items as props, falling back to its own sensible
+ * defaults only when the DB has no override (so an unedited section still
+ * looks exactly as designed). If Supabase isn't configured or a migration
+ * hasn't run, getHomepageSections() falls back to the original 11-section
+ * list, all enabled, in original order — the page never breaks during
+ * cutover (same guarantee as presets/courses/blog).
  *
- * Content wiring status (honest, not every section is fully rewired):
- *   ✅ enabled/disabled + schedule — respected by every section below
- *   ✅ FAQ, Announcement Banner — 100% DB-driven (title/subtitle/CTA/items)
- *   ⏳ Hero, Featured, Manifesto, BeforeAfter, AIStudioBanner, ShotUsingPXL,
- *      SocialProof, PhilosophyStrip, GiveawayBanner, LeadMagnet, CTABanner —
- *      admin can edit their title/subtitle/CTA/image in the CMS today, but
- *      these existing components don't yet read those props (follow-up).
- *   🔜 Featured Bundles, Statistics, Testimonials, Feature Cards, Featured
- *      YouTube Videos, Footer Promo — schema + admin UI exist, disabled by
- *      default, no frontend component built yet (follow-up).
+ * "Statistics" and "Testimonials" are intentionally ONE section
+ * (social_proof / "Testimonials & Stats") rather than two — see migration
+ * 034's comment for why duplicating that UI would be dishonest architecture.
  */
 
 import { Suspense }                   from "react"
@@ -27,7 +22,7 @@ import { FeaturedSection }            from "@/components/sections/FeaturedSectio
 import { ManifestoSection }           from "@/components/sections/ManifestoSection"
 import { BeforeAfterSection }         from "@/components/sections/BeforeAfterSection"
 import { AIStudioBanner }             from "@/components/sections/AIStudioBanner"
-import { ShotUsingPXLSection }        from "@/components/sections/ShotUsingPXLSection"
+import { ShotUsingPXLSection, type ShowcaseImage } from "@/components/sections/ShotUsingPXLSection"
 import { SocialProofSection }         from "@/components/sections/SocialProofSection"
 import { PhilosophyStrip }            from "@/components/sections/PhilosophyStrip"
 import { GiveawayBanner }             from "@/components/sections/GiveawayBanner"
@@ -35,7 +30,11 @@ import { LeadMagnetSection }          from "@/components/sections/LeadMagnetSect
 import { CTABanner }                  from "@/components/sections/CTABanner"
 import { FAQSection }                 from "@/components/sections/FAQSection"
 import { AnnouncementBanner }         from "@/components/sections/AnnouncementBanner"
-import { getHomepageSections, getSection, isSectionEnabled } from "@/lib/homepage/repository"
+import { FeaturedBundlesSection }     from "@/components/sections/FeaturedBundlesSection"
+import { FeatureCardsSection }        from "@/components/sections/FeatureCardsSection"
+import { FeaturedYouTubeVideosSection } from "@/components/sections/FeaturedYouTubeVideosSection"
+import { FooterPromoSection }         from "@/components/sections/FooterPromoSection"
+import { getHomepageSections, getSection } from "@/lib/homepage/repository"
 
 export const dynamic = "force-dynamic"
 
@@ -51,9 +50,40 @@ function SectionSkeleton({ height = "h-96" }: { height?: string }) {
 
 export default async function Home() {
   const sections = await getHomepageSections()
-  const on = (key: string) => isSectionEnabled(sections, key)
-  const announcement = getSection(sections, "announcement_banner")
-  const faq = getSection(sections, "faq")
+  const get = (key: string) => getSection(sections, key)
+
+  const hero            = get("hero")
+  const featured        = get("featured")
+  const manifesto       = get("manifesto")
+  const beforeAfter     = get("before_after")
+  const aiStudio        = get("ai_studio_banner")
+  const shotUsingPxl    = get("shot_using_pxl")
+  const socialProof     = get("social_proof")
+  const philosophy      = get("philosophy_strip")
+  const giveaway        = get("giveaway_banner")
+  const leadMagnet      = get("lead_magnet")
+  const ctaBanner       = get("cta_banner")
+  const faq             = get("faq")
+  const announcement    = get("announcement_banner")
+  const featuredBundles = get("featured_bundles")
+  const featureCards    = get("feature_cards")
+  const youtubeVideos   = get("featured_youtube_videos")
+  const footerPromo     = get("footer_promo")
+
+  /* Map the generic {title,subtitle,image_url,link_href} item shape onto
+     ShotUsingPXLSection's richer ShowcaseImage shape when the admin has
+     configured real items — otherwise the component's own curated demo
+     defaults are used (see ShotUsingPXLSection.tsx). */
+  const showcaseImages: ShowcaseImage[] | undefined = shotUsingPxl && shotUsingPxl.items.length > 0
+    ? shotUsingPxl.items.map((it) => ({
+        title:       it.link_label || "",
+        image:       it.image_url || "",
+        alt:         it.title || "",
+        creatorName: it.title || "",
+        presetName:  it.subtitle || "",
+        profileLink: it.link_href || undefined,
+      }))
+    : undefined
 
   return (
     <>
@@ -67,44 +97,70 @@ export default async function Home() {
       )}
 
       {/* 1. ENTRY — real cinematic photos, cycling, parallax */}
-      {on("hero") && <HeroSection />}
+      {hero && (
+        <HeroSection title={hero.title} subtitle={hero.subtitle} ctaLabel={hero.ctaLabel} ctaHref={hero.ctaHref} />
+      )}
 
       {/* 2. VISUAL — product grid */}
-      {on("featured") && (
+      {featured && (
         <Suspense fallback={<SectionSkeleton height="h-[480px]" />}>
-          <FeaturedSection />
+          <FeaturedSection title={featured.title} subtitle={featured.subtitle} />
         </Suspense>
       )}
 
       {/* 3. SHORT TEXT — 3 punchy contrast lines, headline only */}
-      {on("manifesto") && <ManifestoSection />}
+      {manifesto && <ManifestoSection title={manifesto.title} items={manifesto.items} />}
 
       {/* 6. INTERACTIVE — drag-to-compare sliders, 5 real image pairs */}
-      {on("before_after") && <BeforeAfterSection />}
+      {beforeAfter && <BeforeAfterSection title={beforeAfter.title} subtitle={beforeAfter.subtitle} />}
 
       {/* 7. INTERACTION — AI Studio feature demo */}
-      {on("ai_studio_banner") && <AIStudioBanner />}
+      {aiStudio && (
+        <AIStudioBanner title={aiStudio.title} subtitle={aiStudio.subtitle} ctaLabel={aiStudio.ctaLabel} ctaHref={aiStudio.ctaHref} />
+      )}
 
       {/* 8. GALLERY — creator showcase triptych */}
-      {on("shot_using_pxl") && <ShotUsingPXLSection />}
+      {shotUsingPxl && (
+        <ShotUsingPXLSection title={shotUsingPxl.title} subtitle={shotUsingPxl.subtitle} images={showcaseImages} />
+      )}
 
       {/* 9. TRUST — social proof, stats, testimonials */}
-      {on("social_proof") && <SocialProofSection />}
+      {socialProof && (
+        <SocialProofSection title={socialProof.title} subtitle={socialProof.subtitle} items={socialProof.items} />
+      )}
 
-      {/* FAQ — fully DB-driven, renders nothing if no items */}
+      {/* Featured Bundles — real DB bundles, renders nothing if none featured */}
+      {featuredBundles && <FeaturedBundlesSection title={featuredBundles.title} subtitle={featuredBundles.subtitle} />}
+
+      {/* Feature Cards — fully DB-driven, renders nothing without items */}
+      {featureCards && <FeatureCardsSection title={featureCards.title} subtitle={featureCards.subtitle} items={featureCards.items} />}
+
+      {/* Featured YouTube Videos — fully DB-driven, renders nothing without items */}
+      {youtubeVideos && <FeaturedYouTubeVideosSection title={youtubeVideos.title} subtitle={youtubeVideos.subtitle} items={youtubeVideos.items} />}
+
+      {/* FAQ — fully DB-driven, renders nothing without items */}
       {faq && <FAQSection title={faq.title} subtitle={faq.subtitle} items={faq.items} />}
 
       {/* 10. PHILOSOPHY — compact 3-pillar + cinematic vision closer */}
-      {on("philosophy_strip") && <PhilosophyStrip />}
+      {philosophy && <PhilosophyStrip title={philosophy.title} items={philosophy.items} />}
 
       {/* 11. GIVEAWAY — live giveaway strip CTA */}
-      {on("giveaway_banner") && <GiveawayBanner />}
+      {giveaway && (
+        <GiveawayBanner title={giveaway.title} subtitle={giveaway.subtitle} ctaLabel={giveaway.ctaLabel} ctaHref={giveaway.ctaHref} />
+      )}
 
-      {/* 12. LEAD MAGNET — free preset email capture */}
-      {on("lead_magnet") && <LeadMagnetSection />}
+      {/* 12. LEAD MAGNET — free preset email capture / newsletter */}
+      {leadMagnet && <LeadMagnetSection title={leadMagnet.title} subtitle={leadMagnet.subtitle} />}
 
       {/* 13. CONVERSION — final CTA */}
-      {on("cta_banner") && <CTABanner />}
+      {ctaBanner && (
+        <CTABanner title={ctaBanner.title} subtitle={ctaBanner.subtitle} ctaLabel={ctaBanner.ctaLabel} ctaHref={ctaBanner.ctaHref} />
+      )}
+
+      {/* Footer promotional content — homepage-scoped, above the global footer */}
+      {footerPromo && (
+        <FooterPromoSection title={footerPromo.title} subtitle={footerPromo.subtitle} ctaLabel={footerPromo.ctaLabel} ctaHref={footerPromo.ctaHref} />
+      )}
     </>
   )
 }

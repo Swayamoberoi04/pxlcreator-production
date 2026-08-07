@@ -10,7 +10,14 @@ import { Container }           from "@/components/layout/Container"
 import { LuminousEnvironment } from "@/components/ui/LuminousEnvironment"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 
-export function GiveawayBanner() {
+export interface GiveawayBannerProps {
+  title?:    string | null
+  subtitle?: string | null
+  ctaLabel?: string | null
+  ctaHref?:  string | null
+}
+
+export function GiveawayBanner({ title, subtitle, ctaLabel, ctaHref }: GiveawayBannerProps = {}) {
   return (
     <section
       aria-label="Giveaway"
@@ -40,33 +47,35 @@ export function GiveawayBanner() {
             </div>
 
             <h2 className="font-display font-bold text-[1.25rem] sm:text-[1.5rem] leading-tight text-foreground">
-              Win a{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                $256 creator bundle
-              </span>
-              {" "}— free.
+              {title ? title : (
+                <>Win a{" "}
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    $256 creator bundle
+                  </span>
+                  {" "}— free.
+                </>
+              )}
             </h2>
 
             <p className="text-[0.9375rem] text-muted/92 max-w-md leading-relaxed">
-              Preset pack, masterclass, and a live 1-on-1 edit session.
-              Three simple steps to enter.
+              {subtitle || "Preset pack, masterclass, and a live 1-on-1 edit session. Three simple steps to enter."}
             </p>
           </div>
 
           {/* Right: CTA */}
           <div className="flex flex-col items-center gap-2 shrink-0">
             <Link
-              href="/giveaway"
+              href={ctaHref || "/giveaway"}
               className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-[0.9375rem] font-semibold text-background transition-all hover:bg-gold-dim active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap"
             >
-              Enter the Giveaway
+              {ctaLabel || "Enter the Giveaway"}
               <span aria-hidden="true">→</span>
             </Link>
             <p className="text-[0.8125rem] text-muted/70">

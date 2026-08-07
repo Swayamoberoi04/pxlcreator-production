@@ -18,7 +18,14 @@ import { CinematicBackground }      from "@/components/ui/CinematicBackground"
 import { GrainOverlay }             from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-export function CTABanner() {
+export interface CTABannerProps {
+  title?:    string | null
+  subtitle?: string | null
+  ctaLabel?: string | null
+  ctaHref?:  string | null
+}
+
+export function CTABanner({ title, subtitle, ctaLabel, ctaHref }: CTABannerProps = {}) {
   return (
     <section className="relative w-full overflow-hidden bg-background py-24 sm:py-32 depth-section">
 
@@ -52,17 +59,16 @@ export function CTABanner() {
           {/* Headline — deep 3D entrance */}
           <CinematicReveal variant="depth" delay={0.05}>
             <h2 className="heading-2 text-foreground max-w-2xl">
-              Stop Spending Hours
-              <br />
-              <span className="text-gold-gradient">Editing. Start Creating.</span>
+              {title ? title : (
+                <>Stop Spending Hours<br /><span className="text-gold-gradient">Editing. Start Creating.</span></>
+              )}
             </h2>
           </CinematicReveal>
 
           {/* Sub-copy */}
           <CinematicReveal variant="rise" delay={0.12}>
             <p className="text-lead max-w-lg">
-              One-click cinematic looks that actually work. No subscriptions.
-              No fluff. Just presets that make your work stand out.
+              {subtitle || "One-click cinematic looks that actually work. No subscriptions. No fluff. Just presets that make your work stand out."}
             </p>
           </CinematicReveal>
 
@@ -76,7 +82,7 @@ export function CTABanner() {
                   shadow-[0_0_32px_rgba(255,214,10,0.18)] hover:shadow-[0_0_48px_rgba(255,214,10,0.30)]
                   transition-all duration-300"
               >
-                <Link href="/store">Browse All Presets</Link>
+                <Link href={ctaHref || "/store"}>{ctaLabel || "Browse All Presets"}</Link>
               </Button>
 
               <Button

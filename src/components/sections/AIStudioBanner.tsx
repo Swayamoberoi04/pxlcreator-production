@@ -17,7 +17,14 @@ const STEPS = [
   { icon: "✦", label: "Get your edit"     },
 ] as const
 
-export function AIStudioBanner() {
+export interface AIStudioBannerProps {
+  title?:    string | null
+  subtitle?: string | null
+  ctaLabel?: string | null
+  ctaHref?:  string | null
+}
+
+export function AIStudioBanner({ title, subtitle, ctaLabel, ctaHref }: AIStudioBannerProps = {}) {
   return (
     <section className="relative w-full overflow-hidden bg-surface border-t border-border depth-section">
 
@@ -91,20 +98,23 @@ export function AIStudioBanner() {
                   className="font-display font-bold text-foreground uppercase leading-[0.92] tracking-[-0.02em]"
                   style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)" }}
                 >
-                  Describe{" "}
-                  <span className="text-gold logo-glow">the look.</span>
-                  <br />
-                  AI does{" "}
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #FFD60A 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
-                    the edit.
-                  </span>
+                  {title ? title : (
+                    <>Describe{" "}
+                      <span className="text-gold logo-glow">the look.</span>
+                      <br />
+                      AI does{" "}
+                      <span
+                        style={{
+                          background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 40%, #FFD60A 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                        }}
+                      >
+                        the edit.
+                      </span>
+                    </>
+                  )}
                 </h2>
               </div>
             </CinematicReveal>
@@ -112,9 +122,7 @@ export function AIStudioBanner() {
             {/* Subtitle */}
             <CinematicReveal variant="rise" delay={0.14}>
               <p className="text-[1rem] sm:text-[1rem] text-muted leading-relaxed max-w-lg">
-                Upload any photo, type the vibe you&apos;re going for, and PXL&apos;s AI
-                applies a cinematic grade — then recommends the exact preset that
-                nails that look permanently.
+                {subtitle || "Upload any photo, type the vibe you're going for, and PXL's AI applies a cinematic grade — then recommends the exact preset that nails that look permanently."}
               </p>
             </CinematicReveal>
 
@@ -148,10 +156,10 @@ export function AIStudioBanner() {
             <CinematicReveal variant="rise" delay={0.22}>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <Link
-                  href="/studio"
+                  href={ctaHref || "/studio"}
                   className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-8 py-3.5 text-[0.9375rem] font-semibold text-background transition-all duration-200 hover:bg-gold-dim active:scale-[0.97] shadow-[0_0_40px_rgba(255,214,10,0.22)] hover:shadow-[0_0_60px_rgba(255,214,10,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  Try AI Studio
+                  {ctaLabel || "Try AI Studio"}
                   <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
                     →
                   </span>

@@ -27,7 +27,30 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-export function SocialProofSection() {
+export interface SocialProofSectionProps {
+  title?:    string | null
+  subtitle?: string | null
+  /** Overrides the testimonial cards — [{title: name, subtitle: quote, link_label: role, link_href: pack}]. */
+  items?: { title?: string; subtitle?: string; link_label?: string; link_href?: string }[]
+}
+
+function initialsOf(name: string): string {
+  return name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase() || "?"
+}
+
+export function SocialProofSection({ title, subtitle, items }: SocialProofSectionProps = {}) {
+  const testimonials = items && items.length > 0
+    ? items.map((it, i) => ({
+        id: `custom-${i}`,
+        quote: it.subtitle || "",
+        pack: it.link_href || "",
+        avatarInitials: initialsOf(it.title || "?"),
+        name: it.title || "",
+        role: it.link_label || "",
+        rating: 5,
+      }))
+    : TESTIMONIALS
+
   return (
     <section className="relative w-full bg-surface overflow-hidden py-24 sm:py-32 border-y border-border depth-section">
       <LuminousEnvironment variant="gold" intensity={0.4} />
@@ -57,12 +80,12 @@ export function SocialProofSection() {
               <span className="h-px w-8 bg-gold/60" aria-hidden="true" />
             </div>
             <Heading level={2} className="max-w-xl">
-              Trusted by{" "}
-              <span className="text-gold-gradient">Real Creators</span>
+              {title ? title : (
+                <>Trusted by <span className="text-gold-gradient">Real Creators</span></>
+              )}
             </Heading>
             <p className="text-lead max-w-md">
-              Not influencer deals. Not paid reviews. Just photographers and
-              filmmakers who use these presets daily.
+              {subtitle || "Not influencer deals. Not paid reviews. Just photographers and filmmakers who use these presets daily."}
             </p>
           </div>
         </CinematicReveal>
@@ -74,7 +97,7 @@ export function SocialProofSection() {
           itemVariant="depth"
           className="grid grid-cols-1 md:grid-cols-3 gap-7"
         >
-          {TESTIMONIALS.map((t, index) => (
+          {testimonials.map((t, index) => (
             <CinematicItem key={t.id} variant="depth">
               <TestimonialCard testimonial={t} index={index} />
             </CinematicItem>

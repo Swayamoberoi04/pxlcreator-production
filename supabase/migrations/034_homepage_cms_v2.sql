@@ -12,13 +12,15 @@
 --      enabled/disabled flag: a section can go live in the future and/or
 --      come down automatically after a date (e.g. a limited-time banner).
 --
--- Adds two new sections with REAL frontend components (FAQ,
--- Announcement Banner) plus placeholder rows for sections requested that
--- don't have a frontend component yet (Featured Bundles, Statistics,
--- Testimonials split-out, Feature Cards, Featured YouTube Videos, Footer
--- Promo) — these are fully editable in the CMS today; wiring their public
--- rendering is flagged as a follow-up, same as any other honestly-scoped
--- partial rollout in this project.
+-- Adds sections with REAL frontend components: FAQ, Announcement Banner,
+-- Featured Bundles, Feature Cards, Featured YouTube Videos, Footer Promo.
+--
+-- "Statistics" and "Testimonials" were requested as separate sections, but
+-- the existing "Testimonials & Stats" section (social_proof, from
+-- migration 029) already renders both — a second, near-identical pair of
+-- components would just be duplicated UI. social_proof was extended
+-- instead (title/subtitle/testimonial items now DB-driven); no separate
+-- rows for those two are seeded here.
 --
 -- Idempotent — safe to re-run.
 -- ============================================================
@@ -56,9 +58,7 @@ INSERT INTO homepage_sections (section_key, label, order_index, enabled, title, 
    '[]'::jsonb
   ),
   ('featured_bundles', 'Featured Bundles', 13, FALSE, NULL, NULL, '[]'::jsonb),
-  ('statistics', 'Statistics', 14, FALSE, NULL, NULL, '[]'::jsonb),
-  ('testimonials', 'Testimonials', 15, FALSE, NULL, NULL, '[]'::jsonb),
-  ('feature_cards', 'Feature Cards', 16, FALSE, NULL, NULL, '[]'::jsonb),
-  ('featured_youtube_videos', 'Featured YouTube Videos', 17, FALSE, NULL, NULL, '[]'::jsonb),
-  ('footer_promo', 'Footer Promotional Content', 18, FALSE, NULL, NULL, '[]'::jsonb)
+  ('feature_cards', 'Feature Cards', 14, FALSE, NULL, NULL, '[]'::jsonb),
+  ('featured_youtube_videos', 'Featured YouTube Videos', 15, FALSE, NULL, NULL, '[]'::jsonb),
+  ('footer_promo', 'Footer Promotional Content', 16, FALSE, NULL, NULL, '[]'::jsonb)
 ON CONFLICT (section_key) DO NOTHING;

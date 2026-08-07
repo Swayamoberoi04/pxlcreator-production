@@ -63,7 +63,12 @@ const GRID_PAIRS = [
   },
 ]
 
-export function BeforeAfterSection() {
+export interface BeforeAfterSectionProps {
+  title?:    string | null
+  subtitle?: string | null
+}
+
+export function BeforeAfterSection({ title, subtitle }: BeforeAfterSectionProps = {}) {
   return (
     <section
       className="relative w-full overflow-hidden bg-background border-y border-border depth-section"
@@ -85,20 +90,23 @@ export function BeforeAfterSection() {
               <span className="h-px w-8 bg-gold/50 animate-gold-flicker" aria-hidden="true" />
             </div>
             <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
-              Every mood.{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                One click.
-              </span>
+              {title ? title : (
+                <>Every mood.{" "}
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    One click.
+                  </span>
+                </>
+              )}
             </h2>
             <p className="text-[0.9375rem] text-muted/85 max-w-md leading-relaxed">
-              Drag the handle on any card to reveal the cinematic grade.
+              {subtitle || "Drag the handle on any card to reveal the cinematic grade."}
             </p>
           </div>
         </CinematicReveal>

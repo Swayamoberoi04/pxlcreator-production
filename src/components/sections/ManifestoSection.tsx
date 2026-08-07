@@ -46,7 +46,14 @@ const CONTRASTS = [
   { faded: "A preset",  bold: "A language."   },
 ] as const
 
-type ContrastItem = typeof CONTRASTS[number]
+type ContrastItem = { faded: string; bold: string }
+
+export interface ManifestoSectionProps {
+  /** Overrides the closing power headline. Falls back to the default 3-line headline. */
+  title?: string | null
+  /** Overrides the 3 contrast rows — [{title: faded text, subtitle: bold text}]. Falls back to CONTRASTS. */
+  items?: { title?: string; subtitle?: string }[]
+}
 
 /* ── Gradient text style (shared between static + motion paths) ── */
 const GRADIENT_STYLE: React.CSSProperties = {
@@ -144,9 +151,14 @@ function ContrastRow({ item, scrollYProgress, rangeStart, rangeEnd }: ContrastRo
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ManifestoSection
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-export function ManifestoSection() {
+export function ManifestoSection({ title, items }: ManifestoSectionProps = {}) {
   const sectionRef = useRef<HTMLElement>(null)
   const reduced    = useReducedMotion()
+
+  const contrasts: ContrastItem[] =
+    items && items.length > 0
+      ? items.map((it) => ({ faded: it.title ?? "", bold: it.subtitle ?? "" }))
+      : [...CONTRASTS]
 
   /*
    * Track scroll progress as the section moves through the viewport.
@@ -228,21 +240,21 @@ export function ManifestoSection() {
           <div className="flex flex-col gap-0 w-full max-w-xl">
             {reduced
               /* Static layout for reduced-motion users */
-              ? CONTRASTS.map(({ faded, bold }) => (
-                  <div key={bold} className="flex items-center justify-between gap-8 py-7 border-b border-border/40">
+              ? contrasts.map(({ faded, bold }, i) => (
+                  <div key={i} className="flex items-center justify-between gap-8 py-7 border-b border-border/40">
                     <span className="text-[1rem] sm:text-[1.25rem] text-muted/70 line-through font-medium leading-none">{faded}</span>
                     <span className="text-gold/30 text-[0.75rem] shrink-0" aria-hidden="true">→</span>
                     <span className="text-[1.25rem] sm:text-[1.5rem] font-display font-bold text-foreground leading-none">{bold}</span>
                   </div>
                 ))
               /* Scroll-animated rows */
-              : CONTRASTS.map((item, i) => (
+              : contrasts.map((item, i) => (
                   <ContrastRow
-                    key={item.bold}
+                    key={i}
                     item={item}
                     scrollYProgress={scrollYProgress}
-                    rangeStart={ROW_RANGES[i][0]}
-                    rangeEnd={ROW_RANGES[i][1]}
+                    rangeStart={ROW_RANGES[i % ROW_RANGES.length][0]}
+                    rangeEnd={ROW_RANGES[i % ROW_RANGES.length][1]}
                   />
                 ))
             }
@@ -260,8 +272,9 @@ export function ManifestoSection() {
               }),
             }}
           >
-            One look.<br className="hidden sm:block" /> One identity.<br />
-            Unmistakably yours.
+            {title ? title : (
+              <>One look.<br className="hidden sm:block" /> One identity.<br />Unmistakably yours.</>
+            )}
           </motion.h2>
 
         </div>

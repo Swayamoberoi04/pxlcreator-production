@@ -22,7 +22,12 @@ import { CinematicBackground } from "@/components/ui/CinematicBackground"
 import { GrainOverlay }        from "@/components/ui/GrainOverlay"
 import { CinematicReveal, CinematicStagger, CinematicItem } from "@/components/ui/CinematicReveal"
 
-export async function FeaturedSection() {
+export interface FeaturedSectionProps {
+  title?:    string | null
+  subtitle?: string | null
+}
+
+export async function FeaturedSection({ title, subtitle }: FeaturedSectionProps = {}) {
   const featured = await getFeaturedPresets(6)
 
   if (featured.length === 0) return null
@@ -48,13 +53,13 @@ export async function FeaturedSection() {
             </div>
 
             <Heading level={2}>
-              Handpicked for{" "}
-              <span className="text-gold-gradient">Creators</span>
+              {title ? title : (
+                <>Handpicked for <span className="text-gold-gradient">Creators</span></>
+              )}
             </Heading>
 
             <p className="text-lead max-w-md">
-              Every pack is tested on real shoots. No filters that look good
-              on the thumbnail but fall apart in practice.
+              {subtitle || "Every pack is tested on real shoots. No filters that look good on the thumbnail but fall apart in practice."}
             </p>
 
           </div>

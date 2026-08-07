@@ -19,7 +19,12 @@ const BENEFITS = [
   "XMP + DNG — works in Lightroom Mobile & Desktop",
 ]
 
-export function LeadMagnetSection() {
+export interface LeadMagnetSectionProps {
+  title?:    string | null
+  subtitle?: string | null
+}
+
+export function LeadMagnetSection({ title, subtitle }: LeadMagnetSectionProps = {}) {
   return (
     <section className="relative overflow-hidden border-y border-border py-20 px-4">
       <LuminousEnvironment variant="gold" intensity={0.5} />
@@ -50,18 +55,20 @@ export function LeadMagnetSection() {
           transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1], delay: 0.07 }}
           className="font-display font-bold text-[2rem] sm:text-[2.5rem] leading-[1.05] text-foreground"
         >
-          Try It Before You Buy.
-          <br />
-          <span
-            style={{
-              background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            One Preset. Free. Forever.
-          </span>
+          {title ? title : (
+            <>Try It Before You Buy.<br />
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                One Preset. Free. Forever.
+              </span>
+            </>
+          )}
         </motion.h2>
 
         {/* Sub */}
@@ -72,8 +79,7 @@ export function LeadMagnetSection() {
           transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1], delay: 0.12 }}
           className="text-[0.9375rem] text-muted/85 leading-relaxed"
         >
-          Get our cinematic starter preset — the same visual system used across PXL packs —
-          delivered to your inbox in under 60 seconds.
+          {subtitle || "Get our cinematic starter preset — the same visual system used across PXL packs — delivered to your inbox in under 60 seconds."}
         </motion.p>
 
         {/* Benefit list */}

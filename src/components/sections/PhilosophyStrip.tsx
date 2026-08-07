@@ -46,7 +46,17 @@ const PILLARS = [
   },
 ] as const
 
-export function PhilosophyStrip() {
+export interface PhilosophyStripProps {
+  /** Overrides the "Not tools. An ecosystem." headline. */
+  title?: string | null
+  /** Overrides the 3 pillar cards — [{title, subtitle}]. Icon/colour stay default. */
+  items?: { title?: string; subtitle?: string }[]
+}
+
+export function PhilosophyStrip({ title, items }: PhilosophyStripProps = {}) {
+  const pillars = items && items.length > 0
+    ? PILLARS.map((p, i) => ({ ...p, title: items[i]?.title || p.title, line: items[i]?.subtitle || p.line }))
+    : PILLARS
   return (
     <section className="relative w-full bg-background" aria-label="Why PXL Creator">
 
@@ -70,17 +80,20 @@ export function PhilosophyStrip() {
                   <span className="h-px w-8 bg-gold/50" aria-hidden="true" />
                 </div>
                 <h2 className="font-display font-bold text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.05] tracking-tight text-foreground">
-                  Not tools.{" "}
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
-                    An ecosystem.
-                  </span>
+                  {title ? title : (
+                    <>Not tools.{" "}
+                      <span
+                        style={{
+                          background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                        }}
+                      >
+                        An ecosystem.
+                      </span>
+                    </>
+                  )}
                 </h2>
               </div>
             </CinematicReveal>
@@ -92,7 +105,7 @@ export function PhilosophyStrip() {
               itemVariant="depth"
               className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl"
             >
-              {PILLARS.map((p) => (
+              {pillars.map((p) => (
                 <CinematicItem key={p.title} variant="depth">
                   <div
                     className="depth-card relative flex flex-col gap-5 rounded-2xl border p-8 overflow-hidden text-left h-full cursor-default"

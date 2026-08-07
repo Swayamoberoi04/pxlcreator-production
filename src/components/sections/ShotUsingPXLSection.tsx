@@ -109,9 +109,11 @@ interface ShotUsingPXLSectionProps {
    * rendering and styling below stay untouched.
    */
   images?: ShowcaseImage[]
+  title?:    string | null
+  subtitle?: string | null
 }
 
-export function ShotUsingPXLSection({ images = SHOWCASE_IMAGES }: ShotUsingPXLSectionProps) {
+export function ShotUsingPXLSection({ images = SHOWCASE_IMAGES, title, subtitle }: ShotUsingPXLSectionProps) {
   /* Triptych roles: first = left portrait, middle = center feature, last = right portrait. */
   const [leftImage, centerImage, rightImage] = images
 
@@ -136,20 +138,23 @@ export function ShotUsingPXLSection({ images = SHOWCASE_IMAGES }: ShotUsingPXLSe
               <span className="h-px w-8 bg-gold/50 animate-gold-flicker" aria-hidden="true" />
             </div>
             <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
-              Real results.{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Real creators.
-              </span>
+              {title ? title : (
+                <>Real results.{" "}
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #FFD60A 0%, #E0A800 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Real creators.
+                  </span>
+                </>
+              )}
             </h2>
             <p className="text-[0.9375rem] text-muted/85 max-w-sm leading-relaxed">
-              Every image shot and graded by PXL Creator users worldwide.
+              {subtitle || "Every image shot and graded by PXL Creator users worldwide."}
             </p>
           </div>
         </CinematicReveal>
