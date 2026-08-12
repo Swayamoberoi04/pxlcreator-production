@@ -36,7 +36,7 @@ export const PERMISSIONS = [
   // Media Library
   "media:read", "media:upload", "media:delete",
   // Community
-  "community:read", "community:write", "community:moderate",
+  "community:read", "community:write", "community:delete", "community:moderate",
   // Homepage / Editor / AI Studio CMS
   "homepage:read", "homepage:write", "homepage:delete",
   "editor:read", "editor:write", "editor:delete",
@@ -77,7 +77,7 @@ const ROLE_PERMISSIONS: Record<Exclude<Role, "super_admin">, readonly Permission
   moderator: [
     "presets:read", "bundles:read", "courses:read", "blog:read",
     "media:read",
-    "community:read", "community:moderate",
+    "community:read", "community:delete", "community:moderate",
     "reviews:moderate",
     "orders:read",
   ],

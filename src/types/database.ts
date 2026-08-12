@@ -1261,6 +1261,9 @@ export interface Database {
           reputation_score: number
           is_verified:      boolean
           is_premium:       boolean
+          is_banned:        boolean
+          banned_reason:    string | null
+          banned_at:        string | null
           search_vector:    string | null
           skills:           string[]
           languages:        string[]
@@ -1294,6 +1297,9 @@ export interface Database {
           availability?:    string
           is_verified?:     boolean
           is_premium?:      boolean
+          is_banned?:       boolean
+          banned_reason?:   string | null
+          banned_at?:       string | null
         }
         Update: {
           username?:        string
@@ -1318,6 +1324,9 @@ export interface Database {
           reputation_score?: number
           is_verified?:     boolean
           is_premium?:      boolean
+          is_banned?:       boolean
+          banned_reason?:   string | null
+          banned_at?:       string | null
           updated_at?:      string
         }
         Relationships: []
