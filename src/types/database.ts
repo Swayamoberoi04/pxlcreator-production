@@ -861,6 +861,72 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── global_settings ────────────────────────────── */
+      global_settings: {
+        Row: {
+          id:                 string
+          brand_name:         string
+          tagline:            string
+          description:        string | null
+          site_url:           string
+          support_email:      string
+          logo_url:           string | null
+          favicon_url:        string | null
+          social_youtube:     string | null
+          social_instagram:   string | null
+          social_twitter:     string | null
+          social_tiktok:      string | null
+          policy_terms_url:   string | null
+          policy_privacy_url: string | null
+          policy_refunds_url: string | null
+          policy_license_url: string | null
+          footer_note:        string | null
+          maintenance_mode:   boolean
+          created_at:         string
+          updated_at:         string
+        }
+        Insert: {
+          id?:                 string
+          brand_name?:         string
+          tagline?:            string
+          description?:        string | null
+          site_url?:           string
+          support_email?:      string
+          logo_url?:           string | null
+          favicon_url?:        string | null
+          social_youtube?:     string | null
+          social_instagram?:   string | null
+          social_twitter?:     string | null
+          social_tiktok?:      string | null
+          policy_terms_url?:   string | null
+          policy_privacy_url?: string | null
+          policy_refunds_url?: string | null
+          policy_license_url?: string | null
+          footer_note?:        string | null
+          maintenance_mode?:   boolean
+        }
+        Update: {
+          brand_name?:         string
+          tagline?:            string
+          description?:        string | null
+          site_url?:           string
+          support_email?:      string
+          logo_url?:           string | null
+          favicon_url?:        string | null
+          social_youtube?:     string | null
+          social_instagram?:   string | null
+          social_twitter?:     string | null
+          social_tiktok?:      string | null
+          policy_terms_url?:   string | null
+          policy_privacy_url?: string | null
+          policy_refunds_url?: string | null
+          policy_license_url?: string | null
+          footer_note?:        string | null
+          maintenance_mode?:   boolean
+        }
+        Relationships: []
+      }
+
       /* ── ai_studio_settings ──────────────────────────── */
       ai_studio_settings: {
         Row: {
@@ -2480,6 +2546,9 @@ export type UserBehaviorRow       = Database["public"]["Tables"]["user_behavior"
 /* ── Bundle row types ───────────────────────────────────── */
 export type BundleRow        = Database["public"]["Tables"]["bundles"]["Row"]
 export type BundlePresetRow  = Database["public"]["Tables"]["bundle_presets"]["Row"]
+
+/* ── CMS singleton row types ────────────────────────────── */
+export type GlobalSettingsRow = Database["public"]["Tables"]["global_settings"]["Row"]
 
 /* ── Preset with all relations joined ──────────────────── */
 export interface PresetWithRelations extends PresetRow {
