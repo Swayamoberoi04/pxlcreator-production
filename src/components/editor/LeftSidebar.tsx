@@ -11,7 +11,7 @@
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { useEditorStore } from "@/lib/editor/store"
-import { QUICK_PRESETS } from "@/lib/editor/presets"
+import { QUICK_PRESETS, type QuickPreset } from "@/lib/editor/presets"
 import { listSessions, deleteSession, type EditorSession } from "@/lib/editor/sessions"
 import { MASK_TYPES, type MaskType } from "@/lib/editor/adjustments"
 
@@ -57,10 +57,29 @@ export function LeftSidebar({ zoomPercent }: { zoomPercent: number }) {
 
 function PresetsTab() {
   const applyAdjustments = useEditorStore((s) => s.applyAdjustments)
+  /* Admin-managed via /admin/editor-presets — starts from the hardcoded
+     defaults and swaps in live data once the fetch resolves, so the
+     sidebar never shows an empty state while loading or if the API/DB
+     is unavailable. */
+  const [presets, setPresets] = useState<QuickPreset[]>(QUICK_PRESETS)
+
+  useEffect(() => {
+    let cancelled = false
+    fetch("/api/editor/quick-presets")
+      .then((r) => r.json())
+      .then((json) => {
+        if (!cancelled && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setPresets(json.data)
+        }
+      })
+      .catch(() => { /* keep the hardcoded defaults */ })
+    return () => { cancelled = true }
+  }, [])
+
   return (
     <div className="flex flex-col gap-1.5 p-3">
       <p className="mb-1 text-[0.6875rem] uppercase tracking-wider text-muted/70">Quick looks</p>
-      {QUICK_PRESETS.map((p) => (
+      {presets.map((p) => (
         <button
           key={p.id}
           type="button"

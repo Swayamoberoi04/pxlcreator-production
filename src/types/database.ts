@@ -801,6 +801,66 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── editor_quick_presets ─────────────────────────── */
+      editor_quick_presets: {
+        Row: {
+          id:          string
+          preset_key:  string
+          name:        string
+          adjustments: Json
+          order_index: number
+          is_active:   boolean
+          created_at:  string
+          updated_at:  string
+        }
+        Insert: {
+          id?:          string
+          preset_key:   string
+          name:         string
+          adjustments?: Json
+          order_index?: number
+          is_active?:   boolean
+        }
+        Update: {
+          preset_key?:  string
+          name?:        string
+          adjustments?: Json
+          order_index?: number
+          is_active?:   boolean
+        }
+        Relationships: []
+      }
+
+      /* ── editor_changelog ──────────────────────────────── */
+      editor_changelog: {
+        Row: {
+          id:            string
+          version_label: string
+          title:         string
+          description:   string | null
+          released_at:   string
+          is_published:  boolean
+          created_at:    string
+          updated_at:    string
+        }
+        Insert: {
+          id?:            string
+          version_label:  string
+          title:          string
+          description?:   string | null
+          released_at?:   string
+          is_published?:  boolean
+        }
+        Update: {
+          version_label?: string
+          title?:         string
+          description?:   string | null
+          released_at?:   string
+          is_published?:  boolean
+        }
+        Relationships: []
+      }
+
       /* ── ai_studio_settings ──────────────────────────── */
       ai_studio_settings: {
         Row: {

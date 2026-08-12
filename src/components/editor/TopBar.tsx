@@ -9,6 +9,7 @@
 import type { RefObject } from "react"
 import { cn } from "@/lib/utils"
 import { useEditorStore } from "@/lib/editor/store"
+import { WhatsNewButton } from "./WhatsNewPanel"
 import type { EditorCanvasHandle } from "./EditorCanvas"
 
 interface TopBarProps {
@@ -65,6 +66,7 @@ export function TopBar({ canvasRef, zoomPercent, assistantOpen, onAssistantClick
           <SparkIcon />
           <span className="hidden sm:inline">Assistant</span>
         </button>
+        <WhatsNewButton />
       </div>
 
       {/* Centre — history + before/after */}
