@@ -22,6 +22,7 @@ import { USD_TO_INR }                 from "@/lib/currency/config"
 import { validateCoupon }             from "@/lib/checkout/coupons"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import type { CreateOrderPayload }    from "@/types/commerce"
+import { trackFunnelEvent }           from "@/lib/bi/track"
 
 export const runtime = "nodejs"
 
@@ -162,7 +163,15 @@ export async function POST(req: NextRequest) {
       .update({ razorpay_order_id: rzpOrder.id })
       .eq("id", order.id)
 
-    /* ── 9. Return to frontend ── */
+    /* ── 9. Track checkout funnel event (fire-and-forget) ── */
+    trackFunnelEvent({
+      eventType:    "checkout_open",
+      firebaseUid:  firebase_uid ?? null,
+      orderId:      order.id,
+      ip:           ip,
+    })
+
+    /* ── 10. Return to frontend ── */
     return NextResponse.json({
       razorpay_order_id: rzpOrder.id,
       amount_paise:      Math.round(amount_paise),

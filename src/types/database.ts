@@ -2494,6 +2494,93 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── search_events ──────────────────────────────────── */
+      search_events: {
+        Row: {
+          id:           number
+          occurred_at:  string
+          query:        string
+          result_count: number | null
+          has_results:  boolean
+          source:       string
+          clicked_id:   string | null
+          firebase_uid: string | null
+          ip_hash:      string | null
+          device:       string | null
+        }
+        Insert: {
+          id?:          number
+          occurred_at?: string
+          query:        string
+          result_count?: number | null
+          source?:      string
+          clicked_id?:  string | null
+          firebase_uid?: string | null
+          ip_hash?:     string | null
+          device?:      string | null
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── ai_usage_events ─────────────────────────────────── */
+      ai_usage_events: {
+        Row: {
+          id:             number
+          occurred_at:    string
+          firebase_uid:   string | null
+          event_type:     "upload" | "analyze" | "analyze_failed" | "cancelled"
+          processing_ms:  number | null
+          is_error:       boolean
+          preset_applied: string | null
+          ip_hash:        string | null
+          device:         string | null
+        }
+        Insert: {
+          id?:            number
+          occurred_at?:   string
+          firebase_uid?:  string | null
+          event_type:     "upload" | "analyze" | "analyze_failed" | "cancelled"
+          processing_ms?: number | null
+          is_error?:      boolean
+          preset_applied?: string | null
+          ip_hash?:       string | null
+          device?:        string | null
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── bi_funnel_events ────────────────────────────────── */
+      bi_funnel_events: {
+        Row: {
+          id:            number
+          occurred_at:   string
+          session_key:   string | null
+          firebase_uid:  string | null
+          event_type:    "view_preset" | "view_bundle" | "add_to_cart" | "remove_from_cart" | "checkout_open" | "payment_attempted" | "payment_success" | "payment_failed" | "download_completed"
+          resource_id:   string | null
+          resource_type: string | null
+          order_id:      string | null
+          ip_hash:       string | null
+          device:        string | null
+        }
+        Insert: {
+          id?:           number
+          occurred_at?:  string
+          session_key?:  string | null
+          firebase_uid?: string | null
+          event_type:    "view_preset" | "view_bundle" | "add_to_cart" | "remove_from_cart" | "checkout_open" | "payment_attempted" | "payment_success" | "payment_failed" | "download_completed"
+          resource_id?:  string | null
+          resource_type?: string | null
+          order_id?:     string | null
+          ip_hash?:      string | null
+          device?:       string | null
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
     }
     Views:          Record<string, never>
     Functions: {
@@ -2548,7 +2635,12 @@ export type BundleRow        = Database["public"]["Tables"]["bundles"]["Row"]
 export type BundlePresetRow  = Database["public"]["Tables"]["bundle_presets"]["Row"]
 
 /* ── CMS singleton row types ────────────────────────────── */
-export type GlobalSettingsRow = Database["public"]["Tables"]["global_settings"]["Row"]
+export type GlobalSettingsRow  = Database["public"]["Tables"]["global_settings"]["Row"]
+
+/* ── BI tracking row types ──────────────────────────────── */
+export type SearchEventRow    = Database["public"]["Tables"]["search_events"]["Row"]
+export type AiUsageEventRow   = Database["public"]["Tables"]["ai_usage_events"]["Row"]
+export type BiFunnelEventRow  = Database["public"]["Tables"]["bi_funnel_events"]["Row"]
 
 /* ── Preset with all relations joined ──────────────────── */
 export interface PresetWithRelations extends PresetRow {

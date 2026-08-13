@@ -22,6 +22,7 @@ import type { NextRequest }          from "next/server"
 import { analyzeImage }              from "@/lib/ai/analyze"
 import { getStyleProfile }           from "@/lib/studio/style-profiles"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
+import { trackAiEvent }              from "@/lib/bi/track"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -95,6 +96,13 @@ export async function POST(request: NextRequest): Promise<Response> {
 
   /* Include the full StyleProfile so the client can show profile metadata */
   const profile = getStyleProfile(result.imageAnalysis.styleProfileId)
+
+  trackAiEvent({
+    eventType:    "analyze",
+    processingMs: result.imageAnalysis.processingMs,
+    isError:      false,
+    ip:           ip,
+  })
 
   return Response.json({
     success:       true,
