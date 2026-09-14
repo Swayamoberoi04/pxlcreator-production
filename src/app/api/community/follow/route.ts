@@ -4,7 +4,11 @@
  * Body: { target_uid: string, action: "follow" | "unfollow" }
  *
  * - Inserts/deletes from creator_follows
- * - Increments/decrements follower_count on target and following_count on follower
+ * - follower_count / following_count are maintained atomically by the
+ *   `trg_sync_follow_counts` database trigger (migration 043), NOT here —
+ *   the previous read-modify-write drifted under concurrent follows.
+ * - Duplicate follows are impossible: unique(follower_uid, following_uid)
+ * - Self-follows are impossible: creator_follows_no_self_check
  * - On follow: sends a notification to the target user
  *
  * Returns: { following: boolean, follower_count: number }
@@ -81,25 +85,7 @@ export async function POST(req: NextRequest) {
     const alreadyFollowing = insertError?.code === "23505"
 
     if (!alreadyFollowing) {
-      // Increment target's follower_count
-      await supabase
-        .from("community_profiles")
-        .update({ follower_count: (targetProfile.follower_count ?? 0) + 1 })
-        .eq("firebase_uid", target_uid)
-
-      // Increment follower's following_count
-      const { data: followerProfile } = await supabase
-        .from("community_profiles")
-        .select("following_count")
-        .eq("firebase_uid", uid)
-        .maybeSingle()
-
-      if (followerProfile) {
-        await supabase
-          .from("community_profiles")
-          .update({ following_count: (followerProfile.following_count ?? 0) + 1 })
-          .eq("firebase_uid", uid)
-      }
+      // Counts are already updated by trg_sync_follow_counts at this point.
 
       // Fetch actor display name for notification
       const { data: actorProfile } = await supabase
@@ -133,29 +119,7 @@ export async function POST(req: NextRequest) {
       console.error("[follow POST] delete error", deleteError)
       return NextResponse.json({ error: "Failed to unfollow user." }, { status: 500 })
     }
-
-    // Decrement target's follower_count (floor 0)
-    const newFollowerCount = Math.max(0, (targetProfile.follower_count ?? 0) - 1)
-    await supabase
-      .from("community_profiles")
-      .update({ follower_count: newFollowerCount })
-      .eq("firebase_uid", target_uid)
-
-    // Decrement follower's following_count
-    const { data: followerProfile } = await supabase
-      .from("community_profiles")
-      .select("following_count")
-      .eq("firebase_uid", uid)
-      .maybeSingle()
-
-    if (followerProfile) {
-      await supabase
-        .from("community_profiles")
-        .update({
-          following_count: Math.max(0, (followerProfile.following_count ?? 0) - 1),
-        })
-        .eq("firebase_uid", uid)
-    }
+    // Counts are already decremented by trg_sync_follow_counts.
   }
 
   // Fetch fresh follower_count

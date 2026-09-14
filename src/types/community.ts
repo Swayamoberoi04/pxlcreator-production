@@ -15,8 +15,8 @@ export const CREATOR_ROLES = [
   { id: "filmmaker",           label: "Filmmaker",            icon: "🎞", color: "#f97316" },
   { id: "short-film-maker",    label: "Short Film Maker",     icon: "🎭", color: "#10b981" },
   { id: "vlogger",             label: "Vlogger",              icon: "📱", color: "#e1306c" },
-  { id: "drone-operator",      label: "Drone Operator",       icon: "ðŸš", color: "#0ea5e9" },
-  { id: "retoucher",           label: "Retoucher",            icon: "âœï¸",  color: "#a78bfa" },
+  { id: "drone-operator",      label: "Drone Operator",       icon: "🚁", color: "#0ea5e9" },
+  { id: "retoucher",           label: "Retoucher",            icon: "🖌",  color: "#a78bfa" },
   { id: "content-creator",     label: "Content Creator",      icon: "✨", color: "#fb7185" },
   { id: "thumbnail-designer",  label: "Thumbnail Designer",   icon: "🖼", color: "#4ade80" },
   { id: "preset-creator",      label: "Preset Creator",       icon: "⚡", color: "#FFD60A" },
@@ -24,10 +24,27 @@ export const CREATOR_ROLES = [
 
 export type CreatorRoleId = (typeof CREATOR_ROLES)[number]["id"]
 
+/**
+ * The live filter vocabulary, served from the `creator_tags` table via
+ * GET /api/community/tags. `CREATOR_ROLES` above is kept only as the
+ * offline fallback used when the tags table is unreachable — Discover and
+ * every other filter UI reads the database, never the array.
+ */
+export interface CreatorTag {
+  id:         string
+  kind:       "role" | "style"
+  label:      string
+  icon:       string
+  color:      string
+  sort_order: number
+}
+
 /* ── Skill / availability enums ──────────────────────────────────────────────── */
 export type SkillLevel    = "beginner" | "intermediate" | "advanced" | "professional"
 export type Availability  = "open_for_work" | "open_for_collab" | "hiring" | "unavailable"
 export type ChannelVisibility = "public" | "private"
+/** public = listed in Discover; followers = full profile only for followers; private = unlisted */
+export type ProfileVisibility = "public" | "followers" | "private"
 export type PostType      = "text" | "image" | "video" | "link" | "poll"
 export type WorkType      = "remote" | "on_site" | "hybrid"
 export type BudgetType    = "fixed" | "hourly" | "negotiable"
@@ -62,8 +79,13 @@ export interface CommunityProfile {
   behance_url:      string | null
   portfolio_url:    string | null
   roles:            string[]
+  /** Aesthetic / subject tags — creator_tags where kind = 'style' */
+  style_tags:       string[]
+  /** Tools + specialities — free-form, e.g. "Lightroom", "DaVinci Resolve" */
+  skills:           string[]
   skill_level:      SkillLevel
   availability:     Availability
+  visibility:       ProfileVisibility
   follower_count:   number
   following_count:  number
   post_count:       number
@@ -83,7 +105,7 @@ export type CommunityProfileUpdate = Partial<Pick<CommunityProfile,
   "display_name" | "bio" | "avatar_url" | "banner_url" |
   "location_city" | "location_country" | "website" |
   "instagram_url" | "youtube_url" | "behance_url" | "portfolio_url" |
-  "roles" | "skill_level" | "availability"
+  "roles" | "style_tags" | "skills" | "skill_level" | "availability" | "visibility"
 >>
 
 /* ── Follow / connection ─────────────────────────────────────────────────────── */

@@ -2,11 +2,21 @@
 
 import { useEffect, useState, useCallback, useRef, Suspense } from "react"
 import { useRouter, useSearchParams }                          from "next/navigation"
+import Link                                                    from "next/link"
 import { useAuth }                                  from "@/contexts/AuthContext"
 import { CreatorCard }                              from "@/components/community/CreatorCard"
 import { CollabRequestCard, type CollabRequest }    from "@/components/community/CollabRequestCard"
 import { CREATOR_ROLES }                            from "@/types/community"
-import type { CommunityProfile, SkillLevel, Availability } from "@/types/community"
+import { useLiveProfileCounts }                     from "@/lib/community/useRealtime"
+import type { CommunityProfile, SkillLevel, Availability, CreatorTag } from "@/types/community"
+
+/**
+ * Offline fallback only. The real filter vocabulary comes from
+ * GET /api/community/tags (the `creator_tags` table) — see loadTags() below.
+ */
+const FALLBACK_ROLE_TAGS: CreatorTag[] = CREATOR_ROLES.map((r, i) => ({
+  id: r.id, kind: "role", label: r.label, icon: r.icon, color: r.color, sort_order: i,
+}))
 
 const SKILL_LEVELS: { value: SkillLevel; label: string }[] = [
   { value: "beginner",     label: "Beginner"     },
@@ -180,10 +190,17 @@ function DiscoverPageInner() {
   const [location,     setLocation]     = useState(searchParams.get("loc") ?? "")
   const [availableFor, setAvailableFor] = useState<string[]>([])
   const [needRole,     setNeedRole]     = useState("")
+  const [styles,       setStyles]       = useState<string[]>(searchParams.getAll("style"))
+
+  // Filter vocabulary — loaded from the database, not a hardcoded array.
+  const [roleTags,  setRoleTags]  = useState<CreatorTag[]>(FALLBACK_ROLE_TAGS)
+  const [styleTags, setStyleTags] = useState<CreatorTag[]>([])
 
   const [profiles,  setProfiles]  = useState<CommunityProfile[]>([])
   const [total,     setTotal]     = useState<number | null>(null)
   const [loading,   setLoading]   = useState(true)
+  /** True when the public directory itself is empty, not just this filter set. */
+  const [directoryEmpty, setDirectoryEmpty] = useState(false)
 
   const [collabModal, setCollabModal]   = useState<CommunityProfile | null>(null)
 
@@ -201,27 +218,70 @@ function DiscoverPageInner() {
     return { Authorization: `Bearer ${token}` }
   }
 
-  const search = useCallback(async (q: string, role: string[], skill: string, avail: string, loc: string, avFor: string[], needR: string) => {
+  const search = useCallback(async (q: string, role: string[], skill: string, avail: string, loc: string, avFor: string[], needR: string, style: string[]) => {
     setLoading(true)
     try {
-      const params = new URLSearchParams({ q, type: "profiles" })
+      const params = new URLSearchParams({ type: "profiles", limit: "50" })
+      if (q)      params.set("q",            q)
       if (skill)  params.set("skill_level",  skill)
       if (avail)  params.set("availability", avail)
       if (loc)    params.set("location",     loc)
       if (needR)  params.set("need_role",    needR)
-      role.forEach((r) => params.append("role", r))
+      role.forEach((r)  => params.append("role", r))
+      style.forEach((s) => params.append("style", s))
       avFor.forEach((a) => params.append("available_for", a))
 
       const headers = await getHeaders()
       const res     = await fetch(`/api/community/search?${params}`, { headers })
       if (res.ok) {
-        const data = await res.json()
-        setProfiles(data.profiles ?? [])
-        setTotal(data.total ?? data.profiles?.length ?? 0)
+        const data  = await res.json()
+        const found = (data.profiles ?? []) as CommunityProfile[]
+        setProfiles(found)
+        setTotal(data.totals?.profiles ?? data.total ?? found.length)
+
+        // Distinguish "nobody matches these filters" from "nobody has joined
+        // yet" — the second must never be dressed up as the first.
+        if (found.length === 0) {
+          const unfiltered = new URLSearchParams({ type: "profiles", limit: "1" })
+          const probe = await fetch(`/api/community/search?${unfiltered}`, { headers })
+          const probeData = probe.ok ? await probe.json() : null
+          setDirectoryEmpty((probeData?.totals?.profiles ?? 1) === 0)
+        } else {
+          setDirectoryEmpty(false)
+        }
       }
     } catch { setProfiles([]) } finally { setLoading(false) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
+
+  /* Load the filter vocabulary from the database once. */
+  useEffect(() => {
+    let cancelled = false
+    async function loadTags() {
+      try {
+        const res = await fetch("/api/community/tags")
+        if (!res.ok) return
+        const data = await res.json()
+        if (cancelled) return
+        if (Array.isArray(data.roles)  && data.roles.length)  setRoleTags(data.roles)
+        if (Array.isArray(data.styles) && data.styles.length) setStyleTags(data.styles)
+      } catch { /* keep the offline fallback */ }
+    }
+    void loadTags()
+    return () => { cancelled = true }
+  }, [])
+
+  /* Live follower counts: re-render a card when someone follows that creator. */
+  useLiveProfileCounts(true, (row) => {
+    setProfiles((prev) => {
+      if (!prev.some((p) => p.firebase_uid === row.firebase_uid)) return prev
+      return prev.map((p) =>
+        p.firebase_uid === row.firebase_uid
+          ? { ...p, follower_count: row.follower_count, showcase_count: row.showcase_count }
+          : p
+      )
+    })
+  })
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
@@ -232,12 +292,13 @@ function DiscoverPageInner() {
       if (availability) params.set("avail", availability)
       if (location)    params.set("loc", location)
       roles.forEach((r) => params.append("role", r))
+      styles.forEach((s) => params.append("style", s))
       router.replace(`/community/discover?${params}`, { scroll: false })
-      void search(query, roles, skillLevel, availability, location, availableFor, needRole)
+      void search(query, roles, skillLevel, availability, location, availableFor, needRole, styles)
     }, 300)
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, roles, skillLevel, availability, location, availableFor, needRole])
+  }, [query, roles, skillLevel, availability, location, availableFor, needRole, styles])
 
   async function fetchRequests() {
     if (!user) return
@@ -263,6 +324,10 @@ function DiscoverPageInner() {
     setRoles((prev) => prev.includes(roleId) ? prev.filter((r) => r !== roleId) : [...prev, roleId])
   }
 
+  function toggleStyle(styleId: string) {
+    setStyles((prev) => prev.includes(styleId) ? prev.filter((s) => s !== styleId) : [...prev, styleId])
+  }
+
   function toggleAvailableFor(opt: string) {
     setAvailableFor((prev) => prev.includes(opt) ? prev.filter((x) => x !== opt) : [...prev, opt])
   }
@@ -273,7 +338,7 @@ function DiscoverPageInner() {
     setSent(updater)
   }
 
-  const hasFilters = roles.length > 0 || skillLevel || availability || location || availableFor.length > 0 || needRole
+  const hasFilters = roles.length > 0 || styles.length > 0 || skillLevel || availability || location || availableFor.length > 0 || needRole
 
   return (
     <div className="flex flex-col gap-8">
@@ -418,7 +483,7 @@ function DiscoverPageInner() {
                   className="rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm text-foreground focus:outline-none focus:border-gold/50"
                 >
                   <option value="">Any role</option>
-                  {CREATOR_ROLES.map((r) => <option key={r.id} value={r.id}>{r.label}</option>)}
+                  {roleTags.map((r) => <option key={r.id} value={r.id}>{r.label}</option>)}
                 </select>
               </div>
             </div>
@@ -444,11 +509,11 @@ function DiscoverPageInner() {
               </div>
             </div>
 
-            {/* Roles */}
+            {/* Roles — vocabulary from the creator_tags table */}
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold text-muted/92">Roles</label>
               <div className="flex flex-wrap gap-2">
-                {CREATOR_ROLES.map((role) => (
+                {roleTags.map((role) => (
                   <button
                     key={role.id}
                     onClick={() => toggleRole(role.id)}
@@ -466,10 +531,34 @@ function DiscoverPageInner() {
               </div>
             </div>
 
+            {/* Style / subject tags — also from creator_tags */}
+            {styleTags.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold text-muted/92">Style &amp; Subject</label>
+                <div className="flex flex-wrap gap-2">
+                  {styleTags.map((tag) => (
+                    <button
+                      key={tag.id}
+                      onClick={() => toggleStyle(tag.id)}
+                      className={[
+                        "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors border",
+                        styles.includes(tag.id)
+                          ? "border-gold/40 bg-gold/10 text-gold"
+                          : "border-border bg-surface-2 text-muted/85 hover:border-gold/30 hover:text-foreground",
+                      ].join(" ")}
+                    >
+                      <span>{tag.icon}</span>
+                      <span>{tag.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Clear filters */}
             {hasFilters && (
               <button
-                onClick={() => { setRoles([]); setSkillLevel(""); setAvailability(""); setLocation(""); setAvailableFor([]); setNeedRole("") }}
+                onClick={() => { setRoles([]); setStyles([]); setSkillLevel(""); setAvailability(""); setLocation(""); setAvailableFor([]); setNeedRole("") }}
                 className="self-start text-xs text-muted/85 hover:text-gold transition-colors underline underline-offset-2"
               >
                 Clear all filters
@@ -498,11 +587,41 @@ function DiscoverPageInner() {
                 </div>
               ))}
             </div>
+          ) : directoryEmpty ? (
+            /* Genuinely nobody public in the directory yet — say so plainly
+               rather than implying the search was at fault. */
+            <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
+              <span className="text-4xl">🌱</span>
+              <p className="text-foreground font-semibold">No creators have joined yet</p>
+              <p className="text-sm text-muted/85 max-w-sm">
+                The creator directory is empty right now. Be the first — set up your
+                profile and you&apos;ll show up here for everyone else.
+              </p>
+              <Link
+                href="/community/setup"
+                className="mt-2 rounded-full bg-gold px-6 py-2.5 text-sm font-bold text-black hover:bg-gold/90 transition-colors"
+              >
+                Create my creator profile
+              </Link>
+            </div>
           ) : (
             <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
               <span className="text-4xl">🔍</span>
-              <p className="text-foreground font-semibold">No creators found</p>
-              <p className="text-sm text-muted/85">Try different keywords or clear some filters</p>
+              <p className="text-foreground font-semibold">
+                No creators match {hasFilters && query ? "this search and these filters" : hasFilters ? "these filters" : "this search"}
+              </p>
+              <p className="text-sm text-muted/85">
+                There are registered creators — none of them fit what you picked. Try
+                widening your filters.
+              </p>
+              {hasFilters && (
+                <button
+                  onClick={() => { setRoles([]); setStyles([]); setSkillLevel(""); setAvailability(""); setLocation(""); setAvailableFor([]); setNeedRole("") }}
+                  className="mt-1 text-xs text-gold hover:underline underline-offset-2"
+                >
+                  Clear all filters
+                </button>
+              )}
             </div>
           )}
         </>
