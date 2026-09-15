@@ -65,7 +65,25 @@
       "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npx eslint src/app/api/admin/community src/app/admin/community src/components/admin/AdminSidebar.tsx src/lib/admin/roles.ts src/types/database.ts; Write-Output \"EXIT: $LASTEXITCODE\")",
       "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npx eslint src/app/admin/analytics/page.tsx src/app/admin/settings/page.tsx src/app/api/admin/analytics/route.ts src/app/api/admin/settings --ext .tsx,.ts 2>&1 | Where-Object { $_ -match \"error|warning\" } | Select-Object -First 40)",
       "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run build 2>&1 | Where-Object { $_ -match \"admin/analytics|admin/settings|error|Error|warn|Exit\" } | Select-Object -First 20)",
-      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run build; echo \"EXIT: $LASTEXITCODE\")"
+      "PowerShell(cd \"C:\\\\Users\\\\swayam\\\\OneDrive\\\\Desktop\\\\Pxl\\\\pxl-creator\"; npm run build; echo \"EXIT: $LASTEXITCODE\")",
+      "PowerShell(Get-ChildItem -Recurse -File src\\\\app\\\\community, src\\\\components\\\\community, src\\\\lib\\\\community -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName.Replace\\(\\(Get-Location\\).Path + '\\\\',''\\) })",
+      "PowerShell(Get-ChildItem -Recurse -File src\\\\app\\\\api\\\\community | ForEach-Object { $_.FullName.Replace\\(\\(Get-Location\\).Path + '\\\\',''\\) })",
+      "PowerShell(if \\(Test-Path node_modules\\\\next\\\\dist\\\\docs\\) { Get-ChildItem -Recurse -File node_modules\\\\next\\\\dist\\\\docs | Select-Object -ExpandProperty Name } else { \"NO DOCS DIR\" }; \\(Get-Content package.json | ConvertFrom-Json\\).dependencies.next)",
+      "PowerShell(npx eslint src/app/community/discover/page.tsx src/app/community/setup/page.tsx src/lib/community/useRealtime.ts src/app/api/community/tags/route.ts src/app/api/community/onboarding/route.ts src/app/api/community/search/route.ts src/app/api/community/follow/route.ts \"src/app/api/community/profile/route.ts\" \"src/app/api/community/profile/[username]/route.ts\" src/types/community.ts 2>&1)",
+      "PowerShell(npx eslint src/app/community/discover/page.tsx src/lib/community/useRealtime.ts src/app/community/setup/page.tsx src/app/api/community/tags/route.ts src/app/api/community/onboarding/route.ts src/app/api/community/search/route.ts src/app/api/community/follow/route.ts \"src/app/api/community/profile/route.ts\" \"src/app/api/community/profile/[username]/route.ts\" 2>&1)",
+      "PowerShell(node \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\diag.mjs\")",
+      "PowerShell(Copy-Item \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\diag.mjs\" .\\\\diag.mjs; node diag.mjs)",
+      "PowerShell(npx eslint src/app/api/community/search/route.ts src/app/api/community/tags/route.ts src/app/api/community/onboarding/route.ts \"src/app/api/community/profile/route.ts\" 2>&1)",
+      "PowerShell(git add -A)",
+      "PowerShell(git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg.txt\")",
+      "PowerShell(git push origin main 2>&1)",
+      "PowerShell(node diag.mjs)",
+      "PowerShell(node diag.mjs 2>&1)",
+      "PowerShell(node diag2.mjs 2>&1)",
+      "PowerShell(gh api repos/Swayamoberoi04/pxlcreator-production --jq '{full_name, private, permissions}' 2>&1)",
+      "PowerShell(gh api repos/Swayamoberoi04/pxlcreator-production --jq .permissions 2>&1)",
+      "PowerShell(git add .claude/settings.local.json)",
+      "PowerShell(git commit -m \"chore: record tool permissions granted during Phase 5.1 work\" 2>&1)"
     ]
   }
 }

@@ -2,8 +2,10 @@
 
 /**
  * /community/setup — One-click community setup for new users.
- * Joins default spaces, creates sample showcase items,
- * and populates the user's profile with demo content.
+ *
+ * Creates the user's real community profile, makes them discoverable, and
+ * joins the default public spaces. It does NOT fabricate showcase work on
+ * their behalf — their portfolio stays empty until they post something.
  */
 
 import { useState }    from "react"
@@ -13,9 +15,9 @@ import { useAuth }     from "@/contexts/AuthContext"
 import { useRouter }   from "next/navigation"
 
 const SETUP_STEPS = [
-  { icon: "💬", label: "Join 2 Creator Spaces",   desc: "Photography + Lightroom & Editing"      },
-  { icon: "🖼", label: "Add sample showcase items", desc: "3 demo works added to your portfolio"  },
-  { icon: "✦",  label: "Activate your profile",    desc: "Profile marked as active in the network" },
+  { icon: "✦",  label: "Create your creator profile", desc: "Your handle and profile in the network"   },
+  { icon: "🔍", label: "Become discoverable",         desc: "Appear in Discover — you can change this anytime" },
+  { icon: "💬", label: "Join 2 Creator Spaces",       desc: "Photography + Lightroom & Editing"        },
 ]
 
 export default function CommunitySetupPage() {
@@ -32,7 +34,7 @@ export default function CommunitySetupPage() {
 
     try {
       const token = await user.getIdToken()
-      const res   = await fetch("/api/community/seed", {
+      const res   = await fetch("/api/community/onboarding", {
         method:  "POST",
         headers: { Authorization: `Bearer ${token}` },
       })

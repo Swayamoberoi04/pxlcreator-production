@@ -81,7 +81,53 @@ export async function PUT(req: NextRequest) {
     }
   }
 
+  // Visibility must be one of the three states the DB constraint allows.
+  if (body.visibility !== undefined) {
+    if (!["public", "followers", "private"].includes(body.visibility as string)) {
+      return NextResponse.json(
+        { error: "visibility must be 'public', 'followers' or 'private'." },
+        { status: 400 }
+      )
+    }
+  }
+
+  // roles / style_tags must be arrays of strings; anything else is rejected
+  // rather than silently written, so a bad client can't corrupt discovery.
+  for (const field of ["roles", "style_tags", "skills"] as const) {
+    const value = body[field]
+    if (value === undefined) continue
+    if (!Array.isArray(value) || value.some((v) => typeof v !== "string")) {
+      return NextResponse.json({ error: `${field} must be an array of strings.` }, { status: 400 })
+    }
+    if (value.length > 20) {
+      return NextResponse.json({ error: `${field} allows at most 20 entries.` }, { status: 400 })
+    }
+  }
+
   const supabase = createAdminClient()
+
+  // roles and style_tags must come from the live creator_tags vocabulary.
+  for (const [field, kind] of [["roles", "role"], ["style_tags", "style"]] as const) {
+    const value = body[field] as string[] | undefined
+    if (!value || value.length === 0) continue
+    const { data: known, error: tagError } = await supabase
+      .from("creator_tags")
+      .select("id")
+      .eq("kind", kind)
+      .eq("is_active", true)
+      .in("id", value)
+    // Table absent = migration 043 not applied yet; skip validation rather
+    // than reject every tag the user picks.
+    if (tagError) continue
+    const knownIds = new Set((known ?? []).map((t: { id: string }) => t.id))
+    const unknown = value.filter((v) => !knownIds.has(v))
+    if (unknown.length > 0) {
+      return NextResponse.json(
+        { error: `Unknown ${field}: ${unknown.join(", ")}` },
+        { status: 400 }
+      )
+    }
+  }
 
   // Check username uniqueness if changing it
   if (username) {
@@ -100,7 +146,8 @@ export async function PUT(req: NextRequest) {
     "display_name", "bio", "avatar_url", "banner_url",
     "location_city", "location_country", "website",
     "instagram_url", "youtube_url", "behance_url", "portfolio_url",
-    "roles", "skill_level", "availability", "username",
+    "roles", "style_tags", "skills", "skill_level", "availability",
+    "visibility", "username",
   ] as const
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() }

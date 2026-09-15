@@ -1318,6 +1318,8 @@ export interface Database {
           behance_url:      string | null
           portfolio_url:    string | null
           roles:            string[]
+          style_tags:       string[]
+          visibility:       string
           skill_level:      string
           availability:     string
           follower_count:   number
@@ -1359,6 +1361,9 @@ export interface Database {
           behance_url?:     string | null
           portfolio_url?:   string | null
           roles?:           string[]
+          style_tags?:      string[]
+          skills?:          string[]
+          visibility?:      string
           skill_level?:     string
           availability?:    string
           is_verified?:     boolean
@@ -1381,6 +1386,9 @@ export interface Database {
           behance_url?:     string | null
           portfolio_url?:   string | null
           roles?:           string[]
+          style_tags?:      string[]
+          skills?:          string[]
+          visibility?:      string
           skill_level?:     string
           availability?:    string
           follower_count?:  number
@@ -1394,6 +1402,39 @@ export interface Database {
           banned_reason?:   string | null
           banned_at?:       string | null
           updated_at?:      string
+        }
+        Relationships: []
+      }
+
+      /* ── creator_tags — migration 043 ────────────────── */
+      /* DB-backed filter vocabulary for creator discovery.  */
+      creator_tags: {
+        Row: {
+          id:         string
+          kind:       string
+          label:      string
+          icon:       string
+          color:      string
+          sort_order: number
+          is_active:  boolean
+          created_at: string
+        }
+        Insert: {
+          id:          string
+          kind?:       string
+          label:       string
+          icon?:       string
+          color?:      string
+          sort_order?: number
+          is_active?:  boolean
+        }
+        Update: {
+          kind?:       string
+          label?:      string
+          icon?:       string
+          color?:      string
+          sort_order?: number
+          is_active?:  boolean
         }
         Relationships: []
       }

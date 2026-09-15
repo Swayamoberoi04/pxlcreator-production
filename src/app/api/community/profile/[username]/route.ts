@@ -42,6 +42,45 @@ export async function GET(
       return NextResponse.json({ error: "Profile not found." }, { status: 404 })
     }
 
+    const isOwner = uid === profile.firebase_uid
+
+    // Check is_following early — 'followers' visibility depends on it.
+    let is_following = false
+    if (uid && !isOwner) {
+      const { data: followRow } = await supabase
+        .from("creator_follows")
+        .select("follower_uid")
+        .eq("follower_uid", uid)
+        .eq("following_uid", profile.firebase_uid)
+        .maybeSingle()
+      is_following = !!followRow
+    }
+
+    // Respect the owner's visibility choice. A private profile is a 404 to
+    // everyone but its owner — not a 403, which would confirm it exists.
+    const visibility = (profile as { visibility?: string }).visibility ?? "public"
+    if (!isOwner) {
+      if (visibility === "private") {
+        return NextResponse.json({ error: "Profile not found." }, { status: 404 })
+      }
+      if (visibility === "followers" && !is_following) {
+        // Return only the identity needed to render a "follow to view" card.
+        return NextResponse.json({
+          profile: {
+            id:            profile.id,
+            firebase_uid:  profile.firebase_uid,
+            username:      profile.username,
+            display_name:  profile.display_name,
+            avatar_url:    profile.avatar_url,
+            is_verified:   profile.is_verified,
+            visibility,
+            is_following:  false,
+            restricted:    true,
+          },
+        })
+      }
+    }
+
     // Fetch earned badges with joined badge details
     const { data: badgeRows } = await supabase
       .from("user_earned_badges")
@@ -55,23 +94,12 @@ export async function GET(
       badge:      row.community_badges,
     }))
 
-    // Check is_following if caller is authenticated
-    let is_following = false
-    if (uid && uid !== profile.firebase_uid) {
-      const { data: followRow } = await supabase
-        .from("creator_follows")
-        .select("follower_uid")
-        .eq("follower_uid", uid)
-        .eq("following_uid", profile.firebase_uid)
-        .maybeSingle()
-      is_following = !!followRow
-    }
-
     return NextResponse.json({
       profile: {
         ...profile,
         badges,
         is_following,
+        restricted: false,
       },
     })
   } catch (err) {
