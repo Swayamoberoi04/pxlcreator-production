@@ -7,9 +7,10 @@ import { useAuth }                          from "@/contexts/AuthContext"
 import { FollowButton }                     from "@/components/community/FollowButton"
 import { ShowcaseCard }                     from "@/components/community/ShowcaseCard"
 import { CREATOR_ROLES }                    from "@/types/community"
+import { CreatorCard }                      from "@/components/community/CreatorCard"
 import type {
   CommunityProfile, UserEarnedBadge,
-  ShowcaseWithMeta, Availability
+  ShowcaseWithMeta, Availability, ProfileVisibility
 } from "@/types/community"
 
 const AVAILABILITY_LABELS: Record<Availability, string> = {
@@ -42,6 +43,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
   const [loading,   setLoading]   = useState(true)
   const [notFound,  setNotFound]  = useState(false)
   const [showEdit,  setShowEdit]  = useState(false)
+  const [similar,   setSimilar]   = useState<(CommunityProfile & { shared_tags: number })[]>([])
 
   const isOwnProfile = user && data?.profile.firebase_uid === user.uid
 
@@ -71,6 +73,22 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
     }
     void load()
   }, [username, user])
+
+  /* Similar creators — real tag overlap, computed fresh each visit. */
+  useEffect(() => {
+    let cancelled = false
+    async function loadSimilar() {
+      try {
+        const res = await fetch(`/api/community/discover/similar/${username}?limit=6`)
+        if (res.ok && !cancelled) {
+          const d = await res.json()
+          setSimilar(d.creators ?? [])
+        }
+      } catch { /* non-critical section */ }
+    }
+    void loadSimilar()
+    return () => { cancelled = true }
+  }, [username])
 
   if (loading) return (
     <div className="flex flex-col gap-6 animate-pulse">
@@ -282,6 +300,20 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
         )}
       </AnimatePresence>
 
+      {/* Similar Creators — real shared-tag overlap, never a fabricated score */}
+      {similar.length > 0 && (
+        <div className="flex flex-col gap-4 pt-2">
+          <h2 className="font-display font-bold text-[1.125rem] text-foreground">Similar Creators</h2>
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+            {similar.map((p) => (
+              <div key={p.id} className="shrink-0 w-64">
+                <CreatorCard profile={p} compact showFollowButton />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Edit Profile Modal */}
       {showEdit && isOwnProfile && (
         <EditProfileModal
@@ -317,6 +349,7 @@ function EditProfileModal({
     skill_level:      profile.skill_level,
     availability:     profile.availability,
     roles:            profile.roles,
+    visibility:       profile.visibility ?? "public",
   })
   const [saving, setSaving] = useState(false)
   const [error,  setError]  = useState("")
@@ -398,6 +431,17 @@ function EditProfileModal({
               <option value="open_for_collab">Open for Collab</option>
               <option value="hiring">Hiring</option>
               <option value="unavailable">Unavailable</option>
+            </select>
+          </div>
+
+          {/* Visibility */}
+          <div>
+            <p className="text-[0.8125rem] text-muted/85 mb-2">Who can see this profile</p>
+            <select value={form.visibility} onChange={e => setForm(p=>({...p,visibility:e.target.value as ProfileVisibility}))}
+              className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground focus:outline-none focus:border-gold/40">
+              <option value="public">Public — listed in Discover, visible to everyone</option>
+              <option value="followers">Followers only — hidden from Discover, full profile only for followers</option>
+              <option value="private">Private — hidden everywhere except to you</option>
             </select>
           </div>
 

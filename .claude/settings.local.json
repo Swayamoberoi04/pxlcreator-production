@@ -83,7 +83,25 @@
       "PowerShell(gh api repos/Swayamoberoi04/pxlcreator-production --jq '{full_name, private, permissions}' 2>&1)",
       "PowerShell(gh api repos/Swayamoberoi04/pxlcreator-production --jq .permissions 2>&1)",
       "PowerShell(git add .claude/settings.local.json)",
-      "PowerShell(git commit -m \"chore: record tool permissions granted during Phase 5.1 work\" 2>&1)"
+      "PowerShell(git commit -m \"chore: record tool permissions granted during Phase 5.1 work\" 2>&1)",
+      "PowerShell(git checkout -b feat/community-phase-5.1 2>&1)",
+      "PowerShell(git push -u origin feat/community-phase-5.1 2>&1)",
+      "PowerShell(gh auth status 2>&1)",
+      "PowerShell(gh auth status --active 2>&1)",
+      "PowerShell(gh api user --jq .login 2>&1)",
+      "PowerShell(git config --global credential.helper \"!gh auth git-credential\")",
+      "PowerShell(gh pr create --base main --head feat/community-phase-5.1 --title \"feat\\(community\\): Phase 5.1 - real database-driven community foundation\" --body-file \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\pr_body.md\" 2>&1)",
+      "PowerShell(npx eslint src/app/community/discover/page.tsx src/app/community/[username]/page.tsx src/components/community/FeaturedCreatorCard.tsx src/app/admin/community/featured-creators/page.tsx src/app/admin/community/page.tsx \"src/app/api/admin/community/featured-creators/route.ts\" \"src/app/api/admin/community/featured-creators/[id]/route.ts\" src/app/api/community/featured-creators/route.ts \"src/app/api/community/discover/trending/route.ts\" \"src/app/api/community/discover/new/route.ts\" \"src/app/api/community/discover/similar/[username]/route.ts\" src/app/api/community/recommended/route.ts 2>&1)",
+      "PowerShell(npx eslint src/app/community/discover/page.tsx 2>&1)",
+      "PowerShell(npx eslint src/app/community/page.tsx 2>&1)",
+      "PowerShell(node diag044.mjs 2>&1)",
+      "PowerShell(node diag044b.mjs 2>&1)",
+      "PowerShell(gh pr view 21 --json state,mergedAt 2>&1)",
+      "PowerShell(git fetch origin 2>&1)",
+      "PowerShell(gh pr merge 21 --merge --admin 2>&1)",
+      "PowerShell(git checkout main 2>&1)",
+      "PowerShell(git merge --ff-only origin/main 2>&1)",
+      "PowerShell(git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg2.txt\" 2>&1)"
     ]
   }
 }

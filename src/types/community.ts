@@ -283,6 +283,33 @@ export interface CommunityNotification {
   created_at:    string
 }
 
+/* ── Featured Creator (external "Inspiration" entity) ─────────────────────────
+ * NOT a PXL member: no firebase_uid, cannot be followed, never rendered on a
+ * /community/[username] page or presented as though the person joined PXL.
+ * See migration 044 comment for the full rationale.
+ * ──────────────────────────────────────────────────────────────────────────── */
+export interface FeaturedCreator {
+  id:          string
+  name:        string
+  handle:      string | null
+  bio:         string
+  avatar_url:  string | null
+  source_url:  string
+  platform:    string
+  role_tags:   string[]
+  style_tags:  string[]
+  sort_order:  number
+  is_active:   boolean
+  created_at:  string
+  updated_at:  string
+}
+
+/** Discriminated union so any "creator card" list can safely mix real PXL
+ * members with external inspiration entities without ever conflating them. */
+export type DiscoverCard =
+  | { kind: "member";   profile: CommunityProfile }
+  | { kind: "featured"; creator: FeaturedCreator }
+
 /* ── Event ───────────────────────────────────────────────────────────────────── */
 export interface CommunityEvent {
   id:                string

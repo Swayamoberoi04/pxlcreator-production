@@ -5,10 +5,11 @@ import { useRouter, useSearchParams }                          from "next/naviga
 import Link                                                    from "next/link"
 import { useAuth }                                  from "@/contexts/AuthContext"
 import { CreatorCard }                              from "@/components/community/CreatorCard"
+import { FeaturedCreatorCard }                      from "@/components/community/FeaturedCreatorCard"
 import { CollabRequestCard, type CollabRequest }    from "@/components/community/CollabRequestCard"
 import { CREATOR_ROLES }                            from "@/types/community"
-import { useLiveProfileCounts }                     from "@/lib/community/useRealtime"
-import type { CommunityProfile, SkillLevel, Availability, CreatorTag } from "@/types/community"
+import { useLiveProfileCounts, useRealtimeTable }   from "@/lib/community/useRealtime"
+import type { CommunityProfile, SkillLevel, Availability, CreatorTag, FeaturedCreator } from "@/types/community"
 
 /**
  * Offline fallback only. The real filter vocabulary comes from
@@ -202,6 +203,12 @@ function DiscoverPageInner() {
   /** True when the public directory itself is empty, not just this filter set. */
   const [directoryEmpty, setDirectoryEmpty] = useState(false)
 
+  // Trending / New / Featured — independent of the filter form above.
+  const [trending, setTrending] = useState<(CommunityProfile & { recent_follows: number })[]>([])
+  const [newCreators, setNewCreators] = useState<CommunityProfile[]>([])
+  const [featured, setFeatured] = useState<FeaturedCreator[]>([])
+  const [sectionsLoading, setSectionsLoading] = useState(true)
+
   const [collabModal, setCollabModal]   = useState<CommunityProfile | null>(null)
 
   // Requests tab
@@ -270,6 +277,32 @@ function DiscoverPageInner() {
     void loadTags()
     return () => { cancelled = true }
   }, [])
+
+  /* Trending / New / Featured — reusable so realtime can trigger a refetch. */
+  const loadSections = useCallback(async () => {
+    setSectionsLoading(true)
+    try {
+      const [trendRes, newRes, featRes] = await Promise.all([
+        fetch("/api/community/discover/trending?limit=8"),
+        fetch("/api/community/discover/new?limit=8"),
+        fetch("/api/community/featured-creators"),
+      ])
+      if (trendRes.ok) setTrending((await trendRes.json()).creators ?? [])
+      if (newRes.ok) setNewCreators((await newRes.json()).creators ?? [])
+      if (featRes.ok) setFeatured((await featRes.json()).creators ?? [])
+    } catch { /* sections are supplementary; leave whatever loaded */ }
+    finally { setSectionsLoading(false) }
+  }, [])
+
+  useEffect(() => { setTimeout(() => void loadSections(), 0) }, [loadSections])
+
+  /* Trending is literally "recent follow activity" — a new follow anywhere
+     can change the ranking, so refetch (debounced) on any follow change. */
+  const trendingRefetchRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  useRealtimeTable({ table: "creator_follows", event: "INSERT" }, () => {
+    if (trendingRefetchRef.current) clearTimeout(trendingRefetchRef.current)
+    trendingRefetchRef.current = setTimeout(() => void loadSections(), 2000)
+  })
 
   /* Live follower counts: re-render a card when someone follows that creator. */
   useLiveProfileCounts(true, (row) => {
@@ -406,6 +439,67 @@ function DiscoverPageInner() {
       {/* ── DISCOVER TAB ── */}
       {pageTab === "discover" && (
         <>
+          {/* Trending — real follower growth in the last 7 days. Section is
+              simply absent when nobody gained a follow; never backfilled. */}
+          {(trending.length > 0 || sectionsLoading) && (
+            <div className="flex flex-col gap-3">
+              <h2 className="font-display font-bold text-lg text-foreground">🔥 Trending This Week</h2>
+              {sectionsLoading ? (
+                <div className="flex gap-3 overflow-x-auto pb-1">
+                  {Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
+                </div>
+              ) : (
+                <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+                  {trending.map((p) => (
+                    <div key={p.id} className="shrink-0 w-64 relative">
+                      <CreatorCard profile={p} compact showFollowButton />
+                      <span className="absolute top-2 right-2 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.625rem] font-bold text-gold/90">
+                        +{p.recent_follows} this week
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* New creators — real signups, ordered by real created_at. */}
+          {(newCreators.length > 0 || sectionsLoading) && (
+            <div className="flex flex-col gap-3">
+              <h2 className="font-display font-bold text-lg text-foreground">✨ New Creators</h2>
+              {sectionsLoading ? (
+                <div className="flex gap-3 overflow-x-auto pb-1">
+                  {Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
+                </div>
+              ) : (
+                <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+                  {newCreators.map((p) => (
+                    <div key={p.id} className="shrink-0 w-64">
+                      <CreatorCard profile={p} compact showFollowButton />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Featured / Inspiration — external creators, clearly not PXL members */}
+          {featured.length > 0 && (
+            <div className="flex flex-col gap-3">
+              <div>
+                <h2 className="font-display font-bold text-lg text-foreground">Featured Creators</h2>
+                <p className="text-xs text-muted/85 mt-0.5">
+                  Inspiration from outside PXL — not registered members, shown for creative reference only.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {featured.map((c) => <FeaturedCreatorCard key={c.id} creator={c} />)}
+              </div>
+            </div>
+          )}
+
+          <div className="border-t border-border pt-6" />
+
           <div>
             <h1 className="font-display font-bold text-3xl text-foreground">Discover Creators</h1>
             {total !== null && (

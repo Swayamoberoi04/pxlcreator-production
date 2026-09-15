@@ -1439,6 +1439,58 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── featured_creators — migration 044 ───────────── */
+      /* External "Inspiration" entities. NOT PXL members.  */
+      featured_creators: {
+        Row: {
+          id:          string
+          name:        string
+          handle:      string | null
+          bio:         string
+          avatar_url:  string | null
+          source_url:  string
+          platform:    string
+          role_tags:   string[]
+          style_tags:  string[]
+          source_note: string
+          sort_order:  number
+          is_active:   boolean
+          created_by:  string | null
+          created_at:  string
+          updated_at:  string
+        }
+        Insert: {
+          id?:          string
+          name:         string
+          handle?:      string | null
+          bio?:         string
+          avatar_url?:  string | null
+          source_url:   string
+          platform?:    string
+          role_tags?:   string[]
+          style_tags?:  string[]
+          source_note?: string
+          sort_order?:  number
+          is_active?:   boolean
+          created_by?:  string | null
+        }
+        Update: {
+          name?:        string
+          handle?:      string | null
+          bio?:         string
+          avatar_url?:  string | null
+          source_url?:  string
+          platform?:    string
+          role_tags?:   string[]
+          style_tags?:  string[]
+          source_note?: string
+          sort_order?:  number
+          is_active?:   boolean
+          updated_at?:  string
+        }
+        Relationships: []
+      }
+
       /* ══════════════════════════════════════════════════
          COMMUNITY EXPANSION — migration 013
       ══════════════════════════════════════════════════ */

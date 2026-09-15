@@ -18,6 +18,7 @@ const SECTIONS = [
   { href: "/admin/community/comments", label: "Comments",      description: "Post replies — hide or delete." },
   { href: "/admin/community/showcase", label: "Showcase",      description: "Portfolio items — feature, hide, or delete." },
   { href: "/admin/community/users",    label: "Users",         description: "Community profiles — verify, ban, or unban." },
+  { href: "/admin/community/featured-creators", label: "Featured Creators", description: "External \"Inspiration\" entities — real creators who are not PXL members. Add/import without code changes." },
 ]
 
 export default function CommunityModerationHub() {

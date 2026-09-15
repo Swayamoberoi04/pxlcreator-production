@@ -1,11 +1,22 @@
 /**
  * GET /api/community/recommended
  *
- * Returns community creators and channels personalised to the authenticated
- * user's onboarding profile (professions → community roles / channel categories).
+ * Community creators and channels personalised to the authenticated user,
+ * from THREE real signals — nothing here is invented, and nothing is cached,
+ * so it changes the moment the underlying signal does:
+ *
+ *   1. Onboarding professions (creator_profiles) → community roles/categories
+ *   2. The user's own community_profiles roles/style_tags/skills, when they've
+ *      filled those in — covers users who set up a community profile but
+ *      never did the separate onboarding flow
+ *   3. Collaborative signal: creators followed by the people YOU follow
+ *      ("people you may know"), weighted by how many of your follows follow
+ *      them — this is what makes recommendations move when you follow/unfollow
+ *
+ * Already-followed creators and the user themself are always excluded.
  *
  * Auth: required.
- * Returns: { creators: (CommunityProfile & { matchPct: number })[], channels: ChannelWithMeta[] }
+ * Returns: { creators: (CommunityProfile & { matchPct: number; reason: string })[], channels: ChannelWithMeta[] }
  */
 
 import { NextRequest, NextResponse }  from "next/server"
@@ -97,43 +108,131 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
   const db = createAdminClient()
 
-  /* 1. Fetch user's creator profile */
+  /* Who the user already follows — used to exclude dupes and to compute the
+     collaborative "people you may know" signal below. */
+  const { data: followRows } = await db
+    .from("creator_follows")
+    .select("following_uid")
+    .eq("follower_uid", uid)
+  const alreadyFollowing = new Set((followRows ?? []).map((f) => f.following_uid))
+
+  /* 1a. Onboarding professions (creator_profiles) */
   const { data: creatorProfile } = await db
     .from("creator_profiles")
     .select("professions, goals, aesthetics")
     .eq("firebase_uid", uid)
     .maybeSingle()
 
-  if (!creatorProfile?.professions?.length) {
-    return NextResponse.json({ creators: [], channels: [] })
-  }
-
-  const professions: string[] = creatorProfile.professions ?? []
-  const userRoles      = professionToRoles(professions)
+  const professions: string[] = creatorProfile?.professions ?? []
+  let userRoles      = professionToRoles(professions)
   const userCategories = professionToCategories(professions)
 
-  /* 2. Fetch matching community creators (by overlapping roles) */
-  let creators: (Record<string, unknown> & { matchPct: number })[] = []
+  /* 1b. The user's own community profile roles/style_tags/skills — covers
+     someone who set up a community profile without doing onboarding. */
+  const { data: ownProfile } = await db
+    .from("community_profiles")
+    .select("roles, style_tags, skills")
+    .eq("firebase_uid", uid)
+    .maybeSingle()
 
-  if (userRoles.length > 0) {
-    const { data: profileRows } = await db
-      .from("community_profiles")
-      .select("*")
-      .overlaps("roles", userRoles)
-      .neq("firebase_uid", uid)   // exclude self
-      .order("reputation_score", { ascending: false })
-      .limit(limit * 2)           // over-fetch so we can sort by match %
+  const ownTags = [
+    ...(ownProfile?.roles ?? []),
+    ...(ownProfile?.style_tags ?? []),
+  ]
+  // Merge without duplicating — both signals feed the same match-% calc.
+  userRoles = [...new Set([...userRoles, ...(ownProfile?.roles ?? [])])]
 
-    if (profileRows?.length) {
-      creators = profileRows
-        .map((p: Record<string, unknown>) => ({
-          ...p,
-          matchPct: matchPct(userRoles, (p.roles as string[]) ?? []),
-        }))
-        .sort((a, b) => b.matchPct - a.matchPct)
-        .slice(0, limit)
+  /* 2a. Tag-matched creators (by overlapping roles/style_tags) */
+  const tagMatches = new Map<string, { profile: Record<string, unknown>; matchPct: number }>()
+
+  if (userRoles.length > 0 || ownTags.length > 0) {
+    const orParts = [
+      userRoles.length ? `roles.ov.{${userRoles.join(",")}}` : null,
+      (ownProfile?.style_tags?.length ?? 0) > 0
+        ? `style_tags.ov.{${ownProfile!.style_tags.join(",")}}`
+        : null,
+    ].filter(Boolean).join(",")
+
+    if (orParts) {
+      const { data: profileRows } = await db
+        .from("community_profiles")
+        .select("*")
+        .eq("visibility", "public")
+        .neq("firebase_uid", uid)
+        .or(orParts)
+        .order("reputation_score", { ascending: false })
+        .limit(limit * 3)
+
+      for (const p of profileRows ?? []) {
+        if (alreadyFollowing.has(p.firebase_uid as string)) continue
+        const combined = [...(p.roles as string[] ?? []), ...(p.style_tags as string[] ?? [])]
+        const pct = matchPct([...userRoles, ...ownTags], combined)
+        tagMatches.set(p.firebase_uid as string, { profile: p, matchPct: pct })
+      }
     }
   }
+
+  /* 2b. Collaborative signal: who the people you follow, follow.
+     This is the signal that changes the moment you follow/unfollow someone —
+     satisfies "recommendations must update when follows change" directly. */
+  const followingUids = [...alreadyFollowing]
+  const collabCounts = new Map<string, number>()
+  if (followingUids.length > 0) {
+    const { data: secondDegree } = await db
+      .from("creator_follows")
+      .select("following_uid")
+      .in("follower_uid", followingUids)
+
+    for (const row of (secondDegree ?? []) as { following_uid: string }[]) {
+      if (row.following_uid === uid || alreadyFollowing.has(row.following_uid)) continue
+      collabCounts.set(row.following_uid, (collabCounts.get(row.following_uid) ?? 0) + 1)
+    }
+  }
+
+  /* Merge both signals: tag match % is the primary score; a collaborative
+     hit boosts it (each mutual connection is worth 15 points, capped) so a
+     creator who is both tag-matched AND followed by your network ranks
+     highest — but a purely collaborative hit with no tag overlap still
+     surfaces, which a tag-only algorithm would miss entirely. */
+  const combinedScores = new Map<string, { profile: Record<string, unknown> | null; score: number; reason: string }>()
+
+  for (const [fuid, { profile, matchPct: pct }] of tagMatches) {
+    combinedScores.set(fuid, { profile, score: pct, reason: "shared interests" })
+  }
+
+  if (collabCounts.size > 0) {
+    const missingUids = [...collabCounts.keys()].filter((u) => !tagMatches.has(u))
+    let extraProfiles: Record<string, unknown>[] = []
+    if (missingUids.length > 0) {
+      const { data } = await db
+        .from("community_profiles")
+        .select("*")
+        .eq("visibility", "public")
+        .in("firebase_uid", missingUids)
+      extraProfiles = data ?? []
+    }
+    const extraByUid = new Map(extraProfiles.map((p) => [p.firebase_uid as string, p]))
+
+    for (const [fuid, mutuals] of collabCounts) {
+      const boost = Math.min(45, mutuals * 15)
+      const existing = combinedScores.get(fuid)
+      if (existing) {
+        existing.score = Math.min(100, existing.score + boost)
+        existing.reason = "shared interests + followed by people you follow"
+      } else {
+        const profile = extraByUid.get(fuid)
+        if (profile) {
+          combinedScores.set(fuid, { profile, score: boost, reason: "followed by people you follow" })
+        }
+      }
+    }
+  }
+
+  const creators = [...combinedScores.values()]
+    .filter((c) => c.profile !== null)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((c) => ({ ...(c.profile as Record<string, unknown>), matchPct: c.score, reason: c.reason }))
 
   /* 3. Fetch matching channels (by category) */
   let channels: Record<string, unknown>[] = []

@@ -9,6 +9,8 @@ import { CreatorCard }         from "@/components/community/CreatorCard"
 import { ProjectCard }         from "@/components/community/ProjectCard"
 import type { ChannelWithMeta, CommunityProfile, ProjectWithMeta } from "@/types/community"
 
+type RecommendedCreator = CommunityProfile & { matchPct: number; reason?: string }
+
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 /* Lightweight section header reveal — opacity + y only, no 3D */
@@ -55,10 +57,17 @@ export default function CommunityHubPage() {
   const [loadingCreators, setLoadingCreators] = useState(true)
   const [loadingProjects, setLoadingProjects] = useState(true)
 
-  /* Personalized recs — only for logged-in users with completed onboarding */
-  const [recCreators, setRecCreators] = useState<(CommunityProfile & { matchPct: number })[]>([])
+  /* Personalized recs — real signals only (see /api/community/recommended):
+     onboarding professions, the user's own profile tags, and who the people
+     they follow, follow. Shown for any signed-in user with a signal, not
+     gated behind onboarding completion — a community-profile-only user gets
+     recs too now. */
+  const [recCreators, setRecCreators] = useState<RecommendedCreator[]>([])
   const [recChannels, setRecChannels] = useState<ChannelWithMeta[]>([])
   const [loadingRecs,  setLoadingRecs]  = useState(false)
+
+  const [trending, setTrending] = useState<(CommunityProfile & { recent_follows: number })[]>([])
+  const [newCreators, setNewCreators] = useState<CommunityProfile[]>([])
 
   async function getHeaders(): Promise<HeadersInit> {
     if (!user) return {}
@@ -113,25 +122,32 @@ export default function CommunityHubPage() {
       } catch { /* ignore */ }
       finally { if (!cancelled) setLoadingProjects(false) }
 
-      // Personalised recommendations — only if signed in with completed onboarding
+      // Personalised recommendations — real signals (onboarding professions,
+      // own profile tags, follows-of-follows). The endpoint itself returns
+      // an empty list when the user has none of those signals yet, so no
+      // separate "has onboarding completed" gate is needed here anymore.
       if (user) {
         setLoadingRecs(true)
         try {
-          const statusRes = await fetch("/api/onboarding/status", { headers })
-          if (statusRes.ok && !cancelled) {
-            const statusData = await statusRes.json()
-            if (statusData.completed) {
-              const recRes = await fetch("/api/community/recommended?limit=6", { headers })
-              if (recRes.ok && !cancelled) {
-                const recData = await recRes.json()
-                setRecCreators(recData.creators ?? [])
-                setRecChannels(recData.channels ?? [])
-              }
-            }
+          const recRes = await fetch("/api/community/recommended?limit=6", { headers })
+          if (recRes.ok && !cancelled) {
+            const recData = await recRes.json()
+            setRecCreators(recData.creators ?? [])
+            setRecChannels(recData.channels ?? [])
           }
         } catch { /* ignore */ }
         finally { if (!cancelled) setLoadingRecs(false) }
       }
+
+      // Trending + New — public, real activity/created_at, no auth needed.
+      try {
+        const [trendRes, newRes] = await Promise.all([
+          fetch("/api/community/discover/trending?limit=6"),
+          fetch("/api/community/discover/new?limit=6"),
+        ])
+        if (trendRes.ok && !cancelled) setTrending((await trendRes.json()).creators ?? [])
+        if (newRes.ok && !cancelled) setNewCreators((await newRes.json()).creators ?? [])
+      } catch { /* ignore */ }
     }
 
     void load()
@@ -212,7 +228,7 @@ export default function CommunityHubPage() {
               {recCreators.length > 0 && (
                 <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
                   {recCreators.map((profile) => (
-                    <div key={profile.id} className="shrink-0 w-64 relative">
+                    <div key={profile.id} className="shrink-0 w-64 relative" title={profile.reason}>
                       <CreatorCard profile={profile} compact showFollowButton />
                       {profile.matchPct > 0 && (
                         <span className="absolute top-2 right-2 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.625rem] font-bold text-gold/90">
@@ -233,6 +249,48 @@ export default function CommunityHubPage() {
               )}
             </>
           )}
+        </section>
+      )}
+
+      {/* ── Trending Creators (real follower growth, last 7 days) ── */}
+      {trending.length > 0 && (
+        <section className="flex flex-col gap-5">
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-20px" }}
+            variants={SECTION_HEADER_VARIANTS}
+          >
+            <h2 className="font-display font-bold text-xl text-foreground">🔥 Trending This Week</h2>
+            <p className="text-[0.8125rem] text-muted/85 mt-0.5">Creators gaining the most followers right now</p>
+          </motion.div>
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+            {trending.map((p) => (
+              <div key={p.id} className="shrink-0 w-64 relative">
+                <CreatorCard profile={p} compact showFollowButton />
+                <span className="absolute top-2 right-2 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.625rem] font-bold text-gold/90">
+                  +{p.recent_follows} this week
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── New Creators ─────────────────────────────────────── */}
+      {newCreators.length > 0 && (
+        <section className="flex flex-col gap-5">
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-20px" }}
+            variants={SECTION_HEADER_VARIANTS}
+          >
+            <h2 className="font-display font-bold text-xl text-foreground">✨ New Creators</h2>
+          </motion.div>
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+            {newCreators.map((p) => (
+              <div key={p.id} className="shrink-0 w-64">
+                <CreatorCard profile={p} compact showFollowButton />
+              </div>
+            ))}
+          </div>
         </section>
       )}
 
