@@ -18,7 +18,7 @@ const TYPE_LABEL: Record<string, string> = {
 const TYPE_ICON: Record<string, string> = {
   photo:        "📷",
   video:        "🎬",
-  before_after: "â—",
+  before_after: "↔️",
   reel:         "⟳",
   short_film:   "🎞",
 }
@@ -114,9 +114,20 @@ export function ShowcaseCard({ item, compact = false }: Props) {
       {/* Content */}
       <div className="flex flex-col gap-2.5 p-4">
         {/* Title */}
-        <h3 className="font-semibold text-[0.9375rem] text-foreground leading-snug line-clamp-2">
-          {item.title}
-        </h3>
+        <Link href={`/community/showcase/${item.id}`}>
+          <h3 className="font-semibold text-[0.9375rem] text-foreground leading-snug line-clamp-2 hover:text-gold transition-colors">
+            {item.title}
+          </h3>
+        </Link>
+
+        {/* Real client/project context — never fabricated */}
+        {(item.project?.title || item.client_name) && (
+          <p className="text-[0.75rem] text-muted/70">
+            For {item.project?.title ? (
+              <Link href={`/community/projects/${item.project.id}`} className="text-gold/80 hover:text-gold">{item.project.title}</Link>
+            ) : item.client_name}
+          </p>
+        )}
 
         {/* Author */}
         {item.author && (

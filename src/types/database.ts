@@ -2215,6 +2215,9 @@ export interface Database {
           applicant_count:  number
           view_count:       number
           is_featured:      boolean
+          tags:             string[]
+          visibility:       string
+          closed_at:        string | null
           created_at:       string
           updated_at:       string
         }
@@ -2235,6 +2238,8 @@ export interface Database {
           status?:          string
           applicant_count?: number
           is_featured?:     boolean
+          tags?:            string[]
+          visibility?:      string
         }
         Update: {
           title?:           string
@@ -2252,6 +2257,9 @@ export interface Database {
           applicant_count?: number
           view_count?:      number
           is_featured?:     boolean
+          tags?:            string[]
+          visibility?:      string
+          closed_at?:       string | null
           updated_at?:      string
         }
         Relationships: []
@@ -2266,6 +2274,8 @@ export interface Database {
           cover_letter:   string | null
           portfolio_link: string | null
           status:         string
+          reviewer_note:  string | null
+          reviewed_at:    string | null
           created_at:     string
           updated_at:     string
         }
@@ -2278,9 +2288,28 @@ export interface Database {
           status?:         string
         }
         Update: {
-          status?:     string
-          updated_at?: string
+          status?:        string
+          reviewer_note?: string | null
+          reviewed_at?:   string | null
+          updated_at?:    string
         }
+        Relationships: []
+      }
+
+      /* ── project_views — migration 046 ───────────────── */
+      project_views: {
+        Row: {
+          id:         string
+          project_id: string
+          viewer_uid: string | null
+          created_at: string
+        }
+        Insert: {
+          id?:         string
+          project_id:  string
+          viewer_uid?: string | null
+        }
+        Update: Record<string, never>
         Relationships: []
       }
 
@@ -2305,6 +2334,10 @@ export interface Database {
           view_count:     number
           is_featured:    boolean
           is_removed:     boolean
+          project_id:     string | null
+          client_name:    string | null
+          visibility:     string
+          enquiry_count:  number
           created_at:     string
           updated_at:     string
         }
@@ -2326,6 +2359,9 @@ export interface Database {
           bookmark_count?: number
           is_featured?:   boolean
           is_removed?:    boolean
+          project_id?:    string | null
+          client_name?:   string | null
+          visibility?:    string
         }
         Update: {
           title?:         string
@@ -2336,7 +2372,53 @@ export interface Database {
           view_count?:    number
           is_featured?:   boolean
           is_removed?:    boolean
+          project_id?:    string | null
+          client_name?:   string | null
+          visibility?:    string
+          enquiry_count?: number
           updated_at?:    string
+        }
+        Relationships: []
+      }
+
+      /* ── showcase_views — migration 046 ──────────────── */
+      showcase_views: {
+        Row: {
+          id:          string
+          showcase_id: string
+          viewer_uid:  string | null
+          created_at:  string
+        }
+        Insert: {
+          id?:          string
+          showcase_id:  string
+          viewer_uid?:  string | null
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── showcase_enquiries — migration 046 ──────────── */
+      showcase_enquiries: {
+        Row: {
+          id:            string
+          showcase_id:   string
+          enquirer_uid:  string
+          message:       string
+          contact_email: string | null
+          status:        string
+          created_at:    string
+        }
+        Insert: {
+          id?:            string
+          showcase_id:    string
+          enquirer_uid:   string
+          message:        string
+          contact_email?: string | null
+          status?:        string
+        }
+        Update: {
+          status?: string
         }
         Relationships: []
       }

@@ -4,8 +4,7 @@ import { useEffect, useState, useCallback } from "react"
 import { motion }                            from "framer-motion"
 import { useAuth }                           from "@/contexts/AuthContext"
 import { ShowcaseCard }                      from "@/components/community/ShowcaseCard"
-import { CommunityFeaturePreview }           from "@/components/community/CommunityFeaturePreview"
-import type { ShowcaseWithMeta }             from "@/types/community"
+import type { ShowcaseWithMeta, ProjectWithMeta } from "@/types/community"
 
 const CATEGORIES = [
   { id: "", label: "All" },
@@ -17,84 +16,6 @@ const CATEGORIES = [
   { id: "food",           label: "Food" },
   { id: "lifestyle",      label: "Lifestyle" },
 ]
-
-// ── Sample showcase items shown when API returns empty ────────────
-const SAMPLE_SHOWCASES = [
-  {
-    id: "ss1", title: "Golden Hour in Patagonia", category: "photography", item_type: "photo",
-    thumbnail_url: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80",
-    like_count: 842, bookmark_count: 215, comment_count: 47,
-    creator: { display_name: "Elena Cruz", username: "elenacruz" },
-    hashtags: ["landscape","patagonia","goldenhour"],
-  },
-  {
-    id: "ss2", title: "Tokyo Rain — Cinematic Travel Film", category: "cinematography", item_type: "video",
-    thumbnail_url: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80",
-    like_count: 1240, bookmark_count: 380, comment_count: 92,
-    creator: { display_name: "Yuki Tanaka", username: "yukitanaka" },
-    hashtags: ["tokyo","travel","cinematic"],
-  },
-  {
-    id: "ss3", title: "Before & After — Moody Edit", category: "editing", item_type: "before_after",
-    thumbnail_url: "https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=600&q=80",
-    like_count: 620, bookmark_count: 290, comment_count: 38,
-    creator: { display_name: "Marcus Bell", username: "marcusbell" },
-    hashtags: ["editing","beforeafter","colorgrade"],
-  },
-  {
-    id: "ss4", title: "Sahara Color Grade Project", category: "editing", item_type: "photo",
-    thumbnail_url: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600&q=80",
-    like_count: 505, bookmark_count: 178, comment_count: 29,
-    creator: { display_name: "Amara Diallo", username: "amaradiallo" },
-    hashtags: ["desert","colorgrade","travel"],
-  },
-  {
-    id: "ss5", title: "Portrait Series — Natural Light", category: "photography", item_type: "photo",
-    thumbnail_url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80",
-    like_count: 1100, bookmark_count: 440, comment_count: 74,
-    creator: { display_name: "Priya Sharma", username: "priyasharma" },
-    hashtags: ["portrait","naturallight","fashion"],
-  },
-  {
-    id: "ss6", title: "Mountain Road Reel", category: "travel", item_type: "reel",
-    thumbnail_url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80",
-    like_count: 780, bookmark_count: 210, comment_count: 55,
-    creator: { display_name: "Jake Okonkwo", username: "jakeokonkwo" },
-    hashtags: ["mountains","reel","adventure"],
-  },
-]
-
-// Featured creator spotlight
-const FEATURED_CREATOR = {
-  name: "Elena Cruz", username: "elenacruz", role: "Landscape & Travel Photographer",
-  bio: "Documenting the world's most breathtaking landscapes — one frame at a time.",
-  showcases: 48, followers: 3200, likes: 14000,
-  avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&q=80",
-}
-
-function SampleShowcaseCard({ item }: { item: typeof SAMPLE_SHOWCASES[0] }) {
-  return (
-    <div className="relative rounded-2xl border border-border bg-surface overflow-hidden group hover:border-gold/30 transition-all duration-200">
-      <div className="absolute top-2 left-2 z-10">
-        <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full bg-black/60 backdrop-blur-sm text-gold border border-gold/20">Preview</span>
-      </div>
-      <div className="aspect-[4/3] bg-surface-2 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={item.thumbnail_url} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-      </div>
-      <div className="p-4 flex flex-col gap-2">
-        <p className="font-display font-bold text-sm text-foreground line-clamp-1">{item.title}</p>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-muted/85">@{item.creator.username}</span>
-          <div className="flex items-center gap-3 text-xs text-muted/85">
-            <span>♥ {item.like_count.toLocaleString()}</span>
-            <span>🔖 {item.bookmark_count}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export default function ShowcasePage() {
   const { user } = useAuth()
@@ -122,11 +43,11 @@ export default function ShowcasePage() {
   }, [user])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPage(1); void fetchItems(category, 1)
+    setTimeout(() => { setPage(1); void fetchItems(category, 1) }, 0)
   }, [category, fetchItems])
 
   const isEmpty = !loading && items.length === 0
+  const hasFilter = !!category
 
   return (
     <div className="flex flex-col gap-8">
@@ -134,7 +55,7 @@ export default function ShowcasePage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="font-display font-bold text-[1.75rem] text-foreground">Creator Showcase</h1>
-          <p className="text-[0.9375rem] text-muted/85 mt-1">Inspiring work from the PXL Creator community.</p>
+          <p className="text-[0.9375rem] text-muted/85 mt-1">Real, permanent portfolios from the PXL Creator community.</p>
         </div>
         {user && (
           <button type="button" onClick={() => setShowUpload(true)}
@@ -177,70 +98,28 @@ export default function ShowcasePage() {
           )}
         </>
       ) : (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-          {/* Info banner */}
-          <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
-            <span className="text-2xl">💡</span>
-            <div>
-              <p className="font-display font-bold text-sm text-foreground">Public portfolio publishing coming soon</p>
-              <p className="text-xs text-muted/85 mt-0.5">Here&apos;s a preview of the stunning work our community will showcase</p>
-            </div>
-          </div>
-
-          {/* Featured Creator Spotlight */}
-          <div className="rounded-2xl border border-gold/25 bg-gold/[0.03] p-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-gold mb-4">✦ Featured Creator Spotlight</p>
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="size-16 rounded-full overflow-hidden border-2 border-gold/30 shrink-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={FEATURED_CREATOR.avatar} alt={FEATURED_CREATOR.name} className="w-full h-full object-cover" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-display font-bold text-base text-foreground">{FEATURED_CREATOR.name}</p>
-                <p className="text-xs text-muted/85">@{FEATURED_CREATOR.username} · {FEATURED_CREATOR.role}</p>
-                <p className="text-xs text-muted/85 mt-1.5 line-clamp-2">{FEATURED_CREATOR.bio}</p>
-              </div>
-              <div className="flex gap-4 shrink-0">
-                {[
-                  { label: "Showcases", value: FEATURED_CREATOR.showcases },
-                  { label: "Followers",  value: FEATURED_CREATOR.followers.toLocaleString() },
-                  { label: "Total Likes", value: FEATURED_CREATOR.likes.toLocaleString() },
-                ].map((s) => (
-                  <div key={s.label} className="text-center">
-                    <p className="font-display font-bold text-base text-gold">{s.value}</p>
-                    <p className="text-[10px] text-muted/85">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Sample showcase grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {SAMPLE_SHOWCASES.map((item) => <SampleShowcaseCard key={item.id} item={item} />)}
-          </div>
-        </motion.div>
+        <div className="flex flex-col items-center gap-3 py-16 text-center rounded-2xl border border-border bg-surface">
+          <span className="text-4xl">🖼️</span>
+          <p className="font-semibold text-foreground">
+            {hasFilter ? "No showcases in this category yet" : "No showcases yet"}
+          </p>
+          <p className="text-sm text-muted/85 max-w-sm">
+            {hasFilter
+              ? "Try a different category, or check back soon."
+              : "Nobody has shared their work yet — this isn't a bug. Be the first."}
+          </p>
+          {hasFilter ? (
+            <button onClick={() => setCategory("")} className="mt-1 text-xs text-gold hover:underline">Clear filter</button>
+          ) : user ? (
+            <button onClick={() => setShowUpload(true)} className="mt-2 rounded-full bg-gold px-6 py-2.5 text-sm font-bold text-black hover:bg-gold/90 transition-colors">
+              Share your work
+            </button>
+          ) : null}
+        </div>
       )}
 
-      {/* Coming soon section */}
-      {isEmpty && (
-        <CommunityFeaturePreview
-          variant="film"
-          featureKey="showcase"
-          launch="Q3 2026"
-          roadmap={[
-            { quarter: "Q1 2026", label: "Portfolio upload system built", done: true },
-            { quarter: "Q2 2026", label: "Moderation & featured creator tools", done: true },
-            { quarter: "Q3 2026", label: "Public showcase open to all creators", done: false },
-            { quarter: "Q4 2026", label: "Sponsored showcases & brand deals", done: false },
-          ]}
-          benefits={[
-            "Your work featured prominently at launch",
-            "Early access to portfolio analytics",
-            "Verified creator badge for early submitters",
-            "Featured Creator Spotlight consideration",
-          ]}
-        />
+      {isEmpty && !hasFilter && !user && (
+        <p className="text-center text-xs text-muted/60">Sign in to be the first to share your work.</p>
       )}
 
       {showUpload && (
@@ -255,9 +134,28 @@ function UploadModal({ onClose, onUploaded }: { onClose: () => void; onUploaded:
   const [form, setForm] = useState({
     title: "", description: "", item_type: "photo",
     thumbnail_url: "", category: "photography", software_used: "", hashtags: "",
+    client_name: "", visibility: "public",
   })
+  const [myProjects, setMyProjects] = useState<ProjectWithMeta[]>([])
+  const [projectId, setProjectId] = useState("")
   const [saving, setSaving] = useState(false)
   const [error,  setError]  = useState("")
+
+  // Real projects this creator can credit: ones they posted, plus ones they
+  // were accepted onto (the API enforces this same check server-side).
+  useEffect(() => {
+    if (!user) return
+    let cancelled = false
+    async function loadProjects() {
+      try {
+        const token = await user!.getIdToken()
+        const res = await fetch("/api/community/projects?mine=true&status=completed&limit=50", { headers: { Authorization: `Bearer ${token}` } })
+        if (res.ok && !cancelled) setMyProjects((await res.json()).projects ?? [])
+      } catch { /* project linkage is optional */ }
+    }
+    void loadProjects()
+    return () => { cancelled = true }
+  }, [user])
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -273,6 +171,8 @@ function UploadModal({ onClose, onUploaded }: { onClose: () => void; onUploaded:
           software_used: form.software_used.split(",").map((s) => s.trim()).filter(Boolean),
           hashtags: form.hashtags.split(",").map((s) => s.trim().replace(/^#/, "")).filter(Boolean),
           media_urls: form.thumbnail_url ? [form.thumbnail_url] : [],
+          project_id: projectId || null,
+          client_name: form.client_name.trim() || null,
         }),
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error) }
@@ -283,11 +183,11 @@ function UploadModal({ onClose, onUploaded }: { onClose: () => void; onUploaded:
   }
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
       <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
       <motion.form initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} onSubmit={submit}
         onClick={(e) => e.stopPropagation()}
-        className="relative z-10 w-full max-w-lg rounded-2xl border border-border bg-black/90 backdrop-blur-2xl p-6 flex flex-col gap-4">
+        className="relative z-10 w-full max-w-lg rounded-2xl border border-border bg-black/90 backdrop-blur-2xl p-6 flex flex-col gap-4 my-8">
         <div className="flex items-center justify-between">
           <h2 className="font-display font-bold text-[1.125rem]">Share Your Work</h2>
           <button type="button" onClick={onClose} className="text-muted/70 hover:text-muted text-[1.25rem] leading-none">×</button>
@@ -314,6 +214,25 @@ function UploadModal({ onClose, onUploaded }: { onClose: () => void; onUploaded:
             className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
           <input value={form.hashtags} onChange={(e) => setForm((p) => ({ ...p, hashtags: e.target.value }))} placeholder="Hashtags (comma-separated)"
             className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
+
+          {/* Real client/project context */}
+          {myProjects.length > 0 && (
+            <select value={projectId} onChange={(e) => setProjectId(e.target.value)}
+              className="rounded-xl border border-border bg-surface px-4 py-2.5 text-[0.9375rem] text-foreground focus:outline-none focus:border-gold/40">
+              <option value="">No linked project</option>
+              {myProjects.map((p) => <option key={p.id} value={p.id}>{p.title}</option>)}
+            </select>
+          )}
+          {!projectId && (
+            <input value={form.client_name} onChange={(e) => setForm((p) => ({ ...p, client_name: e.target.value }))} placeholder="Client name (optional, for work outside PXL)"
+              className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-[0.9375rem] text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
+          )}
+
+          <label className="flex items-center gap-2 text-[0.8125rem] text-muted/85">
+            <input type="checkbox" checked={form.visibility === "private"}
+              onChange={(e) => setForm((p) => ({ ...p, visibility: e.target.checked ? "private" : "public" }))} />
+            Private (only visible to you)
+          </label>
         </div>
         <button type="submit" disabled={saving}
           className="rounded-full bg-gold py-3 text-[0.9375rem] font-semibold text-background hover:bg-gold/90 disabled:opacity-50 transition-colors">

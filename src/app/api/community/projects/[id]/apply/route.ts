@@ -1,13 +1,17 @@
 /**
- * POST  /api/community/projects/[id]/apply
+ * POST   /api/community/projects/[id]/apply — apply to a project listing
+ * DELETE /api/community/projects/[id]/apply — withdraw your own application
  *
- * Apply to a project listing.
- * Body: { cover_letter (max 1000 chars), portfolio_link? }
+ * POST body: { cover_letter (max 1000 chars), portfolio_link? }
  *
  * - Cannot apply to own project.
  * - Cannot apply twice (unique constraint project_id + applicant_uid).
  * - Increments project_listings.applicant_count.
  * - Sends notification to poster (type: "project_application").
+ *
+ * DELETE: sets the application's status to 'withdrawn' rather than deleting
+ * the row — the poster keeps a real record of who withdrew and when; an
+ * owner can no longer act on a withdrawn application (see the review route).
  *
  * Returns: { application: ProjectApplication }
  *
@@ -141,6 +145,47 @@ export async function POST(req: NextRequest, { params }: Params) {
     return NextResponse.json({ application }, { status: 201 })
   } catch (err) {
     console.error("[projects/apply POST] unexpected", err)
+    return NextResponse.json({ error: "Internal server error." }, { status: 500 })
+  }
+}
+
+/* ── DELETE (withdraw) ──────────────────────────────────────── */
+export async function DELETE(req: NextRequest, { params }: Params) {
+  const { id: projectId } = await params
+  const uid = await getFirebaseUidFromRequest(req)
+  if (!uid) return NextResponse.json({ error: "Authentication required." }, { status: 401 })
+
+  try {
+    const supabase = createAdminClient()
+    const { data: application, error: fetchError } = await supabase
+      .from("project_applications")
+      .select("id, applicant_uid, status")
+      .eq("project_id", projectId)
+      .eq("applicant_uid", uid)
+      .maybeSingle()
+
+    if (fetchError || !application) {
+      return NextResponse.json({ error: "Application not found." }, { status: 404 })
+    }
+    if (application.status === "withdrawn") {
+      return NextResponse.json({ application })
+    }
+
+    const { data: updated, error: updateError } = await supabase
+      .from("project_applications")
+      .update({ status: "withdrawn", updated_at: new Date().toISOString() } as never)
+      .eq("id", application.id)
+      .select("*")
+      .single()
+
+    if (updateError) {
+      console.error("[projects/apply DELETE]", updateError)
+      return NextResponse.json({ error: "Failed to withdraw application." }, { status: 500 })
+    }
+
+    return NextResponse.json({ application: updated })
+  } catch (err) {
+    console.error("[projects/apply DELETE] unexpected", err)
     return NextResponse.json({ error: "Internal server error." }, { status: 500 })
   }
 }

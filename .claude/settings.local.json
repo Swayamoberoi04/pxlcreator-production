@@ -106,7 +106,13 @@
       "PowerShell(npx eslint src/app/api/community/feed src/app/community/feed src/app/community/page.tsx \"src/app/community/[username]/page.tsx\" src/components/community/FeedPostCard.tsx src/components/community/PostComposer.tsx src/components/community/CommunityNav.tsx \"src/app/api/community/comments/[commentId]/route.ts\" src/app/api/community/recommended/route.ts src/lib/community/feed.ts 2>&1)",
       "PowerShell(npx eslint src/app/community/feed/page.tsx 2>&1)",
       "PowerShell(node diag045.mjs 2>&1)",
-      "PowerShell(git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg3.txt\" 2>&1)"
+      "PowerShell(git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg3.txt\" 2>&1)",
+      "PowerShell(npx eslint src/app/api/community/projects src/app/api/community/showcase src/app/community/projects src/app/community/showcase src/components/community/ProjectCard.tsx src/components/community/ShowcaseCard.tsx src/types/community.ts 2>&1)",
+      "PowerShell(node diag046.mjs 2>&1)",
+      "PowerShell(Invoke-RestMethod \"http://localhost:3000/api/community/showcase?limit=50\")",
+      "PowerShell(node diagfk.mjs 2>&1)",
+      "PowerShell(npx eslint src/app/api/community/showcase/route.ts \"src/app/api/community/showcase/[id]/route.ts\" 2>&1)",
+      "PowerShell(git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg4.txt\" 2>&1)"
     ]
   }
 }

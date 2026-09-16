@@ -11,6 +11,7 @@ const STATUS_CONFIG: Record<ProjectStatus, { label: string; className: string }>
   open:        { label: "Open",        className: "bg-green-500/15 text-green-400 border-green-500/30" },
   in_progress: { label: "In Progress", className: "bg-gold/15 text-gold border-gold/30" },
   closed:      { label: "Closed",      className: "bg-muted/10 text-muted/85 border-border" },
+  completed:   { label: "Completed",   className: "bg-blue-500/15 text-blue-400 border-blue-500/30" },
 }
 
 const WORK_TYPE_CONFIG: Record<WorkType, { label: string; className: string }> = {

@@ -4,9 +4,8 @@ import { useEffect, useState, useCallback } from "react"
 import { motion, AnimatePresence }           from "framer-motion"
 import { useAuth }                           from "@/contexts/AuthContext"
 import { ProjectCard }                       from "@/components/community/ProjectCard"
-import { CommunityFeaturePreview }           from "@/components/community/CommunityFeaturePreview"
 import { PROJECT_CATEGORIES }               from "@/types/community"
-import type { ProjectWithMeta }             from "@/types/community"
+import type { ProjectWithMeta, CreatorTag } from "@/types/community"
 
 const WORK_TYPES = [
   { id: "",        label: "All" },
@@ -15,103 +14,33 @@ const WORK_TYPES = [
   { id: "hybrid",  label: "Hybrid" },
 ]
 
-// ── Sample projects shown when API is empty ───────────────────────
-const SAMPLE_PROJECTS = [
-  {
-    id: "sp1", title: "Wedding Film Editor Needed",
-    description: "Looking for a cinematic wedding film editor. 8–12 minute deliverable, 4K footage, must be comfortable with colour grading in DaVinci Resolve.",
-    category: "editing", work_type: "remote",
-    budget_min_usd: 400, budget_max_usd: 800, budget_type: "fixed",
-    deadline: "2026-08-15", skills_needed: ["DaVinci Resolve", "Color Grading", "Premiere Pro"],
-    status: "open", applicant_count: 14, location_city: null, location_country: null,
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(), updated_at: "",
-    poster: { display_name: "Marcus Bell", username: "marcusbell", avatar_url: null },
-  },
-  {
-    id: "sp2", title: "Travel Reel Colorist",
-    description: "Need a skilled colorist for a 3-minute travel reel filmed in Southeast Asia. Log-C footage, targeting a warm, cinematic look.",
-    category: "color_grading", work_type: "remote",
-    budget_min_usd: 150, budget_max_usd: 300, budget_type: "negotiable",
-    deadline: "2026-07-30", skills_needed: ["Color Grading", "LUTs", "DaVinci Resolve"],
-    status: "open", applicant_count: 7, location_city: null, location_country: null,
-    created_at: new Date(Date.now() - 5 * 86400000).toISOString(), updated_at: "",
-    poster: { display_name: "Priya Sharma", username: "priyasharma", avatar_url: null },
-  },
-  {
-    id: "sp3", title: "Documentary Cinematographer",
-    description: "Seeking an experienced cinematographer for a 20-minute environmental documentary. 2-day shoot in Patagonia. Equipment provided.",
-    category: "cinematography", work_type: "on_site",
-    budget_min_usd: 1200, budget_max_usd: 2000, budget_type: "fixed",
-    deadline: "2026-09-01", skills_needed: ["Cinematography", "Lighting", "Documentary"],
-    status: "open", applicant_count: 4, location_city: "Patagonia", location_country: "Argentina",
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(), updated_at: "",
-    poster: { display_name: "Elena Cruz", username: "elenacruz", avatar_url: null },
-  },
-  {
-    id: "sp4", title: "Thumbnail Designer for YouTube",
-    description: "Consistent, high-CTR YouTube thumbnail designer needed for a tech and gear review channel. Weekly deliverables, long-term collab preferred.",
-    category: "design", work_type: "remote",
-    budget_min_usd: 20, budget_max_usd: 40, budget_type: "fixed",
-    deadline: null, skills_needed: ["Photoshop", "Canva", "Illustration"],
-    status: "open", applicant_count: 22, location_city: null, location_country: null,
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(), updated_at: "",
-    poster: { display_name: "Jake Okonkwo", username: "jakeokonkwo", avatar_url: null },
-  },
-]
-
-function SampleProjectCard({ p }: { p: typeof SAMPLE_PROJECTS[0] }) {
-  const budgetStr = p.budget_min_usd && p.budget_max_usd
-    ? `$${p.budget_min_usd}–$${p.budget_max_usd}`
-    : p.budget_type === "negotiable" ? "Negotiable" : "TBD"
-
-  return (
-    <div className="relative rounded-2xl border border-border bg-surface p-5 flex flex-col gap-4 hover:border-gold/30 hover:bg-surface-2 transition-all duration-200">
-      <div className="absolute top-3 right-3">
-        <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full bg-gold/10 text-gold border border-gold/20">Preview</span>
-      </div>
-      <div className="flex items-start gap-3 pr-16">
-        <div>
-          <p className="font-display font-bold text-sm text-foreground">{p.title}</p>
-          <div className="flex items-center gap-2 mt-1 flex-wrap">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">{p.category.replace("_", " ")}</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">·</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">{p.work_type.replace("_", " ")}</span>
-          </div>
-        </div>
-      </div>
-      <p className="text-xs text-muted/85 leading-relaxed line-clamp-2">{p.description}</p>
-      <div className="flex flex-wrap gap-1.5">
-        {p.skills_needed.slice(0, 3).map((s) => (
-          <span key={s} className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-surface-2 border border-border text-muted/85">{s}</span>
-        ))}
-      </div>
-      <div className="flex items-center justify-between gap-2 pt-1 border-t border-border">
-        <div className="flex items-center gap-3 text-xs text-muted/85">
-          <span className="font-bold text-gold">{budgetStr}</span>
-          {p.deadline && <span>Due {new Date(p.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>}
-          <span>👥 {p.applicant_count} applicants</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export default function ProjectsPage() {
   const { user }                 = useAuth()
   const [projects, setProjects]  = useState<ProjectWithMeta[]>([])
   const [category, setCategory]  = useState("")
   const [workType, setWorkType]  = useState("")
+  const [tags,     setTags]      = useState<string[]>([])
+  const [sort,     setSort]      = useState<"newest" | "relevant">("newest")
+  const [roleTags, setRoleTags]  = useState<CreatorTag[]>([])
   const [loading,  setLoading]   = useState(true)
   const [showPost, setShowPost]  = useState(false)
 
-  const fetch_ = useCallback(async (cat: string, wt: string) => {
+  useEffect(() => {
+    fetch("/api/community/tags?kind=role")
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d?.roles?.length) setRoleTags(d.roles) })
+      .catch(() => { /* keep empty — filter chips are supplementary */ })
+  }, [])
+
+  const fetchProjects = useCallback(async (cat: string, wt: string, tagList: string[], sortMode: string) => {
     setLoading(true)
     try {
       const headers: Record<string, string> = {}
       if (user) { try { headers["Authorization"] = `Bearer ${await user.getIdToken()}` } catch { /* ignore */ } }
-      const params = new URLSearchParams({ status: "open", limit: "30" })
+      const params = new URLSearchParams({ status: "open", limit: "30", sort: sortMode })
       if (cat) params.set("category", cat)
       if (wt)  params.set("work_type", wt)
+      tagList.forEach((t) => params.append("tags", t))
       const res  = await fetch(`/api/community/projects?${params}`, { headers })
       const data = await res.json() as { projects: ProjectWithMeta[] }
       setProjects(data.projects ?? [])
@@ -120,11 +49,14 @@ export default function ProjectsPage() {
   }, [user])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void fetch_(category, workType)
-  }, [category, workType, fetch_])
+    setTimeout(() => void fetchProjects(category, workType, tags, sort), 0)
+  }, [category, workType, tags, sort, fetchProjects])
 
-  const isEmpty = !loading && projects.length === 0
+  function toggleTag(tagId: string) {
+    setTags((prev) => prev.includes(tagId) ? prev.filter((t) => t !== tagId) : [...prev, tagId])
+  }
+
+  const hasFilters = !!category || !!workType || tags.length > 0
 
   return (
     <div className="flex flex-col gap-8">
@@ -156,14 +88,39 @@ export default function ProjectsPage() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2">
-          {WORK_TYPES.map((wt) => (
-            <button key={wt.id} type="button" onClick={() => setWorkType(wt.id)}
-              className={`rounded-full px-3 py-1 text-[0.75rem] font-medium transition-all ${workType === wt.id ? "bg-gold/20 text-gold border border-gold/40" : "border border-border text-muted/85 hover:border-gold/30 hover:text-foreground"}`}>
-              {wt.label}
-            </button>
-          ))}
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            {WORK_TYPES.map((wt) => (
+              <button key={wt.id} type="button" onClick={() => setWorkType(wt.id)}
+                className={`rounded-full px-3 py-1 text-[0.75rem] font-medium transition-all ${workType === wt.id ? "bg-gold/20 text-gold border border-gold/40" : "border border-border text-muted/85 hover:border-gold/30 hover:text-foreground"}`}>
+                {wt.label}
+              </button>
+            ))}
+          </div>
+          {user && (
+            <div className="flex items-center gap-1.5 text-[0.75rem]">
+              <span className="text-muted/70">Sort:</span>
+              <button type="button" onClick={() => setSort("newest")}
+                className={`rounded-full px-3 py-1 font-medium transition-all ${sort === "newest" ? "bg-gold/20 text-gold" : "text-muted/85 hover:text-foreground"}`}>
+                Newest
+              </button>
+              <button type="button" onClick={() => setSort("relevant")}
+                className={`rounded-full px-3 py-1 font-medium transition-all ${sort === "relevant" ? "bg-gold/20 text-gold" : "text-muted/85 hover:text-foreground"}`}>
+                Relevant to me
+              </button>
+            </div>
+          )}
         </div>
+        {roleTags.length > 0 && (
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
+            {roleTags.map((t) => (
+              <button key={t.id} type="button" onClick={() => toggleTag(t.id)}
+                className={`shrink-0 flex items-center gap-1 rounded-full px-3 py-1 text-[0.75rem] font-medium border transition-all ${tags.includes(t.id) ? "border-gold/40 bg-gold/10 text-gold" : "border-border text-muted/85 hover:border-gold/30 hover:text-foreground"}`}>
+                <span>{t.icon}</span><span>{t.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Projects */}
@@ -176,38 +133,26 @@ export default function ProjectsPage() {
           {projects.map((p) => <ProjectCard key={p.id} project={p} />)}
         </motion.div>
       ) : (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
-          <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
-            <span className="text-2xl">💡</span>
-            <div>
-              <p className="font-display font-bold text-sm text-foreground">Project marketplace launching soon</p>
-              <p className="text-xs text-muted/85 mt-0.5">Preview the kinds of projects you&apos;ll find and post</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-3">
-            {SAMPLE_PROJECTS.map((p) => <SampleProjectCard key={p.id} p={p} />)}
-          </div>
-        </motion.div>
-      )}
-
-      {isEmpty && (
-        <CommunityFeaturePreview
-          variant="rocket"
-          featureKey="projects"
-          launch="Q3 2026"
-          roadmap={[
-            { quarter: "Q1 2026", label: "Project posting & application APIs", done: true },
-            { quarter: "Q2 2026", label: "Budget & contract framework", done: true },
-            { quarter: "Q3 2026", label: "Public marketplace opens", done: false },
-            { quarter: "Q4 2026", label: "Integrated payments & escrow", done: false },
-          ]}
-          benefits={[
-            "Post the first projects in the ecosystem",
-            "Zero platform fees for founding creators",
-            "Verified creator badge for early hirers",
-            "Priority listing in search results at launch",
-          ]}
-        />
+        <div className="flex flex-col items-center gap-3 py-16 text-center rounded-2xl border border-border bg-surface">
+          <span className="text-4xl">📋</span>
+          <p className="font-semibold text-foreground">
+            {hasFilters ? "No open projects match these filters" : "No open projects right now"}
+          </p>
+          <p className="text-sm text-muted/85 max-w-sm">
+            {hasFilters
+              ? "Try widening your filters, or check back soon."
+              : "Nobody has posted a project yet — this isn't a bug. Be the first to hire a creator."}
+          </p>
+          {hasFilters ? (
+            <button onClick={() => { setCategory(""); setWorkType(""); setTags([]) }} className="mt-1 text-xs text-gold hover:underline">
+              Clear all filters
+            </button>
+          ) : user ? (
+            <button onClick={() => setShowPost(true)} className="mt-2 rounded-full bg-gold px-6 py-2.5 text-sm font-bold text-black hover:bg-gold/90 transition-colors">
+              Post a project
+            </button>
+          ) : null}
+        </div>
       )}
 
       <AnimatePresence>
@@ -215,6 +160,7 @@ export default function ProjectsPage() {
           <PostProjectModal
             onClose={() => setShowPost(false)}
             onPosted={(p) => { setProjects((prev) => [p, ...prev]); setShowPost(false) }}
+            roleTags={roleTags}
           />
         )}
       </AnimatePresence>
@@ -222,16 +168,25 @@ export default function ProjectsPage() {
   )
 }
 
-function PostProjectModal({ onClose, onPosted }: { onClose: () => void; onPosted: (p: ProjectWithMeta) => void }) {
+function PostProjectModal({ onClose, onPosted, roleTags }: {
+  onClose: () => void
+  onPosted: (p: ProjectWithMeta) => void
+  roleTags: CreatorTag[]
+}) {
   const { user } = useAuth()
   const [form, setForm] = useState({
     title: "", description: "", category: "photography",
     work_type: "remote", location_city: "", location_country: "",
     budget_min_usd: "", budget_max_usd: "", budget_type: "negotiable",
-    deadline: "", skills_needed: "",
+    deadline: "", skills_needed: "", visibility: "public",
   })
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [error,  setError]  = useState("")
+
+  function toggleTag(id: string) {
+    setSelectedTags((prev) => prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id])
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -248,6 +203,7 @@ function PostProjectModal({ onClose, onPosted }: { onClose: () => void; onPosted
           budget_max_usd: form.budget_max_usd ? parseFloat(form.budget_max_usd) : null,
           skills_needed:  form.skills_needed.split(",").map((s) => s.trim()).filter(Boolean),
           deadline:       form.deadline || null,
+          tags:           selectedTags,
         }),
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error) }
@@ -314,6 +270,26 @@ function PostProjectModal({ onClose, onPosted }: { onClose: () => void; onPosted
           <input value={form.skills_needed} onChange={(e) => setForm((p) => ({ ...p, skills_needed: e.target.value }))}
             placeholder="Skills needed (comma-separated)"
             className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40" />
+
+          {roleTags.length > 0 && (
+            <div>
+              <p className="text-[0.8125rem] text-muted/85 mb-2">Creator type needed</p>
+              <div className="flex flex-wrap gap-2">
+                {roleTags.map((t) => (
+                  <button key={t.id} type="button" onClick={() => toggleTag(t.id)}
+                    className={`text-[0.75rem] rounded-full px-3 py-1 border transition-all ${selectedTags.includes(t.id) ? "border-gold/50 bg-gold/10 text-gold" : "border-border text-muted/85 hover:border-gold/30 hover:text-foreground"}`}>
+                    {t.icon} {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <label className="flex items-center gap-2 text-[0.8125rem] text-muted/85">
+            <input type="checkbox" checked={form.visibility === "private"}
+              onChange={(e) => setForm((p) => ({ ...p, visibility: e.target.checked ? "private" : "public" }))} />
+            Private (invite-only — not shown in Project Marketplace discovery)
+          </label>
         </div>
         <button type="submit" disabled={saving}
           className="rounded-full bg-gold py-3 font-semibold text-background hover:bg-gold/90 disabled:opacity-50 transition-colors">

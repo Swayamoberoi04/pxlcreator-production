@@ -48,8 +48,10 @@ export type ProfileVisibility = "public" | "followers" | "private"
 export type PostType      = "text" | "image" | "video" | "link" | "poll"
 export type WorkType      = "remote" | "on_site" | "hybrid"
 export type BudgetType    = "fixed" | "hourly" | "negotiable"
-export type ProjectStatus = "open" | "in_progress" | "closed"
-export type ApplicationStatus = "pending" | "accepted" | "declined" | "withdrawn"
+export type ProjectStatus = "open" | "in_progress" | "closed" | "completed"
+/** Project application lifecycle (Phase 5.4). Distinct from CollabStatus/ConnectionStatus below. */
+export type ApplicationStatus = "pending" | "shortlisted" | "accepted" | "rejected" | "withdrawn" | "closed"
+export type ProjectVisibility = "public" | "private"
 export type ShowcaseType  = "photo" | "video" | "before_after" | "reel" | "short_film"
 export type ReactionType  = "like" | "love" | "fire" | "insightful" | "clap"
 export type NotificationType =
@@ -260,6 +262,10 @@ export interface ProjectListing {
   applicant_count:  number
   view_count:       number
   is_featured:      boolean
+  /** Role/style tag ids from the creator_tags vocabulary — distinct from skills_needed (free-text). */
+  tags:             string[]
+  visibility:       ProjectVisibility
+  closed_at:        string | null
   created_at:       string
   updated_at:       string
 }
@@ -267,6 +273,7 @@ export interface ProjectListing {
 export type ProjectWithMeta = ProjectListing & {
   poster?:         Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
   has_applied?:    boolean
+  is_owner?:       boolean
 }
 
 /* ── Project application ─────────────────────────────────────────────────────── */
@@ -277,8 +284,15 @@ export interface ProjectApplication {
   cover_letter:   string | null
   portfolio_link: string | null
   status:         ApplicationStatus
+  /** Private to the project owner — never sent to the applicant. */
+  reviewer_note:  string | null
+  reviewed_at:    string | null
   created_at:     string
   updated_at:     string
+}
+
+export type ApplicationWithMeta = ProjectApplication & {
+  applicant?: Pick<CommunityProfile, "username" | "display_name" | "avatar_url" | "is_verified" | "roles" | "skill_level">
 }
 
 /* ── Showcase ────────────────────────────────────────────────────────────────── */
@@ -301,6 +315,12 @@ export interface ShowcaseItem {
   view_count:     number
   is_featured:    boolean
   is_removed:     boolean
+  /** Real client-work linkage to a PXL project — null does not mean "no client", see client_name. */
+  project_id:     string | null
+  /** Free-text client credit for work outside PXL's project system. */
+  client_name:    string | null
+  visibility:     "public" | "private"
+  enquiry_count:  number
   created_at:     string
   updated_at:     string
 }
@@ -309,6 +329,26 @@ export type ShowcaseWithMeta = ShowcaseItem & {
   author?:     Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
   is_liked?:   boolean
   is_bookmarked?: boolean
+  is_owner?:   boolean
+  project?:    Pick<ProjectListing, "id" | "title"> | null
+}
+
+/* ── Showcase enquiry (Phase 5.4) ──────────────────────────────────────────────
+ * Real, persisted professional contact request — never fabricated. Only the
+ * showcase owner can list these (see GET /api/community/showcase/[id]/enquiries).
+ * ──────────────────────────────────────────────────────────────────────────── */
+export interface ShowcaseEnquiry {
+  id:            string
+  showcase_id:   string
+  enquirer_uid:  string
+  message:       string
+  contact_email: string | null
+  status:        "new" | "responded" | "closed"
+  created_at:    string
+}
+
+export type ShowcaseEnquiryWithMeta = ShowcaseEnquiry & {
+  enquirer?: Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
 }
 
 /* ── Notification ────────────────────────────────────────────────────────────── */
