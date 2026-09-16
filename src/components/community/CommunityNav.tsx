@@ -12,6 +12,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { href: "/community",              label: "Hub"         },
+  { href: "/community/feed",         label: "Feed"        },
   { href: "/community/discover",     label: "Discover"    },
   { href: "/community/channels",     label: "Channels"    },
   { href: "/community/teams",        label: "Teams"       },

@@ -154,10 +154,31 @@ export type ChannelWithMeta = CommunityChannel & {
   owner?:      Pick<CommunityProfile, "username" | "display_name" | "avatar_url">
 }
 
-/* ── Channel post ────────────────────────────────────────────────────────────── */
+/* ── Channel post ─────────────────────────────────────────────────────────────
+ * channel_id: null = a main-feed post (Phase 5.3); set = a post inside that
+ * channel (migration 012, unchanged). Both share every other column, reactions,
+ * comments, and moderation path — see migration 045's header comment.
+ * ──────────────────────────────────────────────────────────────────────────── */
+export type ContentKind =
+  | "text" | "photography" | "cinematography" | "before_after"
+  | "editing_breakdown" | "lightroom_recipe" | "preset_showcase" | "ai_assisted"
+
+export const CONTENT_KINDS: { id: ContentKind; label: string; icon: string }[] = [
+  { id: "photography",       label: "Photography",        icon: "📷" },
+  { id: "cinematography",    label: "Cinematography",     icon: "🎥" },
+  { id: "before_after",      label: "Before / After",     icon: "↔️" },
+  { id: "editing_breakdown", label: "Editing Breakdown",  icon: "🧩" },
+  { id: "lightroom_recipe",  label: "Lightroom Recipe",   icon: "🎛️" },
+  { id: "preset_showcase",   label: "Preset Showcase",    icon: "⚡" },
+  { id: "ai_assisted",       label: "AI-Assisted",        icon: "✨" },
+  { id: "text",              label: "Text / Update",      icon: "💬" },
+]
+
+export type PostVisibility = "public" | "followers"
+
 export interface ChannelPost {
   id:            string
-  channel_id:    string
+  channel_id:    string | null
   author_uid:    string
   title:         string | null
   body:          string
@@ -171,13 +192,34 @@ export interface ChannelPost {
   like_count:    number
   comment_count: number
   view_count:    number
+  content_kind:  ContentKind
+  ai_assisted:   boolean
+  save_count:    number
+  share_count:   number
+  visibility:    PostVisibility
   created_at:    string
   updated_at:    string
+}
+
+/** A feed post is exactly a ChannelPost with channel_id === null. */
+export type FeedPost = ChannelPost & { channel_id: null }
+
+export interface PostMedia {
+  id:         string
+  post_id:    string
+  media_url:  string
+  media_type: "image" | "video"
+  role:       "before" | "after" | null
+  position:   number
+  created_at: string
 }
 
 export type PostWithMeta = ChannelPost & {
   author?:        Pick<CommunityProfile, "username" | "display_name" | "avatar_url" | "is_verified">
   user_reaction?: ReactionType | null
+  user_saved?:    boolean
+  user_shared?:   boolean
+  media?:         PostMedia[]
   top_comments?:  CommentWithMeta[]
 }
 

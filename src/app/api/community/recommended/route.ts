@@ -2,7 +2,7 @@
  * GET /api/community/recommended
  *
  * Community creators and channels personalised to the authenticated user,
- * from THREE real signals — nothing here is invented, and nothing is cached,
+ * from FOUR real signals — nothing here is invented, and nothing is cached,
  * so it changes the moment the underlying signal does:
  *
  *   1. Onboarding professions (creator_profiles) → community roles/categories
@@ -12,6 +12,8 @@
  *   3. Collaborative signal: creators followed by the people YOU follow
  *      ("people you may know"), weighted by how many of your follows follow
  *      them — this is what makes recommendations move when you follow/unfollow
+ *   4. Engagement signal (Phase 5.3): creators whose feed posts you've liked
+ *      or saved — a real, persisted interaction, not a guess
  *
  * Already-followed creators and the user themself are always excluded.
  *
@@ -223,6 +225,57 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         const profile = extraByUid.get(fuid)
         if (profile) {
           combinedScores.set(fuid, { profile, score: boost, reason: "followed by people you follow" })
+        }
+      }
+    }
+  }
+
+  /* 4. Engagement signal: authors of feed posts the viewer liked or saved.
+     Real, persisted actions — Discover/profile interactions feeding back
+     into recommendations, per Phase 5.3. */
+  const [likedPostsRes, savedPostsRes] = await Promise.all([
+    db.from("post_reactions").select("post_id").eq("firebase_uid", uid),
+    db.from("post_saves").select("post_id").eq("firebase_uid", uid),
+  ])
+  const engagedPostIds = [
+    ...new Set([...(likedPostsRes.data ?? []), ...(savedPostsRes.data ?? [])].map((r) => r.post_id as string)),
+  ]
+
+  if (engagedPostIds.length > 0) {
+    const { data: engagedPosts } = await db
+      .from("channel_posts")
+      .select("id, author_uid")
+      .in("id", engagedPostIds)
+      .is("channel_id", null)
+
+    const engagementCounts = new Map<string, number>()
+    for (const p of engagedPosts ?? []) {
+      if (p.author_uid === uid || alreadyFollowing.has(p.author_uid)) continue
+      engagementCounts.set(p.author_uid, (engagementCounts.get(p.author_uid) ?? 0) + 1)
+    }
+
+    if (engagementCounts.size > 0) {
+      const missingUids = [...engagementCounts.keys()].filter((u) => !combinedScores.has(u))
+      let extraProfiles: Record<string, unknown>[] = []
+      if (missingUids.length > 0) {
+        const { data } = await db
+          .from("community_profiles")
+          .select("*")
+          .eq("visibility", "public")
+          .in("firebase_uid", missingUids)
+        extraProfiles = data ?? []
+      }
+      const extraByUid = new Map(extraProfiles.map((p) => [p.firebase_uid as string, p]))
+
+      for (const [fuid, engagements] of engagementCounts) {
+        const boost = Math.min(35, engagements * 12)
+        const existing = combinedScores.get(fuid)
+        if (existing) {
+          existing.score = Math.min(100, existing.score + boost)
+          existing.reason += " + work you've engaged with"
+        } else {
+          const profile = extraByUid.get(fuid)
+          if (profile) combinedScores.set(fuid, { profile, score: boost, reason: "you liked or saved their work" })
         }
       }
     }

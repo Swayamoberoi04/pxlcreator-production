@@ -101,7 +101,12 @@
       "PowerShell(gh pr merge 21 --merge --admin 2>&1)",
       "PowerShell(git checkout main 2>&1)",
       "PowerShell(git merge --ff-only origin/main 2>&1)",
-      "PowerShell(git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg2.txt\" 2>&1)"
+      "PowerShell(git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg2.txt\" 2>&1)",
+      "PowerShell(git push origin --delete feat/community-phase-5.1 2>&1)",
+      "PowerShell(npx eslint src/app/api/community/feed src/app/community/feed src/app/community/page.tsx \"src/app/community/[username]/page.tsx\" src/components/community/FeedPostCard.tsx src/components/community/PostComposer.tsx src/components/community/CommunityNav.tsx \"src/app/api/community/comments/[commentId]/route.ts\" src/app/api/community/recommended/route.ts src/lib/community/feed.ts 2>&1)",
+      "PowerShell(npx eslint src/app/community/feed/page.tsx 2>&1)",
+      "PowerShell(node diag045.mjs 2>&1)",
+      "PowerShell(git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg3.txt\" 2>&1)"
     ]
   }
 }

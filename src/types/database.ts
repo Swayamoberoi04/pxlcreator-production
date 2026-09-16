@@ -2013,10 +2013,11 @@ export interface Database {
       }
 
       /* ── channel_posts ───────────────────────────────── */
+      /* channel_id NULL = main feed post (migration 045); NOT NULL = channel post (012). */
       channel_posts: {
         Row: {
           id:            string
-          channel_id:    string
+          channel_id:    string | null
           author_uid:    string
           title:         string | null
           body:          string
@@ -2030,13 +2031,18 @@ export interface Database {
           like_count:    number
           comment_count: number
           view_count:    number
+          content_kind:  string
+          ai_assisted:   boolean
+          save_count:    number
+          share_count:   number
+          visibility:    string
           search_vector: string | null
           created_at:    string
           updated_at:    string
         }
         Insert: {
           id?:           string
-          channel_id:    string
+          channel_id?:   string | null
           author_uid:    string
           title?:        string | null
           body:          string
@@ -2050,6 +2056,9 @@ export interface Database {
           like_count?:   number
           comment_count?: number
           view_count?:   number
+          content_kind?: string
+          ai_assisted?:  boolean
+          visibility?:   string
         }
         Update: {
           title?:        string | null
@@ -2060,8 +2069,74 @@ export interface Database {
           like_count?:   number
           comment_count?: number
           view_count?:   number
+          content_kind?: string
+          ai_assisted?:  boolean
+          visibility?:   string
           updated_at?:   string
         }
+        Relationships: []
+      }
+
+      /* ── post_media — migration 045 ──────────────────── */
+      post_media: {
+        Row: {
+          id:         string
+          post_id:    string
+          media_url:  string
+          media_type: string
+          role:       string | null
+          position:   number
+          created_at: string
+        }
+        Insert: {
+          id?:         string
+          post_id:     string
+          media_url:   string
+          media_type?: string
+          role?:       string | null
+          position?:   number
+        }
+        Update: {
+          media_url?: string
+          role?:      string | null
+          position?:  number
+        }
+        Relationships: []
+      }
+
+      /* ── post_saves — migration 045 ──────────────────── */
+      post_saves: {
+        Row: {
+          id:           string
+          post_id:      string
+          firebase_uid: string
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          post_id:      string
+          firebase_uid: string
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
+      /* ── post_shares — migration 045 ─────────────────── */
+      post_shares: {
+        Row: {
+          id:           string
+          post_id:      string
+          firebase_uid: string
+          share_type:   string
+          created_at:   string
+        }
+        Insert: {
+          id?:           string
+          post_id:       string
+          firebase_uid:  string
+          share_type?:   string
+        }
+        Update: Record<string, never>
         Relationships: []
       }
 

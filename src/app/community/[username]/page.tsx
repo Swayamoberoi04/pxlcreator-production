@@ -8,9 +8,10 @@ import { FollowButton }                     from "@/components/community/FollowB
 import { ShowcaseCard }                     from "@/components/community/ShowcaseCard"
 import { CREATOR_ROLES }                    from "@/types/community"
 import { CreatorCard }                      from "@/components/community/CreatorCard"
+import { FeedPostCard }                     from "@/components/community/FeedPostCard"
 import type {
   CommunityProfile, UserEarnedBadge,
-  ShowcaseWithMeta, Availability, ProfileVisibility
+  ShowcaseWithMeta, Availability, ProfileVisibility, PostWithMeta
 } from "@/types/community"
 
 const AVAILABILITY_LABELS: Record<Availability, string> = {
@@ -39,7 +40,8 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
 
   const [data,      setData]      = useState<ProfileResponse | null>(null)
   const [showcase,  setShowcase]  = useState<ShowcaseWithMeta[]>([])
-  const [tab,       setTab]       = useState<"showcase"|"about">("showcase")
+  const [feedPosts, setFeedPosts] = useState<PostWithMeta[]>([])
+  const [tab,       setTab]       = useState<"posts"|"showcase"|"about">("posts")
   const [loading,   setLoading]   = useState(true)
   const [notFound,  setNotFound]  = useState(false)
   const [showEdit,  setShowEdit]  = useState(false)
@@ -62,7 +64,19 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
 
         if (profileRes.status === "fulfilled") {
           if (profileRes.value.status === 404) { setNotFound(true); return }
-          if (profileRes.value.ok) setData(await profileRes.value.json())
+          if (profileRes.value.ok) {
+            const profileData = await profileRes.value.json()
+            setData(profileData)
+            // Feed posts need the author's firebase_uid, only known once the
+            // profile response resolves.
+            const authorUid = profileData?.profile?.firebase_uid
+            if (authorUid) {
+              try {
+                const feedRes = await fetch(`/api/community/feed?author=${authorUid}&limit=12`, { headers })
+                if (feedRes.ok) setFeedPosts((await feedRes.json()).posts ?? [])
+              } catch { /* non-critical */ }
+            }
+          }
         }
         if (showcaseRes.status === "fulfilled" && showcaseRes.value.ok) {
           // Filter to this user's showcase when we have their uid
@@ -244,7 +258,7 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
 
       {/* Tabs */}
       <div className="flex border-b border-border">
-        {(["showcase","about"] as const).map(t => (
+        {(["posts","showcase","about"] as const).map(t => (
           <button key={t} type="button" onClick={() => setTab(t)}
             className={`px-4 py-2 text-[0.875rem] font-medium capitalize border-b-2 -mb-px transition-colors ${
               tab === t ? "border-gold text-gold" : "border-transparent text-muted/85 hover:text-foreground"
@@ -254,7 +268,24 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
       </div>
 
       <AnimatePresence mode="wait">
-        {tab === "showcase" ? (
+        {tab === "posts" ? (
+          <motion.div key="posts" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-4">
+            {feedPosts.length === 0 ? (
+              <div className="rounded-2xl border border-border bg-surface px-6 py-12 text-center">
+                <p className="text-muted/85">No feed posts yet.</p>
+                {isOwnProfile && (
+                  <Link href="/community/feed" className="mt-3 inline-block text-gold hover:underline text-[0.875rem]">
+                    Share your first post →
+                  </Link>
+                )}
+              </div>
+            ) : (
+              feedPosts.map((p) => (
+                <FeedPostCard key={p.id} post={p} onDeleted={(id) => setFeedPosts((prev) => prev.filter((fp) => fp.id !== id))} />
+              ))
+            )}
+          </motion.div>
+        ) : tab === "showcase" ? (
           <motion.div key="showcase" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             {showcase.length === 0 ? (
               <div className="rounded-2xl border border-border bg-surface px-6 py-12 text-center">
