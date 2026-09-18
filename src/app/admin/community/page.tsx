@@ -19,6 +19,8 @@ const SECTIONS = [
   { href: "/admin/community/showcase", label: "Showcase",      description: "Portfolio items — feature, hide, or delete." },
   { href: "/admin/community/users",    label: "Users",         description: "Community profiles — verify, ban, or unban." },
   { href: "/admin/community/featured-creators", label: "Featured Creators", description: "External \"Inspiration\" entities — real creators who are not PXL members. Add/import without code changes." },
+  { href: "/admin/community/events",    label: "Events",    description: "Community events — feature, cancel, or remove. Covers PXL-run and externally-organised listings." },
+  { href: "/admin/community/resources", label: "Resources", description: "Creator resource directory — curate tools, learning, communities and templates. PXL-built vs external is explicit." },
 ]
 
 export default function CommunityModerationHub() {

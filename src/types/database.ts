@@ -1808,6 +1808,14 @@ export interface Database {
           icon:          string
           is_featured:   boolean
           display_order: number
+          source:        string
+          resource_type: string
+          tags:          string[]
+          submitted_by:  string | null
+          status:        string
+          click_count:   number
+          created_at:    string
+          updated_at:    string
         }
         Insert: {
           id?:            string
@@ -1818,6 +1826,11 @@ export interface Database {
           icon?:          string
           is_featured?:   boolean
           display_order?: number
+          source?:        string
+          resource_type?: string
+          tags?:          string[]
+          submitted_by?:  string | null
+          status?:        string
         }
         Update: {
           title?:         string
@@ -1827,7 +1840,29 @@ export interface Database {
           icon?:          string
           is_featured?:   boolean
           display_order?: number
+          source?:        string
+          resource_type?: string
+          tags?:          string[]
+          status?:        string
+          updated_at?:    string
         }
+        Relationships: []
+      }
+
+      /* ── resource_clicks — migration 047 ─────────────── */
+      resource_clicks: {
+        Row: {
+          id:          string
+          resource_id: string
+          clicker_uid: string | null
+          created_at:  string
+        }
+        Insert: {
+          id?:          string
+          resource_id:  string
+          clicker_uid?: string | null
+        }
+        Update: Record<string, never>
         Relationships: []
       }
 
@@ -1838,12 +1873,33 @@ export interface Database {
           event_id:      string
           firebase_uid:  string
           registered_at: string
+          interest_level: string
         }
         Insert: {
           id?:           string
           event_id:      string
           firebase_uid:  string
           registered_at?: string
+          interest_level?: string
+        }
+        Update: {
+          interest_level?: string
+        }
+        Relationships: []
+      }
+
+      /* ── event_views — migration 047 ─────────────────── */
+      event_views: {
+        Row: {
+          id:         string
+          event_id:   string
+          viewer_uid: string | null
+          created_at: string
+        }
+        Insert: {
+          id?:         string
+          event_id:    string
+          viewer_uid?: string | null
         }
         Update: Record<string, never>
         Relationships: []
@@ -2493,6 +2549,16 @@ export interface Database {
           participant_count: number
           status:            string
           is_featured:       boolean
+          registration_mode: string
+          registration_url:  string | null
+          tags:              string[]
+          visibility:        string
+          attendance_mode:   string
+          source:            string
+          organizer_name:    string | null
+          organizer_url:     string | null
+          max_participants:  number | null
+          view_count:        number
           created_at:        string
           updated_at:        string
         }
@@ -2511,16 +2577,39 @@ export interface Database {
           rules?:            string | null
           status?:           string
           is_featured?:      boolean
+          registration_mode?: string
+          registration_url?: string | null
+          tags?:             string[]
+          visibility?:       string
+          attendance_mode?:  string
+          source?:           string
+          organizer_name?:   string | null
+          organizer_url?:    string | null
+          max_participants?: number | null
         }
         Update: {
           title?:            string
           description?:      string
           banner_url?:       string | null
+          start_date?:       string
           end_date?:         string | null
+          location?:         string | null
+          is_online?:        boolean
           prizes?:           Json
+          rules?:            string | null
           participant_count?: number
           status?:           string
           is_featured?:      boolean
+          registration_mode?: string
+          registration_url?: string | null
+          tags?:             string[]
+          visibility?:       string
+          attendance_mode?:  string
+          source?:           string
+          organizer_name?:   string | null
+          organizer_url?:    string | null
+          max_participants?: number | null
+          view_count?:       number
           updated_at?:       string
         }
         Relationships: []

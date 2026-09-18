@@ -60,7 +60,16 @@ export type NotificationType =
   | "mention" | "project_application" | "application_accepted"
   | "badge_earned"
 export type EventType  = "challenge" | "contest" | "meetup" | "workshop" | "webinar"
-export type EventStatus = "upcoming" | "active" | "ended"
+export type EventStatus = "upcoming" | "active" | "ended" | "cancelled"
+export type AttendanceMode = "online" | "offline" | "hybrid"
+export type RegistrationMode = "internal" | "external" | "none"
+/**
+ * Whether an entity is PXL's own or a third party's. Used by events and
+ * resources (Phase 5.5) the same way FeaturedCreator distinguishes external
+ * creators from members (Phase 5.2) — an external organiser or tool maker is
+ * never rendered as a PXL member.
+ */
+export type EntitySource = "pxl" | "external"
 export type ConnectionStatus = "pending" | "accepted" | "declined"
 export type ReportStatus = "pending" | "reviewed" | "dismissed" | "actioned"
 
@@ -409,8 +418,63 @@ export interface CommunityEvent {
   participant_count: number
   status:            EventStatus
   is_featured:       boolean
+  /** internal = register here; external = link out to registration_url; none = info only */
+  registration_mode: RegistrationMode
+  registration_url:  string | null
+  tags:              string[]
+  visibility:        "public" | "private"
+  attendance_mode:   AttendanceMode
+  /** 'external' = run by someone who is NOT a PXL member — never shown as one. */
+  source:            EntitySource
+  organizer_name:    string | null
+  organizer_url:     string | null
+  max_participants:  number | null
+  view_count:        number
   created_at:        string
   updated_at:        string
+}
+
+export type EventWithMeta = CommunityEvent & {
+  organiser?:      Pick<CommunityProfile, "username" | "display_name" | "avatar_url" | "is_verified"> | null
+  is_registered?:  boolean
+  interest_level?: "registered" | "interested" | null
+  is_owner?:       boolean
+}
+
+/* ── Creator resource (Phase 5.5) ──────────────────────────────────────────────
+ * `source` is the load-bearing field: 'external' means a third-party tool or
+ * site listed for discovery, and the UI must never imply PXL built it or that
+ * its maker is a PXL member.
+ * ──────────────────────────────────────────────────────────────────────────── */
+export type ResourceType = "tools" | "learning" | "communities" | "references" | "templates" | "services"
+export type ResourceStatus = "draft" | "published" | "archived"
+
+export const RESOURCE_TYPES: { id: ResourceType; label: string; icon: string }[] = [
+  { id: "tools",       label: "Tools",            icon: "🛠" },
+  { id: "learning",    label: "Learning",         icon: "📚" },
+  { id: "communities", label: "Communities",      icon: "🌐" },
+  { id: "references",  label: "References",       icon: "🔖" },
+  { id: "templates",   label: "Templates",        icon: "📐" },
+  { id: "services",    label: "Creator Services", icon: "💼" },
+]
+
+export interface CreatorResource {
+  id:            string
+  title:         string
+  description:   string
+  url:           string
+  category:      string
+  icon:          string
+  is_featured:   boolean
+  display_order: number
+  source:        EntitySource
+  resource_type: ResourceType
+  tags:          string[]
+  submitted_by:  string | null
+  status:        ResourceStatus
+  click_count:   number
+  created_at:    string
+  updated_at:    string
 }
 
 /* ── Badge ───────────────────────────────────────────────────────────────────── */

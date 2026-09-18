@@ -1,16 +1,20 @@
 "use client"
 
-import { useEffect, useState } from "react"
+/**
+ * /community/resources — the creator resource directory.
+ *
+ * Every resource is a real database row with a real destination URL, served
+ * by /api/community/resources. The previous version merged a hardcoded
+ * client-side array into the API results, which meant the page couldn't be
+ * searched, filtered or curated, and a reader had no way to tell what was
+ * real. Resources now live in the database and each card states plainly
+ * whether PXL built it or it's an external tool listed for discovery.
+ */
 
-interface CommunityResource {
-  id:          string
-  title:       string
-  description: string
-  url:         string
-  category:    string
-  icon:        string
-  is_featured: boolean
-}
+import { useCallback, useEffect, useState } from "react"
+import { useAuth } from "@/contexts/AuthContext"
+import { RESOURCE_TYPES } from "@/types/community"
+import type { CreatorResource } from "@/types/community"
 
 const CATEGORIES = [
   { id: "all",           label: "All" },
@@ -21,50 +25,32 @@ const CATEGORIES = [
   { id: "gear",          label: "Gear" },
   { id: "business",      label: "Business" },
   { id: "community",     label: "Community" },
-]
-
-// ── Static resource hub — provides immediate value ────────────────
-const STATIC_RESOURCES: CommunityResource[] = [
-  // Photography
-  { id: "r1", icon: "📸", title: "Photography Life",         category: "photography",   is_featured: true,  url: "https://photographylife.com", description: "In-depth guides, reviews, and tutorials covering every aspect of photography — from beginner to professional." },
-  { id: "r2", icon: "📷", title: "Strobist",                 category: "photography",   is_featured: false, url: "https://strobist.blogspot.com", description: "The definitive online resource for learning off-camera flash and lighting for photographers." },
-  { id: "r3", icon: "🌄", title: "500px Learning",           category: "photography",   is_featured: false, url: "https://iso.500px.com", description: "Articles and inspiration from one of the world's largest photography communities." },
-  // Editing
-  { id: "r4", icon: "🎛", title: "Premiere Bro",             category: "editing",       is_featured: true,  url: "https://premierebro.com", description: "Free Premiere Pro presets, tutorials, and resources for video editors of all levels." },
-  { id: "r5", icon: "✂️", title: "Motion Array Blog",        category: "editing",       is_featured: false, url: "https://motionarray.com/learn", description: "Editing tutorials, workflow tips, and creative guides for video professionals." },
-  { id: "r6", icon: "🎬", title: "Resolve School",           category: "editing",       is_featured: false, url: "https://resolveschool.com", description: "Structured DaVinci Resolve courses and workflow breakdowns for professional editors." },
-  // Filmmaking
-  { id: "r7", icon: "🎥", title: "No Film School",           category: "filmmaking",    is_featured: true,  url: "https://nofilmschool.com", description: "The go-to filmmaking resource: technique breakdowns, camera news, and real-world production insights." },
-  { id: "r8", icon: "🎞", title: "Film Riot",                category: "filmmaking",    is_featured: false, url: "https://filmriot.com", description: "Practical filmmaking tutorials covering everything from directing to VFX on a budget." },
-  { id: "r9", icon: "🎦", title: "Indie Film Hustle",        category: "filmmaking",    is_featured: false, url: "https://indiefilmhustle.com", description: "Podcast and blog dedicated to independent filmmakers breaking into the industry." },
-  // Color Grading
-  { id: "r10", icon: "🎨", title: "Mixing Light",            category: "color_grading", is_featured: true,  url: "https://mixinglight.com", description: "Professional colorists share real-world colour grading techniques, tutorials and business insights." },
-  { id: "r11", icon: "🌈", title: "Color Grading Central",   category: "color_grading", is_featured: false, url: "https://colorgradingcentral.com", description: "LUTs, presets, and training for DaVinci Resolve, Premiere Pro, and Final Cut Pro." },
-  { id: "r12", icon: "🔆", title: "Ground Control Color",    category: "color_grading", is_featured: false, url: "https://groundcontrolcolor.com", description: "Free and paid LUTs crafted by professional colourists for cinematic looks." },
-  // Gear
-  { id: "r13", icon: "🔭", title: "DPReview",                category: "gear",          is_featured: true,  url: "https://dpreview.com", description: "The world's most detailed camera and lens reviews with extensive side-by-side sample comparisons." },
-  { id: "r14", icon: "📱", title: "RTINGS",                  category: "gear",          is_featured: false, url: "https://rtings.com", description: "Objective, measurement-based reviews of monitors, TVs, and audio gear relevant to creators." },
-  { id: "r15", icon: "🎤", title: "Filmmaker IQ",            category: "gear",          is_featured: false, url: "https://filmmakeriq.com", description: "Educational deep-dives into camera technology, lenses, and audio equipment for filmmakers." },
-  // Business
-  { id: "r16", icon: "💼", title: "Creator IQ Blog",         category: "business",      is_featured: true,  url: "https://creatoriq.com/resources", description: "Data-driven insights on creator economy trends, brand partnerships, and monetisation strategies." },
-  { id: "r17", icon: "💰", title: "The Futur",               category: "business",      is_featured: false, url: "https://thefutur.com", description: "Business education for creative professionals — pricing, client management, and brand building." },
-  { id: "r18", icon: "📊", title: "VidIQ Blog",              category: "business",      is_featured: false, url: "https://vidiq.com/blog", description: "YouTube growth strategies, analytics breakdowns, and monetisation tips for video creators." },
-  // Community
-  { id: "r19", icon: "🌐", title: "Reddit r/photography",   category: "community",     is_featured: true,  url: "https://reddit.com/r/photography", description: "One of the largest online photography communities for critique, advice, and inspiration." },
-  { id: "r20", icon: "💬", title: "Cinema5D Forums",         category: "community",     is_featured: false, url: "https://cinema5d.com", description: "Professional filmmaking community covering cameras, workflow, and industry news." },
-  { id: "r21", icon: "📣", title: "Videomakers Forum",       category: "community",     is_featured: false, url: "https://videomaker.com/forum", description: "Long-running forum community for video producers and filmmakers to share knowledge." },
+  { id: "learning",      label: "Learning" },
 ]
 
 function SkeletonCard() {
   return <div className="rounded-2xl border border-border bg-surface h-44 animate-pulse" />
 }
 
-interface ResourceCardProps { resource: CommunityResource }
+function ResourceCard({ resource }: { resource: CreatorResource }) {
+  const { user } = useAuth()
 
-function ResourceCard({ resource }: ResourceCardProps) {
+  /**
+   * Log the real outbound click, then let the navigation proceed. Fired as a
+   * keepalive beacon so it survives the tab navigating away — never blocks
+   * the user reaching the destination, and never fabricates a count.
+   */
+  async function trackClick() {
+    try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" }
+      if (user) { try { headers.Authorization = `Bearer ${await user.getIdToken()}` } catch { /* ignore */ } }
+      void fetch(`/api/community/resources/${resource.id}/click`, { method: "POST", headers, keepalive: true })
+    } catch { /* click tracking must never block the outbound link */ }
+  }
+
   return (
     <div className={[
-      "flex flex-col gap-3 rounded-2xl border bg-surface p-5 hover:bg-surface-2 transition-all duration-150 group",
+      "flex flex-col gap-3 rounded-2xl border bg-surface p-5 hover:bg-surface-2 transition-all duration-150",
       resource.is_featured ? "border-gold/30 bg-gold/[0.02]" : "border-border",
     ].join(" ")}>
       <div className="flex items-start gap-3">
@@ -77,14 +63,35 @@ function ResourceCard({ resource }: ResourceCardProps) {
                 Featured
               </span>
             )}
+            {/* Never ambiguous about who made this */}
+            <span className={[
+              "text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border",
+              resource.source === "pxl"
+                ? "bg-gold/10 text-gold border-gold/30"
+                : "bg-surface-2 text-muted/70 border-border",
+            ].join(" ")}>
+              {resource.source === "pxl" ? "By PXL" : "External"}
+            </span>
           </div>
           <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/70">
+            {RESOURCE_TYPES.find((t) => t.id === resource.resource_type)?.label ?? resource.resource_type}
+            {" · "}
             {CATEGORIES.find((c) => c.id === resource.category)?.label ?? resource.category}
           </span>
         </div>
       </div>
+
       <p className="text-xs text-muted/85 leading-relaxed flex-1">{resource.description}</p>
-      <a href={resource.url} target="_blank" rel="noopener noreferrer"
+
+      {resource.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1">
+          {resource.tags.slice(0, 4).map((t) => (
+            <span key={t} className="text-[10px] text-muted/70 bg-surface-2 border border-border rounded px-1.5 py-0.5">{t}</span>
+          ))}
+        </div>
+      )}
+
+      <a href={resource.url} target="_blank" rel="noopener noreferrer" onClick={trackClick}
         className="self-start text-xs font-semibold text-gold hover:text-gold/80 transition-colors flex items-center gap-1">
         Visit <span className="text-[10px]">→</span>
       </a>
@@ -93,38 +100,39 @@ function ResourceCard({ resource }: ResourceCardProps) {
 }
 
 export default function ResourcesPage() {
-  const [apiResources,   setApiResources]   = useState<CommunityResource[]>([])
-  const [loading,        setLoading]        = useState(true)
-  const [activeCategory, setActiveCategory] = useState("all")
+  const [resources,  setResources]  = useState<CreatorResource[]>([])
+  const [loading,    setLoading]    = useState(true)
+  const [error,      setError]      = useState<string | null>(null)
+  const [category,   setCategory]   = useState("all")
+  const [type,       setType]       = useState("all")
+  const [query,      setQuery]      = useState("")
 
-  async function fetchResources() {
+  const load = useCallback(async () => {
     setLoading(true)
+    setError(null)
     try {
-      const res  = await fetch("/api/community/resources")
-      if (res.ok) {
-        const data = await res.json()
-        setApiResources(data.resources ?? data ?? [])
-      }
-    } catch { setApiResources([]) } finally { setLoading(false) }
-  }
+      const params = new URLSearchParams({ limit: "100" })
+      if (query) params.set("q", query)
+      if (category !== "all") params.set("category", category)
+      if (type !== "all") params.set("type", type)
+      const res = await fetch(`/api/community/resources?${params}`)
+      if (!res.ok) throw new Error("Failed to load resources.")
+      const data = await res.json()
+      setResources(data.resources ?? [])
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load resources.")
+      setResources([])
+    } finally { setLoading(false) }
+  }, [query, category, type])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void fetchResources()
-  }, [])
+    const t = setTimeout(() => void load(), 250)
+    return () => clearTimeout(t)
+  }, [load])
 
-  // Merge API resources with static ones (API takes priority, dedup by title)
-  const allResources = [
-    ...apiResources,
-    ...STATIC_RESOURCES.filter((sr) => !apiResources.some((ar) => ar.title === sr.title)),
-  ]
-
-  const filtered = activeCategory === "all"
-    ? allResources
-    : allResources.filter((r) => r.category === activeCategory)
-
-  const featured = filtered.filter((r) => r.is_featured)
-  const regular  = filtered.filter((r) => !r.is_featured)
+  const featured = resources.filter((r) => r.is_featured)
+  const regular  = resources.filter((r) => !r.is_featured)
+  const hasFilters = query !== "" || category !== "all" || type !== "all"
 
   return (
     <div className="flex flex-col gap-8">
@@ -132,50 +140,50 @@ export default function ResourcesPage() {
       <div>
         <h1 className="font-display font-bold text-3xl text-foreground">Creator Resources</h1>
         <p className="text-sm text-muted/85 mt-1">
-          Curated tools, communities, and learning platforms for creators — hand-picked by the PXL team
+          Tools, learning, communities and templates for creators — each one links straight to the real thing.
         </p>
       </div>
 
-      {/* Value proposition */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {[
-          { icon: "📚", title: "Learning Platforms", count: STATIC_RESOURCES.length, desc: "Curated resources" },
-          { icon: "🏷", title: "Categories",          count: CATEGORIES.length - 1,   desc: "Disciplines covered" },
-          { icon: "✦",  title: "Featured Picks",       count: STATIC_RESOURCES.filter((r) => r.is_featured).length, desc: "Team favourites" },
-        ].map((s) => (
-          <div key={s.title} className="rounded-2xl border border-border bg-surface p-5 text-center">
-            <span className="text-3xl">{s.icon}</span>
-            <p className="font-display font-bold text-2xl text-gold mt-2">{s.count}+</p>
-            <p className="font-display font-bold text-xs text-foreground">{s.title}</p>
-            <p className="text-[10px] text-muted/85">{s.desc}</p>
-          </div>
+      {/* Search */}
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search resources…"
+        className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40"
+      />
+
+      {/* Type filter */}
+      <div className="flex flex-wrap gap-1.5">
+        <button onClick={() => setType("all")}
+          className={["rounded-full px-4 py-1.5 text-xs font-medium transition-colors", type === "all" ? "bg-gold/15 text-gold border border-gold/30" : "bg-surface border border-border text-muted/85 hover:border-gold/20 hover:text-foreground"].join(" ")}>
+          All types
+        </button>
+        {RESOURCE_TYPES.map((t) => (
+          <button key={t.id} onClick={() => setType(t.id)}
+            className={["flex items-center gap-1 rounded-full px-4 py-1.5 text-xs font-medium transition-colors", type === t.id ? "bg-gold/15 text-gold border border-gold/30" : "bg-surface border border-border text-muted/85 hover:border-gold/20 hover:text-foreground"].join(" ")}>
+            <span>{t.icon}</span><span>{t.label}</span>
+          </button>
         ))}
-      </div>
-
-      {/* Disclaimer */}
-      <div className="rounded-2xl border border-border bg-surface/50 px-5 py-3 flex items-start gap-3">
-        <span className="text-lg shrink-0">💡</span>
-        <p className="text-xs text-muted/85 leading-relaxed">
-          These are external communities and tools. Everything you need to showcase your work and connect with other creators is right here on PXL Creator.
-        </p>
       </div>
 
       {/* Category filter */}
       <div className="flex flex-wrap gap-1.5">
         {CATEGORIES.map((cat) => (
-          <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
-            className={["rounded-full px-4 py-1.5 text-xs font-medium transition-colors", activeCategory === cat.id ? "bg-gold/15 text-gold border border-gold/30" : "bg-surface border border-border text-muted/85 hover:border-gold/20 hover:text-foreground"].join(" ")}>
+          <button key={cat.id} onClick={() => setCategory(cat.id)}
+            className={["rounded-full px-4 py-1.5 text-xs font-medium transition-colors", category === cat.id ? "bg-gold/15 text-gold border border-gold/30" : "bg-surface border border-border text-muted/85 hover:border-gold/20 hover:text-foreground"].join(" ")}>
             {cat.label}
           </button>
         ))}
       </div>
+
+      {error && <p className="text-sm text-red-400 bg-red-400/10 rounded-lg px-3 py-2">{error}</p>}
 
       {/* Content */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 9 }).map((_, i) => <SkeletonCard key={i} />)}
         </div>
-      ) : (
+      ) : resources.length > 0 ? (
         <div className="flex flex-col gap-6">
           {featured.length > 0 && (
             <div>
@@ -195,12 +203,23 @@ export default function ResourcesPage() {
               </div>
             </div>
           )}
-          {filtered.length === 0 && (
-            <div className="flex flex-col items-center gap-3 py-20 text-center">
-              <span className="text-4xl">📚</span>
-              <p className="font-semibold text-foreground">No resources in this category</p>
-              <p className="text-sm text-muted/85">Try a different category</p>
-            </div>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center gap-3 py-16 text-center rounded-2xl border border-border bg-surface">
+          <span className="text-4xl">📚</span>
+          <p className="font-semibold text-foreground">
+            {hasFilters ? "No resources match your search" : "No resources published yet"}
+          </p>
+          <p className="text-sm text-muted/85 max-w-sm">
+            {hasFilters
+              ? "Try a different search or clear the filters."
+              : "The directory is empty right now — nothing has been published yet. This isn't a bug."}
+          </p>
+          {hasFilters && (
+            <button onClick={() => { setQuery(""); setCategory("all"); setType("all") }}
+              className="mt-1 text-xs text-gold hover:underline">
+              Clear all filters
+            </button>
           )}
         </div>
       )}

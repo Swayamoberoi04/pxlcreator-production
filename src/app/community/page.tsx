@@ -7,7 +7,7 @@ import { useAuth }             from "@/contexts/AuthContext"
 import { ChannelCard }         from "@/components/community/ChannelCard"
 import { CreatorCard }         from "@/components/community/CreatorCard"
 import { ProjectCard }         from "@/components/community/ProjectCard"
-import type { ChannelWithMeta, CommunityProfile, ProjectWithMeta } from "@/types/community"
+import type { ChannelWithMeta, CommunityProfile, ProjectWithMeta, EventWithMeta } from "@/types/community"
 
 type RecommendedCreator = CommunityProfile & { matchPct: number; reason?: string }
 
@@ -68,6 +68,7 @@ export default function CommunityHubPage() {
 
   const [trending, setTrending] = useState<(CommunityProfile & { recent_follows: number })[]>([])
   const [newCreators, setNewCreators] = useState<CommunityProfile[]>([])
+  const [upcomingEvents, setUpcomingEvents] = useState<EventWithMeta[]>([])
 
   async function getHeaders(): Promise<HeadersInit> {
     if (!user) return {}
@@ -147,6 +148,13 @@ export default function CommunityHubPage() {
         ])
         if (trendRes.ok && !cancelled) setTrending((await trendRes.json()).creators ?? [])
         if (newRes.ok && !cancelled) setNewCreators((await newRes.json()).creators ?? [])
+      } catch { /* ignore */ }
+
+      // Upcoming events — real rows only; the section simply doesn't render
+      // when nothing is scheduled.
+      try {
+        const eventsRes = await fetch("/api/community/events?upcoming=true&limit=3", { headers })
+        if (eventsRes.ok && !cancelled) setUpcomingEvents((await eventsRes.json()).events ?? [])
       } catch { /* ignore */ }
     }
 
@@ -289,6 +297,43 @@ export default function CommunityHubPage() {
               <div key={p.id} className="shrink-0 w-64">
                 <CreatorCard profile={p} compact showFollowButton />
               </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── Upcoming Events ─────────────────────────────────── */}
+      {upcomingEvents.length > 0 && (
+        <section className="flex flex-col gap-5">
+          <motion.div
+            className="flex items-center justify-between"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-20px" }}
+            variants={SECTION_HEADER_VARIANTS}
+          >
+            <h2 className="font-display font-bold text-xl text-foreground">📅 Upcoming Events</h2>
+            <Link href="/community/events" className="text-sm text-gold hover:underline">
+              See all →
+            </Link>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {upcomingEvents.map((e) => (
+              <Link key={e.id} href={`/community/events/${e.id}`}
+                className="flex flex-col gap-2 rounded-2xl border border-border bg-surface p-5 hover:border-gold/30 transition-colors">
+                <p className="text-[0.6875rem] uppercase tracking-wider text-gold/80">
+                  {new Date(e.start_date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  {" · "}{e.event_type}
+                </p>
+                <h3 className="font-display font-bold text-sm text-foreground line-clamp-2">{e.title}</h3>
+                <p className="text-xs text-muted/85 line-clamp-2">{e.description}</p>
+                <div className="flex items-center gap-2 mt-auto pt-2">
+                  <span className="text-[0.6875rem] text-muted/70">
+                    {e.attendance_mode === "online" ? "Online" : e.location ?? e.attendance_mode}
+                  </span>
+                  {e.source === "external" && (
+                    <span className="text-[0.625rem] rounded-full border border-border px-1.5 py-0.5 text-muted/70">External</span>
+                  )}
+                </div>
+              </Link>
             ))}
           </div>
         </section>
