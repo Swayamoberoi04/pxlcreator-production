@@ -14,10 +14,13 @@
 
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getFirebaseUidFromRequest } from "@/lib/account/auth"
+import { getHiddenUids, filterHidden } from "@/lib/community/visibility"
 
 export const runtime = "nodejs"
 
 export async function GET(req: NextRequest) {
+  const viewerUid = await getFirebaseUidFromRequest(req) // optional
   const { searchParams } = new URL(req.url)
   const limit = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") ?? "12", 10) || 12))
 
@@ -37,7 +40,15 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Failed to load new creators." }, { status: 500 })
     }
 
-    return NextResponse.json({ creators: data ?? [] })
+    // Banned creators and anyone blocked/muted are never "new creators".
+    const hidden = await getHiddenUids(supabase, viewerUid)
+    const creators = filterHidden(
+      (data ?? []) as Record<string, unknown>[],
+      hidden.uids,
+      "firebase_uid"
+    )
+
+    return NextResponse.json({ creators })
   } catch (err) {
     console.error("[discover/new GET] unexpected", err)
     return NextResponse.json({ error: "Internal server error." }, { status: 500 })

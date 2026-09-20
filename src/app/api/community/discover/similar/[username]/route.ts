@@ -16,6 +16,8 @@
 
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getFirebaseUidFromRequest } from "@/lib/account/auth"
+import { getHiddenUids } from "@/lib/community/visibility"
 
 export const runtime = "nodejs"
 
@@ -24,6 +26,7 @@ export async function GET(
   { params }: { params: Promise<{ username: string }> }
 ) {
   const { username } = await params
+  const viewerUid = await getFirebaseUidFromRequest(req) // optional
   const { searchParams } = new URL(req.url)
   const limit = Math.min(24, Math.max(1, parseInt(searchParams.get("limit") ?? "8", 10) || 8))
 
@@ -77,8 +80,12 @@ export async function GET(
       return NextResponse.json({ error: "Failed to load similar creators." }, { status: 500 })
     }
 
+    // Banned creators and anyone blocked/muted are never "similar creators".
+    const hidden = await getHiddenUids(supabase, viewerUid)
+
     const tagSet = new Set(tags)
     const scored = (candidates ?? [])
+      .filter((c) => !hidden.uids.has(c.firebase_uid))
       .map((c) => {
         const cTags = [...(c.roles ?? []), ...(c.style_tags ?? []), ...(c.skills ?? [])]
         const shared_tags = cTags.filter((t) => tagSet.has(t)).length

@@ -65,6 +65,9 @@ export default function CommunityHubPage() {
   const [recCreators, setRecCreators] = useState<RecommendedCreator[]>([])
   const [recChannels, setRecChannels] = useState<ChannelWithMeta[]>([])
   const [loadingRecs,  setLoadingRecs]  = useState(false)
+  /** 'cold_start' = not enough real signal yet; the UI must say so rather
+      than presenting a generic list as if it were personalised. */
+  const [recStrategy, setRecStrategy] = useState<"personalised" | "cold_start">("personalised")
 
   const [trending, setTrending] = useState<(CommunityProfile & { recent_follows: number })[]>([])
   const [newCreators, setNewCreators] = useState<CommunityProfile[]>([])
@@ -74,6 +77,21 @@ export default function CommunityHubPage() {
     if (!user) return {}
     const token = await user.getIdToken()
     return { Authorization: `Bearer ${token}` }
+  }
+
+  /** "Not interested" — a real, persisted dismissal, so this creator stops
+      being recommended instead of reappearing on the next load. */
+  async function dismissCreator(targetUid: string) {
+    if (!user) return
+    setRecCreators((prev) => prev.filter((c) => c.firebase_uid !== targetUid))
+    try {
+      const token = await user.getIdToken()
+      await fetch("/api/community/recommended/dismiss", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ target_type: "creator", target_id: targetUid }),
+      })
+    } catch { /* the card is already hidden locally; retry happens on reload */ }
   }
 
   useEffect(() => {
@@ -135,6 +153,7 @@ export default function CommunityHubPage() {
             const recData = await recRes.json()
             setRecCreators(recData.creators ?? [])
             setRecChannels(recData.channels ?? [])
+            setRecStrategy(recData.strategy ?? "personalised")
           }
         } catch { /* ignore */ }
         finally { if (!cancelled) setLoadingRecs(false) }
@@ -215,9 +234,13 @@ export default function CommunityHubPage() {
           >
             <div>
               <h2 className="font-display font-bold text-xl text-foreground">
-                Recommended For You
+                {recStrategy === "cold_start" ? "New to the community" : "Recommended For You"}
               </h2>
-              <p className="text-[0.8125rem] text-muted/85 mt-0.5">Based on your creative profile</p>
+              <p className="text-[0.8125rem] text-muted/85 mt-0.5">
+                {recStrategy === "cold_start"
+                  ? "Not personalised yet — follow creators and fill in your profile and these become tailored to you."
+                  : "Based on your profile, follows, and what you've engaged with"}
+              </p>
             </div>
             <Link href="/account#preferences" className="text-sm text-gold hover:underline">
               Edit profile →
@@ -239,10 +262,19 @@ export default function CommunityHubPage() {
                     <div key={profile.id} className="shrink-0 w-64 relative" title={profile.reason}>
                       <CreatorCard profile={profile} compact showFollowButton />
                       {profile.matchPct > 0 && (
-                        <span className="absolute top-2 right-2 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.625rem] font-bold text-gold/90">
+                        <span className="absolute top-2 right-8 rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[0.625rem] font-bold text-gold/90">
                           {profile.matchPct}% match
                         </span>
                       )}
+                      <button
+                        type="button"
+                        aria-label="Not interested"
+                        title="Not interested — stop recommending this creator"
+                        onClick={() => void dismissCreator(profile.firebase_uid)}
+                        className="absolute top-2 right-2 rounded-full bg-black/60 px-1.5 text-[0.625rem] text-muted/70 hover:text-foreground transition-colors"
+                      >
+                        ✕
+                      </button>
                     </div>
                   ))}
                 </div>

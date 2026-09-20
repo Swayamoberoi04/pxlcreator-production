@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/AuthContext"
 import { CONTENT_KINDS } from "@/types/community"
+import { ReportMenu } from "@/components/community/ReportMenu"
 import type { PostWithMeta } from "@/types/community"
 
 interface FeedPostCardProps {
@@ -151,6 +152,7 @@ export function FeedPostCard({ post, onDeleted }: FeedPostCardProps) {
               AI-assisted
             </span>
           )}
+          <ReportMenu targetType="post" targetId={post.id} targetUid={post.author_uid} />
         </div>
       </div>
 

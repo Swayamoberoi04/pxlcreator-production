@@ -17,10 +17,13 @@
 
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getFirebaseUidFromRequest } from "@/lib/account/auth"
+import { getHiddenUids } from "@/lib/community/visibility"
 
 export const runtime = "nodejs"
 
 export async function GET(req: NextRequest) {
+  const viewerUid = await getFirebaseUidFromRequest(req) // optional
   const { searchParams } = new URL(req.url)
   const days = Math.min(30, Math.max(1, parseInt(searchParams.get("days") ?? "7", 10) || 7))
   const limit = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") ?? "12", 10) || 12))
@@ -69,11 +72,15 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Failed to load trending creators." }, { status: 500 })
     }
 
+    // Banned creators and anyone blocked/muted must not trend.
+    const hidden = await getHiddenUids(supabase, viewerUid)
+
     const byUid = new Map((profiles ?? []).map((p) => [p.firebase_uid, p]))
     const creators = topUids
       .map((uid) => {
         const p = byUid.get(uid)
         if (!p) return null // e.g. their profile went private since — exclude, don't fake
+        if (hidden.uids.has(uid)) return null
         return { ...p, recent_follows: counts.get(uid) ?? 0 }
       })
       .filter((p): p is NonNullable<typeof p> => p !== null)

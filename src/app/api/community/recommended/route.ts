@@ -2,7 +2,7 @@
  * GET /api/community/recommended
  *
  * Community creators and channels personalised to the authenticated user,
- * from FOUR real signals — nothing here is invented, and nothing is cached,
+ * from FIVE real signals — nothing here is invented, and nothing is cached,
  * so it changes the moment the underlying signal does:
  *
  *   1. Onboarding professions (creator_profiles) → community roles/categories
@@ -14,8 +14,16 @@
  *      them — this is what makes recommendations move when you follow/unfollow
  *   4. Engagement signal (Phase 5.3): creators whose feed posts you've liked
  *      or saved — a real, persisted interaction, not a guess
+ *   5. Search signal (Phase 5.6): role/style terms the user actually searched
+ *      for, read from the existing user_behavior log
  *
- * Already-followed creators and the user themself are always excluded.
+ * Excluded always: the user themself, creators they already follow, creators
+ * they dismissed ("don't show me this again"), banned creators, and anyone
+ * blocked or muted in either direction.
+ *
+ * Cold start: an account with none of these signals gets a clearly labelled
+ * fallback (newest public creators) rather than an empty panel or a
+ * fabricated "recommended for you" list — see `strategy` in the response.
  *
  * Auth: required.
  * Returns: { creators: (CommunityProfile & { matchPct: number; reason: string })[], channels: ChannelWithMeta[] }
@@ -24,6 +32,7 @@
 import { NextRequest, NextResponse }  from "next/server"
 import { createAdminClient }          from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest }  from "@/lib/account/auth"
+import { getHiddenUids }              from "@/lib/community/visibility"
 
 export const runtime = "nodejs"
 
@@ -118,6 +127,20 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     .eq("follower_uid", uid)
   const alreadyFollowing = new Set((followRows ?? []).map((f) => f.following_uid))
 
+  /* Creators the user explicitly dismissed, plus banned/blocked/muted ones.
+     Recommending someone you already said no to is the fastest way to make
+     recommendations feel fake. */
+  const { data: dismissedRows } = await db
+    .from("recommendation_dismissals")
+    .select("target_id")
+    .eq("firebase_uid", uid)
+    .eq("target_type", "creator")
+  const dismissed = new Set((dismissedRows ?? []).map((d) => d.target_id))
+
+  const hiddenSet = await getHiddenUids(db, uid)
+  /** Everyone who must never be recommended, for any reason. */
+  const excluded = new Set<string>([...alreadyFollowing, ...dismissed, ...hiddenSet.uids, uid])
+
   /* 1a. Onboarding professions (creator_profiles) */
   const { data: creatorProfile } = await db
     .from("creator_profiles")
@@ -166,7 +189,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         .limit(limit * 3)
 
       for (const p of profileRows ?? []) {
-        if (alreadyFollowing.has(p.firebase_uid as string)) continue
+        if (excluded.has(p.firebase_uid as string)) continue
         const combined = [...(p.roles as string[] ?? []), ...(p.style_tags as string[] ?? [])]
         const pct = matchPct([...userRoles, ...ownTags], combined)
         tagMatches.set(p.firebase_uid as string, { profile: p, matchPct: pct })
@@ -186,7 +209,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       .in("follower_uid", followingUids)
 
     for (const row of (secondDegree ?? []) as { following_uid: string }[]) {
-      if (row.following_uid === uid || alreadyFollowing.has(row.following_uid)) continue
+      if (excluded.has(row.following_uid)) continue
       collabCounts.set(row.following_uid, (collabCounts.get(row.following_uid) ?? 0) + 1)
     }
   }
@@ -250,7 +273,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const engagementCounts = new Map<string, number>()
     for (const p of engagedPosts ?? []) {
-      if (p.author_uid === uid || alreadyFollowing.has(p.author_uid)) continue
+      if (excluded.has(p.author_uid)) continue
       engagementCounts.set(p.author_uid, (engagementCounts.get(p.author_uid) ?? 0) + 1)
     }
 
@@ -281,11 +304,78 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  const creators = [...combinedScores.values()]
+  /* 5. Search signal: role/style terms the user actually typed into Discover,
+     read from the user_behavior log that already records them. A search is a
+     stated intent — stronger than a guess, weaker than a follow. */
+  const { data: searchRows } = await db
+    .from("user_behavior")
+    .select("metadata, created_at")
+    .eq("firebase_uid", uid)
+    .eq("event_type", "search")
+    .order("created_at", { ascending: false })
+    .limit(30)
+
+  const searchedTerms = new Set<string>()
+  for (const row of searchRows ?? []) {
+    const meta = (row.metadata ?? {}) as Record<string, unknown>
+    const term = typeof meta.query === "string" ? meta.query : typeof meta.q === "string" ? meta.q : null
+    if (term) {
+      for (const word of term.toLowerCase().split(/[\s,]+/).filter((w) => w.length > 2)) {
+        searchedTerms.add(word)
+      }
+    }
+  }
+
+  if (searchedTerms.size > 0) {
+    for (const entry of combinedScores.values()) {
+      const profile = entry.profile as Record<string, unknown> | null
+      if (!profile) continue
+      const profileTerms = [
+        ...((profile.roles as string[]) ?? []),
+        ...((profile.style_tags as string[]) ?? []),
+        ...((profile.skills as string[]) ?? []),
+      ].map((t) => String(t).toLowerCase())
+      const hits = profileTerms.filter((t) =>
+        [...searchedTerms].some((term) => t.includes(term) || term.includes(t))
+      ).length
+      if (hits > 0) {
+        entry.score = Math.min(100, entry.score + Math.min(20, hits * 10))
+        entry.reason += " + matches what you searched for"
+      }
+    }
+  }
+
+  let strategy: "personalised" | "cold_start" = "personalised"
+
+  let creators = [...combinedScores.values()]
     .filter((c) => c.profile !== null)
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
     .map((c) => ({ ...(c.profile as Record<string, unknown>), matchPct: c.score, reason: c.reason }))
+
+  /* Cold start: no profile tags, no follows, no engagement, no searches yet.
+     Rather than an empty panel or a fake "recommended for you" list, fall back
+     to the newest public creators and SAY that's what this is — the client
+     labels the section differently when strategy is cold_start. */
+  if (creators.length === 0) {
+    strategy = "cold_start"
+    const { data: newest } = await db
+      .from("community_profiles")
+      .select("*")
+      .eq("visibility", "public")
+      .eq("is_banned", false)
+      .order("created_at", { ascending: false })
+      .limit(limit + excluded.size)
+
+    creators = (newest ?? [])
+      .filter((p) => !excluded.has(p.firebase_uid))
+      .slice(0, limit)
+      .map((p) => ({
+        ...(p as Record<string, unknown>),
+        matchPct: 0,
+        reason: "recently joined — not yet personalised to you",
+      }))
+  }
 
   /* 3. Fetch matching channels (by category) */
   let channels: Record<string, unknown>[] = []
@@ -307,5 +397,5 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     channels = channelRows ?? []
   }
 
-  return NextResponse.json({ creators, channels })
+  return NextResponse.json({ creators, channels, strategy })
 }

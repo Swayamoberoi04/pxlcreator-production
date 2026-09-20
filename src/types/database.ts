@@ -1406,6 +1406,87 @@ export interface Database {
         Relationships: []
       }
 
+      /* ── creator_rank_scores — migration 048 ─────────── */
+      /* Produced by the formula in src/lib/community/ranking.ts. */
+      creator_rank_scores: {
+        Row: {
+          firebase_uid:       string
+          total_score:        number
+          profile_score:      number
+          contribution_score: number
+          engagement_score:   number
+          project_score:      number
+          community_score:    number
+          penalty_score:      number
+          breakdown:          Json
+          computed_at:        string
+        }
+        Insert: {
+          firebase_uid:        string
+          total_score?:        number
+          profile_score?:      number
+          contribution_score?: number
+          engagement_score?:   number
+          project_score?:      number
+          community_score?:    number
+          penalty_score?:      number
+          breakdown?:          Json
+          computed_at?:        string
+        }
+        Update: {
+          total_score?:        number
+          profile_score?:      number
+          contribution_score?: number
+          engagement_score?:   number
+          project_score?:      number
+          community_score?:    number
+          penalty_score?:      number
+          breakdown?:          Json
+          computed_at?:        string
+        }
+        Relationships: []
+      }
+
+      /* ── user_blocks — migration 048 ─────────────────── */
+      user_blocks: {
+        Row: {
+          id:          string
+          blocker_uid: string
+          blocked_uid: string
+          block_type:  string
+          created_at:  string
+        }
+        Insert: {
+          id?:         string
+          blocker_uid: string
+          blocked_uid: string
+          block_type?: string
+        }
+        Update: {
+          block_type?: string
+        }
+        Relationships: []
+      }
+
+      /* ── recommendation_dismissals — migration 048 ───── */
+      recommendation_dismissals: {
+        Row: {
+          id:           string
+          firebase_uid: string
+          target_type:  string
+          target_id:    string
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          firebase_uid: string
+          target_type:  string
+          target_id:    string
+        }
+        Update: Record<string, never>
+        Relationships: []
+      }
+
       /* ── creator_tags — migration 043 ────────────────── */
       /* DB-backed filter vocabulary for creator discovery.  */
       creator_tags: {
@@ -2677,6 +2758,8 @@ export interface Database {
           status:       string
           reviewed_by:  string | null
           reviewed_at:  string | null
+          resolution_note:   string | null
+          moderation_action: string | null
           created_at:   string
         }
         Insert: {
@@ -2692,6 +2775,8 @@ export interface Database {
           status?:      string
           reviewed_by?: string | null
           reviewed_at?: string | null
+          resolution_note?:   string | null
+          moderation_action?: string | null
         }
         Relationships: []
       }

@@ -9,6 +9,8 @@ import { ShowcaseCard }                     from "@/components/community/Showcas
 import { CREATOR_ROLES }                    from "@/types/community"
 import { CreatorCard }                      from "@/components/community/CreatorCard"
 import { FeedPostCard }                     from "@/components/community/FeedPostCard"
+import { RankExplainer }                    from "@/components/community/RankExplainer"
+import { ReportMenu }                       from "@/components/community/ReportMenu"
 import type {
   CommunityProfile, UserEarnedBadge,
   ShowcaseWithMeta, Availability, ProfileVisibility, PostWithMeta
@@ -176,6 +178,12 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
                 initialFollowing={is_following}
                 onToggle={(following) => setData(d => d ? { ...d, is_following: following, profile: { ...d.profile, follower_count: d.profile.follower_count + (following ? 1 : -1) } } : d)}
               />
+              <ReportMenu
+                targetType="profile"
+                targetId={profile.firebase_uid}
+                targetUid={profile.firebase_uid}
+                className="text-muted/50 hover:text-foreground transition-colors rounded-full border border-border px-2.5 py-2 text-sm leading-none"
+              />
             </>
           )}
         </div>
@@ -188,6 +196,10 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
           {availability !== "unavailable" && <span className="mr-1">●</span>}
           {AVAILABILITY_LABELS[availability]}
         </span>
+
+        {/* Transparent creator score — never a bare number, always expandable
+            into the arithmetic that produced it. */}
+        <RankExplainer username={profile.username} />
 
         {/* Bio */}
         {profile.bio && (

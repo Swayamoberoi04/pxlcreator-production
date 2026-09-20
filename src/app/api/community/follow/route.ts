@@ -21,6 +21,7 @@ import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { ensureProfile } from "@/lib/community/ensureProfile"
+import { isBlockedBetween } from "@/lib/community/visibility"
 
 export const runtime = "nodejs"
 
@@ -68,6 +69,12 @@ export async function POST(req: NextRequest) {
 
   if (targetError || !targetProfile) {
     return NextResponse.json({ error: "Target user not found." }, { status: 404 })
+  }
+
+  // A block is mutual and refuses interaction, not just visibility. Checked on
+  // follow only — unfollowing must always remain possible.
+  if (action === "follow" && await isBlockedBetween(supabase, uid, target_uid)) {
+    return NextResponse.json({ error: "You can't follow this creator." }, { status: 403 })
   }
 
   if (action === "follow") {

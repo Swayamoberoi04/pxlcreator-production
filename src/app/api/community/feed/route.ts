@@ -28,6 +28,7 @@ import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { Validator } from "@/lib/api/validate"
 import { ensureProfile } from "@/lib/community/ensureProfile"
 import { enrichPosts, scorePost } from "@/lib/community/feed"
+import { getHiddenUids, filterHidden } from "@/lib/community/visibility"
 import { CONTENT_KINDS } from "@/types/community"
 
 export const runtime = "nodejs"
@@ -139,7 +140,16 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const ranked = (candidates ?? [])
+    // Posts by banned creators, and by anyone the viewer blocked/muted (or
+    // who blocked them), never reach the feed.
+    const hidden = await getHiddenUids(supabase, uid)
+    const visibleCandidates = filterHidden(
+      (candidates ?? []) as Record<string, unknown>[],
+      hidden.uids,
+      "author_uid"
+    )
+
+    const ranked = visibleCandidates
       .map((post) => ({
         post,
         score: scorePost(

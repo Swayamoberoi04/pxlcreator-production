@@ -31,6 +31,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
+import { getHiddenUids, filterHidden } from "@/lib/community/visibility"
 
 export const runtime = "nodejs"
 
@@ -120,23 +121,38 @@ export async function GET(req: NextRequest) {
           .range(offset, offset + limit - 1)
       }
 
-      let { data: profiles, count: profileCount, error: profileError } =
-        await buildProfileQuery(true)
+      // The pre-filter count is deliberately unused: after hidden creators are
+      // removed below, the only honest total is the number actually returned.
+      let { data: profiles, error: profileError } = await buildProfileQuery(true)
 
       // 42703 = undefined_column, PGRST204 = column not in schema cache
       if (profileError && (profileError.code === "42703" || profileError.code === "PGRST204")) {
         console.warn("[search GET] migration 043 not applied — falling back to legacy columns")
-        ;({ data: profiles, count: profileCount, error: profileError } =
-          await buildProfileQuery(false))
+        ;({ data: profiles, error: profileError } = await buildProfileQuery(false))
       }
 
       if (profileError) {
         console.error("[search GET] profiles", profileError)
         return NextResponse.json({ error: "Failed to search creators." }, { status: 500 })
       }
-      results.profiles = profiles ?? []
-      results.totals.profiles = profileCount ?? 0
-      results.total += profileCount ?? 0
+
+      // Banned creators, plus anyone the viewer blocked/muted (or who blocked
+      // them), never appear in Discover. Before Phase 5.6 `is_banned` was
+      // enforced nowhere in discovery — banning hid nothing.
+      const hidden = await getHiddenUids(supabase, uid)
+      // The select string is built conditionally (pre/post migration 043), so
+      // Supabase's type parser can't resolve it — hence the double cast.
+      const visibleProfiles = filterHidden(
+        (profiles ?? []) as unknown as Record<string, unknown>[],
+        hidden.uids,
+        "firebase_uid"
+      )
+
+      results.profiles = visibleProfiles
+      // Report the count actually returned rather than the pre-filter total,
+      // so "N results" matches what's on screen.
+      results.totals.profiles = visibleProfiles.length
+      results.total += visibleProfiles.length
     }
 
     // ── Channels ───────────────────────────────────────────
@@ -216,6 +232,22 @@ export async function GET(req: NextRequest) {
       }))
       results.totals.projects = projectCount ?? 0
       results.total += projectCount ?? 0
+    }
+
+    // Record the search as a real personalisation signal (Phase 5.6). Fire
+    // and forget — a logging failure must never affect the search result.
+    if (uid && q) {
+      // user_behavior predates the typed Database schema (migration 011), so
+      // the insert payload is cast — same approach as /api/behavior.
+      void supabase
+        .from("user_behavior")
+        .insert({
+          firebase_uid: uid,
+          event_type: "search",
+          resource_type: "community",
+          metadata: { query: q, source: "community_search" },
+        } as never)
+        .then(() => {}, () => {})
     }
 
     return NextResponse.json({

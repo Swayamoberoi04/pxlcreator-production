@@ -116,7 +116,12 @@
       "PowerShell($c = Get-Content supabase\\\\migrations\\\\013_community_expansion.sql -Raw; $i = $c.IndexOf\\(\"create table if not exists public.creator_resources\"\\); if \\($i -ge 0\\) { $c.Substring\\($i, 1400\\) } else { \"NOT FOUND\" })",
       "PowerShell($c = Get-Content supabase\\\\migrations\\\\013_community_expansion.sql -Raw; $i = $c.IndexOf\\(\"create table if not exists public.event_registrations\"\\); $c.Substring\\($i, 700\\))",
       "PowerShell(node diag047.mjs 2>&1)",
-      "PowerShell(git fetch origin 2>&1 | Select-Object -Last 2; git log origin/main --oneline -1; gh auth status 2>&1 | Select-String \"Active account: true\" -Context 1,0; git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg5.txt\" 2>&1 | Select-Object -Last 15)"
+      "PowerShell(git fetch origin 2>&1 | Select-Object -Last 2; git log origin/main --oneline -1; gh auth status 2>&1 | Select-String \"Active account: true\" -Context 1,0; git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg5.txt\" 2>&1 | Select-Object -Last 15)",
+      "PowerShell(git checkout -- src/app/api/community/recommended/route.ts)",
+      "PowerShell(npx eslint src/app/api/community/search/route.ts 2>&1)",
+      "PowerShell(node diag048.mjs 2>&1)",
+      "PowerShell(node probe.mjs 2>&1)",
+      "PowerShell(gh auth status 2>&1 | Select-String \"Active account: true\" -Context 1,0; git add -A; git commit -F \"$env:TEMP\\\\claude\\\\C--Users-swayam-OneDrive-Desktop-Pxl-pxl-creator\\\\1a4eeb0c-af14-4d03-97db-13c5e608bb00\\\\scratchpad\\\\msg6.txt\" 2>&1 | Select-Object -Last 14)"
     ]
   }
 }
