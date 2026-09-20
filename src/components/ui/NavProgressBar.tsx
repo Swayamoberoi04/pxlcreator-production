@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 
 /**
  * Thin gold progress line that fires on every App Router navigation.
- * Mounts once in layout.tsx â€” no setup needed per-page.
+ * Mounts once in layout.tsx — no setup needed per-page.
  *
  * Fake-progress approach: jump to 15%, ease to 85% while the new
  * page loads, complete to 100% on pathname change, then fade out.
