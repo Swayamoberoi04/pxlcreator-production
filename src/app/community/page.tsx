@@ -461,29 +461,56 @@ export default function CommunityHubPage() {
         )}
       </section>
 
-      {/* ── CTA row ─────────────────────────────────────────── */}
+      {/* ── Everything in the community ─────────────────────────
+          Phase 5.7: the hub previously linked to only two of the seven
+          community surfaces, so Feed, Showcases, Events and Resources were
+          reachable from the sidebar but nowhere on the hub itself. */}
       <motion.section
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-20px" }}
         variants={{
           hidden:  {},
-          visible: { transition: { staggerChildren: 0.10, delayChildren: 0 } },
+          visible: { transition: { staggerChildren: 0.07, delayChildren: 0 } },
         }}
       >
         {[
           {
-            href:    "/community/showcase",
-            title:   "Share Your Work",
-            desc:    "Showcase photos, edits, and reels to the community",
-            cta:     "Go to Showcase →",
+            href:    "/community/feed",
+            title:   "The Feed",
+            desc:    "Before/afters, breakdowns and recipes from creators you follow",
+            cta:     "Open Feed →",
           },
           {
             href:    "/community/discover",
             title:   "Find Collaborators",
-            desc:    "Browse creators by skill, role, and availability",
+            desc:    "Browse creators by role, style, skill and availability",
             cta:     "Discover Creators →",
+          },
+          {
+            href:    "/community/showcase",
+            title:   "Share Your Work",
+            desc:    "Publish photos, edits and reels to a permanent portfolio",
+            cta:     "Go to Showcase →",
+          },
+          {
+            href:    "/community/projects",
+            title:   "Paid Work",
+            desc:    "Find projects to apply for, or hire a creator for your own",
+            cta:     "Browse Projects →",
+          },
+          {
+            href:    "/community/events",
+            title:   "Events",
+            desc:    "Challenges, contests, workshops and meetups",
+            cta:     "See Events →",
+          },
+          {
+            href:    "/community/resources",
+            title:   "Resources",
+            desc:    "Tools, learning and communities worth your time",
+            cta:     "Browse Resources →",
           },
         ].map((card) => (
           <motion.div

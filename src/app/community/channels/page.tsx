@@ -1,26 +1,14 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { motion }                       from "framer-motion"
 import { useAuth }                      from "@/contexts/AuthContext"
 import { ChannelCard }                  from "@/components/community/ChannelCard"
-import { CommunityFeaturePreview }      from "@/components/community/CommunityFeaturePreview"
 import { CHANNEL_CATEGORIES }           from "@/types/community"
 import type { ChannelWithMeta }         from "@/types/community"
 
 const PAGE_SIZE = 12
 
 const ICON_OPTIONS = ["💬", "📷", "🎥", "✨", "🎨", "🚀", "🌍", "🎵"]
-
-// ── Sample data shown when the API returns empty ──────────────────
-const SAMPLE_CHANNELS = [
-  { id: "s1", icon: "📷", name: "Photography Masters",   category: "photography",   description: "Advanced techniques for landscape, portrait & street photography.", member_count: 2840, post_count: 1200, is_member: false, visibility: "public" as const, tags: ["landscape","portrait","street"], created_at: "", updated_at: "" },
-  { id: "s2", icon: "🎬", name: "Cinematic Editing",     category: "editing",       description: "Color grading, cuts, transitions — everything for that cinematic feel.", member_count: 1920, post_count: 870, is_member: false, visibility: "public" as const, tags: ["editing","colorgrade"], created_at: "", updated_at: "" },
-  { id: "s3", icon: "🎨", name: "Color Grading Studio",  category: "color_grading", description: "LUTs, curves, and color science from industry professionals.", member_count: 1350, post_count: 540, is_member: false, visibility: "public" as const, tags: ["lut","color"], created_at: "", updated_at: "" },
-  { id: "s4", icon: "🎥", name: "Filmmaking Collective", category: "filmmaking",    description: "From concept to final cut — share your filmmaking journey here.", member_count: 3100, post_count: 2000, is_member: false, visibility: "public" as const, tags: ["film","cinema"], created_at: "", updated_at: "" },
-  { id: "s5", icon: "🌍", name: "Travel Visuals",        category: "travel",        description: "Inspiring travel photography and videography from around the globe.", member_count: 4200, post_count: 1800, is_member: false, visibility: "public" as const, tags: ["travel","adventure"], created_at: "", updated_at: "" },
-  { id: "s6", icon: "✨", name: "Lifestyle Creators",    category: "lifestyle",     description: "Curating beautiful everyday moments — aesthetics, brands & stories.", member_count: 2600, post_count: 1100, is_member: false, visibility: "public" as const, tags: ["lifestyle","brand"], created_at: "", updated_at: "" },
-]
 
 interface CreateChannelForm {
   name: string; description: string; category: string
@@ -124,36 +112,6 @@ function CreateChannelModal({ onClose, onCreated }: { onClose: () => void; onCre
   )
 }
 
-// Sample channel card used when API is empty
-function SampleChannelCard({ ch }: { ch: typeof SAMPLE_CHANNELS[0] }) {
-  return (
-    <div className="relative rounded-2xl border border-border bg-surface p-5 flex flex-col gap-4 hover:border-gold/30 hover:bg-surface-2 transition-all duration-200 group">
-      <div className="absolute top-3 right-3">
-        <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full bg-gold/10 text-gold border border-gold/20">Preview</span>
-      </div>
-      <div className="flex items-start gap-3">
-        <div className="size-11 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-2xl shrink-0 group-hover:border-gold/30 transition-colors">
-          {ch.icon}
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-display font-bold text-sm text-foreground truncate">{ch.name}</p>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/70 mt-0.5">
-            {CHANNEL_CATEGORIES.find((c) => c.id === ch.category)?.label ?? ch.category}
-          </p>
-        </div>
-      </div>
-      <p className="text-xs text-muted/85 leading-relaxed line-clamp-2">{ch.description}</p>
-      <div className="flex items-center gap-3 text-xs text-muted/85">
-        <span>👥 {ch.member_count.toLocaleString()}</span>
-        <span>💬 {ch.post_count.toLocaleString()} posts</span>
-      </div>
-      <div className="pt-1 rounded-xl border border-border/50 bg-surface-2 py-2 px-4 text-center text-xs text-muted/70 font-semibold">
-        Real-time discussions launching soon
-      </div>
-    </div>
-  )
-}
-
 export default function ChannelsPage() {
   const { user }                         = useAuth()
   const [channels,      setChannels]     = useState<ChannelWithMeta[]>([])
@@ -213,7 +171,9 @@ export default function ChannelsPage() {
     ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
     : "flex flex-col gap-3"
 
-  const isEmpty = !loading && channels.length === 0
+  /** Distinguishes "nothing matches your filters" from "nothing exists yet". */
+  const hasFilters = category !== "all" || searchQuery.trim() !== ""
+  function clearFilters() { setCategory("all"); setSearchQuery("") }
 
   return (
     <div className="flex flex-col gap-8">
@@ -285,40 +245,30 @@ export default function ChannelsPage() {
           )}
         </>
       ) : (
-        /* Empty state — show rich sample preview */
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
-          <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
-            <span className="text-2xl">💡</span>
-            <div>
-              <p className="font-display font-bold text-sm text-foreground">Channel discussions are coming soon</p>
-              <p className="text-xs text-muted/85 mt-0.5">Here&apos;s a preview of what the community will look like at launch</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {SAMPLE_CHANNELS.map((ch) => <SampleChannelCard key={ch.id} ch={ch} />)}
-          </div>
-        </motion.div>
-      )}
-
-      {/* Coming soon section — always visible */}
-      {isEmpty && (
-        <CommunityFeaturePreview
-          variant="lightning"
-          featureKey="channels"
-          launch="Q3 2026"
-          roadmap={[
-            { quarter: "Q1 2026", label: "Channel infrastructure built", done: true },
-            { quarter: "Q2 2026", label: "Moderation tools & beta test", done: true },
-            { quarter: "Q3 2026", label: "Real-time discussions open to all", done: false },
-            { quarter: "Q4 2026", label: "Voice rooms & live Q&A", done: false },
-          ]}
-          benefits={[
-            "First access to channel creation tools",
-            "Beta tester badge on your profile",
-            "Direct input on features we build",
-            "Founding member status in your chosen channels",
-          ]}
-        />
+        /* Honest empty state — no fabricated channels. */
+        <div className="flex flex-col items-center gap-3 py-16 text-center rounded-2xl border border-border bg-surface">
+          <span className="text-4xl" aria-hidden="true">💬</span>
+          <p className="font-semibold text-foreground">
+            {hasFilters ? "No channels match these filters" : "No channels yet"}
+          </p>
+          <p className="text-sm text-muted/85 max-w-sm">
+            {hasFilters
+              ? "Try a different category or clear your search."
+              : "Nobody has started a channel yet — this isn't a bug. Create the first one and set the tone."}
+          </p>
+          {hasFilters ? (
+            <button onClick={clearFilters} className="mt-1 text-xs text-gold hover:underline">
+              Clear all filters
+            </button>
+          ) : (
+            <button
+              onClick={handleCreateClick}
+              className="mt-2 rounded-full bg-gold px-6 py-2.5 text-sm font-bold text-black hover:bg-gold/90 transition-colors"
+            >
+              Create a channel
+            </button>
+          )}
+        </div>
       )}
 
       {showModal && (

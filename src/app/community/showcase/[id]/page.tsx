@@ -187,7 +187,7 @@ export default function ShowcaseDetailPage({ params }: { params: Promise<{ id: s
                 💬 Enquire / Hire
               </button>
             ) : (
-              <Link href="/sign-in" className="text-xs text-gold hover:underline">Sign in to enquire</Link>
+              <Link href={`/login?from=/community/showcase/${id}`} className="text-xs text-gold hover:underline">Sign in to enquire</Link>
             )}
           </div>
         </div>

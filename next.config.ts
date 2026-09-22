@@ -149,6 +149,14 @@ const nextConfig: NextConfig = {
         // ─ Supabase ─
         "https://*.supabase.co",
         "https://*.supabase.in",
+        // Supabase Realtime connects over WebSockets. CSP treats wss: as a
+        // distinct scheme from https:, so without these two entries every
+        // Realtime subscription is blocked in the browser and fails silently
+        // — the channel simply never connects and no error reaches the user.
+        // (Found in Phase 5.7 QA: Node-based verification can't catch this,
+        // because Node isn't subject to the page's CSP.)
+        "wss://*.supabase.co",
+        "wss://*.supabase.in",
         // ─ Razorpay ─
         "https://api.razorpay.com",
         "https://lumberjack.razorpay.com",

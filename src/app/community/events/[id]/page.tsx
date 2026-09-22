@@ -167,7 +167,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
             ) : event.registration_mode === "none" ? (
               <p className="text-xs text-muted/70">This listing is informational — there&apos;s no registration.</p>
             ) : !user ? (
-              <Link href="/sign-in" className="text-xs text-gold hover:underline">Sign in to register</Link>
+              <Link href={`/login?from=/community/events/${id}`} className="text-xs text-gold hover:underline">Sign in to register</Link>
             ) : isOver ? (
               <p className="text-xs text-muted/70">Registration is closed.</p>
             ) : (
