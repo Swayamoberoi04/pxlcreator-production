@@ -220,10 +220,10 @@ export async function getCategories(): Promise<CategoryRow[]> {
     // Return static category list
     return [
       { id: "2", name: "Cinematic",      slug: "cinematic",      description: null, icon: "🎬", color: "#f59e0b", order_index: 2, created_at: "" },
-      { id: "3", name: "Film Emulation", slug: "film-emulation", description: null, icon: "🎞ï¸", color: "#d97706", order_index: 3, created_at: "" },
+      { id: "3", name: "Film Emulation", slug: "film-emulation", description: null, icon: "🎞", color: "#d97706", order_index: 3, created_at: "" },
       { id: "4", name: "Portrait",       slug: "portrait",       description: null, icon: "🪞", color: "#ec4899", order_index: 4, created_at: "" },
-      { id: "5", name: "Landscape",      slug: "landscape",      description: null, icon: "ðŸ”ï¸", color: "#10b981", order_index: 5, created_at: "" },
-      { id: "6", name: "Street",         slug: "street",         description: null, icon: "ðŸ™ï¸", color: "#6366f1", order_index: 6, created_at: "" },
+      { id: "5", name: "Landscape",      slug: "landscape",      description: null, icon: "🏔", color: "#10b981", order_index: 5, created_at: "" },
+      { id: "6", name: "Street",         slug: "street",         description: null, icon: "🏙", color: "#6366f1", order_index: 6, created_at: "" },
     ]
   }
 
