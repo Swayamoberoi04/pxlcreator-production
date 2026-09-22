@@ -3,7 +3,7 @@
 /**
  * Dashboard layout — auth-gated.
  *
- * Redirects unauthenticated users to /sign-in with a `next=/dashboard`
+ * Redirects unauthenticated users to /login with a `from=/dashboard`
  * query param so they return here after signing in.
  * Shows a cinematic loading state while Firebase auth resolves.
  */
@@ -22,7 +22,7 @@ export default function DashboardLayout({
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace("/sign-in?next=/dashboard")
+      router.replace("/login?from=/dashboard")
     }
   }, [user, loading, router])
 

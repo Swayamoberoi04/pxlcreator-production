@@ -1,10 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion }               from "framer-motion"
 import { useAuth }              from "@/contexts/AuthContext"
 import { TeamCard, type CommunityTeam } from "@/components/community/TeamCard"
-import { CommunityFeaturePreview }      from "@/components/community/CommunityFeaturePreview"
 
 const TEAM_CATEGORIES = [
   "Photography", "Videography", "Filmmaking", "Editing",
@@ -20,89 +18,6 @@ type FilterTab = "all" | "hiring" | "mine"
 
 function SkeletonCard() {
   return <div className="rounded-2xl border border-border bg-surface h-48 animate-pulse" />
-}
-
-// ── Sample teams shown when API is empty ──────────────────────────
-const SAMPLE_TEAMS = [
-  {
-    id: "st1", name: "Short Film Collective", category: "Filmmaking",
-    description: "Crafting narrative short films together — from concept to festival submission.",
-    member_count: 8, is_hiring: true, roles_needed: ["Director", "Editor", "Colorist"],
-    tags: ["shortfilm", "narrative", "festival"], visibility: "public" as const,
-    is_member: false, created_at: "", updated_at: "",
-  },
-  {
-    id: "st2", name: "Travel Documentary Crew", category: "Videography",
-    description: "Documenting untold stories from every corner of the world.",
-    member_count: 5, is_hiring: true, roles_needed: ["Cinematographer", "Editor"],
-    tags: ["travel", "documentary"], visibility: "public" as const,
-    is_member: false, created_at: "", updated_at: "",
-  },
-  {
-    id: "st3", name: "Wedding Visual Artists", category: "Photography",
-    description: "Delivering timeless wedding photography and cinematic films.",
-    member_count: 6, is_hiring: false, roles_needed: [],
-    tags: ["wedding", "portrait"], visibility: "public" as const,
-    is_member: false, created_at: "", updated_at: "",
-  },
-  {
-    id: "st4", name: "YouTube Growth Lab", category: "Content Creation",
-    description: "Building audiences and monetising through long-form YouTube content.",
-    member_count: 12, is_hiring: true, roles_needed: ["Editor", "Vlogger"],
-    tags: ["youtube", "growth"], visibility: "public" as const,
-    is_member: false, created_at: "", updated_at: "",
-  },
-  {
-    id: "st5", name: "Commercial Production House", category: "Filmmaking",
-    description: "End-to-end commercial and brand content for agencies and startups.",
-    member_count: 10, is_hiring: true, roles_needed: ["Director", "Colorist", "Photographer"],
-    tags: ["commercial", "brand", "agency"], visibility: "public" as const,
-    is_member: false, created_at: "", updated_at: "",
-  },
-  {
-    id: "st6", name: "Color Science Studio", category: "Color Grading",
-    description: "Deep-diving into DaVinci Resolve workflows, LUT design, and cinema grades.",
-    member_count: 4, is_hiring: false, roles_needed: [],
-    tags: ["colorgrade", "davinci", "lut"], visibility: "public" as const,
-    is_member: false, created_at: "", updated_at: "",
-  },
-]
-
-function SampleTeamCard({ team }: { team: typeof SAMPLE_TEAMS[0] }) {
-  return (
-    <div className="relative rounded-2xl border border-border bg-surface p-5 flex flex-col gap-4 hover:border-gold/30 hover:bg-surface-2 transition-all duration-200">
-      <div className="absolute top-3 right-3">
-        <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full bg-gold/10 text-gold border border-gold/20">Preview</span>
-      </div>
-      <div className="flex items-start gap-3 pr-16">
-        <div className="size-10 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-lg shrink-0">
-          👥
-        </div>
-        <div>
-          <p className="font-display font-bold text-sm text-foreground">{team.name}</p>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted/70 mt-0.5">{team.category}</p>
-        </div>
-      </div>
-      <p className="text-xs text-muted/85 leading-relaxed line-clamp-2">{team.description}</p>
-      {team.is_hiring && team.roles_needed.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {team.roles_needed.map((r) => (
-            <span key={r} className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-              {r}
-            </span>
-          ))}
-        </div>
-      )}
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-muted/85">👥 {team.member_count} members</span>
-        {team.is_hiring && (
-          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-            Hiring
-          </span>
-        )}
-      </div>
-    </div>
-  )
 }
 
 interface CreateTeamModalProps { onClose: () => void; onCreate: (team: CommunityTeam) => void }
@@ -254,7 +169,6 @@ export default function TeamsPage() {
     { id: "mine",   label: "My Teams" },
   ]
 
-  const isEmpty = !loading && teams.length === 0
 
   return (
     <div className="flex flex-col gap-8">
@@ -303,38 +217,23 @@ export default function TeamsPage() {
           {teams.map((team) => <TeamCard key={team.id} team={team} />)}
         </div>
       ) : (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
-          <div className="flex items-center gap-3 rounded-2xl border border-gold/20 bg-gold/5 px-5 py-4">
-            <span className="text-2xl">💡</span>
-            <div>
-              <p className="font-display font-bold text-sm text-foreground">Team collaboration tools are in development</p>
-              <p className="text-xs text-muted/85 mt-0.5">Preview what teams will look like in the PXL Creator ecosystem</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {SAMPLE_TEAMS.map((team) => <SampleTeamCard key={team.id} team={team} />)}
-          </div>
-        </motion.div>
-      )}
-
-      {isEmpty && (
-        <CommunityFeaturePreview
-          variant="globe"
-          featureKey="teams"
-          launch="Q3 2026"
-          roadmap={[
-            { quarter: "Q1 2026", label: "Team data model & APIs", done: true },
-            { quarter: "Q2 2026", label: "Invite & hiring workflow", done: true },
-            { quarter: "Q3 2026", label: "Public team discovery launch", done: false },
-            { quarter: "Q4 2026", label: "Project collaboration tools", done: false },
-          ]}
-          benefits={[
-            "Create the first teams in the ecosystem",
-            "Founding team badge on your profile",
-            "Priority placement in team discovery",
-            "Direct influence on collaboration features",
-          ]}
-        />
+        /* Honest empty state — no fabricated teams. */
+        <div className="flex flex-col items-center gap-3 py-16 text-center rounded-2xl border border-border bg-surface">
+          <span className="text-4xl" aria-hidden="true">👥</span>
+          <p className="font-semibold text-foreground">No teams yet</p>
+          <p className="text-sm text-muted/85 max-w-sm">
+            Nobody has formed a team yet — this isn&apos;t a bug. Start one and invite
+            the creators you already work with.
+          </p>
+          {user && (
+            <button
+              onClick={() => setShowCreate(true)}
+              className="mt-2 rounded-full bg-gold px-6 py-2.5 text-sm font-bold text-black hover:bg-gold/90 transition-colors"
+            >
+              Create a team
+            </button>
+          )}
+        </div>
       )}
 
       {showCreate && (

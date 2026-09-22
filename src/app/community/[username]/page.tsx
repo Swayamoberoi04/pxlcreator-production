@@ -13,7 +13,7 @@ import { RankExplainer }                    from "@/components/community/RankExp
 import { ReportMenu }                       from "@/components/community/ReportMenu"
 import type {
   CommunityProfile, UserEarnedBadge,
-  ShowcaseWithMeta, Availability, ProfileVisibility, PostWithMeta
+  ShowcaseWithMeta, Availability, ProfileVisibility, PostWithMeta, CreatorTag
 } from "@/types/community"
 
 const AVAILABILITY_LABELS: Record<Availability, string> = {
@@ -217,6 +217,37 @@ export default function CreatorProfilePage({ params }: { params: Promise<{ usern
           </div>
         )}
 
+        {/* Style tags — the signal Discover's style filter and the
+            recommendation tag-matching actually read. Before Phase 5.7 these
+            were stored and queried but never shown or editable, so nothing
+            could ever match. Only rendered when the creator has set some. */}
+        {(profile.style_tags?.length ?? 0) > 0 && (
+          <div className="flex flex-col gap-1.5">
+            <p className="text-[0.6875rem] uppercase tracking-wider text-muted/70">Style &amp; subject</p>
+            <div className="flex flex-wrap gap-2">
+              {profile.style_tags.map(t => (
+                <span key={t} className="text-[0.8125rem] text-gold/90 border border-gold/25 rounded-full px-3 py-0.5 bg-gold/5">
+                  {t.replace(/-/g, " ")}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Skills / tools */}
+        {(profile.skills?.length ?? 0) > 0 && (
+          <div className="flex flex-col gap-1.5">
+            <p className="text-[0.6875rem] uppercase tracking-wider text-muted/70">Skills &amp; tools</p>
+            <div className="flex flex-wrap gap-2">
+              {profile.skills.map(s => (
+                <span key={s} className="text-[0.8125rem] text-muted/92 border border-border rounded-full px-3 py-0.5 bg-surface-2">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Location + links */}
         <div className="flex flex-wrap items-center gap-4 text-[0.875rem] text-muted/85">
           {profile.location_city && (
@@ -393,7 +424,27 @@ function EditProfileModal({
     availability:     profile.availability,
     roles:            profile.roles,
     visibility:       profile.visibility ?? "public",
+    style_tags:       profile.style_tags ?? [],
+    skills:           (profile.skills ?? []).join(", "),
   })
+  /** Style vocabulary comes from creator_tags, same source Discover filters on. */
+  const [styleTags, setStyleTags] = useState<CreatorTag[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetch("/api/community/tags?kind=style")
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (!cancelled && d?.styles?.length) setStyleTags(d.styles) })
+      .catch(() => { /* falls back to whatever the creator already has */ })
+    return () => { cancelled = true }
+  }, [])
+
+  function toggleStyle(id: string) {
+    setForm(p => ({
+      ...p,
+      style_tags: p.style_tags.includes(id) ? p.style_tags.filter(t => t !== id) : [...p.style_tags, id],
+    }))
+  }
   const [saving, setSaving] = useState(false)
   const [error,  setError]  = useState("")
 
@@ -413,7 +464,12 @@ function EditProfileModal({
       const res   = await fetch("/api/community/profile", {
         method:  "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body:    JSON.stringify(form),
+        // skills is a comma-separated field in the form; the API expects an
+        // array of strings (validated server-side since Phase 5.1).
+        body:    JSON.stringify({
+          ...form,
+          skills: form.skills.split(",").map(s => s.trim()).filter(Boolean),
+        }),
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error) }
       const { profile: updated } = await res.json() as { profile: CommunityProfile }
@@ -502,6 +558,48 @@ function EditProfileModal({
                 >{r.label}</button>
               ))}
             </div>
+          </div>
+
+          {/* Style tags — feeds Discover's style filter and recommendation
+              tag-matching. Until Phase 5.7 there was no way to set these, so
+              those filters could never match anyone. */}
+          {styleTags.length > 0 && (
+            <div>
+              <p className="text-[0.8125rem] text-muted/85 mb-2">
+                Style &amp; subject
+                <span className="block text-[0.6875rem] text-muted/60">
+                  What your work looks like — used to match you in Discover and recommendations.
+                </span>
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {styleTags.map(t => (
+                  <button key={t.id} type="button" onClick={() => toggleStyle(t.id)}
+                    className={`text-[0.75rem] rounded-full px-3 py-1 border transition-all ${
+                      form.style_tags.includes(t.id)
+                        ? "border-gold/50 bg-gold/10 text-gold"
+                        : "border-border text-muted/85 hover:border-gold/30 hover:text-foreground"
+                    }`}
+                  >{t.icon} {t.label}</button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Skills / tools */}
+          <div>
+            <label htmlFor="profile-skills" className="text-[0.8125rem] text-muted/85 mb-2 block">
+              Skills &amp; tools
+              <span className="block text-[0.6875rem] text-muted/60">
+                Comma-separated, e.g. Lightroom, DaVinci Resolve, Drone
+              </span>
+            </label>
+            <input
+              id="profile-skills"
+              value={form.skills}
+              onChange={e => setForm(p => ({ ...p, skills: e.target.value }))}
+              placeholder="Lightroom, Photoshop, DaVinci Resolve"
+              className="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-foreground placeholder:text-muted/70 focus:outline-none focus:border-gold/40"
+            />
           </div>
         </div>
 

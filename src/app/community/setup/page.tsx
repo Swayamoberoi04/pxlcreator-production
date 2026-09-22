@@ -57,7 +57,7 @@ export default function CommunitySetupPage() {
     return (
       <div className="flex flex-col items-center gap-6 py-20 text-center">
         <p className="text-[1.125rem] text-foreground">Sign in to set up your community profile.</p>
-        <Link href="/sign-in?next=/community/setup"
+        <Link href="/login?from=/community/setup"
           className="rounded-full bg-gold px-8 py-3 font-semibold text-background hover:bg-gold/90 transition-colors">
           Sign In
         </Link>
