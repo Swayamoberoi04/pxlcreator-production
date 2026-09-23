@@ -19,7 +19,10 @@
 
 import { useEffect, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { createLogger } from "@/lib/observability/logger"
 import type { RealtimeChannel } from "@supabase/supabase-js"
+
+const log = createLogger("community/realtime")
 
 type ChangeEvent = "INSERT" | "UPDATE" | "DELETE" | "*"
 
@@ -63,9 +66,12 @@ export function useRealtimeTable<T extends Record<string, unknown>>(
   useEffect(() => {
     if (!enabled || !isConfigured()) return
 
+    // The client is a browser singleton (@supabase/ssr caches it), so every
+    // hook on the page shares one socket and one channel registry. That makes
+    // correct teardown essential — see the cleanup below.
+    const supabase = createClient()
     let channel: RealtimeChannel | null = null
     try {
-      const supabase = createClient()
       channel = supabase
         .channel(`rt:${table}:${filter ?? "all"}:${Math.random().toString(36).slice(2)}`)
         .on(
@@ -81,14 +87,39 @@ export function useRealtimeTable<T extends Record<string, unknown>>(
             })
           }
         )
-        .subscribe()
+        // A status callback, so a channel that never connects says so.
+        // Phase 5.7 found that CSP had been blocking every wss:// connection
+        // since 5.1 and nothing anywhere reported it — subscribe() returns a
+        // channel whether or not the socket ever opens. This is the smallest
+        // thing that would have caught it a phase earlier.
+        .subscribe((status, err) => {
+          // CLOSED is deliberately not logged — it is the normal teardown
+          // status and would fire on every unmount.
+          if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+            log.warn("realtime_channel_not_connected", {
+              table, event, status,
+              error: err instanceof Error ? err.message : err ? String(err) : undefined,
+            })
+          }
+        })
     } catch (err) {
       // A misconfigured project must never take the page down.
-      console.warn("[useRealtimeTable] subscribe failed:", err)
+      log.warn("realtime_subscribe_failed", {
+        table, event, error: err instanceof Error ? err.message : String(err),
+      })
     }
 
     return () => {
-      if (channel) void channel.unsubscribe()
+      // removeChannel, not unsubscribe.
+      //
+      // unsubscribe() closes the subscription but leaves the channel object
+      // registered on the shared client. Because the channel name carries a
+      // random suffix, every remount minted a new name and left the old entry
+      // behind forever — React StrictMode alone doubles them on first mount,
+      // and navigating between community pages added one per visit. The
+      // client then re-joins every stale channel on socket reconnect.
+      // removeChannel() unsubscribes AND drops it from the registry.
+      if (channel) void supabase.removeChannel(channel)
     }
   }, [table, event, filter, enabled])
 }

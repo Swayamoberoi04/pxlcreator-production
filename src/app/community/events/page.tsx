@@ -192,7 +192,7 @@ export default function EventsPage() {
                 {event.banner_url && (
                   <div className="absolute inset-0 opacity-10 pointer-events-none">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={event.banner_url} alt="" className="w-full h-full object-cover" />
+                    <img src={event.banner_url} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   </div>
                 )}
                 <div className="relative flex items-start justify-between gap-3">

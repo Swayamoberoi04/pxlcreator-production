@@ -8,7 +8,8 @@
  *   - Different reaction exists → update to new one
  *   - No reaction → insert
  *
- * Updates post_reactions table and channel_posts.like_count.
+ * Writes post_reactions; channel_posts.like_count is maintained by
+ * trg_sync_post_like_count (migration 050) and read back for the response.
  * Returns: { user_reaction: string | null, like_count: number }
  *
  * Requires: Authorization: Bearer <firebase_id_token>
@@ -18,9 +19,12 @@ import { NextRequest, NextResponse } from "next/server"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
+import { createLogger } from "@/lib/observability/logger"
+import { increment } from "@/lib/observability/metrics"
 
 export const runtime = "nodejs"
 
+const log = createLogger("community/channel-react")
 const limiter = makeRateLimiter({ max: 60, windowMs: 60 * 60 * 1000 })
 
 const VALID_REACTIONS = ["like", "love", "fire", "insightful", "clap"] as const
@@ -59,7 +63,7 @@ export async function POST(req: NextRequest, { params }: Params) {
     // Verify post exists and belongs to this channel
     const { data: post, error: postError } = await supabase
       .from("channel_posts")
-      .select("id, like_count, channel_id")
+      .select("id, channel_id")
       .eq("id", postId)
       .eq("channel_id", channelId)
       .maybeSingle()
@@ -76,53 +80,49 @@ export async function POST(req: NextRequest, { params }: Params) {
       .eq("firebase_uid", uid)
       .maybeSingle()
 
+    // Each write is checked. Previously all three were fire-and-forget, so a
+    // rejected write still returned the new reaction state to the client.
     let userReaction: string | null = null
-    let likeDelta = 0
+    let writeError: { code?: string; message: string } | null = null
 
     if (existing) {
       if (existing.reaction === reaction) {
         // Same reaction — remove it (toggle off)
-        await supabase
+        const { error } = await supabase
           .from("post_reactions")
           .delete()
           .eq("post_id", postId)
           .eq("firebase_uid", uid)
-
+        writeError = error
         userReaction = null
-        likeDelta = -1
       } else {
-        // Different reaction — update
-        await supabase
+        // Different reaction — update. The count is unchanged: like_count has
+        // always meant "how many people reacted", not "how many chose 'like'".
+        const { error } = await supabase
           .from("post_reactions")
           .update({ reaction })
           .eq("post_id", postId)
           .eq("firebase_uid", uid)
-
+        writeError = error
         userReaction = reaction
-        likeDelta = 0 // count doesn't change; only reaction type changes
       }
     } else {
-      // No existing reaction — insert
-      await supabase.from("post_reactions").insert({
+      const { error } = await supabase.from("post_reactions").insert({
         post_id: postId,
         firebase_uid: uid,
         reaction,
       })
-
+      writeError = error
       userReaction = reaction
-      likeDelta = 1
     }
 
-    // Update like_count on post
-    const newLikeCount = Math.max(0, (post.like_count ?? 0) + likeDelta)
-    if (likeDelta !== 0) {
-      await supabase
-        .from("channel_posts")
-        .update({ like_count: newLikeCount })
-        .eq("id", postId)
+    if (writeError) {
+      log.error("reaction_write_failed", { postId, channelId, code: writeError.code, message: writeError.message })
+      increment("community.write_failed")
+      return NextResponse.json({ error: "Could not save your reaction. Please try again." }, { status: 500 })
     }
 
-    // Fetch fresh count
+    // like_count is owned by trg_sync_post_like_count (migration 050).
     const { data: refreshed } = await supabase
       .from("channel_posts")
       .select("like_count")
@@ -131,10 +131,10 @@ export async function POST(req: NextRequest, { params }: Params) {
 
     return NextResponse.json({
       user_reaction: userReaction,
-      like_count: refreshed?.like_count ?? newLikeCount,
+      like_count: refreshed?.like_count ?? 0,
     })
   } catch (err) {
-    console.error("[posts/react POST] unexpected", err)
+    log.error("reaction_unexpected", { postId, channelId, error: err instanceof Error ? err.message : String(err) })
     return NextResponse.json({ error: "Internal server error." }, { status: 500 })
   }
 }

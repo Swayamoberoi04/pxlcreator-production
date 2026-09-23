@@ -28,7 +28,7 @@ export function FeaturedCreatorCard({ creator }: { creator: FeaturedCreator }) {
 
       <div className="flex items-center gap-3">
         {creator.avatar_url ? (
-          <img src={creator.avatar_url} alt={creator.name} className="size-12 rounded-full object-cover shrink-0" />
+          <img src={creator.avatar_url} alt={creator.name} loading="lazy" decoding="async" className="size-12 rounded-full object-cover shrink-0" />
         ) : (
           <span className="size-12 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-lg shrink-0">
             {initial}

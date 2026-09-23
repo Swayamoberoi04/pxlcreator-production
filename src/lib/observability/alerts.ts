@@ -121,6 +121,21 @@ export const DEFAULT_ALERT_RULES: AlertRule[] = [
       ? { message: `Heap ${m.memory.heapUsedMb}MB`, value: m.memory.heapUsedMb }
       : null,
   },
+  {
+    // Phase 5.8. community.write_failed is incremented next to every
+    // log.error() on a community mutation's failed database write (feed
+    // likes, channel reactions, showcase reactions, comment deletion, the
+    // waitlist). A real spike here means something is actually broken, not
+    // just users occasionally losing a race — hence the threshold rather
+    // than firing on the first one.
+    key: "community-write-failures", severity: "warning",
+    check: (m) => {
+      const total = m.counters["community.write_failed"] ?? 0
+      return total >= 10
+        ? { message: `${total} community write failures in the current window`, value: total }
+        : null
+    },
+  },
 ]
 
 /* ─────────────────────────────────────────────────────────────

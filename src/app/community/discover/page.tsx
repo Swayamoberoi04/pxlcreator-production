@@ -105,7 +105,7 @@ function CollabRequestModal({ recipient, onClose, onSent }: CollabRequestModalPr
           <div className="px-6 pt-5 pb-3">
             <div className="flex items-center gap-3 rounded-xl border border-border bg-surface-2 p-3">
               {recipient.avatar_url ? (
-                <img src={recipient.avatar_url} alt={recipient.display_name} className="size-10 rounded-full object-cover shrink-0" />
+                <img src={recipient.avatar_url} alt={recipient.display_name} loading="lazy" decoding="async" className="size-10 rounded-full object-cover shrink-0" />
               ) : (
                 <span className="size-10 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-sm shrink-0">
                   {initial}

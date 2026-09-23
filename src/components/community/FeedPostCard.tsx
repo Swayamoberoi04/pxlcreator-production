@@ -126,7 +126,7 @@ export function FeedPostCard({ post, onDeleted }: FeedPostCardProps) {
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           {post.author?.avatar_url ? (
-            <img src={post.author.avatar_url} alt={post.author.display_name} className="size-9 rounded-full object-cover shrink-0" />
+            <img src={post.author.avatar_url} alt={post.author.display_name} loading="lazy" decoding="async" className="size-9 rounded-full object-cover shrink-0" />
           ) : (
             <span className="size-9 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-sm shrink-0">{initial}</span>
           )}
@@ -160,11 +160,11 @@ export function FeedPostCard({ post, onDeleted }: FeedPostCardProps) {
       {beforeMedia && afterMedia && (
         <div className="grid grid-cols-2 gap-2 rounded-xl overflow-hidden">
           <div className="relative">
-            <img src={beforeMedia.media_url} alt="Before" className="w-full aspect-square object-cover" />
+            <img src={beforeMedia.media_url} alt="Before" loading="lazy" decoding="async" className="w-full aspect-square object-cover" />
             <span className="absolute bottom-2 left-2 text-[0.625rem] font-bold uppercase tracking-wide bg-black/70 text-white px-2 py-0.5 rounded-full">Before</span>
           </div>
           <div className="relative">
-            <img src={afterMedia.media_url} alt="After" className="w-full aspect-square object-cover" />
+            <img src={afterMedia.media_url} alt="After" loading="lazy" decoding="async" className="w-full aspect-square object-cover" />
             <span className="absolute bottom-2 left-2 text-[0.625rem] font-bold uppercase tracking-wide bg-gold/90 text-black px-2 py-0.5 rounded-full">After</span>
           </div>
         </div>
@@ -177,7 +177,7 @@ export function FeedPostCard({ post, onDeleted }: FeedPostCardProps) {
             m.media_type === "video" ? (
               <video key={m.id} src={m.media_url} controls className="w-full aspect-video object-cover bg-black" />
             ) : (
-              <img key={m.id} src={m.media_url} alt="" className="w-full aspect-square object-cover" />
+              <img key={m.id} src={m.media_url} alt="" loading="lazy" decoding="async" className="w-full aspect-square object-cover" />
             )
           ))}
         </div>

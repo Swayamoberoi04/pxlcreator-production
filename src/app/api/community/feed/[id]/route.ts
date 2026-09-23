@@ -14,6 +14,7 @@ import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { Validator } from "@/lib/api/validate"
 import { enrichPosts } from "@/lib/community/feed"
+import { guardMutation } from "@/lib/community/guard"
 import { CONTENT_KINDS } from "@/types/community"
 
 export const runtime = "nodejs"
@@ -65,6 +66,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { id } = await params
   const uid = await getFirebaseUidFromRequest(req)
   if (!uid) return NextResponse.json({ error: "Authentication required." }, { status: 401 })
+
+  const limited = guardMutation(req, uid, "feed-edit")
+  if (limited) return limited
 
   let body: Record<string, unknown>
   try {
@@ -129,6 +133,9 @@ export async function DELETE(req: NextRequest, { params }: Params) {
   const { id } = await params
   const uid = await getFirebaseUidFromRequest(req)
   if (!uid) return NextResponse.json({ error: "Authentication required." }, { status: 401 })
+
+  const limited = guardMutation(req, uid, "feed-edit")
+  if (limited) return limited
 
   try {
     const supabase = createAdminClient()

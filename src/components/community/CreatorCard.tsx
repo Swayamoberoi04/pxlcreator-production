@@ -42,6 +42,8 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
           <img
             src={profile.avatar_url}
             alt={profile.display_name}
+            loading="lazy"
+            decoding="async"
             className="size-10 rounded-full object-cover shrink-0"
           />
         ) : (
@@ -75,6 +77,8 @@ export function CreatorCard({ profile, showFollowButton = false, compact = false
             <img
               src={profile.avatar_url}
               alt={profile.display_name}
+              loading="lazy"
+              decoding="async"
               className="size-14 rounded-full object-cover shrink-0"
             />
           ) : (

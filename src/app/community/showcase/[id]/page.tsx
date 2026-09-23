@@ -11,6 +11,10 @@ export default function ShowcaseDetailPage({ params }: { params: Promise<{ id: s
   const [item, setItem] = useState<ShowcaseWithMeta | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  // A load that fails for any reason other than 404 must not be reported as
+  // "not found" — that sends people away from a page that does exist.
+  const [loadError, setLoadError] = useState("")
+  const [actionError, setActionError] = useState("")
 
   const [liked, setLiked] = useState(false)
   const [bookmarked, setBookmarked] = useState(false)
@@ -34,18 +38,20 @@ export default function ShowcaseDetailPage({ params }: { params: Promise<{ id: s
 
   const load = useCallback(async () => {
     setLoading(true)
+    setLoadError("")
     try {
       const headers = await authHeaders()
       const res = await fetch(`/api/community/showcase/${id}`, { headers })
       if (res.status === 404) { setNotFound(true); return }
-      if (res.ok) {
-        const d = (await res.json()).item as ShowcaseWithMeta
-        setItem(d)
-        setLiked(d.is_liked ?? false)
-        setBookmarked(d.is_bookmarked ?? false)
-        setLikeCount(d.like_count)
-        setBookmarkCount(d.bookmark_count)
-      }
+      if (!res.ok) { setLoadError("We couldn't load this showcase item. Please try again."); return }
+      const d = (await res.json()).item as ShowcaseWithMeta
+      setItem(d)
+      setLiked(d.is_liked ?? false)
+      setBookmarked(d.is_bookmarked ?? false)
+      setLikeCount(d.like_count)
+      setBookmarkCount(d.bookmark_count)
+    } catch {
+      setLoadError("We couldn't reach the server. Check your connection and try again.")
     } finally { setLoading(false) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, user])
@@ -57,16 +63,47 @@ export default function ShowcaseDetailPage({ params }: { params: Promise<{ id: s
     if (item) void fetch(`/api/community/showcase/${id}/view`, { method: "POST" }).catch(() => {})
   }, [item, id])
 
+  // Optimistic, but reconciled: the response carries the committed counters,
+  // and a failure rolls the optimistic toggle back instead of leaving the UI
+  // showing a reaction the server never stored.
   async function react(reaction: "like" | "bookmark") {
     if (!user) return
-    const headers = await authHeaders()
-    if (reaction === "like") { setLiked(!liked); setLikeCount((c) => c + (liked ? -1 : 1)) }
-    else { setBookmarked(!bookmarked); setBookmarkCount((c) => c + (bookmarked ? -1 : 1)) }
-    await fetch(`/api/community/showcase/${id}/react`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...headers },
-      body: JSON.stringify({ reaction }),
-    }).catch(() => {})
+    setActionError("")
+    const wasLiked = liked
+    const wasBookmarked = bookmarked
+
+    if (reaction === "like") { setLiked(!wasLiked); setLikeCount((c) => Math.max(0, c + (wasLiked ? -1 : 1))) }
+    else { setBookmarked(!wasBookmarked); setBookmarkCount((c) => Math.max(0, c + (wasBookmarked ? -1 : 1))) }
+
+    function rollback() {
+      setLiked(wasLiked)
+      setBookmarked(wasBookmarked)
+      setLikeCount(item?.like_count ?? 0)
+      setBookmarkCount(item?.bookmark_count ?? 0)
+    }
+
+    try {
+      const headers = await authHeaders()
+      const res = await fetch(`/api/community/showcase/${id}/react`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...headers },
+        body: JSON.stringify({ reaction }),
+      })
+      if (!res.ok) {
+        rollback()
+        setActionError(res.status === 429
+          ? "You're reacting too quickly. Give it a moment."
+          : "Your reaction didn't save. Please try again.")
+        return
+      }
+      const d = await res.json() as { active: boolean; like_count: number; bookmark_count: number }
+      if (reaction === "like") setLiked(d.active); else setBookmarked(d.active)
+      setLikeCount(d.like_count)
+      setBookmarkCount(d.bookmark_count)
+    } catch {
+      rollback()
+      setActionError("Your reaction didn't save. Check your connection and try again.")
+    }
   }
 
   async function sendEnquiry(e: React.FormEvent) {
@@ -89,20 +126,53 @@ export default function ShowcaseDetailPage({ params }: { params: Promise<{ id: s
 
   async function loadEnquiries() {
     if (!item?.is_owner) return
-    const headers = await authHeaders()
-    const res = await fetch(`/api/community/showcase/${id}/enquiries`, { headers })
-    if (res.ok) setEnquiries((await res.json()).enquiries ?? [])
-    setShowEnquiries(true)
+    setActionError("")
+    try {
+      const headers = await authHeaders()
+      const res = await fetch(`/api/community/showcase/${id}/enquiries`, { headers })
+      // Without this, a failed fetch opened an empty panel that read exactly
+      // like "you have no enquiries".
+      if (!res.ok) { setActionError("We couldn't load your enquiries. Please try again."); return }
+      setEnquiries((await res.json()).enquiries ?? [])
+      setShowEnquiries(true)
+    } catch {
+      setActionError("We couldn't load your enquiries. Check your connection and try again.")
+    }
   }
 
   async function deleteItem() {
     if (!user || !item) return
-    const headers = await authHeaders()
-    const res = await fetch(`/api/community/showcase/${id}`, { method: "DELETE", headers })
-    if (res.ok) window.location.href = "/community/showcase"
+    setActionError("")
+    try {
+      const headers = await authHeaders()
+      const res = await fetch(`/api/community/showcase/${id}`, { method: "DELETE", headers })
+      // A refused delete used to do nothing at all — no navigation, no message.
+      if (!res.ok) { setActionError("We couldn't delete this item. Please try again."); return }
+      window.location.href = "/community/showcase"
+    } catch {
+      setActionError("We couldn't delete this item. Check your connection and try again.")
+    }
   }
 
   if (loading) return <div className="max-w-2xl mx-auto w-full h-96 rounded-2xl bg-surface border border-border animate-pulse" />
+
+  // A genuine failure is offered a retry; only a real 404 says "not found".
+  if (loadError) {
+    return (
+      <div className="max-w-2xl mx-auto w-full text-center py-20 flex flex-col items-center gap-3">
+        <p className="font-display font-bold text-xl text-foreground">Something went wrong</p>
+        <p className="text-sm text-muted/90">{loadError}</p>
+        <button
+          onClick={() => void load()}
+          className="px-4 py-2 rounded-full bg-gold text-black text-sm font-semibold hover:opacity-90"
+        >
+          Try again
+        </button>
+        <Link href="/community/showcase" className="text-gold text-sm hover:underline">← Back to Showcase</Link>
+      </div>
+    )
+  }
+
   if (notFound || !item) {
     return (
       <div className="max-w-2xl mx-auto w-full text-center py-20">
@@ -116,6 +186,11 @@ export default function ShowcaseDetailPage({ params }: { params: Promise<{ id: s
 
   return (
     <div className="max-w-2xl mx-auto w-full flex flex-col gap-6">
+      {actionError && (
+        <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          {actionError}
+        </p>
+      )}
       <div className="rounded-2xl border border-border bg-surface overflow-hidden">
         {item.item_type === "before_after" && item.before_url && item.after_url ? (
           <div className="grid grid-cols-2">

@@ -54,26 +54,22 @@ interface Props {
   className?:    string
 }
 
-const DEFAULT_ROADMAP: RoadmapItem[] = [
-  { quarter: "Q1 2026", label: "Infrastructure & Architecture", done: true },
-  { quarter: "Q2 2026", label: "Beta Testing with Select Creators", done: true },
-  { quarter: "Q3 2026", label: "Public Launch", done: false },
-  { quarter: "Q4 2026", label: "Advanced Features & Integrations", done: false },
-]
-
-const DEFAULT_BENEFITS = [
-  "Early access before public launch",
-  "Shape the feature with direct feedback",
-  "Exclusive early-adopter badge",
-  "Priority support from our team",
-]
-
+/**
+ * No default roadmap, launch date or benefit list.
+ *
+ * Until Phase 5.8 this component shipped a hardcoded roadmap that claimed
+ * "Q1 2026 Infrastructure — done" and "Q2 2026 Beta Testing — done", and a
+ * default launch of "Q3 2026" that has since passed. None of it was tied to
+ * any real plan, and a preview that ticks off milestones nobody completed is
+ * the same class of fabrication as a fake follower count. Each section now
+ * renders only when a caller passes real data for it.
+ */
 export function CommunityFeaturePreview({
   variant,
   featureKey,
-  launch = "Q3 2026",
-  roadmap = DEFAULT_ROADMAP,
-  benefits = DEFAULT_BENEFITS,
+  launch,
+  roadmap,
+  benefits,
   className = "",
 }: Props) {
   const v      = VARIANTS[variant]
@@ -127,16 +123,20 @@ export function CommunityFeaturePreview({
             <h2 className={`font-display font-bold text-2xl md:text-3xl ${colors.text}`}>{v.headline}</h2>
             <p className="text-sm text-muted/92 mt-2 max-w-xl mx-auto leading-relaxed">{v.sub}</p>
           </div>
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${colors.border} ${colors.bg}`}>
-            <span className="text-xs font-bold uppercase tracking-widest text-muted/85">Expected Launch</span>
-            <span className={`text-xs font-bold uppercase tracking-widest ${colors.text}`}>{launch}</span>
-          </div>
+          {launch && (
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${colors.border} ${colors.bg}`}>
+              <span className="text-xs font-bold uppercase tracking-widest text-muted/85">Expected Launch</span>
+              <span className={`text-xs font-bold uppercase tracking-widest ${colors.text}`}>{launch}</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Roadmap + Benefits side by side */}
+      {/* Roadmap + Benefits side by side — each shown only when real */}
+      {(roadmap?.length || benefits?.length) ? (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Roadmap */}
+        {roadmap?.length ? (
         <div className="rounded-2xl border border-border bg-surface p-6 flex flex-col gap-4">
           <h3 className="font-display font-bold text-sm uppercase tracking-widest text-muted/85">Roadmap Preview</h3>
           <div className="flex flex-col gap-3">
@@ -160,8 +160,10 @@ export function CommunityFeaturePreview({
             ))}
           </div>
         </div>
+        ) : null}
 
         {/* Community Benefits */}
+        {benefits?.length ? (
         <div className="rounded-2xl border border-border bg-surface p-6 flex flex-col gap-4">
           <h3 className="font-display font-bold text-sm uppercase tracking-widest text-muted/85">Why Join Early</h3>
           <div className="flex flex-col gap-3">
@@ -173,7 +175,9 @@ export function CommunityFeaturePreview({
             ))}
           </div>
         </div>
+        ) : null}
       </div>
+      ) : null}
 
       {/* Waitlist Form */}
       <div className="rounded-2xl border border-border bg-surface p-6 md:p-8">

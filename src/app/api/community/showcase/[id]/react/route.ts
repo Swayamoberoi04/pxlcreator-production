@@ -2,69 +2,109 @@
  * POST /api/community/showcase/[id]/react
  *
  * Toggle a reaction (like | bookmark) on a showcase item.
- * Returns updated counts and user's current reaction state.
+ * Returns the item's current reaction state and committed counts.
+ *
+ * Phase 5.8 rewrite. The previous version had three defects:
+ *   • it ignored the result of every insert/delete, so a write refused by the
+ *     database still returned `active: true` and an incremented count — the
+ *     UI showed a like that was never stored;
+ *   • it maintained like_count / bookmark_count by read-modify-write, which
+ *     loses concurrent reactions. Those counters are now owned by
+ *     trg_sync_showcase_reaction_counts (migration 050);
+ *   • it had no rate limit at all, unlike every other reaction endpoint.
+ *
+ * Requires: Authorization: Bearer <firebase_id_token>
  */
 
 import { NextRequest, NextResponse }  from "next/server"
 import { createAdminClient }          from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest }  from "@/lib/account/auth"
+import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
+import { createLogger }               from "@/lib/observability/logger"
+import { increment }                  from "@/lib/observability/metrics"
 
 export const runtime = "nodejs"
 
+const log = createLogger("community/showcase-react")
+const limiter = makeRateLimiter({ max: 120, windowMs: 60 * 60 * 1000 })
+
+const VALID_REACTIONS = ["like", "bookmark"] as const
+
 export async function POST(
-  req:     NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
+  const { id: showcaseId } = await params
+
   const uid = await getFirebaseUidFromRequest(req)
   if (!uid) return NextResponse.json({ error: "Authentication required." }, { status: 401 })
 
-  const { id: showcaseId } = await params
-  let reaction = "like"
+  if (limiter.check(getClientIp(req))) {
+    return NextResponse.json({ error: "Too many requests." }, { status: 429 })
+  }
+
+  const body = await req.json().catch(() => ({})) as { reaction?: string }
+  const reaction = body.reaction ?? "like"
+  if (!VALID_REACTIONS.includes(reaction as typeof VALID_REACTIONS[number])) {
+    return NextResponse.json(
+      { error: `reaction must be one of: ${VALID_REACTIONS.join(", ")}.` },
+      { status: 400 }
+    )
+  }
+
   try {
-    const body = await req.json() as { reaction?: string }
-    if (body.reaction === "bookmark") reaction = "bookmark"
-  } catch { /* default to like */ }
+    const supabase = createAdminClient()
 
-  const supabase = createAdminClient()
+    const { data: item } = await supabase
+      .from("showcase_items")
+      .select("id, is_removed")
+      .eq("id", showcaseId)
+      .maybeSingle()
 
-  // Check if reaction already exists
-  const { data: existing } = await supabase
-    .from("showcase_reactions")
-    .select("id")
-    .eq("showcase_id", showcaseId)
-    .eq("firebase_uid", uid)
-    .eq("reaction", reaction)
-    .maybeSingle()
-
-  const field = reaction === "bookmark" ? "bookmark_count" : "like_count"
-  const { data: item } = await supabase
-    .from("showcase_items")
-    .select(field)
-    .eq("id", showcaseId)
-    .single()
-
-  if (!item) return NextResponse.json({ error: "Not found." }, { status: 404 })
-
-  const currentCount = (item as Record<string, number>)[field] ?? 0
-
-  const newCountDecrement = Math.max(0, currentCount - 1)
-  const newCountIncrement = currentCount + 1
-
-  if (existing) {
-    await supabase.from("showcase_reactions").delete().eq("id", existing.id)
-    if (reaction === "bookmark") {
-      await supabase.from("showcase_items").update({ bookmark_count: newCountDecrement }).eq("id", showcaseId)
-    } else {
-      await supabase.from("showcase_items").update({ like_count: newCountDecrement }).eq("id", showcaseId)
+    if (!item || item.is_removed) {
+      return NextResponse.json({ error: "Showcase item not found." }, { status: 404 })
     }
-    return NextResponse.json({ active: false, [field]: newCountDecrement })
-  } else {
-    await supabase.from("showcase_reactions").insert({ showcase_id: showcaseId, firebase_uid: uid, reaction })
-    if (reaction === "bookmark") {
-      await supabase.from("showcase_items").update({ bookmark_count: newCountIncrement }).eq("id", showcaseId)
-    } else {
-      await supabase.from("showcase_items").update({ like_count: newCountIncrement }).eq("id", showcaseId)
+
+    const { data: existing } = await supabase
+      .from("showcase_reactions")
+      .select("id")
+      .eq("showcase_id", showcaseId)
+      .eq("firebase_uid", uid)
+      .eq("reaction", reaction)
+      .maybeSingle()
+
+    const active = !existing
+    const { error: writeError } = existing
+      ? await supabase.from("showcase_reactions").delete().eq("id", existing.id)
+      : await supabase.from("showcase_reactions").insert({ showcase_id: showcaseId, firebase_uid: uid, reaction })
+
+    if (writeError) {
+      log.error("showcase_reaction_write_failed", {
+        showcaseId, reaction, code: writeError.code, message: writeError.message,
+      })
+      increment("community.write_failed")
+      return NextResponse.json(
+        { error: "Could not save your reaction. Please try again." },
+        { status: 500 }
+      )
     }
-    return NextResponse.json({ active: true, [field]: newCountIncrement })
+
+    // Read the committed counters back rather than predicting them.
+    const { data: counts } = await supabase
+      .from("showcase_items")
+      .select("like_count, bookmark_count")
+      .eq("id", showcaseId)
+      .maybeSingle()
+
+    return NextResponse.json({
+      active,
+      like_count:     counts?.like_count ?? 0,
+      bookmark_count: counts?.bookmark_count ?? 0,
+    })
+  } catch (err) {
+    log.error("showcase_reaction_unexpected", {
+      showcaseId, error: err instanceof Error ? err.message : String(err),
+    })
+    return NextResponse.json({ error: "Internal server error." }, { status: 500 })
   }
 }
