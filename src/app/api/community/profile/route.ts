@@ -157,6 +157,11 @@ export async function PUT(req: NextRequest) {
     }
   }
 
+  // The update below matches by firebase_uid. Without a row it matched zero
+  // rows and .single() turned that into a 500 — a signed-in member who saves
+  // before the row exists (GET creates it) got "Failed to update profile".
+  await ensureProfile(uid)
+
   const { data, error } = await supabase
     .from("community_profiles")
     .update(updates as never)

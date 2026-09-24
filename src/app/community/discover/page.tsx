@@ -591,7 +591,7 @@ function DiscoverPageInner() {
                     key={opt.id}
                     onClick={() => toggleAvailableFor(opt.id)}
                     className={[
-                      "rounded-full px-3 py-1 text-xs font-medium transition-colors border",
+                      "inline-flex items-center rounded-full px-3 min-h-9 text-xs font-medium transition-colors border",
                       availableFor.includes(opt.id)
                         ? "border-gold/40 bg-gold/10 text-gold"
                         : "border-border bg-surface-2 text-muted/85 hover:border-gold/30 hover:text-foreground",
@@ -612,7 +612,7 @@ function DiscoverPageInner() {
                     key={role.id}
                     onClick={() => toggleRole(role.id)}
                     className={[
-                      "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors border",
+                      "flex items-center gap-1 rounded-full px-3 min-h-9 text-xs font-medium transition-colors border",
                       roles.includes(role.id)
                         ? "border-gold/40 bg-gold/10 text-gold"
                         : "border-border bg-surface-2 text-muted/85 hover:border-gold/30 hover:text-foreground",
@@ -635,7 +635,7 @@ function DiscoverPageInner() {
                       key={tag.id}
                       onClick={() => toggleStyle(tag.id)}
                       className={[
-                        "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors border",
+                        "flex items-center gap-1 rounded-full px-3 min-h-9 text-xs font-medium transition-colors border",
                         styles.includes(tag.id)
                           ? "border-gold/40 bg-gold/10 text-gold"
                           : "border-border bg-surface-2 text-muted/85 hover:border-gold/30 hover:text-foreground",
