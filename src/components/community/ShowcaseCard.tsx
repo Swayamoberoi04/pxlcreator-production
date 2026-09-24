@@ -90,6 +90,8 @@ export function ShowcaseCard({ item, compact = false }: Props) {
           <img
             src={thumbnail}
             alt={item.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
@@ -137,7 +139,7 @@ export function ShowcaseCard({ item, compact = false }: Props) {
           >
             <div className="h-6 w-6 rounded-full bg-gold/20 flex items-center justify-center text-[0.65rem] font-bold text-gold shrink-0 overflow-hidden">
               {item.author.avatar_url ? (
-                <img src={item.author.avatar_url} alt="" className="w-full h-full object-cover" />
+                <img src={item.author.avatar_url} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               ) : (
                 item.author.display_name[0]?.toUpperCase()
               )}

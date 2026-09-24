@@ -104,7 +104,7 @@ function CreateTeamModal({ onClose, onCreate }: CreateTeamModalProps) {
               <div className="flex flex-wrap gap-2">
                 {HIRING_ROLES.map((r) => (
                   <button key={r} type="button" onClick={() => toggleRole(r)}
-                    className={["text-xs px-3 py-1 rounded-full border transition-colors", roles.includes(r) ? "border-gold/40 bg-gold/10 text-gold" : "border-border bg-surface-2 text-muted/85 hover:border-gold/30"].join(" ")}>
+                    className={["inline-flex items-center text-xs px-3 min-h-9 rounded-full border transition-colors", roles.includes(r) ? "border-gold/40 bg-gold/10 text-gold" : "border-border bg-surface-2 text-muted/85 hover:border-gold/30"].join(" ")}>
                     {r}
                   </button>
                 ))}

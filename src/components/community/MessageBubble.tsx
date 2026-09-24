@@ -49,6 +49,8 @@ export function MessageBubble({ message, onReact, onReply }: MessageBubbleProps)
         <img
           src={author.avatar_url}
           alt={author.display_name}
+          loading="lazy"
+          decoding="async"
           className="size-8 rounded-full object-cover shrink-0 mt-0.5"
         />
       ) : (

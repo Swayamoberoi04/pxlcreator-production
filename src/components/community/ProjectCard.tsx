@@ -109,6 +109,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <img
               src={project.poster.avatar_url}
               alt={project.poster.display_name}
+              loading="lazy"
+              decoding="async"
               className="size-7 rounded-full object-cover"
             />
           ) : (

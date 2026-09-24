@@ -110,6 +110,8 @@ export function PostCard({ post, channelId, onReact }: PostCardProps) {
           <img
             src={post.author.avatar_url}
             alt={post.author.display_name}
+            loading="lazy"
+            decoding="async"
             className="size-9 rounded-full object-cover shrink-0"
           />
         ) : (

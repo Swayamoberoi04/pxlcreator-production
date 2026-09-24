@@ -14,6 +14,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { guardMutation } from "@/lib/community/guard"
 
 export const runtime = "nodejs"
 
@@ -83,6 +84,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const uid = await getFirebaseUidFromRequest(req)
   if (!uid) return NextResponse.json({ error: "Authentication required." }, { status: 401 })
 
+  const limited = guardMutation(req, uid, "showcase-edit")
+  if (limited) return limited
+
   let body: Record<string, unknown>
   try {
     body = await req.json()
@@ -141,6 +145,9 @@ export async function DELETE(req: NextRequest, { params }: Params) {
   const { id } = await params
   const uid = await getFirebaseUidFromRequest(req)
   if (!uid) return NextResponse.json({ error: "Authentication required." }, { status: 401 })
+
+  const limited = guardMutation(req, uid, "showcase-edit")
+  if (limited) return limited
 
   try {
     const supabase = createAdminClient()

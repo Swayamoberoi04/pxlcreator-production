@@ -184,11 +184,8 @@ export async function POST(req: NextRequest, { params }: Params) {
       return NextResponse.json({ error: "Failed to create comment." }, { status: 500 })
     }
 
-    // Increment post comment_count
-    await supabase
-      .from("channel_posts")
-      .update({ comment_count: (post.comment_count ?? 0) + 1 })
-      .eq("id", postId)
+    // comment_count is owned by trg_sync_post_comment_count (migration 050).
+    // The manual `+ 1` that used to live here lost concurrent comments.
 
     // Notify post author (don't notify self)
     if (post.author_uid !== uid) {

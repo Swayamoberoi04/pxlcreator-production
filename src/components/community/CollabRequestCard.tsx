@@ -57,7 +57,7 @@ export function CollabRequestCard({ request, viewType, onStatusChange }: CollabR
       {/* Header */}
       <div className="flex items-start gap-3">
         {counterpart?.avatar_url ? (
-          <img src={counterpart.avatar_url} alt={counterpart.display_name} className="size-10 rounded-full object-cover shrink-0" />
+          <img src={counterpart.avatar_url} alt={counterpart.display_name} loading="lazy" decoding="async" className="size-10 rounded-full object-cover shrink-0" />
         ) : (
           <span className="size-10 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-sm shrink-0">
             {initial}

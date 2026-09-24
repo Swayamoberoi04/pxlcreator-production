@@ -83,7 +83,7 @@ function scoreLabel(type: LeaderboardType, entry: LeaderboardEntry): string {
 }
 
 export default function LeaderboardPage() {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [entries,   setEntries]   = useState<LeaderboardEntry[]>([])
   const [explainer, setExplainer] = useState<{ summary: string } | null>(null)
   const [loading,   setLoading]   = useState(true)
@@ -110,11 +110,19 @@ export default function LeaderboardPage() {
     } finally {
       setLoading(false)
     }
-  }, [user])
+  // Keyed on the uid, not the User object: the object identity changes on
+  // every token refresh, which would re-run the effect below for no reason.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.uid])
 
+  // Waits for auth to settle before fetching. Previously this ran once with
+  // user === null and again the moment Firebase resolved the session, so every
+  // visit by a signed-in member hit the endpoint twice and rendered the
+  // unauthenticated (unfiltered-by-blocks) result first.
   useEffect(() => {
+    if (authLoading) return
     setTimeout(() => void fetchLeaderboard(activeTab), 0)
-  }, [activeTab, fetchLeaderboard])
+  }, [activeTab, authLoading, fetchLeaderboard])
 
   return (
     <div className="flex flex-col gap-8">
@@ -181,7 +189,7 @@ export default function LeaderboardPage() {
                   <Link href={`/community/${entry.username}`} className="shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60">
                     {entry.avatar_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={entry.avatar_url} alt="" className="size-11 rounded-full object-cover" />
+                      <img src={entry.avatar_url} alt="" loading="lazy" decoding="async" className="size-11 rounded-full object-cover" />
                     ) : (
                       <span className="size-11 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-base" aria-hidden="true">{initial}</span>
                     )}

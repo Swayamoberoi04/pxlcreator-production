@@ -34,6 +34,8 @@ export function TeamCard({ team }: TeamCardProps) {
           <img
             src={team.avatar_url}
             alt={team.name}
+            loading="lazy"
+            decoding="async"
             className="size-12 rounded-xl object-cover shrink-0"
           />
         ) : (

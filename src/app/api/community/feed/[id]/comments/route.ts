@@ -16,8 +16,11 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { Validator } from "@/lib/api/validate"
 import { ensureProfile } from "@/lib/community/ensureProfile"
+import { createLogger } from "@/lib/observability/logger"
 
 export const runtime = "nodejs"
+
+const log = createLogger("community/feed-comments")
 
 const commentLimiter = makeRateLimiter({ max: 60, windowMs: 60 * 60 * 1000 })
 
@@ -52,7 +55,7 @@ export async function GET(req: NextRequest, { params }: Params) {
       .range(offset, offset + limit - 1)
 
     if (commentsError) {
-      console.error("[feed comments GET]", commentsError)
+      log.error("comments_fetch_failed", { postId, code: commentsError.code, message: commentsError.message })
       return NextResponse.json({ error: "Failed to fetch comments." }, { status: 500 })
     }
     if (!comments || comments.length === 0) {
@@ -82,7 +85,7 @@ export async function GET(req: NextRequest, { params }: Params) {
 
     return NextResponse.json({ comments: topLevel, total: count ?? 0, page, limit })
   } catch (err) {
-    console.error("[feed comments GET] unexpected", err)
+    log.error("comments_fetch_unexpected", { postId, error: err instanceof Error ? err.message : String(err) })
     return NextResponse.json({ error: "Internal server error." }, { status: 500 })
   }
 }
@@ -142,11 +145,13 @@ export async function POST(req: NextRequest, { params }: Params) {
       .select("*")
       .single()
     if (insertError) {
-      console.error("[feed comments POST] insert", insertError)
+      log.error("comment_insert_failed", { postId, code: insertError.code, message: insertError.message })
       return NextResponse.json({ error: "Failed to create comment." }, { status: 500 })
     }
 
-    await supabase.from("channel_posts").update({ comment_count: (post.comment_count ?? 0) + 1 }).eq("id", postId)
+    // comment_count is owned by trg_sync_post_comment_count (migration 050).
+    // The previous `post.comment_count + 1` here raced: two people commenting
+    // at once both read the same value and both wrote the same +1.
 
     if (post.author_uid !== uid) {
       const { data: actorProfile } = await supabase
@@ -171,7 +176,7 @@ export async function POST(req: NextRequest, { params }: Params) {
 
     return NextResponse.json({ comment }, { status: 201 })
   } catch (err) {
-    console.error("[feed comments POST] unexpected", err)
+    log.error("comment_create_unexpected", { postId, error: err instanceof Error ? err.message : String(err) })
     return NextResponse.json({ error: "Internal server error." }, { status: 500 })
   }
 }

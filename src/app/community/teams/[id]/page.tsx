@@ -307,7 +307,7 @@ export default function TeamDetailPage() {
               return (
                 <div key={member.id} className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-4">
                   {p?.avatar_url ? (
-                    <img src={p.avatar_url} alt={p.display_name} className="size-10 rounded-full object-cover shrink-0" />
+                    <img src={p.avatar_url} alt={p.display_name} loading="lazy" decoding="async" className="size-10 rounded-full object-cover shrink-0" />
                   ) : (
                     <span className="size-10 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-sm shrink-0">
                       {initial}

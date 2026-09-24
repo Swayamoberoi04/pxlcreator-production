@@ -128,7 +128,7 @@ export function CommunityMobileTabs() {
             key={item.href}
             href={item.href}
             className={[
-              "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors",
+              "flex items-center gap-1.5 rounded-lg px-3 min-h-10 text-xs font-medium whitespace-nowrap transition-colors",
               isActive(item.href)
                 ? "bg-gold/15 text-gold"
                 : "text-muted/85 hover:bg-surface-2 hover:text-foreground",
@@ -146,7 +146,7 @@ export function CommunityMobileTabs() {
           <Link
             href="/community/me"
             className={[
-              "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors",
+              "flex items-center gap-1.5 rounded-lg px-3 min-h-10 text-xs font-medium whitespace-nowrap transition-colors",
               pathname === "/community/me"
                 ? "bg-gold/15 text-gold"
                 : "text-muted/85 hover:bg-surface-2 hover:text-foreground",
