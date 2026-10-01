@@ -17,6 +17,7 @@ import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { ensureProfile } from "@/lib/community/ensureProfile"
 import { createLogger } from "@/lib/observability/logger"
 import { increment } from "@/lib/observability/metrics"
+import { notify, actorName } from "@/lib/community/notify"
 
 export const runtime = "nodejs"
 
@@ -54,7 +55,7 @@ export async function POST(req: NextRequest, { params }: Params) {
 
     const { data: post, error: postError } = await supabase
       .from("channel_posts")
-      .select("id, is_removed")
+      .select("id, is_removed, author_uid, title")
       .eq("id", postId)
       .maybeSingle()
 
@@ -97,6 +98,21 @@ export async function POST(req: NextRequest, { params }: Params) {
       log.error("reaction_write_failed", { postId, code: writeError.code, message: writeError.message })
       increment("community.write_failed")
       return NextResponse.json({ error: "Could not save your reaction. Please try again." }, { status: 500 })
+    }
+
+    // Only a brand-new reaction notifies. Switching emoji or un-liking never
+    // does, and the dedupe key means like → unlike → like notifies once.
+    if (!existing && userReaction) {
+      await notify({
+        recipient: post.author_uid,
+        actor: uid,
+        type: "post_like",
+        title: `${await actorName(uid)} liked ${post.title ? `"${post.title}"` : "your post"}`,
+        resourceType: "post",
+        resourceId: postId,
+        dedupeKey: `post_like:${uid}:${postId}`,
+        groupKey: `post_like:${postId}`,
+      })
     }
 
     // like_count is owned by trg_sync_post_like_count (migration 050); read it

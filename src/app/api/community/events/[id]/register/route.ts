@@ -25,6 +25,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { ensureProfile } from "@/lib/community/ensureProfile"
+import { notify, actorName } from "@/lib/community/notify"
 
 const regLimiter = makeRateLimiter({ max: 30, windowMs: 60 * 60 * 1000 })
 
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest, { params }: Params) {
 
     const { data: event, error: eventError } = await supabase
       .from("community_events")
-      .select("id, status, participant_count, max_participants, registration_mode, visibility")
+      .select("id, status, participant_count, max_participants, registration_mode, visibility, organiser_uid, title")
       .eq("id", eventId)
       .maybeSingle()
 
@@ -115,6 +116,20 @@ export async function POST(req: NextRequest, { params }: Params) {
         if (insertError && insertError.code !== "23505") {
           console.error("[event register POST]", insertError)
           return NextResponse.json({ error: "Failed to register for event." }, { status: 500 })
+        }
+        // Organiser is told once per attendee (grouped per event). External
+        // events have no PXL organiser uid and are refused above anyway.
+        if (!insertError && event.organiser_uid) {
+          await notify({
+            recipient: event.organiser_uid,
+            actor: uid,
+            type: "event_registration",
+            title: `${await actorName(uid)} registered for "${event.title}"`,
+            resourceType: "event",
+            resourceId: eventId,
+            dedupeKey: `event_registration:${eventId}:${uid}`,
+            groupKey: `event_registration:${eventId}`,
+          })
         }
       }
     } else {

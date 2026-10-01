@@ -24,6 +24,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { Validator } from "@/lib/api/validate"
 import { ensureProfile } from "@/lib/community/ensureProfile"
+import { notify, actorName } from "@/lib/community/notify"
 
 export const runtime = "nodejs"
 
@@ -122,24 +123,18 @@ export async function POST(req: NextRequest, { params }: Params) {
       .update({ applicant_count: (project.applicant_count ?? 0) + 1 })
       .eq("id", projectId)
 
-    // Notify poster
-    const { data: actorProfile } = await supabase
-      .from("community_profiles")
-      .select("display_name, username")
-      .eq("firebase_uid", uid)
-      .maybeSingle()
-
-    const actorName = actorProfile?.display_name ?? actorProfile?.username ?? "Someone"
-
-    await supabase.from("community_notifications").insert({
-      recipient_uid: project.poster_uid,
-      actor_uid: uid,
+    // Notify poster. Never includes the cover letter or portfolio link — the
+    // poster reads those through the owner-only applications endpoint.
+    const name = await actorName(uid)
+    await notify({
+      recipient: project.poster_uid,
+      actor: uid,
       type: "project_application",
-      title: `${actorName} applied to your project`,
-      body: `${actorName} submitted an application for "${project.title}".`,
-      resource_type: "project",
-      resource_id: projectId,
-      is_read: false,
+      title: `${name} applied to your project`,
+      body: `New application for "${project.title}".`,
+      resourceType: "project",
+      resourceId: projectId,
+      dedupeKey: `project_application:${projectId}:${uid}`,
     })
 
     return NextResponse.json({ application }, { status: 201 })

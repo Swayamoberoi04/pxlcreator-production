@@ -59,6 +59,8 @@ export type NotificationType =
   | "channel_invite" | "post_reply" | "post_like"
   | "mention" | "project_application" | "application_accepted"
   | "badge_earned"
+  // Phase 5.9
+  | "comment_reply" | "showcase_enquiry" | "event_registration"
 export type EventType  = "challenge" | "contest" | "meetup" | "workshop" | "webinar"
 export type EventStatus = "upcoming" | "active" | "ended" | "cancelled"
 export type AttendanceMode = "online" | "offline" | "hybrid"
@@ -372,6 +374,25 @@ export interface CommunityNotification {
   resource_id:   string | null
   is_read:       boolean
   created_at:    string
+}
+
+/** A notification as returned by GET /api/community/notifications (Phase 5.9). */
+export interface NotificationItem {
+  id:          string
+  /** Every row id this item stands for (>1 when grouped). */
+  ids:         string[]
+  type:        NotificationType
+  title:       string
+  body:        string | null
+  is_read:     boolean
+  created_at:  string
+  actor:       { username: string; display_name: string; avatar_url: string | null } | null
+  /** Additional actors when grouped, newest first (max 3). */
+  others:      { username: string; display_name: string }[]
+  group_count: number
+  /** Where tapping goes; null when the content is gone or no longer visible. */
+  href:        string | null
+  available:   boolean
 }
 
 /* ── Featured Creator (external "Inspiration" entity) ─────────────────────────

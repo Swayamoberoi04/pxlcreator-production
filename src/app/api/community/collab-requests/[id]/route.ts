@@ -16,6 +16,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { guardMutation } from "@/lib/community/guard"
+import { notify } from "@/lib/community/notify"
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -92,16 +93,14 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
     // On accept: notify requester
     if (status === "accepted") {
-      await supabase
-        .from("community_notifications")
-        .insert({
-          recipient_uid: collab.requester_uid,
-          actor_uid:     uid,
-          type:          "connection_acc",
-          title:         "Collaboration request accepted",
-          body:          "Your collaboration request was accepted.",
-        })
-        .then(() => { /* notif sent */ }).then(undefined, () => null)
+      await notify({
+        recipient: collab.requester_uid,
+        actor: uid,
+        type: "connection_acc",
+        title: "Collaboration request accepted",
+        body: "Your collaboration request was accepted.",
+        dedupeKey: `connection_acc:${id}`,
+      })
     }
 
     return NextResponse.json({ request: updated })

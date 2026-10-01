@@ -22,6 +22,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { ensureProfile } from "@/lib/community/ensureProfile"
 import { isBlockedBetween } from "@/lib/community/visibility"
+import { notify, actorName } from "@/lib/community/notify"
 
 export const runtime = "nodejs"
 
@@ -94,24 +95,14 @@ export async function POST(req: NextRequest) {
     if (!alreadyFollowing) {
       // Counts are already updated by trg_sync_follow_counts at this point.
 
-      // Fetch actor display name for notification
-      const { data: actorProfile } = await supabase
-        .from("community_profiles")
-        .select("display_name, username")
-        .eq("firebase_uid", uid)
-        .maybeSingle()
-
-      const actorName = actorProfile?.display_name ?? actorProfile?.username ?? "Someone"
-
-      // Send notification to target
-      await supabase.from("community_notifications").insert({
-        recipient_uid: target_uid,
-        actor_uid: uid,
+      // dedupe_key has no timestamp: follow → unfollow → follow notifies once.
+      await notify({
+        recipient: target_uid,
+        actor: uid,
         type: "follow",
-        title: `${actorName} started following you`,
-        body: `${actorName} is now following you on PXL.`,
-        resource_type: "profile",
-        is_read: false,
+        title: `${await actorName(uid)} started following you`,
+        resourceType: "profile",
+        dedupeKey: `follow:${uid}`,
       })
     }
   } else {

@@ -17,6 +17,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { Validator } from "@/lib/api/validate"
 import { ensureProfile } from "@/lib/community/ensureProfile"
+import { notifyComment } from "@/lib/community/notify"
 
 export const runtime = "nodejs"
 
@@ -188,29 +189,10 @@ export async function POST(req: NextRequest, { params }: Params) {
     // The manual `+ 1` that used to live here lost concurrent comments.
 
     // Notify post author (don't notify self)
-    if (post.author_uid !== uid) {
-      const { data: actorProfile } = await supabase
-        .from("community_profiles")
-        .select("display_name, username")
-        .eq("firebase_uid", uid)
-        .maybeSingle()
-
-      const actorName = actorProfile?.display_name ?? actorProfile?.username ?? "Someone"
-      const postTitle = (post as Record<string, unknown>).title
-        ? `"${(post as Record<string, unknown>).title}"`
-        : "your post"
-
-      await supabase.from("community_notifications").insert({
-        recipient_uid: post.author_uid,
-        actor_uid: uid,
-        type: "post_reply",
-        title: `${actorName} commented on ${postTitle}`,
-        body: commentBody.slice(0, 150),
-        resource_type: "post",
-        resource_id: postId,
-        is_read: false,
-      })
-    }
+    await notifyComment(supabase, {
+      uid, postId, commentId: comment.id, commentBody, parentId: parent_id ?? null,
+      post: { author_uid: post.author_uid, title: (post as Record<string, unknown>).title as string | null },
+    })
 
     return NextResponse.json({ comment }, { status: 201 })
   } catch (err) {
