@@ -17,6 +17,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
+import { notify } from "@/lib/community/notify"
 
 const sendLimiter = makeRateLimiter({ max: 10, windowMs: 60 * 60 * 1000 })
 
@@ -162,13 +163,14 @@ export async function POST(req: NextRequest) {
     }
 
     // Send notification to recipient
-    await supabase.from("community_notifications").insert({
-      recipient_uid,
-      actor_uid:     uid,
-      type:          "connection_req",
-      title:         "New collaboration request",
-      body:          `You received a ${collab_type.replace(/_/g, " ")} request.`,
-    }).then(() => { /* sent */ }).then(undefined, () => null)
+    await notify({
+      recipient: recipient_uid,
+      actor: uid,
+      type: "connection_req",
+      title: "New collaboration request",
+      body: `You received a ${collab_type.replace(/_/g, " ")} request.`,
+      dedupeKey: `connection_req:${request.id}`,
+    })
 
     return NextResponse.json({ request }, { status: 201 })
   } catch (err) {

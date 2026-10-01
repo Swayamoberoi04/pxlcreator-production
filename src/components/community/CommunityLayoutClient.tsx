@@ -3,11 +3,13 @@
 import Link                  from "next/link"
 import { useAuth }           from "@/contexts/AuthContext"
 import { CommunitySidebar, CommunityMobileTabs } from "@/components/community/CommunityNav"
+import { NotificationsProvider } from "@/lib/community/NotificationsProvider"
 
 export function CommunityLayoutClient({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
 
   return (
+    <NotificationsProvider>
     <div className="min-h-screen bg-background">
       {/* Join banner — logged-out visitors only */}
       {!loading && !user && (
@@ -40,5 +42,6 @@ export function CommunityLayoutClient({ children }: { children: React.ReactNode 
         </main>
       </div>
     </div>
+    </NotificationsProvider>
   )
 }

@@ -18,6 +18,7 @@ import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { Validator } from "@/lib/api/validate"
 import { guardMutation } from "@/lib/community/guard"
+import { notify } from "@/lib/community/notify"
 
 export const runtime = "nodejs"
 
@@ -101,15 +102,16 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       rejected: "declined your application for",
       closed: "closed applications for",
     }
-    await supabase.from("community_notifications").insert({
-      recipient_uid: application.applicant_uid,
-      actor_uid: uid,
+    await notify({
+      recipient: application.applicant_uid,
+      actor: uid,
       type: "application_accepted", // existing NotificationType — reused for all status changes, title carries the specific verb
       title: `Your application was ${STATUS_LABEL[status] ? STATUS_LABEL[status].split(" ")[0] : status}`,
       body: `Your application for "${project.title}" was ${status}.`,
-      resource_type: "project",
-      resource_id: projectId,
-      is_read: false,
+      resourceType: "project",
+      resourceId: projectId,
+      // One per status transition: re-saving the same status doesn't re-notify.
+      dedupeKey: `application_status:${appId}:${status}`,
     })
 
     return NextResponse.json({ application: updated })

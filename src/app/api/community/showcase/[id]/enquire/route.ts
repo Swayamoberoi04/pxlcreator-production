@@ -18,6 +18,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { Validator } from "@/lib/api/validate"
 import { ensureProfile } from "@/lib/community/ensureProfile"
+import { notify, actorName } from "@/lib/community/notify"
 
 export const runtime = "nodejs"
 
@@ -77,22 +78,18 @@ export async function POST(req: NextRequest, { params }: Params) {
       return NextResponse.json({ error: "Failed to send enquiry." }, { status: 500 })
     }
 
-    const { data: actorProfile } = await supabase
-      .from("community_profiles")
-      .select("display_name, username")
-      .eq("firebase_uid", uid)
-      .maybeSingle()
-    const actorName = actorProfile?.display_name ?? actorProfile?.username ?? "Someone"
-
-    await supabase.from("community_notifications").insert({
-      recipient_uid: item.author_uid,
-      actor_uid: uid,
-      type: "post_reply", // no dedicated enquiry NotificationType yet; reused deliberately rather than inventing an untyped one
-      title: `${actorName} sent you an enquiry about "${item.title}"`,
-      body: message.slice(0, 150),
-      resource_type: "showcase",
-      resource_id: showcaseId,
-      is_read: false,
+    // Phase 5.9: previously typed "post_reply" and copied the private enquiry
+    // message into the notification body. The body now carries no enquiry
+    // content; the owner reads the message (and any contact email) through
+    // the owner-only /enquiries endpoint.
+    await notify({
+      recipient: item.author_uid,
+      actor: uid,
+      type: "showcase_enquiry",
+      title: `${await actorName(uid)} sent you an enquiry about "${item.title}"`,
+      resourceType: "showcase",
+      resourceId: showcaseId,
+      dedupeKey: `showcase_enquiry:${enquiry.id}`,
     })
 
     return NextResponse.json({ enquiry }, { status: 201 })

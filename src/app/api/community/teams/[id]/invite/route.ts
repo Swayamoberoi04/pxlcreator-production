@@ -16,6 +16,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getFirebaseUidFromRequest } from "@/lib/account/auth"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
+import { notify } from "@/lib/community/notify"
 
 const inviteLimiter = makeRateLimiter({ max: 20, windowMs: 60 * 60 * 1000 })
 
@@ -118,16 +119,14 @@ export async function POST(req: NextRequest, { params }: Params) {
     }
 
     // Notify invitee
-    await supabase
-      .from("community_notifications")
-      .insert({
-        recipient_uid: invitee_uid,
-        actor_uid:     uid,
-        type:          "channel_invite",
-        title:         "You have a team invite",
-        body:          "You've been invited to join a creator team.",
-      })
-      .then(() => { /* sent */ }).then(undefined, () => null)
+    await notify({
+      recipient: invitee_uid,
+      actor: uid,
+      type: "channel_invite",
+      title: "You have a team invite",
+      body: "You've been invited to join a creator team.",
+      dedupeKey: `team_invite:${invite.id}`,
+    })
 
     return NextResponse.json({ invite }, { status: 201 })
   } catch (err) {

@@ -21,6 +21,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import { createLogger } from "@/lib/observability/logger"
 import { increment } from "@/lib/observability/metrics"
+import { notify, actorName } from "@/lib/community/notify"
 
 export const runtime = "nodejs"
 
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest, { params }: Params) {
     // Verify post exists and belongs to this channel
     const { data: post, error: postError } = await supabase
       .from("channel_posts")
-      .select("id, channel_id")
+      .select("id, channel_id, author_uid, title")
       .eq("id", postId)
       .eq("channel_id", channelId)
       .maybeSingle()
@@ -120,6 +121,19 @@ export async function POST(req: NextRequest, { params }: Params) {
       log.error("reaction_write_failed", { postId, channelId, code: writeError.code, message: writeError.message })
       increment("community.write_failed")
       return NextResponse.json({ error: "Could not save your reaction. Please try again." }, { status: 500 })
+    }
+
+    if (!existing && userReaction) {
+      await notify({
+        recipient: post.author_uid,
+        actor: uid,
+        type: "post_like",
+        title: `${await actorName(uid)} liked ${post.title ? `"${post.title}"` : "your post"}`,
+        resourceType: "post",
+        resourceId: postId,
+        dedupeKey: `post_like:${uid}:${postId}`,
+        groupKey: `post_like:${postId}`,
+      })
     }
 
     // like_count is owned by trg_sync_post_like_count (migration 050).

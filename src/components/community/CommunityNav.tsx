@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+
 import Link                    from "next/link"
 import { usePathname }         from "next/navigation"
 import { useAuth }             from "@/contexts/AuthContext"
+import { useNotifications }    from "@/lib/community/NotificationsProvider"
 
 interface NavItem {
   href:  string
@@ -23,30 +24,9 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/community/resources",    label: "Resources"   },
 ]
 
+/** Unread count comes from NotificationsProvider: one fetch, one subscription. */
 function useUnreadCount() {
-  const { user } = useAuth()
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    if (!user) return
-    let cancelled = false
-    async function fetchUnread() {
-      try {
-        const token = await user!.getIdToken()
-        const res   = await fetch("/api/community/notifications?unread=true", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        if (res.ok && !cancelled) {
-          const data = await res.json()
-          setCount(data.count ?? data.notifications?.length ?? 0)
-        }
-      } catch { /* ignore */ }
-    }
-    void fetchUnread()
-    return () => { cancelled = true }
-  }, [user])
-
-  return count
+  return useNotifications().unread
 }
 
 /** Desktop sidebar — 240 px column, hidden on mobile */
@@ -78,11 +58,6 @@ export function CommunitySidebar() {
           ].join(" ")}
         >
           <span>{item.label}</span>
-          {item.href === "/community" && unreadCount > 0 && (
-            <span className="ml-auto rounded-full bg-gold text-black text-[10px] font-bold px-1.5 py-0.5 min-w-[18px] text-center">
-              {unreadCount > 99 ? "99+" : unreadCount}
-            </span>
-          )}
         </Link>
       ))}
 
@@ -92,6 +67,23 @@ export function CommunitySidebar() {
           <p className="px-4 pb-2 text-[10px] font-bold uppercase tracking-widest text-muted/70">
             You
           </p>
+          <Link
+            href="/community/notifications"
+            aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"}
+            className={[
+              "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
+              pathname === "/community/notifications"
+                ? "bg-gold/10 text-gold"
+                : "text-muted/92 hover:bg-surface-2 hover:text-foreground",
+            ].join(" ")}
+          >
+            <span>Notifications</span>
+            {unreadCount > 0 && (
+              <span aria-hidden className="ml-auto rounded-full bg-gold text-black text-[10px] font-bold px-1.5 py-0.5 min-w-[18px] text-center">
+                {unreadCount > 99 ? "99+" : unreadCount}
+              </span>
+            )}
+          </Link>
           <Link
             href="/community/me"
             className={[
@@ -135,13 +127,27 @@ export function CommunityMobileTabs() {
             ].join(" ")}
           >
             <span>{item.label}</span>
-            {item.href === "/community" && unreadCount > 0 && (
-              <span className="rounded-full bg-gold text-black text-[9px] font-bold px-1 py-0.5 min-w-[14px] text-center">
+          </Link>
+        ))}
+        {user && (
+          <Link
+            href="/community/notifications"
+            aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"}
+            className={[
+              "flex items-center gap-1.5 rounded-lg px-3 min-h-10 text-xs font-medium whitespace-nowrap transition-colors",
+              pathname === "/community/notifications"
+                ? "bg-gold/15 text-gold"
+                : "text-muted/85 hover:bg-surface-2 hover:text-foreground",
+            ].join(" ")}
+          >
+            <span>Notifications</span>
+            {unreadCount > 0 && (
+              <span aria-hidden className="rounded-full bg-gold text-black text-[10px] font-bold px-1.5 py-0.5 min-w-[18px] text-center">
                 {unreadCount > 9 ? "9+" : unreadCount}
               </span>
             )}
           </Link>
-        ))}
+        )}
         {user && (
           <Link
             href="/community/me"
