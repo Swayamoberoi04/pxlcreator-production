@@ -95,6 +95,17 @@ export function CommunitySidebar() {
           >
             <span>My Profile</span>
           </Link>
+          <Link
+            href="/community/sell"
+            className={[
+              "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
+              pathname === "/community/sell"
+                ? "bg-gold/10 text-gold"
+                : "text-muted/92 hover:bg-surface-2 hover:text-foreground",
+            ].join(" ")}
+          >
+            <span>Sell on PXL</span>
+          </Link>
         </>
       )}
     </nav>
@@ -159,6 +170,19 @@ export function CommunityMobileTabs() {
             ].join(" ")}
           >
             <span>My Profile</span>
+          </Link>
+        )}
+        {user && (
+          <Link
+            href="/community/sell"
+            className={[
+              "flex items-center gap-1.5 rounded-lg px-3 min-h-10 text-xs font-medium whitespace-nowrap transition-colors",
+              pathname === "/community/sell"
+                ? "bg-gold/15 text-gold"
+                : "text-muted/85 hover:bg-surface-2 hover:text-foreground",
+            ].join(" ")}
+          >
+            <span>Sell on PXL</span>
           </Link>
         )}
       </div>

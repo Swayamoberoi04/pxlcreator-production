@@ -45,6 +45,8 @@ export const PERMISSIONS = [
   "pricing:write", "coupons:write", "orders:read", "orders:refund",
   // Reviews
   "reviews:moderate",
+  // Creator sellers (Phase 5.10.2)
+  "sellers:read", "sellers:review",
   // Platform
   "seo:read", "seo:write", "seo:delete", "settings:read", "settings:write", "analytics:read",
   // Admin identity itself
@@ -81,6 +83,7 @@ const ROLE_PERMISSIONS: Record<Exclude<Role, "super_admin">, readonly Permission
     "community:read", "community:delete", "community:moderate",
     "reviews:moderate",
     "orders:read",
+    "sellers:read",
   ],
 }
 
