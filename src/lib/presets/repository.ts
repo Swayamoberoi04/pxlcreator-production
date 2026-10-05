@@ -27,8 +27,17 @@ function isSupabaseConfigured(): boolean {
 
 /* ── Supabase select fragment ───────────────────────────── */
 
+// Explicit columns, never `*`. This runs with the public anon key, and
+// migration 052 revokes anon SELECT on the secret columns (download_url,
+// unlock_password, password_updated_*). `*` would now be a permission error —
+// and a column list here is what makes the catalog unable to leak them again.
 const PRESET_SELECT = `
-  *,
+  id, slug, title, tagline, description, category_id, thumbnail_url, before_url, after_url,
+  youtube_video_id, youtube_url, youtube_channel_id, youtube_raw_title, youtube_raw_desc,
+  youtube_published, youtube_thumbnail, youtube_video_title, price, original_price, is_free,
+  is_featured, is_published, badge, download_file_name, include_count, preset_type, mood, tone,
+  features, compatibility, ai_tags, rating, review_count, order_index, created_at, updated_at,
+  view_count, purchase_count, download_count, downloads_free, downloads_paid,
   category:categories!category_id(id, name, slug, icon, color),
   images:preset_images(id, url, alt_text, order_index)
 ` as const

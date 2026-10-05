@@ -23,6 +23,8 @@ import { validateCoupon }             from "@/lib/checkout/coupons"
 import { makeRateLimiter, getClientIp } from "@/lib/api/rate-limit"
 import type { CreateOrderPayload }    from "@/types/commerce"
 import { trackFunnelEvent }           from "@/lib/bi/track"
+import { getFirebaseUidFromRequest }  from "@/lib/account/auth"
+import { log }                        from "@/lib/api/logger"
 
 export const runtime = "nodejs"
 
@@ -41,7 +43,22 @@ export async function POST(req: NextRequest) {
   }
   try {
     const body: CreateOrderPayload = await req.json()
-    const { items, email, name, firebase_uid, coupon_code } = body
+    const { items, email, name, coupon_code } = body
+
+    /* ── 0. Buyer identity — ONLY from a verified Firebase ID token ──
+       Phase 5.10.0: this used to take `firebase_uid` straight from the
+       request body, so any caller could create an order attributed to any
+       user. The body field is now ignored entirely.
+         • no Authorization header      → guest checkout (unchanged)
+         • valid token                  → order belongs to that uid
+         • header present but invalid   → 401, never silently a guest order */
+    const hasAuthHeader = (req.headers.get("Authorization") ?? "").startsWith("Bearer ")
+    const firebase_uid  = hasAuthHeader ? await getFirebaseUidFromRequest(req) : null
+    if (hasAuthHeader && !firebase_uid) return err("Your session has expired. Please sign in again.", 401)
+    const claimedUid = (body as { firebase_uid?: unknown }).firebase_uid
+    if (typeof claimedUid === "string" && claimedUid !== firebase_uid) {
+      log.security("checkout", "client-supplied firebase_uid ignored", { ip, verified: Boolean(firebase_uid) })
+    }
 
     /* ── 1. Basic validation ── */
     if (!items?.length)         return err("Cart is empty", 400)

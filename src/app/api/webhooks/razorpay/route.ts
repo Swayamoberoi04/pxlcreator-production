@@ -20,7 +20,9 @@
 import { NextRequest, NextResponse }  from "next/server"
 import { verifyWebhookSignature }     from "@/lib/razorpay/client"
 import { createAdminClient }          from "@/lib/supabase/admin"
-import type { BillingCycle }          from "@/lib/subscriptions/plans"
+import { finalizeOrderPayment, FinalizeError } from "@/lib/checkout/finalize"
+import { activateSubscriptionPayment, ActivateError } from "@/lib/subscriptions/activate"
+import { log }                        from "@/lib/api/logger"
 
 export const runtime = "nodejs"
 
@@ -57,7 +59,7 @@ export async function POST(req: NextRequest) {
 
         /* ── Branch A: Subscription payment ── */
         if (notes.type === "subscription") {
-          await handleSubscriptionCaptured(supabase, rzpOrderId, rzpPayId, notes)
+          await handleSubscriptionCaptured(rzpOrderId, rzpPayId, payment.amount)
           break
         }
 
@@ -124,76 +126,26 @@ export async function POST(req: NextRequest) {
 }
 
 /* ── Subscription payment captured ─────────────────────────
-   Called when a subscription Razorpay order is captured.
-   Creates/extends the subscription row if frontend never ran.
+   Phase 5.10.0: delegates to the single idempotent activation path shared
+   with /api/subscriptions/verify-payment.
 ──────────────────────────────────────────────────────────── */
-async function handleSubscriptionCaptured(
-  supabase:    ReturnType<typeof import("@/lib/supabase/admin").createAdminClient>,
-  rzpOrderId:  string,
-  rzpPayId:    string,
-  notes:       Record<string, string>
-) {
-  const { data: subPayment } = await supabase
-    .from("subscription_payments")
-    .select("id, firebase_uid, plan_id, billing_cycle, amount_usd, amount_inr, status")
-    .eq("razorpay_order_id", rzpOrderId)
-    .single()
-
-  if (!subPayment || subPayment.status !== "pending") return
-
-  const { getPlan, isPlanId } = await import("@/lib/subscriptions/plans")
-  if (!isPlanId(subPayment.plan_id)) return
-
-  const plan        = getPlan(subPayment.plan_id)!
-  const cycle       = subPayment.billing_cycle as "monthly" | "yearly"
-  const pricing     = plan[cycle]
-  const now         = new Date()
-  const periodStart = now.toISOString()
-  const periodEnd   = new Date(now.getTime() + pricing.durationMs).toISOString()
-
-  /* Cancel existing active subscription */
-  await supabase
-    .from("subscriptions")
-    .update({ status: "cancelled", cancelled_at: now.toISOString(), updated_at: now.toISOString() })
-    .eq("firebase_uid", subPayment.firebase_uid)
-    .eq("status", "active")
-
-  /* Create new active subscription */
-  const { data: newSub } = await supabase
-    .from("subscriptions")
-    .insert({
-      firebase_uid:         subPayment.firebase_uid,
-      email:                notes.customer_email ?? "",
-      plan_id:              subPayment.plan_id,
-      billing_cycle:        subPayment.billing_cycle as BillingCycle,
-      status:               "active",
-      amount_usd:           subPayment.amount_usd,
-      amount_inr:           subPayment.amount_inr,
-      current_period_start: periodStart,
-      current_period_end:   periodEnd,
-      razorpay_order_id:    rzpOrderId,
-      razorpay_payment_id:  rzpPayId,
-      updated_at:           now.toISOString(),
-    })
-    .select("id")
-    .single()
-
-  if (newSub) {
-    await supabase
-      .from("subscription_payments")
-      .update({
-        subscription_id:     newSub.id,
-        razorpay_payment_id: rzpPayId,
-        status:              "captured",
-        period_start:        periodStart,
-        period_end:          periodEnd,
-      })
-      .eq("id", subPayment.id)
+async function handleSubscriptionCaptured(rzpOrderId: string, rzpPayId: string, amountPaise: number) {
+  try {
+    await activateSubscriptionPayment({ razorpayOrderId: rzpOrderId, paymentId: rzpPayId, amountPaise })
+  } catch (e) {
+    if (e instanceof ActivateError && e.code === "mismatch") {
+      log.security("webhook", "subscription amount mismatch", { rzpOrderId, rzpPayId })
+      return
+    }
+    if (e instanceof ActivateError && (e.code === "not_found" || e.code === "not_payable")) return
+    throw e
   }
 }
 
 /* ── Preset order payment captured ─────────────────────────
-   Creates download tokens and marks order as paid.
+   Phase 5.10.0: delegates to finalizeOrderPayment(), the same DB-backed,
+   row-locked, amount-checked path verify-payment uses. Safe to redeliver
+   and safe to race against verify-payment.
 ──────────────────────────────────────────────────────────── */
 async function handlePresetOrderCaptured(
   supabase:    ReturnType<typeof import("@/lib/supabase/admin").createAdminClient>,
@@ -203,72 +155,22 @@ async function handlePresetOrderCaptured(
 ) {
   const { data: order } = await supabase
     .from("orders")
-    .select("id, status, total_inr, firebase_uid, email")
-    .eq("razorpay_order_id", rzpOrderId)
-    .single()
-
-  if (!order || order.status === "paid") return
-
-  /* Log transaction */
-  await supabase.from("payment_transactions").upsert(
-    {
-      order_id:            order.id,
-      razorpay_payment_id: rzpPayId,
-      razorpay_order_id:   rzpOrderId,
-      amount_inr:          amountPaise / 100,
-      status:              "captured",
-      captured_at:         new Date().toISOString(),
-    },
-    { onConflict: "razorpay_payment_id" }
-  )
-
-  /* Create download tokens if frontend never ran */
-  const { data: existingTokens } = await supabase
-    .from("download_tokens")
     .select("id")
-    .in("order_item_id",
-      (await supabase.from("order_items").select("id").eq("order_id", order.id))
-        .data?.map((i) => i.id) ?? []
-    )
-    .limit(1)
+    .eq("razorpay_order_id", rzpOrderId)
+    .maybeSingle()
+  if (!order) return
 
-  if (!existingTokens?.length) {
-    const { data: items } = await supabase
-      .from("order_items")
-      .select("id, preset_id, preset_title, preset_slug")
-      .eq("order_id", order.id)
-
-    if (items?.length) {
-      const presetIds = items.map((i) => i.preset_id)
-      const { data: presets } = await supabase
-        .from("presets").select("id, download_url").in("id", presetIds)
-
-      const urlMap    = new Map(presets?.map((p) => [p.id, p.download_url]) ?? [])
-      // 30-day TTL — matches verify-payment endpoint for consistency
-      const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-
-      await supabase.from("download_tokens").insert(
-        items.map((item) => ({
-          order_item_id: item.id,
-          firebase_uid:  order.firebase_uid,
-          token:         crypto.randomUUID(),
-          preset_title:  item.preset_title,
-          preset_slug:   item.preset_slug,
-          download_url:  urlMap.get(item.preset_id) ?? null,
-          expires_at:    expiresAt,
-        }))
-      )
+  try {
+    await finalizeOrderPayment({ orderId: order.id, razorpayOrderId: rzpOrderId, paymentId: rzpPayId, amountPaise })
+  } catch (e) {
+    if (e instanceof FinalizeError && e.code === "mismatch") {
+      log.security("webhook", "order amount mismatch — not finalised", { orderId: order.id, rzpPayId })
+      return
     }
+    if (e instanceof FinalizeError && (e.code === "not_found" || e.code === "not_payable")) return
+    throw e // 500 → Razorpay retries
   }
-
-  /* Mark order paid */
-  await supabase.from("orders").update({
-    status:              "paid",
-    razorpay_payment_id: rzpPayId,
-    paid_at:             new Date().toISOString(),
-  }).eq("id", order.id)
 }
-
 /* ── Types ─────────────────────────────────────────────────── */
 interface RazorpayWebhookEvent {
   event:   string

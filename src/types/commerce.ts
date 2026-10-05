@@ -26,6 +26,7 @@ export interface CreateOrderPayload {
   items:        CheckoutItem[]
   email:        string
   name:         string
+  /** Ignored by the server since Phase 5.10.0 — identity comes from the ID token. */
   firebase_uid?: string
   coupon_code?:  string        // optional — validated server-side
 }
