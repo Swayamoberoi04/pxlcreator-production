@@ -138,9 +138,14 @@ export function CheckoutClient() {
 
     try {
       /* Step A: Create Razorpay order on our server */
+      // Signed-in buyers prove who they are with an ID token; the server
+      // derives the uid from it. Guests send no header.
+      const authHeader: Record<string, string> = user
+        ? { Authorization: `Bearer ${await user.getIdToken()}` }
+        : {}
       const createRes = await fetch("/api/checkout/create-order", {
         method:  "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...authHeader },
         body: JSON.stringify({
           items: items.map((i) => ({
             preset_id: i.preset.id,
@@ -148,7 +153,6 @@ export function CheckoutClient() {
           })),
           email:        form.email.toLowerCase().trim(),
           name:         form.name.trim(),
-          firebase_uid: user?.uid ?? undefined,
           coupon_code:  couponResult?.code ?? undefined,
         }),
       })
