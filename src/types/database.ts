@@ -17,6 +17,13 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+/* ── Monetization enums (migration 054) ─────────────────────── */
+export type PresetReviewStatus  = "draft" | "pending" | "approved" | "rejected"
+export type SellerAccountStatus = "applied" | "approved" | "suspended" | "rejected"
+/** Only 'not_enabled' exists until payouts ship; the DB check enforces it. */
+export type SellerPayoutStatus  = "not_enabled"
+export type OrderItemType       = "preset" | "bundle" | "course" | "service"
+
 export interface Database {
   public: {
     Tables: {
@@ -99,6 +106,10 @@ export interface Database {
           updated_at:         string
           unlock_password:    string | null
           youtube_video_title: string | null
+          /* Migration 054. NULL creator_uid = PXL-owned. */
+          creator_uid:        string | null
+          review_status:      PresetReviewStatus
+          file_path:          string | null
         }
         Insert: {
           id?:                string
@@ -140,6 +151,10 @@ export interface Database {
           purchase_count?:    number
           download_count?:    number
           order_index?:       number
+          // Defaults to 'approved'; forced to 'draft' by trigger when creator_uid is set (054).
+          creator_uid?:       string | null
+          review_status?:     PresetReviewStatus
+          file_path?:         string | null
         }
         Update: {
           slug?:               string
@@ -178,7 +193,48 @@ export interface Database {
           purchase_count?:     number
           download_count?:     number
           order_index?:        number
+          creator_uid?:        string | null
+          review_status?:      PresetReviewStatus
+          file_path?:          string | null
         }
+      }
+
+      /* ── creator_seller_accounts (migration 054) ──────
+         Service-role only (RLS on, no policy, privileges revoked from
+         anon/authenticated). Written exclusively by server routes. */
+      creator_seller_accounts: {
+        Row: {
+          firebase_uid:     string
+          status:           SellerAccountStatus
+          applied_at:       string
+          reviewed_by:      string | null
+          reviewed_at:      string | null
+          review_note:      string | null
+          fee_bps_override: number | null
+          payout_status:    SellerPayoutStatus
+          created_at:       string
+          updated_at:       string
+        }
+        Insert: {
+          firebase_uid:      string
+          status?:           SellerAccountStatus
+          applied_at?:       string
+          reviewed_by?:      string | null
+          reviewed_at?:      string | null
+          review_note?:      string | null
+          fee_bps_override?: number | null
+          payout_status?:    SellerPayoutStatus
+        }
+        Update: {
+          status?:           SellerAccountStatus
+          applied_at?:       string
+          reviewed_by?:      string | null
+          reviewed_at?:      string | null
+          review_note?:      string | null
+          fee_bps_override?: number | null
+          updated_at?:       string
+        }
+        Relationships: []
       }
 
       /* ── user_unlocks ──────────────────────────────── */
@@ -379,6 +435,15 @@ export interface Database {
           price_inr:     number
           quantity:      number
           created_at:    string
+          /* Migration 054. seller_uid NULL = PXL sale; trigger fills these for legacy inserts. */
+          item_type:         OrderItemType
+          item_id:           string
+          seller_uid:        string | null
+          gross_inr:         number
+          discount_inr:      number | null
+          platform_fee_inr:  number | null
+          creator_share_inr: number | null
+          fee_bps:           number | null
         }
         Insert: {
           id?:           string
@@ -389,6 +454,14 @@ export interface Database {
           price_usd:     number
           price_inr:     number
           quantity?:     number
+          item_type?:         OrderItemType
+          item_id?:           string
+          seller_uid?:        string | null
+          gross_inr?:         number
+          discount_inr?:      number | null
+          platform_fee_inr?:  number | null
+          creator_share_inr?: number | null
+          fee_bps?:           number | null
         }
         Update: Record<string, never>
         Relationships: []

@@ -99,6 +99,11 @@ const NAV_ITEMS: NavItem[] = [
     icon:  <OrdersIcon />,
   },
   {
+    label: "Creator Sellers",
+    href:  "/admin/sellers",
+    icon:  <CommunityIcon />,
+  },
+  {
     label: "Reviews",
     href:  "/admin/reviews",
     icon:  <ReviewsIcon />,

@@ -64,3 +64,26 @@ export async function verifyFirebaseToken(
     return null
   }
 }
+
+/**
+ * Authoritative account facts for a uid, read from Firebase Auth itself
+ * (Phase 5.10.2 seller eligibility). Unlike the ID token's claims, this
+ * reflects the current state — e.g. an email verified after the token was
+ * minted, or a disabled account.
+ * Returns null if the user doesn't exist or Firebase Admin isn't configured.
+ */
+export async function getFirebaseAccountFacts(
+  uid: string
+): Promise<{ emailVerified: boolean; disabled: boolean; createdAt: string | null } | null> {
+  if (!uid) return null
+  try {
+    const user = await getAuth(getAdminApp()).getUser(uid)
+    return {
+      emailVerified: user.emailVerified === true,
+      disabled: user.disabled === true,
+      createdAt: user.metadata.creationTime ? new Date(user.metadata.creationTime).toISOString() : null,
+    }
+  } catch {
+    return null
+  }
+}
